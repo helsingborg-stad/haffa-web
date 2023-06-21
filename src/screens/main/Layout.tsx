@@ -13,4 +13,5 @@ export const Layout: FC<PropsWithChildren> = ({ children }) => (
 		<Container>
 			{children}
 		</Container>
-	</Grid>)
+	</Grid>
+)

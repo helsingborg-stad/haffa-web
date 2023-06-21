@@ -10,6 +10,7 @@ export interface Advert {
 }
 
 export interface AdvertsRepository {
+	getAdvert: (id: string) => Promise<Advert>
 	listAdverts: () => Promise<Advert[]>
 	createAdvert: (advert: CreateAdvertInput) => Promise<Advert>
 }

@@ -5,6 +5,7 @@ const notProvided = (method: string) => () => {
 	throw new Error(`AdvertsContext::${method} is not provided`)
 }
 export const AdvertsContext = createContext<AdvertsRepository>({
+	getAdvert: notProvided('getAdvert'),
 	listAdverts: notProvided('listAdverts'),
 	createAdvert: notProvided('createAdvert'),
 })

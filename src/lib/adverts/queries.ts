@@ -1,5 +1,13 @@
+export const getAdvertQuery = `
+query Query($id: ID!) {
+	getAdvert(id: $id) {
+	  title
+	  description
+	}
+  }
+ `
 export const listAdvertsQuery = `
-query MyQuery {
+query Query {
 	adverts {
 	  description
 	  id
