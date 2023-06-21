@@ -29,12 +29,7 @@ export default function useAsync<TData, TState = any>(
         userState: TState | undefined;
         data: TData | null;
         error: Error | null;
-    }>({
-    	asyncState: 'dormant',
-    	userState: undefined,
-    	data: null,
-    	error: null,
-    })
+    }>({ asyncState: 'dormant',userState: undefined,data: null,error: null })
 
 	const setPending = (p: Promise<TData>, userState: TState | undefined) => {
 		setState({
