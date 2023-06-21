@@ -1,0 +1,7 @@
+/*
+	<NavLink> and active:
+ 		https://reactrouter.com/en/main/components/nav-link#default-active-class
+*/
+a.active {
+	color: rgb(80, 129, 27)
+}
