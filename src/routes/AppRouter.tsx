@@ -6,6 +6,7 @@ import { AdvertRouteView } from './AdvertRouteView'
 import { ErrorRouteView } from './ErrorRouteView'
 import { CreateAdvertRouteView } from './CreateAdvertRouteView'
 import { HomeRouteView } from './HomeRouteView'
+import { ProfileRouteView } from './ProfileRouteView'
 
 const createRouter = ({ getAdvert }: AdvertsRepository) => createBrowserRouter(
 	createRoutesFromElements(
@@ -20,6 +21,7 @@ const createRouter = ({ getAdvert }: AdvertsRepository) => createBrowserRouter(
 			</Route>
 			<Route path='new-advert'
 				element={<CreateAdvertRouteView />}/>
+			<Route path='profile' element={<ProfileRouteView/>}/>
 		</Route>
 	)
 )

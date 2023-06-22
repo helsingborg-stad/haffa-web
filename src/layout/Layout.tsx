@@ -6,6 +6,7 @@ import { NavLink } from 'react-router-dom'
 import { PhraseContext } from '../phrases/PhraseContext'
 
 interface LayoutProps {
+	hideNavbar?: boolean
 	renderAppbarControls?: () => React.JSX.Element|null
 }
 
@@ -14,7 +15,7 @@ export const defaultRenderAppbarControls = (): React.JSX.Element => {
 	return <Button color='inherit' component={NavLink} to='/new-advert'><AddIcon/>{CREATE_ADVERT}</Button>
 }
 
-export const Layout: FC<LayoutProps & PropsWithChildren> = ({ renderAppbarControls = defaultRenderAppbarControls, children }) => {
+export const Layout: FC<LayoutProps & PropsWithChildren> = ({ hideNavbar, renderAppbarControls = defaultRenderAppbarControls, children }) => {
 	const { APP_TITLE } = useContext(PhraseContext)
 	return (
 		<Box sx={{ pb: 7 }}>
@@ -36,7 +37,7 @@ export const Layout: FC<LayoutProps & PropsWithChildren> = ({ renderAppbarContro
 					{children}
 				</Container>
 			</Grid>
-			<Navbar/>
+			{!hideNavbar && <Navbar/>}
 		</Box>
 	)
 }
