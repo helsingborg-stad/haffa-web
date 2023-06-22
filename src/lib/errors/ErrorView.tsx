@@ -1,12 +1,13 @@
-import { FC } from 'react'
+import { FC, useContext } from 'react'
 import { renderError } from '.'
 import { Layout } from '../../layout'
-import { Phrase } from '../../phrases/Phrase'
+import { PhraseContext } from '../../phrases/PhraseContext'
 
 export const ErrorView: FC<{error: any}> = ({ error }) => {
+	const { ERROR_NOT_FOUND, ERROR_UNKNOWN } = useContext(PhraseContext)
 	console.error({ error })
 	return renderError(error, {
-		notFound: () => (<Layout><Phrase key='ERROR_NOT_FOUND' value='Ojoj, sidan finns inte'/></Layout>),
-		default: () => (<Layout><Phrase key='ERROR_UNKNOWN' value='Ajsing bajsing, något gick sönder :('/></Layout>),
+		notFound: () => (<Layout>{ERROR_NOT_FOUND}</Layout>),
+		default: () => (<Layout>{ERROR_UNKNOWN}</Layout>),
 	})
 }

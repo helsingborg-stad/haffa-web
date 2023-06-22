@@ -5,13 +5,14 @@ import { useFormControls } from '../hooks/use-form-controls'
 import SaveIcon from '@mui/icons-material/Save'
 import { AdvertsContext } from '../lib/adverts/AdvertsContext'
 import { useNavigate } from 'react-router-dom'
-import { Phrase } from '../phrases/Phrase'
+import { PhraseContext } from '../phrases/PhraseContext'
 
 const Row: FC<PropsWithChildren & GridProps> = (props) => <Grid container spacing={2} sx={{ pt: 2 }} {...props}>{props.children}</Grid>
 const Cell: FC<PropsWithChildren & GridProps> = (props) => <Grid item {...props}>{props.children}</Grid>
 
 const AdvertForm: FC<{advert: Advert, disabled: boolean, onSave: (advert: Advert) => void}> = ({ advert, onSave, disabled }) => {
 	const { model, simplifiedFactory: { textField } } = useFormControls<Advert>(advert)
+	const { SAVE_ADVERT } = useContext(PhraseContext)
 	const layout = [
 		[
 			() => textField('title', 'Titel',{ required: true, disabled  }),
@@ -33,18 +34,19 @@ const AdvertForm: FC<{advert: Advert, disabled: boolean, onSave: (advert: Advert
 				</Row>))}
 			<Row justifyContent="flex-end">
 				<Cell>
-					<Button type="submit" variant="contained" startIcon={<SaveIcon/>} disabled={disabled}>Spara annonsen</Button>
+					<Button type="submit" variant="contained" startIcon={<SaveIcon/>} disabled={disabled}>{SAVE_ADVERT}</Button>
 				</Cell>
 			</Row>
 		</Box>)
 
 }
 
-export const EditNewAdvert: FC = () => {
+export const CreateAdvert: FC = () => {
 	const [ advert, setAdvert ] = useState<Advert>({ id: '', title: '', description: '' })
 	const [ saving, setSaving ] = useState(false)
 	const [ error, setError ] = useState(false)
 	const { createAdvert } = useContext(AdvertsContext)
+	const { ERROR_UNKNOWN } = useContext(PhraseContext)
 	const navigate = useNavigate()
 
 	const save = useCallback(async (a: Advert) => {
@@ -62,7 +64,7 @@ export const EditNewAdvert: FC = () => {
 	},[advert])
 	return (
 		<>
-			{error && <Alert severity='error'><Phrase key='ERROR_UNKNOWN' value='Ajsing bajsing, något gick sönder :('/></Alert>}
+			{error && <Alert severity='error'>{ERROR_UNKNOWN}</Alert>}
 			<AdvertForm advert={advert} disabled={saving} onSave={save}/>
 		</>)
 }

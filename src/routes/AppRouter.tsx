@@ -4,7 +4,7 @@ import { AdvertsContext } from '../lib/adverts/AdvertsContext'
 import { AdvertsRepository } from '../lib/adverts/types'
 import { AdvertRouteView } from './AdvertRouteView'
 import { ErrorRouteView } from './ErrorRouteView'
-import { EditNewAdvertRouteView } from './EditNewAdvertRouteView'
+import { CreateAdvertRouteView } from './CreateAdvertRouteView'
 import { HomeRouteView } from './HomeRouteView'
 
 const createRouter = ({ getAdvert }: AdvertsRepository) => createBrowserRouter(
@@ -19,7 +19,7 @@ const createRouter = ({ getAdvert }: AdvertsRepository) => createBrowserRouter(
 				/>
 			</Route>
 			<Route path='new-advert'
-				element={<EditNewAdvertRouteView />}/>
+				element={<CreateAdvertRouteView />}/>
 		</Route>
 	)
 )
