@@ -14,15 +14,21 @@ interface ControlFactory<TModel, TValue, TProps> {
 		props?: Partial<TProps>): React.JSX.Element
 }
 
-interface FormControlsFactory<TModel> {
+export interface FormControlsFactory<TModel> {
 	textField: ControlFactory<TModel, string, TextFieldProps>
 }
 
-interface SimplifiedFormControlsFactory<TModel>{
+export interface SimplifiedFormControlsFactory<TModel>{
 	textField: (property: keyof TModel, label: string,props?: Partial<TextFieldProps>) => React.JSX.Element
 }
 
-export const useFormControls = <TModel,>(initial: TModel): [TModel, FormControlsFactory<TModel>, SimplifiedFormControlsFactory<TModel>] => {
+export interface FormControlsState<TModel> {
+	model: TModel,
+	factory: FormControlsFactory<TModel>,
+	simplifiedFactory: SimplifiedFormControlsFactory<TModel>
+}
+
+export const useFormControls = <TModel,>(initial: TModel): FormControlsState<TModel> => {
 	const [ model, setModel ] = useState(initial)
 
 	const textField: ControlFactory<TModel, string, TextFieldProps> = (getter, setter, props) => (
@@ -48,5 +54,5 @@ export const useFormControls = <TModel,>(initial: TModel): [TModel, FormControls
 			}),
 
 	}), [ model, setModel ])
-	return [ model, factory, simplifiedFactory ]
+	return { model, factory, simplifiedFactory }
 }

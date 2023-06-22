@@ -1,6 +1,6 @@
 import { ifNullThenNotFoundError } from '../errors'
 import { gqlClient } from '../gql'
-import { getAdvertQuery, listAdvertsQuery } from './queries'
+import { createAdvertMutation, getAdvertQuery, listAdvertsQuery } from './queries'
 import { Advert, AdvertsRepository } from './types'
 
 export const createAdvertsRepository = (): AdvertsRepository => ({
@@ -12,8 +12,8 @@ export const createAdvertsRepository = (): AdvertsRepository => ({
 	listAdverts: async () => gqlClient()
 		.query(listAdvertsQuery)
 		.map<Advert[]>('adverts'),
-	createAdvert: async (advert) => ({
-		...advert,
-		id: '123',
-	}),
+	createAdvert: async (advert) => gqlClient()
+		.query(createAdvertMutation)
+		.variables({ input: { ...advert, id: undefined } })
+		.map<Advert>('createAdvert'),
 })
