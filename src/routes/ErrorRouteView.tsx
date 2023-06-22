@@ -1,6 +1,6 @@
 import { FC } from 'react'
 import { ErrorView } from '../lib/errors'
-import { Layout } from '../screens/layout'
+import { Layout } from '../layout'
 import { useRouteError } from 'react-router-dom'
 
 export const ErrorRouteView: FC = () => {

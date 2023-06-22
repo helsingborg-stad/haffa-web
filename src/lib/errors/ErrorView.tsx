@@ -1,6 +1,6 @@
 import { FC } from 'react'
 import { renderError } from '.'
-import { Layout } from '../../screens/layout'
+import { Layout } from '../../layout'
 
 export const ErrorView: FC<{error: any}> = ({ error }) => {
 	console.error({ error })

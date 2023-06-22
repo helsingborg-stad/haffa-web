@@ -1,8 +1,8 @@
 import React, { FC } from 'react'
-import { AdvertsView } from '../../adverts/AdvertsView'
 import { Layout } from '../layout'
+import { AdvertsView } from '../adverts/AdvertsView'
 
-export const Home: FC = () => (
+export const HomeRouteView: FC = () => (
 	<Layout>
 		<AdvertsView />
 	</Layout>
