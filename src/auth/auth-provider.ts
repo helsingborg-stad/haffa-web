@@ -1,27 +1,23 @@
 import { AuthProvider } from './types'
 
 export const createAuthProvider = (): AuthProvider => {
+	const request = (url: string, body: any) => fetch(url, {
+		method: 'POST',
+		headers: {
+			Accept: 'application/json',
+			'Content-Type': 'application/json',
+		},
+		body: JSON.stringify(body),
+	})
+		.then(response => response.json())
 	return {
-		verifyToken: token => fetch('/api/v1/haffa/auth/verify-token', {
-			method: 'POST',
-			headers: {
-				Accept: 'application/json',
-				'Content-Type': 'application/json',
-			},
-			body: JSON.stringify({ token }),
-
-		})
-			.then(response => response.json())
+		verifyToken: token => request(
+			'/api/v1/haffa/auth/verify-token',
+			{ token })
 			.then(({ token }) => (token || '').toString()),
-		requestPincode: email => fetch('/api/v1/haffa/auth/request-pincode', {
-			method: 'POST',
-			headers: {
-				Accept: 'application/json',
-				'Content-Type': 'application/json',
-			},
-			body: JSON.stringify({ email }),
-		})
-			.then(response => response.json())
+		requestPincode: email => request(
+			'/api/v1/haffa/auth/request-pincode', 
+			{ email })
 			.then(({ status }) => {
 				switch (status) {
 					case 'accepted': return 'accepted'
@@ -29,14 +25,9 @@ export const createAuthProvider = (): AuthProvider => {
 					default: return 'invalid'
 				}
 			} ),
-		authenticate: (email, pincode) => fetch('/api/v1/haffa/auth/authenticate', {
-			method: 'POST',
-			headers: {
-				Accept: 'application/json',
-				'Content-Type': 'application/json',
-			},
-			body: JSON.stringify({ email, pincode }),
-		}).then(response => response.json())
+		authenticate: (email, pincode) => request(
+			'/api/v1/haffa/auth/authenticate',
+			{ email, pincode })
 			.then(({ token }) => (token || '').toString()),
 	}
 }

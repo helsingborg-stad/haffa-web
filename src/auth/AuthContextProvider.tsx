@@ -1,10 +1,9 @@
-import { FC, PropsWithChildren, useCallback, useEffect, useState } from 'react'
+import { FC, PropsWithChildren, useCallback, useEffect } from 'react'
 import { AuthContext } from './AuthContext'
-import { Authentication } from './types'
-import { createAuthProvider } from './auth-provider'
+import { AuthProvider, Authentication } from './types'
 import useLocalStorage from '../hooks/use-local-storage'
 
-export const AuthContextProvider: FC<PropsWithChildren> = ({ children }) => {
+export const AuthContextProvider: FC<{authProvider: AuthProvider} & PropsWithChildren> = ({ authProvider, children }) => {
 	const [ authentication, setAuthentication ] = useLocalStorage<Authentication>(
 		'haffa-auth-v1',
 		{
@@ -12,9 +11,8 @@ export const AuthContextProvider: FC<PropsWithChildren> = ({ children }) => {
 		})
 	const signout = useCallback(async () => setAuthentication({ token: '' }), [setAuthentication])
 	const { token } = authentication
-	const authProvider = createAuthProvider()
 	useEffect(() => {
-		token && authProvider.verifyToken(authentication.token)
+		token && authProvider.verifyToken(token)
 			.then(token => {
 				if (!token) {
 					setAuthentication({ token: '' })
@@ -26,6 +24,7 @@ export const AuthContextProvider: FC<PropsWithChildren> = ({ children }) => {
 		<AuthContext.Provider value={{
 			isAuthenticated: !!authentication.token,
 			token: authentication.token,
+			authProvider,
 			setAuthentication,
 			signout,
 		}}>

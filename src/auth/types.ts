@@ -4,6 +4,7 @@ export interface Authentication {
 export interface AuthContextType {
 	readonly isAuthenticated: boolean
 	readonly token: string
+	readonly authProvider: AuthProvider
 	setAuthentication: (Authentication: Authentication) => void
 	signout: () => Promise<void>
 }

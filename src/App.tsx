@@ -1,4 +1,4 @@
-import React, { FC, useContext, useState } from 'react'
+import React, { FC, useContext, useMemo, useState } from 'react'
 import './App.css'
 import { AdvertsProvider } from './lib/adverts/AdvertsContext'
 import { createAdvertsRepository } from './lib/adverts/adverts-repository'
@@ -7,6 +7,7 @@ import { ThemeProvider } from '@emotion/react'
 import { createTheme } from '@mui/material/styles'
 import { AuthContext, AuthContextProvider } from './auth'
 import { AuthenticateView } from './auth/AuthenticateView'
+import { createAuthProvider } from './auth/auth-provider'
 
 const theme = createTheme({
 	palette: {
@@ -20,20 +21,20 @@ const theme = createTheme({
 })
 
 const Main: FC = () => {
-	const { isAuthenticated } = useContext(AuthContext)
+	const { isAuthenticated, token } = useContext(AuthContext)
+	const repository = useMemo(() => createAdvertsRepository(token), [token])
 
-	return isAuthenticated ? <AppRouter /> : <AuthenticateView />
+	return isAuthenticated 
+		? <AdvertsProvider repository={repository}><AppRouter /></AdvertsProvider> 
+		: <AuthenticateView />
 }
 const App: FC = () => {
-	const [repository] = useState(createAdvertsRepository())
-
+	const [authProvider] = useState(createAuthProvider())
 	return (
-		<AuthContextProvider>
-			<AdvertsProvider repository={repository}>
-				<ThemeProvider theme={theme}>
-					<Main/>
-				</ThemeProvider>
-			</AdvertsProvider>
+		<AuthContextProvider authProvider={authProvider}>
+			<ThemeProvider theme={theme}>
+				<Main/>
+			</ThemeProvider>
 		</AuthContextProvider>)
 }
 

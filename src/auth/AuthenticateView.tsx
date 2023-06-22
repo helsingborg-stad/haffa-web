@@ -2,13 +2,11 @@ import React, { FC, useCallback, useContext, useState } from 'react'
 import { Layout } from '../layout'
 import { Alert, Box, Button, InputAdornment, Step, StepContent, StepLabel, Stepper, TextField } from '@mui/material'
 import { AuthContext } from './AuthContext'
-import { AuthProvider } from './types'
 import { PhraseContext } from '../phrases/PhraseContext'
-import { createAuthProvider } from './auth-provider'
-
-const delay = (ms: number): Promise<void> => new Promise(resolve => setTimeout(resolve, ms))
 
 /*
+const delay = (ms: number): Promise<void> => new Promise(resolve => setTimeout(resolve, ms))
+
 const createAuthProvider = (): AuthProvider => ({
 	requestPincode: () => delay(250).then(() => 'accepted'),
 	authenticate: () => delay(250)
@@ -18,7 +16,7 @@ const createAuthProvider = (): AuthProvider => ({
 */
 
 export const AuthenticateView: FC = () => {
-	const { setAuthentication } = useContext(AuthContext)
+	const { setAuthentication, authProvider } = useContext(AuthContext)
 	const [ email, setEmail ] = useState('')
 	const [ pincode, setPincode ] = useState('')
 	const [ state, setState ] = useState<{
@@ -30,7 +28,6 @@ export const AuthenticateView: FC = () => {
 		step: 0,
 	})
 	const { ERROR_UNKNOWN } = useContext(PhraseContext)
-	const authProvider = createAuthProvider()
 
 	const { step, loading, errorMessage } = state
 

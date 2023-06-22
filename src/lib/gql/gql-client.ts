@@ -11,6 +11,7 @@ const gqlFetch = (options: FluentGqlOptions) => fetch(options.url,
 		headers: {
 			Accept: 'application/json',
 			'Content-Type': 'application/json',
+			...options.headers,
 		},
 		body: JSON.stringify({
 			query: options.query,
@@ -21,8 +22,9 @@ const gqlFetch = (options: FluentGqlOptions) => fetch(options.url,
 
 const gqlFetchMap = <T>(options: FluentGqlOptions, property: string): Promise<T> => gqlFetch(options).then(({ data }) => data[property] as T)
 
-export const gqlClient = (options: FluentGqlOptions = { url: '/api/v1/haffa/graphql', query: '', variables: null }): FluentGql => ({
+export const gqlClient = (options: FluentGqlOptions = { url: '/api/v1/haffa/graphql', headers: {}, query: '', variables: null }): FluentGql => ({
 	url: url => gqlClient({ ...options, url }),
+	headers: headers => gqlClient({ ...options, headers }),
 	query: query => gqlClient({ ...options, query }),
 	variables: variables => gqlClient({ ...options, variables }),
 	map: <T>(property: string) => gqlFetchMap<T>(options, property),
