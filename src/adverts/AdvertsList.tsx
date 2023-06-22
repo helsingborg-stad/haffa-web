@@ -1,9 +1,9 @@
 import { FC } from 'react'
 import { Advert } from '../lib/adverts/types'
-import { AdvertDetails } from './AdvertDetails'
+import { AdvertListItem } from './AdvertListItem'
 
 export const AdvertsList: FC<{adverts: Advert[]}> = ({ adverts }) => (
 	<>
-		{adverts.map(advert => <AdvertDetails key={advert.id} advert={advert} />)}
+		{adverts.map(advert => <AdvertListItem key={advert.id} advert={advert} />)}
 	</>
 )
