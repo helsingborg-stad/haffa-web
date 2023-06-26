@@ -4,10 +4,9 @@ import { Alert, Box, Button, CircularProgress, InputAdornment, Step, StepContent
 import { AuthContext } from '../AuthContext'
 import { PhraseContext } from '../../phrases/PhraseContext'
 import { Phrase } from '../../phrases/Phrase'
+import { delay } from '../../lib/delay'
 
 const MIN_WAIT_FOR_LOGIN_MS = 1000
-
-const delay = (ms: number): Promise<void> => new Promise(resolve => setTimeout(resolve, ms))
 
 export const AuthenticateView: FC = () => {
 	const { setAuthentication, authProvider } = useContext(AuthContext)

@@ -6,9 +6,20 @@ query Query($id: ID!) {
 	}
   }
  `
+/*
 export const listAdvertsQuery = `
 query Query {
 	adverts {
+	  id
+	  title
+	  description
+	}
+  }
+`
+*/
+export const listAdvertsQuery = `
+query Query($filter: FilterAdvertsInput) {
+	adverts(filter: $filter) {
 	  id
 	  title
 	  description

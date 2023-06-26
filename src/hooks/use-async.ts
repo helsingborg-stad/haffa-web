@@ -1,6 +1,6 @@
 import { useState } from 'react'
 
-type AsyncFunc<T> = () => Promise<T>;
+export type AsyncFunc<T> = () => Promise<T>;
 
 export interface AsyncView<TData, TState, TView> {
     pending: (state: TState) => TView;
