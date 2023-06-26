@@ -27,7 +27,7 @@ export const createAuthProvider = (): AuthProvider => {
 				}
 			} ),
 		authenticate: (email, pincode) => request(
-			makeBackendUrl('/api/v1/haffa/auth/authenticate'),
+			makeBackendUrl('/api/v1/haffa/auth/login'),
 			{ email, pincode })
 			.then(({ token }) => (token || '').toString()),
 	}

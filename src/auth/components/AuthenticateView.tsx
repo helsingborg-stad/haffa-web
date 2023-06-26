@@ -5,6 +5,8 @@ import { AuthContext } from '../AuthContext'
 import { PhraseContext } from '../../phrases/PhraseContext'
 import { Phrase } from '../../phrases/Phrase'
 
+const MIN_WAIT_FOR_LOGIN_MS = 1000
+
 const delay = (ms: number): Promise<void> => new Promise(resolve => setTimeout(resolve, ms))
 
 export const AuthenticateView: FC = () => {
@@ -34,7 +36,7 @@ export const AuthenticateView: FC = () => {
 				...state,
 				step: 1,
 			})
-			await Promise.all([ authProvider.requestPincode(email), delay(2000) ])
+			await Promise.all([ authProvider.requestPincode(email), delay(MIN_WAIT_FOR_LOGIN_MS) ])
 			setState({
 				...state,
 				step: 3,
@@ -60,15 +62,22 @@ export const AuthenticateView: FC = () => {
 			if (token) {
 				console.log({ token })
 				setAuthentication({ token })
+			} else {
+				setState({
+					...state,
+					loading: false,
+					errorMessage: phrase('AUTH_LOGIN_FAILED', 'Vi kunde inte logga in dig. Försök igen.'),
+				})
 			}
 		} catch (error) {
 			setState({
 				...state,
+				loading: true,
 				errorMessage: ERROR_UNKNOWN,
 			})
 		}
 
-	}, [ authProvider, state ])
+	}, [ authProvider, state, email, pincode ])
 
 	return (
 		<Layout
@@ -77,7 +86,7 @@ export const AuthenticateView: FC = () => {
 			<Box>
 				<Stepper activeStep={step} orientation='vertical'>
 					<Step key={0}>
-						<StepLabel><Phrase key="AUTH_LABEL_ENTER_EMAIL" value="Ange din email"/></StepLabel>
+						<StepLabel><Phrase id="AUTH_LABEL_ENTER_EMAIL" value="Ange din email"/></StepLabel>
 						<StepContent>
 							<Box component="form" onSubmit={e => {
 								e.preventDefault()
@@ -104,21 +113,21 @@ export const AuthenticateView: FC = () => {
 									
 									disabled={loading}
 								>
-									<Phrase key="AUTH_LABEL_SEND_EMAIL" value="Skicka mig ett email med engångskod" />
+									<Phrase id="AUTH_LABEL_SEND_EMAIL" value="Skicka mig ett email med engångskod" />
 								</Button>
 								{errorMessage && <Alert sx={{ py: 2 }} severity="error">{errorMessage}</Alert>}
 							</Box>
 						</StepContent>
 					</Step>
 					<Step key={1}>
-						<StepLabel><Phrase key="AUTH_LABEL_SENDING_EMAIL" value="Vi skickar ett mail till dig med en engångskod"/></StepLabel>
+						<StepLabel><Phrase id="AUTH_LABEL_SENDING_EMAIL" value="Vi skickar ett mail till dig med en engångskod"/></StepLabel>
 						<StepContent><CircularProgress color="secondary" /></StepContent>
 					</Step>
 					<Step key={2}>
-						<StepLabel><Phrase key="AUTH_LABEL_READ_YOUR_EMAIL" value="Läs mailet från Haffa i din din inkorg"/></StepLabel>
+						<StepLabel><Phrase id="AUTH_LABEL_READ_YOUR_EMAIL" value="Läs mailet från Haffa i din din inkorg"/></StepLabel>
 					</Step>
 					<Step key={3}>
-						<StepLabel><Phrase key="AUTH_LABEL_ENTER_PINCODE" value="Ange engångskoden från mailet" /></StepLabel>
+						<StepLabel><Phrase id="AUTH_LABEL_ENTER_PINCODE" value="Ange engångskoden från mailet" /></StepLabel>
 						<StepContent>
 							<Box component="form"
 								onSubmit={e =>{
@@ -127,10 +136,11 @@ export const AuthenticateView: FC = () => {
 									return false
 								}}>
 								<TextField
+									type="text"
 									InputProps={{
 										startAdornment: <InputAdornment position="start">H-</InputAdornment>,
 									}}
-									type="text"
+									
 									inputProps={{ 
 										inputMode: 'numeric',
 										pattern:'\\d{6,6}' }}
@@ -153,7 +163,7 @@ export const AuthenticateView: FC = () => {
 									sx={{ mt: 3, mb: 2 }}
 									disabled={loading}
 								>
-									<Phrase key="AUTH_LABEL_LOGIN" value="Logga in" />
+									<Phrase id="AUTH_LABEL_LOGIN" value="Logga in" />
 								</Button>
 							</Box>
 							{errorMessage && <Alert sx={{ py: 2 }} severity="error">{errorMessage}</Alert>}
