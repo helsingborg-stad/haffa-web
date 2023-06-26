@@ -1,4 +1,5 @@
 import { AuthProvider } from './types'
+import { makeBackendUrl } from '../lib/make-backend-url'
 
 export const createAuthProvider = (): AuthProvider => {
 	const request = (url: string, body: any) => fetch(url, {
@@ -12,11 +13,11 @@ export const createAuthProvider = (): AuthProvider => {
 		.then(response => response.json())
 	return {
 		verifyToken: token => request(
-			'/api/v1/haffa/auth/verify-token',
+			makeBackendUrl('/api/v1/haffa/auth/verify-token'),
 			{ token })
 			.then(({ token }) => (token || '').toString()),
 		requestPincode: email => request(
-			'/api/v1/haffa/auth/request-pincode', 
+			makeBackendUrl('/api/v1/haffa/auth/request-pincode'), 
 			{ email })
 			.then(({ status }) => {
 				switch (status) {
@@ -26,7 +27,7 @@ export const createAuthProvider = (): AuthProvider => {
 				}
 			} ),
 		authenticate: (email, pincode) => request(
-			'/api/v1/haffa/auth/authenticate',
+			makeBackendUrl('/api/v1/haffa/auth/authenticate'),
 			{ email, pincode })
 			.then(({ token }) => (token || '').toString()),
 	}

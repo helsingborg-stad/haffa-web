@@ -1,5 +1,5 @@
 import { FC } from 'react'
-import { Advert } from '../lib/adverts/types'
+import { Advert } from '../types'
 import { Card, CardContent, Typography } from '@mui/material'
 
 export const AdvertDetails: FC<{advert: Advert}> = ({ advert }) => (

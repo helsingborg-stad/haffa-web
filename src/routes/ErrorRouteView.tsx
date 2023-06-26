@@ -1,5 +1,5 @@
 import { FC } from 'react'
-import { ErrorView } from '../lib/errors'
+import { ErrorView } from '../errors'
 import { Layout } from '../layout'
 import { useRouteError } from 'react-router-dom'
 

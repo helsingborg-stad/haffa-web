@@ -1,8 +1,8 @@
-import { ifNullThenNotFoundError } from '../errors'
-import { gqlClient } from '../gql'
+import { ifNullThenNotFoundError } from '../../errors'
+import { gqlClient } from '../../graphql'
 import { mapAdvertToCreateAdvertInput } from './mappers'
 import { createAdvertMutation, getAdvertQuery, listAdvertsQuery } from './queries'
-import { Advert, AdvertsRepository } from './types'
+import { Advert, AdvertsRepository } from '../types'
 
 const gql = (token: string) => gqlClient().headers({ Authorization: `Bearer ${token}` })
 

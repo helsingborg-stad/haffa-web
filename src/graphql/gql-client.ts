@@ -1,3 +1,4 @@
+import { makeBackendUrl } from '../lib/make-backend-url'
 import { FluentGql, FluentGqlOptions } from './types'
 
 /*
@@ -22,7 +23,7 @@ const gqlFetch = (options: FluentGqlOptions) => fetch(options.url,
 
 const gqlFetchMap = <T>(options: FluentGqlOptions, property: string): Promise<T> => gqlFetch(options).then(({ data }) => data[property] as T)
 
-export const gqlClient = (options: FluentGqlOptions = { url: '/api/v1/haffa/graphql', headers: {}, query: '', variables: null }): FluentGql => ({
+export const gqlClient = (options: FluentGqlOptions = { url: makeBackendUrl('/api/v1/haffa/graphql'), headers: {}, query: '', variables: null }): FluentGql => ({
 	url: url => gqlClient({ ...options, url }),
 	headers: headers => gqlClient({ ...options, headers }),
 	query: query => gqlClient({ ...options, query }),

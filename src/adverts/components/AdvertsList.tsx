@@ -1,5 +1,5 @@
 import { FC } from 'react'
-import { Advert } from '../lib/adverts/types'
+import { Advert } from '../types'
 import { AdvertListItem } from './AdvertListItem'
 
 export const AdvertsList: FC<{adverts: Advert[]}> = ({ adverts }) => (

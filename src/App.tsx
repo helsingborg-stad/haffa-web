@@ -1,12 +1,12 @@
 import React, { FC, useContext, useMemo, useState } from 'react'
 import './App.css'
-import { AdvertsProvider } from './lib/adverts/AdvertsContext'
-import { createAdvertsRepository } from './lib/adverts/adverts-repository'
+import { AdvertsProvider } from './adverts/AdvertsContext'
+import { createAdvertsRepository } from './adverts/repository/adverts-repository'
 import { AppRouter } from './routes/AppRouter'
 import { ThemeProvider } from '@emotion/react'
 import { createTheme } from '@mui/material/styles'
 import { AuthContext, AuthContextProvider } from './auth'
-import { AuthenticateView } from './auth/AuthenticateView'
+import { AuthenticateView } from './auth/components/AuthenticateView'
 import { createAuthProvider } from './auth/auth-provider'
 
 const theme = createTheme({

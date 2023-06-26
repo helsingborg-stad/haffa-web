@@ -1,5 +1,5 @@
 import { FC } from 'react'
-import { Advert } from '../lib/adverts/types'
+import { Advert } from '../types'
 import { Card, CardActionArea, CardContent, Typography } from '@mui/material'
 import { Link } from 'react-router-dom'
 

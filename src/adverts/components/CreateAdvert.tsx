@@ -1,11 +1,11 @@
 import React, { FC, PropsWithChildren, useCallback, useContext, useState } from 'react'
 import { Alert, Box, Button, Grid, GridProps } from '@mui/material'
-import { Advert } from '../lib/adverts/types'
-import { useFormControls } from '../hooks/use-form-controls'
+import { Advert } from '../types'
+import { useFormControls } from '../../hooks/use-form-controls'
 import SaveIcon from '@mui/icons-material/Save'
-import { AdvertsContext } from '../lib/adverts/AdvertsContext'
+import { AdvertsContext } from '../AdvertsContext'
 import { useNavigate } from 'react-router-dom'
-import { PhraseContext } from '../phrases/PhraseContext'
+import { PhraseContext } from '../../phrases/PhraseContext'
 
 const Row: FC<PropsWithChildren & GridProps> = (props) => <Grid container spacing={2} sx={{ pt: 2 }} {...props}>{props.children}</Grid>
 const Cell: FC<PropsWithChildren & GridProps> = (props) => <Grid item {...props}>{props.children}</Grid>

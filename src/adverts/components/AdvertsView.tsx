@@ -1,8 +1,8 @@
 import { FC, useContext } from 'react'
-import { AdvertsContext } from '../lib/adverts/AdvertsContext'
-import useAsync from '../hooks/use-async'
+import { AdvertsContext } from '../AdvertsContext'
+import useAsync from '../../hooks/use-async'
 import { AdvertsList } from './AdvertsList'
-import { ErrorView } from '../lib/errors'
+import { ErrorView } from '../../errors'
 
 export const AdvertsView: FC = () => {
 	const { listAdverts } = useContext(AdvertsContext)

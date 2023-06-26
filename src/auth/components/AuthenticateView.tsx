@@ -1,22 +1,15 @@
 import React, { FC, useCallback, useContext, useState } from 'react'
-import { Layout } from '../layout'
-import { Alert, Box, Button, InputAdornment, Step, StepContent, StepLabel, Stepper, TextField } from '@mui/material'
-import { AuthContext } from './AuthContext'
-import { PhraseContext } from '../phrases/PhraseContext'
+import { Layout } from '../../layout'
+import { Alert, Box, Button, CircularProgress, InputAdornment, Step, StepContent, StepLabel, Stepper, TextField } from '@mui/material'
+import { AuthContext } from '../AuthContext'
+import { PhraseContext } from '../../phrases/PhraseContext'
+import { Phrase } from '../../phrases/Phrase'
 
-/*
 const delay = (ms: number): Promise<void> => new Promise(resolve => setTimeout(resolve, ms))
-
-const createAuthProvider = (): AuthProvider => ({
-	requestPincode: () => delay(250).then(() => 'accepted'),
-	authenticate: () => delay(250)
-		// .then(() => {throw new Error('apa')})
-		.then(() => 'ett token'),
-})
-*/
 
 export const AuthenticateView: FC = () => {
 	const { setAuthentication, authProvider } = useContext(AuthContext)
+	const { phrase, ERROR_UNKNOWN } = useContext(PhraseContext)
 	const [ email, setEmail ] = useState('')
 	const [ pincode, setPincode ] = useState('')
 	const [ state, setState ] = useState<{
@@ -27,7 +20,6 @@ export const AuthenticateView: FC = () => {
 		loading: false,
 		step: 0,
 	})
-	const { ERROR_UNKNOWN } = useContext(PhraseContext)
 
 	const { step, loading, errorMessage } = state
 
@@ -38,11 +30,16 @@ export const AuthenticateView: FC = () => {
 			errorMessage: '',
 		})
 		try {
-			await authProvider.requestPincode(email)
 			setState({
 				...state,
-				step: 2,
+				step: 1,
+			})
+			await Promise.all([ authProvider.requestPincode(email), delay(2000) ])
+			setState({
+				...state,
+				step: 3,
 				loading: false,
+				errorMessage: '',
 			})
 		} catch(error) {
 			setState({
@@ -80,7 +77,7 @@ export const AuthenticateView: FC = () => {
 			<Box>
 				<Stepper activeStep={step} orientation='vertical'>
 					<Step key={0}>
-						<StepLabel>Ange din email</StepLabel>
+						<StepLabel><Phrase key="AUTH_LABEL_ENTER_EMAIL" value="Ange din email"/></StepLabel>
 						<StepContent>
 							<Box component="form" onSubmit={e => {
 								e.preventDefault()
@@ -91,7 +88,7 @@ export const AuthenticateView: FC = () => {
 									type="email"
 									required
 									fullWidth
-									label="Email"
+									label={phrase('AUTH_LABEL_EMAIL','Email')}
 									placeholder='jag-själv@min-organisation.se'
 									autoComplete="email"
 									autoFocus
@@ -107,17 +104,21 @@ export const AuthenticateView: FC = () => {
 									
 									disabled={loading}
 								>
-					Skicka mig ett email med engångskod
+									<Phrase key="AUTH_LABEL_SEND_EMAIL" value="Skicka mig ett email med engångskod" />
 								</Button>
 								{errorMessage && <Alert sx={{ py: 2 }} severity="error">{errorMessage}</Alert>}
 							</Box>
 						</StepContent>
 					</Step>
 					<Step key={1}>
-						<StepLabel>Läs mailet från Haffa i din din inkorg</StepLabel>
+						<StepLabel><Phrase key="AUTH_LABEL_SENDING_EMAIL" value="Vi skickar ett mail till dig med en engångskod"/></StepLabel>
+						<StepContent><CircularProgress color="secondary" /></StepContent>
 					</Step>
 					<Step key={2}>
-						<StepLabel>Ange engångskoden från mailet</StepLabel>
+						<StepLabel><Phrase key="AUTH_LABEL_READ_YOUR_EMAIL" value="Läs mailet från Haffa i din din inkorg"/></StepLabel>
+					</Step>
+					<Step key={3}>
+						<StepLabel><Phrase key="AUTH_LABEL_ENTER_PINCODE" value="Ange engångskoden från mailet" /></StepLabel>
 						<StepContent>
 							<Box component="form"
 								onSubmit={e =>{
@@ -137,7 +138,7 @@ export const AuthenticateView: FC = () => {
 									margin="normal"
 									required
 									fullWidth
-									label="Pinkod"
+									label={phrase('AUTH_LABEL_PINCODE','Pinkod')}
 									placeholder='123456'
 									autoComplete="off"
 									autoFocus
@@ -152,7 +153,7 @@ export const AuthenticateView: FC = () => {
 									sx={{ mt: 3, mb: 2 }}
 									disabled={loading}
 								>
-							Logga in
+									<Phrase key="AUTH_LABEL_LOGIN" value="Logga in" />
 								</Button>
 							</Box>
 							{errorMessage && <Alert sx={{ py: 2 }} severity="error">{errorMessage}</Alert>}

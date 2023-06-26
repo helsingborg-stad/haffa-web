@@ -1,0 +1,1 @@
+export const makeBackendUrl = (path: string): string => new URL(path, process.env.REACT_APP_BACKEND_URL).toString()
