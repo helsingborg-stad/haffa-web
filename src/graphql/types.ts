@@ -3,7 +3,7 @@ export interface FluentGql {
 	headers: (headers: Record<string, string>) => FluentGql
 	query: (query: string) => FluentGql
 	variables: (variables: any) => FluentGql
-	map: <T>(property: string) => Promise<T>
+	map: <T>(property: string, fixup?: (value: T) => T) => Promise<T>
 }
 export interface FluentGqlOptions {
 	url: string

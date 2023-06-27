@@ -28,5 +28,5 @@ export const gqlClient = (options: FluentGqlOptions = { url: makeBackendUrl('/ap
 	headers: headers => gqlClient({ ...options, headers }),
 	query: query => gqlClient({ ...options, query }),
 	variables: variables => gqlClient({ ...options, variables }),
-	map: <T>(property: string) => gqlFetchMap<T>(options, property),
+	map: <T>(property: string, fixup?: (value: T) => T) => gqlFetchMap<T>(options, property).then(value => fixup ? fixup(value) : value),
 })
