@@ -1,5 +1,6 @@
 import React, { useMemo, useState } from 'react'
 import { FormControl, InputLabel, MenuItem, Select, SelectProps, TextField, TextFieldProps } from '@mui/material'
+import { getValue } from '@testing-library/user-event/dist/utils'
 
 interface SelectOption {
 	label: string
@@ -27,6 +28,7 @@ interface ControlFactoryWithOptions<TModel, TValue, TOptions, TProps> {
 export interface FormControlsFactory<TModel> {
 	textField: ControlFactory<TModel, string, TextFieldProps>
 	select: ControlFactoryWithOptions<TModel, string, SelectOption[], SelectProps>
+	imagePicker: ControlFactory<TModel, string, TextFieldProps>
 }
 
 export interface SimplifiedFormControlsFactory<TModel>{
@@ -35,7 +37,7 @@ export interface SimplifiedFormControlsFactory<TModel>{
 		property: keyof TModel, 
 		label: string, 
 		options: SelectOption[],
-		props?: Partial<SelectProps>) => React.JSX.Element
+		props?: Partial<SelectProps>) => React.JSX.Element,
 }
 
 export interface FormControlsState<TModel> {
@@ -65,13 +67,27 @@ export const useFormControls = <TModel,>(initial: TModel): FormControlsState<TMo
 				onChange={e => setModel({
 					...model, ...setter(e.target.value as string) })
 				}>
-				{options.map(({ label, value }) => (<MenuItem value={value}>{label}</MenuItem>))}	
+				{options.map(({ label, value }) => (<MenuItem key={value} value={value}>{label}</MenuItem>))}	
 			</Select>
 		</FormControl>)
+	
+	const imagePicker: ControlFactory<TModel, string, TextFieldProps> = (getter, setter, props) => (
+		<input 
+			type="file"
+			accept='image/*'
+			onChange={e => {
+				const file = e.target.files?.[0] as File
+				const reader = new FileReader()
+				reader.onloadend = () => setModel({
+					...model, ...setter(reader.result as string),
+				})
+				reader.readAsDataURL(file)
+			}}/>)
 
 	const factory = useMemo<FormControlsFactory<TModel>>(() => ({
 		textField,
 		select,
+		imagePicker,
 	}), [ model, setModel ])
 
 	const simplifiedFactory = useMemo<SimplifiedFormControlsFactory<TModel>>(() => ({

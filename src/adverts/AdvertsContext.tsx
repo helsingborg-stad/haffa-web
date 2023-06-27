@@ -10,6 +10,7 @@ export const AdvertsContext = createContext<AdvertsRepository>({
 	getAdvert: notProvided('getAdvert'),
 	listAdverts: notProvided('listAdverts'),
 	createAdvert: notProvided('createAdvert'),
+	updateAdvert: notProvided('updateAdvert'),
 })
 
 export const AdvertsProvider: FC<PropsWithChildren<{repository: AdvertsRepository}>> = ({ repository, children }) => (

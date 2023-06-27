@@ -1,14 +1,27 @@
+const advertProps = `
+	id
+	title
+	description
+	permissions {
+		edit
+		delete
+		book
+		claim
+	}
+	images {
+		url
+	}
+	unit
+	material
+	condition
+	usage
+`
+
+
 export const getAdvertQuery = /* GraphQL */`
 query Query($id: ID!) {
 	getAdvert(id: $id) {
-		permissions {
-			edit
-			delete
-			book
-			claim
-		}
-		title
-		description
+		${advertProps}
 	}
   }
  `
@@ -16,24 +29,32 @@ query Query($id: ID!) {
 export const listAdvertsQuery = /* GraphQL */`
 query Query($filter: FilterAdvertsInput) {
 	adverts(filter: $filter) {
-	  id
-	  title
-	  description
+		${advertProps}
 	}
   }
 `
 
 export const createAdvertMutation = /* GraphQL */`
 mutation Mutation(
-	$input: CreateAdvertInput!
+	$input: AdvertInput!
 ) {
 	createAdvert(input: $input) {
-		id
-	  	title
-	  	description
+		${advertProps}
 	}
 }
 `
+
+export const updateAdvertMutation = /* GraphQL */`
+mutation Mutation(
+	$id: ID!
+	$input: AdvertInput!
+) {
+	updateAdvert(id: $id, input: $input) {
+		${advertProps}
+	}
+}
+`
+
 export const getTermsQuery = /* GraphQL */`
 query Query {
 	terms {

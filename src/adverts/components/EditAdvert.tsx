@@ -1,17 +1,17 @@
 import React, { FC, useCallback, useContext, useState } from 'react'
 import { Alert } from '@mui/material'
-import { AdvertTerms, AdvertInput } from '../types'
+import { Advert, AdvertTerms, AdvertInput } from '../types'
 import { AdvertsContext } from '../AdvertsContext'
 import { useNavigate } from 'react-router-dom'
 import { PhraseContext } from '../../phrases/PhraseContext'
-import { createEmptyCreateAdvertInput } from '../repository/mappers'
+import { sanitizeAdvertInput } from '../repository/mappers'
 import { AdvertForm } from './AdvertForm'
 
-export const CreateAdvert: FC<{terms: AdvertTerms}> = ({ terms }) => {
-	const [ advert, setAdvert ] = useState<AdvertInput>(createEmptyCreateAdvertInput())
+export const EditAdvert: FC<{advert: Advert, terms: AdvertTerms}> = ({ advert: inputAdvert, terms }) => {
+	const [ advert, setAdvert ] = useState<AdvertInput>(sanitizeAdvertInput(inputAdvert))
 	const [ saving, setSaving ] = useState(false)
 	const [ error, setError ] = useState(false)
-	const { createAdvert } = useContext(AdvertsContext)
+	const { updateAdvert } = useContext(AdvertsContext)
 	const { ERROR_UNKNOWN } = useContext(PhraseContext)
 	const navigate = useNavigate()
 
@@ -19,11 +19,12 @@ export const CreateAdvert: FC<{terms: AdvertTerms}> = ({ terms }) => {
 		setSaving(true)
 		setAdvert(a)
 		try {
-			const { id } = await createAdvert(a)
+			const { id } = await updateAdvert(inputAdvert.id, a)
 			setSaving(false)
 			setError(false)
 			navigate(`/advert/${id}`)
 		} catch (error) {
+			console.log(error)
 			setError(true)
 			setSaving(false)
 		}

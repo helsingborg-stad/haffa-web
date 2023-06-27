@@ -17,9 +17,14 @@ export interface FilterAdvertsInput {
 	description?: StringFilterInput
 }
 
-export interface CreateAdvertInput {
+export interface AdvertImage {
+	url: string
+}
+
+export interface AdvertInput {
 	title: string
 	description: string
+	images: AdvertImage[]
 	/* terms */
 	unit: string
 	material: string
@@ -43,6 +48,12 @@ export interface Advert {
 	id: string
 	title: string
 	description: string
+	images: AdvertImage[]
+
+	unit: string
+	material: string
+	condition: string
+	usage: string
 }
 
 export interface AdvertTerms {
@@ -55,5 +66,6 @@ export interface AdvertsRepository {
 	getTerms: () => Promise<AdvertTerms>
 	getAdvert: (id: string) => Promise<Advert>
 	listAdverts: (searchParams?: AdvertsSearchParams) => Promise<Advert[]>
-	createAdvert: (advert: CreateAdvertInput) => Promise<Advert>
+	createAdvert: (input: AdvertInput) => Promise<Advert>
+	updateAdvert: (id: string, input: AdvertInput) => Promise<Advert>
 }

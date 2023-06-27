@@ -1,8 +1,9 @@
-import { Advert, CreateAdvertInput } from '../../adverts/types'
+import { AdvertInput } from '../../adverts/types'
 
-export const createEmptyCreateAdvertInput = (): CreateAdvertInput => ({
+export const createEmptyCreateAdvertInput = (): AdvertInput => ({
 	title: '', 
 	description: '', 
+	images: [],
 	unit: '',
 	material: '',
 	condition: '',
@@ -10,11 +11,12 @@ export const createEmptyCreateAdvertInput = (): CreateAdvertInput => ({
 })
 
 // eslint-disable-next-line no-undef
-export const mapAdvertToCreateAdvertInput = ({ title, description }: Advert|CreateAdvertInput): CreateAdvertInput => ({ 
+export const sanitizeAdvertInput = ({ title, description, images, unit, material, condition, usage }: AdvertInput): AdvertInput => ({ 
 	title, 
 	description, 
-	unit: '',
-	material: '',
-	condition: '',
-	usage: '',
+	images,
+	unit,
+	material,
+	condition,
+	usage,
 })
