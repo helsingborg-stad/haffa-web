@@ -8,7 +8,7 @@ import { CreateAdvertRouteView } from './CreateAdvertRouteView'
 import { HomeRouteView } from './HomeRouteView'
 import { ProfileRouteView } from './ProfileRouteView'
 
-const createRouter = ({ getAdvert }: AdvertsRepository) => createBrowserRouter(
+const createRouter = ({ getAdvert, getTerms }: AdvertsRepository) => createBrowserRouter(
 	createRoutesFromElements(
 		<Route path="/" errorElement={<ErrorRouteView/>}>
 			<Route path='' element={<HomeRouteView/>}/>
@@ -20,6 +20,7 @@ const createRouter = ({ getAdvert }: AdvertsRepository) => createBrowserRouter(
 				/>
 			</Route>
 			<Route path='new-advert'
+				loader={() => getTerms().then(terms => ({ terms }))}
 				element={<CreateAdvertRouteView />}/>
 			<Route path='profile' element={<ProfileRouteView/>}/>
 		</Route>

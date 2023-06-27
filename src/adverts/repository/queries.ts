@@ -1,23 +1,19 @@
-export const getAdvertQuery = `
+export const getAdvertQuery = /* GraphQL */`
 query Query($id: ID!) {
 	getAdvert(id: $id) {
-	  title
-	  description
+		permissions {
+			edit
+			delete
+			book
+			claim
+		}
+		title
+		description
 	}
   }
  `
-/*
-export const listAdvertsQuery = `
-query Query {
-	adverts {
-	  id
-	  title
-	  description
-	}
-  }
-`
-*/
-export const listAdvertsQuery = `
+
+export const listAdvertsQuery = /* GraphQL */`
 query Query($filter: FilterAdvertsInput) {
 	adverts(filter: $filter) {
 	  id
@@ -27,17 +23,7 @@ query Query($filter: FilterAdvertsInput) {
   }
 `
 
-export const deleteAdvert = /* GraphQL */ `
-  mutation DeleteAdvert(
-    $input: DeleteAdvertInput!
-    $condition: ModelAdvertConditionInput
-  ) {
-    deleteAdvert(input: $input, condition: $condition) {
-      id
-      title
-`
-
-export const createAdvertMutation = `
+export const createAdvertMutation = /* GraphQL */`
 mutation Mutation(
 	$input: CreateAdvertInput!
 ) {
@@ -48,3 +34,12 @@ mutation Mutation(
 	}
 }
 `
+export const getTermsQuery = /* GraphQL */`
+query Query {
+	terms {
+		unit
+		material
+		condition
+		usage
+	}
+}`

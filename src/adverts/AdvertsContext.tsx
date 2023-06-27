@@ -6,6 +6,7 @@ const notProvided = (method: string) => () => {
 }
 
 export const AdvertsContext = createContext<AdvertsRepository>({
+	getTerms: notProvided('getTerms'),
 	getAdvert: notProvided('getAdvert'),
 	listAdverts: notProvided('listAdverts'),
 	createAdvert: notProvided('createAdvert'),

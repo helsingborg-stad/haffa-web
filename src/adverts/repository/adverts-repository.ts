@@ -1,8 +1,8 @@
 import { ifNullThenNotFoundError } from '../../errors'
 import { gqlClient } from '../../graphql'
 import { mapAdvertToCreateAdvertInput } from './mappers'
-import { createAdvertMutation, getAdvertQuery, listAdvertsQuery } from './queries'
-import { Advert, AdvertsRepository, AdvertsSearchParams } from '../types'
+import { createAdvertMutation, getAdvertQuery, getTermsQuery, listAdvertsQuery } from './queries'
+import { Advert, AdvertTerms, AdvertsRepository, AdvertsSearchParams } from '../types'
 
 const gql = (token: string) => gqlClient().headers({ Authorization: `Bearer ${token}` })
 
@@ -16,6 +16,10 @@ const makeFilter = (p?: AdvertsSearchParams): any => {
 	}
 }
 export const createAdvertsRepository = (token: string): AdvertsRepository => ({
+	getTerms: async () => gql(token)
+		.query(getTermsQuery)
+		.map<AdvertTerms>('terms')
+		.then(ifNullThenNotFoundError),
 	getAdvert: async id => gql(token)
 		.query(getAdvertQuery)
 		.variables({ id })
