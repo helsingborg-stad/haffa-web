@@ -11,11 +11,13 @@
 Frontend application for Haffa!
 
 ## Configuration
+
 Make sure you have the file `.env` in your project root. For its contents, refer to samples in [.env.example](./.env.example)
 
 - `HAFFA_BACKEND_URL` must be set to a valid Haffa backend
 
 ## Build and run
+
 ```sh
 # install dependencies
 yarn
@@ -26,6 +28,17 @@ yarn test
 # start development web server serving the react app on http://localhost:3000
 yarn start
 
+
+```
+
+## Run with Docker:
+
+```sh
+* Build image (replace access_token_from_github with your developer token)
+docker buildx build . --build-arg=GITHUB_ACCESS_TOKEN=<access_token_from_github>
+
+* Run image (replace image_name and backend_url)
+docker run -p 4000:4000  --env HAFFA_BACKEND_URL=<backend_url> <image_name>
 
 ```
 
@@ -57,10 +70,9 @@ Distributed under the MIT License. See [LICENSE](LICENSE) for more information.
 
 ## Acknowledgments
 
-* [Best-README-Template](https://github.com/othneildrew/Best-README-Template)
+- [Best-README-Template](https://github.com/othneildrew/Best-README-Template)
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
-
 
 [license-shield]: https://img.shields.io/github/license/helsingborg-stad/haffa-web.svg?style=for-the-badge
 [license-url]: https://github.com/helsingborg-stad/haffa-web/blob/master/LICENSE.txt
