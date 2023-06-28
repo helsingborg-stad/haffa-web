@@ -71,7 +71,7 @@ export const AuthenticateView: FC = () => {
 		} catch (error) {
 			setState({
 				...state,
-				loading: true,
+				loading: false,
 				errorMessage: ERROR_UNKNOWN,
 			})
 		}
