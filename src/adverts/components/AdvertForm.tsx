@@ -63,7 +63,7 @@ export const AdvertForm: FC<{
 	}, [ model, patchModel ])
 
 	const moveImageDown = useCallback((index: number) => {
-		if (index >= model.images.length) {
+		if (index >= model.images.length - 1) {
 			return
 		}
 		return () => patchModel({
