@@ -1,6 +1,6 @@
 import { FC, useContext } from 'react'
 import { Advert } from '../types'
-import { Button, Card, CardActions, CardContent, Typography } from '@mui/material'
+import { Box, Button, Card, CardActions, CardContent, Grid, Typography } from '@mui/material'
 import { NavLink } from 'react-router-dom'
 import EditIcon from '@mui/icons-material/Edit'
 import { PhraseContext } from '../../phrases/PhraseContext'
@@ -17,6 +17,15 @@ export const AdvertDetails: FC<{advert: Advert}> = ({ advert }) => {
 				<Typography component="p">
 					{advert.description}
 				</Typography>
+
+				<Grid container spacing={2}>
+					{
+						advert.images.map(({ url }) => (
+							<Grid item xs={12} sm={6}>
+								<Box component='img' src={url} sx={{ objectFit: 'contain', width:'100%', height: '100%' }}/>
+							</Grid>))
+					}
+				</Grid>
 			</CardContent>
 			<CardActions>
 				{permissions.edit 

@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from 'react'
+import React, { useCallback, useMemo, useState } from 'react'
 import { FormControl, InputLabel, MenuItem, Select, SelectProps, TextField, TextFieldProps } from '@mui/material'
 import { getValue } from '@testing-library/user-event/dist/utils'
 
@@ -42,6 +42,7 @@ export interface SimplifiedFormControlsFactory<TModel>{
 
 export interface FormControlsState<TModel> {
 	model: TModel,
+	patchModel: (patch: Partial<TModel>) => void,
 	factory: FormControlsFactory<TModel>,
 	simplifiedFactory: SimplifiedFormControlsFactory<TModel>
 }
@@ -49,13 +50,16 @@ export interface FormControlsState<TModel> {
 export const useFormControls = <TModel,>(initial: TModel): FormControlsState<TModel> => {
 	const [ model, setModel ] = useState(initial)
 
+	const patchModel = useCallback((patch: Partial<TModel>) => setModel({
+		...model, ...patch,
+	}), [ model, setModel ])
+	
 	const textField: ControlFactory<TModel, string, TextFieldProps> = (getter, setter, props) => (
 		<TextField 
 			{...props} 
 			value={getter(model)}
-			onChange={e => setModel({
-				...model, ...setter(e.target.value) })
-			}/>)
+			onChange={e => patchModel(setter(e.target.value))}
+		/>)
 
 	const select: ControlFactoryWithOptions<TModel, string, SelectOption[], SelectProps> = (getter, setter, options, props) => (
 		<FormControl variant="standard" sx={{ m: 1, minWidth: 120 }}>
@@ -64,9 +68,7 @@ export const useFormControls = <TModel,>(initial: TModel): FormControlsState<TMo
 				{...props}
 				labelId={props?.id || ''}
 				value={getter(model)}
-				onChange={e => setModel({
-					...model, ...setter(e.target.value as string) })
-				}>
+				onChange={e => patchModel(setter(e.target.value as string))}>
 				{options.map(({ label, value }) => (<MenuItem key={value} value={value}>{label}</MenuItem>))}	
 			</Select>
 		</FormControl>)
@@ -78,9 +80,7 @@ export const useFormControls = <TModel,>(initial: TModel): FormControlsState<TMo
 			onChange={e => {
 				const file = e.target.files?.[0] as File
 				const reader = new FileReader()
-				reader.onloadend = () => setModel({
-					...model, ...setter(reader.result as string),
-				})
+				reader.onloadend = () => patchModel(setter(reader.result as string))
 				reader.readAsDataURL(file)
 			}}/>)
 
@@ -111,5 +111,5 @@ export const useFormControls = <TModel,>(initial: TModel): FormControlsState<TMo
 			}),
 
 	}), [ model, setModel ])
-	return { model, factory, simplifiedFactory }
+	return { model, factory, simplifiedFactory, patchModel }
 }
