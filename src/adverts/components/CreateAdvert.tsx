@@ -1,5 +1,5 @@
 import React, { FC, useCallback, useContext, useState } from 'react'
-import { Alert } from '@mui/material'
+import { Alert, Typography } from '@mui/material'
 import { AdvertTerms, AdvertInput } from '../types'
 import { AdvertsContext } from '../AdvertsContext'
 import { useNavigate } from 'react-router-dom'
@@ -12,7 +12,7 @@ export const CreateAdvert: FC<{terms: AdvertTerms}> = ({ terms }) => {
 	const [ saving, setSaving ] = useState(false)
 	const [ error, setError ] = useState(false)
 	const { createAdvert } = useContext(AdvertsContext)
-	const { ERROR_UNKNOWN } = useContext(PhraseContext)
+	const { CREATE_ADVERT, ERROR_UNKNOWN } = useContext(PhraseContext)
 	const navigate = useNavigate()
 
 	const save = useCallback(async (a: AdvertInput) => {
@@ -30,6 +30,7 @@ export const CreateAdvert: FC<{terms: AdvertTerms}> = ({ terms }) => {
 	},[advert])
 	return (
 		<>
+			<Typography variant='h3'>{CREATE_ADVERT}</Typography>
 			{error && <Alert severity='error'>{ERROR_UNKNOWN}</Alert>}
 			<AdvertForm advert={advert} terms={terms} disabled={saving} onSave={save}/>
 		</>)

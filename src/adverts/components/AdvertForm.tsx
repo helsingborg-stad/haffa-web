@@ -6,7 +6,7 @@ import { useFormControls } from '../../hooks/use-form-controls'
 import { PhraseContext } from '../../phrases/PhraseContext'
 
 const Row: FC<PropsWithChildren & GridProps> = (props) => <Grid container spacing={2} sx={{ pt: 2 }} {...props}>{props.children}</Grid>
-const Cell: FC<PropsWithChildren & GridProps> = (props) => <Grid item {...props}>{props.children}</Grid>
+const Cell: FC<PropsWithChildren & GridProps> = (props) => <Grid item sx={{ flexGrow: 1 }} {...props}>{props.children}</Grid>
 
 export const AdvertForm: FC<{
 	terms: AdvertTerms,
@@ -21,9 +21,9 @@ export const AdvertForm: FC<{
 
 	const layout = useMemo(() => ([
 		[
-			() => textField('title', 'Titel',{ required: true, disabled  }),
+			() => textField('title', 'Titel',{ required: true, disabled, fullWidth: true  }),
 		], [
-			() => textField('description', 'Beskrivning',{ required: true, multiline: true, minRows: 4, disabled }),
+			() => textField('description', 'Beskrivning',{ required: true, multiline: true, minRows: 4, disabled, fullWidth: true }),
 		],
 		[
 			() => select('unit', 'Enhet', makeOptions(terms.unit)),
