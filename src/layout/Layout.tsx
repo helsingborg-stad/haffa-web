@@ -10,12 +10,12 @@ interface LayoutProps {
 	renderAppbarControls?: () => React.JSX.Element|null
 }
 
-export const defaultRenderAppbarControls = (): React.JSX.Element => {
+export const DefaultRenderAppbarControls = (): React.JSX.Element => {
 	const { CREATE_ADVERT } = useContext(PhraseContext)
 	return <Button color='inherit' component={NavLink} to='/new-advert'><AddIcon/>{CREATE_ADVERT}</Button>
 }
 
-export const Layout: FC<LayoutProps & PropsWithChildren> = ({ hideNavbar, renderAppbarControls = defaultRenderAppbarControls, children }) => {
+export const Layout: FC<LayoutProps & PropsWithChildren> = ({ hideNavbar, renderAppbarControls = DefaultRenderAppbarControls, children }) => {
 	const { APP_TITLE } = useContext(PhraseContext)
 	return (
 		<Box sx={{ pb: 7 }}>
