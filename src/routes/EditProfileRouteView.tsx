@@ -1,14 +1,14 @@
 import { FC } from 'react'
 import { useLoaderData } from 'react-router-dom'
 import { Profile } from 'profile/types'
-import { ProfileView } from 'profile/components/ProfileView'
+import { EditProfile } from 'profile/components/EditProfile'
 import { Layout } from '../layout'
 
-export const ProfileRouteView: FC = () => {
+export const EditProfileRouteView: FC = () => {
     const { profile } = useLoaderData() as { profile: Profile }
     return (
         <Layout>
-            <ProfileView profile={profile} />
+            <EditProfile profile={profile} />
         </Layout>
     )
 }

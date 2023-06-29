@@ -4,41 +4,29 @@ export interface PhraseContextType {
     APP_TITLE: string
     ERROR_NOT_FOUND: string
     ERROR_UNKNOWN: string
+    SIGNOUT: string
     NAV_HOME: string
     NAV_MY_ADVERTS: string
     NAV_PROFILE: string
     CREATE_ADVERT: string
     EDIT_ADVERT: string
     SAVE_ADVERT: string
+    EDIT_PROFILE: string
+    SAVE_PROFILE: string
     phrase: (key: string, defaultValue: string) => string
 }
 export const PhraseContext = createContext<PhraseContextType>({
-    get APP_TITLE() {
-        return 'Haffa!'
-    },
-    get ERROR_NOT_FOUND() {
-        return 'Hoppsan, vi kan inte hitta sidan eller resursen.'
-    },
-    get ERROR_UNKNOWN() {
-        return 'Ajsing bajsing, nu gick något lite åt pipsvängen'
-    },
-    get NAV_HOME() {
-        return 'Hem'
-    },
-    get NAV_MY_ADVERTS() {
-        return 'Mina annonser'
-    },
-    get NAV_PROFILE() {
-        return 'Min profil'
-    },
-    get CREATE_ADVERT() {
-        return 'Skapa annons'
-    },
-    get EDIT_ADVERT() {
-        return 'Redigera annons'
-    },
-    get SAVE_ADVERT() {
-        return 'Spara annonsen'
-    },
+    APP_TITLE: 'Haffa!',
+    ERROR_NOT_FOUND: 'Hoppsan, vi kan inte hitta sidan eller resursen.',
+    ERROR_UNKNOWN: 'Ajsing bajsing, nu gick något lite åt pipsvängen',
+    SIGNOUT: 'Logga ut',
+    NAV_HOME: 'Hem',
+    NAV_MY_ADVERTS: 'Mina annonser',
+    NAV_PROFILE: 'Min profil',
+    CREATE_ADVERT: 'Skapa annons',
+    EDIT_ADVERT: 'Redigera annons',
+    SAVE_ADVERT: 'Spara annonsen',
+    EDIT_PROFILE: 'Redigera din profil',
+    SAVE_PROFILE: 'Spara din profil',
     phrase: (_, v) => v,
 })
