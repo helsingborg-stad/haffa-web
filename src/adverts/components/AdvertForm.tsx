@@ -79,10 +79,6 @@ export const AdvertForm: FC<{
     disabled: boolean
     onSave: (advert: AdvertInput) => void
 }> = ({ advert, terms, onSave, disabled }) => {
-<<<<<<< HEAD
-	const { model, patchModel, factory, simplifiedFactory: { select, textField } } = useFormControls<AdvertInput>(advert)
-	const { SAVE_ADVERT, phrase } = useContext(PhraseContext)
-=======
     const {
         model,
         patchModel,
@@ -90,7 +86,6 @@ export const AdvertForm: FC<{
         simplifiedFactory: { select, textField },
     } = useFormControls<AdvertInput>(advert)
     const { SAVE_ADVERT } = useContext(PhraseContext)
->>>>>>> ddee0d3 (fix eslint config)
 
     const makeOptions = (values: string[]) =>
         values.map((v) => ({ label: v, value: v }))
@@ -129,20 +124,6 @@ export const AdvertForm: FC<{
         [model, patchModel]
     )
 
-<<<<<<< HEAD
-	const layout = useMemo(() => ([
-		[
-			() => textField('title', phrase('ADVERT_FIELD_TITLE', 'Titel'),{ required: true, disabled, fullWidth: true  }),
-		], [
-			() => textField('description', phrase('ADVERT_FIELD_DESCRIPTION', 'Beskrivning'),{ required: true, multiline: true, minRows: 4, disabled, fullWidth: true }),
-		],
-		[
-			() => select('unit', phrase('ADVERT_FIELD_UNIT', 'Enhet'), makeOptions(terms.unit)),
-			() => select('material', phrase('ADVERT_FIELD_MATERIAL', 'Material'), makeOptions(terms.material)),
-			() => select('condition', phrase('ADVERT_FIELD_CONDITION', 'Skick'), makeOptions(terms.condition)),
-			() => select('usage', phrase('ADVERT_FIELD_USAGE', 'Användningsområde'), makeOptions(terms.usage)),
-		],
-=======
     const layout = useMemo(
         () => [
             [
@@ -176,7 +157,6 @@ export const AdvertForm: FC<{
                         makeOptions(terms.usage)
                     ),
             ],
->>>>>>> ddee0d3 (fix eslint config)
 
             [
                 () => (
