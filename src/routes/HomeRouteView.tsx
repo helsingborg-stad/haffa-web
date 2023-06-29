@@ -3,7 +3,7 @@ import { Layout } from '../layout'
 import { AdvertsView } from '../adverts/components/AdvertsView'
 
 export const HomeRouteView: FC = () => (
-	<Layout>
-		<AdvertsView />
-	</Layout>
+    <Layout>
+        <AdvertsView />
+    </Layout>
 )
