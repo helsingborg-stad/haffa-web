@@ -40,5 +40,5 @@ export const PhraseContext = createContext<PhraseContextType>({
     get SAVE_ADVERT() {
         return 'Spara annonsen'
     },
-    phrase: (key, v) => v,
+    phrase: (_, v) => v,
 })

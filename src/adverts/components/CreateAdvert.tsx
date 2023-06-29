@@ -1,4 +1,4 @@
-import React, { FC, useCallback, useContext, useState } from 'react'
+import { FC, useCallback, useContext, useState } from 'react'
 import { Alert, Typography } from '@mui/material'
 import { useNavigate } from 'react-router-dom'
 import { AdvertTerms, AdvertInput } from '../types'

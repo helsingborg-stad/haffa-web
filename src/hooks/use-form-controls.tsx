@@ -1,5 +1,15 @@
 import React, { useCallback, useMemo, useState } from 'react'
-import { Button, ButtonProps, FormControl, InputLabel, MenuItem, Select, SelectProps, TextField, TextFieldProps } from '@mui/material'
+import {
+    Button,
+    ButtonProps,
+    FormControl,
+    InputLabel,
+    MenuItem,
+    Select,
+    SelectProps,
+    TextField,
+    TextFieldProps,
+} from '@mui/material'
 import { Phrase } from '../phrases/Phrase'
 
 interface SelectOption {
@@ -12,6 +22,11 @@ interface Getter<TModel, TValue> {
 interface Setter<TModel, TValue> {
     (value: TValue): Partial<TModel>
 }
+
+interface ControlFactoryWithoutInitial<TModel, TValue, TProps> {
+    (setter: Setter<TModel, TValue>, props?: Partial<TProps>): React.JSX.Element
+}
+
 interface ControlFactory<TModel, TValue, TProps> {
     (
         getter: Getter<TModel, TValue>,
@@ -30,9 +45,14 @@ interface ControlFactoryWithOptions<TModel, TValue, TOptions, TProps> {
 }
 
 export interface FormControlsFactory<TModel> {
-	textField: ControlFactory<TModel, string, TextFieldProps>
-	select: ControlFactoryWithOptions<TModel, string, SelectOption[], SelectProps>
-	imagePicker: ControlFactory<TModel, string, ButtonProps>
+    textField: ControlFactory<TModel, string, TextFieldProps>
+    select: ControlFactoryWithOptions<
+        TModel,
+        string,
+        SelectOption[],
+        SelectProps
+    >
+    imagePicker: ControlFactoryWithoutInitial<TModel, string, ButtonProps>
 }
 
 export interface SimplifiedFormControlsFactory<TModel> {
@@ -70,7 +90,7 @@ export const useFormControls = <TModel,>(
         [model, setModel]
     )
 
-    const textField: ControlFactory<TModel, string, TextFieldProps> = (
+    const textField: FormControlsFactory<TModel>['textField'] = (
         getter,
         setter,
         props
@@ -81,33 +101,49 @@ export const useFormControls = <TModel,>(
             onChange={(e) => patchModel(setter(e.target.value))}
         />
     )
-	const select: ControlFactoryWithOptions<TModel, string, SelectOption[], SelectProps> = (getter, setter, options, props) => (
-		<FormControl variant="standard" sx={{ m: 1, minWidth: 120 }}>
-			<InputLabel id={props?.id || ''}>{props?.label}</InputLabel>
-			<Select
-				{...props}
-				labelId={props?.id || ''}
-				value={getter(model)}
-				onChange={e => patchModel(setter(e.target.value as string))}>
-				{options.map(({ label, value }) => (<MenuItem key={value} value={value}>{label}</MenuItem>))}	
-			</Select>
-		</FormControl>)
-	
-	const imagePicker: ControlFactory<TModel, string, ButtonProps> = (getter, setter, props) => (
-		// render button as label since label will trigger inner hidden input...
-		<Button variant='outlined' component="label">
-			<Phrase id='UPLOAD_IMAGE' value="Välj en fin bild"/>
-			<input 
-				style={{ display: 'none' }}
-				type="file"
-				accept='image/*'
-				onChange={e => {
-					const file = e.target.files?.[0] as File
-					const reader = new FileReader()
-					reader.onloadend = () => patchModel(setter(reader.result as string))
-					reader.readAsDataURL(file)
-				}}/>
-		</Button>)
+    const select: FormControlsFactory<TModel>['select'] = (
+        getter,
+        setter,
+        options,
+        props
+    ) => (
+        <FormControl variant="standard" sx={{ m: 1, minWidth: 120 }}>
+            <InputLabel id={props?.id || ''}>{props?.label}</InputLabel>
+            <Select
+                {...props}
+                labelId={props?.id || ''}
+                value={getter(model)}
+                onChange={(e) => patchModel(setter(e.target.value as string))}
+            >
+                {options.map(({ label, value }) => (
+                    <MenuItem key={value} value={value}>
+                        {label}
+                    </MenuItem>
+                ))}
+            </Select>
+        </FormControl>
+    )
+
+    const imagePicker: FormControlsFactory<TModel>['imagePicker'] = (
+        setter
+    ) => (
+        // render button as label since label will trigger inner hidden input...
+        <Button variant="outlined" component="label">
+            <Phrase id="UPLOAD_IMAGE" value="Välj en fin bild" />
+            <input
+                style={{ display: 'none' }}
+                type="file"
+                accept="image/*"
+                onChange={(e) => {
+                    const file = e.target.files?.[0] as File
+                    const reader = new FileReader()
+                    reader.onloadend = () =>
+                        patchModel(setter(reader.result as string))
+                    reader.readAsDataURL(file)
+                }}
+            />
+        </Button>
+    )
 
     const factory = useMemo<FormControlsFactory<TModel>>(
         () => ({

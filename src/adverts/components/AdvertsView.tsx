@@ -1,7 +1,6 @@
-import { FC, useContext, useState } from 'react'
+import { FC, useContext } from 'react'
 import { Box, LinearProgress } from '@mui/material'
 import { AdvertsContext } from '../AdvertsContext'
-import useAsync from '../../hooks/use-async'
 import { AdvertsList } from './AdvertsList'
 import { ErrorView } from '../../errors'
 import { SearchableAdvertsList } from './filter/SearchableAdvertsList'

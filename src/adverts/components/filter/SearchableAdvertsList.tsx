@@ -1,4 +1,4 @@
-import React, { FC, PropsWithChildren } from 'react'
+import { FC, PropsWithChildren } from 'react'
 import { Box, TextField } from '@mui/material'
 import { AdvertsSearchParams } from '../../types'
 

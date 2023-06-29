@@ -40,5 +40,6 @@ module.exports = {
         'react/jsx-no-constructed-context-values': 0,
         'no-void': 0,
         '@typescript-eslint/no-unused-expressions': 0,
+        'no-sequences': 0,
     },
 }

@@ -177,10 +177,9 @@ export const AdvertForm: FC<{
             [
                 // append image
                 () =>
-                    factory.imagePicker(
-                        () => '',
-                        (url) => ({ images: [...model.images, { url }] })
-                    ),
+                    factory.imagePicker((url) => ({
+                        images: [...model.images, { url }],
+                    })),
             ],
         ],
         [model]
