@@ -25,8 +25,8 @@ export const AdvertDetails: FC<{ advert: Advert }> = ({ advert }) => {
                 <Typography component="p">{advert.description}</Typography>
 
                 <Grid container spacing={2}>
-                    {advert.images.map(({ url }) => (
-                        <Grid item xs={12} sm={6}>
+                    {advert.images.map(({ url }, index) => (
+                        <Grid key={index} item xs={12} sm={6}>
                             <Box
                                 component="img"
                                 src={url}

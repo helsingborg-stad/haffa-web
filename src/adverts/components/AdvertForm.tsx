@@ -145,6 +145,15 @@ export const AdvertForm: FC<{
                     }),
             ],
             [
+                () =>
+                    textField('quantity', 'Antal', {
+                        required: true,
+                        type: 'number',
+                        inputProps: { min: 1 },
+                        disabled,
+                    }),
+            ],
+            [
                 () => select('unit', 'Enhet', makeOptions(terms.unit)),
                 () =>
                     select('material', 'Material', makeOptions(terms.material)),

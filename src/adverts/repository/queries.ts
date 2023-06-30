@@ -2,6 +2,7 @@ const advertProps = `
 	id
 	title
 	description
+	quantity
 	permissions {
 		edit
 		delete

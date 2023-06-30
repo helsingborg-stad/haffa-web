@@ -24,6 +24,7 @@ export interface AdvertImage {
 export interface AdvertInput {
     title: string
     description: string
+    quantity: number
     images: AdvertImage[]
     /* terms */
     unit: string
@@ -48,6 +49,7 @@ export interface Advert {
     id: string
     title: string
     description: string
+    quantity: number
     images: AdvertImage[]
 
     unit: string
