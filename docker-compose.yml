@@ -1,6 +1,6 @@
 version: '3'
 services:
-  backend:
+  app:
     build:
       context: .
       dockerfile: ./Dockerfile.local
@@ -9,11 +9,7 @@ services:
     environment:
       - NODE_ENV=production
       - PORT=4000
-      - HAFFA_BACKEND_URL=https://localhost:3000
+      - HAFFA_BACKEND_URL=http://localhost:3000
     ports:
-      - '80:4000'
+      - '4000:4000'
     restart: always
-    networks:
-      - app-network
-networks:
-  app-network:
