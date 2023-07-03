@@ -15,7 +15,7 @@ import { PhraseContext } from '../../phrases/PhraseContext'
 
 export const AdvertDetails: FC<{ advert: Advert }> = ({ advert }) => {
     const { EDIT_ADVERT } = useContext(PhraseContext)
-    const { permissions } = advert
+    const { meta } = advert
     return (
         <Card>
             <CardContent>
@@ -41,7 +41,7 @@ export const AdvertDetails: FC<{ advert: Advert }> = ({ advert }) => {
                 </Grid>
             </CardContent>
             <CardActions>
-                {permissions.edit && (
+                {meta.canEdit && (
                     <Button
                         color="primary"
                         component={NavLink}

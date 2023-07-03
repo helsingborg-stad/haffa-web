@@ -10,6 +10,7 @@ import {
 } from './queries'
 import {
     Advert,
+    AdvertMutationResult,
     AdvertTerms,
     AdvertsRepository,
     AdvertsSearchParams,
@@ -51,10 +52,10 @@ export const createAdvertsRepository = (token: string): AdvertsRepository => ({
         gql(token)
             .query(createAdvertMutation)
             .variables({ input: sanitizeAdvertInput(advert) })
-            .map<Advert>('createAdvert'),
+            .map<AdvertMutationResult>('createAdvert'),
     updateAdvert: async (id, advert) =>
         gql(token)
             .query(updateAdvertMutation)
             .variables({ id, input: sanitizeAdvertInput(advert) })
-            .map<Advert>('updateAdvert'),
+            .map<AdvertMutationResult>('updateAdvert'),
 })

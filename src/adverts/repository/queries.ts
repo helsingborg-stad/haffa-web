@@ -3,11 +3,11 @@ const advertProps = `
 	title
 	description
 	quantity
-	permissions {
-		edit
-		delete
-		book
-		claim
+	meta {
+		canEdit
+		canDelete
+		canBook
+		canReserve
 	}
 	images {
 		url
@@ -16,6 +16,17 @@ const advertProps = `
 	material
 	condition
 	usage
+`
+
+const mutationProps = `
+	advert {
+		${advertProps}
+	}
+	status {
+		code
+		message
+		field
+	}
 `
 
 export const getAdvertQuery = /* GraphQL */ `
@@ -39,7 +50,7 @@ mutation Mutation(
 	$input: AdvertInput!
 ) {
 	createAdvert(input: $input) {
-		${advertProps}
+		${mutationProps}
 	}
 }
 `
@@ -50,7 +61,7 @@ mutation Mutation(
 	$input: AdvertInput!
 ) {
 	updateAdvert(id: $id, input: $input) {
-		${advertProps}
+		${mutationProps}
 	}
 }
 `
