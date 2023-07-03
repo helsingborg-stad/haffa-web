@@ -42,6 +42,7 @@ export interface AdvertMeta {
     canDelete: boolean
     canBook: boolean
     canReserve: boolean
+    canCancelReservation: boolean
 }
 
 export interface Advert {
@@ -85,4 +86,9 @@ export interface AdvertsRepository {
         id: string,
         input: AdvertInput
     ) => Promise<AdvertMutationResult>
+    reserveAdvert: (
+        id: string,
+        quantity: number
+    ) => Promise<AdvertMutationResult>
+    cancelAdvertReservation: (id: string) => Promise<AdvertMutationResult>
 }

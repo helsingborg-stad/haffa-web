@@ -2,10 +2,12 @@ import { ifNullThenNotFoundError } from '../../errors'
 import { gqlClient } from '../../graphql'
 import { sanitizeAdvertInput } from './mappers'
 import {
+    cancelAdvertReservationMutation,
     createAdvertMutation,
     getAdvertQuery,
     getTermsQuery,
     listAdvertsQuery,
+    reserveAdvertMutation,
     updateAdvertMutation,
 } from './queries'
 import {
@@ -58,4 +60,14 @@ export const createAdvertsRepository = (token: string): AdvertsRepository => ({
             .query(updateAdvertMutation)
             .variables({ id, input: sanitizeAdvertInput(advert) })
             .map<AdvertMutationResult>('updateAdvert'),
+    reserveAdvert: async (id, quantity) =>
+        gql(token)
+            .query(reserveAdvertMutation)
+            .variables({ id, quantity })
+            .map<AdvertMutationResult>('reserveAdvert'),
+    cancelAdvertReservation: async (id) =>
+        gql(token)
+            .query(cancelAdvertReservationMutation)
+            .variables({ id })
+            .map<AdvertMutationResult>('cancelAdvertReservation'),
 })

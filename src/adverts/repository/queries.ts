@@ -8,6 +8,7 @@ const advertProps = `
 		canDelete
 		canBook
 		canReserve
+		canCancelReservation
 	}
 	images {
 		url
@@ -61,6 +62,27 @@ mutation Mutation(
 	$input: AdvertInput!
 ) {
 	updateAdvert(id: $id, input: $input) {
+		${mutationProps}
+	}
+}
+`
+
+export const reserveAdvertMutation = /* GraphQL */ `
+mutation Mutation(
+	$id: ID!
+	$quantity: Int!
+) {
+	reserveAdvert(id: $id, quantity: $quantity) {
+		${mutationProps}
+	}
+}
+`
+
+export const cancelAdvertReservationMutation = /* GraphQL */ `
+mutation Mutation(
+	$id: ID!
+) {
+	cancelAdvertReservation(id: $id) {
 		${mutationProps}
 	}
 }
