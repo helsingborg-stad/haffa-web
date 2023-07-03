@@ -1,3 +1,4 @@
+# Builder image
 FROM node:18 as react-builder
 ARG GITHUB_ACCESS_TOKEN
 
@@ -14,11 +15,6 @@ COPY deploy.npmrc .npmrc
 RUN yarn install --production --ignore-optional
 
 FROM gcr.io/distroless/nodejs:18
-
-EXPOSE 4000
-ENV NODE_ENV=production
-ENV PORT=4000
-
 WORKDIR /app
 COPY --from=production-builder /work/public ./public
 COPY --from=production-builder /work/node_modules ./node_modules

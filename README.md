@@ -14,7 +14,7 @@ Frontend application for Haffa!
 
 Make sure you have the file `.env` in your project root. For its contents, refer to samples in [.env.example](./.env.example)
 
-- `HAFFA_BACKEND_URL` must be set to a valid Haffa backend
+-   `HAFFA_BACKEND_URL` must be set to a valid Haffa backend
 
 ## Build and run
 
@@ -34,18 +34,17 @@ yarn start
 ## Run with Docker:
 
 ```sh
-* Build image (replace access_token_from_github with your developer token)
-docker buildx build . --build-arg=GITHUB_ACCESS_TOKEN=<access_token_from_github>
+# Replace access_token_from_github with your developer token)
+export GITHUB_ACCESS_TOKEN=<access_token_from_github>
 
-* Run image (replace image_name and backend_url)
-docker run -p 4000:4000  --env HAFFA_BACKEND_URL=<backend_url> <image_name>
-
+# Run Docker
+docker-compose up
 ```
 
 ### Prerequisites
 
-- [nodejs](https://nodejs.org/en/)
-- [Yarn](https://classic.yarnpkg.com/lang/en/docs/install)
+-   [nodejs](https://nodejs.org/en/)
+-   [Yarn](https://classic.yarnpkg.com/lang/en/docs/install)
 
 ## Contributing
 
@@ -70,7 +69,7 @@ Distributed under the MIT License. See [LICENSE](LICENSE) for more information.
 
 ## Acknowledgments
 
-- [Best-README-Template](https://github.com/othneildrew/Best-README-Template)
+-   [Best-README-Template](https://github.com/othneildrew/Best-README-Template)
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 

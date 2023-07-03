@@ -1,0 +1,19 @@
+version: '3'
+services:
+  backend:
+    build:
+      context: .
+      dockerfile: ./Dockerfile.local
+      args:
+        GITHUB_ACCESS_TOKEN: ${GITHUB_ACCESS_TOKEN}
+    environment:
+      - NODE_ENV=production
+      - PORT=4000
+      - HAFFA_BACKEND_URL=https://localhost:3000
+    ports:
+      - '80:4000'
+    restart: always
+    networks:
+      - app-network
+networks:
+  app-network:
