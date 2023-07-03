@@ -1,12 +1,12 @@
 {
-  "workbench.colorCustomizations": {
-    "titleBar.activeForeground": "#fff",
-    "titleBar.inactiveForeground": "#ffffffcc",
-    "titleBar.activeBackground": "#FF2C70",
-    "titleBar.inactiveBackground": "#ff2c6fad"
-  },
-  "editor.codeActionsOnSave": {
-    "source.fixAll.eslint": true
-  },
-  "editor.insertSpaces": false
+    "workbench.colorCustomizations": {
+        "activityBar.background": "#ff2c6f7c",
+        "activityBar.foreground": "#fff",
+        "activityBar.activeBackground": "#ff2c6ff1",
+        "activityBar.inactiveForeground": "#ffffff88"
+    },
+    "editor.codeActionsOnSave": {
+        "source.fixAll.eslint": true
+    },
+    "editor.insertSpaces": false
 }
