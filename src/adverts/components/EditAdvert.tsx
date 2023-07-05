@@ -15,7 +15,7 @@ export const EditAdvert: FC<{ advert: Advert; terms: AdvertTerms }> = ({
         sanitizeAdvertInput(inputAdvert)
     )
     const [saving, setSaving] = useState(false)
-    const [error, setError] = useState(false)
+    const [error, setError] = useState('')
     const { updateAdvert } = useContext(AdvertsContext)
     const { EDIT_ADVERT, ERROR_UNKNOWN } = useContext(PhraseContext)
     const navigate = useNavigate()
@@ -25,13 +25,17 @@ export const EditAdvert: FC<{ advert: Advert; terms: AdvertTerms }> = ({
             setSaving(true)
             setAdvert(a)
             try {
-                const { id } = await updateAdvert(inputAdvert.id, a)
+                const result = await updateAdvert(inputAdvert.id, a)
                 setSaving(false)
-                setError(false)
-                navigate(`/advert/${id}`)
+                setError(result.status ? result.status.message : '')
+                if (result.status) {
+                    setAdvert(sanitizeAdvertInput(result.advert || advert))
+                } else if (result.advert) {
+                    navigate(`/advert/${result.advert.id}`)
+                }
             } catch (error) {
                 console.log(error)
-                setError(true)
+                setError(ERROR_UNKNOWN)
                 setSaving(false)
             }
         },
@@ -40,7 +44,7 @@ export const EditAdvert: FC<{ advert: Advert; terms: AdvertTerms }> = ({
     return (
         <>
             <Typography variant="h3">{EDIT_ADVERT}</Typography>
-            {error && <Alert severity="error">{ERROR_UNKNOWN}</Alert>}
+            {error && <Alert severity="error">{error}</Alert>}
             <AdvertForm
                 advert={advert}
                 terms={terms}

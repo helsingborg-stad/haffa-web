@@ -1,15 +1,21 @@
-import { ifNullThenNotFoundError } from '../../errors'
+import {
+    ifNullThenNotFoundError,
+    valueAndValidOrThrowNotFound,
+} from '../../errors'
 import { gqlClient } from '../../graphql'
 import { sanitizeAdvertInput } from './mappers'
 import {
+    cancelAdvertReservationMutation,
     createAdvertMutation,
     getAdvertQuery,
     getTermsQuery,
     listAdvertsQuery,
+    reserveAdvertMutation,
     updateAdvertMutation,
 } from './queries'
 import {
     Advert,
+    AdvertMutationResult,
     AdvertTerms,
     AdvertsRepository,
     AdvertsSearchParams,
@@ -27,6 +33,8 @@ const makeFilter = (p?: AdvertsSearchParams): any => {
         }
     }
 }
+const expectAdvert = (r: AdvertMutationResult): AdvertMutationResult =>
+    valueAndValidOrThrowNotFound(r, r && r.advert)
 
 export const createAdvertsRepository = (token: string): AdvertsRepository => ({
     getTerms: async () =>
@@ -51,10 +59,24 @@ export const createAdvertsRepository = (token: string): AdvertsRepository => ({
         gql(token)
             .query(createAdvertMutation)
             .variables({ input: sanitizeAdvertInput(advert) })
-            .map<Advert>('createAdvert'),
+            .map<AdvertMutationResult>('createAdvert')
+            .then(expectAdvert),
     updateAdvert: async (id, advert) =>
         gql(token)
             .query(updateAdvertMutation)
             .variables({ id, input: sanitizeAdvertInput(advert) })
-            .map<Advert>('updateAdvert'),
+            .map<AdvertMutationResult>('updateAdvert')
+            .then(expectAdvert),
+    reserveAdvert: async (id, quantity) =>
+        gql(token)
+            .query(reserveAdvertMutation)
+            .variables({ id, quantity })
+            .map<AdvertMutationResult>('reserveAdvert')
+            .then(expectAdvert),
+    cancelAdvertReservation: async (id) =>
+        gql(token)
+            .query(cancelAdvertReservationMutation)
+            .variables({ id })
+            .map<AdvertMutationResult>('cancelAdvertReservation')
+            .then(expectAdvert),
 })

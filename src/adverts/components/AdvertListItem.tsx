@@ -7,6 +7,7 @@ import {
     Typography,
 } from '@mui/material'
 import { Link } from 'react-router-dom'
+import { Markdown } from 'components/Markdown'
 import { Advert } from '../types'
 
 export const AdvertListItem: FC<{ advert: Advert }> = ({ advert }) => {
@@ -30,7 +31,7 @@ export const AdvertListItem: FC<{ advert: Advert }> = ({ advert }) => {
                     <Typography variant="h5" component="div">
                         {advert.title}
                     </Typography>
-                    <Typography component="p">{advert.description}</Typography>
+                    <Markdown markdown={advert.description} />
                 </CardContent>
             </CardActionArea>
         </Card>

@@ -37,15 +37,16 @@ export interface AdvertsSearchParams {
     search: string
 }
 
-export interface AdvertPermissions {
-    edit: boolean
-    delete: boolean
-    book: boolean
-    claim: boolean
+export interface AdvertMeta {
+    canEdit: boolean
+    canDelete: boolean
+    canBook: boolean
+    canReserve: boolean
+    canCancelReservation: boolean
 }
 
 export interface Advert {
-    permissions: AdvertPermissions
+    meta: AdvertMeta
     id: string
     title: string
     description: string
@@ -64,10 +65,30 @@ export interface AdvertTerms {
     condition: string[]
     usage: string[]
 }
+
+export interface AdvertMutationStatus {
+    code: string
+    message: string
+    field: string
+}
+
+export interface AdvertMutationResult {
+    status: AdvertMutationStatus | null
+    advert: Advert
+}
+
 export interface AdvertsRepository {
     getTerms: () => Promise<AdvertTerms>
     getAdvert: (id: string) => Promise<Advert>
     listAdverts: (searchParams?: AdvertsSearchParams) => Promise<Advert[]>
-    createAdvert: (input: AdvertInput) => Promise<Advert>
-    updateAdvert: (id: string, input: AdvertInput) => Promise<Advert>
+    createAdvert: (input: AdvertInput) => Promise<AdvertMutationResult>
+    updateAdvert: (
+        id: string,
+        input: AdvertInput
+    ) => Promise<AdvertMutationResult>
+    reserveAdvert: (
+        id: string,
+        quantity: number
+    ) => Promise<AdvertMutationResult>
+    cancelAdvertReservation: (id: string) => Promise<AdvertMutationResult>
 }

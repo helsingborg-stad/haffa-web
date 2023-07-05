@@ -15,7 +15,7 @@ export const AdvertsView: FC = () => {
             search: '',
         })
     const { listAdverts } = useContext(AdvertsContext)
-    const view = useLiveSearch(() => listAdverts())
+    const view = useLiveSearch(() => listAdverts(searchParams))
 
     const next = (p: AdvertsSearchParams) => {
         setSearchParams(p)

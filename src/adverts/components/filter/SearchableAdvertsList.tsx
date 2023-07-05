@@ -1,5 +1,6 @@
 import { FC, PropsWithChildren } from 'react'
-import { Box, TextField } from '@mui/material'
+import { Box, InputAdornment, TextField } from '@mui/material'
+import SearchIcon from '@mui/icons-material/Search'
 import { AdvertsSearchParams } from '../../types'
 
 export const SearchableAdvertsList: FC<
@@ -11,6 +12,17 @@ export const SearchableAdvertsList: FC<
     <Box>
         <TextField
             value={searchParams.search}
+            type="search"
+            fullWidth
+            sx={{ my: 2 }}
+            InputProps={{
+                style: { fontSize: '150%' },
+                startAdornment: (
+                    <InputAdornment position="start">
+                        <SearchIcon />
+                    </InputAdornment>
+                ),
+            }}
             onChange={(e) =>
                 setSearchParams({
                     ...searchParams,

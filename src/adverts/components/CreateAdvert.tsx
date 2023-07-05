@@ -12,7 +12,7 @@ export const CreateAdvert: FC<{ terms: AdvertTerms }> = ({ terms }) => {
         createEmptyCreateAdvertInput()
     )
     const [saving, setSaving] = useState(false)
-    const [error, setError] = useState(false)
+    const [error, setError] = useState('')
     const { createAdvert } = useContext(AdvertsContext)
     const { CREATE_ADVERT, ERROR_UNKNOWN } = useContext(PhraseContext)
     const navigate = useNavigate()
@@ -22,12 +22,14 @@ export const CreateAdvert: FC<{ terms: AdvertTerms }> = ({ terms }) => {
             setSaving(true)
             setAdvert(a)
             try {
-                const { id } = await createAdvert(a)
+                const result = await createAdvert(a)
                 setSaving(false)
-                setError(false)
-                navigate(`/advert/${id}`)
+                setError(result.status ? result.status.message : '')
+                if (!result.status && result.advert) {
+                    navigate(`/advert/${result.advert.id}`)
+                }
             } catch (error) {
-                setError(true)
+                setError(ERROR_UNKNOWN)
                 setSaving(false)
             }
         },
@@ -36,7 +38,7 @@ export const CreateAdvert: FC<{ terms: AdvertTerms }> = ({ terms }) => {
     return (
         <>
             <Typography variant="h3">{CREATE_ADVERT}</Typography>
-            {error && <Alert severity="error">{ERROR_UNKNOWN}</Alert>}
+            {error && <Alert severity="error">{error}</Alert>}
             <AdvertForm
                 advert={advert}
                 terms={terms}
