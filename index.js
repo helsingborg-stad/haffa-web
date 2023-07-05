@@ -1,9 +1,9 @@
 /************************************************
- * 
- * Simple server for serving 
+ *
+ * Simple server for serving
  * - static react assets (i.e the application)
  * - api requests to proxied backend
- * 
+ *
  ***********************************************/
 
 require('dotenv').config()
@@ -17,9 +17,11 @@ const app = new Koa()
 app.use(serve('./build'))
 
 if (backendUrl) {
-	app.use(proxy('/api', {
-		target: backendUrl 
-	}))
+  app.use(
+    proxy('/api', {
+      target: backendUrl,
+    })
+  )
 }
 
-app.listen(process.env.PORT || 3000)
+app.listen(process.env.PORT || 3000, () => console.log('HEPP'))
