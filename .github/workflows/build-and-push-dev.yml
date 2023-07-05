@@ -15,7 +15,6 @@ jobs:
         with:
           update-openapi-version: true
           update-package-version: true
-          openapi-spec-file: openapi.yml
           release-tag-name: ${{github.event.release.tag_name}}
 
           gdi-gitops-config-repo: ${{ secrets.GDI_GITOPS_CONFIG_REPO }}
