@@ -18,7 +18,14 @@ export const renderError = <T>(error: any, render: RenderError<T>): T => {
 
 export const ifNullThenNotFoundError = <T>(value: T): T => {
     if (value === null) {
-        throw new Error(ERROR_NOT_FOUND)
+        throw Object.assign(new Error(ERROR_NOT_FOUND), { code: 404 })
+    }
+    return value
+}
+
+export const valueAndValidOrThrowNotFound = <T>(value: T, isValid: any) => {
+    if (!isValid) {
+        throw Object.assign(new Error(ERROR_NOT_FOUND), { code: 404 })
     }
     return value
 }

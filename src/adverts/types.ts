@@ -74,7 +74,7 @@ export interface AdvertMutationStatus {
 
 export interface AdvertMutationResult {
     status: AdvertMutationStatus | null
-    advert: Advert | null
+    advert: Advert
 }
 
 export interface AdvertsRepository {
