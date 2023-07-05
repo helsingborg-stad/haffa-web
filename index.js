@@ -11,6 +11,7 @@ const Koa = require('koa')
 const serve = require('koa-static')
 const proxy = require('koa-proxies')
 
+const PORT = process.env.PORT ?? 3000
 const backendUrl = process.env.HAFFA_BACKEND_URL
 const app = new Koa()
 
@@ -24,4 +25,4 @@ if (backendUrl) {
   )
 }
 
-app.listen(process.env.PORT || 3000, () => console.log('HEPP'))
+app.listen(PORT, () => console.log(`Haffa web running on port ${PORT}`))
