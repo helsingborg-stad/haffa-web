@@ -13,8 +13,9 @@ import {
 import { NavLink } from 'react-router-dom'
 import EditIcon from '@mui/icons-material/Edit'
 import useAsync from 'hooks/use-async'
-import { ErrorView, NotFoundView } from 'errors'
+import { ErrorView } from 'errors'
 import { AdvertsContext } from 'adverts/AdvertsContext'
+import { Markdown } from 'components/Markdown'
 import { Advert, AdvertMutationResult } from '../types'
 import { PhraseContext } from '../../phrases/PhraseContext'
 
@@ -34,7 +35,7 @@ const AdvertCard: FC<{
                 <Typography variant="h5" component="div">
                     {advert.title}
                 </Typography>
-                <Typography component="p">{advert.description}</Typography>
+                <Markdown markdown={advert.description} />
 
                 <Grid container spacing={2} xs={12}>
                     {advert.images.map(({ url }, index) => (
@@ -102,15 +103,12 @@ export const AdvertDetails: FC<{ advert: Advert }> = ({ advert }) => {
     return inspect({
         pending: () => <LinearProgress />,
         rejected: (e) => <ErrorView error={e} />,
-        resolved: ({ advert, status }, _, update) =>
-            advert ? (
-                <AdvertCard
-                    advert={advert}
-                    error={status?.message}
-                    onUpdate={update}
-                />
-            ) : (
-                <NotFoundView />
-            ),
+        resolved: ({ advert, status }, _, update) => (
+            <AdvertCard
+                advert={advert}
+                error={status?.message}
+                onUpdate={update}
+            />
+        ),
     })
 }
