@@ -16,6 +16,7 @@ import { FC, PropsWithChildren, useContext } from 'react'
 import { NavLink, useNavigate } from 'react-router-dom'
 import { PhraseContext } from 'phrases/PhraseContext'
 import { AuthContext } from 'auth'
+import { Editorial } from 'editorials'
 
 const PropBox: FC<PropsWithChildren & { icon: React.JSX.Element }> = ({
     children,
@@ -30,6 +31,15 @@ const PropBox: FC<PropsWithChildren & { icon: React.JSX.Element }> = ({
         </Grid>
     </Grid>
 )
+
+const InfoText = /* markdown */ `
+# Din profil är viktig!
+
+När du skapar en annons kopieras innehållet i din profil till den nya annonsen. 
+
+Du kan fortfarande ändra alla uppgifter i annonsen, men skriver du
+bara rätt här slipper du kanske lite pyssel senare.
+`
 export const ProfileView: FC<{ profile: Profile }> = ({ profile }) => {
     const { signout } = useContext(AuthContext)
     const navigate = useNavigate()
@@ -38,6 +48,7 @@ export const ProfileView: FC<{ profile: Profile }> = ({ profile }) => {
     return (
         <Card>
             <CardContent>
+                <Editorial variant="info">{InfoText}</Editorial>
                 <PropBox icon={<EmailIcon />}>
                     <Typography variant="h5" component="div" gutterBottom>
                         {profile.email}
