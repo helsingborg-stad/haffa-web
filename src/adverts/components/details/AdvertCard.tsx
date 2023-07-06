@@ -7,19 +7,16 @@ import {
     CardActions,
     CardContent,
     Grid,
-    LinearProgress,
     Typography,
 } from '@mui/material'
 import { NavLink } from 'react-router-dom'
 import EditIcon from '@mui/icons-material/Edit'
-import useAsync from 'hooks/use-async'
-import { ErrorView } from 'errors'
 import { AdvertsContext } from 'adverts/AdvertsContext'
 import { Markdown } from 'components/Markdown'
-import { Advert, AdvertMutationResult } from '../types'
-import { PhraseContext } from '../../phrases/PhraseContext'
+import { Advert, AdvertMutationResult } from '../../types'
+import { PhraseContext } from '../../../phrases/PhraseContext'
 
-const AdvertCard: FC<{
+export const AdvertCard: FC<{
     advert: Advert
     error?: string
     onUpdate: (p: Promise<AdvertMutationResult>) => void
@@ -92,23 +89,4 @@ const AdvertCard: FC<{
             </CardActions>
         </Card>
     )
-}
-
-export const AdvertDetails: FC<{ advert: Advert }> = ({ advert }) => {
-    const inspect = useAsync<AdvertMutationResult>(async () => ({
-        advert,
-        status: null,
-    }))
-
-    return inspect({
-        pending: () => <LinearProgress />,
-        rejected: (e) => <ErrorView error={e} />,
-        resolved: ({ advert, status }, _, update) => (
-            <AdvertCard
-                advert={advert}
-                error={status?.message}
-                onUpdate={update}
-            />
-        ),
-    })
 }

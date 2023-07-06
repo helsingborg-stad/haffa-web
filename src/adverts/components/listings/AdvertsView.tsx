@@ -1,13 +1,13 @@
 import { FC, useContext } from 'react'
 import { Box, LinearProgress } from '@mui/material'
-import { AdvertsContext } from '../AdvertsContext'
+import { AdvertsContext } from '../../AdvertsContext'
 import { AdvertsList } from './AdvertsList'
-import { ErrorView } from '../../errors'
-import { SearchableAdvertsList } from './filter/SearchableAdvertsList'
-import { AdvertsSearchParams } from '../types'
-import { useLiveSearch } from '../../hooks/use-live-search'
-import useLocalStorage from '../../hooks/use-local-storage'
-import { Phrase } from '../../phrases/Phrase'
+import { ErrorView } from '../../../errors'
+import { SearchableAdvertsList } from '../filter/SearchableAdvertsList'
+import { AdvertsSearchParams } from '../../types'
+import { useLiveSearch } from '../../../hooks/use-live-search'
+import useLocalStorage from '../../../hooks/use-local-storage'
+import { Phrase } from '../../../phrases/Phrase'
 
 export const AdvertsView: FC = () => {
     const [searchParams, setSearchParams] =

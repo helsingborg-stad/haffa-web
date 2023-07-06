@@ -1,20 +1,22 @@
 import { FC, useCallback, useContext, useState } from 'react'
-import { Alert, Typography } from '@mui/material'
+import { Alert } from '@mui/material'
 import { useNavigate } from 'react-router-dom'
-import { AdvertTerms, AdvertInput } from '../types'
-import { AdvertsContext } from '../AdvertsContext'
-import { PhraseContext } from '../../phrases/PhraseContext'
-import { createEmptyCreateAdvertInput } from '../repository/mappers'
+import { AdvertTerms, AdvertInput, AdvertMutationResult } from '../../types'
+import { PhraseContext } from '../../../phrases/PhraseContext'
+import { sanitizeAdvertInput } from '../../repository/mappers'
 import { AdvertForm } from './AdvertForm'
 
-export const CreateAdvert: FC<{ terms: AdvertTerms }> = ({ terms }) => {
+export const AdvertEditor: FC<{
+    onUpdateAdvert: (input: AdvertInput) => Promise<AdvertMutationResult>
+    advert: AdvertInput
+    terms: AdvertTerms
+}> = ({ onUpdateAdvert, advert: inputAdvert, terms }) => {
     const [advert, setAdvert] = useState<AdvertInput>(
-        createEmptyCreateAdvertInput()
+        sanitizeAdvertInput(inputAdvert)
     )
     const [saving, setSaving] = useState(false)
     const [error, setError] = useState('')
-    const { createAdvert } = useContext(AdvertsContext)
-    const { CREATE_ADVERT, ERROR_UNKNOWN } = useContext(PhraseContext)
+    const { ERROR_UNKNOWN } = useContext(PhraseContext)
     const navigate = useNavigate()
 
     const save = useCallback(
@@ -22,13 +24,16 @@ export const CreateAdvert: FC<{ terms: AdvertTerms }> = ({ terms }) => {
             setSaving(true)
             setAdvert(a)
             try {
-                const result = await createAdvert(a)
+                const result = await onUpdateAdvert(a)
                 setSaving(false)
                 setError(result.status ? result.status.message : '')
-                if (!result.status && result.advert) {
+                if (result.status) {
+                    setAdvert(sanitizeAdvertInput(result.advert || advert))
+                } else if (result.advert) {
                     navigate(`/advert/${result.advert.id}`)
                 }
             } catch (error) {
+                console.log(error)
                 setError(ERROR_UNKNOWN)
                 setSaving(false)
             }
@@ -37,7 +42,6 @@ export const CreateAdvert: FC<{ terms: AdvertTerms }> = ({ terms }) => {
     )
     return (
         <>
-            <Typography variant="h3">{CREATE_ADVERT}</Typography>
             {error && <Alert severity="error">{error}</Alert>}
             <AdvertForm
                 advert={advert}

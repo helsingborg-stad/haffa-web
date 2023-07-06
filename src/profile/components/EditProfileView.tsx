@@ -7,7 +7,7 @@ import { Profile, ProfileInput } from '../types'
 import { PhraseContext } from '../../phrases/PhraseContext'
 import { ProfileForm } from './ProfileForm'
 
-export const EditProfile: FC<{ profile: Profile }> = ({
+export const EditProfileView: FC<{ profile: Profile }> = ({
     profile: inputProfile,
 }) => {
     const [profile, setProfile] = useState<ProfileInput>(

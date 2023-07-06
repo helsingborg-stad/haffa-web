@@ -8,7 +8,7 @@ import {
 } from '@mui/material'
 import { Link } from 'react-router-dom'
 import { Markdown } from 'components/Markdown'
-import { Advert } from '../types'
+import { Advert } from '../../types'
 
 export const AdvertListItem: FC<{ advert: Advert }> = ({ advert }) => {
     const imageUrl = advert.images[0]?.url || null

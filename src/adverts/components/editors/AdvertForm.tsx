@@ -11,9 +11,9 @@ import SaveIcon from '@mui/icons-material/Save'
 import DeleteIcon from '@mui/icons-material/Delete'
 import MoveUpIcon from '@mui/icons-material/MoveUp'
 import MoveDownIcon from '@mui/icons-material/MoveDown'
-import { AdvertTerms, AdvertInput } from '../types'
-import { useFormControls } from '../../hooks/use-form-controls'
-import { PhraseContext } from '../../phrases/PhraseContext'
+import { AdvertTerms, AdvertInput } from '../../types'
+import { useFormControls } from '../../../hooks/use-form-controls'
+import { PhraseContext } from '../../../phrases/PhraseContext'
 
 const swapArrayItems = <T,>(list: T[], index1: number, index2: number): T[] => {
     const l = [...list]

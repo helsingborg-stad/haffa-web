@@ -7,17 +7,21 @@ import {
     createRoutesFromElements,
     useLoaderData,
 } from 'react-router-dom'
-import { ProfileRepository } from 'profile/types'
 import { Layout } from 'layout'
-import { AdvertDetails } from 'adverts/components/AdvertDetails'
-import { AdvertsContext } from 'adverts/AdvertsContext'
-import { ProfileContext } from 'profile/ProfileContext'
-import { CreateAdvert } from 'adverts/components/CreateAdvert'
-import { EditAdvert } from 'adverts/components/EditAdvert'
-import { EditProfile } from 'profile/components/EditProfile'
-import { ProfileView } from 'profile/components/ProfileView'
-import { AdvertsView } from 'adverts/components/AdvertsView'
-import { AdvertsRepository } from '../adverts/types'
+import {
+    AdvertsRepository,
+    AdvertsContext,
+    CreateAdvertView,
+    EditAdvertView,
+    AdvertsView,
+    AdvertDetailsView,
+} from 'adverts'
+import {
+    EditProfileView,
+    ProfileContext,
+    ProfileRepository,
+    ProfileView,
+} from 'profile'
 import { ErrorRouteView } from './ErrorRouteView'
 
 const UnpackLoaderData: FC<{ render: (loaderData: any) => JSX.Element }> = ({
@@ -59,7 +63,7 @@ const createRouter = (
             <UnpackLoaderData
                 render={({ terms }) => (
                     <Layout renderAppbarControls={() => null}>
-                        <CreateAdvert terms={terms} />
+                        <CreateAdvertView terms={terms} />
                     </Layout>
                 )}
             />
@@ -78,7 +82,7 @@ const createRouter = (
             <UnpackLoaderData
                 render={({ advert, terms }) => (
                     <Layout renderAppbarControls={() => null}>
-                        <EditAdvert advert={advert} terms={terms} />
+                        <EditAdvertView advert={advert} terms={terms} />
                     </Layout>
                 )}
             />
@@ -97,7 +101,7 @@ const createRouter = (
             <UnpackLoaderData
                 render={({ advert }) => (
                     <Layout>
-                        <AdvertDetails advert={advert} />
+                        <AdvertDetailsView advert={advert} />
                     </Layout>
                 )}
             />
@@ -113,7 +117,7 @@ const createRouter = (
             <UnpackLoaderData
                 render={({ profile }) => (
                     <Layout>
-                        <EditProfile profile={profile} />
+                        <EditProfileView profile={profile} />
                     </Layout>
                 )}
             />
@@ -141,12 +145,8 @@ const createRouter = (
             <Route path="/" errorElement={<ErrorRouteView />}>
                 <Route path="" {...createHomeProps()} />
                 <Route path="advert/create" {...createAdvertProps()} />
-                <Route path="advert/edit">
-                    <Route path=":advertId" {...editAdvertProps()} />
-                </Route>
-                <Route path="advert">
-                    <Route path=":advertId" {...viewAdvertProps()} />
-                </Route>
+                <Route path="advert/edit/:advertId" {...editAdvertProps()} />
+                <Route path="advert/:advertId" {...viewAdvertProps()} />
                 <Route path="profile/edit" {...editProfileProps()} />
                 <Route path="profile" {...viewProfileProps()} />
             </Route>
