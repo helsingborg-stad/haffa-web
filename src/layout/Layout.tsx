@@ -21,7 +21,7 @@ interface LayoutProps {
 export const DefaultRenderAppbarControls = (): React.JSX.Element => {
     const { CREATE_ADVERT } = useContext(PhraseContext)
     return (
-        <Button color="inherit" component={NavLink} to="/new-advert">
+        <Button color="inherit" component={NavLink} to="/advert/create">
             <AddIcon />
             {CREATE_ADVERT}
         </Button>

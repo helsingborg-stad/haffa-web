@@ -83,7 +83,7 @@ const AdvertCard: FC<{
                     <Button
                         color="primary"
                         component={NavLink}
-                        to={`/edit-advert/${advert?.id}`}
+                        to={`/advert/edit/${advert?.id}`}
                     >
                         <EditIcon />
                         {EDIT_ADVERT}
