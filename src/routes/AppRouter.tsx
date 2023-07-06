@@ -19,7 +19,6 @@ import { ProfileView } from 'profile/components/ProfileView'
 import { AdvertsView } from 'adverts/components/AdvertsView'
 import { AdvertsRepository } from '../adverts/types'
 import { ErrorRouteView } from './ErrorRouteView'
-import { HomeRouteView } from './HomeRouteView'
 
 const UnpackLoaderData: FC<{ render: (loaderData: any) => JSX.Element }> = ({
     render,
