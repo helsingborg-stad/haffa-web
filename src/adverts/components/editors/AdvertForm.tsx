@@ -1,16 +1,22 @@
 import {
+    Accordion,
+    AccordionDetails,
+    AccordionSummary,
+    Alert,
     Box,
     Button,
     ButtonGroup,
     Grid,
     GridProps,
     IconButton,
+    Typography,
 } from '@mui/material'
 import { FC, PropsWithChildren, useCallback, useContext, useMemo } from 'react'
 import SaveIcon from '@mui/icons-material/Save'
 import DeleteIcon from '@mui/icons-material/Delete'
 import MoveUpIcon from '@mui/icons-material/MoveUp'
 import MoveDownIcon from '@mui/icons-material/MoveDown'
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore'
 import { AdvertTerms, AdvertInput } from '../../types'
 import { useFormControls } from '../../../hooks/use-form-controls'
 import { PhraseContext } from '../../../phrases/PhraseContext'
@@ -74,11 +80,12 @@ const Image: FC<{
 )
 
 export const AdvertForm: FC<{
+    error: string
     terms: AdvertTerms
     advert: AdvertInput
     disabled: boolean
     onSave: (advert: AdvertInput) => void
-}> = ({ advert, terms, onSave, disabled }) => {
+}> = ({ advert, terms, error, onSave, disabled }) => {
     const {
         model,
         patchModel,
@@ -124,72 +131,227 @@ export const AdvertForm: FC<{
         [model, patchModel]
     )
 
-    const layout = useMemo(
+    interface ControlGroup {
+        label: string
+        rows: (() => JSX.Element)[][]
+    }
+
+    const layout = useMemo<ControlGroup[]>(
         () => [
-            [
-                () =>
-                    textField('title', 'Titel', {
-                        required: true,
-                        disabled,
-                        fullWidth: true,
-                    }),
-            ],
-            [
-                () =>
-                    textField('description', 'Beskrivning', {
-                        required: true,
-                        multiline: true,
-                        minRows: 4,
-                        disabled,
-                        fullWidth: true,
-                    }),
-            ],
-            [
-                () =>
-                    textField('quantity', 'Antal', {
-                        required: true,
-                        type: 'number',
-                        inputProps: { min: 1 },
-                        disabled,
-                    }),
-            ],
-            [
-                () => select('unit', 'Enhet', makeOptions(terms.unit)),
-                () =>
-                    select('material', 'Material', makeOptions(terms.material)),
-                () =>
-                    select('condition', 'Skick', makeOptions(terms.condition)),
-                () =>
-                    select(
-                        'usage',
-                        'Användningsområde',
-                        makeOptions(terms.usage)
-                    ),
-            ],
-
-            [
-                () => (
-                    <ImageContainer>
-                        {model.images.map(({ url }, index) => (
-                            <Image
-                                key={url}
-                                url={url}
-                                onRemove={removeImage(index)}
-                                onMoveup={moveImageUp(index)}
-                                onMovedown={moveImageDown(index)}
-                            />
-                        ))}
-                    </ImageContainer>
-                ),
-            ],
-
-            [
-                // append image
-                () =>
-                    factory.imagePicker((url) => ({
-                        images: [...model.images, { url }],
-                    })),
-            ],
+            {
+                label: 'Beskriv din annons så att den blir sökbar och ser fin ut i listningen.',
+                rows: [
+                    [
+                        () =>
+                            textField('title', 'Titel', {
+                                required: true,
+                                disabled,
+                                fullWidth: true,
+                            }),
+                    ],
+                    [
+                        () =>
+                            textField('description', 'Beskrivning', {
+                                required: true,
+                                multiline: true,
+                                minRows: 4,
+                                disabled,
+                                fullWidth: true,
+                            }),
+                    ],
+                    [
+                        () =>
+                            textField('quantity', 'Antal', {
+                                required: true,
+                                type: 'number',
+                                inputProps: { min: 1 },
+                                disabled,
+                            }),
+                    ],
+                ],
+            },
+            {
+                label: 'Om det är viktigt, kan du ange ytterligare detaljer här.',
+                rows: [
+                    [
+                        () =>
+                            select('unit', 'Enhet', makeOptions(terms.unit), {
+                                fullWidth: true,
+                            }),
+                        () =>
+                            select(
+                                'material',
+                                'Material',
+                                makeOptions(terms.material),
+                                {
+                                    fullWidth: true,
+                                }
+                            ),
+                        () =>
+                            select(
+                                'condition',
+                                'Skick',
+                                makeOptions(terms.condition),
+                                {
+                                    fullWidth: true,
+                                }
+                            ),
+                        () =>
+                            select(
+                                'usage',
+                                'Användningsområde',
+                                makeOptions(terms.usage),
+                                {
+                                    fullWidth: true,
+                                }
+                            ),
+                    ],
+                ],
+            },
+            {
+                label: 'En bild säger mer än tusen ord!',
+                rows: [
+                    [
+                        () => (
+                            <ImageContainer>
+                                {model.images.map(({ url }, index) => (
+                                    <Image
+                                        key={url}
+                                        url={url}
+                                        onRemove={removeImage(index)}
+                                        onMoveup={moveImageUp(index)}
+                                        onMovedown={moveImageDown(index)}
+                                    />
+                                ))}
+                            </ImageContainer>
+                        ),
+                    ],
+                    [
+                        // append image
+                        () =>
+                            factory.imagePicker(
+                                (url) => ({
+                                    images: [...model.images, { url }],
+                                }),
+                                {
+                                    fullWidth: true,
+                                }
+                            ),
+                    ],
+                ],
+            },
+            {
+                label: 'Var finns prylen?',
+                rows: [
+                    [
+                        () =>
+                            factory.textField(
+                                (input) => input.location.adress,
+                                (v) => ({
+                                    ...model,
+                                    location: {
+                                        ...model.location,
+                                        adress: v,
+                                    },
+                                }),
+                                {
+                                    fullWidth: true,
+                                    label: 'Adress',
+                                    placeholder: 'Adress',
+                                }
+                            ),
+                        () =>
+                            factory.textField(
+                                (input) => input.location.zipCode,
+                                (v) => ({
+                                    ...model,
+                                    location: {
+                                        ...model.location,
+                                        zipCode: v,
+                                    },
+                                }),
+                                {
+                                    fullWidth: true,
+                                    label: 'Postnummer',
+                                    placeholder: 'Postnummer',
+                                }
+                            ),
+                        () =>
+                            factory.textField(
+                                (input) => input.location.city,
+                                (v) => ({
+                                    ...model,
+                                    location: {
+                                        ...model.location,
+                                        city: v,
+                                    },
+                                }),
+                                {
+                                    fullWidth: true,
+                                    label: 'Stad',
+                                    placeholder: 'Stad',
+                                }
+                            ),
+                        () =>
+                            factory.textField(
+                                (input) => input.location.country,
+                                (v) => ({
+                                    ...model,
+                                    location: {
+                                        ...model.location,
+                                        country: v,
+                                    },
+                                }),
+                                {
+                                    fullWidth: true,
+                                    label: 'Land',
+                                    placeholder: 'Land',
+                                }
+                            ),
+                    ],
+                ],
+            },
+            {
+                label: 'Vem kan man kontakta angående haffningar?',
+                rows: [
+                    [
+                        () =>
+                            factory.textField(
+                                (input) => input.contact.email,
+                                (v) => ({
+                                    ...model,
+                                    contact: {
+                                        ...model.contact,
+                                        email: v,
+                                    },
+                                }),
+                                {
+                                    fullWidth: true,
+                                    label: 'Email',
+                                    placeholder: 'Email',
+                                    type: 'email',
+                                }
+                            ),
+                        () =>
+                            factory.textField(
+                                (input) => input.contact.phone,
+                                (v) => ({
+                                    ...model,
+                                    contact: {
+                                        ...model.contact,
+                                        phone: v,
+                                    },
+                                }),
+                                {
+                                    fullWidth: true,
+                                    label: 'Telefon',
+                                    placeholder: 'Telefon',
+                                    type: 'phone',
+                                }
+                            ),
+                    ],
+                ],
+            },
         ],
         [model]
     )
@@ -202,13 +364,36 @@ export const AdvertForm: FC<{
                 return false
             }}
         >
-            {layout.map((row, rowIndex) => (
-                <Row key={rowIndex}>
-                    {row.map((cell, cellIndex) => (
-                        <Cell key={cellIndex}>{cell()}</Cell>
-                    ))}
+            {error && (
+                <Row>
+                    <Cell>
+                        <Alert severity="error">{error}</Alert>
+                    </Cell>
                 </Row>
+            )}
+            {layout.map(({ label, rows }) => (
+                <Accordion defaultExpanded>
+                    <AccordionSummary expandIcon={<ExpandMoreIcon />}>
+                        <Typography color="primary">{label}</Typography>
+                    </AccordionSummary>
+                    <AccordionDetails>
+                        {rows.map((row, rowIndex) => (
+                            <Row key={rowIndex}>
+                                {row.map((cell, cellIndex) => (
+                                    <Cell key={cellIndex}>{cell()}</Cell>
+                                ))}
+                            </Row>
+                        ))}
+                    </AccordionDetails>
+                </Accordion>
             ))}
+            {error && (
+                <Row>
+                    <Cell>
+                        <Alert severity="error">{error}</Alert>
+                    </Cell>
+                </Row>
+            )}
             <Row justifyContent="flex-end">
                 <Cell>
                     <Button

@@ -58,12 +58,18 @@ const createRouter = (
      * path: /'advert/create
      */
     const createAdvertProps = (): AsyncRouteConfig => ({
-        loader: () => getTerms().then((terms) => ({ terms })),
+        loader: () =>
+            Promise.all([getProfile(), getTerms()]).then(
+                ([profile, terms]) => ({
+                    profile,
+                    terms,
+                })
+            ),
         element: (
             <UnpackLoaderData
-                render={({ terms }) => (
+                render={({ profile, terms }) => (
                     <Layout renderAppbarControls={() => null}>
-                        <CreateAdvertView terms={terms} />
+                        <CreateAdvertView profile={profile} terms={terms} />
                     </Layout>
                 )}
             />

@@ -10,6 +10,7 @@ import {
     getAdvertQuery,
     getTermsQuery,
     listAdvertsQuery,
+    removeAdvertMutation,
     reserveAdvertMutation,
     updateAdvertMutation,
 } from './queries'
@@ -66,6 +67,12 @@ export const createAdvertsRepository = (token: string): AdvertsRepository => ({
             .query(updateAdvertMutation)
             .variables({ id, input: sanitizeAdvertInput(advert) })
             .map<AdvertMutationResult>('updateAdvert')
+            .then(expectAdvert),
+    removeAdvert: async (id) =>
+        gql(token)
+            .query(removeAdvertMutation)
+            .variables({ id })
+            .map<AdvertMutationResult>('removeAdvert')
             .then(expectAdvert),
     reserveAdvert: async (id, quantity) =>
         gql(token)

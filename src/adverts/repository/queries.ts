@@ -5,7 +5,7 @@ const advertProps = `
 	quantity
 	meta {
 		canEdit
-		canDelete
+		canRemove
 		canBook
 		canReserve
 		canCancelReservation
@@ -17,6 +17,17 @@ const advertProps = `
 	material
 	condition
 	usage
+
+	location {
+		adress
+		zipCode
+		city
+		country
+	}
+	contact {
+		email
+		phone
+	}
 `
 
 const mutationProps = `
@@ -62,6 +73,16 @@ mutation Mutation(
 	$input: AdvertInput!
 ) {
 	updateAdvert(id: $id, input: $input) {
+		${mutationProps}
+	}
+}
+`
+
+export const removeAdvertMutation = /* GraphQL */ `
+mutation Mutation(
+	$id: ID!
+) {
+	removeAdvert(id: $id) {
 		${mutationProps}
 	}
 }

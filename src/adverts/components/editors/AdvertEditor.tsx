@@ -1,5 +1,4 @@
 import { FC, useCallback, useContext, useState } from 'react'
-import { Alert } from '@mui/material'
 import { useNavigate } from 'react-router-dom'
 import { AdvertTerms, AdvertInput, AdvertMutationResult } from '../../types'
 import { PhraseContext } from '../../../phrases/PhraseContext'
@@ -41,14 +40,12 @@ export const AdvertEditor: FC<{
         [advert]
     )
     return (
-        <>
-            {error && <Alert severity="error">{error}</Alert>}
-            <AdvertForm
-                advert={advert}
-                terms={terms}
-                disabled={saving}
-                onSave={save}
-            />
-        </>
+        <AdvertForm
+            error={error}
+            advert={advert}
+            terms={terms}
+            disabled={saving}
+            onSave={save}
+        />
     )
 }

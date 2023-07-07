@@ -11,6 +11,7 @@ export const AdvertsContext = createContext<AdvertsRepository>({
     listAdverts: notProvided('listAdverts'),
     createAdvert: notProvided('createAdvert'),
     updateAdvert: notProvided('updateAdvert'),
+    removeAdvert: notProvided('removeAdvert'),
     reserveAdvert: notProvided('reserveAdvert'),
     cancelAdvertReservation: notProvided('cancelAdvertReservation'),
 })

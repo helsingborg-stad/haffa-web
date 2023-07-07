@@ -9,7 +9,7 @@ import {
     Grid,
     Typography,
 } from '@mui/material'
-import { NavLink } from 'react-router-dom'
+import { NavLink, useNavigate } from 'react-router-dom'
 import EditIcon from '@mui/icons-material/Edit'
 import { AdvertsContext } from 'adverts/AdvertsContext'
 import { Markdown } from 'components/Markdown'
@@ -21,10 +21,11 @@ export const AdvertCard: FC<{
     error?: string
     onUpdate: (p: Promise<AdvertMutationResult>) => void
 }> = ({ advert, error, onUpdate }) => {
-    const { reserveAdvert, cancelAdvertReservation } =
+    const { removeAdvert, reserveAdvert, cancelAdvertReservation } =
         useContext(AdvertsContext)
-    const { EDIT_ADVERT } = useContext(PhraseContext)
+    const { EDIT_ADVERT, REMOVE_ADVERT } = useContext(PhraseContext)
     const { meta } = advert
+    const navigate = useNavigate()
     return (
         <Card>
             <CardContent>
@@ -33,22 +34,6 @@ export const AdvertCard: FC<{
                     {advert.title}
                 </Typography>
                 <Markdown markdown={advert.description} />
-
-                <Grid container spacing={2} xs={12}>
-                    {advert.images.map(({ url }, index) => (
-                        <Grid key={index} item xs={12} sm={6}>
-                            <Box
-                                component="img"
-                                src={url}
-                                sx={{
-                                    objectFit: 'contain',
-                                    width: '100%',
-                                    height: '100%',
-                                }}
-                            />
-                        </Grid>
-                    ))}
-                </Grid>
             </CardContent>
             <CardContent>
                 <Grid container spacing={2} xs={12} sx={{ p: 2 }}>
@@ -75,6 +60,23 @@ export const AdvertCard: FC<{
                     )}
                 </Grid>
             </CardContent>
+            <CardContent>
+                <Grid container spacing={2} xs={12}>
+                    {advert.images.map(({ url }, index) => (
+                        <Grid key={index} item xs={12} sm={6}>
+                            <Box
+                                component="img"
+                                src={url}
+                                sx={{
+                                    objectFit: 'contain',
+                                    width: '100%',
+                                    height: '100%',
+                                }}
+                            />
+                        </Grid>
+                    ))}
+                </Grid>
+            </CardContent>
             <CardActions>
                 {meta.canEdit && (
                     <Button
@@ -84,6 +86,17 @@ export const AdvertCard: FC<{
                     >
                         <EditIcon />
                         {EDIT_ADVERT}
+                    </Button>
+                )}
+                {meta.canRemove && (
+                    <Button
+                        color="primary"
+                        onClick={async () => {
+                            await removeAdvert(advert.id)
+                            navigate('/')
+                        }}
+                    >
+                        {REMOVE_ADVERT}
                     </Button>
                 )}
             </CardActions>

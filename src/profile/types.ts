@@ -1,10 +1,12 @@
-export interface Profile {
-    email: string
+export interface ProfileUserFields {
     phone: string
     adress: string
     zipCode: string
     city: string
     country: string
+}
+export interface Profile extends ProfileUserFields {
+    email: string
 }
 
 export interface ProfileInput {

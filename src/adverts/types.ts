@@ -31,6 +31,9 @@ export interface AdvertInput {
     material: string
     condition: string
     usage: string
+
+    location: AdvertLocation
+    contact: AdvertContact
 }
 
 export interface AdvertsSearchParams {
@@ -39,10 +42,22 @@ export interface AdvertsSearchParams {
 
 export interface AdvertMeta {
     canEdit: boolean
-    canDelete: boolean
+    canRemove: boolean
     canBook: boolean
     canReserve: boolean
     canCancelReservation: boolean
+}
+
+export interface AdvertLocation {
+    adress: string
+    zipCode: string
+    city: string
+    country: string
+}
+
+export interface AdvertContact {
+    phone: string
+    email: string
 }
 
 export interface Advert {
@@ -57,6 +72,9 @@ export interface Advert {
     material: string
     condition: string
     usage: string
+
+    location: AdvertLocation
+    contact: AdvertContact
 }
 
 export interface AdvertTerms {
@@ -86,6 +104,7 @@ export interface AdvertsRepository {
         id: string,
         input: AdvertInput
     ) => Promise<AdvertMutationResult>
+    removeAdvert: (id: string) => Promise<AdvertMutationResult>
     reserveAdvert: (
         id: string,
         quantity: number

@@ -3,10 +3,10 @@ import {
     Button,
     ButtonProps,
     FormControl,
+    FormControlProps,
     InputLabel,
     MenuItem,
     Select,
-    SelectProps,
     TextField,
     TextFieldProps,
 } from '@mui/material'
@@ -16,6 +16,9 @@ interface SelectOption {
     label: string
     value: string
 }
+
+type SelectProps = FormControlProps & { label?: string }
+
 interface Getter<TModel, TValue> {
     (model: TModel): TValue
 }
@@ -107,10 +110,9 @@ export const useFormControls = <TModel,>(
         options,
         props
     ) => (
-        <FormControl variant="standard" sx={{ m: 1, minWidth: 120 }}>
+        <FormControl variant="standard" sx={{ m: 1, minWidth: 120 }} {...props}>
             <InputLabel id={props?.id || ''}>{props?.label}</InputLabel>
             <Select
-                {...props}
                 labelId={props?.id || ''}
                 value={getter(model)}
                 onChange={(e) => patchModel(setter(e.target.value as string))}

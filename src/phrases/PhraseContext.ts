@@ -11,6 +11,7 @@ export interface PhraseContextType {
     CREATE_ADVERT: string
     EDIT_ADVERT: string
     SAVE_ADVERT: string
+    REMOVE_ADVERT: string
     EDIT_PROFILE: string
     SAVE_PROFILE: string
     phrase: (key: string, defaultValue: string) => string
@@ -26,6 +27,7 @@ export const PhraseContext = createContext<PhraseContextType>({
     CREATE_ADVERT: 'Skapa annons',
     EDIT_ADVERT: 'Redigera annons',
     SAVE_ADVERT: 'Spara annonsen',
+    REMOVE_ADVERT: 'Ta bort annonsen',
     EDIT_PROFILE: 'Redigera din profil',
     SAVE_PROFILE: 'Spara din profil',
     phrase: (_, v) => v,
