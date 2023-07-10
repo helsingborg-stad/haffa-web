@@ -19,21 +19,11 @@ import {
     AdvertMutationResult,
     AdvertTerms,
     AdvertsRepository,
-    AdvertsSearchParams,
 } from '../types'
 
 const gql = (token: string) =>
     gqlClient().headers({ Authorization: `Bearer ${token}` })
 
-const makeFilter = (p?: AdvertsSearchParams): any => {
-    if (p?.search) {
-        return {
-            title: {
-                contains: p.search,
-            },
-        }
-    }
-}
 const expectAdvert = (r: AdvertMutationResult): AdvertMutationResult =>
     valueAndValidOrThrowNotFound(r, r && r.advert)
 
@@ -49,12 +39,10 @@ export const createAdvertsRepository = (token: string): AdvertsRepository => ({
             .variables({ id })
             .map<Advert>('getAdvert')
             .then(ifNullThenNotFoundError),
-    listAdverts: async (searchParams) =>
+    listAdverts: async (filter) =>
         gql(token)
             .query(listAdvertsQuery)
-            .variables({
-                filter: makeFilter(searchParams),
-            })
+            .variables({ filter })
             .map<Advert[]>('adverts'),
     createAdvert: async (advert) =>
         gql(token)
