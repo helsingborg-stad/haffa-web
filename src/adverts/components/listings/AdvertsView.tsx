@@ -1,23 +1,29 @@
 import { FC, useContext } from 'react'
 import { Box, LinearProgress } from '@mui/material'
+import { AdvertFilterInput } from 'adverts'
 import { AdvertsContext } from '../../AdvertsContext'
 import { AdvertsList } from './AdvertsList'
 import { ErrorView } from '../../../errors'
-import { SearchableAdvertsList } from '../filter/SearchableAdvertsList'
-import { AdvertsSearchParams } from '../../types'
+import { SearchableAdvertsList } from '../filter'
 import { useLiveSearch } from '../../../hooks/use-live-search'
 import useLocalStorage from '../../../hooks/use-local-storage'
 import { Phrase } from '../../../phrases/Phrase'
 
 export const AdvertsView: FC = () => {
-    const [searchParams, setSearchParams] =
-        useLocalStorage<AdvertsSearchParams>('haffa-live-search-v1', {
+    const [searchParams, setSearchParams] = useLocalStorage<AdvertFilterInput>(
+        'haffa-live-search-v2',
+        {
             search: '',
-        })
+            sorting: {
+                field: 'title',
+                ascending: true,
+            },
+        }
+    )
     const { listAdverts } = useContext(AdvertsContext)
     const view = useLiveSearch(() => listAdverts(searchParams))
 
-    const next = (p: AdvertsSearchParams) => {
+    const next = (p: AdvertFilterInput) => {
         setSearchParams(p)
         return () => listAdverts(p)
     }

@@ -1,3 +1,17 @@
+export interface AdvertUserFields {
+    title: string
+    description: string
+    quantity: number
+    images: AdvertImage[]
+    unit: string
+    material: string
+    condition: string
+    usage: string
+
+    location: AdvertLocation
+    contact: AdvertContact
+}
+
 export interface IdFilterInput {
     ne?: string
     eq?: string
@@ -11,10 +25,39 @@ export interface StringFilterInput {
     lte?: string
     contains?: string
 }
-export interface FilterAdvertsInput {
-    id?: IdFilterInput
-    title?: StringFilterInput
-    description?: StringFilterInput
+export type FilterInput<T> = {
+    ne?: T
+    eq?: T
+    gt?: T
+    gte?: T
+    lt?: T
+    lte?: T
+} & (T extends string ? { contains?: string } : Record<string, never>)
+
+export type AdvertFieldsFilterInput = {
+    id?: FilterInput<string>
+} & {
+    [Property in keyof Omit<AdvertUserFields, 'images'>]?: FilterInput<
+        AdvertUserFields[Property]
+    >
+}
+
+export interface AdvertRestrictionsFilterInput {
+    canBeReserved?: boolean
+    reservedByMe?: boolean
+    createdByMe?: boolean
+}
+
+export interface AdvertSorting {
+    field?: 'title' | 'createdAt'
+    ascending?: boolean
+}
+
+export interface AdvertFilterInput {
+    search?: string
+    fields?: AdvertFieldsFilterInput
+    restrictions?: AdvertRestrictionsFilterInput
+    sorting?: AdvertSorting
 }
 
 export interface AdvertImage {
@@ -34,10 +77,6 @@ export interface AdvertInput {
 
     location: AdvertLocation
     contact: AdvertContact
-}
-
-export interface AdvertsSearchParams {
-    search: string
 }
 
 export interface AdvertMeta {
@@ -60,21 +99,9 @@ export interface AdvertContact {
     email: string
 }
 
-export interface Advert {
+export interface Advert extends AdvertUserFields {
     meta: AdvertMeta
     id: string
-    title: string
-    description: string
-    quantity: number
-    images: AdvertImage[]
-
-    unit: string
-    material: string
-    condition: string
-    usage: string
-
-    location: AdvertLocation
-    contact: AdvertContact
 }
 
 export interface AdvertTerms {
@@ -98,7 +125,7 @@ export interface AdvertMutationResult {
 export interface AdvertsRepository {
     getTerms: () => Promise<AdvertTerms>
     getAdvert: (id: string) => Promise<Advert>
-    listAdverts: (searchParams?: AdvertsSearchParams) => Promise<Advert[]>
+    listAdverts: (searchParams?: AdvertFilterInput) => Promise<Advert[]>
     createAdvert: (input: AdvertInput) => Promise<AdvertMutationResult>
     updateAdvert: (
         id: string,
