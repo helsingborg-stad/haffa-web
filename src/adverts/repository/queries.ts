@@ -50,7 +50,7 @@ query Query($id: ID!) {
  `
 
 export const listAdvertsQuery = /* GraphQL */ `
-query Query($filter: FilterAdvertsInput) {
+query Query($filter: AdvertFilterInput) {
 	adverts(filter: $filter) {
 		${advertProps}
 	}

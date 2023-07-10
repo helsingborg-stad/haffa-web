@@ -1,35 +1,31 @@
 import { FC, PropsWithChildren } from 'react'
-import { Box, InputAdornment, TextField } from '@mui/material'
-import SearchIcon from '@mui/icons-material/Search'
-import { AdvertsSearchParams } from '../../types'
+import { Box, Grid } from '@mui/material'
+import { AdvertFilterInput } from 'adverts'
+import { SortingButton } from './SortingButton'
+import { FreeTextSearchInput } from './FreeTextSearchInput'
 
 export const SearchableAdvertsList: FC<
     {
-        searchParams: AdvertsSearchParams
-        setSearchParams: (p: AdvertsSearchParams) => void
+        searchParams: AdvertFilterInput
+        setSearchParams: (p: AdvertFilterInput) => void
     } & PropsWithChildren
 > = ({ searchParams, setSearchParams, children }) => (
     <Box>
-        <TextField
-            value={searchParams.search}
-            type="search"
-            fullWidth
-            sx={{ my: 2 }}
-            InputProps={{
-                style: { fontSize: '150%' },
-                startAdornment: (
-                    <InputAdornment position="start">
-                        <SearchIcon />
-                    </InputAdornment>
-                ),
-            }}
-            onChange={(e) =>
-                setSearchParams({
-                    ...searchParams,
-                    search: e.target.value,
-                })
-            }
-        />
+        <Grid container>
+            <Grid item sx={{ flex: 1 }}>
+                <FreeTextSearchInput
+                    searchParams={searchParams}
+                    setSearchParams={setSearchParams}
+                />
+            </Grid>
+            <Grid item sx={{ ml: 1, alignSelf: 'center' }}>
+                <SortingButton
+                    searchParams={searchParams}
+                    setSearchParams={setSearchParams}
+                />
+            </Grid>
+        </Grid>
+
         {children}
     </Box>
 )
