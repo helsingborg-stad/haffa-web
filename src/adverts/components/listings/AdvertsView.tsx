@@ -1,66 +1,9 @@
-import { FC, useContext } from 'react'
-import { Box, LinearProgress } from '@mui/material'
-import { AdvertFilterInput } from 'adverts'
-import { AdvertsContext } from '../../AdvertsContext'
-import { AdvertsList } from './AdvertsList'
-import { ErrorView } from '../../../errors'
-import { SearchableAdvertsList } from '../filter'
-import { useLiveSearch } from '../../../hooks/use-live-search'
-import useLocalStorage from '../../../hooks/use-local-storage'
-import { Phrase } from '../../../phrases/Phrase'
+import { FC } from 'react'
+import { AdvertsListWithSearch } from './AdvertsListWithSearch'
 
-export const AdvertsView: FC = () => {
-    const [searchParams, setSearchParams] = useLocalStorage<AdvertFilterInput>(
-        'haffa-live-search-v2',
-        {
-            search: '',
-            sorting: {
-                field: 'title',
-                ascending: true,
-            },
-        }
-    )
-    const { listAdverts } = useContext(AdvertsContext)
-    const view = useLiveSearch(() => listAdverts(searchParams))
-
-    const next = (p: AdvertFilterInput) => {
-        setSearchParams(p)
-        return () => listAdverts(p)
-    }
-
-    return view({
-        pending: (adverts, enqueue) => (
-            <SearchableAdvertsList
-                searchParams={searchParams}
-                setSearchParams={(p) => enqueue(next(p))}
-            >
-                <LinearProgress key="lp" />
-                {adverts && <AdvertsList key="al" adverts={adverts} />}
-            </SearchableAdvertsList>
-        ),
-        rejected: (error, enqueue) => (
-            <SearchableAdvertsList
-                searchParams={searchParams}
-                setSearchParams={(p) => enqueue(next(p))}
-            >
-                <ErrorView key="ev" error={error} />
-            </SearchableAdvertsList>
-        ),
-        resolved: (adverts, enqueue) => (
-            <SearchableAdvertsList
-                searchParams={searchParams}
-                setSearchParams={(p) => enqueue(next(p))}
-            >
-                {adverts?.length === 0 && (
-                    <Box key="e">
-                        <Phrase
-                            id="SEARCH_EMPTY_RESULT"
-                            value="Hoppsan, det blev inga träffar på den"
-                        />
-                    </Box>
-                )}
-                <AdvertsList key="al" adverts={adverts} />
-            </SearchableAdvertsList>
-        ),
-    })
-}
+export const AdvertsView: FC = () => (
+    <AdvertsListWithSearch
+        cacheName="adverts"
+        defaultSearchParams={{ restrictions: { canBeReserved: true } }}
+    />
+)

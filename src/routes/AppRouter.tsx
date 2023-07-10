@@ -15,6 +15,8 @@ import {
     EditAdvertView,
     AdvertsView,
     AdvertDetailsView,
+    MyAdvertsView,
+    MyReservationsView,
 } from 'adverts'
 import {
     EditProfileView,
@@ -51,6 +53,26 @@ const createRouter = (
         element: (
             <Layout>
                 <AdvertsView />
+            </Layout>
+        ),
+    })
+    /**
+     * path: /my-adverts
+     */
+    const createMyAdvertsProps = (): AsyncRouteConfig => ({
+        element: (
+            <Layout>
+                <MyAdvertsView />
+            </Layout>
+        ),
+    })
+    /**
+     * path: /my-reservations
+     */
+    const createMyReservationsProps = (): AsyncRouteConfig => ({
+        element: (
+            <Layout>
+                <MyReservationsView />
             </Layout>
         ),
     })
@@ -150,6 +172,11 @@ const createRouter = (
         createRoutesFromElements(
             <Route path="/" errorElement={<ErrorRouteView />}>
                 <Route path="" {...createHomeProps()} />
+                <Route
+                    path="my-reservations"
+                    {...createMyReservationsProps()}
+                />
+                <Route path="my-adverts" {...createMyAdvertsProps()} />
                 <Route path="advert/create" {...createAdvertProps()} />
                 <Route path="advert/edit/:advertId" {...editAdvertProps()} />
                 <Route path="advert/:advertId" {...viewAdvertProps()} />

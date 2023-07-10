@@ -7,6 +7,7 @@ export interface PhraseContextType {
     SIGNOUT: string
     NAV_HOME: string
     NAV_MY_ADVERTS: string
+    NAV_MY_RESERVATIONS: string
     NAV_PROFILE: string
     CREATE_ADVERT: string
     EDIT_ADVERT: string
@@ -23,6 +24,7 @@ export const PhraseContext = createContext<PhraseContextType>({
     SIGNOUT: 'Logga ut',
     NAV_HOME: 'Hem',
     NAV_MY_ADVERTS: 'Mina annonser',
+    NAV_MY_RESERVATIONS: 'Haffat!',
     NAV_PROFILE: 'Min profil',
     CREATE_ADVERT: 'Skapa annons',
     EDIT_ADVERT: 'Redigera annons',

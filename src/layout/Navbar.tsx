@@ -1,12 +1,14 @@
 import { BottomNavigation, BottomNavigationAction, Paper } from '@mui/material'
 import { FC, useContext } from 'react'
+import CloudIcon from '@mui/icons-material/Cloud'
 import HomeIcon from '@mui/icons-material/Home'
 import PersonIcon from '@mui/icons-material/Person'
 import { NavLink } from 'react-router-dom'
 import { PhraseContext } from '../phrases/PhraseContext'
 
 export const Navbar: FC = () => {
-    const { NAV_HOME, NAV_MY_ADVERTS, NAV_PROFILE } = useContext(PhraseContext)
+    const { NAV_HOME, NAV_MY_ADVERTS, NAV_MY_RESERVATIONS, NAV_PROFILE } =
+        useContext(PhraseContext)
     return (
         <Paper
             sx={{ position: 'fixed', bottom: 0, left: 0, right: 0 }}
@@ -18,6 +20,12 @@ export const Navbar: FC = () => {
                     icon={<HomeIcon />}
                     component={NavLink}
                     to="/"
+                />
+                <BottomNavigationAction
+                    label={NAV_MY_RESERVATIONS}
+                    icon={<CloudIcon />}
+                    component={NavLink}
+                    to="/my-reservations"
                 />
                 <BottomNavigationAction
                     label={NAV_MY_ADVERTS}

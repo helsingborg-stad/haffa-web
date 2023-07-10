@@ -17,6 +17,8 @@ interface LayoutProps {
     hideNavbar?: boolean
     renderAppbarControls?: () => React.JSX.Element | null
 }
+24 / 7
+18 / 8
 
 export const DefaultRenderAppbarControls = (): React.JSX.Element => {
     const { CREATE_ADVERT } = useContext(PhraseContext)
