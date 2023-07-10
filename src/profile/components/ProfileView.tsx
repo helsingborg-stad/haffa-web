@@ -68,8 +68,12 @@ export const ProfileView: FC<{ profile: Profile }> = ({ profile }) => {
                     ]
                         .map((v) => v && v.trim())
                         .filter((v) => v)
-                        .map((v) => (
-                            <Typography variant="body1" gutterBottom>
+                        .map((v, index) => (
+                            <Typography
+                                key={index}
+                                variant="body1"
+                                gutterBottom
+                            >
                                 {v}
                             </Typography>
                         ))}
