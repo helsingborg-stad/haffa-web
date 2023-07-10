@@ -2,6 +2,7 @@ import { AdvertFilterInput } from 'adverts'
 import { FC } from 'react'
 import SearchIcon from '@mui/icons-material/Search'
 import { InputAdornment, TextField } from '@mui/material'
+import { SortingButton } from './SortingButton'
 
 export const FreeTextSearchInput: FC<{
     searchParams: AdvertFilterInput
@@ -17,6 +18,14 @@ export const FreeTextSearchInput: FC<{
             startAdornment: (
                 <InputAdornment position="start">
                     <SearchIcon />
+                </InputAdornment>
+            ),
+            endAdornment: (
+                <InputAdornment position="end">
+                    <SortingButton
+                        searchParams={searchParams}
+                        setSearchParams={setSearchParams}
+                    />
                 </InputAdornment>
             ),
         }}
