@@ -1,6 +1,7 @@
-import { FC, useContext } from 'react'
+import { FC, useContext, useState } from 'react'
 import {
     Alert,
+    Backdrop,
     Box,
     Button,
     Card,
@@ -11,6 +12,7 @@ import {
 } from '@mui/material'
 import { NavLink, useNavigate } from 'react-router-dom'
 import EditIcon from '@mui/icons-material/Edit'
+import RemoveIcon from '@mui/icons-material/Delete'
 import { AdvertsContext } from 'adverts/AdvertsContext'
 import { Markdown } from 'components/Markdown'
 import { Advert, AdvertMutationResult } from '../../types'
@@ -24,10 +26,11 @@ export const AdvertCard: FC<{
     const { removeAdvert, reserveAdvert, cancelAdvertReservation } =
         useContext(AdvertsContext)
     const { EDIT_ADVERT, REMOVE_ADVERT } = useContext(PhraseContext)
+    const [backdropImage, setBackdropImage] = useState(-1)
     const { meta } = advert
     const navigate = useNavigate()
     return (
-        <Card>
+        <Card sx={{ mb: 2 }}>
             <CardContent>
                 {error && <Alert severity="error">{error}</Alert>}
                 <Typography variant="h5" component="div">
@@ -71,8 +74,30 @@ export const AdvertCard: FC<{
                                     objectFit: 'contain',
                                     width: '100%',
                                     height: '100%',
+                                    cursor: 'pointer',
                                 }}
+                                onClick={() => setBackdropImage(index)}
                             />
+                            <Backdrop
+                                open={backdropImage === index}
+                                onClick={() => setBackdropImage(-1)}
+                                sx={{
+                                    cursor: 'pointer',
+                                    background: (theme) =>
+                                        theme.palette.primary.light,
+                                    zIndex: (theme) => theme.zIndex.drawer + 1,
+                                }}
+                            >
+                                <Box
+                                    component="img"
+                                    src={url}
+                                    sx={{
+                                        objectFit: 'contain',
+                                        width: '100%',
+                                        height: '100%',
+                                    }}
+                                />
+                            </Backdrop>
                         </Grid>
                     ))}
                 </Grid>
@@ -90,13 +115,18 @@ export const AdvertCard: FC<{
                 )}
                 {meta.canRemove && (
                     <Button
+                        sx={{ ml: 'auto' }}
                         color="primary"
-                        onClick={async () => {
-                            await removeAdvert(advert.id)
-                            navigate('/')
-                        }}
+                        onClick={async () =>
+                            onUpdate(
+                                removeAdvert(advert.id).then((r) => {
+                                    navigate('/')
+                                    return r
+                                })
+                            )
+                        }
                     >
-                        {REMOVE_ADVERT}
+                        <RemoveIcon /> {REMOVE_ADVERT}
                     </Button>
                 )}
             </CardActions>
