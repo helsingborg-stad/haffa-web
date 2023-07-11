@@ -42,6 +42,7 @@ export const AdvertsListWithSearch: FC<
             versionKey,
             p,
         })
+
     const searchParams =
         searchParamsRaw.versionKey === versionKey
             ? searchParamsRaw.p

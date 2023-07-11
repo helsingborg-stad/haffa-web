@@ -31,5 +31,4 @@ if (backendUrl) {
 // see https://stackoverflow.com/questions/27928372/react-router-urls-dont-work-when-refreshing-or-writing-manually
 app.use(async (ctx) => send(ctx, path.join('.', 'build', 'index.html')))
 
-
 app.listen(PORT, () => console.log(`Haffa web running on port ${PORT}`))
