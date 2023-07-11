@@ -1,34 +1,13 @@
 import { AdvertFilterInput, AdvertSorting } from 'adverts'
-import { FC, useCallback, useState } from 'react'
+import { FC, useContext, useMemo, useState } from 'react'
 import { Button, Menu, MenuItem } from '@mui/material'
+import { PhraseContext } from 'phrases/PhraseContext'
 
 interface SortOption {
     label: string
     ascending: boolean
     sorting: AdvertSorting
 }
-const sortOptions: SortOption[] = [
-    {
-        label: 'A-Ö',
-        ascending: true,
-        sorting: { field: 'title', ascending: true },
-    },
-    {
-        label: 'Ö-A',
-        ascending: false,
-        sorting: { field: 'title', ascending: false },
-    },
-    {
-        label: 'Äldst',
-        ascending: true,
-        sorting: { field: 'createdAt', ascending: true },
-    },
-    {
-        label: 'Nyast',
-        ascending: false,
-        sorting: { field: 'createdAt', ascending: false },
-    },
-]
 
 export const SortingButton: FC<{
     searchParams: AdvertFilterInput
@@ -37,17 +16,45 @@ export const SortingButton: FC<{
     const [sortMenuAnchor, setSortMenuAnchor] = useState<HTMLElement | null>(
         null
     )
-    const showSortMenu = useCallback((anchor: HTMLElement | null) => {
+    const showSortMenu = (anchor: HTMLElement | null) => {
         setSortMenuAnchor(anchor)
-    }, [])
+    }
 
-    const applySortOption = useCallback((sorting: AdvertSorting) => {
-        showSortMenu(null)
+    const applySortOption = (sorting: AdvertSorting) => {
         setSearchParams({
             ...searchParams,
             sorting,
         })
-    }, [])
+        showSortMenu(null)
+    }
+
+    const { phrase } = useContext(PhraseContext)
+
+    const sortOptions = useMemo<SortOption[]>(
+        () => [
+            {
+                label: phrase('SORT_OPTION_TITLE_ASC', 'A-Ö'),
+                ascending: true,
+                sorting: { field: 'title', ascending: true },
+            },
+            {
+                label: phrase('SORT_OPTION_TITLE_DESC', 'Ö-A'),
+                ascending: false,
+                sorting: { field: 'title', ascending: false },
+            },
+            {
+                label: phrase('SORT_OPTION_CREATEDAT_ASC', 'Äldst'),
+                ascending: true,
+                sorting: { field: 'createdAt', ascending: true },
+            },
+            {
+                label: phrase('SORT_OPTION_CREATEDAT_DESC', 'Nyast'),
+                ascending: false,
+                sorting: { field: 'createdAt', ascending: false },
+            },
+        ],
+        [phrase]
+    )
 
     const bestMatchingOption =
         sortOptions.find(
