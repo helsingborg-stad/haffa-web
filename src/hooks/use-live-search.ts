@@ -21,55 +21,52 @@ export type AsyncInspect<TData> = <TView>(
 export const useLiveSearch = <TModel>(
     getData: AsyncFunc<TModel>
 ): AsyncInspect<TModel> => {
+    const [initialized, setInitialized] = useState(false)
     const [state, setState] = useState<{
-        initialized: boolean
         pending: Promise<void> | null
         next: AsyncFunc<TModel> | null
         data: TModel | null
         error: Error | null
     }>({
-        initialized: false,
         pending: null,
         next: null,
         data: null,
         error: null,
     })
 
-    const enqueue = useCallback((next: AsyncFunc<TModel>): void => {
-        const { pending } = state
-        if (pending) {
-            setState({
-                ...state,
-                initialized: true,
-                next,
-            })
-            return
+    const enqueue = useCallback(
+        (next: AsyncFunc<TModel>): void => {
+            const { pending } = state
+            // hackish, no react way of updating state
+            // in order to avoid FOUC
+            if (pending) {
+                state.next = next
+                return
+            }
+            state.next = null
+            state.error = null
+            state.pending = next()
+                .then((data) => dequeue(data, null))
+                .catch((error) => dequeue(null, error))
+        },
+        [state]
+    )
+    const dequeue = useCallback((data: TModel | null, error: Error | null) => {
+        const { next } = state
+        if (next) {
+            state.next = null
+            enqueue(next)
         }
         setState({
             ...state,
-            initialized: true,
-            next: null,
-            error: null,
-            pending: next()
-                .then((data) => dequeue(data, null))
-                .catch((error) => dequeue(null, error)),
-        })
-    }, [])
-    const dequeue = useCallback((data: TModel | null, error: Error | null) => {
-        const { next } = state
-        setState({
-            ...state,
-            initialized: true,
             pending: null,
             next: null,
             data,
             error,
         })
-        if (next) {
-            enqueue(next)
-        }
     }, [])
-    if (!state.initialized) {
+    if (!initialized) {
+        setInitialized(true)
         enqueue(getData)
     }
 
