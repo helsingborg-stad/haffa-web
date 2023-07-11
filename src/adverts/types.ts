@@ -80,6 +80,7 @@ export interface AdvertInput {
 }
 
 export interface AdvertMeta {
+    reservableQuantity: number
     canEdit: boolean
     canRemove: boolean
     canBook: boolean
@@ -102,6 +103,7 @@ export interface AdvertContact {
 export interface Advert extends AdvertUserFields {
     meta: AdvertMeta
     id: string
+    createdAt: string
 }
 
 export interface AdvertTerms {

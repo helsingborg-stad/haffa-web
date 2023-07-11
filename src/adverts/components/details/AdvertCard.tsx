@@ -25,7 +25,7 @@ export const AdvertCard: FC<{
 }> = ({ advert, error, onUpdate }) => {
     const { removeAdvert, reserveAdvert, cancelAdvertReservation } =
         useContext(AdvertsContext)
-    const { EDIT_ADVERT, REMOVE_ADVERT } = useContext(PhraseContext)
+    const { fromNow, EDIT_ADVERT, REMOVE_ADVERT } = useContext(PhraseContext)
     const [backdropImage, setBackdropImage] = useState(-1)
     const { meta } = advert
     const navigate = useNavigate()
@@ -33,6 +33,11 @@ export const AdvertCard: FC<{
         <Card sx={{ mb: 2 }}>
             <CardContent>
                 {error && <Alert severity="error">{error}</Alert>}
+                <Typography color="text.secondary" gutterBottom>
+                    {`${advert.meta.reservableQuantity} ${
+                        advert.unit
+                    } ${fromNow(advert.createdAt)}`}
+                </Typography>
                 <Typography variant="h5" component="div">
                     {advert.title}
                 </Typography>

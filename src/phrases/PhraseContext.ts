@@ -1,4 +1,5 @@
 import { createContext } from 'react'
+import dayjs from 'dayjs'
 
 export interface PhraseContextType {
     APP_TITLE: string
@@ -16,6 +17,7 @@ export interface PhraseContextType {
     EDIT_PROFILE: string
     SAVE_PROFILE: string
     phrase: (key: string, defaultValue: string) => string
+    fromNow: (date: string) => string
 }
 export const PhraseContext = createContext<PhraseContextType>({
     APP_TITLE: 'Haffa!',
@@ -33,4 +35,5 @@ export const PhraseContext = createContext<PhraseContextType>({
     EDIT_PROFILE: 'Redigera din profil',
     SAVE_PROFILE: 'Spara din profil',
     phrase: (_, v) => v,
+    fromNow: (date) => dayjs(date).fromNow(),
 })

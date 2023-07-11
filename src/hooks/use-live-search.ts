@@ -4,13 +4,14 @@ interface AsyncFunc<TModel> {
     (): Promise<TModel>
 }
 
+export interface AsyncEnqueue<T> {
+    (f: AsyncFunc<T>): void
+}
+
 export interface AsyncView<TData, TView> {
-    pending: (
-        data: TData | null,
-        enqueue: (f: AsyncFunc<TData>) => void
-    ) => TView
-    resolved: (data: TData, enqueue: (f: AsyncFunc<TData>) => void) => TView
-    rejected: (e: Error, enqueue: (f: AsyncFunc<TData>) => void) => TView
+    pending: (data: TData | null, enqueue: AsyncEnqueue<TData>) => TView
+    resolved: (data: TData, enqueue: AsyncEnqueue<TData>) => TView
+    rejected: (e: Error, enqueue: AsyncEnqueue<TData>) => TView
 }
 
 export type AsyncInspect<TData> = <TView>(

@@ -1,7 +1,13 @@
 import ReactDOM from 'react-dom/client'
 import './index.css'
+import * as dayjs from 'dayjs'
+import relativeTime from 'dayjs/plugin/relativeTime'
 import App from './App'
 import reportWebVitals from './reportWebVitals'
+import 'dayjs/locale/sv'
+
+dayjs.extend(relativeTime)
+dayjs.locale('sv')
 
 const root = ReactDOM.createRoot(
     // eslint-disable-next-line no-undef

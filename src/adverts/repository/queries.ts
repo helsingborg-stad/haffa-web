@@ -1,9 +1,11 @@
 const advertProps = `
 	id
+	createdAt
 	title
 	description
 	quantity
 	meta {
+		reservableQuantity
 		canEdit
 		canRemove
 		canBook
