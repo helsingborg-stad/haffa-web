@@ -11,7 +11,14 @@ import {
     GridProps,
     IconButton,
 } from '@mui/material'
-import { FC, PropsWithChildren, useCallback, useContext, useMemo } from 'react'
+import {
+    FC,
+    Fragment,
+    PropsWithChildren,
+    useCallback,
+    useContext,
+    useMemo,
+} from 'react'
 import SaveIcon from '@mui/icons-material/Save'
 import DeleteIcon from '@mui/icons-material/Delete'
 import MoveUpIcon from '@mui/icons-material/MoveUp'
@@ -77,6 +84,12 @@ const Image: FC<{
         </Box>
     </Grid>
 )
+
+const nextKey = (baseName: string): (() => string) => {
+    let index = 0
+    // eslint-disable-next-line no-plusplus
+    return () => `${baseName}-${++index}`
+}
 
 export const AdvertForm: FC<{
     title: string
@@ -355,6 +368,9 @@ export const AdvertForm: FC<{
         ],
         [model]
     )
+
+    const nextLayoutKey = nextKey('l')
+
     return (
         <Card
             component="form"
@@ -364,9 +380,9 @@ export const AdvertForm: FC<{
                 return false
             }}
         >
-            <CardHeader title={title} />
+            <CardHeader title={title} key={nextLayoutKey()} />
             {error && (
-                <CardContent>
+                <CardContent key="error-top">
                     <Row>
                         <Cell>
                             <Alert severity="error">{error}</Alert>
@@ -375,9 +391,9 @@ export const AdvertForm: FC<{
                 </CardContent>
             )}
             {layout.map(({ label, rows }) => (
-                <>
-                    <CardHeader subheader={label} />
-                    <CardContent>
+                <Fragment key={nextLayoutKey()}>
+                    <CardHeader subheader={label} key={nextLayoutKey()} />
+                    <CardContent key={nextLayoutKey()}>
                         {rows.map((row, rowIndex) => (
                             <Row key={rowIndex}>
                                 {row.map((cell, cellIndex) => (
@@ -386,10 +402,10 @@ export const AdvertForm: FC<{
                             </Row>
                         ))}
                     </CardContent>
-                </>
+                </Fragment>
             ))}
             {error && (
-                <CardContent>
+                <CardContent key="error-bottom">
                     <Row>
                         <Cell>
                             <Alert severity="error">{error}</Alert>
