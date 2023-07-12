@@ -51,7 +51,7 @@ const createRouter = (
      */
     const createHomeProps = (): AsyncRouteConfig => ({
         element: (
-            <Layout>
+            <Layout key="home">
                 <AdvertsView />
             </Layout>
         ),
@@ -61,7 +61,7 @@ const createRouter = (
      */
     const createMyAdvertsProps = (): AsyncRouteConfig => ({
         element: (
-            <Layout>
+            <Layout key="my-adverts">
                 <MyAdvertsView />
             </Layout>
         ),
@@ -71,7 +71,7 @@ const createRouter = (
      */
     const createMyReservationsProps = (): AsyncRouteConfig => ({
         element: (
-            <Layout>
+            <Layout key="my-reservations">
                 <MyReservationsView />
             </Layout>
         ),
@@ -89,6 +89,7 @@ const createRouter = (
             ),
         element: (
             <UnpackLoaderData
+                key="create-advert"
                 render={({ profile, terms }) => (
                     <Layout renderAppbarControls={() => null}>
                         <CreateAdvertView profile={profile} terms={terms} />
@@ -108,6 +109,7 @@ const createRouter = (
             ),
         element: (
             <UnpackLoaderData
+                key="edit-advert"
                 render={({ advert, terms }) => (
                     <Layout renderAppbarControls={() => null}>
                         <EditAdvertView advert={advert} terms={terms} />
@@ -127,6 +129,7 @@ const createRouter = (
             })),
         element: (
             <UnpackLoaderData
+                key="view-advert"
                 render={({ advert }) => (
                     <Layout>
                         <AdvertDetailsView advert={advert} />
@@ -143,6 +146,7 @@ const createRouter = (
         loader: () => getProfile().then((profile) => ({ profile })),
         element: (
             <UnpackLoaderData
+                key="edit-profile"
                 render={({ profile }) => (
                     <Layout>
                         <EditProfileView profile={profile} />
@@ -159,6 +163,7 @@ const createRouter = (
         loader: () => getProfile().then((profile) => ({ profile })),
         element: (
             <UnpackLoaderData
+                key="view-profile"
                 render={({ profile }) => (
                     <Layout>
                         <ProfileView profile={profile} />
