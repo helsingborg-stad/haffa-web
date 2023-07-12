@@ -22,7 +22,16 @@ const gqlFetch = (options: FluentGqlOptions) =>
 const gqlFetchMap = <T>(
     options: FluentGqlOptions,
     property: string
-): Promise<T> => gqlFetch(options).then(({ data }) => data[property] as T)
+): Promise<T> =>
+    gqlFetch(options).then(({ data, errors }) => {
+        const [error] = [...(errors || [])].map((error) =>
+            Object.assign(new Error(error.message), error)
+        )
+        if (error) {
+            throw error
+        }
+        return data[property] as T
+    })
 
 export const gqlClient = (
     options: FluentGqlOptions = {
