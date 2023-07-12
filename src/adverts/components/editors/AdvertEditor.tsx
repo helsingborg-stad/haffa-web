@@ -6,10 +6,11 @@ import { sanitizeAdvertInput } from '../../repository/mappers'
 import { AdvertForm } from './AdvertForm'
 
 export const AdvertEditor: FC<{
+    title: string
     onUpdateAdvert: (input: AdvertInput) => Promise<AdvertMutationResult>
     advert: AdvertInput
     terms: AdvertTerms
-}> = ({ onUpdateAdvert, advert: inputAdvert, terms }) => {
+}> = ({ title, onUpdateAdvert, advert: inputAdvert, terms }) => {
     const [advert, setAdvert] = useState<AdvertInput>(
         sanitizeAdvertInput(inputAdvert)
     )
@@ -41,6 +42,7 @@ export const AdvertEditor: FC<{
     )
     return (
         <AdvertForm
+            title={title}
             error={error}
             advert={advert}
             terms={terms}

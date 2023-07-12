@@ -1,22 +1,21 @@
 import {
-    Accordion,
-    AccordionDetails,
-    AccordionSummary,
     Alert,
     Box,
     Button,
     ButtonGroup,
+    Card,
+    CardActions,
+    CardContent,
+    CardHeader,
     Grid,
     GridProps,
     IconButton,
-    Typography,
 } from '@mui/material'
 import { FC, PropsWithChildren, useCallback, useContext, useMemo } from 'react'
 import SaveIcon from '@mui/icons-material/Save'
 import DeleteIcon from '@mui/icons-material/Delete'
 import MoveUpIcon from '@mui/icons-material/MoveUp'
 import MoveDownIcon from '@mui/icons-material/MoveDown'
-import ExpandMoreIcon from '@mui/icons-material/ExpandMore'
 import { AdvertTerms, AdvertInput } from '../../types'
 import { useFormControls } from '../../../hooks/use-form-controls'
 import { PhraseContext } from '../../../phrases/PhraseContext'
@@ -51,7 +50,7 @@ const Image: FC<{
     onMoveup?: () => void
     onMovedown?: () => void
 }> = ({ url, onRemove, onMoveup, onMovedown }) => (
-    <Grid item xs={12} sm={6} sx={{ position: 'relative' }}>
+    <Grid item xs={6} sm={4} sx={{ position: 'relative' }}>
         <Box
             component="img"
             src={url}
@@ -80,12 +79,13 @@ const Image: FC<{
 )
 
 export const AdvertForm: FC<{
+    title: string
     error: string
     terms: AdvertTerms
     advert: AdvertInput
     disabled: boolean
     onSave: (advert: AdvertInput) => void
-}> = ({ advert, terms, error, onSave, disabled }) => {
+}> = ({ title, advert, terms, error, onSave, disabled }) => {
     const {
         model,
         patchModel,
@@ -356,7 +356,7 @@ export const AdvertForm: FC<{
         [model]
     )
     return (
-        <Box
+        <Card
             component="form"
             onSubmit={(e) => {
                 e.preventDefault()
@@ -364,19 +364,20 @@ export const AdvertForm: FC<{
                 return false
             }}
         >
+            <CardHeader title={title} />
             {error && (
-                <Row>
-                    <Cell>
-                        <Alert severity="error">{error}</Alert>
-                    </Cell>
-                </Row>
+                <CardContent>
+                    <Row>
+                        <Cell>
+                            <Alert severity="error">{error}</Alert>
+                        </Cell>
+                    </Row>
+                </CardContent>
             )}
             {layout.map(({ label, rows }) => (
-                <Accordion defaultExpanded>
-                    <AccordionSummary expandIcon={<ExpandMoreIcon />}>
-                        <Typography color="primary">{label}</Typography>
-                    </AccordionSummary>
-                    <AccordionDetails>
+                <>
+                    <CardHeader subheader={label} />
+                    <CardContent>
                         {rows.map((row, rowIndex) => (
                             <Row key={rowIndex}>
                                 {row.map((cell, cellIndex) => (
@@ -384,28 +385,28 @@ export const AdvertForm: FC<{
                                 ))}
                             </Row>
                         ))}
-                    </AccordionDetails>
-                </Accordion>
+                    </CardContent>
+                </>
             ))}
             {error && (
-                <Row>
-                    <Cell>
-                        <Alert severity="error">{error}</Alert>
-                    </Cell>
-                </Row>
+                <CardContent>
+                    <Row>
+                        <Cell>
+                            <Alert severity="error">{error}</Alert>
+                        </Cell>
+                    </Row>
+                </CardContent>
             )}
-            <Row justifyContent="flex-end">
-                <Cell>
-                    <Button
-                        type="submit"
-                        variant="contained"
-                        startIcon={<SaveIcon />}
-                        disabled={disabled}
-                    >
-                        {SAVE_ADVERT}
-                    </Button>
-                </Cell>
-            </Row>
-        </Box>
+            <CardActions>
+                <Button
+                    type="submit"
+                    variant="contained"
+                    startIcon={<SaveIcon />}
+                    disabled={disabled}
+                >
+                    {SAVE_ADVERT}
+                </Button>
+            </CardActions>
+        </Card>
     )
 }

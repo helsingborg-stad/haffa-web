@@ -1,5 +1,4 @@
 import { FC, useCallback, useContext } from 'react'
-import { Typography } from '@mui/material'
 import { Profile } from 'profile'
 import { AdvertTerms, AdvertInput } from '../../types'
 import { AdvertsContext } from '../../AdvertsContext'
@@ -24,17 +23,15 @@ export const CreateAdvertView: FC<{ terms: AdvertTerms; profile: Profile }> = ({
     )
 
     return (
-        <>
-            <Typography variant="h3">{CREATE_ADVERT}</Typography>
-            <AdvertEditor
-                advert={{
-                    ...createEmptyAdvertInput(),
-                    location: sanitizeAdvertLocation(profile),
-                    contact: sanitizeAdvertContact(profile),
-                }}
-                terms={terms}
-                onUpdateAdvert={onCreateAdvert}
-            />
-        </>
+        <AdvertEditor
+            title={CREATE_ADVERT}
+            advert={{
+                ...createEmptyAdvertInput(),
+                location: sanitizeAdvertLocation(profile),
+                contact: sanitizeAdvertContact(profile),
+            }}
+            terms={terms}
+            onUpdateAdvert={onCreateAdvert}
+        />
     )
 }
