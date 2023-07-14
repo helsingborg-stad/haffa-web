@@ -21,8 +21,10 @@ import {
     AdvertsRepository,
 } from '../types'
 
-const gql = (token: string) =>
-    gqlClient().headers({ Authorization: `Bearer ${token}` })
+const gql = (token: string, init?: RequestInit) =>
+    gqlClient()
+        .init(init)
+        .headers({ Authorization: `Bearer ${token}` })
 
 const expectAdvert = (r: AdvertMutationResult): AdvertMutationResult =>
     valueAndValidOrThrowNotFound(r, r && r.advert)
@@ -39,8 +41,8 @@ export const createAdvertsRepository = (token: string): AdvertsRepository => ({
             .variables({ id })
             .map<Advert>('getAdvert')
             .then(ifNullThenNotFoundError),
-    listAdverts: async (filter) =>
-        gql(token)
+    listAdverts: async (filter, init) =>
+        gql(token, init)
             .query(listAdvertsQuery)
             .variables({ filter })
             .map<Advert[]>('adverts'),

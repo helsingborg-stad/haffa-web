@@ -7,6 +7,7 @@ const mapNullToNotFoundError = <T>(value: T): T => {
 */
 const gqlFetch = (options: FluentGqlOptions) =>
     fetch(options.url, {
+        ...options.init,
         method: 'POST',
         headers: {
             Accept: 'application/json',
@@ -35,12 +36,14 @@ const gqlFetchMap = <T>(
 
 export const gqlClient = (
     options: FluentGqlOptions = {
+        init: null,
         url: '/api/v1/haffa/graphql',
         headers: {},
         query: '',
         variables: null,
     }
 ): FluentGql => ({
+    init: (init) => gqlClient({ ...options, init }),
     url: (url) => gqlClient({ ...options, url }),
     headers: (headers) => gqlClient({ ...options, headers }),
     query: (query) => gqlClient({ ...options, query }),

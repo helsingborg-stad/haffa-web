@@ -1,6 +1,7 @@
 import { FC, PropsWithChildren, useContext } from 'react'
 import { Box } from '@mui/material'
 import { Advert, AdvertFilterInput } from 'adverts'
+import useAbortController from 'hooks/use-abort-controller'
 import { AdvertsContext } from '../../AdvertsContext'
 import { AdvertsList } from './AdvertsList'
 import { ErrorView } from '../../../errors'
@@ -15,6 +16,7 @@ export const AdvertsListWithSearch: FC<
         defaultSearchParams: Partial<AdvertFilterInput>
     } & PropsWithChildren
 > = ({ cacheName, defaultSearchParams }) => {
+    const { signal } = useAbortController()
     const effectiveInitialSearchParams: AdvertFilterInput = {
         search: '',
         sorting: {
@@ -49,11 +51,11 @@ export const AdvertsListWithSearch: FC<
             : effectiveInitialSearchParams
 
     const { listAdverts } = useContext(AdvertsContext)
-    const view = useLiveSearch(() => listAdverts(searchParams))
+    const view = useLiveSearch(() => listAdverts(searchParams, { signal }))
 
     const next = (p: AdvertFilterInput) => {
         setSearchParams(p)
-        return () => listAdverts(p)
+        return () => listAdverts(p, { signal })
     }
 
     const listResult = (

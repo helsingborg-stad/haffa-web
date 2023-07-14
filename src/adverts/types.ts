@@ -127,7 +127,10 @@ export interface AdvertMutationResult {
 export interface AdvertsRepository {
     getTerms: () => Promise<AdvertTerms>
     getAdvert: (id: string) => Promise<Advert>
-    listAdverts: (searchParams?: AdvertFilterInput) => Promise<Advert[]>
+    listAdverts: (
+        searchParams?: AdvertFilterInput,
+        init?: Pick<RequestInit, 'signal'>
+    ) => Promise<Advert[]>
     createAdvert: (input: AdvertInput) => Promise<AdvertMutationResult>
     updateAdvert: (
         id: string,
