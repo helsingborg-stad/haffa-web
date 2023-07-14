@@ -4,6 +4,7 @@ import { ThemeProvider } from '@emotion/react'
 import { createTheme } from '@mui/material/styles'
 import { createProfileRepository } from 'profile/repository/profile-repository'
 import { ProfileProvider } from 'profile/ProfileContext'
+import { FetchContext, FetchContextProvider } from 'hooks/fetch/FetchContext'
 import { AdvertsProvider } from './adverts/AdvertsContext'
 import { createAdvertsRepository } from './adverts/repository/adverts-repository'
 import { AppRouter } from './routes/AppRouter'
@@ -24,8 +25,15 @@ const theme = createTheme({
 
 const Main: FC = () => {
     const { isAuthenticated, token } = useContext(AuthContext)
-    const adverts = useMemo(() => createAdvertsRepository(token), [token])
-    const profiles = useMemo(() => createProfileRepository(token), [token])
+    const { fetch } = useContext(FetchContext)
+    const adverts = useMemo(
+        () => createAdvertsRepository(token, fetch),
+        [token]
+    )
+    const profiles = useMemo(
+        () => createProfileRepository(token, fetch),
+        [token]
+    )
     return isAuthenticated ? (
         <AdvertsProvider repository={adverts}>
             <ProfileProvider repository={profiles}>
@@ -39,11 +47,13 @@ const Main: FC = () => {
 const App: FC = () => {
     const [authProvider] = useState(createAuthProvider())
     return (
-        <AuthContextProvider authProvider={authProvider}>
-            <ThemeProvider theme={theme}>
-                <Main />
-            </ThemeProvider>
-        </AuthContextProvider>
+        <FetchContextProvider>
+            <AuthContextProvider authProvider={authProvider}>
+                <ThemeProvider theme={theme}>
+                    <Main />
+                </ThemeProvider>
+            </AuthContextProvider>
+        </FetchContextProvider>
     )
 }
 

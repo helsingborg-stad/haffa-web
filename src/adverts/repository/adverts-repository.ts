@@ -21,57 +21,61 @@ import {
     AdvertsRepository,
 } from '../types'
 
-const gql = (token: string, init?: RequestInit) =>
+const gql = (token: string, f?: typeof fetch, init?: RequestInit) =>
     gqlClient()
         .init(init)
+        .fetch(f)
         .headers({ Authorization: `Bearer ${token}` })
 
 const expectAdvert = (r: AdvertMutationResult): AdvertMutationResult =>
     valueAndValidOrThrowNotFound(r, r && r.advert)
 
-export const createAdvertsRepository = (token: string): AdvertsRepository => ({
+export const createAdvertsRepository = (
+    token: string,
+    f?: typeof fetch
+): AdvertsRepository => ({
     getTerms: async () =>
-        gql(token)
+        gql(token, f)
             .query(getTermsQuery)
             .map<AdvertTerms>('terms')
             .then(ifNullThenNotFoundError),
     getAdvert: async (id) =>
-        gql(token)
+        gql(token, f)
             .query(getAdvertQuery)
             .variables({ id })
             .map<Advert>('getAdvert')
             .then(ifNullThenNotFoundError),
     listAdverts: async (filter, init) =>
-        gql(token, init)
+        gql(token, f, init)
             .query(listAdvertsQuery)
             .variables({ filter })
             .map<Advert[]>('adverts'),
     createAdvert: async (advert) =>
-        gql(token)
+        gql(token, f)
             .query(createAdvertMutation)
             .variables({ input: sanitizeAdvertInput(advert) })
             .map<AdvertMutationResult>('createAdvert')
             .then(expectAdvert),
     updateAdvert: async (id, advert) =>
-        gql(token)
+        gql(token, f)
             .query(updateAdvertMutation)
             .variables({ id, input: sanitizeAdvertInput(advert) })
             .map<AdvertMutationResult>('updateAdvert')
             .then(expectAdvert),
     removeAdvert: async (id) =>
-        gql(token)
+        gql(token, f)
             .query(removeAdvertMutation)
             .variables({ id })
             .map<AdvertMutationResult>('removeAdvert')
             .then(expectAdvert),
     reserveAdvert: async (id, quantity) =>
-        gql(token)
+        gql(token, f)
             .query(reserveAdvertMutation)
             .variables({ id, quantity })
             .map<AdvertMutationResult>('reserveAdvert')
             .then(expectAdvert),
     cancelAdvertReservation: async (id) =>
-        gql(token)
+        gql(token, f)
             .query(cancelAdvertReservationMutation)
             .variables({ id })
             .map<AdvertMutationResult>('cancelAdvertReservation')

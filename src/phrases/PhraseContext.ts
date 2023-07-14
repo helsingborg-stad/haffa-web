@@ -3,6 +3,7 @@ import dayjs from 'dayjs'
 
 export interface PhraseContextType {
     APP_TITLE: string
+    INFO_SLOW_CONNECTION: string
     ERROR_UNAUTHORIZED: string
     ERROR_NOT_FOUND: string
     ERROR_UNKNOWN: string
@@ -22,6 +23,7 @@ export interface PhraseContextType {
 }
 export const PhraseContext = createContext<PhraseContextType>({
     APP_TITLE: 'Haffa!',
+    INFO_SLOW_CONNECTION: '... nu går det riktigt långsamt ...',
     ERROR_UNAUTHORIZED: 'Göta Petter! Du har visst inte behörighet. Tråkigt...',
     ERROR_NOT_FOUND: 'Hoppsan, vi kan inte hitta sidan eller resursen.',
     ERROR_UNKNOWN: 'Ajsing bajsing, nu gick något lite åt pipsvängen',

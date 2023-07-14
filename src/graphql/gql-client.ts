@@ -6,7 +6,7 @@ const mapNullToNotFoundError = <T>(value: T): T => {
 }
 */
 const gqlFetch = (options: FluentGqlOptions) =>
-    fetch(options.url, {
+    (options.fetch || fetch)(options.url, {
         ...options.init,
         method: 'POST',
         headers: {
@@ -44,6 +44,7 @@ export const gqlClient = (
     }
 ): FluentGql => ({
     init: (init) => gqlClient({ ...options, init }),
+    fetch: (fetch) => gqlClient({ ...options, fetch }),
     url: (url) => gqlClient({ ...options, url }),
     headers: (headers) => gqlClient({ ...options, headers }),
     query: (query) => gqlClient({ ...options, query }),

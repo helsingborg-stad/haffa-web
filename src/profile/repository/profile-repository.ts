@@ -3,17 +3,22 @@ import { ifNullThenNotFoundError } from '../../errors'
 import { gqlClient } from '../../graphql'
 import { getProfileQuery, updateProfileMutation } from './queries'
 
-const gql = (token: string) =>
-    gqlClient().headers({ Authorization: `Bearer ${token}` })
+const gql = (token: string, f?: typeof fetch) =>
+    gqlClient()
+        .fetch(f)
+        .headers({ Authorization: `Bearer ${token}` })
 
-export const createProfileRepository = (token: string): ProfileRepository => ({
+export const createProfileRepository = (
+    token: string,
+    f?: typeof fetch
+): ProfileRepository => ({
     getProfile: async () =>
-        gql(token)
+        gql(token, f)
             .query(getProfileQuery)
             .map<Profile>('profile')
             .then(ifNullThenNotFoundError),
     updateProfile: async (input) =>
-        gql(token)
+        gql(token, f)
             .query(updateProfileMutation)
             .variables({ input })
             .map<Profile>('updateProfile'),

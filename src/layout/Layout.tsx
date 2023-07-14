@@ -1,5 +1,6 @@
 import React, { FC, PropsWithChildren, useContext } from 'react'
 import {
+    Alert,
     AppBar,
     Box,
     Button,
@@ -10,6 +11,7 @@ import {
 } from '@mui/material'
 import AddIcon from '@mui/icons-material/Add'
 import { NavLink } from 'react-router-dom'
+import useSomeFetchIsSlow from 'hooks/fetch/use-some-fetch-is-slow'
 import { Navbar } from './Navbar'
 import { PhraseContext } from '../phrases/PhraseContext'
 
@@ -17,8 +19,16 @@ interface LayoutProps {
     hideNavbar?: boolean
     renderAppbarControls?: () => React.JSX.Element | null
 }
-24 / 7
-18 / 8
+
+const SlowFetchWarning: FC = () => {
+    const hasSlowFetch = useSomeFetchIsSlow()
+    const { INFO_SLOW_CONNECTION } = useContext(PhraseContext)
+    return hasSlowFetch ? (
+        <Container key="sf">
+            <Alert severity="warning">{INFO_SLOW_CONNECTION}</Alert>
+        </Container>
+    ) : null
+}
 
 export const DefaultRenderAppbarControls = (): React.JSX.Element => {
     const { CREATE_ADVERT } = useContext(PhraseContext)
@@ -38,7 +48,7 @@ export const Layout: FC<LayoutProps & PropsWithChildren> = ({
     const { APP_TITLE } = useContext(PhraseContext)
     return (
         <Box sx={{ pb: 7 }}>
-            <AppBar>
+            <AppBar key="ab">
                 <Toolbar>
                     <Typography
                         variant="h6"
@@ -51,6 +61,7 @@ export const Layout: FC<LayoutProps & PropsWithChildren> = ({
                 </Toolbar>
             </AppBar>
             <Grid
+                key="c"
                 item
                 xs={12}
                 md={8}
@@ -58,9 +69,10 @@ export const Layout: FC<LayoutProps & PropsWithChildren> = ({
                     pt: 10,
                 }}
             >
-                <Container>{children}</Container>
+                <SlowFetchWarning key="sf" />
+                <Container key="c">{children}</Container>
             </Grid>
-            {!hideNavbar && <Navbar />}
+            {!hideNavbar && <Navbar key="nb" />}
         </Box>
     )
 }
