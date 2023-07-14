@@ -44,7 +44,7 @@ export const AdvertCard: FC<{
                 <Markdown markdown={advert.description} />
             </CardContent>
             <CardContent>
-                <Grid container spacing={2} xs={12} sx={{ p: 2 }}>
+                <Grid container spacing={2} sx={{ p: 2 }}>
                     <Button
                         fullWidth
                         color="primary"
@@ -69,7 +69,7 @@ export const AdvertCard: FC<{
                 </Grid>
             </CardContent>
             <CardContent>
-                <Grid container spacing={2} xs={12}>
+                <Grid container spacing={2}>
                     {advert.images.map(({ url }, index) => (
                         <Grid key={index} item xs={12} sm={6}>
                             <Box
