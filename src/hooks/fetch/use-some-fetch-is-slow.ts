@@ -3,11 +3,11 @@ import { FetchContext } from './FetchContext'
 
 export default function useSomeFetchIsSlow(): boolean {
     const [slow, setSlow] = useState(false)
-    const { addListener } = useContext(FetchContext)
+    const { addSlowListener } = useContext(FetchContext)
 
     useEffect(() => {
-        const unregister = addListener(setSlow)
+        const unregister = addSlowListener(setSlow)
         return unregister
-    }, [addListener])
+    }, [addSlowListener, slow])
     return slow
 }

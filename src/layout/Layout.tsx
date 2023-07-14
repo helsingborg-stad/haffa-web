@@ -1,4 +1,4 @@
-import React, { FC, PropsWithChildren, useContext } from 'react'
+import React, { FC, PropsWithChildren, useContext, useState } from 'react'
 import {
     Alert,
     AppBar,
@@ -6,12 +6,15 @@ import {
     Button,
     Container,
     Grid,
+    LinearProgress,
     Toolbar,
     Typography,
 } from '@mui/material'
 import AddIcon from '@mui/icons-material/Add'
 import { NavLink } from 'react-router-dom'
 import useSomeFetchIsSlow from 'hooks/fetch/use-some-fetch-is-slow'
+import usePendingFetch from 'hooks/fetch/use-pending-fetch'
+import useTimeout from 'hooks/useTimout'
 import { Navbar } from './Navbar'
 import { PhraseContext } from '../phrases/PhraseContext'
 
@@ -28,6 +31,13 @@ const SlowFetchWarning: FC = () => {
             <Alert severity="warning">{INFO_SLOW_CONNECTION}</Alert>
         </Container>
     ) : null
+}
+
+const PendingIndicator: FC = () => {
+    const pending = usePendingFetch()
+    const [visible, setVisible] = useState(false)
+    useTimeout(1000, () => setVisible(pending), [pending, setVisible])
+    return visible && pending ? <LinearProgress color="primary" /> : null
 }
 
 export const DefaultRenderAppbarControls = (): React.JSX.Element => {
@@ -56,6 +66,7 @@ export const Layout: FC<LayoutProps & PropsWithChildren> = ({
                         sx={{ flexGrow: 1 }}
                     >
                         {APP_TITLE}
+                        <PendingIndicator />
                     </Typography>
                     {renderAppbarControls?.()}
                 </Toolbar>

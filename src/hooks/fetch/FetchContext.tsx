@@ -5,7 +5,8 @@ const SLOW_TIME_MS = 500
 
 export interface FetchContextType {
     fetch: typeof fetch
-    addListener: (handler: Action1<boolean>) => Action
+    addSlowListener: (handler: Action1<boolean>) => Action
+    addPendingListener: (handler: Action1<boolean>) => Action
 }
 
 const notProvided = (method: string) => () => {
@@ -14,7 +15,8 @@ const notProvided = (method: string) => () => {
 
 export const FetchContext = createContext<FetchContextType>({
     fetch: notProvided('fetch'),
-    addListener: notProvided('registerListener'),
+    addSlowListener: notProvided('addSlowListener'),
+    addPendingListener: notProvided('addPendingListener'),
 })
 
 export const FetchContextProvider: FC<PropsWithChildren> = ({ children }) => (
@@ -27,11 +29,13 @@ function createFetch(): FetchContextType {
     interface Pending {
         slow: boolean
     }
-    let listeners: Action1<boolean>[] = []
+    let slowListeners: Action1<boolean>[] = []
+    let pendingListeners: Action1<boolean>[] = []
     let pending: Pending[] = []
     const notify = () => {
         const slow = pending.some(({ slow }) => slow)
-        listeners.forEach((l) => l(slow))
+        slowListeners.forEach((l) => l(slow))
+        pendingListeners.forEach((l) => l(pending.length > 0))
     }
 
     const register = () => {
@@ -67,11 +71,20 @@ function createFetch(): FetchContextType {
 
     return {
         fetch: detectSlowFetch,
-        addListener: (listener) => {
-            listeners.push(listener)
+        addSlowListener: (listener) => {
+            slowListeners.push(listener)
             notify()
             return () => {
-                listeners = listeners.filter((l) => l !== listener)
+                slowListeners = slowListeners.filter((l) => l !== listener)
+            }
+        },
+        addPendingListener: (listener) => {
+            pendingListeners.push(listener)
+            notify()
+            return () => {
+                pendingListeners = pendingListeners.filter(
+                    (l) => l !== listener
+                )
             }
         },
     }
