@@ -14,6 +14,7 @@ export const AdvertsContext = createContext<AdvertsRepository>({
     removeAdvert: notProvided('removeAdvert'),
     reserveAdvert: notProvided('reserveAdvert'),
     cancelAdvertReservation: notProvided('cancelAdvertReservation'),
+    collectAdvert: notProvided('collectAdvert'),
 })
 
 export const AdvertsProvider: FC<

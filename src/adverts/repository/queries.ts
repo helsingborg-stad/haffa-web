@@ -6,11 +6,13 @@ const advertProps = `
 	quantity
 	meta {
 		reservableQuantity
+		collectableQuantity
 		canEdit
 		canRemove
 		canBook
 		canReserve
 		canCancelReservation
+		canCollect
 	}
 	images {
 		url
@@ -106,6 +108,17 @@ mutation Mutation(
 	$id: ID!
 ) {
 	cancelAdvertReservation(id: $id) {
+		${mutationProps}
+	}
+}
+`
+
+export const collectAdvertMutation = /* GraphQL */ `
+mutation Mutation(
+	$id: ID!
+	$quantity: Int!
+) {
+	collectAdvert(id: $id, quantity: $quantity) {
 		${mutationProps}
 	}
 }

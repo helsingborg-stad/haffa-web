@@ -18,6 +18,8 @@ export interface PhraseContextType {
     REMOVE_ADVERT: string
     EDIT_PROFILE: string
     SAVE_PROFILE: string
+    SCAN_QR_CODE: string
+    PICKUP_ADVERT: string
     phrase: (key: string, defaultValue: string) => string
     fromNow: (date: string) => string
 }
@@ -38,6 +40,8 @@ export const PhraseContext = createContext<PhraseContextType>({
     REMOVE_ADVERT: 'Ta bort annonsen',
     EDIT_PROFILE: 'Redigera din profil',
     SAVE_PROFILE: 'Spara din profil',
+    SCAN_QR_CODE: 'Skanna kod',
+    PICKUP_ADVERT: 'Jag tar med mig prylen nu!',
     phrase: (_, v) => v,
     fromNow: (date) => dayjs(date).fromNow(),
 })

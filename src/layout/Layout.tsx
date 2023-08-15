@@ -15,6 +15,7 @@ import { NavLink } from 'react-router-dom'
 import useSomeFetchIsSlow from 'hooks/fetch/use-some-fetch-is-slow'
 import usePendingFetch from 'hooks/fetch/use-pending-fetch'
 import useTimeout from 'hooks/useTimout'
+import { ReadQrCodeButton } from 'adverts/components/qr/ReadQRCodeButton'
 import { Navbar } from './Navbar'
 import { PhraseContext } from '../phrases/PhraseContext'
 
@@ -43,10 +44,13 @@ const PendingIndicator: FC = () => {
 export const DefaultRenderAppbarControls = (): React.JSX.Element => {
     const { CREATE_ADVERT } = useContext(PhraseContext)
     return (
-        <Button color="inherit" component={NavLink} to="/advert/create">
-            <AddIcon />
-            {CREATE_ADVERT}
-        </Button>
+        <>
+            <ReadQrCodeButton color="inherit" />
+            <Button color="inherit" component={NavLink} to="/advert/create">
+                <AddIcon />
+                {CREATE_ADVERT}
+            </Button>
+        </>
     )
 }
 
@@ -81,7 +85,9 @@ export const Layout: FC<LayoutProps & PropsWithChildren> = ({
                 }}
             >
                 <SlowFetchWarning key="sf" />
-                <Container key="c">{children}</Container>
+                <Container key="c" sx={{ position: 'relative' }}>
+                    {children}
+                </Container>
             </Grid>
             {!hideNavbar && <Navbar key="nb" />}
         </Box>
