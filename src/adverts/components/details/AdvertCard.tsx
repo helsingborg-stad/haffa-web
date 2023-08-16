@@ -1,6 +1,7 @@
 import { FC, useContext, useState } from 'react'
 import {
     Alert,
+    AlertTitle,
     Backdrop,
     Box,
     Button,
@@ -15,9 +16,41 @@ import EditIcon from '@mui/icons-material/Edit'
 import RemoveIcon from '@mui/icons-material/Delete'
 import { AdvertsContext } from 'adverts/AdvertsContext'
 import { Markdown } from 'components/Markdown'
+import QRCode from 'react-qr-code'
+import LinkIcon from '@mui/icons-material/Link'
 import { Advert, AdvertMutationResult } from '../../types'
 import { PhraseContext } from '../../../phrases/PhraseContext'
 
+export const AdminPanel: FC<{ advert: Advert }> = ({ advert }) => {
+    const { phrase } = useContext(PhraseContext)
+    return (
+        <Alert severity="info">
+            <AlertTitle>
+                {phrase('', 'Glöm inte märka din pryl med en QR kod')}
+            </AlertTitle>
+            <Grid container alignItems="center">
+                <Grid item sx={{ mr: 2 }}>
+                    <QRCode
+                        value={advert.id}
+                        style={{ maxHeight: '4em', maxWidth: '4em' }}
+                    />
+                </Grid>
+                <Grid item sx={{ mr: 2 }}>
+                    <Button
+                        color="inherit"
+                        variant="outlined"
+                        component={NavLink}
+                        to={`/advert/qrcode/${advert.id}`}
+                        target="blank"
+                    >
+                        <LinkIcon />
+                        {phrase('', 'Skriv ut QR koden')}
+                    </Button>
+                </Grid>
+            </Grid>
+        </Alert>
+    )
+}
 export const AdvertCard: FC<{
     advert: Advert
     error?: string
@@ -42,6 +75,7 @@ export const AdvertCard: FC<{
                     {advert.title}
                 </Typography>
                 <Markdown markdown={advert.description} />
+                {advert.meta.canEdit && <AdminPanel advert={advert} />}
             </CardContent>
             <CardContent>
                 <Grid container spacing={2} sx={{ p: 2 }}>

@@ -24,6 +24,7 @@ import {
     ProfileRepository,
     ProfileView,
 } from 'profile'
+import { AdvertQrCodeView } from 'adverts/components/details'
 import { ErrorRouteView } from './ErrorRouteView'
 
 const UnpackLoaderData: FC<{ render: (loaderData: any) => JSX.Element }> = ({
@@ -120,6 +121,21 @@ const createRouter = (
     })
 
     /**
+     * path: /advert/qrcode/:advertId
+     */
+    const viewAdvertQrCodeProps = (): AsyncRouteConfig => ({
+        loader: ({ params: { advertId } }) =>
+            getAdvert(advertId as string).then((advert) => ({
+                advert,
+            })),
+        element: (
+            <UnpackLoaderData
+                key="view-advert"
+                render={({ advert }) => <AdvertQrCodeView advert={advert} />}
+            />
+        ),
+    })
+    /**
      * path: /advert/:advertId
      */
     const viewAdvertProps = (): AsyncRouteConfig => ({
@@ -184,6 +200,10 @@ const createRouter = (
                 <Route path="my-adverts" {...createMyAdvertsProps()} />
                 <Route path="advert/create" {...createAdvertProps()} />
                 <Route path="advert/edit/:advertId" {...editAdvertProps()} />
+                <Route
+                    path="advert/qrcode/:advertId"
+                    {...viewAdvertQrCodeProps()}
+                />
                 <Route path="advert/:advertId" {...viewAdvertProps()} />
                 <Route path="profile/edit" {...editProfileProps()} />
                 <Route path="profile" {...viewProfileProps()} />
