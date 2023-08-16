@@ -2,6 +2,7 @@ import {
     Button,
     ButtonProps,
     Dialog,
+    DialogActions,
     DialogContent,
     DialogTitle,
     Step,
@@ -88,6 +89,11 @@ export const ReadQrCodeButton: FC<ButtonProps> = (props) => {
                         </Step>
                     </Stepper>
                 </DialogContent>
+                <DialogActions>
+                    <Button onClick={() => setState({ ...state, open: false })}>
+                        {phrase('', 'Stäng')}
+                    </Button>
+                </DialogActions>
             </Dialog>
         </>
     )
