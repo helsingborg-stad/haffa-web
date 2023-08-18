@@ -79,6 +79,17 @@ export interface AdvertInput {
     contact: AdvertContact
 }
 
+export enum AdvertClaimType {
+    reserved = 'reserved',
+    collected = 'collected',
+}
+
+export interface AdvertClaim {
+    quantity: number
+    by: string
+    at: string
+    type: AdvertClaimType
+}
 export interface AdvertMeta {
     reservableQuantity: number
     collectableQuantity: number
@@ -88,6 +99,7 @@ export interface AdvertMeta {
     canReserve: boolean
     canCancelReservation: boolean
     canCollect: boolean
+    claims: AdvertClaim[]
 }
 
 export interface AdvertLocation {

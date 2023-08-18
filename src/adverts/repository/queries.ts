@@ -13,6 +13,12 @@ const advertProps = `
 		canReserve
 		canCancelReservation
 		canCollect
+		claims {
+			by
+			at
+			quantity
+			type
+		}
 	}
 	images {
 		url
