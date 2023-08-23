@@ -39,6 +39,7 @@ export const ReadQrCodeButton: FC<ButtonProps> = (props) => {
         <>
             <Button
                 {...props}
+                startIcon={<CameraIcon />}
                 onClick={() =>
                     setState({
                         ...state,
@@ -48,7 +49,6 @@ export const ReadQrCodeButton: FC<ButtonProps> = (props) => {
                     })
                 }
             >
-                <CameraIcon />
                 {SCAN_QR_CODE}
             </Button>
 

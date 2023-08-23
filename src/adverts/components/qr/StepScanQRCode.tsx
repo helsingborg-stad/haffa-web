@@ -13,7 +13,7 @@ export const StepScanQRCode: FC<{
             onResult={(result, err) =>
                 !err && result?.getText() && onQrCode(result?.getText())
             }
-            constraints={{}}
+            constraints={{ facingMode: { ideal: 'environment' } }}
         />
     </>
 )
