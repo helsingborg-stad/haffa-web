@@ -5,6 +5,8 @@ import { createTheme } from '@mui/material/styles'
 import { createProfileRepository } from 'profile/repository/profile-repository'
 import { ProfileProvider } from 'profile/ProfileContext'
 import { FetchContext, FetchContextProvider } from 'hooks/fetch/FetchContext'
+import { createSettingsRepository } from 'settings/settings-repository'
+import { SettingsProvider } from 'settings'
 import { AdvertsProvider } from './adverts/AdvertsContext'
 import { createAdvertsRepository } from './adverts/repository/adverts-repository'
 import { AppRouter } from './routes/AppRouter'
@@ -26,6 +28,12 @@ const theme = createTheme({
 const Main: FC = () => {
     const { isAuthenticated, token } = useContext(AuthContext)
     const { fetch } = useContext(FetchContext)
+
+    const settings = useMemo(
+        () => createSettingsRepository(token, fetch),
+        [token]
+    )
+
     const adverts = useMemo(
         () => createAdvertsRepository(token, fetch),
         [token]
@@ -35,11 +43,13 @@ const Main: FC = () => {
         [token]
     )
     return isAuthenticated ? (
-        <AdvertsProvider repository={adverts}>
-            <ProfileProvider repository={profiles}>
-                <AppRouter />
-            </ProfileProvider>
-        </AdvertsProvider>
+        <SettingsProvider repository={settings}>
+            <AdvertsProvider repository={adverts}>
+                <ProfileProvider repository={profiles}>
+                    <AppRouter />
+                </ProfileProvider>
+            </AdvertsProvider>
+        </SettingsProvider>
     ) : (
         <AuthenticateView />
     )

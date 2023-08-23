@@ -1,5 +1,11 @@
 import { AuthProvider } from './types'
 
+const normalizeString = (s: any) => (typeof s === 'string' ? s.trim() : '')
+
+const makeAuthentication = (token: any, roles: any) => ({
+    token: normalizeString(token),
+    roles: Array.isArray(roles) ? roles.map(normalizeString) : [],
+})
 export const createAuthProvider = (): AuthProvider => {
     const request = (url: string, body: any) =>
         fetch(url, {
@@ -13,7 +19,7 @@ export const createAuthProvider = (): AuthProvider => {
     return {
         verifyToken: (token) =>
             request('/api/v1/haffa/auth/verify-token', { token }).then(
-                ({ token }) => (token || '').toString()
+                ({ token, roles }) => makeAuthentication(token, roles)
             ),
         requestPincode: (email) =>
             request('/api/v1/haffa/auth/request-pincode', { email }).then(
@@ -30,7 +36,7 @@ export const createAuthProvider = (): AuthProvider => {
             ),
         authenticate: (email, pincode) =>
             request('/api/v1/haffa/auth/login', { email, pincode }).then(
-                ({ token }) => (token || '').toString()
+                ({ token, roles }) => makeAuthentication(token, roles)
             ),
     }
 }
