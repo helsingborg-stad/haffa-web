@@ -71,10 +71,13 @@ export const AuthenticateView: FC = () => {
             errorMessage: '',
         })
         try {
-            const token = await authProvider.authenticate(email, pincode)
-            if (token) {
-                console.log({ token })
-                setAuthentication({ token })
+            const authentication = await authProvider.authenticate(
+                email,
+                pincode
+            )
+            if (authentication) {
+                console.log(authentication)
+                setAuthentication(authentication)
             } else {
                 setState({
                     ...state,

@@ -12,9 +12,13 @@ export const AuthContext = createContext<AuthContextType>({
     get token() {
         return notProvided('token'), ''
     },
+    get roles() {
+        return notProvided('roles'), []
+    },
     get authProvider() {
         return notProvided('authProvider'), null as any as AuthProvider
     },
+    isInRoles: notProvided('isInRoles'),
     setAuthentication: notProvided('setAuthentication'),
     signout: notProvided('signout'),
 })

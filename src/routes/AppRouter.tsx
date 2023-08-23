@@ -1,4 +1,4 @@
-import { FC, useContext, useState } from 'react'
+import { FC, PropsWithChildren, useContext, useState } from 'react'
 import {
     Route,
     RouteProps,
@@ -25,6 +25,9 @@ import {
     ProfileView,
 } from 'profile'
 import { AdvertQrCodeView } from 'adverts/components/details'
+import { AdminView } from 'admin'
+import { AuthContext } from 'auth'
+import { UnauthorizedView } from 'auth/components/UnathorizedView'
 import { ErrorRouteView } from './ErrorRouteView'
 
 const UnpackLoaderData: FC<{ render: (loaderData: any) => JSX.Element }> = ({
@@ -32,6 +35,17 @@ const UnpackLoaderData: FC<{ render: (loaderData: any) => JSX.Element }> = ({
 }) => {
     const loaderData = useLoaderData()
     return render(loaderData)
+}
+
+const RequireRole: FC<PropsWithChildren & { roleName: string }> = ({
+    roleName,
+    children,
+}) => {
+    const { isInRoles } = useContext(AuthContext)
+
+    return (
+        <Layout>{isInRoles(roleName) ? children : <UnauthorizedView />}</Layout>
+    )
 }
 
 const createRouter = (
@@ -189,6 +203,16 @@ const createRouter = (
         ),
     })
 
+    /**
+     * path: /admin
+     */
+    const viewAdminProps = (): AsyncRouteConfig => ({
+        element: (
+            <RequireRole roleName="admin">
+                <AdminView />
+            </RequireRole>
+        ),
+    })
     return createBrowserRouter(
         createRoutesFromElements(
             <Route path="/" errorElement={<ErrorRouteView />}>
@@ -207,6 +231,7 @@ const createRouter = (
                 <Route path="advert/:advertId" {...viewAdvertProps()} />
                 <Route path="profile/edit" {...editProfileProps()} />
                 <Route path="profile" {...viewProfileProps()} />
+                <Route path="admin" {...viewAdminProps()} />
             </Route>
         )
     )
