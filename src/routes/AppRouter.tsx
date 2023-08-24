@@ -25,9 +25,9 @@ import {
     ProfileView,
 } from 'profile'
 import { AdvertQrCodeView } from 'adverts/components/details'
-import { AdminView } from 'admin'
 import { AuthContext } from 'auth'
 import { UnauthorizedView } from 'auth/components/UnathorizedView'
+import { EditCategoriesView, EditLoginPoliciesView } from 'admin'
 import { ErrorRouteView } from './ErrorRouteView'
 
 const UnpackLoaderData: FC<{ render: (loaderData: any) => JSX.Element }> = ({
@@ -204,15 +204,26 @@ const createRouter = (
     })
 
     /**
-     * path: /admin
+     * path: /admin/logins
      */
-    const viewAdminProps = (): AsyncRouteConfig => ({
+    const viewAdminLoginsProps = (): AsyncRouteConfig => ({
         element: (
             <RequireRole roleName="admin">
-                <AdminView />
+                <EditLoginPoliciesView />
             </RequireRole>
         ),
     })
+    /**
+     * path: /admin/categories
+     */
+    const viewAdminCategoriesProps = (): AsyncRouteConfig => ({
+        element: (
+            <RequireRole roleName="admin">
+                <EditCategoriesView />
+            </RequireRole>
+        ),
+    })
+
     return createBrowserRouter(
         createRoutesFromElements(
             <Route path="/" errorElement={<ErrorRouteView />}>
@@ -231,7 +242,11 @@ const createRouter = (
                 <Route path="advert/:advertId" {...viewAdvertProps()} />
                 <Route path="profile/edit" {...editProfileProps()} />
                 <Route path="profile" {...viewProfileProps()} />
-                <Route path="admin" {...viewAdminProps()} />
+                <Route path="admin/logins" {...viewAdminLoginsProps()} />
+                <Route
+                    path="admin/categories"
+                    {...viewAdminCategoriesProps()}
+                />
             </Route>
         )
     )

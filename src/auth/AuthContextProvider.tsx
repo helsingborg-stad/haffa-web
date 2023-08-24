@@ -31,6 +31,7 @@ export const AuthContextProvider: FC<
         <AuthContext.Provider
             value={{
                 isAuthenticated: !!authentication.token,
+                isAdmin: authentication.roles.includes('admin'),
                 token: authentication.token,
                 roles: authentication.roles,
                 authProvider,

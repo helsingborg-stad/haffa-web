@@ -16,6 +16,7 @@ import useSomeFetchIsSlow from 'hooks/fetch/use-some-fetch-is-slow'
 import usePendingFetch from 'hooks/fetch/use-pending-fetch'
 import useTimeout from 'hooks/useTimout'
 import { ReadQrCodeButton } from 'adverts/components/qr/ReadQRCodeButton'
+import { AdminButton } from 'admin'
 import { Navbar } from './Navbar'
 import { PhraseContext } from '../phrases/PhraseContext'
 
@@ -46,10 +47,15 @@ export const DefaultRenderAppbarControls = (): React.JSX.Element => {
     return (
         <>
             <ReadQrCodeButton color="inherit" />
-            <Button color="inherit" component={NavLink} to="/advert/create">
-                <AddIcon />
+            <Button
+                color="inherit"
+                component={NavLink}
+                to="/advert/create"
+                startIcon={<AddIcon />}
+            >
                 {CREATE_ADVERT}
             </Button>
+            <AdminButton />
         </>
     )
 }

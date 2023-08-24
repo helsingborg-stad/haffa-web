@@ -4,6 +4,7 @@ export interface Authentication {
 }
 export interface AuthContextType {
     readonly isAuthenticated: boolean
+    readonly isAdmin: boolean
     readonly token: string
     readonly roles: string[]
     readonly authProvider: AuthProvider

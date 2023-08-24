@@ -2,13 +2,11 @@ import { ErrorView } from 'errors'
 import useAsync from 'hooks/use-async'
 import { FC, useContext } from 'react'
 import { SettingsContext } from 'settings'
-import { PhraseContext } from 'phrases/PhraseContext'
 import { LoginPoliciesForm } from './LoginPoliciesForm'
 
-export const LoginPoliciesView: FC = () => {
+export const EditLoginPoliciesView: FC<{ title?: string }> = ({ title }) => {
     const { getLoginPolicies, updateLoginPolicies } =
         useContext(SettingsContext)
-    const { phrase } = useContext(PhraseContext)
 
     const view = useAsync(getLoginPolicies)
 
@@ -18,7 +16,7 @@ export const LoginPoliciesView: FC = () => {
         resolved: (policies, _, update) => (
             <LoginPoliciesForm
                 loginPolicies={policies}
-                title={phrase('', 'Användarpolicy')}
+                title={title}
                 onSave={(policies) => update(updateLoginPolicies(policies))}
             />
         ),

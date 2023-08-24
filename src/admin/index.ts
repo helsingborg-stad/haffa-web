@@ -1,3 +1,5 @@
-import { AdminView } from './AdminView'
+import { AdminButton } from './AdminButton'
+import { EditCategoriesView } from './categories'
+import { EditLoginPoliciesView } from './login'
 
-export { AdminView }
+export { AdminButton, EditLoginPoliciesView, EditCategoriesView }

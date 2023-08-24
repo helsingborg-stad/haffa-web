@@ -24,7 +24,7 @@ import { nanoid } from 'nanoid'
 import { Editorial } from 'editorials'
 
 export const LoginPoliciesForm: FC<{
-    title: string
+    title?: string
     onSave: (policies: LoginPolicy[]) => void
     loginPolicies: LoginPolicy[]
 }> = ({ title, loginPolicies, onSave }) => {
@@ -64,7 +64,7 @@ export const LoginPoliciesForm: FC<{
 
     return (
         <Card>
-            <CardHeader title={title} />
+            {title && <CardHeader title={title} />}
             <CardContent>
                 <Editorial variant="info">
                     {`

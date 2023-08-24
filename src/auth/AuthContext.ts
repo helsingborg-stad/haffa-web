@@ -6,6 +6,9 @@ const notProvided = (method: string) => () => {
 }
 
 export const AuthContext = createContext<AuthContextType>({
+    get isAdmin() {
+        return notProvided('isAdmin'), false
+    },
     get isAuthenticated() {
         return notProvided('isAuthenticated'), false
     },
