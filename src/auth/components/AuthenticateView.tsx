@@ -21,7 +21,8 @@ const MIN_WAIT_FOR_LOGIN_MS = 1000
 
 export const AuthenticateView: FC = () => {
     const { setAuthentication, authProvider } = useContext(AuthContext)
-    const { phrase, ERROR_UNKNOWN } = useContext(PhraseContext)
+    const { phrase, ERROR_UNKNOWN, ERROR_UNAUTHORIZED } =
+        useContext(PhraseContext)
     const [email, setEmail] = useState('')
     const [pincode, setPincode] = useState('')
     const [state, setState] = useState<{
@@ -46,16 +47,24 @@ export const AuthenticateView: FC = () => {
                 ...state,
                 step: 1,
             })
-            await Promise.all([
+            const [status] = await Promise.all([
                 authProvider.requestPincode(email),
                 delay(MIN_WAIT_FOR_LOGIN_MS),
             ])
-            setState({
-                ...state,
-                step: 3,
-                loading: false,
-                errorMessage: '',
-            })
+            if (status === 'accepted') {
+                setState({
+                    ...state,
+                    step: 3,
+                    loading: false,
+                    errorMessage: '',
+                })
+            } else {
+                setState({
+                    ...state,
+                    loading: false,
+                    errorMessage: ERROR_UNAUTHORIZED,
+                })
+            }
         } catch (error) {
             setState({
                 ...state,
