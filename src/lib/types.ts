@@ -1,9 +1,9 @@
 export interface Action {
-    (): any
+    (): void
 }
 
 export interface Action1<T> {
-    (arg: T): any
+    (arg: T): void
 }
 
 export interface Func<T> {
