@@ -56,6 +56,20 @@ export const treeFindMap = <T, R>(
     return found ? map(found) : null
 }
 
+export const treeFindReplace = <T>(
+    nodes: T[],
+    children: Func1<T, T[] | null | undefined>,
+    match: Func1<T, boolean>,
+    replacer: Func1<T, T>
+) => {
+    const found = treeFind(nodes, children, match)
+    if (found) {
+        const { parent, index, node } = found
+        const l = parent ? children(parent) : nodes
+        l?.splice(index, 1, replacer(node))
+    }
+}
+
 export const treeLookup = <T, K extends string | number>(
     nodes: T[],
     key: Func1<T, K>,
@@ -66,4 +80,18 @@ export const treeLookup = <T, K extends string | number>(
         lookup[key(node)] = node
     })
     return lookup
+}
+
+export const treeDetach = <T>(
+    nodes: T[],
+    children: Func1<T, T[]>,
+    match: Func1<T, boolean>
+): T | null => {
+    const found = treeFind(nodes, children, match)
+    if (!found) {
+        return null
+    }
+    const pc = found.parent ? children(found.parent) : nodes
+    pc.splice(found.index, 1)
+    return found.node
 }
