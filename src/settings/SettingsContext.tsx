@@ -8,6 +8,8 @@ const notImplemented = (name: string) => (): never => {
 export const SettingsContext = createContext<SettingsRepository>({
     getLoginPolicies: notImplemented('getLoginPolicies'),
     updateLoginPolicies: notImplemented('updateLoginPolicies'),
+    getCategories: notImplemented('getCategories'),
+    updateCategories: notImplemented('updateCategories'),
 })
 
 export const SettingsProvider: FC<

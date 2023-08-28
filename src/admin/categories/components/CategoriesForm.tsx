@@ -4,6 +4,7 @@ import { Box, Button, Grid, TextField } from '@mui/material'
 import { Category } from 'categories/types'
 import { nanoid } from 'nanoid'
 import { PhraseContext } from 'phrases/PhraseContext'
+import { Action1 } from 'lib/types'
 import { useTree } from './use-tree'
 
 const cat = (label: string, ...categories: Category[]): Category => ({
@@ -12,12 +13,13 @@ const cat = (label: string, ...categories: Category[]): Category => ({
     categories,
 })
 
-export const CategoriesForm: FC<{ categories: Category[] }> = ({
-    categories,
-}) => {
+export const CategoriesForm: FC<{
+    categories: Category[]
+    onSave: Action1<Category[]>
+}> = ({ categories, onSave }) => {
     const { phrase } = useContext(PhraseContext)
 
-    const { treeProps, selectedNode, addNode, updateNode, removeNode } =
+    const { nodes, treeProps, selectedNode, addNode, updateNode, removeNode } =
         useTree(
             categories,
             (c) => c.id,
@@ -54,6 +56,9 @@ export const CategoriesForm: FC<{ categories: Category[] }> = ({
                         {phrase('', 'Ta bort kategori')}
                     </Button>
                 )}
+                <Button onClick={() => onSave(nodes)}>
+                    {phrase('', 'Spara')}
+                </Button>
                 <pre>
                     <code>{JSON.stringify(selectedNode, null, 2)}</code>
                 </pre>

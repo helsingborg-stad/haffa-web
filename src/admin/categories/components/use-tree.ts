@@ -251,10 +251,12 @@ export const useTree = <T>(
                         expandedKeys: [
                             ...new Set([...expandedKeys, keyFn(selectedNode)]),
                         ],
+                        selectedNode: newNode,
                     }
                 }
                 return {
                     nodes: [newNode, ...nodes],
+                    selectedNode: newNode,
                 }
             }),
         updateNode: (node, mutate) =>
