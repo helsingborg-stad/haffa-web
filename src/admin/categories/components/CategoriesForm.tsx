@@ -17,7 +17,7 @@ export const CategoriesForm: FC<{ categories: Category[] }> = ({
 }) => {
     const { phrase } = useContext(PhraseContext)
 
-    const { treeProps, selectedNode, mutateSelected, mutateNodes, removeNode } =
+    const { treeProps, selectedNode, addNode, updateNode, removeNode } =
         useTree(
             categories,
             (c) => c.id,
@@ -32,19 +32,7 @@ export const CategoriesForm: FC<{ categories: Category[] }> = ({
             <Grid item sm={12} md={6}>
                 <Button
                     variant="outlined"
-                    onClick={() =>
-                        selectedNode
-                            ? mutateSelected(({ categories }) => ({
-                                  categories: [
-                                      ...categories,
-                                      cat('Ny kategori'),
-                                  ],
-                              }))
-                            : mutateNodes((nodes) => [
-                                  ...nodes,
-                                  cat('Ny kategori'),
-                              ])
-                    }
+                    onClick={() => addNode(cat('Ny kategori'))}
                 >
                     {phrase('', 'Lägg till ny kategori')}
                 </Button>
@@ -54,7 +42,7 @@ export const CategoriesForm: FC<{ categories: Category[] }> = ({
                         <TextField
                             value={selectedNode.label}
                             onChange={(e) =>
-                                mutateSelected(() => ({
+                                updateNode(selectedNode, () => ({
                                     label: e.target.value,
                                 }))
                             }

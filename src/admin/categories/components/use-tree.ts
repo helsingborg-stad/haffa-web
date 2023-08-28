@@ -1,16 +1,16 @@
 import { TreeProps } from 'antd'
 import { DataNode } from 'antd/es/tree'
 import { Action1, Action2, Action3, Func1 } from 'lib/types'
-import { useEffect, useReducer } from 'react'
+import { useCallback, useEffect, useReducer } from 'react'
 import { treeDetach, treeFind, treeFindReplace } from './tree-lookup'
 
 export interface TreeHookData<T> {
     nodes: T[]
     selectedNode: T | null
     treeProps: TreeProps
+    addNode: Action1<T>
+    updateNode: Action2<T, Func1<T, Partial<T>>>
     removeNode: Action1<T>
-    mutateNodes: Action1<Func1<T[], T[]>>
-    mutateSelected: Action1<Func1<T, Partial<T>>>
 }
 
 interface Model<T> {
@@ -113,56 +113,63 @@ const buildModel = <T>(
         nodes,
         selectedNode: selected ? selected.node : null,
         expandedKeys,
-        treeProps: createTreeHandlerProps({
-            tree,
-            select: (key, selected) => {
-                console.log('select')
-                dispatch(() => {
-                    const n = selected
-                        ? treeFind(nodes, childrenFn, (n) => keyFn(n) === key)
-                              ?.node || null
-                        : null
-                    return {
-                        selectedNode: n,
-                    }
-                })
-            },
-            expand: (key, expanded) =>
-                dispatch(({ expandedKeys }) => ({
-                    expandedKeys: expanded
-                        ? [...expandedKeys, key]
-                        : expandedKeys.filter((k) => k !== key),
-                })),
-            move: (key, node: T, index: number) =>
-                dispatch(({ nodes }) => {
-                    // detach node before re-attaching
-                    if (treeDetach(nodes, childrenFn, (n) => n === node)) {
-                        console.log({
-                            key,
-                            index,
-                        })
-
-                        const parent = treeFind(
-                            nodes,
-                            childrenFn,
-                            (n) => keyFn(n) === key
-                        )
-                        const pc = parent ? childrenFn(parent.node) : nodes
-                        if (index < 1) {
-                            pc?.splice(index, 0, node)
-                        } else {
-                            pc?.splice(index + 1, 0, node)
-                        }
+        treeProps: {
+            expandedKeys,
+            selectedKeys: selected ? [keyFn(selected.node)] : [],
+            ...createTreeHandlerProps({
+                tree,
+                select: (key, selected) => {
+                    console.log('select')
+                    dispatch(() => {
+                        const n = selected
+                            ? treeFind(
+                                  nodes,
+                                  childrenFn,
+                                  (n) => keyFn(n) === key
+                              )?.node || null
+                            : null
                         return {
-                            nodes: [...nodes],
+                            selectedNode: n,
                         }
-                    }
-                    return {}
-                }),
-            find: (key) =>
-                treeFind(nodes, childrenFn, (n) => keyFn(n) === key)?.node ||
-                null,
-        }),
+                    })
+                },
+                expand: (key, expanded) =>
+                    dispatch(({ expandedKeys }) => ({
+                        expandedKeys: expanded
+                            ? [...expandedKeys, key]
+                            : expandedKeys.filter((k) => k !== key),
+                    })),
+                move: (key, node: T, index: number) =>
+                    dispatch(({ nodes }) => {
+                        // detach node before re-attaching
+                        if (treeDetach(nodes, childrenFn, (n) => n === node)) {
+                            console.log({
+                                key,
+                                index,
+                            })
+
+                            const parent = treeFind(
+                                nodes,
+                                childrenFn,
+                                (n) => keyFn(n) === key
+                            )
+                            const pc = parent ? childrenFn(parent.node) : nodes
+                            if (index < 1) {
+                                pc?.splice(index, 0, node)
+                            } else {
+                                pc?.splice(index + 1, 0, node)
+                            }
+                            return {
+                                nodes: [...nodes],
+                            }
+                        }
+                        return {}
+                    }),
+                find: (key) =>
+                    treeFind(nodes, childrenFn, (n) => keyFn(n) === key)
+                        ?.node || null,
+            }),
+        },
     }
 }
 
@@ -212,30 +219,63 @@ export const useTree = <T>(
         }
     }, [model, dispatch])
 
+    const replaceNode = useCallback(
+        (node: T, mutator: Func1<T, Partial<T>>) => {
+            treeFindReplace(
+                model.nodes,
+                childrenFn,
+                (n) => n === node,
+                (n) => ({
+                    ...n,
+                    ...mutator(n),
+                })
+            )
+        },
+        [model]
+    )
+
     return {
         nodes: model.nodes,
         selectedNode: model.selectedNode,
         treeProps: model.treeProps,
+        addNode: (newNode) =>
+            dispatch(({ selectedNode, nodes, expandedKeys }) => {
+                if (selectedNode) {
+                    replaceNode(selectedNode, (n) => {
+                        const copy = { ...n }
+                        childrenFn(copy).unshift(newNode)
+                        return copy
+                    })
+                    return {
+                        nodes: [...nodes],
+                        expandedKeys: [
+                            ...new Set([...expandedKeys, keyFn(selectedNode)]),
+                        ],
+                    }
+                }
+                return {
+                    nodes: [newNode, ...nodes],
+                }
+            }),
+        updateNode: (node, mutate) =>
+            dispatch(({ nodes }) => {
+                treeFindReplace(
+                    nodes,
+                    childrenFn,
+                    (n) => n === node,
+                    (n) => ({
+                        ...n,
+                        ...mutate(n),
+                    })
+                )
+                return { nodes: [...nodes] }
+            }),
         removeNode: (node) =>
             dispatch(({ nodes }) => {
                 treeDetach(nodes, childrenFn, (n) => n === node)
                 return {
                     nodes: [...nodes],
                 }
-            }),
-        mutateNodes: (mutator) =>
-            dispatch(({ nodes }) => ({
-                nodes: mutator(nodes),
-            })),
-        mutateSelected: (mutator) =>
-            dispatch(({ nodes, selectedNode }) => {
-                treeFindReplace(
-                    nodes,
-                    childrenFn,
-                    (n) => n === selectedNode,
-                    (n) => ({ ...n, ...mutator(n) })
-                )
-                return {}
             }),
     }
 }
