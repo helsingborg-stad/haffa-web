@@ -8,6 +8,7 @@ export interface TreeHookData<T> {
     nodes: T[]
     selectedNode: T | null
     treeProps: TreeProps
+    removeNode: Action1<T>
     mutateNodes: Action1<Func1<T[], T[]>>
     mutateSelected: Action1<Func1<T, Partial<T>>>
 }
@@ -215,6 +216,13 @@ export const useTree = <T>(
         nodes: model.nodes,
         selectedNode: model.selectedNode,
         treeProps: model.treeProps,
+        removeNode: (node) =>
+            dispatch(({ nodes }) => {
+                treeDetach(nodes, childrenFn, (n) => n === node)
+                return {
+                    nodes: [...nodes],
+                }
+            }),
         mutateNodes: (mutator) =>
             dispatch(({ nodes }) => ({
                 nodes: mutator(nodes),

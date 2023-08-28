@@ -17,12 +17,13 @@ export const CategoriesForm: FC<{ categories: Category[] }> = ({
 }) => {
     const { phrase } = useContext(PhraseContext)
 
-    const { treeProps, selectedNode, mutateSelected, mutateNodes } = useTree(
-        categories,
-        (c) => c.id,
-        (c) => c.label,
-        (c) => c.categories
-    )
+    const { treeProps, selectedNode, mutateSelected, mutateNodes, removeNode } =
+        useTree(
+            categories,
+            (c) => c.id,
+            (c) => c.label,
+            (c) => c.categories
+        )
     return (
         <Grid container>
             <Grid item sm={12} md={6}>
@@ -59,6 +60,11 @@ export const CategoriesForm: FC<{ categories: Category[] }> = ({
                             }
                         />
                     </Box>
+                )}
+                {selectedNode && (
+                    <Button onClick={() => removeNode(selectedNode)}>
+                        {phrase('', 'Ta bort kategori')}
+                    </Button>
                 )}
                 <pre>
                     <code>{JSON.stringify(selectedNode, null, 2)}</code>
