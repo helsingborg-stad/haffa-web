@@ -1,8 +1,9 @@
-import { FC } from 'react'
+import { FC, useContext } from 'react'
 import { Tree } from 'antd'
 import { Box, Button, Grid, TextField } from '@mui/material'
 import { Category } from 'categories/types'
 import { nanoid } from 'nanoid'
+import { PhraseContext } from 'phrases/PhraseContext'
 import { useTree } from './use-tree'
 
 const cat = (label: string, ...categories: Category[]): Category => ({
@@ -14,6 +15,8 @@ const cat = (label: string, ...categories: Category[]): Category => ({
 export const CategoriesForm: FC<{ categories: Category[] }> = ({
     categories,
 }) => {
+    const { phrase } = useContext(PhraseContext)
+
     const { treeProps, selectedNode, mutateSelected, mutateNodes } = useTree(
         categories,
         (c) => c.id,
@@ -42,7 +45,7 @@ export const CategoriesForm: FC<{ categories: Category[] }> = ({
                               ])
                     }
                 >
-                    Lägg till
+                    {phrase('', 'Lägg till ny kategori')}
                 </Button>
 
                 {selectedNode && (
