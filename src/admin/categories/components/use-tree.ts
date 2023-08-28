@@ -9,7 +9,7 @@ export interface TreeHookData<T> {
     selectedNode: T | null
     treeProps: TreeProps
     mutateNodes: Action1<Func1<T[], T[]>>
-    mutateSelected: Action1<Func1<T, T>>
+    mutateSelected: Action1<Func1<T, Partial<T>>>
 }
 
 type Key = string | number
@@ -137,86 +137,85 @@ export const useTree = <T>(
         treeProps: TreeProps
         expandedKeys: Key[]
     }
-    const buildRoot = (
-        nodes: T[],
-        selectedKey: Key | null,
-        expandedKeys: Key[]
-    ): Root => {
-        const tree = makeTree(nodes, keyFn, titleFn, childrenFn)
-        const selected = selectedKey
-            ? treeFind(nodes, childrenFn, (n) => keyFn(n) === selectedKey)
-            : null
-        return {
-            nodes,
-            selectedNode: selected ? selected.node : null,
-            expandedKeys,
-            treeProps: createTreeHandlerProps({
-                tree,
-                select: (key, selected) =>
-                    mutateRoot(() => {
-                        if (selected) {
-                            const s = treeFind(
-                                nodes,
-                                childrenFn,
-                                (n) => keyFn(n) === key
-                            )
-                            if (s) {
+    const buildRoot = useCallback(
+        (nodes: T[], selectedKey: Key | null, expandedKeys: Key[]): Root => {
+            const tree = makeTree(nodes, keyFn, titleFn, childrenFn)
+            const selected = selectedKey
+                ? treeFind(nodes, childrenFn, (n) => keyFn(n) === selectedKey)
+                : null
+            return {
+                nodes,
+                selectedNode: selected ? selected.node : null,
+                expandedKeys,
+                treeProps: createTreeHandlerProps({
+                    tree,
+                    select: (key, selected) =>
+                        mutateRoot(() => {
+                            const n = selected
+                                ? treeFind(
+                                      nodes,
+                                      childrenFn,
+                                      (n) => keyFn(n) === key
+                                  )?.node || null
+                                : null
+                            return {
+                                selectedNode: n,
+                            }
+                        }),
+                    expand: (key, expanded) =>
+                        mutateRoot(({ expandedKeys }) => ({
+                            expandedKeys: expanded
+                                ? [...expandedKeys, key]
+                                : expandedKeys.filter((k) => k !== key),
+                        })),
+                    move: (key, node: T, index: number) =>
+                        mutateRoot(({ nodes }) => {
+                            // detach node before re-attaching
+                            if (
+                                treeDetach(nodes, childrenFn, (n) => n === node)
+                            ) {
+                                console.log({
+                                    key,
+                                    index,
+                                })
+
+                                const parent = treeFind(
+                                    nodes,
+                                    childrenFn,
+                                    (n) => keyFn(n) === key
+                                )
+                                const pc = parent
+                                    ? childrenFn(parent.node)
+                                    : nodes
+                                if (index < 1) {
+                                    pc?.splice(index, 0, node)
+                                } else {
+                                    pc?.splice(index + 1, 0, node)
+                                }
                                 return {
-                                    selectedNode: s.node,
+                                    nodes: [...nodes],
                                 }
                             }
-                        }
-                        return {
-                            selectedNode: null,
-                        }
-                    }),
-                expand: (key, expanded) =>
-                    mutateRoot(({ expandedKeys }) => ({
-                        expandedKeys: expanded
-                            ? [...expandedKeys, key]
-                            : expandedKeys.filter((k) => k !== key),
-                    })),
-                move: (key, node: T, index: number) =>
-                    mutateRoot(({ nodes }) => {
-                        // detach node before re-attaching
-                        if (treeDetach(nodes, childrenFn, (n) => n === node)) {
-                            console.log({
-                                key,
-                                index,
-                            })
-
-                            const parent = treeFind(
-                                nodes,
-                                childrenFn,
-                                (n) => keyFn(n) === key
-                            )
-                            const pc = parent ? childrenFn(parent.node) : nodes
-                            if (index < 1) {
-                                pc?.splice(index, 0, node)
-                            } else {
-                                pc?.splice(index + 1, 0, node)
-                            }
-                            return {
-                                nodes: [...nodes],
-                            }
-                        }
-                        return {}
-                    }),
-                find: (key) =>
-                    treeFind(nodes, childrenFn, (n) => keyFn(n) === key)
-                        ?.node || null,
-            }),
-        }
-    }
+                            return {}
+                        }),
+                    find: (key) =>
+                        treeFind(nodes, childrenFn, (n) => keyFn(n) === key)
+                            ?.node || null,
+                }),
+            }
+        },
+        [childrenFn, keyFn, titleFn]
+    )
 
     const [root, setRoot] = useState<Root>(() => buildRoot(nodes, null, []))
+
     const mutateRoot = useCallback(
         (m: Func1<Root, Partial<Root>>) => {
-            console.log(m(root))
             const u = {
                 ...root,
                 ...m(root),
             }
+            console.log(u)
             setRoot(
                 buildRoot(
                     u.nodes,
@@ -242,7 +241,7 @@ export const useTree = <T>(
                     nodes,
                     childrenFn,
                     (n) => n === selectedNode,
-                    mutator
+                    (n) => ({ ...n, ...mutator(n) })
                 )
                 return {}
             }),
