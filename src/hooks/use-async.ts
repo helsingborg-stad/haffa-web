@@ -42,12 +42,14 @@ export default function useAsync<TData, TState = any>(
                 ...state,
                 asyncState: 'resolved',
                 data: d,
+                userState,
             })
         }).catch((e) => {
             setState({
                 ...state,
                 asyncState: 'rejected',
                 error: e,
+                userState,
             })
         })
     }

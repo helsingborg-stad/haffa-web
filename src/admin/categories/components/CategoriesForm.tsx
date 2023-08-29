@@ -12,8 +12,8 @@ import {
 import { Category } from 'categories/types'
 import { nanoid } from 'nanoid'
 import { PhraseContext } from 'phrases/PhraseContext'
-import { Action1 } from 'lib/types'
-import { useTree } from './use-tree'
+import { Action2 } from 'lib/types'
+import { TreeHookViewState, useTree } from './use-tree'
 
 const cat = (label: string, ...categories: Category[]): Category => ({
     id: nanoid(),
@@ -23,17 +23,26 @@ const cat = (label: string, ...categories: Category[]): Category => ({
 
 export const CategoriesForm: FC<{
     categories: Category[]
-    onSave: Action1<Category[]>
-}> = ({ categories, onSave }) => {
+    viewState?: TreeHookViewState
+    onSave: Action2<Category[], TreeHookViewState | undefined>
+}> = ({ categories, viewState: initialViewState, onSave }) => {
     const { phrase } = useContext(PhraseContext)
 
-    const { nodes, treeProps, selectedNode, addNode, updateNode, removeNode } =
-        useTree(
-            categories,
-            (c) => c.id,
-            (c) => c.label,
-            (c) => c.categories
-        )
+    const {
+        nodes,
+        treeProps,
+        viewState,
+        selectedNode,
+        addNode,
+        updateNode,
+        removeNode,
+    } = useTree(
+        categories,
+        (c) => c.id,
+        (c) => c.label,
+        (c) => c.categories,
+        initialViewState
+    )
     const categoryTree = () => (
         <Tree style={{ fontSize: 'x-large' }} {...treeProps} />
     )
@@ -63,7 +72,9 @@ export const CategoriesForm: FC<{
             >
                 {phrase('', 'Ta bort kategori')}
             </Button>
-            <Button onClick={() => onSave(nodes)}>{phrase('', 'Spara')}</Button>
+            <Button onClick={() => onSave(nodes, viewState)}>
+                {phrase('', 'Spara')}
+            </Button>
         </ButtonGroup>
     )
     return (

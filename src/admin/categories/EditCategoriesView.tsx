@@ -2,46 +2,25 @@ import { FC, useContext } from 'react'
 import { SettingsContext } from 'settings'
 import useAsync from 'hooks/use-async'
 import { ErrorView } from 'errors'
+import { Category } from 'categories/types'
 import { CategoriesForm } from './components/CategoriesForm'
-/*
-const cat = (label: string, ...categories: Category[]): Category => ({
-    id: nanoid(),
-    label,
-    categories,
-})
+import { TreeHookViewState } from './components/use-tree'
 
-const range = (count: number) => [...Array(count)]
-*/
 export const EditCategoriesView: FC = () => {
     const { getCategories, updateCategories } = useContext(SettingsContext)
-    const inspect = useAsync(getCategories)
+    const inspect = useAsync<Category[], TreeHookViewState>(getCategories)
 
     return inspect({
-        resolved: (categories, _, update) => (
+        resolved: (categories, viewState, update) => (
             <CategoriesForm
                 categories={categories}
-                onSave={(categories) => update(updateCategories(categories))}
+                viewState={viewState}
+                onSave={(categories, vs) =>
+                    update(updateCategories(categories), vs)
+                }
             />
         ),
         rejected: (error) => <ErrorView error={error} />,
         pending: () => null,
     })
-    /*
-    const categories = [
-        cat(
-            'Allt',
-            cat('x', ...range(100).map((_, i) => cat(`${i}`))),
-            cat(
-                'Möbler',
-                cat(
-                    'Bord',
-                    cat('Höj och sänkbara skrivbord'),
-                    cat('Slaktbänkar')
-                ),
-                cat('Stolar')
-            )
-        ),
-    ]
-    return <CategoriesForm categories={categories} />
-*/
 }

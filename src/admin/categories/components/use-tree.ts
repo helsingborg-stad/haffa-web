@@ -11,6 +11,12 @@ export interface TreeHookData<T> {
     addNode: Action1<T>
     updateNode: Action2<T, Func1<T, Partial<T>>>
     removeNode: Action1<T>
+    viewState?: TreeHookViewState
+}
+
+export interface TreeHookViewState {
+    selectedKey: Key
+    expandedKeys: Key[]
 }
 
 interface Model<T> {
@@ -119,7 +125,6 @@ const buildModel = <T>(
             ...createTreeHandlerProps({
                 tree,
                 select: (key, selected) => {
-                    console.log('select')
                     dispatch(() => {
                         const n = selected
                             ? treeFind(
@@ -143,11 +148,6 @@ const buildModel = <T>(
                     dispatch(({ nodes }) => {
                         // detach node before re-attaching
                         if (treeDetach(nodes, childrenFn, (n) => n === node)) {
-                            console.log({
-                                key,
-                                index,
-                            })
-
                             const parent = treeFind(
                                 nodes,
                                 childrenFn,
@@ -177,7 +177,8 @@ export const useTree = <T>(
     initialNodes: T[],
     keyFn: Func1<T, string>,
     titleFn: Func1<T, string>,
-    childrenFn: Func1<T, T[]>
+    childrenFn: Func1<T, T[]>,
+    viewState?: TreeHookViewState
 ): TreeHookData<T> => {
     const [model, dispatch] = useReducer(
         (root: Model<T>, mutate: Func1<Model<T>, Partial<Model<T>>>) => {
@@ -194,7 +195,6 @@ export const useTree = <T>(
                 patch.expandedKeys,
                 patch.dispatch
             )
-            console.log(x)
             return x
         },
         {
@@ -211,9 +211,22 @@ export const useTree = <T>(
 
     useEffect(() => {
         if (!model.initialized) {
+            let init: Partial<Model<T>> = {}
+            if (viewState) {
+                init = {
+                    selectedNode:
+                        treeFind(
+                            initialNodes,
+                            childrenFn,
+                            (n) => keyFn(n) === viewState.selectedKey
+                        )?.node || null,
+                    expandedKeys: viewState.expandedKeys,
+                }
+            }
             dispatch(() => ({
                 initialized: true,
                 nodes: initialNodes,
+                ...init,
                 dispatch,
             }))
         }
@@ -238,6 +251,10 @@ export const useTree = <T>(
         nodes: model.nodes,
         selectedNode: model.selectedNode,
         treeProps: model.treeProps,
+        viewState: {
+            selectedKey: model.selectedNode ? keyFn(model.selectedNode) : '',
+            expandedKeys: model.expandedKeys,
+        },
         addNode: (newNode) =>
             dispatch(({ selectedNode, nodes, expandedKeys }) => {
                 if (selectedNode) {
