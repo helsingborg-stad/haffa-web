@@ -53,7 +53,10 @@ export const CategoriesForm: FC<{
         (c) => c.id,
         (c) => c.label,
         (c) => c.categories,
-        initialViewState
+        initialViewState || {
+            selectedKey: '',
+            expandedKeys: [ROOT_CATEGORY_ID],
+        }
     )
     const categoryTree = () => (
         <Tree style={{ fontSize: 'x-large' }} {...treeProps} />
