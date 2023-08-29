@@ -1,6 +1,14 @@
 import { FC, useContext } from 'react'
 import { Tree } from 'antd'
-import { Box, Button, Grid, TextField } from '@mui/material'
+import {
+    Button,
+    ButtonGroup,
+    Card,
+    CardActions,
+    CardContent,
+    Grid,
+    TextField,
+} from '@mui/material'
 import { Category } from 'categories/types'
 import { nanoid } from 'nanoid'
 import { PhraseContext } from 'phrases/PhraseContext'
@@ -26,43 +34,51 @@ export const CategoriesForm: FC<{
             (c) => c.label,
             (c) => c.categories
         )
+    const categoryTree = () => (
+        <Tree style={{ fontSize: 'x-large' }} {...treeProps} />
+    )
+    const categoryEditor = () =>
+        selectedNode && (
+            <TextField
+                value={selectedNode.label}
+                onChange={(e) =>
+                    updateNode(selectedNode, () => ({
+                        label: e.target.value,
+                    }))
+                }
+            />
+        )
+    const categoryActions = () => (
+        <ButtonGroup sx={{ ml: 'auto' }}>
+            <Button
+                variant="outlined"
+                onClick={() => addNode(cat('Ny kategori'))}
+            >
+                {phrase('', 'Lägg till ny kategori')}
+            </Button>
+            <Button
+                variant="outlined"
+                disabled={!selectedNode}
+                onClick={() => removeNode(selectedNode!)}
+            >
+                {phrase('', 'Ta bort kategori')}
+            </Button>
+            <Button onClick={() => onSave(nodes)}>{phrase('', 'Spara')}</Button>
+        </ButtonGroup>
+    )
     return (
-        <Grid container>
-            <Grid item sm={12} md={6}>
-                <Tree style={{ fontSize: 'x-large' }} {...treeProps} />
-            </Grid>
-            <Grid item sm={12} md={6}>
-                <Button
-                    variant="outlined"
-                    onClick={() => addNode(cat('Ny kategori'))}
-                >
-                    {phrase('', 'Lägg till ny kategori')}
-                </Button>
-
-                {selectedNode && (
-                    <Box>
-                        <TextField
-                            value={selectedNode.label}
-                            onChange={(e) =>
-                                updateNode(selectedNode, () => ({
-                                    label: e.target.value,
-                                }))
-                            }
-                        />
-                    </Box>
-                )}
-                {selectedNode && (
-                    <Button onClick={() => removeNode(selectedNode)}>
-                        {phrase('', 'Ta bort kategori')}
-                    </Button>
-                )}
-                <Button onClick={() => onSave(nodes)}>
-                    {phrase('', 'Spara')}
-                </Button>
-                <pre>
-                    <code>{JSON.stringify(selectedNode, null, 2)}</code>
-                </pre>
-            </Grid>
-        </Grid>
+        <Card>
+            <CardContent>
+                <Grid container>
+                    <Grid item sm={12} md={6}>
+                        {categoryTree()}
+                    </Grid>
+                    <Grid item sm={12} md={6}>
+                        {categoryEditor()}
+                    </Grid>
+                </Grid>
+            </CardContent>
+            <CardActions>{categoryActions()}</CardActions>
+        </Card>
     )
 }
