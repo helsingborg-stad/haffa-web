@@ -14,6 +14,7 @@ import { nanoid } from 'nanoid'
 import { PhraseContext } from 'phrases/PhraseContext'
 import { Action2 } from 'lib/types'
 import { TreeHookViewState, useTree } from './use-tree'
+import { treeFind } from './tree-lookup'
 
 const ROOT_CATEGORY_ID = 'root'
 
@@ -75,7 +76,11 @@ export const CategoriesForm: FC<{
             !!selectedNode && selectedNode.id !== ROOT_CATEGORY_ID
         const canSave = categories && categories.length > 0
         const getUserCategories = () =>
-            nodes[0].categories /* children of artifical root */
+            treeFind(
+                nodes,
+                (n) => n.categories,
+                (n) => n.id === ROOT_CATEGORY_ID
+            )?.node?.categories || []
         return (
             <ButtonGroup sx={{ ml: 'auto' }}>
                 <Button
