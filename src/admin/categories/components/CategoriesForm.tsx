@@ -1,4 +1,4 @@
-import { FC, useContext } from 'react'
+import { FC, useContext, useState } from 'react'
 import { Tree } from 'antd'
 import {
     Button,
@@ -15,10 +15,13 @@ import { PhraseContext } from 'phrases/PhraseContext'
 import { Action2 } from 'lib/types'
 import { TreeHookViewState, useTree } from './use-tree'
 
-const cat = (label: string, ...categories: Category[]): Category => ({
+const ROOT_CATEGORY_ID = 'root'
+
+const cat = (c: Partial<Category>): Category => ({
     id: nanoid(),
-    label,
-    categories,
+    label: '',
+    categories: [],
+    ...c,
 })
 
 export const CategoriesForm: FC<{
@@ -27,6 +30,14 @@ export const CategoriesForm: FC<{
     onSave: Action2<Category[], TreeHookViewState | undefined>
 }> = ({ categories, viewState: initialViewState, onSave }) => {
     const { phrase } = useContext(PhraseContext)
+
+    const [rootCategory] = useState(
+        cat({
+            id: ROOT_CATEGORY_ID,
+            label: phrase('', 'Alla Kategorier (platshållare)'),
+            categories,
+        })
+    )
 
     const {
         nodes,
@@ -37,7 +48,7 @@ export const CategoriesForm: FC<{
         updateNode,
         removeNode,
     } = useTree(
-        categories,
+        [rootCategory],
         (c) => c.id,
         (c) => c.label,
         (c) => c.categories,
@@ -47,7 +58,8 @@ export const CategoriesForm: FC<{
         <Tree style={{ fontSize: 'x-large' }} {...treeProps} />
     )
     const categoryEditor = () =>
-        selectedNode && (
+        selectedNode &&
+        selectedNode.id !== ROOT_CATEGORY_ID && (
             <TextField
                 value={selectedNode.label}
                 onChange={(e) =>
@@ -57,26 +69,38 @@ export const CategoriesForm: FC<{
                 }
             />
         )
-    const categoryActions = () => (
-        <ButtonGroup sx={{ ml: 'auto' }}>
-            <Button
-                variant="outlined"
-                onClick={() => addNode(cat('Ny kategori'))}
-            >
-                {phrase('', 'Lägg till ny kategori')}
-            </Button>
-            <Button
-                variant="outlined"
-                disabled={!selectedNode}
-                onClick={() => removeNode(selectedNode!)}
-            >
-                {phrase('', 'Ta bort kategori')}
-            </Button>
-            <Button onClick={() => onSave(nodes, viewState)}>
-                {phrase('', 'Spara')}
-            </Button>
-        </ButtonGroup>
-    )
+    const categoryActions = () => {
+        const canAddCategory = !!selectedNode
+        const canRemoveCategory =
+            !!selectedNode && selectedNode.id !== ROOT_CATEGORY_ID
+        const canSave = categories && categories.length > 0
+        const getUserCategories = () =>
+            nodes[0].categories /* children of artifical root */
+        return (
+            <ButtonGroup sx={{ ml: 'auto' }}>
+                <Button
+                    variant="outlined"
+                    disabled={!canAddCategory}
+                    onClick={() => addNode(cat({ label: 'Ny kategori' }))}
+                >
+                    {phrase('', 'Lägg till ny kategori')}
+                </Button>
+                <Button
+                    variant="outlined"
+                    disabled={!canRemoveCategory}
+                    onClick={() => removeNode(selectedNode!)}
+                >
+                    {phrase('', 'Ta bort kategori')}
+                </Button>
+                <Button
+                    disabled={!canSave}
+                    onClick={() => onSave(getUserCategories(), viewState)}
+                >
+                    {phrase('', 'Spara')}
+                </Button>
+            </ButtonGroup>
+        )
+    }
     return (
         <Card>
             <CardContent>

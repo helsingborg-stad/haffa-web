@@ -125,7 +125,7 @@ const buildModel = <T>(
             ...createTreeHandlerProps({
                 tree,
                 select: (key, selected) => {
-                    dispatch(() => {
+                    dispatch(({ expandedKeys }) => {
                         const n = selected
                             ? treeFind(
                                   nodes,
@@ -133,8 +133,20 @@ const buildModel = <T>(
                                   (n) => keyFn(n) === key
                               )?.node || null
                             : null
+                        const expand: Partial<Model<T>> =
+                            n && childrenFn(n).length > 0
+                                ? {
+                                      expandedKeys: [
+                                          ...new Set([
+                                              ...expandedKeys,
+                                              keyFn(n),
+                                          ]),
+                                      ],
+                                  }
+                                : {}
                         return {
                             selectedNode: n,
+                            ...expand,
                         }
                     })
                 },
