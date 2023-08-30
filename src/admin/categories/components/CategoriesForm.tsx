@@ -16,8 +16,8 @@ import { Category } from 'categories/types'
 import { nanoid } from 'nanoid'
 import { PhraseContext } from 'phrases/PhraseContext'
 import { Action2 } from 'lib/types'
+import { treeFind } from 'lib/tree-lookup'
 import { TreeHookViewState, useTree } from './use-tree'
-import { treeFind } from './tree-lookup'
 
 const ROOT_CATEGORY_ID = 'root'
 

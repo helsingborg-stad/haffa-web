@@ -1,6 +1,6 @@
 import { gqlClient } from 'graphql'
-import { Category } from 'categories/types'
-import { treeVisit } from 'admin/categories/components/tree-lookup'
+import { CategoryFlat } from 'categories/types'
+import { decodeCategoryTree, encodeCategoryTree } from 'categories'
 import {
     getCategoriesQuery,
     getLoginPoliciesQuery,
@@ -8,55 +8,6 @@ import {
     setLoginPoliciesMutation,
 } from './queries'
 import { LoginPolicy, SettingsRepository } from './types'
-
-interface CategoryFlat {
-    id: string
-    parentId: string
-    label: string
-    co2kg: number
-}
-
-const decodeCategoryTree = (categories: CategoryFlat[]): Category[] => {
-    const byParentId = categories.reduce((memo, c) => {
-        const l = memo[c.parentId]
-        if (!l) {
-            // eslint-disable-next-line no-param-reassign
-            memo[c.parentId] = [c]
-        } else {
-            l.push(c)
-        }
-        return memo
-    }, {} as Record<string, CategoryFlat[]>)
-
-    const rec = (pid: string): Category[] =>
-        (byParentId[pid] || [])
-            .map((c) => ({
-                id: c.id,
-                label: c.label,
-                co2kg: c.co2kg,
-                categories: rec(c.id),
-            }))
-            .filter((v) => v)
-
-    return rec('')
-}
-
-const encodeCategoryTree = (categories: Category[]): CategoryFlat[] => {
-    const c: CategoryFlat[] = []
-    treeVisit(
-        categories,
-        (c) => c.categories,
-        ({ node, parent }) => {
-            c.push({
-                id: node.id,
-                parentId: parent ? parent.id : '',
-                label: node.label,
-                co2kg: node.co2kg,
-            })
-        }
-    )
-    return c
-}
 
 const gql = (token: string, f?: typeof fetch, init?: RequestInit) =>
     gqlClient()

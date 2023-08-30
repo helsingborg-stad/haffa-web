@@ -1,8 +1,8 @@
 import { TreeProps } from 'antd'
 import { DataNode } from 'antd/es/tree'
+import { treeDetach, treeFind, treeFindReplace } from 'lib/tree-lookup'
 import { Action1, Action2, Action3, Func1 } from 'lib/types'
 import { useCallback, useEffect, useReducer } from 'react'
-import { treeDetach, treeFind, treeFindReplace } from './tree-lookup'
 
 export interface TreeHookData<T> {
     nodes: T[]
