@@ -13,6 +13,7 @@ interface CategoryFlat {
     id: string
     parentId: string
     label: string
+    co2kg: number
 }
 
 const decodeCategoryTree = (categories: CategoryFlat[]): Category[] => {
@@ -32,6 +33,7 @@ const decodeCategoryTree = (categories: CategoryFlat[]): Category[] => {
             .map((c) => ({
                 id: c.id,
                 label: c.label,
+                co2kg: c.co2kg,
                 categories: rec(c.id),
             }))
             .filter((v) => v)
@@ -49,6 +51,7 @@ const encodeCategoryTree = (categories: Category[]): CategoryFlat[] => {
                 id: node.id,
                 parentId: parent ? parent.id : '',
                 label: node.label,
+                co2kg: node.co2kg,
             })
         }
     )

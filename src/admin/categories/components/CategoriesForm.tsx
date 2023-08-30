@@ -6,7 +6,10 @@ import {
     Card,
     CardActions,
     CardContent,
+    FormControl,
     Grid,
+    InputAdornment,
+    Stack,
     TextField,
 } from '@mui/material'
 import { Category } from 'categories/types'
@@ -21,6 +24,7 @@ const ROOT_CATEGORY_ID = 'root'
 const cat = (c: Partial<Category>): Category => ({
     id: nanoid(),
     label: '',
+    co2kg: 0,
     categories: [],
     ...c,
 })
@@ -64,14 +68,45 @@ export const CategoriesForm: FC<{
     const categoryEditor = () =>
         selectedNode &&
         selectedNode.id !== ROOT_CATEGORY_ID && (
-            <TextField
-                value={selectedNode.label}
-                onChange={(e) =>
-                    updateNode(selectedNode, () => ({
-                        label: e.target.value,
-                    }))
-                }
-            />
+            <Stack spacing={2}>
+                <FormControl fullWidth>
+                    <TextField
+                        fullWidth
+                        label={phrase('', 'Benämning')}
+                        placeholder={phrase('', 'Benämning')}
+                        value={selectedNode.label}
+                        onChange={(e) =>
+                            updateNode(selectedNode, () => ({
+                                label: e.target.value,
+                            }))
+                        }
+                    />
+                </FormControl>
+                <FormControl fullWidth>
+                    <TextField
+                        fullWidth
+                        label={phrase('', 'CO₂ besparing')}
+                        placeholder={phrase('', 'CO₂ besparing')}
+                        type="number"
+                        value={selectedNode.co2kg}
+                        InputProps={{
+                            endAdornment: (
+                                <InputAdornment position="end">
+                                    kg
+                                </InputAdornment>
+                            ),
+                        }}
+                        onChange={(e) =>
+                            updateNode(selectedNode, () => ({
+                                co2kg: Math.max(
+                                    0,
+                                    parseInt(e.target.value, 10) || 0
+                                ),
+                            }))
+                        }
+                    />
+                </FormControl>
+            </Stack>
         )
     const categoryActions = () => {
         const canAddCategory = !!selectedNode

@@ -14,6 +14,7 @@ export const getCategoriesQuery = /* GraphQL */ `
             id
             parentId
             label
+            co2kg
         }
     }
 `
@@ -33,6 +34,7 @@ export const setCategoriesMutation = /* GraphQL */ `
             id
             parentId
             label
+            co2kg
         }
     }
 `
