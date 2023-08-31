@@ -24,8 +24,9 @@ import DeleteIcon from '@mui/icons-material/Delete'
 import MoveUpIcon from '@mui/icons-material/MoveUp'
 import MoveDownIcon from '@mui/icons-material/MoveDown'
 import { AdvertTerms, AdvertInput } from '../../types'
-import { useFormControls } from '../../../hooks/use-form-controls'
+import { SelectOption, useFormControls } from '../../../hooks/use-form-controls'
 import { PhraseContext } from '../../../phrases/PhraseContext'
+import { Category } from '../../../categories/types'
 
 const swapArrayItems = <T,>(list: T[], index1: number, index2: number): T[] => {
     const l = [...list]
@@ -95,10 +96,11 @@ export const AdvertForm: FC<{
     title: string
     error: string
     terms: AdvertTerms
+    categories: Category[]
     advert: AdvertInput
     disabled: boolean
     onSave: (advert: AdvertInput) => void
-}> = ({ title, advert, terms, error, onSave, disabled }) => {
+}> = ({ title, advert, terms, error, onSave, disabled, categories }) => {
     const {
         model,
         patchModel,
@@ -144,6 +146,21 @@ export const AdvertForm: FC<{
         [model, patchModel]
     )
 
+    const categoryToOptions = (
+        category: Category,
+        prefix: string | undefined = undefined,
+        output: SelectOption[] = []
+    ): SelectOption[] => {
+        const label = prefix ? `${prefix} - ${category.label}` : category.label
+
+        const childOutput =
+            category.categories
+                .map((c) => categoryToOptions(c, label))
+                .flat() ?? []
+
+        return [...output, { label, value: category.id }, ...childOutput]
+    }
+
     interface ControlGroup {
         label: string
         rows: (() => JSX.Element)[][]
@@ -186,6 +203,17 @@ export const AdvertForm: FC<{
             {
                 label: 'Om det är viktigt, kan du ange ytterligare detaljer här.',
                 rows: [
+                    [
+                        () =>
+                            select(
+                                'category',
+                                'Kategori',
+                                categories
+                                    .map((c) => categoryToOptions(c))
+                                    .flat(),
+                                { fullWidth: true }
+                            ),
+                    ],
                     [
                         () =>
                             select('unit', 'Enhet', makeOptions(terms.unit), {

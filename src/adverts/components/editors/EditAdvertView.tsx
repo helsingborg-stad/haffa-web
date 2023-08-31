@@ -3,11 +3,13 @@ import { Advert, AdvertTerms, AdvertInput } from '../../types'
 import { AdvertsContext } from '../../AdvertsContext'
 import { PhraseContext } from '../../../phrases/PhraseContext'
 import { AdvertEditor } from './AdvertEditor'
+import { Category } from '../../../categories/types'
 
 export const EditAdvertView: FC<{
     advert: Advert
     terms: AdvertTerms
-}> = ({ advert, terms }) => {
+    categories: Category[]
+}> = ({ advert, terms, categories }) => {
     const { updateAdvert } = useContext(AdvertsContext)
     const { EDIT_ADVERT } = useContext(PhraseContext)
 
@@ -21,6 +23,7 @@ export const EditAdvertView: FC<{
             title={EDIT_ADVERT}
             advert={advert}
             terms={terms}
+            categories={categories}
             onUpdateAdvert={onUpdateAdvert}
         />
     )

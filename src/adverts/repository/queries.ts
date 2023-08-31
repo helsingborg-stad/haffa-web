@@ -27,6 +27,7 @@ const advertProps = `
 	material
 	condition
 	usage
+	category
 
 	location {
 		adress

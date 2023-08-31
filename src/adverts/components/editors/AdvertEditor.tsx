@@ -4,13 +4,15 @@ import { AdvertTerms, AdvertInput, AdvertMutationResult } from '../../types'
 import { PhraseContext } from '../../../phrases/PhraseContext'
 import { sanitizeAdvertInput } from '../../repository/mappers'
 import { AdvertForm } from './AdvertForm'
+import { Category } from '../../../categories/types'
 
 export const AdvertEditor: FC<{
     title: string
     onUpdateAdvert: (input: AdvertInput) => Promise<AdvertMutationResult>
     advert: AdvertInput
     terms: AdvertTerms
-}> = ({ title, onUpdateAdvert, advert: inputAdvert, terms }) => {
+    categories: Category[]
+}> = ({ title, onUpdateAdvert, advert: inputAdvert, terms, categories }) => {
     const [advert, setAdvert] = useState<AdvertInput>(
         sanitizeAdvertInput(inputAdvert)
     )
@@ -46,6 +48,7 @@ export const AdvertEditor: FC<{
             error={error}
             advert={advert}
             terms={terms}
+            categories={categories}
             disabled={saving}
             onSave={save}
         />

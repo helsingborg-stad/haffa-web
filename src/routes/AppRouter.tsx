@@ -29,6 +29,8 @@ import { AuthContext } from 'auth'
 import { UnauthorizedView } from 'auth/components/UnathorizedView'
 import { EditCategoriesView, EditLoginPoliciesView } from 'admin'
 import { ErrorRouteView } from './ErrorRouteView'
+import { SettingsContext } from '../settings'
+import { SettingsRepository } from '../settings/types'
 
 const UnpackLoaderData: FC<{ render: (loaderData: any) => JSX.Element }> = ({
     render,
@@ -50,7 +52,8 @@ const RequireRole: FC<PropsWithChildren & { roleName: string }> = ({
 
 const createRouter = (
     { getAdvert, getTerms }: AdvertsRepository,
-    { getProfile }: ProfileRepository
+    { getProfile }: ProfileRepository,
+    { getCategories }: SettingsRepository
 ) => {
     // So many of the routes relies on
     // - an async fetch of some data
@@ -96,18 +99,23 @@ const createRouter = (
      */
     const createAdvertProps = (): AsyncRouteConfig => ({
         loader: () =>
-            Promise.all([getProfile(), getTerms()]).then(
-                ([profile, terms]) => ({
+            Promise.all([getProfile(), getTerms(), getCategories()]).then(
+                ([profile, terms, categories]) => ({
                     profile,
                     terms,
+                    categories,
                 })
             ),
         element: (
             <UnpackLoaderData
                 key="create-advert"
-                render={({ profile, terms }) => (
+                render={({ profile, terms, categories }) => (
                     <Layout renderAppbarControls={() => null}>
-                        <CreateAdvertView profile={profile} terms={terms} />
+                        <CreateAdvertView
+                            profile={profile}
+                            terms={terms}
+                            categories={categories}
+                        />
                     </Layout>
                 )}
             />
@@ -119,15 +127,25 @@ const createRouter = (
      */
     const editAdvertProps = (): AsyncRouteConfig => ({
         loader: ({ params: { advertId } }) =>
-            Promise.all([getAdvert(advertId as string), getTerms()]).then(
-                ([advert, terms]) => ({ advert, terms })
-            ),
+            Promise.all([
+                getAdvert(advertId as string),
+                getTerms(),
+                getCategories(),
+            ]).then(([advert, terms, categories]) => ({
+                advert,
+                terms,
+                categories,
+            })),
         element: (
             <UnpackLoaderData
                 key="edit-advert"
-                render={({ advert, terms }) => (
+                render={({ advert, terms, categories }) => (
                     <Layout renderAppbarControls={() => null}>
-                        <EditAdvertView advert={advert} terms={terms} />
+                        <EditAdvertView
+                            advert={advert}
+                            terms={terms}
+                            categories={categories}
+                        />
                     </Layout>
                 )}
             />
@@ -255,6 +273,7 @@ const createRouter = (
 export const AppRouter: FC = () => {
     const adverts = useContext(AdvertsContext)
     const profiles = useContext(ProfileContext)
-    const [router] = useState(createRouter(adverts, profiles))
+    const settings = useContext(SettingsContext)
+    const [router] = useState(createRouter(adverts, profiles, settings))
     return <RouterProvider router={router} />
 }

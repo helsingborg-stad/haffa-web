@@ -9,11 +9,13 @@ import {
     sanitizeAdvertLocation,
 } from '../../repository/mappers'
 import { AdvertEditor } from './AdvertEditor'
+import { Category } from '../../../categories/types'
 
-export const CreateAdvertView: FC<{ terms: AdvertTerms; profile: Profile }> = ({
-    terms,
-    profile,
-}) => {
+export const CreateAdvertView: FC<{
+    terms: AdvertTerms
+    profile: Profile
+    categories: Category[]
+}> = ({ terms, profile, categories }) => {
     const { createAdvert } = useContext(AdvertsContext)
     const { CREATE_ADVERT } = useContext(PhraseContext)
 
@@ -31,6 +33,7 @@ export const CreateAdvertView: FC<{ terms: AdvertTerms; profile: Profile }> = ({
                 contact: sanitizeAdvertContact(profile),
             }}
             terms={terms}
+            categories={categories}
             onUpdateAdvert={onCreateAdvert}
         />
     )

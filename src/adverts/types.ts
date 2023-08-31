@@ -7,6 +7,7 @@ export interface AdvertUserFields {
     material: string
     condition: string
     usage: string
+    category: string
 
     location: AdvertLocation
     contact: AdvertContact
@@ -74,6 +75,7 @@ export interface AdvertInput {
     material: string
     condition: string
     usage: string
+    category: string
 
     location: AdvertLocation
     contact: AdvertContact

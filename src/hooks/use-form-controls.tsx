@@ -12,7 +12,7 @@ import {
 } from '@mui/material'
 import { Phrase } from '../phrases/Phrase'
 
-interface SelectOption {
+export interface SelectOption {
     label: string
     value: string
 }
