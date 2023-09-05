@@ -1,13 +1,13 @@
 import { FC, useContext } from 'react'
-import { SettingsContext } from 'settings'
 import useAsync from 'hooks/use-async'
 import { ErrorView } from 'errors'
 import { Category } from 'categories/types'
+import { CategoriesContext } from 'categories'
 import { CategoriesForm } from './components/CategoriesForm'
 import { TreeHookViewState } from './components/use-tree'
 
 export const EditCategoriesView: FC = () => {
-    const { getCategories, updateCategories } = useContext(SettingsContext)
+    const { getCategories, updateCategories } = useContext(CategoriesContext)
     const inspect = useAsync<Category[], TreeHookViewState>(getCategories)
 
     return inspect({

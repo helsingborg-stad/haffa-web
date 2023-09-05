@@ -1,6 +1,7 @@
 import { gqlClient } from 'graphql'
 import { CategoryFlat } from 'categories/types'
-import { decodeCategoryTree, encodeCategoryTree } from 'categories'
+
+import { decodeCategoryTree, encodeCategoryTree } from 'categories/mappers'
 import {
     getCategoriesQuery,
     getLoginPoliciesQuery,

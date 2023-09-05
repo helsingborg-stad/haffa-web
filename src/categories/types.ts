@@ -13,3 +13,10 @@ export interface CategoryFlat {
     co2kg: number
     advertCount?: number
 }
+
+export interface CategoriesRepository {
+    getCategories: () => Promise<Category[]>
+    updateCategories: (
+        categories: Omit<Category[], 'advertCount'>
+    ) => Promise<Category[]>
+}
