@@ -8,6 +8,10 @@ import { FetchContext, FetchContextProvider } from 'hooks/fetch/FetchContext'
 import { createSettingsRepository } from 'settings/settings-repository'
 import { SettingsProvider } from 'settings'
 import { CategoriesProvider, createCategoriesRepository } from 'categories'
+import {
+    LoginPoliciesProvider,
+    createLoginPoliciesRepository,
+} from 'login-policies'
 import { AdvertsProvider } from './adverts/AdvertsContext'
 import { createAdvertsRepository } from './adverts/repository/adverts-repository'
 import { AppRouter } from './routes/AppRouter'
@@ -35,6 +39,10 @@ const Main: FC = () => {
         [token, fetch]
     )
 
+    const loginPolicies = useMemo(
+        () => createLoginPoliciesRepository(token, fetch),
+        [token, fetch]
+    )
     const categories = useMemo(
         () => createCategoriesRepository(token, fetch),
         [token, fetch]
@@ -49,15 +57,17 @@ const Main: FC = () => {
         [token, fetch]
     )
     return isAuthenticated ? (
-        <CategoriesProvider repository={categories}>
-            <SettingsProvider repository={settings}>
-                <AdvertsProvider repository={adverts}>
-                    <ProfileProvider repository={profiles}>
-                        <AppRouter />
-                    </ProfileProvider>
-                </AdvertsProvider>
-            </SettingsProvider>
-        </CategoriesProvider>
+        <LoginPoliciesProvider repository={loginPolicies}>
+            <CategoriesProvider repository={categories}>
+                <SettingsProvider repository={settings}>
+                    <AdvertsProvider repository={adverts}>
+                        <ProfileProvider repository={profiles}>
+                            <AppRouter />
+                        </ProfileProvider>
+                    </AdvertsProvider>
+                </SettingsProvider>
+            </CategoriesProvider>
+        </LoginPoliciesProvider>
     ) : (
         <AuthenticateView />
     )

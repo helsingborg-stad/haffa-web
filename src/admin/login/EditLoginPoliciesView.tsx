@@ -1,12 +1,12 @@
 import { ErrorView } from 'errors'
 import useAsync from 'hooks/use-async'
 import { FC, useContext } from 'react'
-import { SettingsContext } from 'settings'
+import { LoginPoliciesContext } from 'login-policies'
 import { LoginPoliciesForm } from './LoginPoliciesForm'
 
 export const EditLoginPoliciesView: FC<{ title?: string }> = ({ title }) => {
     const { getLoginPolicies, updateLoginPolicies } =
-        useContext(SettingsContext)
+        useContext(LoginPoliciesContext)
 
     const view = useAsync(getLoginPolicies)
 

@@ -2,7 +2,7 @@ import { FC, PropsWithChildren, createContext } from 'react'
 import { CategoriesRepository } from './types'
 
 const notImplemented = (name: string) => (): never => {
-    throw new Error(`SettingsContext::${name} is not implemented`)
+    throw new Error(`CategoriesContext::${name} is not implemented`)
 }
 
 export const CategoriesContext = createContext<CategoriesRepository>({
