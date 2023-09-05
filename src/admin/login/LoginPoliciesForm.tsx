@@ -66,7 +66,7 @@ export const LoginPoliciesForm: FC<{
         <Card>
             {title && <CardHeader title={title} />}
             <CardContent>
-                <Editorial variant="info">
+                <Editorial severity="info">
                     {`
                     Här anges vilka användare som ges eller nekas tillträde till
                     sajten. Användare matchas mot email
