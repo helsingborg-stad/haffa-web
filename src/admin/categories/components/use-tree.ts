@@ -91,7 +91,7 @@ const createTreeHandlerProps = <T>({
 const makeTree = <T>(
     nodes: T[],
     key: Func1<T, string>,
-    title: Func1<T, string>,
+    title: Func1<T, DataNode['title']>,
     children: Func1<T, T[]>
 ): DataNode[] =>
     nodes.map((n) => ({
@@ -103,7 +103,7 @@ const makeTree = <T>(
 const buildModel = <T>(
     nodes: T[],
     keyFn: Func1<T, string>,
-    titleFn: Func1<T, string>,
+    titleFn: Func1<T, DataNode['title']>,
     childrenFn: Func1<T, T[]>,
     selectedKey: Key | null,
     expandedKeys: Key[],
@@ -188,7 +188,7 @@ const buildModel = <T>(
 export const useTree = <T>(
     initialNodes: T[],
     keyFn: Func1<T, string>,
-    titleFn: Func1<T, string>,
+    titleFn: Func1<T, DataNode['title']>,
     childrenFn: Func1<T, T[]>,
     viewState?: TreeHookViewState
 ): TreeHookData<T> => {

@@ -1,6 +1,7 @@
 import { FC, useContext, useState } from 'react'
 import { Tree } from 'antd'
 import {
+    Badge,
     Button,
     ButtonGroup,
     Card,
@@ -26,6 +27,7 @@ const cat = (c: Partial<Category>): Category => ({
     label: '',
     co2kg: 0,
     categories: [],
+    advertCount: 0,
     ...c,
 })
 
@@ -43,7 +45,29 @@ export const CategoriesForm: FC<{
             categories,
         })
     )
+    const countAdverts = (c: Category): number =>
+        (c.advertCount || 0) +
+        c.categories.reduce((s, c) => s + countAdverts(c), 0)
 
+    const categoryTitle = (c: Category) => {
+        if (c.id === ROOT_CATEGORY_ID) {
+            return c.label
+        }
+        if ((c.advertCount || 0) > 0) {
+            return (
+                <Badge
+                    badgeContent={c.advertCount}
+                    color="info"
+                    overlap="rectangular"
+                    sx={{ pr: 1 }}
+                >
+                    {c.label}
+                </Badge>
+            )
+            return <span>{c.label} *</span>
+        }
+        return c.label
+    }
     const {
         nodes,
         treeProps,
@@ -55,7 +79,7 @@ export const CategoriesForm: FC<{
     } = useTree(
         [rootCategory],
         (c) => c.id,
-        (c) => c.label,
+        (c) => categoryTitle(c),
         (c) => c.categories,
         initialViewState || {
             selectedKey: '',

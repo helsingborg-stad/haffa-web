@@ -15,9 +15,11 @@ export const getCategoriesQuery = /* GraphQL */ `
             parentId
             label
             co2kg
+            advertCount
         }
     }
 `
+
 export const setLoginPoliciesMutation = /* GraphQL */ `
     mutation Mutation($input: [LoginPolicyInput]!) {
         updateLoginPolicies(input: $input) {
@@ -35,6 +37,7 @@ export const setCategoriesMutation = /* GraphQL */ `
             parentId
             label
             co2kg
+            advertCount
         }
     }
 `

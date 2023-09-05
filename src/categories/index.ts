@@ -5,11 +5,12 @@ const trim = (s: any) => (typeof s === 'string' ? s.trim() : '')
 
 export const decodeCategoryTree = (categories: CategoryFlat[]): Category[] => {
     const byParentId = categories
-        .map(({ id, parentId, label, co2kg }) => ({
+        .map(({ id, parentId, label, co2kg, advertCount }) => ({
             id: trim(id),
             parentId: trim(parentId),
             label: trim(label),
             co2kg: Math.max(0, co2kg || 0),
+            advertCount,
         }))
         .filter(({ id }) => id)
         .reduce((memo, c) => {
@@ -30,6 +31,7 @@ export const decodeCategoryTree = (categories: CategoryFlat[]): Category[] => {
                 label: c.label,
                 co2kg: c.co2kg,
                 categories: rec(c.id),
+                advertCount: c.advertCount,
             }))
             .filter((v) => v)
 
