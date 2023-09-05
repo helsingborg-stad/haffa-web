@@ -1,6 +1,7 @@
 import { FC, useContext, useState } from 'react'
 import { Tree } from 'antd'
 import {
+    Alert,
     Badge,
     Button,
     ButtonGroup,
@@ -64,7 +65,6 @@ export const CategoriesForm: FC<{
                     {c.label}
                 </Badge>
             )
-            return <span>{c.label} *</span>
         }
         return c.label
     }
@@ -89,49 +89,62 @@ export const CategoriesForm: FC<{
     const categoryTree = () => (
         <Tree style={{ fontSize: 'x-large' }} {...treeProps} />
     )
-    const categoryEditor = () =>
-        selectedNode &&
-        selectedNode.id !== ROOT_CATEGORY_ID && (
-            <Stack spacing={2}>
-                <FormControl fullWidth>
-                    <TextField
-                        fullWidth
-                        label={phrase('', 'Benämning')}
-                        placeholder={phrase('', 'Benämning')}
-                        value={selectedNode.label}
-                        onChange={(e) =>
-                            updateNode(selectedNode, () => ({
-                                label: e.target.value,
-                            }))
-                        }
-                    />
-                </FormControl>
-                <FormControl fullWidth>
-                    <TextField
-                        fullWidth
-                        label={phrase('', 'CO₂ besparing')}
-                        placeholder={phrase('', 'CO₂ besparing')}
-                        type="number"
-                        value={selectedNode.co2kg}
-                        InputProps={{
-                            endAdornment: (
-                                <InputAdornment position="end">
-                                    kg
-                                </InputAdornment>
-                            ),
-                        }}
-                        onChange={(e) =>
-                            updateNode(selectedNode, () => ({
-                                co2kg: Math.max(
-                                    0,
-                                    parseInt(e.target.value, 10) || 0
+    const categoryEditor = () => {
+        const advertCount = selectedNode ? countAdverts(selectedNode) : 0
+        return (
+            selectedNode &&
+            selectedNode.id !== ROOT_CATEGORY_ID && (
+                <Stack spacing={2}>
+                    <FormControl fullWidth>
+                        <TextField
+                            fullWidth
+                            label={phrase('', 'Benämning')}
+                            placeholder={phrase('', 'Benämning')}
+                            value={selectedNode.label}
+                            onChange={(e) =>
+                                updateNode(selectedNode, () => ({
+                                    label: e.target.value,
+                                }))
+                            }
+                        />
+                    </FormControl>
+                    <FormControl fullWidth>
+                        <TextField
+                            fullWidth
+                            label={phrase('', 'CO₂ besparing')}
+                            placeholder={phrase('', 'CO₂ besparing')}
+                            type="number"
+                            value={selectedNode.co2kg}
+                            InputProps={{
+                                endAdornment: (
+                                    <InputAdornment position="end">
+                                        kg
+                                    </InputAdornment>
                                 ),
-                            }))
-                        }
-                    />
-                </FormControl>
-            </Stack>
+                            }}
+                            onChange={(e) =>
+                                updateNode(selectedNode, () => ({
+                                    co2kg: Math.max(
+                                        0,
+                                        parseInt(e.target.value, 10) || 0
+                                    ),
+                                }))
+                            }
+                        />
+                    </FormControl>
+                    {advertCount > 0 && (
+                        <Alert>
+                            {phrase(
+                                '',
+                                'Denna kategori har {count} kopplade annonser',
+                                { count: advertCount }
+                            )}
+                        </Alert>
+                    )}
+                </Stack>
+            )
         )
+    }
     const categoryActions = () => {
         const canAddCategory = !!selectedNode
         const canRemoveCategory =
@@ -143,6 +156,8 @@ export const CategoriesForm: FC<{
                 (n) => n.categories,
                 (n) => n.id === ROOT_CATEGORY_ID
             )?.node?.categories || []
+
+        const advertCount = selectedNode ? countAdverts(selectedNode) : 0
         return (
             <ButtonGroup sx={{ ml: 'auto' }}>
                 <Button
@@ -154,6 +169,7 @@ export const CategoriesForm: FC<{
                 </Button>
                 <Button
                     variant="outlined"
+                    color={advertCount > 0 ? 'warning' : 'primary'}
                     disabled={!canRemoveCategory}
                     onClick={() => removeNode(selectedNode!)}
                 >

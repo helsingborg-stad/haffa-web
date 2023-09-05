@@ -1,5 +1,6 @@
 import { createContext } from 'react'
 import dayjs from 'dayjs'
+import { interpolate } from 'lib/interpolate'
 
 export interface PhraseContextType {
     APP_TITLE: string
@@ -20,7 +21,11 @@ export interface PhraseContextType {
     SAVE_PROFILE: string
     SCAN_QR_CODE: string
     PICKUP_ADVERT: string
-    phrase: (key: string, defaultValue: string) => string
+    phrase: (
+        key: string,
+        defaultTemplateString: string,
+        templateVariables?: Record<string, string | number>
+    ) => string
     fromNow: (date: string) => string
 }
 export const PhraseContext = createContext<PhraseContextType>({
@@ -42,6 +47,7 @@ export const PhraseContext = createContext<PhraseContextType>({
     SAVE_PROFILE: 'Spara din profil',
     SCAN_QR_CODE: 'Skanna kod',
     PICKUP_ADVERT: 'Jag tar med mig prylen nu!',
-    phrase: (_, v) => v,
+    phrase: (_, template, values) =>
+        values ? interpolate(template, values) : template,
     fromNow: (date) => dayjs(date).fromNow(),
 })
