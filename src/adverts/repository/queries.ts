@@ -7,6 +7,7 @@ const advertProps = `
 	meta {
 		reservableQuantity
 		collectableQuantity
+		isMine
 		canEdit
 		canRemove
 		canBook

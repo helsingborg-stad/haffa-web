@@ -29,6 +29,7 @@ import CollectedIcon from '@mui/icons-material/LocalShipping'
 import { AdvertsContext } from 'adverts/AdvertsContext'
 import { Markdown } from 'components/Markdown'
 import QrCodeIcon from '@mui/icons-material/QrCode2'
+import { Editorial } from 'editorials'
 import { Advert, AdvertClaimType, AdvertMutationResult } from '../../types'
 import { PhraseContext } from '../../../phrases/PhraseContext'
 
@@ -118,7 +119,7 @@ const ActionsPanel: FC<{
     )
 }
 
-export const ClaimsPanel: FC<{ advert: Advert }> = ({
+const ClaimsPanel: FC<{ advert: Advert }> = ({
     advert: {
         unit,
         meta: { claims },
@@ -130,7 +131,7 @@ export const ClaimsPanel: FC<{ advert: Advert }> = ({
     return (
         <Timeline>
             {claims.map(({ at, by, type, quantity }, index) => (
-                <TimelineItem>
+                <TimelineItem key={[at, by, type, quantity].join('-')}>
                     <TimelineOppositeContent>
                         {fromNow(at)}
                     </TimelineOppositeContent>
@@ -211,6 +212,10 @@ export const AdvertCard: FC<{
     const { meta } = advert
     const navigate = useNavigate()
 
+    // show a disclaimer if we are administering someone eleses advert
+    const showRightsDisclaimer =
+        !meta.isMine && (meta.canEdit || meta.canRemove)
+
     return (
         <Card sx={{ mb: 2 }}>
             <CardContent>
@@ -231,14 +236,23 @@ export const AdvertCard: FC<{
             <CardContent>
                 <ImagesPanel advert={advert} />
             </CardContent>
+
+            {showRightsDisclaimer && (
+                <CardContent>
+                    <Editorial severity="info">
+                        Du har givits rättigheter att adminstrera denna annons
+                        trots att den tillhör någon annan.
+                    </Editorial>
+                </CardContent>
+            )}
             <CardActions>
                 {meta.canEdit && (
                     <Button
                         color="primary"
                         component={NavLink}
                         to={`/advert/edit/${advert?.id}`}
+                        startIcon={<EditIcon />}
                     >
-                        <EditIcon />
                         {EDIT_ADVERT}
                     </Button>
                 )}
@@ -248,8 +262,8 @@ export const AdvertCard: FC<{
                         component={NavLink}
                         to={`/advert/qrcode/${advert.id}`}
                         target="blank"
+                        startIcon={<QrCodeIcon />}
                     >
-                        <QrCodeIcon />
                         {phrase('', 'Skriv ut QR')}
                     </Button>
                 )}
@@ -265,8 +279,9 @@ export const AdvertCard: FC<{
                                 })
                             )
                         }
+                        startIcon={<RemoveIcon />}
                     >
-                        <RemoveIcon /> {REMOVE_ADVERT}
+                        {REMOVE_ADVERT}
                     </Button>
                 )}
             </CardActions>
