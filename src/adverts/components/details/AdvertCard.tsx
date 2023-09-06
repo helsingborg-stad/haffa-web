@@ -1,5 +1,8 @@
 import { FC, useContext, useState } from 'react'
 import {
+    Accordion,
+    AccordionDetails,
+    AccordionSummary,
     Alert,
     Backdrop,
     Box,
@@ -10,23 +13,20 @@ import {
     CardHeader,
     Grid,
     InputAdornment,
+    List,
+    ListItem,
+    ListItemButton,
+    ListItemIcon,
+    ListItemText,
     TextField,
     Typography,
 } from '@mui/material'
-import {
-    Timeline,
-    TimelineConnector,
-    TimelineContent,
-    TimelineDot,
-    TimelineItem,
-    TimelineOppositeContent,
-    TimelineSeparator,
-} from '@mui/lab'
 import { NavLink, useNavigate } from 'react-router-dom'
 import EditIcon from '@mui/icons-material/Edit'
 import RemoveIcon from '@mui/icons-material/Delete'
 import ReservedIcon from '@mui/icons-material/MobileFriendly'
 import CollectedIcon from '@mui/icons-material/LocalShipping'
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore'
 import { AdvertsContext } from 'adverts/AdvertsContext'
 import { Markdown } from 'components/Markdown'
 import QrCodeIcon from '@mui/icons-material/QrCode2'
@@ -121,44 +121,72 @@ const ActionsPanel: FC<{
     )
 }
 
-const ClaimsPanel: FC<{ advert: Advert }> = ({
+const ClaimsPanel: FC<{
+    advert: Advert
+    onUpdate: (p: Promise<AdvertMutationResult>) => void
+}> = ({
     advert: {
+        id,
         unit,
-        meta: { claims },
+        meta: { claims, canCancelClaim },
     },
+    onUpdate,
 }) => {
     const { fromNow } = useContext(PhraseContext)
     const { phrase } = useContext(PhraseContext)
+    const { cancelAdvertClaim } = useContext(AdvertsContext)
 
     return (
-        <Timeline>
-            {claims.map(({ at, by, type, quantity }, index) => (
-                <TimelineItem key={[at, by, type, quantity].join('-')}>
-                    <TimelineOppositeContent>
-                        {fromNow(at)}
-                    </TimelineOppositeContent>
-                    <TimelineSeparator>
-                        <TimelineDot>
-                            {type === AdvertClaimType.reserved && (
-                                <ReservedIcon color="primary" />
+        <Accordion>
+            <AccordionSummary expandIcon={<ExpandMoreIcon />}>
+                <Typography>{phrase('', 'Transaktioner')}</Typography>
+            </AccordionSummary>
+            <AccordionDetails>
+                <List>
+                    {claims.map(({ at, by, type, quantity }) => (
+                        <ListItem key={`${at}-${by}-${type}-${quantity}`}>
+                            <ListItemIcon>
+                                {type === AdvertClaimType.reserved && (
+                                    <ReservedIcon />
+                                )}
+                                {type === AdvertClaimType.collected && (
+                                    <CollectedIcon />
+                                )}
+                            </ListItemIcon>
+                            <ListItemText>
+                                {fromNow(at)} {by}{' '}
+                                {type === AdvertClaimType.reserved &&
+                                    phrase('', 'haffade')}
+                                {type === AdvertClaimType.collected &&
+                                    phrase('', 'hämtade')}{' '}
+                                {quantity} {unit}
+                            </ListItemText>
+                            {canCancelClaim && (
+                                <ListItemButton
+                                    onClick={() =>
+                                        onUpdate(
+                                            cancelAdvertClaim(id, {
+                                                at,
+                                                by,
+                                                type,
+                                                quantity,
+                                            })
+                                        )
+                                    }
+                                >
+                                    <ListItemIcon>
+                                        <RemoveIcon />
+                                    </ListItemIcon>
+                                    <ListItemText>
+                                        {phrase('', 'Annullera')}
+                                    </ListItemText>
+                                </ListItemButton>
                             )}
-                            {type === AdvertClaimType.collected && (
-                                <CollectedIcon color="primary" />
-                            )}
-                        </TimelineDot>
-                        {index < claims.length - 1 && <TimelineConnector />}
-                    </TimelineSeparator>
-                    <TimelineContent>
-                        {by}{' '}
-                        {type === AdvertClaimType.reserved &&
-                            phrase('', 'haffade')}
-                        {type === AdvertClaimType.collected &&
-                            phrase('', 'hämtade')}{' '}
-                        {quantity} {unit}
-                    </TimelineContent>
-                </TimelineItem>
-            ))}
-        </Timeline>
+                        </ListItem>
+                    ))}
+                </List>
+            </AccordionDetails>
+        </Accordion>
     )
 }
 
@@ -286,11 +314,6 @@ export const AdvertCard: FC<{
                         </Grid>
                     </Grid>
                 </CardContent>
-                {meta.canEdit && (
-                    <CardContent>
-                        <ClaimsPanel advert={advert} />
-                    </CardContent>
-                )}
                 <CardContent>
                     <ImagesPanel advert={advert} />
                 </CardContent>
@@ -301,6 +324,11 @@ export const AdvertCard: FC<{
                             Du har givits rättigheter att adminstrera denna
                             annons trots att den tillhör någon annan.
                         </Editorial>
+                    </CardContent>
+                )}
+                {meta.canEdit && (
+                    <CardContent>
+                        <ClaimsPanel advert={advert} onUpdate={onUpdate} />
                     </CardContent>
                 )}
                 <CardActions>

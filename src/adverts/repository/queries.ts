@@ -14,6 +14,7 @@ const advertProps = `
 		canReserve
 		canCancelReservation
 		canCollect
+		canCancelClaim
 		claims {
 			by
 			at
@@ -127,6 +128,18 @@ mutation Mutation(
 	$quantity: Int!
 ) {
 	collectAdvert(id: $id, quantity: $quantity) {
+		${mutationProps}
+	}
+}
+`
+
+export const cancelAdvertClaimMutation = /* GraphQL */ `
+mutation Mutation(
+	$id: ID!,
+	$by: String!,
+	$type: AdvertClaimType!
+) {
+	cancelAdvertClaim(id: $id, by: $by, type: $type) {
 		${mutationProps}
 	}
 }

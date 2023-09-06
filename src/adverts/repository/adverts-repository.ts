@@ -5,6 +5,7 @@ import {
 import { gqlClient } from '../../graphql'
 import { sanitizeAdvertInput } from './mappers'
 import {
+    cancelAdvertClaimMutation,
     cancelAdvertReservationMutation,
     collectAdvertMutation,
     createAdvertMutation,
@@ -86,5 +87,11 @@ export const createAdvertsRepository = (
             .query(collectAdvertMutation)
             .variables({ id, quantity })
             .map<AdvertMutationResult>('collectAdvert')
+            .then(expectAdvert),
+    cancelAdvertClaim: async (id, claim) =>
+        gql(token, f)
+            .query(cancelAdvertClaimMutation)
+            .variables({ id, by: claim.by, type: claim.type })
+            .map<AdvertMutationResult>('cancelAdvertClaim')
             .then(expectAdvert),
 })
