@@ -6,7 +6,6 @@ module.exports = {
     extends: [
         'plugin:react/recommended',
         'plugin:react-hooks/recommended',
-        'plugin:prettier/recommended',
         'airbnb',
         'airbnb-typescript',
         'airbnb/hooks',

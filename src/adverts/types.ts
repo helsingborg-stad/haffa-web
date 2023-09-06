@@ -33,6 +33,7 @@ export type FilterInput<T> = {
     gte?: T
     lt?: T
     lte?: T
+    in?: T[]
 } & (T extends string ? { contains?: string } : Record<string, never>)
 
 export type AdvertFieldsFilterInput = {
