@@ -15,7 +15,6 @@ import { NavLink } from 'react-router-dom'
 import useSomeFetchIsSlow from 'hooks/fetch/use-some-fetch-is-slow'
 import usePendingFetch from 'hooks/fetch/use-pending-fetch'
 import useTimeout from 'hooks/useTimout'
-import { ReadQrCodeButton } from 'adverts/components/qr/ReadQRCodeButton'
 import { AdminButton } from 'admin'
 import { Navbar } from './Navbar'
 import { PhraseContext } from '../phrases/PhraseContext'
@@ -46,7 +45,7 @@ export const DefaultRenderAppbarControls = (): React.JSX.Element => {
     const { CREATE_ADVERT } = useContext(PhraseContext)
     return (
         <>
-            <ReadQrCodeButton color="inherit" />
+            {/* <ReadQrCodeButton color="inherit" /> */}
             <Button
                 color="inherit"
                 component={NavLink}

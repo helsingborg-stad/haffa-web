@@ -7,6 +7,7 @@ import {
     Card,
     CardActions,
     CardContent,
+    CardHeader,
     Grid,
     InputAdornment,
     TextField,
@@ -30,6 +31,7 @@ import { AdvertsContext } from 'adverts/AdvertsContext'
 import { Markdown } from 'components/Markdown'
 import QrCodeIcon from '@mui/icons-material/QrCode2'
 import { Editorial } from 'editorials'
+import { DeepLinkContext } from 'deep-links/DeepLinkContext'
 import { Advert, AdvertClaimType, AdvertMutationResult } from '../../types'
 import { PhraseContext } from '../../../phrases/PhraseContext'
 
@@ -202,11 +204,41 @@ export const ImagesPanel: FC<{ advert: Advert }> = ({ advert }) => {
     )
 }
 
+const CollectPanel: FC<{
+    advert: Advert
+    onUpdate: (p: Promise<AdvertMutationResult>) => void
+}> = ({ advert, onUpdate }) => {
+    const { phrase, PICKUP_ADVERT } = useContext(PhraseContext)
+    const [quantity, setQuantity] = useState(advert.meta.collectableQuantity)
+    const { collectAdvert } = useContext(AdvertsContext)
+
+    return (
+        <Grid container spacing={2} color="primary">
+            <TextField
+                type="number"
+                value={quantity}
+                label={phrase('', 'Antal')}
+                placeholder={phrase('', 'Antal')}
+                onChange={(e) => setQuantity(parseInt(e.target.value, 10))}
+            />
+            <Button
+                color="primary"
+                variant="outlined"
+                disabled={!advert.meta.canCollect}
+                onClick={() => onUpdate(collectAdvert(advert.id, quantity))}
+            >
+                {PICKUP_ADVERT}
+            </Button>
+        </Grid>
+    )
+}
+
 export const AdvertCard: FC<{
     advert: Advert
     error?: string
     onUpdate: (p: Promise<AdvertMutationResult>) => void
 }> = ({ advert, error, onUpdate }) => {
+    const { isCurrentLinkFromQrCode } = useContext(DeepLinkContext)
     const { removeAdvert } = useContext(AdvertsContext)
     const { phrase, EDIT_ADVERT, REMOVE_ADVERT } = useContext(PhraseContext)
     const { meta } = advert
@@ -216,75 +248,102 @@ export const AdvertCard: FC<{
     const showRightsDisclaimer =
         !meta.isMine && (meta.canEdit || meta.canRemove)
 
-    return (
-        <Card sx={{ mb: 2 }}>
-            <CardContent>
-                <Grid container spacing={2}>
-                    <Grid item sm={12} md={9}>
-                        <InfoPanel advert={advert} error={error} />
-                    </Grid>
-                    <Grid item sm={12} md={3}>
-                        <ActionsPanel advert={advert} onUpdate={onUpdate} />
-                    </Grid>
-                </Grid>
-            </CardContent>
-            {meta.canEdit && (
-                <CardContent>
-                    <ClaimsPanel advert={advert} />
-                </CardContent>
-            )}
-            <CardContent>
-                <ImagesPanel advert={advert} />
-            </CardContent>
+    const showCollect = meta.canCollect && isCurrentLinkFromQrCode(advert)
 
-            {showRightsDisclaimer && (
-                <CardContent>
-                    <Editorial severity="info">
-                        Du har givits rättigheter att adminstrera denna annons
-                        trots att den tillhör någon annan.
-                    </Editorial>
-                </CardContent>
+    return (
+        <>
+            {showCollect && (
+                <Card sx={{ mb: 2 }}>
+                    <CardHeader
+                        title={phrase('', 'Vill du hämta ut prylen?')}
+                        subheader={phrase(
+                            '',
+                            'Vad kul att just fina du återbrukar just denna fina pryl ☺️'
+                        )}
+                    />
+                    <CardContent>
+                        <Grid container spacing={2}>
+                            <Grid item flex={1} />
+                            <Grid item>
+                                <CollectPanel
+                                    advert={advert}
+                                    onUpdate={onUpdate}
+                                />
+                            </Grid>
+                        </Grid>
+                    </CardContent>
+                </Card>
             )}
-            <CardActions>
+
+            <Card sx={{ mb: 2 }}>
+                <CardContent>
+                    <Grid container spacing={2}>
+                        <Grid item xs={12} sm={9}>
+                            <InfoPanel advert={advert} error={error} />
+                        </Grid>
+                        <Grid item xs={12} sm={3}>
+                            <ActionsPanel advert={advert} onUpdate={onUpdate} />
+                        </Grid>
+                    </Grid>
+                </CardContent>
                 {meta.canEdit && (
-                    <Button
-                        color="primary"
-                        component={NavLink}
-                        to={`/advert/edit/${advert?.id}`}
-                        startIcon={<EditIcon />}
-                    >
-                        {EDIT_ADVERT}
-                    </Button>
+                    <CardContent>
+                        <ClaimsPanel advert={advert} />
+                    </CardContent>
                 )}
-                {meta.canEdit && (
-                    <Button
-                        color="primary"
-                        component={NavLink}
-                        to={`/advert/qrcode/${advert.id}`}
-                        target="blank"
-                        startIcon={<QrCodeIcon />}
-                    >
-                        {phrase('', 'Skriv ut QR')}
-                    </Button>
+                <CardContent>
+                    <ImagesPanel advert={advert} />
+                </CardContent>
+
+                {showRightsDisclaimer && (
+                    <CardContent>
+                        <Editorial severity="info">
+                            Du har givits rättigheter att adminstrera denna
+                            annons trots att den tillhör någon annan.
+                        </Editorial>
+                    </CardContent>
                 )}
-                {meta.canRemove && (
-                    <Button
-                        sx={{ ml: 'auto' }}
-                        color="primary"
-                        onClick={async () =>
-                            onUpdate(
-                                removeAdvert(advert.id).then((r) => {
-                                    navigate('/')
-                                    return r
-                                })
-                            )
-                        }
-                        startIcon={<RemoveIcon />}
-                    >
-                        {REMOVE_ADVERT}
-                    </Button>
-                )}
-            </CardActions>
-        </Card>
+                <CardActions>
+                    {meta.canEdit && (
+                        <Button
+                            color="primary"
+                            component={NavLink}
+                            to={`/advert/edit/${advert?.id}`}
+                            startIcon={<EditIcon />}
+                        >
+                            {EDIT_ADVERT}
+                        </Button>
+                    )}
+                    {meta.canEdit && (
+                        <Button
+                            color="primary"
+                            component={NavLink}
+                            to={`/advert/qrcode/${advert.id}`}
+                            target="blank"
+                            startIcon={<QrCodeIcon />}
+                        >
+                            {phrase('', 'Skriv ut QR')}
+                        </Button>
+                    )}
+                    {meta.canRemove && (
+                        <Button
+                            sx={{ ml: 'auto' }}
+                            color="primary"
+                            onClick={async () =>
+                                onUpdate(
+                                    removeAdvert(advert.id).then((r) => {
+                                        navigate('/')
+                                        return r
+                                    })
+                                )
+                            }
+                            startIcon={<RemoveIcon />}
+                        >
+                            {REMOVE_ADVERT}
+                        </Button>
+                    )}
+                </CardActions>
+            </Card>
+        </>
     )
 }

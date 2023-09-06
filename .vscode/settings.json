@@ -8,5 +8,8 @@
     "editor.codeActionsOnSave": {
         "source.fixAll.eslint": true
     },
-    "editor.insertSpaces": false
-}
+    "editor.defaultFormatter": "esbenp.prettier-vscode",
+    "editor.insertSpaces": false,
+    "eslint.validate": ["typescript"],
+    "editor.formatOnSave": true
+  }
