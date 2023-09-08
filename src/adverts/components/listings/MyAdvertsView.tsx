@@ -15,7 +15,9 @@ const ToggleArchived: FC<{
             <FormControlLabel
                 control={
                     <Checkbox
-                        checked={searchParams?.restrictions?.isArchived}
+                        checked={
+                            searchParams?.restrictions?.isArchived || false
+                        }
                         onChange={(e) =>
                             setSearchParams({
                                 ...searchParams,
@@ -35,7 +37,7 @@ const ToggleArchived: FC<{
 
 export const MyAdvertsView: FC = () => (
     <AdvertsListWithSearch
-        cacheName="my-adverts"
+        cacheName="my-adverts-v2"
         defaultSearchParams={{
             restrictions: { createdByMe: true },
             sorting: { field: 'createdAt', ascending: false },

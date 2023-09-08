@@ -43,11 +43,14 @@ export const AdvertsListWithSearch: FC<
         }
     )
 
-    const setSearchParams = (p: AdvertFilterInput) =>
-        setSearchParamsRaw({
-            versionKey,
-            p,
-        })
+    const setSearchParams = useCallback(
+        (p: AdvertFilterInput) =>
+            setSearchParamsRaw({
+                versionKey,
+                p,
+            }),
+        [setSearchParamsRaw, versionKey]
+    )
 
     const searchParams =
         searchParamsRaw.versionKey === versionKey
@@ -57,10 +60,13 @@ export const AdvertsListWithSearch: FC<
     const { listAdverts } = useContext(AdvertsContext)
     const view = useLiveSearch(() => listAdverts(searchParams, { signal }))
 
-    const next = (p: AdvertFilterInput) => {
-        setSearchParams(p)
-        return () => listAdverts(p, { signal })
-    }
+    const next = useCallback(
+        (p: AdvertFilterInput) => {
+            setSearchParams(p)
+            return () => listAdverts(p, { signal })
+        },
+        [setSearchParams, listAdverts, signal]
+    )
 
     const listResult = useCallback(
         (adverts: Advert[] | null, enqueue: AsyncEnqueue<Advert[]>) => (
@@ -81,7 +87,7 @@ export const AdvertsListWithSearch: FC<
                 <AdvertsList key="al" adverts={adverts || []} />
             </SearchableAdvertsList>
         ),
-        [renderControls, searchParams, setSearchParams]
+        [renderControls, searchParams, setSearchParams, next]
     )
 
     return view({
