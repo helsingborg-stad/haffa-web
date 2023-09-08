@@ -3,7 +3,7 @@ import { LinearProgress } from '@mui/material'
 import useAsync from 'hooks/use-async'
 import { ErrorView } from 'errors'
 import { Advert, AdvertMutationResult } from '../../types'
-import { AdvertCard } from './AdvertCard'
+import { AdvertCard } from './advert-card/AdvertCard'
 
 export const AdvertDetailsView: FC<{ advert: Advert }> = ({ advert }) => {
     const inspect = useAsync<AdvertMutationResult>(async () => ({

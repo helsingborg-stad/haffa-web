@@ -5,6 +5,7 @@ import {
 import { gqlClient } from '../../graphql'
 import { sanitizeAdvertInput } from './mappers'
 import {
+    archiveAdvertMutation,
     cancelAdvertClaimMutation,
     cancelAdvertReservationMutation,
     collectAdvertMutation,
@@ -14,6 +15,7 @@ import {
     listAdvertsQuery,
     removeAdvertMutation,
     reserveAdvertMutation,
+    unarchiveAdvertMutation,
     updateAdvertMutation,
 } from './queries'
 import {
@@ -69,6 +71,18 @@ export const createAdvertsRepository = (
             .query(removeAdvertMutation)
             .variables({ id })
             .map<AdvertMutationResult>('removeAdvert')
+            .then(expectAdvert),
+    archiveAdvert: async (id) =>
+        gql(token, f)
+            .query(archiveAdvertMutation)
+            .variables({ id })
+            .map<AdvertMutationResult>('archiveAdvert')
+            .then(expectAdvert),
+    unarchiveAdvert: async (id) =>
+        gql(token, f)
+            .query(unarchiveAdvertMutation)
+            .variables({ id })
+            .map<AdvertMutationResult>('unarchiveAdvert')
             .then(expectAdvert),
     reserveAdvert: async (id, quantity) =>
         gql(token, f)

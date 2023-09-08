@@ -9,12 +9,16 @@ const advertProps = `
 		collectableQuantity
 		isMine
 		canEdit
+		canArchive
+		canUnarchive
 		canRemove
 		canBook
 		canReserve
 		canCancelReservation
 		canCollect
 		canCancelClaim
+    reservedyMe
+    collectedByMe
 		claims {
 			by
 			at
@@ -96,6 +100,26 @@ mutation Mutation(
 	$id: ID!
 ) {
 	removeAdvert(id: $id) {
+		${mutationProps}
+	}
+}
+`
+
+export const archiveAdvertMutation = /* GraphQL */ `
+mutation Mutation(
+	$id: ID!
+) {
+	archiveAdvert(id: $id) {
+		${mutationProps}
+	}
+}
+`
+
+export const unarchiveAdvertMutation = /* GraphQL */ `
+mutation Mutation(
+	$id: ID!
+) {
+	unarchiveAdvert(id: $id) {
 		${mutationProps}
 	}
 }

@@ -48,6 +48,7 @@ export interface AdvertRestrictionsFilterInput {
     canBeReserved?: boolean
     reservedByMe?: boolean
     createdByMe?: boolean
+    isArchived?: boolean
 }
 
 export interface AdvertSorting {
@@ -98,12 +99,16 @@ export interface AdvertMeta {
     collectableQuantity: number
     isMine: boolean
     canEdit: boolean
+    canArchive: boolean
+    canUnarchive: boolean
     canRemove: boolean
     canBook: boolean
     canReserve: boolean
     canCancelReservation: boolean
     canCollect: boolean
     canCancelClaim: boolean
+    reservedyMe: number
+    collectedByMe: number
     claims: AdvertClaim[]
 }
 
@@ -156,6 +161,8 @@ export interface AdvertsRepository {
         input: AdvertInput
     ) => Promise<AdvertMutationResult>
     removeAdvert: (id: string) => Promise<AdvertMutationResult>
+    archiveAdvert: (id: string) => Promise<AdvertMutationResult>
+    unarchiveAdvert: (id: string) => Promise<AdvertMutationResult>
     reserveAdvert: (
         id: string,
         quantity: number

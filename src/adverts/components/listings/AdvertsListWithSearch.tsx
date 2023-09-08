@@ -1,4 +1,4 @@
-import { FC, PropsWithChildren, useContext } from 'react'
+import { FC, PropsWithChildren, useCallback, useContext } from 'react'
 import { Box } from '@mui/material'
 import { Advert, AdvertFilterInput } from 'adverts'
 import useAbortController from 'hooks/use-abort-controller'
@@ -14,8 +14,12 @@ export const AdvertsListWithSearch: FC<
     {
         cacheName: string
         defaultSearchParams: Partial<AdvertFilterInput>
+        renderControls?: (
+            searchParams: AdvertFilterInput,
+            setSearchParams: (p: AdvertFilterInput) => void
+        ) => JSX.Element
     } & PropsWithChildren
-> = ({ cacheName, defaultSearchParams }) => {
+> = ({ children, cacheName, defaultSearchParams, renderControls }) => {
     const { signal } = useAbortController()
     const effectiveInitialSearchParams: AdvertFilterInput = {
         search: '',
@@ -58,25 +62,26 @@ export const AdvertsListWithSearch: FC<
         return () => listAdverts(p, { signal })
     }
 
-    const listResult = (
-        adverts: Advert[] | null,
-        enqueue: AsyncEnqueue<Advert[]>
-    ) => (
-        <SearchableAdvertsList
-            key="sal"
-            searchParams={searchParams}
-            setSearchParams={(p) => enqueue(next(p))}
-        >
-            {adverts?.length === 0 && (
-                <Box key="e">
-                    <Phrase
-                        id="SEARCH_EMPTY_RESULT"
-                        value="Hoppsan, det blev inga träffar på den"
-                    />
-                </Box>
-            )}
-            <AdvertsList key="al" adverts={adverts || []} />
-        </SearchableAdvertsList>
+    const listResult = useCallback(
+        (adverts: Advert[] | null, enqueue: AsyncEnqueue<Advert[]>) => (
+            <SearchableAdvertsList
+                key="sal"
+                searchParams={searchParams}
+                setSearchParams={(p) => enqueue(next(p))}
+            >
+                {adverts?.length === 0 && (
+                    <Box key="e">
+                        <Phrase
+                            id="SEARCH_EMPTY_RESULT"
+                            value="Hoppsan, det blev inga träffar på den"
+                        />
+                    </Box>
+                )}
+                {renderControls?.(searchParams, (p) => enqueue(next(p)))}
+                <AdvertsList key="al" adverts={adverts || []} />
+            </SearchableAdvertsList>
+        ),
+        [renderControls, searchParams, setSearchParams]
     )
 
     return view({
@@ -87,7 +92,9 @@ export const AdvertsListWithSearch: FC<
                 searchParams={searchParams}
                 setSearchParams={(p) => enqueue(next(p))}
             >
+                {renderControls?.(searchParams, setSearchParams)}
                 <ErrorView key="ev" error={error} />
+                {children}
             </SearchableAdvertsList>
         ),
         resolved: listResult,
