@@ -22,6 +22,8 @@ import AddIcon from '@mui/icons-material/Add'
 import SaveIcon from '@mui/icons-material/Save'
 import { nanoid } from 'nanoid'
 import { Editorial } from 'editorials'
+import * as types from 'admin/types'
+import { SelectUserRoles } from './SelectUserRoles'
 
 export const LoginPoliciesForm: FC<{
     title?: string
@@ -33,15 +35,15 @@ export const LoginPoliciesForm: FC<{
     interface EditablePolicy {
         id: string
         email: string
-        roles: string
         deny: boolean
+        roles: types.HaffaUserRoles
     }
 
     const [policies, setPolicies] = useState<EditablePolicy[]>(
-        loginPolicies.map(({ emailPattern, roles, deny }) => ({
+        loginPolicies.map(({ emailPattern, deny }) => ({
             id: nanoid(),
             email: emailPattern,
-            roles: roles.join(','),
+            roles: {},
             deny,
         }))
     )
@@ -83,17 +85,23 @@ export const LoginPoliciesForm: FC<{
                     <Table aria-label={phrase('', 'Loginregler')}>
                         <TableHead>
                             <TableRow>
-                                <TableCell>{phrase('', 'email')}</TableCell>
-                                <TableCell>{phrase('', 'roller')}</TableCell>
-                                <TableCell>{phrase('', 'neka')}</TableCell>
+                                <TableCell>{phrase('', 'Email')}</TableCell>
+                                <TableCell>
+                                    {phrase('', 'Behörigheter')}
+                                </TableCell>
+                                <TableCell>{phrase('', 'Neka')}</TableCell>
                             </TableRow>
                         </TableHead>
                         <TableBody>
                             {policies.map(
-                                ({ id, email, roles, deny }, index) => (
+                                (
+                                    { id, email, deny, roles: userRoles },
+                                    index
+                                ) => (
                                     <TableRow key={id}>
                                         <TableCell>
                                             <TextField
+                                                fullWidth
                                                 value={email}
                                                 onChange={(e) =>
                                                     mutateRowField(
@@ -105,13 +113,13 @@ export const LoginPoliciesForm: FC<{
                                             />
                                         </TableCell>
                                         <TableCell>
-                                            <TextField
-                                                value={roles}
-                                                onChange={(e) =>
+                                            <SelectUserRoles
+                                                userRoles={userRoles}
+                                                onChange={(roles) =>
                                                     mutateRowField(
                                                         index,
                                                         'roles',
-                                                        e.target.value
+                                                        roles
                                                     )
                                                 }
                                             />
@@ -144,7 +152,13 @@ export const LoginPoliciesForm: FC<{
                             policies.concat({
                                 id: nanoid(),
                                 email: '',
-                                roles: '',
+                                roles: {
+                                    canEdit: true,
+                                    canArchive: true,
+                                    canRemove: true,
+                                    canReserve: true,
+                                    canCollect: true,
+                                },
                                 deny: false,
                             })
                         )
@@ -160,7 +174,7 @@ export const LoginPoliciesForm: FC<{
                         onSave(
                             policies.map(({ email, roles, deny }) => ({
                                 emailPattern: email,
-                                roles: roles.split(','),
+                                roles,
                                 deny,
                             }))
                         )

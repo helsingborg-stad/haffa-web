@@ -1,3 +1,4 @@
+import { HaffaUserRoles } from 'admin/types'
 import { Category } from 'categories/types'
 
 export interface SettingsRepository {
@@ -9,6 +10,6 @@ export interface SettingsRepository {
 
 export interface LoginPolicy {
     emailPattern: string
-    roles: string[]
+    roles: HaffaUserRoles
     deny: boolean
 }

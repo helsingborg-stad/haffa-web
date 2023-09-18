@@ -18,10 +18,15 @@ export const AuthContextProvider: FC<
         [setAuthentication]
     )
     const { token } = authentication
+
+    const getAuthenticationSignature = (a: Authentication) =>
+        [a.token, ...a.roles].sort().join('@')
+    const areEquivalent = (a: Authentication, b: Authentication) =>
+        getAuthenticationSignature(a) === getAuthenticationSignature(b)
     useEffect(() => {
         token &&
             authProvider.verifyToken(token).then((a) => {
-                if (!token) {
+                if (!token || !areEquivalent(a, authentication)) {
                     setAuthentication(a)
                 }
             })
