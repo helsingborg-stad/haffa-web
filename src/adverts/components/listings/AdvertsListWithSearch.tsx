@@ -1,7 +1,8 @@
 import { FC, PropsWithChildren, useCallback, useContext } from 'react'
 import { Box } from '@mui/material'
-import { Advert, AdvertFilterInput } from 'adverts'
+import { Advert, AdvertFilterInput, AdvertList } from 'adverts'
 import useAbortController from 'hooks/use-abort-controller'
+import merge from 'lodash.merge'
 import { AdvertsContext } from '../../AdvertsContext'
 import { AdvertsList } from './AdvertsList'
 import { ErrorView } from '../../../errors'
@@ -9,6 +10,7 @@ import { SearchableAdvertsList } from '../filter'
 import { AsyncEnqueue, useLiveSearch } from '../../../hooks/use-live-search'
 import useLocalStorage from '../../../hooks/use-local-storage'
 import { Phrase } from '../../../phrases/Phrase'
+import { AdvertPagingControls } from './AdvertPagingControls'
 
 export const AdvertsListWithSearch: FC<
     {
@@ -27,6 +29,7 @@ export const AdvertsListWithSearch: FC<
             field: 'title',
             ascending: true,
         },
+        paging: { limit: 5 },
         ...defaultSearchParams,
     }
     const versionKey = btoa(JSON.stringify(effectiveInitialSearchParams))
@@ -47,7 +50,14 @@ export const AdvertsListWithSearch: FC<
         (p: AdvertFilterInput) =>
             setSearchParamsRaw({
                 versionKey,
-                p,
+                p: {
+                    ...p,
+                    paging: {
+                        limit:
+                            p.paging?.limit ??
+                            effectiveInitialSearchParams.paging?.limit!,
+                    },
+                },
             }),
         [setSearchParamsRaw, versionKey]
     )
@@ -58,24 +68,52 @@ export const AdvertsListWithSearch: FC<
             : effectiveInitialSearchParams
 
     const { listAdverts } = useContext(AdvertsContext)
-    const view = useLiveSearch(() => listAdverts(searchParams, { signal }))
 
-    const next = useCallback(
-        (p: AdvertFilterInput) => {
-            setSearchParams(p)
-            return () => listAdverts(p, { signal })
-        },
-        [setSearchParams, listAdverts, signal]
+    const appendListAdverts = useCallback(
+        async (p: AdvertFilterInput, activeList: Advert[]) =>
+            listAdverts(p, { signal }).then((newAdvertList) => ({
+                ...newAdvertList,
+                adverts: [...activeList, ...newAdvertList.adverts],
+            })),
+        [listAdverts]
     )
 
+    const view = useLiveSearch(() => appendListAdverts(searchParams, []))
+
+    const next = useCallback(
+        (p: AdvertFilterInput, appendOnto: Advert[] = []) => {
+            setSearchParams(p)
+            return () => appendListAdverts(p, appendOnto)
+        },
+        [setSearchParams, appendListAdverts, signal]
+    )
+
+    const tryLoadMoreAdverts = (
+        enqueue: AsyncEnqueue<AdvertList>,
+        activeAdverts: Advert[],
+        cursor: string | null | undefined
+    ) => {
+        enqueue(
+            next(
+                merge(searchParams, {
+                    paging: {
+                        limit: searchParams.paging?.limit,
+                        cursor,
+                    },
+                }),
+                activeAdverts
+            )
+        )
+    }
+
     const listResult = useCallback(
-        (adverts: Advert[] | null, enqueue: AsyncEnqueue<Advert[]>) => (
+        (adverts: AdvertList | null, enqueue: AsyncEnqueue<AdvertList>) => (
             <SearchableAdvertsList
                 key="sal"
                 searchParams={searchParams}
                 setSearchParams={(p) => enqueue(next(p))}
             >
-                {adverts?.length === 0 && (
+                {adverts?.adverts.length === 0 && (
                     <Box key="e">
                         <Phrase
                             id="SEARCH_EMPTY_RESULT"
@@ -84,7 +122,27 @@ export const AdvertsListWithSearch: FC<
                     </Box>
                 )}
                 {renderControls?.(searchParams, (p) => enqueue(next(p)))}
-                <AdvertsList key="al" adverts={adverts || []} />
+                <AdvertsList key="al" adverts={adverts?.adverts || []} />
+                <AdvertPagingControls
+                    limit={searchParams.paging?.limit!}
+                    onLoadMore={() =>
+                        tryLoadMoreAdverts(
+                            enqueue,
+                            adverts?.adverts ?? [],
+                            adverts?.nextCursor
+                        )
+                    }
+                    onChangeLimit={(limit) =>
+                        setSearchParams({
+                            ...searchParams,
+                            paging: {
+                                ...searchParams.paging,
+                                limit,
+                            },
+                        })
+                    }
+                    nextCursor={adverts?.nextCursor}
+                />
             </SearchableAdvertsList>
         ),
         [renderControls, searchParams, setSearchParams, next]

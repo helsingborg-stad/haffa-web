@@ -58,11 +58,17 @@ export interface AdvertSorting {
     ascending?: boolean
 }
 
+export interface AdvertPaging {
+    cursor?: string
+    limit: number
+}
+
 export interface AdvertFilterInput {
     search?: string
     fields?: AdvertFieldsFilterInput
     restrictions?: AdvertRestrictionsFilterInput
     sorting?: AdvertSorting
+    paging?: AdvertPaging
 }
 
 export interface AdvertImage {
@@ -152,13 +158,18 @@ export interface AdvertMutationResult {
     advert: Advert
 }
 
+export interface AdvertList {
+    adverts: Advert[]
+    nextCursor: string | null
+}
+
 export interface AdvertsRepository {
     getTerms: () => Promise<AdvertTerms>
     getAdvert: (id: string) => Promise<Advert>
     listAdverts: (
         searchParams?: AdvertFilterInput,
         init?: Pick<RequestInit, 'signal'>
-    ) => Promise<Advert[]>
+    ) => Promise<AdvertList>
     createAdvert: (input: AdvertInput) => Promise<AdvertMutationResult>
     updateAdvert: (
         id: string,
