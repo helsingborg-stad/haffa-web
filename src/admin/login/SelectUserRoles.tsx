@@ -10,22 +10,25 @@ export const SelectUserRoles: FC<{
     const [roleTuples, mapInputValueToTuples, toInputValue, fromInputValue] =
         createRoleInputBindings<HaffaUserRoles>((b) =>
             b
-                .define('canEdit', 'Skapa annonser')
-                .define('canArchive', 'Arkivera egna annonser')
-                .define('canRemove', 'Ta bort egna annonser')
-                .define('canReserve', 'Paxa annonser')
-                .define('canCollect', 'Haffa annonser')
-                .define('canCancelClaim', 'Hantera egna annonsers historik')
+                .define('canEditOwnAdverts', 'Skapa annonser')
+                .define('canArchiveOwnAdverts', 'Arkivera egna annonser')
+                .define('canRemoveOwnAdverts', 'Ta bort egna annonser')
+                .define('canReserveAdverts', 'Paxa annonser')
+                .define('canCollectAdverts', 'Haffa annonser')
                 .define(
-                    'canManageAdverts',
+                    'canManageOwnAdvertsHistory',
+                    'Hantera egna annonsers historik'
+                )
+                .define(
+                    'canManageAllAdverts',
                     'Hantera egna och andras annonser (admin)'
                 )
                 .define(
-                    'canEditCategories',
+                    'canEditSystemCategories',
                     'Hantera system kategorier (admin)'
                 )
                 .define(
-                    'canEditLoginPolicies',
+                    'canEditSystemLoginPolicies',
                     'Hantera systemets användare & behörigheter (admin)'
                 )
         )

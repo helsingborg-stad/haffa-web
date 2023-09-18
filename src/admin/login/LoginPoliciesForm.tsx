@@ -153,11 +153,11 @@ export const LoginPoliciesForm: FC<{
                                 id: nanoid(),
                                 email: '',
                                 roles: {
-                                    canEdit: true,
-                                    canArchive: true,
-                                    canRemove: true,
-                                    canReserve: true,
-                                    canCollect: true,
+                                    canEditOwnAdverts: true,
+                                    canArchiveOwnAdverts: true,
+                                    canRemoveOwnAdverts: true,
+                                    canReserveAdverts: true,
+                                    canCollectAdverts: true,
                                 },
                                 deny: false,
                             })
