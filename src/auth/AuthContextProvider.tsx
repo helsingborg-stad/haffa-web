@@ -7,7 +7,7 @@ export const AuthContextProvider: FC<
     { authProvider: AuthProvider } & PropsWithChildren
 > = ({ authProvider, children }) => {
     const [authentication, setAuthentication] = useLocalStorage<Authentication>(
-        'haffa-auth-v3',
+        'haffa-auth-v4',
         {
             token: '',
             roles: {},

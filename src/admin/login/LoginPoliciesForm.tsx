@@ -17,12 +17,13 @@ import {
 } from '@mui/material'
 import { PhraseContext } from 'phrases/PhraseContext'
 import { FC, useCallback, useContext, useState } from 'react'
-import { LoginPolicy } from 'settings/types'
 import AddIcon from '@mui/icons-material/Add'
 import SaveIcon from '@mui/icons-material/Save'
 import { nanoid } from 'nanoid'
 import { Editorial } from 'editorials'
-import * as types from 'admin/types'
+import { HaffaUserRoles } from 'admin/types'
+import { LoginPolicy } from 'login-policies/types'
+import { rolesArrayToRoles, rolesToRolesArray } from 'auth/mappers'
 import { SelectUserRoles } from './SelectUserRoles'
 
 export const LoginPoliciesForm: FC<{
@@ -36,14 +37,14 @@ export const LoginPoliciesForm: FC<{
         id: string
         email: string
         deny: boolean
-        roles: types.HaffaUserRoles
+        roles: HaffaUserRoles
     }
 
     const [policies, setPolicies] = useState<EditablePolicy[]>(
         loginPolicies.map(({ emailPattern, roles, deny }) => ({
             id: nanoid(),
             email: emailPattern,
-            roles,
+            roles: rolesArrayToRoles(roles),
             deny,
         }))
     )
@@ -174,7 +175,7 @@ export const LoginPoliciesForm: FC<{
                         onSave(
                             policies.map(({ email, roles, deny }) => ({
                                 emailPattern: email,
-                                roles,
+                                roles: rolesToRolesArray(roles),
                                 deny,
                             }))
                         )
