@@ -6,6 +6,7 @@ import {
     CardContent,
     CardHeader,
     Checkbox,
+    FormControl,
     Paper,
     Table,
     TableBody,
@@ -86,9 +87,8 @@ export const LoginPoliciesForm: FC<{
                     <Table aria-label={phrase('', 'Loginregler')}>
                         <TableHead>
                             <TableRow>
-                                <TableCell>{phrase('', 'Email')}</TableCell>
                                 <TableCell>
-                                    {phrase('', 'Behörigheter')}
+                                    {phrase('', 'Email & behörigheter')}
                                 </TableCell>
                                 <TableCell>{phrase('', 'Neka')}</TableCell>
                             </TableRow>
@@ -101,19 +101,27 @@ export const LoginPoliciesForm: FC<{
                                 ) => (
                                     <TableRow key={id}>
                                         <TableCell>
-                                            <TextField
+                                            <FormControl
                                                 fullWidth
-                                                value={email}
-                                                onChange={(e) =>
-                                                    mutateRowField(
-                                                        index,
-                                                        'email',
-                                                        e.target.value
-                                                    )
-                                                }
-                                            />
-                                        </TableCell>
-                                        <TableCell>
+                                                sx={{ mb: 2 }}
+                                            >
+                                                <TextField
+                                                    fullWidth
+                                                    value={email}
+                                                    label={phrase('', 'Email')}
+                                                    placeholder={phrase(
+                                                        '',
+                                                        'Email'
+                                                    )}
+                                                    onChange={(e) =>
+                                                        mutateRowField(
+                                                            index,
+                                                            'email',
+                                                            e.target.value
+                                                        )
+                                                    }
+                                                />
+                                            </FormControl>
                                             <SelectUserRoles
                                                 userRoles={userRoles}
                                                 onChange={(roles) =>
