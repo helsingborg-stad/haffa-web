@@ -28,6 +28,7 @@ import { AdvertQrCodeView } from 'adverts/components/details'
 import { AuthContext } from 'auth'
 import { UnauthorizedView } from 'auth/components/UnathorizedView'
 import { EditCategoriesView, EditLoginPoliciesView } from 'admin'
+import { HaffaUserRoles } from 'admin/types'
 import { ErrorRouteView } from './ErrorRouteView'
 import { SettingsContext } from '../settings'
 import { SettingsRepository } from '../settings/types'
@@ -39,15 +40,12 @@ const UnpackLoaderData: FC<{ render: (loaderData: any) => JSX.Element }> = ({
     return render(loaderData)
 }
 
-const RequireRole: FC<PropsWithChildren & { roleName: string }> = ({
-    roleName,
-    children,
-}) => {
-    const { isInRoles } = useContext(AuthContext)
+const RequireRole: FC<
+    PropsWithChildren & { predicate: (roles: HaffaUserRoles) => boolean }
+> = ({ predicate, children }) => {
+    const { roles } = useContext(AuthContext)
 
-    return (
-        <Layout>{isInRoles(roleName) ? children : <UnauthorizedView />}</Layout>
-    )
+    return <Layout>{predicate(roles) ? children : <UnauthorizedView />}</Layout>
 }
 
 const createRouter = (
@@ -226,7 +224,7 @@ const createRouter = (
      */
     const viewAdminLoginsProps = (): AsyncRouteConfig => ({
         element: (
-            <RequireRole roleName="admin">
+            <RequireRole predicate={(r) => !!r.canEditSystemLoginPolicies}>
                 <EditLoginPoliciesView />
             </RequireRole>
         ),
@@ -236,7 +234,7 @@ const createRouter = (
      */
     const viewAdminCategoriesProps = (): AsyncRouteConfig => ({
         element: (
-            <RequireRole roleName="admin">
+            <RequireRole predicate={(r) => !!r.canEditSystemCategories}>
                 <EditCategoriesView />
             </RequireRole>
         ),

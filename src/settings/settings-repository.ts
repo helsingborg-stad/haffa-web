@@ -2,13 +2,14 @@ import { gqlClient } from 'graphql'
 import { CategoryFlat } from 'categories/types'
 
 import { decodeCategoryTree, encodeCategoryTree } from 'categories/mappers'
+import { LoginPolicy } from 'login-policies/types'
 import {
     getCategoriesQuery,
     getLoginPoliciesQuery,
     setCategoriesMutation,
     setLoginPoliciesMutation,
 } from './queries'
-import { LoginPolicy, SettingsRepository } from './types'
+import { SettingsRepository } from './types'
 
 const gql = (token: string, f?: typeof fetch, init?: RequestInit) =>
     gqlClient()
