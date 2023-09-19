@@ -6,9 +6,6 @@ const notProvided = (method: string) => () => {
 }
 
 export const AuthContext = createContext<AuthContextType>({
-    get isAdmin() {
-        return notProvided('isAdmin'), false
-    },
     get isAuthenticated() {
         return notProvided('isAuthenticated'), false
     },
@@ -16,12 +13,11 @@ export const AuthContext = createContext<AuthContextType>({
         return notProvided('token'), ''
     },
     get roles() {
-        return notProvided('roles'), []
+        return notProvided('roles'), {}
     },
     get authProvider() {
         return notProvided('authProvider'), null as any as AuthProvider
     },
-    isInRoles: notProvided('isInRoles'),
     setAuthentication: notProvided('setAuthentication'),
     signout: notProvided('signout'),
 })

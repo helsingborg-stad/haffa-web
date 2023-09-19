@@ -1,10 +1,11 @@
-import { AuthProvider } from './types'
+import { rolesArrayToRoles } from './mappers'
+import { AuthProvider, Authentication } from './types'
 
 const normalizeString = (s: any) => (typeof s === 'string' ? s.trim() : '')
 
-const makeAuthentication = (token: any, roles: any) => ({
+const makeAuthentication = (token: any, roles: any): Authentication => ({
     token: normalizeString(token),
-    roles: Array.isArray(roles) ? roles.map(normalizeString) : [],
+    roles: rolesArrayToRoles(roles),
 })
 export const createAuthProvider = (): AuthProvider => {
     const request = (url: string, body: any) =>
