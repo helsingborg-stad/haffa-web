@@ -25,10 +25,9 @@ import {
     ProfileView,
 } from 'profile'
 import { AdvertQrCodeView } from 'adverts/components/details'
-import { AuthContext } from 'auth'
+import { AuthContext, HaffaUserRoles } from 'auth'
 import { UnauthorizedView } from 'auth/components/UnathorizedView'
 import { EditCategoriesView, EditLoginPoliciesView } from 'admin'
-import { HaffaUserRoles } from 'admin/types'
 import { ErrorRouteView } from './ErrorRouteView'
 import { SettingsContext } from '../settings'
 import { SettingsRepository } from '../settings/types'

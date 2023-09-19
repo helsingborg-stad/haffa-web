@@ -22,9 +22,9 @@ import AddIcon from '@mui/icons-material/Add'
 import SaveIcon from '@mui/icons-material/Save'
 import { nanoid } from 'nanoid'
 import { Editorial } from 'editorials'
-import { HaffaUserRoles } from 'admin/types'
 import { LoginPolicy } from 'login-policies/types'
 import { rolesArrayToRoles, rolesToRolesArray } from 'auth/mappers'
+import { HaffaUserRoles } from 'auth'
 import { SelectUserRoles } from './SelectUserRoles'
 
 export const LoginPoliciesForm: FC<{

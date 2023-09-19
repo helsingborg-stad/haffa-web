@@ -1,5 +1,5 @@
-import { HaffaUserRoles } from 'admin/types'
 import { toMap } from 'lib/to-map'
+import { HaffaUserRoles } from './types'
 
 export const rolesToRolesArray = (roles?: HaffaUserRoles) =>
     Object.entries(normalizeRoles(roles))

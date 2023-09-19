@@ -1,4 +1,3 @@
-import { HaffaUserRoles } from 'admin/types'
 import { FC, useContext, useMemo } from 'react'
 import {
     Box,
@@ -11,6 +10,7 @@ import {
 } from '@mui/material'
 import { PhraseContext } from 'phrases/PhraseContext'
 import AdminIcon from '@mui/icons-material/Lock'
+import { HaffaUserRoles } from 'auth'
 import { createRoleInputBindings } from './create-role-input-bindings'
 
 export const SelectUserRoles: FC<{
