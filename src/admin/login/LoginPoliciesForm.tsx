@@ -40,10 +40,10 @@ export const LoginPoliciesForm: FC<{
     }
 
     const [policies, setPolicies] = useState<EditablePolicy[]>(
-        loginPolicies.map(({ emailPattern, deny }) => ({
+        loginPolicies.map(({ emailPattern, roles, deny }) => ({
             id: nanoid(),
             email: emailPattern,
-            roles: {},
+            roles,
             deny,
         }))
     )

@@ -4,7 +4,7 @@ const normalizeString = (s: any) => (typeof s === 'string' ? s.trim() : '')
 
 const makeAuthentication = (token: any, roles: any) => ({
     token: normalizeString(token),
-    roles: Array.isArray(roles) ? roles.map(normalizeString) : [],
+    roles: roles || {},
 })
 export const createAuthProvider = (): AuthProvider => {
     const request = (url: string, body: any) =>

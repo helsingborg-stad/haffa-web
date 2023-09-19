@@ -1,8 +1,12 @@
 interface RoleMappingBuilder<TRoles> {
-    define: (prop: keyof TRoles, label: string) => RoleMappingBuilder<TRoles>
+    define: (
+        prop: keyof TRoles,
+        label: string,
+        isAdmin?: boolean
+    ) => RoleMappingBuilder<TRoles>
 }
 
-type RoleInputTuple<TRoles> = [keyof TRoles, string]
+type RoleInputTuple<TRoles> = [keyof TRoles, string, boolean]
 
 interface MapInputValueToRoles<TRoles> {
     (values: string | string[]): Partial<TRoles>
@@ -18,8 +22,9 @@ interface MapInputValueToTuples<TRoles> {
 
 const makeTuple = <TRoles>(
     prop: keyof TRoles,
-    label: string
-): RoleInputTuple<TRoles> => [prop, label]
+    label: string,
+    isAdmin: boolean
+): RoleInputTuple<TRoles> => [prop, label, isAdmin]
 
 export const createRoleInputBindings = <TRoles>(
     definer: (builder: RoleMappingBuilder<TRoles>) => RoleMappingBuilder<TRoles>
@@ -31,8 +36,8 @@ export const createRoleInputBindings = <TRoles>(
 ] => {
     const tuples: RoleInputTuple<TRoles>[] = []
     const builder: RoleMappingBuilder<TRoles> = {
-        define: (prop, label) => {
-            tuples.push(makeTuple(prop, label))
+        define: (prop, label, isAdmin) => {
+            tuples.push(makeTuple(prop, label, !!isAdmin))
             return builder
         },
     }
@@ -46,6 +51,13 @@ export const createRoleInputBindings = <TRoles>(
         }),
         {} as { [Property in keyof TRoles]: string }
     )
+    const isAdminByKey = tuples.reduce(
+        (m, [prop, _, isAdmin]) => ({
+            ...m,
+            [prop]: isAdmin,
+        }),
+        {} as { [Property in keyof TRoles]: boolean }
+    )
 
     const toArray = <T>(a: T | T[]): T[] => (Array.isArray(a) ? a : [a])
 
@@ -55,7 +67,8 @@ export const createRoleInputBindings = <TRoles>(
         toArray(values).map((prop) =>
             makeTuple<TRoles>(
                 prop as keyof TRoles,
-                labelsByKey[prop as keyof TRoles]
+                labelsByKey[prop as keyof TRoles],
+                isAdminByKey[prop as keyof TRoles]
             )
         )
 

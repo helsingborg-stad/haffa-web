@@ -1,18 +1,54 @@
 import { Button, Menu, MenuItem } from '@mui/material'
 import { AuthContext } from 'auth'
-import { FC, useContext, useState } from 'react'
+import { FC, useCallback, useContext, useMemo, useState } from 'react'
 import AdminIcon from '@mui/icons-material/Lock'
 import { NavLink } from 'react-router-dom'
 import { PhraseContext } from 'phrases/PhraseContext'
 
 export const AdminButton: FC = () => {
     const { phrase } = useContext(PhraseContext)
-    const { isAdmin } = useContext(AuthContext)
+    const { roles } = useContext(AuthContext)
     const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null)
     const open = !!anchorEl
-    if (!isAdmin) {
+
+    const makeMenuItem = useCallback(
+        (to: string, label: string) => (
+            <MenuItem key={to}>
+                <Button
+                    fullWidth
+                    component={NavLink}
+                    to={to}
+                    onClick={() => setAnchorEl(null)}
+                >
+                    {label}
+                </Button>
+            </MenuItem>
+        ),
+        [setAnchorEl]
+    )
+    const adminMenuLinks = useMemo(
+        () =>
+            [
+                roles.canEditSystemCategories
+                    ? makeMenuItem(
+                          '/admin/categories',
+                          phrase('', 'Kategorier')
+                      )
+                    : null,
+                roles.canEditSystemLoginPolicies
+                    ? makeMenuItem(
+                          '/admin/logins',
+                          phrase('', 'Användare & behörigheter')
+                      )
+                    : null,
+            ].filter((v) => v),
+        [phrase, roles]
+    )
+
+    if (adminMenuLinks.length === 0) {
         return null
     }
+
     return (
         <>
             <Button
@@ -27,24 +63,7 @@ export const AdminButton: FC = () => {
                 open={open}
                 onClose={() => setAnchorEl(null)}
             >
-                <MenuItem>
-                    <Button
-                        component={NavLink}
-                        to="/admin/categories"
-                        onClick={() => setAnchorEl(null)}
-                    >
-                        {phrase('', 'Kategorier')}
-                    </Button>
-                </MenuItem>
-                <MenuItem>
-                    <Button
-                        component={NavLink}
-                        to="/admin/logins"
-                        onClick={() => setAnchorEl(null)}
-                    >
-                        {phrase('', 'Användare & behörigheter')}
-                    </Button>
-                </MenuItem>
+                {adminMenuLinks}
             </Menu>
         </>
     )

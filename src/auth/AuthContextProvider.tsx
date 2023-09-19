@@ -7,20 +7,19 @@ export const AuthContextProvider: FC<
     { authProvider: AuthProvider } & PropsWithChildren
 > = ({ authProvider, children }) => {
     const [authentication, setAuthentication] = useLocalStorage<Authentication>(
-        'haffa-auth-v2',
+        'haffa-auth-v3',
         {
             token: '',
-            roles: [],
+            roles: {},
         }
     )
     const signout = useCallback(
-        async () => setAuthentication({ token: '', roles: [] }),
+        async () => setAuthentication({ token: '', roles: {} }),
         [setAuthentication]
     )
     const { token } = authentication
 
-    const getAuthenticationSignature = (a: Authentication) =>
-        [a.token, ...a.roles].sort().join('@')
+    const getAuthenticationSignature = (a: Authentication) => JSON.stringify(a)
     const areEquivalent = (a: Authentication, b: Authentication) =>
         getAuthenticationSignature(a) === getAuthenticationSignature(b)
     useEffect(() => {
@@ -36,14 +35,11 @@ export const AuthContextProvider: FC<
         <AuthContext.Provider
             value={{
                 isAuthenticated: !!authentication.token,
-                isAdmin: authentication.roles.includes('admin'),
                 token: authentication.token,
                 roles: authentication.roles,
                 authProvider,
                 setAuthentication,
                 signout,
-                isInRoles: (...roles) =>
-                    roles.some((r) => authentication.roles.includes(r)),
             }}
         >
             {children}

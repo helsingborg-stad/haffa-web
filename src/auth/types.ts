@@ -1,14 +1,14 @@
+import { HaffaUserRoles } from 'admin/types'
+
 export interface Authentication {
     token: string
-    roles: string[]
+    roles: HaffaUserRoles
 }
 export interface AuthContextType {
     readonly isAuthenticated: boolean
-    readonly isAdmin: boolean
     readonly token: string
-    readonly roles: string[]
+    readonly roles: HaffaUserRoles
     readonly authProvider: AuthProvider
-    isInRoles: (...roles: string[]) => boolean
     setAuthentication: (Authentication: Authentication) => void
     signout: () => Promise<void>
 }
