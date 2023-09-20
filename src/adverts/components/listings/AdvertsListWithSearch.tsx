@@ -29,7 +29,7 @@ export const AdvertsListWithSearch: FC<
             field: 'title',
             ascending: true,
         },
-        paging: { limit: 5 },
+        paging: { limit: 25 },
         ...defaultSearchParams,
     }
     const versionKey = btoa(JSON.stringify(effectiveInitialSearchParams))
@@ -124,22 +124,12 @@ export const AdvertsListWithSearch: FC<
                 {renderControls?.(searchParams, (p) => enqueue(next(p)))}
                 <AdvertsList key="al" adverts={adverts?.adverts || []} />
                 <AdvertPagingControls
-                    limit={searchParams.paging?.limit!}
                     onLoadMore={() =>
                         tryLoadMoreAdverts(
                             enqueue,
                             adverts?.adverts ?? [],
                             adverts?.nextCursor
                         )
-                    }
-                    onChangeLimit={(limit) =>
-                        setSearchParams({
-                            ...searchParams,
-                            paging: {
-                                ...searchParams.paging,
-                                limit,
-                            },
-                        })
                     }
                     nextCursor={adverts?.nextCursor}
                 />
