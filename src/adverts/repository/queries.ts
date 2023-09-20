@@ -74,7 +74,10 @@ query Query($filter: AdvertFilterInput) {
 		adverts {
 			${advertProps}
 		}
-		nextCursor
+		paging {
+      nextCursor
+      totalCount
+    }
 	}
 }
 `

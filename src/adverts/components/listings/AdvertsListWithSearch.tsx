@@ -113,14 +113,23 @@ export const AdvertsListWithSearch: FC<
                 searchParams={searchParams}
                 setSearchParams={(p) => enqueue(next(p))}
             >
-                {adverts?.adverts.length === 0 && (
-                    <Box key="e">
+                <Box key="e" sx={{ m: 2 }}>
+                    {adverts?.adverts.length === 0 ? (
                         <Phrase
                             id="SEARCH_EMPTY_RESULT"
                             value="Hoppsan, det blev inga träffar på den"
                         />
-                    </Box>
-                )}
+                    ) : (
+                        <Phrase
+                            id="SEARCH_TOTAL_COUNT"
+                            value="Visar {count} av {totalCount} annonser"
+                            variables={{
+                                count: adverts?.adverts.length ?? '?',
+                                totalCount: adverts?.paging.totalCount ?? '?',
+                            }}
+                        />
+                    )}
+                </Box>
                 {renderControls?.(searchParams, (p) => enqueue(next(p)))}
                 <AdvertsList key="al" adverts={adverts?.adverts || []} />
                 {adverts?.adverts.length === 0 ? null : (
@@ -129,10 +138,10 @@ export const AdvertsListWithSearch: FC<
                             tryLoadMoreAdverts(
                                 enqueue,
                                 adverts?.adverts ?? [],
-                                adverts?.nextCursor
+                                adverts?.paging.nextCursor
                             )
                         }
-                        nextCursor={adverts?.nextCursor}
+                        nextCursor={adverts?.paging.nextCursor}
                     />
                 )}
             </SearchableAdvertsList>

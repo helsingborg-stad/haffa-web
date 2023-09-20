@@ -158,9 +158,14 @@ export interface AdvertMutationResult {
     advert: Advert
 }
 
+export interface Paging {
+    totalCount: number
+    nextCursor: string | null
+}
+
 export interface AdvertList {
     adverts: Advert[]
-    nextCursor: string | null
+    paging: Paging
 }
 
 export interface AdvertsRepository {
