@@ -123,16 +123,18 @@ export const AdvertsListWithSearch: FC<
                 )}
                 {renderControls?.(searchParams, (p) => enqueue(next(p)))}
                 <AdvertsList key="al" adverts={adverts?.adverts || []} />
-                <AdvertPagingControls
-                    onLoadMore={() =>
-                        tryLoadMoreAdverts(
-                            enqueue,
-                            adverts?.adverts ?? [],
-                            adverts?.nextCursor
-                        )
-                    }
-                    nextCursor={adverts?.nextCursor}
-                />
+                {adverts?.adverts.length === 0 ? null : (
+                    <AdvertPagingControls
+                        onLoadMore={() =>
+                            tryLoadMoreAdverts(
+                                enqueue,
+                                adverts?.adverts ?? [],
+                                adverts?.nextCursor
+                            )
+                        }
+                        nextCursor={adverts?.nextCursor}
+                    />
+                )}
             </SearchableAdvertsList>
         ),
         [renderControls, searchParams, setSearchParams, next]
