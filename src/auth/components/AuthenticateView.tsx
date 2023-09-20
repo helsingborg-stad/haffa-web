@@ -84,7 +84,7 @@ export const AuthenticateView: FC = () => {
                 email,
                 pincode
             )
-            if (authentication) {
+            if (authentication && authentication.token) {
                 console.log(authentication)
                 setAuthentication(authentication)
             } else {
@@ -109,6 +109,11 @@ export const AuthenticateView: FC = () => {
     return (
         <Layout renderAppbarControls={() => null} hideNavbar>
             <Box>
+                {errorMessage && (
+                    <Alert sx={{ py: 2 }} severity="error">
+                        {errorMessage}
+                    </Alert>
+                )}
                 <Stepper activeStep={step} orientation="vertical">
                     <Step key={0}>
                         <StepLabel>
@@ -150,11 +155,6 @@ export const AuthenticateView: FC = () => {
                                         value="Skicka mig ett email med engångskod"
                                     />
                                 </Button>
-                                {errorMessage && (
-                                    <Alert sx={{ py: 2 }} severity="error">
-                                        {errorMessage}
-                                    </Alert>
-                                )}
                             </Box>
                         </StepContent>
                     </Step>
@@ -234,9 +234,23 @@ export const AuthenticateView: FC = () => {
                                 </Button>
                             </Box>
                             {errorMessage && (
-                                <Alert sx={{ py: 2 }} severity="error">
-                                    {errorMessage}
-                                </Alert>
+                                <Box>
+                                    <Button
+                                        fullWidth
+                                        variant="outlined"
+                                        disabled={loading}
+                                        onClick={() => {
+                                            setPincode('')
+                                            setState({
+                                                loading: false,
+                                                step: 0,
+                                                errorMessage: undefined,
+                                            })
+                                        }}
+                                    >
+                                        {phrase('', 'Börja om från början')}
+                                    </Button>
+                                </Box>
                             )}
                         </StepContent>
                     </Step>
