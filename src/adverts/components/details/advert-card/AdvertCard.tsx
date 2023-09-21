@@ -1,5 +1,5 @@
 import { FC, useContext } from 'react'
-import { Card, CardActions, CardContent, CardHeader, Grid } from '@mui/material'
+import { Card, CardContent, CardHeader, Grid } from '@mui/material'
 import { DeepLinkContext } from 'deep-links/DeepLinkContext'
 import { Editorial } from 'editorials'
 import { Advert, AdvertMutationResult } from '../../../types'
@@ -23,7 +23,7 @@ export const AdvertCard: FC<{
 
     // show a disclaimer if we are administering someone eleses advert
     const showRightsDisclaimer =
-        !meta.isMine && (meta.canEdit || meta.canRemove)
+        !meta.isMine && (meta.canEdit || meta.canRemove || meta.canManageClaims)
 
     const showCollect = meta.canCollect && isCurrentLinkFromQrCode(advert)
 
@@ -79,15 +79,11 @@ export const AdvertCard: FC<{
                         </Editorial>
                     </CardContent>
                 )}
-                {meta.canEdit && (
-                    <CardContent>
-                        <ClaimsPanel advert={advert} onUpdate={onUpdate} />
-                    </CardContent>
-                )}
-                <CardActions>
-                    <EditorButtonsPanel advert={advert} onUpdate={onUpdate} />
-                </CardActions>
             </Card>
+            {meta.canManageClaims && (
+                <ClaimsPanel advert={advert} onUpdate={onUpdate} />
+            )}
+            <EditorButtonsPanel advert={advert} onUpdate={onUpdate} />
         </>
     )
 }

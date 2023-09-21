@@ -9,6 +9,7 @@ import {
     cancelAdvertClaimMutation,
     cancelAdvertReservationMutation,
     collectAdvertMutation,
+    convertAdvertClaimMutation,
     createAdvertMutation,
     getAdvertQuery,
     getTermsQuery,
@@ -107,5 +108,11 @@ export const createAdvertsRepository = (
             .query(cancelAdvertClaimMutation)
             .variables({ id, by: claim.by, type: claim.type })
             .map<AdvertMutationResult>('cancelAdvertClaim')
+            .then(expectAdvert),
+    convertAdvertClaim: async (id, claim, newType) =>
+        gql(token, f)
+            .query(convertAdvertClaimMutation)
+            .variables({ id, by: claim.by, type: claim.type, newType })
+            .map<AdvertMutationResult>('convertAdvertClaim')
             .then(expectAdvert),
 })

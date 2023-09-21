@@ -16,7 +16,7 @@ const advertProps = `
 		canReserve
 		canCancelReservation
 		canCollect
-		canCancelClaim
+		canManageClaims
     reservedyMe
     collectedByMe
 		claims {
@@ -24,6 +24,8 @@ const advertProps = `
 			at
 			quantity
 			type
+			canCancel
+			canConvert
 		}
 	}
 	images {
@@ -164,6 +166,19 @@ mutation Mutation(
 	$type: AdvertClaimType!
 ) {
 	cancelAdvertClaim(id: $id, by: $by, type: $type) {
+		${mutationProps}
+	}
+}
+`
+
+export const convertAdvertClaimMutation = /* GraphQL */ `
+mutation Mutation(
+	$id: ID!,
+	$by: String!,
+	$type: AdvertClaimType!
+	$newType: AdvertClaimType!
+) {
+	convertAdvertClaim(id: $id, by: $by, type: $type, newType: $newType) {
 		${mutationProps}
 	}
 }

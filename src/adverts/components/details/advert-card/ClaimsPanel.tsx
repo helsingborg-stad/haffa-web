@@ -1,86 +1,274 @@
 import {
-    Accordion,
-    AccordionDetails,
-    AccordionSummary,
-    List,
-    ListItem,
-    ListItemButton,
+    Button,
+    ButtonGroup,
+    Card,
+    CardActions,
+    CardContent,
+    ClickAwayListener,
+    Grow,
     ListItemIcon,
     ListItemText,
+    MenuItem,
+    MenuList,
+    Paper,
+    Popper,
     Typography,
+    useMediaQuery,
+    useTheme,
 } from '@mui/material'
 import { PhraseContext } from 'phrases/PhraseContext'
-import { FC, useContext } from 'react'
-import ReservedIcon from '@mui/icons-material/MobileFriendly'
-import CollectedIcon from '@mui/icons-material/LocalShipping'
-import ExpandMoreIcon from '@mui/icons-material/ExpandMore'
-import RemoveIcon from '@mui/icons-material/Delete'
+import { FC, ReactNode, useContext, useMemo, useRef, useState } from 'react'
 import { AdvertsContext } from 'adverts'
-import { Advert, AdvertClaimType, AdvertMutationResult } from '../../../types'
+import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown'
+import CancelIcon from '@mui/icons-material/Cancel'
+import ConvertIcon from '@mui/icons-material/ChangeCircle'
+import {
+    Advert,
+    AdvertClaim,
+    AdvertClaimType,
+    AdvertMutationResult,
+} from '../../../types'
+
+const ActionsButton: FC<{
+    advert: Advert
+    claim: AdvertClaim
+    onUpdate: (p: Promise<AdvertMutationResult>) => void
+}> = ({ advert, claim, onUpdate }) => {
+    const { cancelAdvertClaim, convertAdvertClaim } = useContext(AdvertsContext)
+    const { phrase } = useContext(PhraseContext)
+
+    const anchorRef = useRef<HTMLDivElement>(null)
+    const [selectedIndex, setSelectedIndex] = useState(0)
+    const [open, setOpen] = useState(false)
+
+    interface Option {
+        label: string
+        icon?: ReactNode
+        action: () => void
+        disabled?: boolean
+    }
+    const options = useMemo<Option[]>(
+        () =>
+            [
+                {
+                    label: phrase('', 'Välj hantering'),
+                    action: () => {},
+                    disabled: true,
+                },
+                claim.canCancel && claim.type === AdvertClaimType.reserved
+                    ? {
+                          label: phrase('', 'Ångra reservation'),
+                          icon: <CancelIcon color="primary" />,
+                          action: () =>
+                              onUpdate(cancelAdvertClaim(advert.id, claim)),
+                      }
+                    : null,
+                claim.canCancel && claim.type === AdvertClaimType.collected
+                    ? {
+                          label: phrase('', 'Ångra hämtning'),
+                          icon: <CancelIcon color="primary" />,
+                          action: () =>
+                              onUpdate(cancelAdvertClaim(advert.id, claim)),
+                      }
+                    : null,
+                claim.canConvert && claim.type !== AdvertClaimType.collected
+                    ? {
+                          label: phrase('', 'Lämna ut manuellt'),
+                          icon: <ConvertIcon color="primary" />,
+                          action: () =>
+                              onUpdate(
+                                  convertAdvertClaim(
+                                      advert.id,
+                                      claim,
+                                      AdvertClaimType.collected
+                                  )
+                              ),
+                      }
+                    : null,
+                claim.canConvert && claim.type === AdvertClaimType.collected
+                    ? {
+                          label: phrase('', 'Ändra till reservation'),
+                          icon: <ConvertIcon color="primary" />,
+                          action: () =>
+                              onUpdate(
+                                  convertAdvertClaim(
+                                      advert.id,
+                                      claim,
+                                      AdvertClaimType.reserved
+                                  )
+                              ),
+                      }
+                    : null,
+            ]
+                .filter((o) => o)
+                .map((o) => o!),
+        [onUpdate, advert, claim]
+    )
+
+    const theme = useTheme()
+    const largeScreen = useMediaQuery(theme.breakpoints.up('md'))
+
+    const selectedOption = options[selectedIndex]
+
+    const handleToggle = () => {
+        setOpen((prevOpen) => !prevOpen)
+    }
+
+    const handleClose = (event: Event) => {
+        if (
+            anchorRef.current &&
+            anchorRef.current.contains(event.target as HTMLElement)
+        ) {
+            return
+        }
+
+        setOpen(false)
+    }
+
+    return (
+        <>
+            <ButtonGroup
+                variant="outlined"
+                ref={anchorRef}
+                aria-label="split button"
+                fullWidth={!largeScreen}
+            >
+                <Button
+                    onClick={selectedOption.action}
+                    fullWidth={!largeScreen}
+                    startIcon={selectedOption.icon}
+                >
+                    {selectedOption.label}
+                </Button>
+                <Button
+                    size="small"
+                    aria-expanded={open ? 'true' : undefined}
+                    aria-label="select merge strategy"
+                    aria-haspopup="menu"
+                    fullWidth={false}
+                    onClick={handleToggle}
+                >
+                    <ArrowDropDownIcon />
+                </Button>
+            </ButtonGroup>
+            <Popper
+                sx={{
+                    zIndex: 1,
+                }}
+                open={open}
+                anchorEl={anchorRef.current}
+                role={undefined}
+                transition
+                disablePortal
+            >
+                {({ TransitionProps, placement }) => (
+                    <Grow
+                        {...TransitionProps}
+                        style={{
+                            transformOrigin:
+                                placement === 'bottom'
+                                    ? 'center top'
+                                    : 'center bottom',
+                        }}
+                    >
+                        <Paper>
+                            <ClickAwayListener onClickAway={handleClose}>
+                                <MenuList autoFocusItem>
+                                    {options
+                                        .filter(({ disabled }) => !disabled)
+                                        .map((option) => (
+                                            <MenuItem
+                                                key={option.label}
+                                                selected={
+                                                    option === selectedOption
+                                                }
+                                                onClick={() => {
+                                                    setSelectedIndex(
+                                                        options.indexOf(option)
+                                                    )
+                                                    setOpen(false)
+                                                }}
+                                            >
+                                                <ListItemIcon>
+                                                    {option.icon}
+                                                </ListItemIcon>
+                                                <ListItemText>
+                                                    {option.label}
+                                                </ListItemText>
+                                            </MenuItem>
+                                        ))}
+                                </MenuList>
+                            </ClickAwayListener>
+                        </Paper>
+                    </Grow>
+                )}
+            </Popper>
+        </>
+    )
+}
+
+export const ClaimCard: FC<{
+    advert: Advert
+    claim: AdvertClaim
+    onUpdate: (p: Promise<AdvertMutationResult>) => void
+}> = ({ advert, claim, onUpdate }) => {
+    const { phrase } = useContext(PhraseContext)
+    const { fromNow } = useContext(PhraseContext)
+    const { quantity, type } = claim
+    const { unit } = advert
+    return (
+        <Card sx={{ mb: 2 }}>
+            <CardContent>
+                <Typography variant="subtitle1">{claim.by}</Typography>
+                <Typography variant="subtitle2">
+                    {type === AdvertClaimType.reserved &&
+                        phrase('', 'Rerverade')}
+                    {type === AdvertClaimType.collected &&
+                        phrase('', 'Hämtade')}{' '}
+                    {quantity} {unit} {fromNow(claim.at)}
+                </Typography>
+            </CardContent>
+            <CardActions>
+                <ActionsButton
+                    advert={advert}
+                    claim={claim}
+                    onUpdate={onUpdate}
+                />
+            </CardActions>
+        </Card>
+    )
+}
 
 export const ClaimsPanel: FC<{
     advert: Advert
     onUpdate: (p: Promise<AdvertMutationResult>) => void
-}> = ({
-    advert: {
-        id,
-        unit,
-        meta: { claims, canCancelClaim },
-    },
-    onUpdate,
-}) => {
-    const { fromNow, phrase } = useContext(PhraseContext)
-    const { cancelAdvertClaim } = useContext(AdvertsContext)
+}> = ({ advert, onUpdate }) => {
+    const {
+        meta: { claims },
+    } = advert
+    interface ClaimModel {
+        claim: AdvertClaim
+        key: string
+        editMode: false
+    }
+    const [claimsModel] = useState<ClaimModel[]>(
+        claims.map((claim) => ({
+            claim,
+            key: `${claim.at}-${claim.by}-${claim.type}-${claim.quantity}`,
+            editMode: false,
+        }))
+    )
+
     return (
-        <Accordion>
-            <AccordionSummary expandIcon={<ExpandMoreIcon />}>
-                <Typography>{phrase('', 'Transaktioner')}</Typography>
-            </AccordionSummary>
-            <AccordionDetails>
-                <List>
-                    {claims.map(({ at, by, type, quantity }) => (
-                        <ListItem key={`${at}-${by}-${type}-${quantity}`}>
-                            <ListItemIcon>
-                                {type === AdvertClaimType.reserved && (
-                                    <ReservedIcon />
-                                )}
-                                {type === AdvertClaimType.collected && (
-                                    <CollectedIcon />
-                                )}
-                            </ListItemIcon>
-                            <ListItemText>
-                                {fromNow(at)} {by}{' '}
-                                {type === AdvertClaimType.reserved &&
-                                    phrase('', 'haffade')}
-                                {type === AdvertClaimType.collected &&
-                                    phrase('', 'hämtade')}{' '}
-                                {quantity} {unit}
-                            </ListItemText>
-                            {canCancelClaim && (
-                                <ListItemButton
-                                    onClick={() =>
-                                        onUpdate(
-                                            cancelAdvertClaim(id, {
-                                                at,
-                                                by,
-                                                type,
-                                                quantity,
-                                            })
-                                        )
-                                    }
-                                >
-                                    <ListItemIcon>
-                                        <RemoveIcon />
-                                    </ListItemIcon>
-                                    <ListItemText>
-                                        {phrase('', 'Annullera')}
-                                    </ListItemText>
-                                </ListItemButton>
-                            )}
-                        </ListItem>
-                    ))}
-                </List>
-            </AccordionDetails>
-        </Accordion>
+        <>
+            {claimsModel.map(({ key, claim }) => (
+                <ClaimCard
+                    key={key}
+                    advert={advert}
+                    claim={claim}
+                    onUpdate={onUpdate}
+                />
+            ))}
+        </>
     )
 }
