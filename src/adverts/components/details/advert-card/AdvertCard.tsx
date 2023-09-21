@@ -1,19 +1,7 @@
 import { FC, useContext } from 'react'
-import {
-    Button,
-    Card,
-    CardActions,
-    CardContent,
-    CardHeader,
-    Grid,
-} from '@mui/material'
-import { NavLink, useNavigate } from 'react-router-dom'
-import EditIcon from '@mui/icons-material/Edit'
-import RemoveIcon from '@mui/icons-material/Delete'
-import { AdvertsContext } from 'adverts/AdvertsContext'
-import QrCodeIcon from '@mui/icons-material/QrCode2'
-import { Editorial } from 'editorials'
+import { Card, CardActions, CardContent, CardHeader, Grid } from '@mui/material'
 import { DeepLinkContext } from 'deep-links/DeepLinkContext'
+import { Editorial } from 'editorials'
 import { Advert, AdvertMutationResult } from '../../../types'
 import { PhraseContext } from '../../../../phrases/PhraseContext'
 import { InfoPanel } from './InfoPanel'
@@ -22,6 +10,7 @@ import { ClaimsPanel } from './ClaimsPanel'
 import { ImagesPanel } from './ImagesPanel'
 import { CollectPanel } from './CollectPanel'
 import { ArchivedPanel } from './ArchivedPanel'
+import { EditorButtonsPanel } from './EditorButtonsPanel'
 
 export const AdvertCard: FC<{
     advert: Advert
@@ -29,10 +18,8 @@ export const AdvertCard: FC<{
     onUpdate: (p: Promise<AdvertMutationResult>) => void
 }> = ({ advert, error, onUpdate }) => {
     const { isCurrentLinkFromQrCode } = useContext(DeepLinkContext)
-    const { removeAdvert, archiveAdvert } = useContext(AdvertsContext)
-    const { phrase, EDIT_ADVERT, REMOVE_ADVERT } = useContext(PhraseContext)
+    const { phrase } = useContext(PhraseContext)
     const { meta } = advert
-    const navigate = useNavigate()
 
     // show a disclaimer if we are administering someone eleses advert
     const showRightsDisclaimer =
@@ -98,55 +85,7 @@ export const AdvertCard: FC<{
                     </CardContent>
                 )}
                 <CardActions>
-                    {meta.canEdit && (
-                        <Button
-                            color="primary"
-                            component={NavLink}
-                            to={`/advert/edit/${advert?.id}`}
-                            startIcon={<EditIcon />}
-                        >
-                            {EDIT_ADVERT}
-                        </Button>
-                    )}
-                    {meta.canEdit && (
-                        <Button
-                            color="primary"
-                            component={NavLink}
-                            to={`/advert/qrcode/${advert.id}`}
-                            target="blank"
-                            startIcon={<QrCodeIcon />}
-                        >
-                            {phrase('', 'Skriv ut QR')}
-                        </Button>
-                    )}
-                    {meta.canArchive && (
-                        <Button
-                            sx={{ ml: 'auto' }}
-                            color="primary"
-                            onClick={async () =>
-                                onUpdate(archiveAdvert(advert.id))
-                            }
-                        >
-                            {phrase('', 'Arkivera')}
-                        </Button>
-                    )}
-                    {meta.canRemove && (
-                        <Button
-                            sx={{ ml: 'auto' }}
-                            color="warning"
-                            onClick={async () =>
-                                onUpdate(
-                                    removeAdvert(advert.id).then((r) => {
-                                        navigate('/')
-                                        return r
-                                    })
-                                )
-                            }
-                            startIcon={<RemoveIcon />}
-                        >
-                            {REMOVE_ADVERT}
-                        </Button>
-                    )}
+                    <EditorButtonsPanel advert={advert} onUpdate={onUpdate} />
                 </CardActions>
             </Card>
         </>
