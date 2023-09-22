@@ -16,11 +16,12 @@ export const ActionsPanel: FC<{
             <Button
                 fullWidth
                 color="primary"
-                variant="outlined"
+                variant="contained"
                 disabled={!meta.canReserve}
                 onClick={() => onUpdate(reserveAdvert(advert.id, 1))}
+                sx={{ mb: 2 }}
             >
-                {phrase('', 'HAFFA!')}
+                {phrase('', 'Reservera')}
             </Button>
             <Button
                 fullWidth
@@ -29,7 +30,7 @@ export const ActionsPanel: FC<{
                 disabled={!meta.canCancelReservation}
                 onClick={() => onUpdate(cancelAdvertReservation(advert.id))}
             >
-                {phrase('', 'Ångra mina haffningar!')}
+                {phrase('', 'Ångra mina reservationer')}
             </Button>
         </>
     )

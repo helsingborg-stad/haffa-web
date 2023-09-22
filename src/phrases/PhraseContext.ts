@@ -30,10 +30,10 @@ export interface PhraseContextType {
 }
 export const PhraseContext = createContext<PhraseContextType>({
     APP_TITLE: 'Haffa!',
-    INFO_SLOW_CONNECTION: '... nu går det riktigt långsamt ...',
-    ERROR_UNAUTHORIZED: 'Göta Petter! Du har visst inte behörighet. Tråkigt...',
+    INFO_SLOW_CONNECTION: '... väntar på innehåll från servern ...',
+    ERROR_UNAUTHORIZED: 'Du saknar behörighet.',
     ERROR_NOT_FOUND: 'Hoppsan, vi kan inte hitta sidan eller resursen.',
-    ERROR_UNKNOWN: 'Ajsing bajsing, nu gick något lite åt pipsvängen',
+    ERROR_UNKNOWN: 'Något gick fel. Försök igen.',
     SIGNOUT: 'Logga ut',
     NAV_HOME: 'Hem',
     NAV_MY_ADVERTS: 'Mina annonser',

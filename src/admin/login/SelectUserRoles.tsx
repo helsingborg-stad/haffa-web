@@ -37,11 +37,11 @@ export const SelectUserRoles: FC<{
                         )
                         .define(
                             'canReserveAdverts',
-                            phrase('', 'Paxa annonser')
+                            phrase('', 'Reservera annonser')
                         )
                         .define(
                             'canCollectAdverts',
-                            phrase('', 'Haffa annonser')
+                            phrase('', 'Hämta ut annonser')
                         )
                         .define(
                             'canManageOwnAdvertsHistory',
