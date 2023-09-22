@@ -7,6 +7,7 @@ import {
     Container,
     Grid,
     LinearProgress,
+    Snackbar,
     Toolbar,
     Typography,
 } from '@mui/material'
@@ -16,6 +17,8 @@ import useSomeFetchIsSlow from 'hooks/fetch/use-some-fetch-is-slow'
 import usePendingFetch from 'hooks/fetch/use-pending-fetch'
 import useTimeout from 'hooks/useTimout'
 import { AdminButton } from 'admin'
+import { useNotifications } from 'notifications'
+import { AuthContext } from 'auth'
 import { Navbar } from './Navbar'
 import { PhraseContext } from '../phrases/PhraseContext'
 
@@ -41,19 +44,47 @@ const PendingIndicator: FC = () => {
     return visible && pending ? <LinearProgress color="primary" /> : null
 }
 
+const NotificationsSnackbar: FC = () => {
+    const [notification, closeNotification] = useNotifications()
+    const open = !!notification
+
+    return (
+        <Snackbar
+            anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
+            color="primary"
+            open={open}
+            autoHideDuration={6000}
+            onClose={() => closeNotification()}
+            message={notification?.message}
+        >
+            <Alert
+                onClose={closeNotification}
+                severity="success"
+                sx={{ width: '100%' }}
+            >
+                {notification?.message}
+            </Alert>
+        </Snackbar>
+    )
+}
+
 export const DefaultRenderAppbarControls = (): React.JSX.Element => {
     const { CREATE_ADVERT } = useContext(PhraseContext)
+    const {
+        roles: { canEditOwnAdverts },
+    } = useContext(AuthContext)
     return (
         <>
-            {/* <ReadQrCodeButton color="inherit" /> */}
-            <Button
-                color="inherit"
-                component={NavLink}
-                to="/advert/create"
-                startIcon={<AddIcon />}
-            >
-                {CREATE_ADVERT}
-            </Button>
+            {canEditOwnAdverts && (
+                <Button
+                    color="inherit"
+                    component={NavLink}
+                    to="/advert/create"
+                    startIcon={<AddIcon />}
+                >
+                    {CREATE_ADVERT}
+                </Button>
+            )}
             <AdminButton />
         </>
     )
@@ -95,6 +126,7 @@ export const Layout: FC<LayoutProps & PropsWithChildren> = ({
                 </Container>
             </Grid>
             {!hideNavbar && <Navbar key="nb" />}
+            <NotificationsSnackbar />
         </Box>
     )
 }

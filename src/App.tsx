@@ -2,16 +2,28 @@ import { FC, useContext, useMemo, useState } from 'react'
 import './App.css'
 import { ThemeProvider } from '@emotion/react'
 import { createTheme } from '@mui/material/styles'
-import { createProfileRepository } from 'profile/repository/profile-repository'
-import { ProfileProvider } from 'profile/ProfileContext'
 import { FetchContext, FetchContextProvider } from 'hooks/fetch/FetchContext'
 import { createSettingsRepository } from 'settings/settings-repository'
 import { SettingsProvider } from 'settings'
-import { CategoriesProvider, createCategoriesRepository } from 'categories'
+import {
+    CategoriesProvider,
+    createCategoriesRepository,
+    createNotifyingCategoriesRepository,
+} from 'categories'
 import {
     LoginPoliciesProvider,
     createLoginPoliciesRepository,
+    createNotifyingLoginPoliciesRepository,
 } from 'login-policies'
+
+import { PhraseContext } from 'phrases/PhraseContext'
+import { NotificationsContext } from 'notifications'
+import { createNotifyingAdvertsRepository } from 'adverts'
+import {
+    ProfileProvider,
+    createNotifyingProfileRepository,
+    createProfileRepository,
+} from 'profile'
 import { AdvertsProvider } from './adverts/AdvertsContext'
 import { createAdvertsRepository } from './adverts/repository/adverts-repository'
 import { AppRouter } from './routes/AppRouter'
@@ -33,6 +45,8 @@ const theme = createTheme({
 const Main: FC = () => {
     const { isAuthenticated, token } = useContext(AuthContext)
     const { fetch } = useContext(FetchContext)
+    const { phrase } = useContext(PhraseContext)
+    const notifications = useContext(NotificationsContext)
 
     const settings = useMemo(
         () => createSettingsRepository(token, fetch),
@@ -40,21 +54,41 @@ const Main: FC = () => {
     )
 
     const loginPolicies = useMemo(
-        () => createLoginPoliciesRepository(token, fetch),
-        [token, fetch]
+        () =>
+            createNotifyingLoginPoliciesRepository(
+                notifications,
+                phrase,
+                createLoginPoliciesRepository(token, fetch)
+            ),
+        [notifications, phrase, token, fetch]
     )
     const categories = useMemo(
-        () => createCategoriesRepository(token, fetch),
-        [token, fetch]
+        () =>
+            createNotifyingCategoriesRepository(
+                notifications,
+                phrase,
+                createCategoriesRepository(token, fetch)
+            ),
+        [notifications, phrase, token, fetch]
     )
 
     const adverts = useMemo(
-        () => createAdvertsRepository(token, fetch),
-        [token, fetch]
+        () =>
+            createNotifyingAdvertsRepository(
+                notifications,
+                phrase,
+                createAdvertsRepository(token, fetch)
+            ),
+        [notifications, phrase, token, fetch]
     )
     const profiles = useMemo(
-        () => createProfileRepository(token, fetch),
-        [token, fetch]
+        () =>
+            createNotifyingProfileRepository(
+                notifications,
+                phrase,
+                createProfileRepository(token, fetch)
+            ),
+        [notifications, phrase, token, fetch]
     )
     return isAuthenticated ? (
         <LoginPoliciesProvider repository={loginPolicies}>
