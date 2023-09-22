@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom'
 import { AdvertTerms, AdvertInput, AdvertMutationResult } from '../../types'
 import { PhraseContext } from '../../../phrases/PhraseContext'
 import { sanitizeAdvertInput } from '../../repository/mappers'
-import { AdvertForm } from './AdvertForm'
+import { AdvertForm } from './form'
 import { Category } from '../../../categories/types'
 
 export const AdvertEditor: FC<{

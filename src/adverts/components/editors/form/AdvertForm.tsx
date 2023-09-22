@@ -1,6 +1,5 @@
 import {
     Alert,
-    Box,
     Button,
     ButtonGroup,
     Card,
@@ -9,7 +8,6 @@ import {
     CardHeader,
     Grid,
     GridProps,
-    IconButton,
 } from '@mui/material'
 import {
     FC,
@@ -20,13 +18,16 @@ import {
     useMemo,
 } from 'react'
 import SaveIcon from '@mui/icons-material/Save'
-import DeleteIcon from '@mui/icons-material/Delete'
-import MoveUpIcon from '@mui/icons-material/MoveUp'
-import MoveDownIcon from '@mui/icons-material/MoveDown'
-import { AdvertTerms, AdvertInput } from '../../types'
-import { SelectOption, useFormControls } from '../../../hooks/use-form-controls'
-import { PhraseContext } from '../../../phrases/PhraseContext'
-import { Category } from '../../../categories/types'
+import CancelIcon from '@mui/icons-material/Cancel'
+import { useNavigate } from 'react-router-dom'
+import { AdvertTerms, AdvertInput } from '../../../types'
+import {
+    SelectOption,
+    useFormControls,
+} from '../../../../hooks/use-form-controls'
+import { PhraseContext } from '../../../../phrases/PhraseContext'
+import { Category } from '../../../../categories/types'
+import { ImageContainer, ImageInput } from './Image'
 
 const swapArrayItems = <T,>(list: T[], index1: number, index2: number): T[] => {
     const l = [...list]
@@ -47,45 +48,6 @@ const Cell: FC<PropsWithChildren & GridProps> = (props) => (
     </Grid>
 )
 
-const ImageContainer: FC<PropsWithChildren> = ({ children }) => (
-    <Grid container spacing={2}>
-        {children}
-    </Grid>
-)
-const Image: FC<{
-    url: string
-    onRemove?: () => void
-    onMoveup?: () => void
-    onMovedown?: () => void
-}> = ({ url, onRemove, onMoveup, onMovedown }) => (
-    <Grid item xs={6} sm={4} sx={{ position: 'relative' }}>
-        <Box
-            component="img"
-            src={url}
-            sx={{ objectFit: 'contain', width: '100%', height: '100%' }}
-        />
-        <Box sx={{ position: 'absolute', top: 0, left: 0 }}>
-            <ButtonGroup>
-                {onRemove && (
-                    <IconButton onClick={onRemove}>
-                        <DeleteIcon />
-                    </IconButton>
-                )}
-                {onMoveup && (
-                    <IconButton onClick={onMoveup}>
-                        <MoveUpIcon />
-                    </IconButton>
-                )}
-                {onMovedown && (
-                    <IconButton onClick={onMovedown}>
-                        <MoveDownIcon />
-                    </IconButton>
-                )}
-            </ButtonGroup>
-        </Box>
-    </Grid>
-)
-
 const nextKey = (baseName: string): (() => string) => {
     let index = 0
     // eslint-disable-next-line no-plusplus
@@ -101,13 +63,14 @@ export const AdvertForm: FC<{
     disabled: boolean
     onSave: (advert: AdvertInput) => void
 }> = ({ title, advert, terms, error, onSave, disabled, categories }) => {
+    const navigate = useNavigate()
     const {
         model,
         patchModel,
         factory,
         simplifiedFactory: { select, textField },
     } = useFormControls<AdvertInput>(advert)
-    const { SAVE_ADVERT } = useContext(PhraseContext)
+    const { phrase, SAVE_ADVERT } = useContext(PhraseContext)
 
     const makeOptions = (values: string[]) =>
         values.map((v) => ({ label: v, value: v }))
@@ -201,6 +164,38 @@ export const AdvertForm: FC<{
                 ],
             },
             {
+                label: 'En bild säger mer än tusen ord!',
+                rows: [
+                    [
+                        () => (
+                            <ImageContainer>
+                                {model.images.map(({ url }, index) => (
+                                    <ImageInput
+                                        key={url}
+                                        url={url}
+                                        onRemove={removeImage(index)}
+                                        onMoveup={moveImageUp(index)}
+                                        onMovedown={moveImageDown(index)}
+                                    />
+                                ))}
+                            </ImageContainer>
+                        ),
+                    ],
+                    [
+                        // append image
+                        () =>
+                            factory.imagePicker(
+                                (url) => ({
+                                    images: [...model.images, { url }],
+                                }),
+                                {
+                                    fullWidth: true,
+                                }
+                            ),
+                    ],
+                ],
+            },
+            {
                 label: 'Om det är viktigt, kan du ange ytterligare detaljer här.',
                 rows: [
                     [
@@ -242,38 +237,6 @@ export const AdvertForm: FC<{
                                 'usage',
                                 'Användningsområde',
                                 makeOptions(terms.usage),
-                                {
-                                    fullWidth: true,
-                                }
-                            ),
-                    ],
-                ],
-            },
-            {
-                label: 'En bild säger mer än tusen ord!',
-                rows: [
-                    [
-                        () => (
-                            <ImageContainer>
-                                {model.images.map(({ url }, index) => (
-                                    <Image
-                                        key={url}
-                                        url={url}
-                                        onRemove={removeImage(index)}
-                                        onMoveup={moveImageUp(index)}
-                                        onMovedown={moveImageDown(index)}
-                                    />
-                                ))}
-                            </ImageContainer>
-                        ),
-                    ],
-                    [
-                        // append image
-                        () =>
-                            factory.imagePicker(
-                                (url) => ({
-                                    images: [...model.images, { url }],
-                                }),
                                 {
                                     fullWidth: true,
                                 }
@@ -442,14 +405,24 @@ export const AdvertForm: FC<{
                 </CardContent>
             )}
             <CardActions>
-                <Button
-                    type="submit"
-                    variant="contained"
-                    startIcon={<SaveIcon />}
-                    disabled={disabled}
-                >
-                    {SAVE_ADVERT}
-                </Button>
+                <ButtonGroup fullWidth>
+                    <Button
+                        variant="outlined"
+                        startIcon={<CancelIcon />}
+                        disabled={disabled}
+                        onClick={() => navigate('/')}
+                    >
+                        {phrase('', 'Avbryt')}
+                    </Button>
+                    <Button
+                        type="submit"
+                        variant="contained"
+                        startIcon={<SaveIcon />}
+                        disabled={disabled}
+                    >
+                        {SAVE_ADVERT}
+                    </Button>
+                </ButtonGroup>
             </CardActions>
         </Card>
     )
