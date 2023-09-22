@@ -28,9 +28,9 @@ import { AdvertQrCodeView } from 'adverts/components/details'
 import { AuthContext, HaffaUserRoles } from 'auth'
 import { UnauthorizedView } from 'auth/components/UnathorizedView'
 import { EditCategoriesView, EditLoginPoliciesView } from 'admin'
+import { CategoriesRepository } from 'categories/types'
+import { CategoriesContext } from 'categories'
 import { ErrorRouteView } from './ErrorRouteView'
-import { SettingsContext } from '../settings'
-import { SettingsRepository } from '../settings/types'
 
 const UnpackLoaderData: FC<{ render: (loaderData: any) => JSX.Element }> = ({
     render,
@@ -50,7 +50,7 @@ const RequireRole: FC<
 const createRouter = (
     { getAdvert, getTerms }: AdvertsRepository,
     { getProfile }: ProfileRepository,
-    { getCategories }: SettingsRepository
+    { getCategories }: CategoriesRepository
 ) => {
     // So many of the routes relies on
     // - an async fetch of some data
@@ -270,7 +270,7 @@ const createRouter = (
 export const AppRouter: FC = () => {
     const adverts = useContext(AdvertsContext)
     const profiles = useContext(ProfileContext)
-    const settings = useContext(SettingsContext)
-    const [router] = useState(createRouter(adverts, profiles, settings))
+    const categories = useContext(CategoriesContext)
+    const [router] = useState(createRouter(adverts, profiles, categories))
     return <RouterProvider router={router} />
 }

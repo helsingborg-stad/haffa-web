@@ -3,8 +3,6 @@ import './App.css'
 import { ThemeProvider } from '@emotion/react'
 import { createTheme } from '@mui/material/styles'
 import { FetchContext, FetchContextProvider } from 'hooks/fetch/FetchContext'
-import { createSettingsRepository } from 'settings/settings-repository'
-import { SettingsProvider } from 'settings'
 import {
     CategoriesProvider,
     createCategoriesRepository,
@@ -48,11 +46,6 @@ const Main: FC = () => {
     const { phrase } = useContext(PhraseContext)
     const notifications = useContext(NotificationsContext)
 
-    const settings = useMemo(
-        () => createSettingsRepository(token, fetch),
-        [token, fetch]
-    )
-
     const loginPolicies = useMemo(
         () =>
             createNotifyingLoginPoliciesRepository(
@@ -93,13 +86,11 @@ const Main: FC = () => {
     return isAuthenticated ? (
         <LoginPoliciesProvider repository={loginPolicies}>
             <CategoriesProvider repository={categories}>
-                <SettingsProvider repository={settings}>
-                    <AdvertsProvider repository={adverts}>
-                        <ProfileProvider repository={profiles}>
-                            <AppRouter />
-                        </ProfileProvider>
-                    </AdvertsProvider>
-                </SettingsProvider>
+                <AdvertsProvider repository={adverts}>
+                    <ProfileProvider repository={profiles}>
+                        <AppRouter />
+                    </ProfileProvider>
+                </AdvertsProvider>
             </CategoriesProvider>
         </LoginPoliciesProvider>
     ) : (
