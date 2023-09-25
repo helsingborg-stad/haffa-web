@@ -222,7 +222,7 @@ export const ClaimCard: FC<{
                 <Typography variant="subtitle1">{claim.by}</Typography>
                 <Typography variant="subtitle2">
                     {type === AdvertClaimType.reserved &&
-                        phrase('', 'Rerverade')}
+                        phrase('', 'Reserverade')}
                     {type === AdvertClaimType.collected &&
                         phrase('', 'Hämtade')}{' '}
                     {quantity} {unit} {fromNow(claim.at)}
