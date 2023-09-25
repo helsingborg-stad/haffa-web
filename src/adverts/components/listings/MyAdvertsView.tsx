@@ -51,6 +51,9 @@ export const MyAdvertsView: FC = () => {
     return (
         <>
             <Tabs
+                variant="scrollable"
+                scrollButtons="auto"
+                allowScrollButtonsMobile
                 value={tabIndex}
                 onChange={(_, newTabIndex) => setTabIndex(newTabIndex)}
             >
