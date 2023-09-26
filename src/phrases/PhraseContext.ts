@@ -21,6 +21,7 @@ export interface PhraseContextType {
     SAVE_PROFILE: string
     SCAN_QR_CODE: string
     PICKUP_ADVERT: string
+    LIST_NO_MORE_ADVERTS: string
     phrase: (
         key: string,
         defaultTemplateString: string,
@@ -47,6 +48,7 @@ export const PhraseContext = createContext<PhraseContextType>({
     SAVE_PROFILE: 'Spara din profil',
     SCAN_QR_CODE: 'Skanna kod',
     PICKUP_ADVERT: 'Jag tar med mig prylen nu!',
+    LIST_NO_MORE_ADVERTS: 'Inga fler annonser',
     phrase: (_, template, values) =>
         values ? interpolate(template, values) : template,
     fromNow: (date) => dayjs(date).fromNow(),

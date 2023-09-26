@@ -71,9 +71,15 @@ query Query($id: ID!) {
 export const listAdvertsQuery = /* GraphQL */ `
 query Query($filter: AdvertFilterInput) {
 	adverts(filter: $filter) {
-		${advertProps}
+		adverts {
+			${advertProps}
+		}
+		paging {
+      nextCursor
+      totalCount
+    }
 	}
-  }
+}
 `
 
 export const createAdvertMutation = /* GraphQL */ `

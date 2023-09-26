@@ -21,6 +21,7 @@ import {
 } from './queries'
 import {
     Advert,
+    AdvertList,
     AdvertMutationResult,
     AdvertTerms,
     AdvertsRepository,
@@ -54,7 +55,7 @@ export const createAdvertsRepository = (
         gql(token, f, init)
             .query(listAdvertsQuery)
             .variables({ filter })
-            .map<Advert[]>('adverts'),
+            .map<AdvertList>('adverts'),
     createAdvert: async (advert) =>
         gql(token, f)
             .query(createAdvertMutation)
