@@ -29,5 +29,6 @@ export const normalizeRoles = (
     canManageAllAdverts: !!roles?.canManageAllAdverts,
     canEditSystemCategories: !!roles?.canEditSystemCategories,
     canEditSystemLoginPolicies: !!roles?.canEditSystemLoginPolicies,
+    canEditApiKeys: !!roles?.canEditApiKeys,
     canRunSystemJobs: !!roles?.canRunSystemJobs,
 })

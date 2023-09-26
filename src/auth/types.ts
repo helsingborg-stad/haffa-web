@@ -8,6 +8,7 @@ export interface HaffaUserRoles {
     canManageAllAdverts?: boolean
     canEditSystemCategories?: boolean
     canEditSystemLoginPolicies?: boolean
+    canEditApiKeys?: boolean
     canRunSystemJobs?: boolean
 }
 

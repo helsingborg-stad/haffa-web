@@ -22,6 +22,11 @@ import {
     createNotifyingProfileRepository,
     createProfileRepository,
 } from 'profile'
+import {
+    ApiKeysProvider,
+    createApiKeysRepository,
+    createNotifyingApiKeysRepository,
+} from 'api-keys'
 import { AdvertsProvider } from './adverts/AdvertsContext'
 import { createAdvertsRepository } from './adverts/repository/adverts-repository'
 import { AppRouter } from './routes/AppRouter'
@@ -45,6 +50,16 @@ const Main: FC = () => {
     const { fetch } = useContext(FetchContext)
     const { phrase } = useContext(PhraseContext)
     const notifications = useContext(NotificationsContext)
+
+    const apiKeys = useMemo(
+        () =>
+            createNotifyingApiKeysRepository(
+                notifications,
+                phrase,
+                createApiKeysRepository(token, fetch)
+            ),
+        [notifications, phrase, token, fetch]
+    )
 
     const loginPolicies = useMemo(
         () =>
@@ -84,15 +99,17 @@ const Main: FC = () => {
         [notifications, phrase, token, fetch]
     )
     return isAuthenticated ? (
-        <LoginPoliciesProvider repository={loginPolicies}>
-            <CategoriesProvider repository={categories}>
-                <AdvertsProvider repository={adverts}>
-                    <ProfileProvider repository={profiles}>
-                        <AppRouter />
-                    </ProfileProvider>
-                </AdvertsProvider>
-            </CategoriesProvider>
-        </LoginPoliciesProvider>
+        <ApiKeysProvider repository={apiKeys}>
+            <LoginPoliciesProvider repository={loginPolicies}>
+                <CategoriesProvider repository={categories}>
+                    <AdvertsProvider repository={adverts}>
+                        <ProfileProvider repository={profiles}>
+                            <AppRouter />
+                        </ProfileProvider>
+                    </AdvertsProvider>
+                </CategoriesProvider>
+            </LoginPoliciesProvider>
+        </ApiKeysProvider>
     ) : (
         <AuthenticateView />
     )

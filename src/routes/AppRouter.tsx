@@ -30,6 +30,7 @@ import { UnauthorizedView } from 'auth/components/UnathorizedView'
 import { EditCategoriesView, EditLoginPoliciesView } from 'admin'
 import { CategoriesRepository } from 'categories/types'
 import { CategoriesContext } from 'categories'
+import { EditApiKeysView } from 'admin/api-keys'
 import { ErrorRouteView } from './ErrorRouteView'
 
 const UnpackLoaderData: FC<{ render: (loaderData: any) => JSX.Element }> = ({
@@ -238,6 +239,16 @@ const createRouter = (
             </RequireRole>
         ),
     })
+    /**
+     * path: /admin/api-keys
+     */
+    const viewAdminApiKeysProps = (): AsyncRouteConfig => ({
+        element: (
+            <RequireRole predicate={(r) => !!r.canEditApiKeys}>
+                <EditApiKeysView />
+            </RequireRole>
+        ),
+    })
 
     return createBrowserRouter(
         createRoutesFromElements(
@@ -262,6 +273,7 @@ const createRouter = (
                     path="admin/categories"
                     {...viewAdminCategoriesProps()}
                 />
+                <Route path="admin/api-keys" {...viewAdminApiKeysProps()} />
             </Route>
         )
     )
