@@ -75,7 +75,7 @@ export const LoginPoliciesForm: FC<{
                     Här anges vilka användare som ges eller nekas tillträde till
                     sajten. Användare matchas mot email
                     
-                    - *.@exempel.se matchar alla som tillhör emaildomänen @exempel.se
+                    - *@exempel.se matchar alla som tillhör emaildomänen @exempel.se
                     - test@exempel.se matchar användare exakt
 
                     Regler utan email tas automatiskt bort.
