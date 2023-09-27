@@ -1,8 +1,9 @@
 name: Build and push docker image to github registry and deploy on dev environment.
 
 on:
-    release:
-        types: [prereleased]
+    push:
+        branches:
+            - dev
 
 jobs:
     deploy:
@@ -14,7 +15,7 @@ jobs:
             - uses: helsingborg-stad/gdi-deploy/v1@main
               with:
                   update-package-version: true
-                  release-tag-name: ${{github.event.release.tag_name}}
+                  release-tag-name: ${{github.sha}}
 
                   gdi-gitops-config-repo: ${{ secrets.GDI_GITOPS_CONFIG_REPO }}
                   github-token: ${{ secrets.GITHUB_TOKEN }}
