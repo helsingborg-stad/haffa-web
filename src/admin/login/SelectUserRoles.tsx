@@ -69,6 +69,11 @@ export const SelectUserRoles: FC<{
                             true
                         )
                         .define(
+                            'canEditApiKeys',
+                            phrase('', 'Hantera API nycklar'),
+                            true
+                        )
+                        .define(
                             'canRunSystemJobs',
                             phrase('', 'Agent som får köra jobb (admin)'),
                             true
