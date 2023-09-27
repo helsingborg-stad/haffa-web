@@ -82,7 +82,7 @@ export const CategoriesForm: FC<{
         (c) => categoryTitle(c),
         (c) => c.categories,
         initialViewState || {
-            selectedKey: '',
+            selectedKey: ROOT_CATEGORY_ID,
             expandedKeys: [ROOT_CATEGORY_ID],
         }
     )
