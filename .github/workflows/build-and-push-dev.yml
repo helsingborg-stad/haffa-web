@@ -14,7 +14,7 @@ jobs:
 
             - uses: helsingborg-stad/gdi-deploy/v1@main
               with:
-                  release-tag-name: ${{github.sha}}
+                  release-tag-name: sha-${{github.sha}}
 
                   gdi-gitops-config-repo: ${{ secrets.GDI_GITOPS_CONFIG_REPO }}
                   github-token: ${{ secrets.GITHUB_TOKEN }}
