@@ -41,6 +41,10 @@ export GITHUB_ACCESS_TOKEN=<access_token_from_github>
 docker-compose up
 ```
 
+### Branding
+
+There is limited support for [branding](./src/branding/readme.md). Consider this a non stable feature...
+
 ### Prerequisites
 
 -   [nodejs](https://nodejs.org/en/)
