@@ -15,7 +15,7 @@ import { Advert } from '../../types'
 
 export const AdvertListItem: FC<{ advert: Advert }> = ({ advert }) => {
     const { fromNow } = useContext(PhraseContext)
-    const imageUrl = advert.images[0]?.url || null
+    const imageUrl = advert.images[0]?.url || '/empty-advert.svg'
 
     return (
         <Card sx={{ mb: 2 }}>
@@ -25,13 +25,37 @@ export const AdvertListItem: FC<{ advert: Advert }> = ({ advert }) => {
                 to={`/advert/${advert.id}`}
             >
                 <CardMedia
-                    component="img"
-                    sx={{ flexGrow: 1, maxWidth: '33%', m: 1 }}
-                    image={imageUrl || '/empty-advert.svg'}
-                    alt={advert.title}
-                />
-
-                <CardContent sx={{ flexGrow: 2, m: 1 }}>
+                    sx={{
+                        flexGrow: 1,
+                        m: 1,
+                        aspectRatio: 1,
+                        flex: '1 0 0px',
+                        height: 'auto',
+                    }}
+                >
+                    <img
+                        src={imageUrl}
+                        alt={advert.title}
+                        style={{
+                            objectFit: 'cover',
+                            objectPosition: 'center',
+                            overflow: 'hidden',
+                            minHeight: '100%',
+                            minWidth: '100%',
+                            maxWidth: '100%',
+                            maxHeight: '100%',
+                        }}
+                    />
+                </CardMedia>
+                <CardContent
+                    sx={{
+                        flexGrow: 2,
+                        m: 1,
+                        aspectRatio: 2,
+                        flex: '2 0 0px',
+                        height: 'auto',
+                    }}
+                >
                     <Grid container flexDirection="column">
                         <Grid item sx={{ flex: 1 }}>
                             <Typography variant="h5" component="div">
