@@ -19,9 +19,14 @@ const IpImage: FC<{ url: string }> = ({ url }) => {
                 alt=""
                 title=""
                 sx={{
-                    objectFit: 'contain',
-                    width: '100%',
-                    height: '100%',
+                    objectFit: 'cover',
+                    aspectRatio: 1,
+                    objectPosition: 'center',
+                    overflow: 'hidden',
+                    minHeight: '100%',
+                    minWidth: '100%',
+                    maxWidth: '100%',
+                    maxHeight: '100%',
                     cursor: 'pointer',
                 }}
                 onClick={() => setBackdropOpen(true)}
