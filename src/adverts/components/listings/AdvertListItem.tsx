@@ -4,7 +4,7 @@ import {
     CardActionArea,
     CardContent,
     CardMedia,
-    Divider,
+    Chip,
     Grid,
     Typography,
 } from '@mui/material'
@@ -54,29 +54,29 @@ export const AdvertListItem: FC<{ advert: Advert }> = ({ advert }) => {
                         aspectRatio: 2,
                         flex: '2 0 0px',
                         height: 'auto',
+                        overflow: 'hidden',
+                        maxWidth: '768px',
+
+                        maskImage:
+                            'linear-gradient(180deg, #000 60%, transparent)',
                     }}
                 >
-                    <Grid container flexDirection="column">
-                        <Grid item sx={{ flex: 1 }}>
+                    <Grid container flexDirection="row">
+                        <Grid item flex={1}>
                             <Typography variant="h5" component="div">
                                 {advert.title}
                             </Typography>
-                            <Markdown markdown={advert.description} />
                         </Grid>
-
-                        <Grid item sx={{ mt: 'auto' }}>
-                            <Divider />
-                            <Typography
-                                color="text.secondary"
-                                gutterBottom
-                                sx={{ mt: 'auto' }}
-                            >
-                                {`${advert.meta.reservableQuantity} ${
+                        <Grid item>
+                            <Chip
+                                color="secondary"
+                                label={`${advert.meta.reservableQuantity} ${
                                     advert.unit
                                 } ${fromNow(advert.createdAt)}`}
-                            </Typography>
+                            />
                         </Grid>
                     </Grid>
+                    <Markdown markdown={advert.description} />
                 </CardContent>
             </CardActionArea>
         </Card>
