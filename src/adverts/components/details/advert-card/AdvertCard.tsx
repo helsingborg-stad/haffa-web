@@ -55,20 +55,26 @@ export const AdvertCard: FC<{
             <Card sx={{ mb: 2 }}>
                 <CardContent>
                     <Grid container spacing={2}>
-                        <Grid item xs={12} sm={9}>
+                        <Grid item xs={12}>
                             <ArchivedPanel
                                 advert={advert}
                                 onUpdate={onUpdate}
                             />
+                        </Grid>
+                    </Grid>
+                </CardContent>
+                <CardContent>
+                    <ImagesPanel advert={advert} />
+                </CardContent>
+                <CardContent>
+                    <Grid container spacing={2}>
+                        <Grid item xs={12} sm={9}>
                             <InfoPanel advert={advert} error={error} />
                         </Grid>
                         <Grid item xs={12} sm={3}>
                             <ActionsPanel advert={advert} onUpdate={onUpdate} />
                         </Grid>
                     </Grid>
-                </CardContent>
-                <CardContent>
-                    <ImagesPanel advert={advert} />
                 </CardContent>
 
                 {showRightsDisclaimer && (
