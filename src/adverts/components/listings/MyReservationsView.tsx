@@ -1,14 +1,24 @@
-import { FC } from 'react'
-import { AdvertsListWithSearch } from './AdvertsListWithSearch'
+import { FC, useContext, useMemo } from 'react'
+import { PhraseContext } from 'phrases'
+import { AdvertsTab, TabbedAdvertsView } from './TabbedAdvertsView'
 
-export const MyReservationsView: FC = () => (
-    <AdvertsListWithSearch
-        cacheName="my-reservations"
-        defaultSearchParams={{
-            restrictions: {
-                reservedByMe: true,
+export const MyReservationsView: FC = () => {
+    const { phrase } = useContext(PhraseContext)
+    const tabs = useMemo<AdvertsTab[]>(
+        () => [
+            {
+                label: phrase('', 'Reserverade'),
+                restrictions: { reservedByMe: true },
+                name: 'reserved',
             },
-            sorting: { field: 'createdAt', ascending: false },
-        }}
-    />
-)
+            {
+                label: phrase('', 'Uthämtat'),
+                restrictions: { collectedByMe: true },
+                name: 'collected',
+            },
+        ],
+        [phrase]
+    )
+
+    return <TabbedAdvertsView baseCacheName="my-reservations" tabs={tabs} />
+}
