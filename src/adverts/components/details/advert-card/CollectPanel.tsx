@@ -15,7 +15,7 @@ export const CollectPanel: FC<{
         <Grid container spacing={2} color="primary">
             <Button
                 color="primary"
-                variant="outlined"
+                variant="contained"
                 disabled={!advert.meta.canCollect}
                 onClick={() => onUpdate(collectAdvert(advert.id, 1))}
             >

@@ -14,15 +14,15 @@ export const InfoPanel: FC<{ advert: Advert; error?: string }> = ({
             {error && <Alert severity="error">{error}</Alert>}
 
             {advert.meta.reservedyMe > 0 && (
-                <Alert severity="info">
-                    {phrase('', 'Du har haffat {count} {unit}', {
+                <Alert severity="success">
+                    {phrase('', 'Du har reserverat {count} {unit}', {
                         count: advert.meta.reservedyMe,
                         unit: advert.unit,
                     })}
                 </Alert>
             )}
             {advert.meta.collectedByMe > 0 && (
-                <Alert severity="info">
+                <Alert severity="success">
                     {phrase('', 'Du har hämtat {count} {unit}', {
                         count: advert.meta.collectedByMe,
                         unit: advert.unit,

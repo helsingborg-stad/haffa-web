@@ -19,7 +19,7 @@ export const ActionsPanel: FC<{
                 variant="contained"
                 disabled={!meta.canReserve}
                 onClick={() => onUpdate(reserveAdvert(advert.id, 1))}
-                sx={{ mb: 2 }}
+                sx={{ mb: 1 }}
             >
                 {phrase('', 'Reservera')}
             </Button>

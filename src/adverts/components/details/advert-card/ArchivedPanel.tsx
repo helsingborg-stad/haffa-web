@@ -10,7 +10,7 @@ export const ArchivedPanel: FC<{
     const { phrase } = useContext(PhraseContext)
     const { unarchiveAdvert } = useContext(AdvertsContext)
     return advert.meta.canUnarchive ? (
-        <Alert severity="info">
+        <Alert sx={{ mb: 2 }}>
             <AlertTitle>
                 {' '}
                 {phrase(
@@ -20,7 +20,7 @@ export const ArchivedPanel: FC<{
             </AlertTitle>
             <Button
                 fullWidth
-                variant="outlined"
+                variant="contained"
                 sx={{ ml: 'auto' }}
                 color="primary"
                 onClick={async () => onUpdate(unarchiveAdvert(advert.id))}

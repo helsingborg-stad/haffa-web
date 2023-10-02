@@ -1,5 +1,5 @@
 import { FC, useContext } from 'react'
-import { Card, CardContent, CardHeader, Grid } from '@mui/material'
+import { Box, Card, CardContent, CardHeader, Grid } from '@mui/material'
 import { DeepLinkContext } from 'deep-links/DeepLinkContext'
 import { Editorial } from 'editorials'
 import { Advert, AdvertMutationResult } from '../../../types'
@@ -52,29 +52,38 @@ export const AdvertCard: FC<{
                 </Card>
             )}
 
+            <ArchivedPanel advert={advert} onUpdate={onUpdate} />
             <Card sx={{ mb: 2 }}>
-                <CardContent>
-                    <Grid container spacing={2}>
-                        <Grid item xs={12}>
-                            <ArchivedPanel
-                                advert={advert}
-                                onUpdate={onUpdate}
-                            />
-                        </Grid>
-                    </Grid>
-                </CardContent>
                 <CardContent>
                     <ImagesPanel advert={advert} />
                 </CardContent>
                 <CardContent>
-                    <Grid container spacing={2}>
-                        <Grid item xs={12} sm={9}>
-                            <InfoPanel advert={advert} error={error} />
+                    <Box sx={{ display: { xs: 'none', sm: 'block' } }}>
+                        <Grid container spacing={2}>
+                            <Grid item xs={12} sm={9}>
+                                <InfoPanel advert={advert} error={error} />
+                            </Grid>
+                            <Grid item xs={12} sm={3}>
+                                <ActionsPanel
+                                    advert={advert}
+                                    onUpdate={onUpdate}
+                                />
+                            </Grid>
                         </Grid>
-                        <Grid item xs={12} sm={3}>
-                            <ActionsPanel advert={advert} onUpdate={onUpdate} />
+                    </Box>
+                    <Box sx={{ display: { xs: 'block', sm: 'none' } }}>
+                        <Grid container spacing={2}>
+                            <Grid item xs={12}>
+                                <ActionsPanel
+                                    advert={advert}
+                                    onUpdate={onUpdate}
+                                />
+                            </Grid>
+                            <Grid item xs={12}>
+                                <InfoPanel advert={advert} error={error} />
+                            </Grid>
                         </Grid>
-                    </Grid>
+                    </Box>
                 </CardContent>
 
                 {showRightsDisclaimer && (
