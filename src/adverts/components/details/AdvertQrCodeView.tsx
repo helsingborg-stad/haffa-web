@@ -1,11 +1,10 @@
-import { Typography } from '@mui/material'
 import { Advert } from 'adverts'
 import { DeepLinkContext } from 'deep-links/DeepLinkContext'
 import { FC, useContext } from 'react'
 import QRCode from 'react-qr-code'
 
 export const AdvertQrCodeView: FC<{ advert: Advert }> = ({ advert }) => {
-    const {getAdvertLinkForQrCode} = useContext(DeepLinkContext)
+    const { getAdvertLinkForQrCode } = useContext(DeepLinkContext)
     const link = getAdvertLinkForQrCode(advert)
     console.log(link)
     return (
@@ -13,18 +12,12 @@ export const AdvertQrCodeView: FC<{ advert: Advert }> = ({ advert }) => {
             style={{
                 display: 'grid',
                 placeItems: 'center',
-                width: '100vw',
-                height: '100vh',
+                width: '100%',
+                height: 'auto',
             }}
         >
             <div>
-                <QRCode
-                    value={link}
-                    style={{ maxHeight: '10cm', maxWidth: '10cm' }}
-                />
-                <div style={{ textAlign: 'center' }}>
-                    <Typography variant="h3">{advert.title}</Typography>
-                </div>
+                <QRCode size={55} value={link} style={{}} />
             </div>
         </div>
     )
