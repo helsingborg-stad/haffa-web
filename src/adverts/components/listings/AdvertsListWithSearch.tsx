@@ -40,7 +40,7 @@ export const AdvertsListWithSearch: FC<
     // parameters occus (which could be a schema addition or similar)
     // Change in default parameters are thus treated as a major version change
     const [searchParamsRaw, setSearchParamsRaw] = useLocalStorage(
-        `haffa-filter-${cacheName}-v1`,
+        `haffa-filter-${cacheName}`,
         {
             versionKey,
             p: effectiveInitialSearchParams,
