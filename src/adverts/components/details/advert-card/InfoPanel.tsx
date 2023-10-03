@@ -1,14 +1,18 @@
 import { Alert, Typography } from '@mui/material'
 import { Advert } from 'adverts'
+import { Category } from 'categories/types'
 import { Markdown } from 'components/Markdown'
+import { TreeAdapter } from 'lib/types'
 import { PhraseContext } from 'phrases/PhraseContext'
 import { FC, useContext } from 'react'
 
-export const InfoPanel: FC<{ advert: Advert; error?: string }> = ({
-    advert,
-    error,
-}) => {
+export const InfoPanel: FC<{
+    advert: Advert
+    categories: TreeAdapter<Category>
+    error?: string
+}> = ({ advert, categories, error }) => {
     const { fromNow, phrase } = useContext(PhraseContext)
+    const categoryLabel = categories.findById(advert.category)?.label
     return (
         <>
             {error && <Alert severity="error">{error}</Alert>}
@@ -32,7 +36,8 @@ export const InfoPanel: FC<{ advert: Advert; error?: string }> = ({
             <Typography variant="h5" component="div">
                 {advert.title}
             </Typography>
-            <Typography color="text.secondary" gutterBottom>
+            <Typography variant="subtitle1" color="primary" gutterBottom>
+                {categoryLabel ? `${categoryLabel}, ` : ''}
                 {`${advert.meta.reservableQuantity} ${advert.unit} ${fromNow(
                     advert.createdAt
                 )}`}

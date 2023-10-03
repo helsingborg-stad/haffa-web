@@ -2,6 +2,8 @@ import { FC, useContext } from 'react'
 import { Box, Card, CardContent, CardHeader, Grid } from '@mui/material'
 import { DeepLinkContext } from 'deep-links/DeepLinkContext'
 import { Editorial } from 'editorials'
+import { TreeAdapter } from 'lib/types'
+import { Category } from 'categories/types'
 import { Advert, AdvertMutationResult } from '../../../types'
 import { PhraseContext } from '../../../../phrases/PhraseContext'
 import { InfoPanel } from './InfoPanel'
@@ -14,9 +16,10 @@ import { EditorButtonsPanel } from './EditorButtonsPanel'
 
 export const AdvertCard: FC<{
     advert: Advert
+    categories: TreeAdapter<Category>
     error?: string
     onUpdate: (p: Promise<AdvertMutationResult>) => void
-}> = ({ advert, error, onUpdate }) => {
+}> = ({ advert, categories, error, onUpdate }) => {
     const { isCurrentLinkFromQrCode } = useContext(DeepLinkContext)
     const { phrase } = useContext(PhraseContext)
     const { meta } = advert
@@ -61,7 +64,11 @@ export const AdvertCard: FC<{
                     <Box sx={{ display: { xs: 'none', sm: 'block' } }}>
                         <Grid container spacing={2}>
                             <Grid item xs={12} sm={9}>
-                                <InfoPanel advert={advert} error={error} />
+                                <InfoPanel
+                                    advert={advert}
+                                    categories={categories}
+                                    error={error}
+                                />
                             </Grid>
                             <Grid item xs={12} sm={3}>
                                 <ActionsPanel
@@ -80,7 +87,11 @@ export const AdvertCard: FC<{
                                 />
                             </Grid>
                             <Grid item xs={12}>
-                                <InfoPanel advert={advert} error={error} />
+                                <InfoPanel
+                                    advert={advert}
+                                    categories={categories}
+                                    error={error}
+                                />
                             </Grid>
                         </Grid>
                     </Box>

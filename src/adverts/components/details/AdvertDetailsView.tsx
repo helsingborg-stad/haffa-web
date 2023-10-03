@@ -2,12 +2,18 @@ import { FC } from 'react'
 import { LinearProgress } from '@mui/material'
 import useAsync from 'hooks/use-async'
 import { ErrorView } from 'errors'
+import { Category } from 'categories/types'
+import { createTreeAdapter } from 'lib/tree-adapter'
 import { Advert, AdvertMutationResult } from '../../types'
 import { AdvertCard } from './advert-card/AdvertCard'
 
-export const AdvertDetailsView: FC<{ advert: Advert }> = ({ advert }) => {
+export const AdvertDetailsView: FC<{
+    advert: Advert
+    categories: Category[]
+}> = ({ advert, categories }) => {
     const inspect = useAsync<AdvertMutationResult>(async () => ({
         advert,
+        categories,
         status: null,
     }))
 
@@ -17,6 +23,11 @@ export const AdvertDetailsView: FC<{ advert: Advert }> = ({ advert }) => {
         resolved: ({ advert, status }, _, update) => (
             <AdvertCard
                 advert={advert}
+                categories={createTreeAdapter(
+                    categories,
+                    (c) => c.id,
+                    (c) => c.categories
+                )}
                 error={status?.message}
                 onUpdate={update}
             />

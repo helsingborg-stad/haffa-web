@@ -170,15 +170,21 @@ const createRouter = (
      */
     const viewAdvertProps = (): AsyncRouteConfig => ({
         loader: ({ params: { advertId } }) =>
-            getAdvert(advertId as string).then((advert) => ({
-                advert,
-            })),
+            Promise.all([getAdvert(advertId as string), getCategories()]).then(
+                ([advert, categories]) => ({
+                    advert,
+                    categories,
+                })
+            ),
         element: (
             <UnpackLoaderData
                 key="view-advert"
-                render={({ advert }) => (
+                render={({ advert, categories }) => (
                     <Layout>
-                        <AdvertDetailsView advert={advert} />
+                        <AdvertDetailsView
+                            advert={advert}
+                            categories={categories}
+                        />
                     </Layout>
                 )}
             />

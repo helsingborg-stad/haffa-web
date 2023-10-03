@@ -155,6 +155,12 @@ export interface AdvertMutationStatus {
     field: string
 }
 
+export interface AdvertMutationResultFlat {
+    status: AdvertMutationStatus | null
+    advert: Advert
+    categories: CategoryFlat[]
+}
+
 export interface AdvertMutationResult {
     status: AdvertMutationStatus | null
     advert: Advert

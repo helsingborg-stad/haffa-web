@@ -1,4 +1,4 @@
-const advertProps = `
+const advertProps = /* GraphQL */ `
 	id
 	createdAt
 	title
@@ -49,10 +49,21 @@ const advertProps = `
 	}
 `
 
-const mutationProps = `
+const categoriesProp = /* GraphQL */ `
+	categories {
+			id
+			parentId
+			label
+			co2kg
+			advertCount
+	}
+`
+
+const mutationProps = /* GraphQL */ `
 	advert {
 		${advertProps}
 	}
+	${categoriesProp}
 	status {
 		code
 		message
@@ -74,13 +85,7 @@ query Query($filter: AdvertFilterInput) {
 		adverts {
 			${advertProps}
 		}
-		categories {
-			id
-			parentId
-			label
-			co2kg
-			advertCount
-  	}
+		${categoriesProp}
 		paging {
       nextCursor
       totalCount
