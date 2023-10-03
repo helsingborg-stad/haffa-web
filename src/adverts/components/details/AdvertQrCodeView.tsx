@@ -11,6 +11,20 @@ const NonPrintableComponent = styled('div')({
         display: 'none',
     },
 })
+const marks = [
+    {
+        value: 55,
+        label: '51x38mm',
+    },
+    {
+        value: 230,
+        label: '89x127mm',
+    },
+    {
+        value: 500,
+        label: 'A4',
+    },
+]
 
 export const AdvertQrCodeView: FC<{ advert: Advert }> = ({ advert }) => {
     const { getAdvertLinkForQrCode } = useContext(DeepLinkContext)
@@ -27,20 +41,26 @@ export const AdvertQrCodeView: FC<{ advert: Advert }> = ({ advert }) => {
             }}
         >
             <NonPrintableComponent>
-                <Box sx={{ width: 300, padding: 5 }}>
+                <Box sx={{ width: 300, paddingTop: 5, paddingBottom: 2 }}>
                     <Slider
                         min={10}
-                        max={400}
-                        defaultValue={size}
+                        max={500}
+                        step={1}
+                        value={size}
                         aria-label="Default"
                         valueLabelDisplay="auto"
+                        marks={marks}
                         onChange={(_, value) =>
                             setSize(Array.isArray(value) ? value[0] : value)
                         }
                     />
                 </Box>
             </NonPrintableComponent>
-            <div>
+            <div
+                style={{
+                    padding: 1,
+                }}
+            >
                 <QRCode size={size} value={link} style={{}} />
             </div>
         </div>
