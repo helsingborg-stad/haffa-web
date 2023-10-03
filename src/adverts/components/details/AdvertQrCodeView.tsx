@@ -3,6 +3,7 @@ import Box from '@mui/material/Box'
 import Slider from '@mui/material/Slider'
 import { Advert } from 'adverts'
 import { DeepLinkContext } from 'deep-links/DeepLinkContext'
+import useLocalStorage from 'hooks/use-local-storage'
 import { FC, useContext, useState } from 'react'
 import QRCode from 'react-qr-code'
 
@@ -11,25 +12,17 @@ const NonPrintableComponent = styled('div')({
         display: 'none',
     },
 })
-const marks = [
-    {
-        value: 55,
-        label: '51x38mm',
-    },
-    {
-        value: 230,
-        label: '89x127mm',
-    },
-    {
-        value: 500,
-        label: 'A4',
-    },
-]
+const firstElement = <T,>(value: T | T[]): T =>
+    Array.isArray(value) ? value[0] : value
 
 export const AdvertQrCodeView: FC<{ advert: Advert }> = ({ advert }) => {
     const { getAdvertLinkForQrCode } = useContext(DeepLinkContext)
     const link = getAdvertLinkForQrCode(advert)
-    const [size, setSize] = useState<number>(55)
+    const [initialSize, setInitialSize] = useLocalStorage<number>(
+        'initial-qr-size',
+        55
+    )
+    const [size, setSize] = useState<number>(initialSize)
     console.log(link)
     return (
         <div
@@ -49,10 +42,10 @@ export const AdvertQrCodeView: FC<{ advert: Advert }> = ({ advert }) => {
                         value={size}
                         aria-label="Default"
                         valueLabelDisplay="auto"
-                        marks={marks}
-                        onChange={(_, value) =>
-                            setSize(Array.isArray(value) ? value[0] : value)
+                        onChangeCommitted={(_, value) =>
+                            setInitialSize(firstElement(value))
                         }
+                        onChange={(_, value) => setSize(firstElement(value))}
                     />
                 </Box>
             </NonPrintableComponent>
