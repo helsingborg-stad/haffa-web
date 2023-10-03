@@ -1,21 +1,24 @@
-import { FC, useContext } from 'react'
+import { FC } from 'react'
 import {
     Card,
     CardActionArea,
     CardContent,
     CardMedia,
-    Chip,
-    Grid,
     Typography,
 } from '@mui/material'
 import { Link } from 'react-router-dom'
 import { Markdown } from 'components/Markdown'
-import { PhraseContext } from 'phrases/PhraseContext'
+import { Category } from 'categories/types'
+import { TreeAdapter } from 'lib/types'
 import { Advert } from '../../types'
 
-export const AdvertListItem: FC<{ advert: Advert }> = ({ advert }) => {
-    const { fromNow } = useContext(PhraseContext)
+export const AdvertListItem: FC<{
+    advert: Advert
+    categories: TreeAdapter<Category>
+}> = ({ advert, categories }) => {
     const imageUrl = advert.images[0]?.url || '/empty-advert.svg'
+
+    const categoryLabel = categories.findById(advert.category)?.label
 
     return (
         <Card sx={{ mb: 2 }}>
@@ -61,21 +64,17 @@ export const AdvertListItem: FC<{ advert: Advert }> = ({ advert }) => {
                             'linear-gradient(180deg, #000 60%, transparent)',
                     }}
                 >
-                    <Grid container flexDirection="row">
-                        <Grid item flex={1}>
-                            <Typography variant="h5" component="div">
-                                {advert.title}
-                            </Typography>
-                        </Grid>
-                        <Grid item>
-                            <Chip
-                                color="secondary"
-                                label={`${advert.meta.reservableQuantity} ${
-                                    advert.unit
-                                } ${fromNow(advert.createdAt)}`}
-                            />
-                        </Grid>
-                    </Grid>
+                    <Typography variant="h5" component="div">
+                        {advert.title}
+                    </Typography>
+                    <Typography
+                        variant="subtitle1"
+                        component="div"
+                        color="primary"
+                    >
+                        {categoryLabel ? `${categoryLabel},` : ''}
+                        {advert.meta.reservableQuantity} {advert.unit}
+                    </Typography>
                     <Markdown markdown={advert.description} />
                 </CardContent>
             </CardActionArea>

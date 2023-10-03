@@ -74,6 +74,13 @@ query Query($filter: AdvertFilterInput) {
 		adverts {
 			${advertProps}
 		}
+		categories {
+			id
+			parentId
+			label
+			co2kg
+			advertCount
+  	}
 		paging {
       nextCursor
       totalCount

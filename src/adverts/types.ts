@@ -1,3 +1,5 @@
+import { Category, CategoryFlat } from 'categories/types'
+
 export interface AdvertUserFields {
     title: string
     description: string
@@ -165,6 +167,13 @@ export interface Paging {
 
 export interface AdvertList {
     adverts: Advert[]
+    categories: Category[]
+    paging: Paging
+}
+
+export interface AdvertListFlat {
+    adverts: Advert[]
+    categories: CategoryFlat[]
     paging: Paging
 }
 

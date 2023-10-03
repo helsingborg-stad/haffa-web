@@ -1,3 +1,4 @@
+import { decodeCategoryTree } from 'categories/mappers'
 import {
     ifNullThenNotFoundError,
     valueAndValidOrThrowNotFound,
@@ -21,7 +22,7 @@ import {
 } from './queries'
 import {
     Advert,
-    AdvertList,
+    AdvertListFlat,
     AdvertMutationResult,
     AdvertTerms,
     AdvertsRepository,
@@ -55,7 +56,13 @@ export const createAdvertsRepository = (
         gql(token, f, init)
             .query(listAdvertsQuery)
             .variables({ filter })
-            .map<AdvertList>('adverts'),
+            .map<AdvertListFlat>('adverts')
+            .then((result) => ({
+                ...result,
+                // categories are transported as flat records
+                // convert to our internal treelike domain
+                categories: decodeCategoryTree(result.categories),
+            })),
     createAdvert: async (advert) =>
         gql(token, f)
             .query(createAdvertMutation)

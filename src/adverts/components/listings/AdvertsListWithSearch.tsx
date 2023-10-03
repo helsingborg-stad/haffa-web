@@ -3,6 +3,7 @@ import { Box } from '@mui/material'
 import { Advert, AdvertFilterInput, AdvertList } from 'adverts'
 import useAbortController from 'hooks/use-abort-controller'
 import merge from 'lodash.merge'
+import { createTreeAdapter } from 'lib/tree-adapter'
 import { AdvertsContext } from '../../AdvertsContext'
 import { AdvertsList } from './AdvertsList'
 import { ErrorView } from '../../../errors'
@@ -131,7 +132,15 @@ export const AdvertsListWithSearch: FC<
                     )}
                 </Box>
                 {renderControls?.(searchParams, (p) => enqueue(next(p)))}
-                <AdvertsList key="al" adverts={adverts?.adverts || []} />
+                <AdvertsList
+                    key="al"
+                    adverts={adverts?.adverts || []}
+                    categories={createTreeAdapter(
+                        adverts?.categories || [],
+                        (c) => c.id,
+                        (c) => c.categories
+                    )}
+                />
                 {adverts?.adverts.length === 0 ? null : (
                     <AdvertPagingControls
                         onLoadMore={() =>

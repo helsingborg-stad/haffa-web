@@ -21,3 +21,8 @@ export interface Func<T> {
 export interface Func1<T, R> {
     (arg: T): R
 }
+
+export interface TreeAdapter<T> {
+    findById: (id: string) => T | null
+    // pathById: (id: string) => T[]
+}
