@@ -34,11 +34,7 @@ export const AdvertQrCodeView: FC<{ advert: Advert }> = ({ advert }) => {
             }}
         >
             <NonPrintableComponent>
-<<<<<<< Updated upstream
                 <Box sx={{ width: 300, paddingTop: 5, paddingBottom: 2 }}>
-=======
-                <Box sx={{ width: 300, paddingTop: 5 }}>
->>>>>>> Stashed changes
                     <Slider
                         min={10}
                         max={500}
@@ -55,11 +51,7 @@ export const AdvertQrCodeView: FC<{ advert: Advert }> = ({ advert }) => {
             </NonPrintableComponent>
             <div
                 style={{
-<<<<<<< Updated upstream
                     padding: 1,
-=======
-                    padding: 10,
->>>>>>> Stashed changes
                 }}
             >
                 <QRCode size={size} value={link} style={{}} />
