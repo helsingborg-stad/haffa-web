@@ -9,7 +9,6 @@ import {
     LinearProgress,
     Snackbar,
     Toolbar,
-    Typography,
 } from '@mui/material'
 import AddIcon from '@mui/icons-material/Add'
 import { NavLink } from 'react-router-dom'
@@ -100,14 +99,12 @@ export const Layout: FC<LayoutProps & PropsWithChildren> = ({
         <Box sx={{ pb: 7 }}>
             <AppBar key="ab">
                 <Toolbar>
-                    <Typography
-                        variant="h6"
-                        component="div"
-                        sx={{ flexGrow: 1 }}
-                    >
+                    <Button color="inherit" component="a" href="/">
                         {APP_TITLE}
+                    </Button>
+                    <Box sx={{ flexGrow: 1 }}>
                         <PendingIndicator />
-                    </Typography>
+                    </Box>
                     {renderAppbarControls?.()}
                 </Toolbar>
             </AppBar>
