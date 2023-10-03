@@ -57,8 +57,9 @@ export const ApiKeysForm: FC<{
     return (
         <Card>
             {title && <CardHeader title={title} />}
-            <Editorial severity="info">
-                {`
+            <CardContent>
+                <Editorial>
+                    {`
 API nycklar används för icke-interaktiva integrationer och möjliggör externa tjänster att autentisera (via nyckel) 
 och auktorisera (via email) gentemot tjänster i Haffa.
 
@@ -66,7 +67,8 @@ Givet api nyckel i autkoriseringsheader körs ett anrop som användaren angivet 
 
 > curl -H "Authorization: api-key <nycklel>" https://<haffa>
                     `}
-            </Editorial>
+                </Editorial>
+            </CardContent>
             <CardContent>
                 <TableContainer component={Paper}>
                     <Table aria-label={phrase('', 'API nycklar')}>

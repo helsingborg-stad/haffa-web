@@ -48,7 +48,7 @@ export const ProfileView: FC<{ profile: Profile }> = ({ profile }) => {
     return (
         <Card>
             <CardContent>
-                <Editorial severity="info">{InfoText}</Editorial>
+                <Editorial>{InfoText}</Editorial>
                 <PropBox icon={<EmailIcon />}>
                     <Typography variant="h5" component="div" gutterBottom>
                         {profile.email}

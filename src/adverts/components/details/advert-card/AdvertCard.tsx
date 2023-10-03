@@ -99,7 +99,7 @@ export const AdvertCard: FC<{
 
                 {showRightsDisclaimer && (
                     <CardContent>
-                        <Editorial severity="info">
+                        <Editorial severity="warning">
                             Du har givits rättigheter att adminstrera denna
                             annons trots att den tillhör någon annan.
                         </Editorial>

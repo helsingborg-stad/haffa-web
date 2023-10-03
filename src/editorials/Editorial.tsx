@@ -7,12 +7,8 @@ export const Editorial: FC<{ children: string; severity?: AlertColor }> = ({
     severity,
 }) => (
     <Box sx={{ mb: 4, mt: 2 }}>
-        {severity ? (
-            <Alert severity={severity}>
-                <Markdown markdown={children} />
-            </Alert>
-        ) : (
+        <Alert severity={severity || 'success'}>
             <Markdown markdown={children} />
-        )}
+        </Alert>
     </Box>
 )
