@@ -20,7 +20,7 @@ export const AdvertQrCodeView: FC<{ advert: Advert }> = ({ advert }) => {
     const link = getAdvertLinkForQrCode(advert)
     const [initialSize, setInitialSize] = useLocalStorage<number>(
         'initial-qr-size',
-        55
+        40
     )
     const [size, setSize] = useState<number>(initialSize)
     console.log(link)
@@ -52,9 +52,18 @@ export const AdvertQrCodeView: FC<{ advert: Advert }> = ({ advert }) => {
             <div
                 style={{
                     padding: 1,
+                    textAlign: 'center',
                 }}
             >
                 <QRCode size={size} value={link} style={{}} />
+                <div
+                    style={{
+                        fontSize: size / 4,
+                        fontFamily: 'Arial, Helvetica, sans-serif',
+                    }}
+                >
+                    {advert.title}
+                </div>
             </div>
         </div>
     )
