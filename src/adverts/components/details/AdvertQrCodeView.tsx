@@ -53,6 +53,7 @@ export const AdvertQrCodeView: FC<{ advert: Advert }> = ({ advert }) => {
                 style={{
                     padding: 1,
                     textAlign: 'center',
+                    overflow: 'clip',
                 }}
             >
                 <QRCode size={size} value={link} style={{}} />
@@ -60,6 +61,7 @@ export const AdvertQrCodeView: FC<{ advert: Advert }> = ({ advert }) => {
                     style={{
                         fontSize: size / 4,
                         fontFamily: 'Arial, Helvetica, sans-serif',
+                        breakInside: 'avoid',
                     }}
                 >
                     {advert.title}
