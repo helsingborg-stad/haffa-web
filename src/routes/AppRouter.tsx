@@ -199,13 +199,16 @@ const createRouter = (
      * path: /profile/edit
      */
     const editProfileProps = (): AsyncRouteConfig => ({
-        loader: () => getProfile().then((profile) => ({ profile })),
+        loader: () =>
+            Promise.all([getProfile(), getTerms()]).then(
+                ([profile, terms]) => ({ profile, terms })
+            ),
         element: (
             <UnpackLoaderData
                 key="edit-profile"
-                render={({ profile }) => (
+                render={({ profile, terms }) => (
                     <Layout>
-                        <EditProfileView profile={profile} />
+                        <EditProfileView profile={profile} terms={terms} />
                     </Layout>
                 )}
             />

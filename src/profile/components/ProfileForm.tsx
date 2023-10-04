@@ -4,6 +4,7 @@ import { ProfileInput } from 'profile/types'
 import { useFormControls } from 'hooks/use-form-controls'
 import { PhraseContext } from 'phrases/PhraseContext'
 import SaveIcon from '@mui/icons-material/Save'
+import { Terms } from 'terms/types'
 
 const Row: FC<PropsWithChildren & GridProps> = (props) => (
     <Grid container spacing={2} sx={{ pt: 2 }} {...props}>
@@ -18,12 +19,13 @@ const Cell: FC<PropsWithChildren & GridProps> = (props) => (
 
 export const ProfileForm: FC<{
     profile: ProfileInput
+    terms: Terms
     disabled: boolean
     onSave: (profile: ProfileInput) => void
-}> = ({ profile, onSave, disabled }) => {
+}> = ({ profile, terms, onSave, disabled }) => {
     const {
         model,
-        simplifiedFactory: { textField },
+        simplifiedFactory: { textField, select },
     } = useFormControls<ProfileInput>(profile)
     const { SAVE_PROFILE } = useContext(PhraseContext)
 
@@ -63,6 +65,18 @@ export const ProfileForm: FC<{
                         disabled: false,
                         fullWidth: true,
                     }),
+            ],
+            [
+                () =>
+                    select(
+                        'organization',
+                        'Organization',
+                        terms.organization.map((o) => ({ label: o, value: o })),
+                        {
+                            disabled: false,
+                            fullWidth: true,
+                        }
+                    ),
             ],
         ],
         [model]

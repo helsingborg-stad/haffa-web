@@ -4,6 +4,7 @@ export interface ProfileUserFields {
     zipCode: string
     city: string
     country: string
+    organization: string
 }
 export interface Profile extends ProfileUserFields {
     email: string
@@ -15,6 +16,7 @@ export interface ProfileInput {
     zipCode: string
     city: string
     country: string
+    organization: string
 }
 
 export interface ProfileRepository {

@@ -3,12 +3,14 @@ import { Alert, Typography } from '@mui/material'
 import { useNavigate } from 'react-router-dom'
 import { ProfileContext } from 'profile/ProfileContext'
 import { sanitizeProfileInput } from 'profile/repository/mappers'
+import { Terms } from 'terms/types'
 import { Profile, ProfileInput } from '../types'
 import { PhraseContext } from '../../phrases/PhraseContext'
 import { ProfileForm } from './ProfileForm'
 
-export const EditProfileView: FC<{ profile: Profile }> = ({
+export const EditProfileView: FC<{ profile: Profile; terms: Terms }> = ({
     profile: inputProfile,
+    terms,
 }) => {
     const [profile, setProfile] = useState<ProfileInput>(
         sanitizeProfileInput(inputProfile)
@@ -40,7 +42,12 @@ export const EditProfileView: FC<{ profile: Profile }> = ({
         <>
             <Typography variant="h3">{EDIT_PROFILE}</Typography>
             {error && <Alert severity="error">{ERROR_UNKNOWN}</Alert>}
-            <ProfileForm profile={profile} disabled={saving} onSave={save} />
+            <ProfileForm
+                profile={profile}
+                terms={terms}
+                disabled={saving}
+                onSave={save}
+            />
         </>
     )
 }

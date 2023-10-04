@@ -6,4 +6,12 @@ export const sanitizeProfileInput = ({
     zipCode,
     city,
     country,
-}: ProfileInput): ProfileInput => ({ phone, adress, zipCode, city, country })
+    organization,
+}: ProfileInput): ProfileInput => ({
+    phone,
+    adress,
+    zipCode,
+    city,
+    country,
+    organization,
+})

@@ -26,6 +26,7 @@ export const createEmptyAdvertLocation = (): AdvertLocation => ({
 export const createEmptyAdvertContact = (): AdvertContact => ({
     email: '',
     phone: '',
+    organization: '',
 })
 
 // eslint-disable-next-line no-undef
@@ -74,9 +75,10 @@ export const sanitizeAdvertLocation = (
 })
 
 export const sanitizeAdvertContact = (
-    { email, phone }: AdvertContact = createEmptyAdvertContact()
+    { email, phone, organization }: AdvertContact = createEmptyAdvertContact()
 ): AdvertContact => ({
     ...createEmptyAdvertContact(),
     email,
     phone,
+    organization,
 })

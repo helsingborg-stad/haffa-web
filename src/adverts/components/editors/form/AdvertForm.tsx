@@ -297,6 +297,7 @@ export const AdvertForm: FC<{
                                     placeholder: 'Stad',
                                 }
                             ),
+                        /*
                         () =>
                             factory.textField(
                                 (input) => input.location.country,
@@ -313,6 +314,7 @@ export const AdvertForm: FC<{
                                     placeholder: 'Land',
                                 }
                             ),
+                            */
                     ],
                 ],
             },
@@ -352,6 +354,26 @@ export const AdvertForm: FC<{
                                     label: 'Telefon',
                                     placeholder: 'Telefon',
                                     type: 'phone',
+                                }
+                            ),
+                        () =>
+                            factory.select(
+                                (input) => input.contact.organization,
+                                (v) => ({
+                                    ...model,
+                                    contact: {
+                                        ...model.contact,
+                                        organization: v,
+                                    },
+                                }),
+                                terms.organization.map((o) => ({
+                                    label: o,
+                                    value: o,
+                                })),
+                                {
+                                    fullWidth: true,
+                                    label: 'Organisation',
+                                    placeholder: 'Organisation',
                                 }
                             ),
                     ],

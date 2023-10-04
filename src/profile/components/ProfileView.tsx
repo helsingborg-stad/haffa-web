@@ -64,7 +64,8 @@ export const ProfileView: FC<{ profile: Profile }> = ({ profile }) => {
                         profile.adress,
                         profile.zipCode,
                         profile.city,
-                        profile.country,
+                        // profile.country,
+                        profile.organization,
                     ]
                         .map((v) => v && v.trim())
                         .filter((v) => v)

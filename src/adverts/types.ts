@@ -134,6 +134,7 @@ export interface AdvertLocation {
 export interface AdvertContact {
     phone: string
     email: string
+    organization: string
 }
 
 export interface Advert extends AdvertUserFields {

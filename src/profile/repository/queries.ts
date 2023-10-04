@@ -5,6 +5,7 @@ const profileProps = `
 	zipCode
 	city
 	country
+	organization
 `
 
 export const getProfileQuery = /* GraphQL */ `
