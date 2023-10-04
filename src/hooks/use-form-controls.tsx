@@ -115,7 +115,7 @@ export const useFormControls = <TModel,>(
             <Select
                 fullWidth={props?.fullWidth}
                 labelId={props?.id || ''}
-                value={getter(model)}
+                value={getter(model) || ''}
                 label={props?.label}
                 placeholder={props?.placeholder}
                 onChange={(e) => patchModel(setter(e.target.value as string))}

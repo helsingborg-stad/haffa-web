@@ -6,21 +6,26 @@ import {
     CardActions,
     CardContent,
     CardHeader,
+    Checkbox,
+    FormControlLabel,
     Grid,
     GridProps,
 } from '@mui/material'
 import {
+    Dispatch,
     FC,
-    Fragment,
     PropsWithChildren,
+    SetStateAction,
     useCallback,
     useContext,
     useMemo,
+    useState,
 } from 'react'
 import SaveIcon from '@mui/icons-material/Save'
 import CancelIcon from '@mui/icons-material/Cancel'
 import { useNavigate } from 'react-router-dom'
 import { Terms } from 'terms/types'
+import { ProfileInput } from 'profile'
 import { AdvertInput } from '../../../types'
 import {
     SelectOption,
@@ -39,7 +44,7 @@ const swapArrayItems = <T,>(list: T[], index1: number, index2: number): T[] => {
 }
 
 const Row: FC<PropsWithChildren & GridProps> = (props) => (
-    <Grid container spacing={2} sx={{ pt: 2 }} {...props}>
+    <Grid container spacing={1} sx={{ pb: 2 }} {...props}>
         {props.children}
     </Grid>
 )
@@ -62,7 +67,7 @@ export const AdvertForm: FC<{
     categories: Category[]
     advert: AdvertInput
     disabled: boolean
-    onSave: (advert: AdvertInput) => void
+    onSave: (advert: AdvertInput, profile: ProfileInput | null) => void
 }> = ({ title, advert, terms, error, onSave, disabled, categories }) => {
     const navigate = useNavigate()
     const {
@@ -71,6 +76,7 @@ export const AdvertForm: FC<{
         factory,
         simplifiedFactory: { select, textField },
     } = useFormControls<AdvertInput>(advert)
+    const [updateProfile, setUpdateProfile] = useState(false)
     const { phrase, SAVE_ADVERT } = useContext(PhraseContext)
 
     const makeOptions = (values: string[]) =>
@@ -129,6 +135,21 @@ export const AdvertForm: FC<{
         label: string
         rows: (() => JSX.Element)[][]
     }
+
+    const updateProfileConsent = (
+        value: boolean,
+        setValue: Dispatch<SetStateAction<boolean>>
+    ) => (
+        <FormControlLabel
+            label="Uppdatera min profil med dessa uppgifter"
+            control={
+                <Checkbox
+                    checked={value}
+                    onChange={(e) => setValue(e.target.checked)}
+                />
+            }
+        />
+    )
 
     const layout = useMemo<ControlGroup[]>(
         () => [
@@ -316,6 +337,13 @@ export const AdvertForm: FC<{
                             ),
                             */
                     ],
+                    [
+                        () =>
+                            updateProfileConsent(
+                                updateProfile,
+                                setUpdateProfile
+                            ),
+                    ],
                 ],
             },
             {
@@ -366,10 +394,7 @@ export const AdvertForm: FC<{
                                         organization: v,
                                     },
                                 }),
-                                terms.organization.map((o) => ({
-                                    label: o,
-                                    value: o,
-                                })),
+                                makeOptions(terms.organization),
                                 {
                                     fullWidth: true,
                                     label: 'Organisation',
@@ -377,36 +402,46 @@ export const AdvertForm: FC<{
                                 }
                             ),
                     ],
+                    [
+                        () =>
+                            updateProfileConsent(
+                                updateProfile,
+                                setUpdateProfile
+                            ),
+                    ],
                 ],
             },
         ],
-        [model]
+        [model, updateProfile, setUpdateProfile]
     )
 
     const nextLayoutKey = nextKey('l')
 
     return (
-        <Card
-            component="form"
+        <form
             onSubmit={(e) => {
                 e.preventDefault()
-                onSave(model)
+                const profile: ProfileInput | null = updateProfile
+                    ? {
+                          ...model.contact,
+                          ...model.location,
+                      }
+                    : null
+                onSave(model, profile)
                 return false
             }}
         >
             <CardHeader title={title} key={nextLayoutKey()} />
             {error && (
-                <CardContent key="error-top">
-                    <Row>
-                        <Cell>
-                            <Alert severity="error">{error}</Alert>
-                        </Cell>
-                    </Row>
-                </CardContent>
+                <Row key="error-top">
+                    <Cell>
+                        <Alert severity="error">{error}</Alert>
+                    </Cell>
+                </Row>
             )}
             {layout.map(({ label, rows }) => (
-                <Fragment key={nextLayoutKey()}>
-                    <CardHeader subheader={label} key={nextLayoutKey()} />
+                <Card key={nextLayoutKey()} sx={{ my: 2 }}>
+                    <CardHeader title={label} key={nextLayoutKey()} />
                     <CardContent key={nextLayoutKey()}>
                         {rows.map((row, rowIndex) => (
                             <Row key={rowIndex}>
@@ -416,37 +451,37 @@ export const AdvertForm: FC<{
                             </Row>
                         ))}
                     </CardContent>
-                </Fragment>
+                </Card>
             ))}
             {error && (
-                <CardContent key="error-bottom">
-                    <Row>
-                        <Cell>
-                            <Alert severity="error">{error}</Alert>
-                        </Cell>
-                    </Row>
-                </CardContent>
+                <Row key="error-bottom">
+                    <Cell>
+                        <Alert severity="error">{error}</Alert>
+                    </Cell>
+                </Row>
             )}
-            <CardActions>
-                <ButtonGroup fullWidth>
-                    <Button
-                        variant="outlined"
-                        startIcon={<CancelIcon />}
-                        disabled={disabled}
-                        onClick={() => navigate('/')}
-                    >
-                        {phrase('', 'Avbryt')}
-                    </Button>
-                    <Button
-                        type="submit"
-                        variant="contained"
-                        startIcon={<SaveIcon />}
-                        disabled={disabled}
-                    >
-                        {SAVE_ADVERT}
-                    </Button>
-                </ButtonGroup>
-            </CardActions>
-        </Card>
+            <Card>
+                <CardActions>
+                    <ButtonGroup fullWidth>
+                        <Button
+                            variant="outlined"
+                            startIcon={<CancelIcon />}
+                            disabled={disabled}
+                            onClick={() => navigate('/')}
+                        >
+                            {phrase('', 'Avbryt')}
+                        </Button>
+                        <Button
+                            type="submit"
+                            variant="contained"
+                            startIcon={<SaveIcon />}
+                            disabled={disabled}
+                        >
+                            {SAVE_ADVERT}
+                        </Button>
+                    </ButtonGroup>
+                </CardActions>
+            </Card>
+        </form>
     )
 }

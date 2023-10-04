@@ -2,6 +2,7 @@ import { Profile, ProfileRepository } from 'profile/types'
 import { ifNullThenNotFoundError } from '../../errors'
 import { gqlClient } from '../../graphql'
 import { getProfileQuery, updateProfileMutation } from './queries'
+import { sanitizeProfileInput } from './mappers'
 
 const gql = (token: string, f?: typeof fetch) =>
     gqlClient()
@@ -20,6 +21,6 @@ export const createProfileRepository = (
     updateProfile: async (input) =>
         gql(token, f)
             .query(updateProfileMutation)
-            .variables({ input })
+            .variables({ input: sanitizeProfileInput(input) })
             .map<Profile>('updateProfile'),
 })
