@@ -31,6 +31,9 @@ import { EditCategoriesView, EditLoginPoliciesView } from 'admin'
 import { CategoriesRepository } from 'categories/types'
 import { CategoriesContext } from 'categories'
 import { EditApiKeysView } from 'admin/api-keys'
+import { EditTermsView } from 'admin/terms'
+import { TermsRepository } from 'terms/types'
+import { TermsContext } from 'terms'
 import { ErrorRouteView } from './ErrorRouteView'
 
 const UnpackLoaderData: FC<{ render: (loaderData: any) => JSX.Element }> = ({
@@ -49,7 +52,8 @@ const RequireRole: FC<
 }
 
 const createRouter = (
-    { getAdvert, getTerms }: AdvertsRepository,
+    { getTerms }: TermsRepository,
+    { getAdvert }: AdvertsRepository,
     { getProfile }: ProfileRepository,
     { getCategories }: CategoriesRepository
 ) => {
@@ -255,6 +259,16 @@ const createRouter = (
             </RequireRole>
         ),
     })
+    /**
+     * path: /admin/terms
+     */
+    const viewAdminTermsProps = (): AsyncRouteConfig => ({
+        element: (
+            <RequireRole predicate={(r) => !!r.canEditTerms}>
+                <EditTermsView />
+            </RequireRole>
+        ),
+    })
 
     return createBrowserRouter(
         createRoutesFromElements(
@@ -280,15 +294,19 @@ const createRouter = (
                     {...viewAdminCategoriesProps()}
                 />
                 <Route path="admin/api-keys" {...viewAdminApiKeysProps()} />
+                <Route path="admin/terms" {...viewAdminTermsProps()} />
             </Route>
         )
     )
 }
 
 export const AppRouter: FC = () => {
+    const terms = useContext(TermsContext)
     const adverts = useContext(AdvertsContext)
     const profiles = useContext(ProfileContext)
     const categories = useContext(CategoriesContext)
-    const [router] = useState(createRouter(adverts, profiles, categories))
+    const [router] = useState(
+        createRouter(terms, adverts, profiles, categories)
+    )
     return <RouterProvider router={router} />
 }

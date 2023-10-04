@@ -1,5 +1,6 @@
 import { FC, useCallback, useContext } from 'react'
-import { Advert, AdvertTerms, AdvertInput } from '../../types'
+import { Terms } from 'terms/types'
+import { Advert, AdvertInput } from '../../types'
 import { AdvertsContext } from '../../AdvertsContext'
 import { PhraseContext } from '../../../phrases/PhraseContext'
 import { AdvertEditor } from './AdvertEditor'
@@ -7,7 +8,7 @@ import { Category } from '../../../categories/types'
 
 export const EditAdvertView: FC<{
     advert: Advert
-    terms: AdvertTerms
+    terms: Terms
     categories: Category[]
 }> = ({ advert, terms, categories }) => {
     const { updateAdvert } = useContext(AdvertsContext)

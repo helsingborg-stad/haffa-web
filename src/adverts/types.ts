@@ -142,13 +142,6 @@ export interface Advert extends AdvertUserFields {
     createdAt: string
 }
 
-export interface AdvertTerms {
-    unit: string[]
-    material: string[]
-    condition: string[]
-    usage: string[]
-}
-
 export interface AdvertMutationStatus {
     code: string
     message: string
@@ -184,7 +177,6 @@ export interface AdvertListFlat {
 }
 
 export interface AdvertsRepository {
-    getTerms: () => Promise<AdvertTerms>
     getAdvert: (id: string) => Promise<Advert>
     listAdverts: (
         searchParams?: AdvertFilterInput,

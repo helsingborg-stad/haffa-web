@@ -30,5 +30,6 @@ export const normalizeRoles = (
     canEditSystemCategories: !!roles?.canEditSystemCategories,
     canEditSystemLoginPolicies: !!roles?.canEditSystemLoginPolicies,
     canEditApiKeys: !!roles?.canEditApiKeys,
+    canEditTerms: !!roles?.canEditTerms,
     canRunSystemJobs: !!roles?.canRunSystemJobs,
 })

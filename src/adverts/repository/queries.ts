@@ -201,14 +201,3 @@ mutation Mutation(
 	}
 }
 `
-
-export const getTermsQuery = /* GraphQL */ `
-    query Query {
-        terms {
-            unit
-            material
-            condition
-            usage
-        }
-    }
-`

@@ -29,6 +29,9 @@ export const AdminButton: FC = () => {
     const adminMenuLinks = useMemo(
         () =>
             [
+                roles.canEditTerms
+                    ? makeMenuItem('/admin/terms', phrase('', 'Definitioner'))
+                    : null,
                 roles.canEditSystemCategories
                     ? makeMenuItem(
                           '/admin/categories',

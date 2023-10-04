@@ -18,7 +18,6 @@ export const createNotifyingAdvertsRepository = (
             return result
         }
     return {
-        getTerms: wrap(inner.getTerms),
         getAdvert: wrap(inner.getAdvert),
         listAdverts: wrap(inner.listAdverts),
         createAdvert: (...args) =>

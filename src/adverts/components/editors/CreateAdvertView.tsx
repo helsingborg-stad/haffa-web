@@ -1,6 +1,7 @@
 import { FC, useCallback, useContext } from 'react'
 import { Profile } from 'profile'
-import { AdvertTerms, AdvertInput } from '../../types'
+import { Terms } from 'terms/types'
+import { AdvertInput } from '../../types'
 import { AdvertsContext } from '../../AdvertsContext'
 import { PhraseContext } from '../../../phrases/PhraseContext'
 import {
@@ -12,7 +13,7 @@ import { AdvertEditor } from './AdvertEditor'
 import { Category } from '../../../categories/types'
 
 export const CreateAdvertView: FC<{
-    terms: AdvertTerms
+    terms: Terms
     profile: Profile
     categories: Category[]
 }> = ({ terms, profile, categories }) => {

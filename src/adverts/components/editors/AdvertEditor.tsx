@@ -1,6 +1,7 @@
 import { FC, useCallback, useContext, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { AdvertTerms, AdvertInput, AdvertMutationResult } from '../../types'
+import { Terms } from 'terms/types'
+import { AdvertInput, AdvertMutationResult } from '../../types'
 import { PhraseContext } from '../../../phrases/PhraseContext'
 import { sanitizeAdvertInput } from '../../repository/mappers'
 import { AdvertForm } from './form'
@@ -10,7 +11,7 @@ export const AdvertEditor: FC<{
     title: string
     onUpdateAdvert: (input: AdvertInput) => Promise<AdvertMutationResult>
     advert: AdvertInput
-    terms: AdvertTerms
+    terms: Terms
     categories: Category[]
 }> = ({ title, onUpdateAdvert, advert: inputAdvert, terms, categories }) => {
     const [advert, setAdvert] = useState<AdvertInput>(

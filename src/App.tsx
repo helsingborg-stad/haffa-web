@@ -26,6 +26,11 @@ import {
     createNotifyingApiKeysRepository,
 } from 'api-keys'
 import { BrandingProvider } from 'branding/BrandingProvider'
+import {
+    TermsProvider,
+    createNotifyingTermsRepository,
+    createTermsRepository,
+} from 'terms'
 import { AdvertsProvider } from './adverts/AdvertsContext'
 import { createAdvertsRepository } from './adverts/repository/adverts-repository'
 import { AppRouter } from './routes/AppRouter'
@@ -38,6 +43,16 @@ const Main: FC = () => {
     const { fetch } = useContext(FetchContext)
     const { phrase } = useContext(PhraseContext)
     const notifications = useContext(NotificationsContext)
+
+    const terms = useMemo(
+        () =>
+            createNotifyingTermsRepository(
+                notifications,
+                phrase,
+                createTermsRepository(token, fetch)
+            ),
+        [notifications, phrase, token, fetch]
+    )
 
     const apiKeys = useMemo(
         () =>
@@ -90,11 +105,13 @@ const Main: FC = () => {
         <ApiKeysProvider repository={apiKeys}>
             <LoginPoliciesProvider repository={loginPolicies}>
                 <CategoriesProvider repository={categories}>
-                    <AdvertsProvider repository={adverts}>
-                        <ProfileProvider repository={profiles}>
-                            <AppRouter />
-                        </ProfileProvider>
-                    </AdvertsProvider>
+                    <TermsProvider repository={terms}>
+                        <AdvertsProvider repository={adverts}>
+                            <ProfileProvider repository={profiles}>
+                                <AppRouter />
+                            </ProfileProvider>
+                        </AdvertsProvider>
+                    </TermsProvider>
                 </CategoriesProvider>
             </LoginPoliciesProvider>
         </ApiKeysProvider>

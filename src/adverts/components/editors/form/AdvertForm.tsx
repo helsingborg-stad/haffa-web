@@ -20,7 +20,8 @@ import {
 import SaveIcon from '@mui/icons-material/Save'
 import CancelIcon from '@mui/icons-material/Cancel'
 import { useNavigate } from 'react-router-dom'
-import { AdvertTerms, AdvertInput } from '../../../types'
+import { Terms } from 'terms/types'
+import { AdvertInput } from '../../../types'
 import {
     SelectOption,
     useFormControls,
@@ -57,7 +58,7 @@ const nextKey = (baseName: string): (() => string) => {
 export const AdvertForm: FC<{
     title: string
     error: string
-    terms: AdvertTerms
+    terms: Terms
     categories: Category[]
     advert: AdvertInput
     disabled: boolean

@@ -13,7 +13,6 @@ import {
     convertAdvertClaimMutation,
     createAdvertMutation,
     getAdvertQuery,
-    getTermsQuery,
     listAdvertsQuery,
     removeAdvertMutation,
     reserveAdvertMutation,
@@ -24,7 +23,6 @@ import {
     Advert,
     AdvertListFlat,
     AdvertMutationResult,
-    AdvertTerms,
     AdvertsRepository,
 } from '../types'
 
@@ -41,11 +39,6 @@ export const createAdvertsRepository = (
     token: string,
     f?: typeof fetch
 ): AdvertsRepository => ({
-    getTerms: async () =>
-        gql(token, f)
-            .query(getTermsQuery)
-            .map<AdvertTerms>('terms')
-            .then(ifNullThenNotFoundError),
     getAdvert: async (id) =>
         gql(token, f)
             .query(getAdvertQuery)
