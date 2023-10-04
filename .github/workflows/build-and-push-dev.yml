@@ -10,7 +10,9 @@ jobs:
         runs-on: ubuntu-latest
 
         steps:
-            - uses: actions/checkout@v3
+            - uses: actions/checkout@v4
+              with:
+                  ref: dev
 
             - uses: helsingborg-stad/gdi-deploy/v1@main
               with:
