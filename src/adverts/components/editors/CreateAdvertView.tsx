@@ -1,5 +1,5 @@
 import { FC, useCallback, useContext } from 'react'
-import { Profile, ProfileContext, ProfileInput } from 'profile'
+import { Profile } from 'profile'
 import { Terms } from 'terms/types'
 import { AdvertInput } from '../../types'
 import { AdvertsContext } from '../../AdvertsContext'
@@ -18,17 +18,10 @@ export const CreateAdvertView: FC<{
     categories: Category[]
 }> = ({ terms, profile, categories }) => {
     const { createAdvert } = useContext(AdvertsContext)
-    const { updateProfile } = useContext(ProfileContext)
     const { CREATE_ADVERT } = useContext(PhraseContext)
 
     const onCreate = useCallback(
-        async (a: AdvertInput, p: ProfileInput | null) => {
-            const result = await createAdvert(a)
-            if (p) {
-                await updateProfile(p)
-            }
-            return result
-        },
+        async (a: AdvertInput) => createAdvert(a),
         [createAdvert]
     )
 
@@ -37,6 +30,7 @@ export const CreateAdvertView: FC<{
             title={CREATE_ADVERT}
             advert={{
                 ...createEmptyAdvertInput(),
+                unit: terms.unit[0] || '',
                 location: sanitizeAdvertLocation(profile),
                 contact: sanitizeAdvertContact(profile),
             }}

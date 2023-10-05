@@ -1,7 +1,6 @@
 import { FC, useCallback, useContext, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { Terms } from 'terms/types'
-import { ProfileInput } from 'profile'
 import { AdvertInput, AdvertMutationResult } from '../../types'
 import { PhraseContext } from '../../../phrases/PhraseContext'
 import { sanitizeAdvertInput } from '../../repository/mappers'
@@ -10,10 +9,7 @@ import { Category } from '../../../categories/types'
 
 export const AdvertEditor: FC<{
     title: string
-    onUpdate: (
-        advert: AdvertInput,
-        profile: ProfileInput | null
-    ) => Promise<AdvertMutationResult>
+    onUpdate: (advert: AdvertInput) => Promise<AdvertMutationResult>
     advert: AdvertInput
     terms: Terms
     categories: Category[]
@@ -27,11 +23,11 @@ export const AdvertEditor: FC<{
     const navigate = useNavigate()
 
     const save = useCallback(
-        async (a: AdvertInput, p: ProfileInput | null) => {
+        async (a: AdvertInput) => {
             setSaving(true)
             setAdvert(a)
             try {
-                const result = await onUpdate(a, p)
+                const result = await onUpdate(a)
                 setSaving(false)
                 setError(result.status ? result.status.message : '')
                 if (result.status) {

@@ -6,26 +6,18 @@ import {
     CardActions,
     CardContent,
     CardHeader,
-    Checkbox,
-    FormControlLabel,
     Grid,
     GridProps,
 } from '@mui/material'
-import {
-    Dispatch,
-    FC,
-    PropsWithChildren,
-    SetStateAction,
-    useCallback,
-    useContext,
-    useMemo,
-    useState,
-} from 'react'
+import { FC, PropsWithChildren, useCallback, useContext, useMemo } from 'react'
 import SaveIcon from '@mui/icons-material/Save'
 import CancelIcon from '@mui/icons-material/Cancel'
+import RefreshIcon from '@mui/icons-material/Refresh'
+import CloudUploadIcon from '@mui/icons-material/CloudUpload'
 import { useNavigate } from 'react-router-dom'
 import { Terms } from 'terms/types'
-import { ProfileInput } from 'profile'
+import { Profile, ProfileContext } from 'profile'
+import useAbortController from 'hooks/use-abort-controller'
 import { AdvertInput } from '../../../types'
 import {
     SelectOption,
@@ -54,6 +46,51 @@ const Cell: FC<PropsWithChildren & GridProps> = (props) => (
     </Grid>
 )
 
+const SyncFromProfileInput: FC<{ onProfile: (profile: Profile) => void }> = ({
+    onProfile,
+}) => {
+    const { signal } = useAbortController()
+    const { getProfile } = useContext(ProfileContext)
+    return (
+        <Button
+            onClick={() => getProfile({ signal }).then(onProfile)}
+            startIcon={<RefreshIcon />}
+        >
+            Hämta från min profil
+        </Button>
+    )
+}
+
+const SyncToProfileInput: FC<{ patch: Partial<Profile> }> = ({ patch }) => {
+    const { signal } = useAbortController()
+    const { getProfile, updateProfile } = useContext(ProfileContext)
+    return (
+        <Button
+            onClick={() =>
+                getProfile({ signal })
+                    .then((p) => ({
+                        ...p,
+                        ...patch,
+                    }))
+                    .then((p) => updateProfile(p, { signal }))
+            }
+            startIcon={<CloudUploadIcon />}
+        >
+            Uppdatera min profil
+        </Button>
+    )
+}
+
+const SyncProfileInput: FC<{
+    patch: Partial<Profile>
+    onProfile: (profile: Profile) => void
+}> = ({ patch, onProfile }) => (
+    <ButtonGroup>
+        <SyncFromProfileInput onProfile={onProfile} />
+        <SyncToProfileInput patch={patch} />
+    </ButtonGroup>
+)
+
 const nextKey = (baseName: string): (() => string) => {
     let index = 0
     // eslint-disable-next-line no-plusplus
@@ -67,7 +104,7 @@ export const AdvertForm: FC<{
     categories: Category[]
     advert: AdvertInput
     disabled: boolean
-    onSave: (advert: AdvertInput, profile: ProfileInput | null) => void
+    onSave: (advert: AdvertInput) => void
 }> = ({ title, advert, terms, error, onSave, disabled, categories }) => {
     const navigate = useNavigate()
     const {
@@ -76,7 +113,6 @@ export const AdvertForm: FC<{
         factory,
         simplifiedFactory: { select, textField },
     } = useFormControls<AdvertInput>(advert)
-    const [updateProfile, setUpdateProfile] = useState(false)
     const { phrase, SAVE_ADVERT } = useContext(PhraseContext)
 
     const makeOptions = (values: string[]) =>
@@ -133,23 +169,8 @@ export const AdvertForm: FC<{
 
     interface ControlGroup {
         label: string
-        rows: (() => JSX.Element)[][]
+        rows: (() => JSX.Element | null)[][]
     }
-
-    const updateProfileConsent = (
-        value: boolean,
-        setValue: Dispatch<SetStateAction<boolean>>
-    ) => (
-        <FormControlLabel
-            label="Uppdatera min profil med dessa uppgifter"
-            control={
-                <Checkbox
-                    checked={value}
-                    onChange={(e) => setValue(e.target.checked)}
-                />
-            }
-        />
-    )
 
     const layout = useMemo<ControlGroup[]>(
         () => [
@@ -183,6 +204,17 @@ export const AdvertForm: FC<{
                                 disabled,
                             }),
                     ],
+                    [
+                        () =>
+                            select(
+                                'category',
+                                'Kategori',
+                                categories
+                                    .map((c) => categoryToOptions(c))
+                                    .flat(),
+                                { fullWidth: true }
+                            ),
+                    ],
                 ],
             },
             {
@@ -210,55 +242,6 @@ export const AdvertForm: FC<{
                                 (url) => ({
                                     images: [...model.images, { url }],
                                 }),
-                                {
-                                    fullWidth: true,
-                                }
-                            ),
-                    ],
-                ],
-            },
-            {
-                label: 'Om det är viktigt, kan du ange ytterligare detaljer här.',
-                rows: [
-                    [
-                        () =>
-                            select(
-                                'category',
-                                'Kategori',
-                                categories
-                                    .map((c) => categoryToOptions(c))
-                                    .flat(),
-                                { fullWidth: true }
-                            ),
-                    ],
-                    [
-                        () =>
-                            select('unit', 'Enhet', makeOptions(terms.unit), {
-                                fullWidth: true,
-                            }),
-                        () =>
-                            select(
-                                'material',
-                                'Material',
-                                makeOptions(terms.material),
-                                {
-                                    fullWidth: true,
-                                }
-                            ),
-                        () =>
-                            select(
-                                'condition',
-                                'Skick',
-                                makeOptions(terms.condition),
-                                {
-                                    fullWidth: true,
-                                }
-                            ),
-                        () =>
-                            select(
-                                'usage',
-                                'Användningsområde',
-                                makeOptions(terms.usage),
                                 {
                                     fullWidth: true,
                                 }
@@ -318,31 +301,18 @@ export const AdvertForm: FC<{
                                     placeholder: 'Stad',
                                 }
                             ),
-                        /*
-                        () =>
-                            factory.textField(
-                                (input) => input.location.country,
-                                (v) => ({
-                                    ...model,
-                                    location: {
-                                        ...model.location,
-                                        country: v,
-                                    },
-                                }),
-                                {
-                                    fullWidth: true,
-                                    label: 'Land',
-                                    placeholder: 'Land',
-                                }
-                            ),
-                            */
                     ],
                     [
-                        () =>
-                            updateProfileConsent(
-                                updateProfile,
-                                setUpdateProfile
-                            ),
+                        () => (
+                            <SyncProfileInput
+                                patch={model.location}
+                                onProfile={(p) =>
+                                    patchModel({
+                                        location: p,
+                                    })
+                                }
+                            />
+                        ),
                     ],
                 ],
             },
@@ -403,16 +373,59 @@ export const AdvertForm: FC<{
                             ),
                     ],
                     [
+                        () => (
+                            <SyncProfileInput
+                                patch={model.contact}
+                                onProfile={(p) =>
+                                    patchModel({
+                                        contact: p,
+                                    })
+                                }
+                            />
+                        ),
+                    ],
+                ],
+            },
+            {
+                label: 'Om det är viktigt, kan du ange ytterligare detaljer här.',
+                rows: [
+                    [
                         () =>
-                            updateProfileConsent(
-                                updateProfile,
-                                setUpdateProfile
+                            select('unit', 'Enhet', makeOptions(terms.unit), {
+                                fullWidth: true,
+                            }),
+                        () =>
+                            select(
+                                'material',
+                                'Material',
+                                makeOptions(terms.material),
+                                {
+                                    fullWidth: true,
+                                }
+                            ),
+                        () =>
+                            select(
+                                'condition',
+                                'Skick',
+                                makeOptions(terms.condition),
+                                {
+                                    fullWidth: true,
+                                }
+                            ),
+                        () =>
+                            select(
+                                'usage',
+                                'Användningsområde',
+                                makeOptions(terms.usage),
+                                {
+                                    fullWidth: true,
+                                }
                             ),
                     ],
                 ],
             },
         ],
-        [model, updateProfile, setUpdateProfile]
+        [model]
     )
 
     const nextLayoutKey = nextKey('l')
@@ -421,17 +434,15 @@ export const AdvertForm: FC<{
         <form
             onSubmit={(e) => {
                 e.preventDefault()
-                const profile: ProfileInput | null = updateProfile
-                    ? {
-                          ...model.contact,
-                          ...model.location,
-                      }
-                    : null
-                onSave(model, profile)
+                onSave(model)
                 return false
             }}
         >
-            <CardHeader title={title} key={nextLayoutKey()} />
+            <CardHeader
+                title={title}
+                key={nextLayoutKey()}
+                sx={{ display: 'none' }}
+            />
             {error && (
                 <Row key="error-top">
                     <Cell>

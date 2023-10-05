@@ -20,6 +20,9 @@ export interface ProfileInput {
 }
 
 export interface ProfileRepository {
-    getProfile: () => Promise<Profile>
-    updateProfile: (input: ProfileInput) => Promise<Profile>
+    getProfile: (init?: Pick<RequestInit, 'signal'>) => Promise<Profile>
+    updateProfile: (
+        input: ProfileInput,
+        init?: Pick<RequestInit, 'signal'>
+    ) => Promise<Profile>
 }
