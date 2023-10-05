@@ -34,7 +34,7 @@ export const AdvertQrCodeView: FC<{ advert: Advert }> = ({ advert }) => {
             <GlobalStyles
                 styles={{
                     '@page': {
-                        margin: 0,
+                        margin: 5,
                         size: 'landscape',
                     },
                     'body,html': {
