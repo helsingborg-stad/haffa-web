@@ -18,14 +18,14 @@ export const MyAdvertsView: FC = () => {
                 restrictions: { createdByMe: true, hasReservations: true },
             },
             {
-                label: phrase('', 'Arkiverade'),
-                name: 'archived',
-                restrictions: { createdByMe: true, isArchived: true },
-            },
-            {
                 label: phrase('', 'Uthämtade'),
                 name: 'collected',
                 restrictions: { createdByMe: true, hasCollects: true },
+            },
+            {
+                label: phrase('', 'Arkiverade'),
+                name: 'archived',
+                restrictions: { createdByMe: true, isArchived: true },
             },
         ],
         [phrase]

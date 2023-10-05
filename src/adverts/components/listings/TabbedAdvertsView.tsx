@@ -69,12 +69,13 @@ export const TabbedAdvertsView: FC<{
                 value={tabIndex}
                 onChange={(_, newTabIndex) => setTabIndex(newTabIndex)}
             >
-                {tabs.map(({ label }) => (
-                    <Tab label={label} />
+                {tabs.map(({ name, label }) => (
+                    <Tab key={name} label={label} />
                 ))}
             </Tabs>
             {tabs.map(({ name, restrictions }, index) => (
                 <SearchTabPanel
+                    key={name}
                     cacheName={`${baseCacheName}-${name}-${CACHE_VERSION}`}
                     index={index}
                     value={tabIndex}
