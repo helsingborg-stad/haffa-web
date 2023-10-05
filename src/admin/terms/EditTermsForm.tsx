@@ -58,7 +58,7 @@ export const EditTermsForm: FC<{
             </Editorial>
             <Grid container direction="row">
                 {bindings.map(({ label, value, setValue }) => (
-                    <Grid item xs={12} sm={4} sx={{ p: 1 }}>
+                    <Grid key={label} item xs={12} sm={4} sx={{ p: 1 }}>
                         <TextField
                             label={label}
                             placeholder={label}
