@@ -1,4 +1,4 @@
-import { styled } from '@mui/material'
+import { GlobalStyles, styled } from '@mui/material'
 import Box from '@mui/material/Box'
 import Slider from '@mui/material/Slider'
 import { Advert } from 'adverts'
@@ -29,10 +29,21 @@ export const AdvertQrCodeView: FC<{ advert: Advert }> = ({ advert }) => {
             style={{
                 display: 'grid',
                 placeItems: 'center',
-                width: '100%',
-                height: 'auto',
             }}
         >
+            <GlobalStyles
+                styles={{
+                    '@page': {
+                        margin: 0,
+                        size: 'landscape',
+                    },
+                    'body,html': {
+                        margin: 0,
+                        padding: 0,
+                    },
+                }}
+            />
+
             <NonPrintableComponent>
                 <Box sx={{ width: 300, paddingTop: 5, paddingBottom: 2 }}>
                     <Slider
@@ -51,12 +62,12 @@ export const AdvertQrCodeView: FC<{ advert: Advert }> = ({ advert }) => {
             </NonPrintableComponent>
             <div
                 style={{
-                    padding: 1,
                     textAlign: 'center',
-                    overflow: 'clip',
+                    breakAfter: 'always',
+                    width: '100%',
                 }}
             >
-                <QRCode size={size} value={link} style={{}} />
+                <QRCode size={size} value={link} />
                 <div
                     style={{
                         fontSize: size / 4,
