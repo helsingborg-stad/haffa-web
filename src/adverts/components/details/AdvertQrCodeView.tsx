@@ -1,5 +1,12 @@
-import { GlobalStyles, styled } from '@mui/material'
-import Box from '@mui/material/Box'
+import {
+    Box,
+    GlobalStyles,
+    Grid,
+    IconButton,
+    Typography,
+    styled,
+} from '@mui/material'
+import PrintIcon from '@mui/icons-material/Print'
 import Slider from '@mui/material/Slider'
 import { Advert } from 'adverts'
 import { DeepLinkContext } from 'deep-links/DeepLinkContext'
@@ -46,18 +53,30 @@ export const AdvertQrCodeView: FC<{ advert: Advert }> = ({ advert }) => {
 
             <NonPrintableComponent>
                 <Box sx={{ width: 300, paddingTop: 5, paddingBottom: 2 }}>
-                    <Slider
-                        min={10}
-                        max={500}
-                        step={1}
-                        value={size}
-                        aria-label="Default"
-                        valueLabelDisplay="auto"
-                        onChangeCommitted={(_, value) =>
-                            setInitialSize(firstElement(value))
-                        }
-                        onChange={(_, value) => setSize(firstElement(value))}
-                    />
+                    <Typography gutterBottom>Storlek</Typography>
+                    <Grid container spacing={2} alignItems="center">
+                        <Grid item xs>
+                            <Slider
+                                min={10}
+                                max={500}
+                                step={1}
+                                value={size}
+                                aria-label="Default"
+                                valueLabelDisplay="auto"
+                                onChangeCommitted={(_, value) =>
+                                    setInitialSize(firstElement(value))
+                                }
+                                onChange={(_, value) =>
+                                    setSize(firstElement(value))
+                                }
+                            />
+                        </Grid>
+                        <Grid item>
+                            <IconButton aria-label="skriv ut">
+                                <PrintIcon onClick={() => window.print()} />
+                            </IconButton>
+                        </Grid>
+                    </Grid>
                 </Box>
             </NonPrintableComponent>
             <div
