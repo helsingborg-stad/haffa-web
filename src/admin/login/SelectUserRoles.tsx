@@ -57,7 +57,7 @@ export const SelectUserRoles: FC<{
                         )
                         .define(
                             'canEditTerms',
-                            phrase('', 'Hantera definitioner'),
+                            phrase('', 'Hantera definitioner (demo)'),
                             true
                         )
                         .define(
