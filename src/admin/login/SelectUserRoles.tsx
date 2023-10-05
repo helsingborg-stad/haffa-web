@@ -56,6 +56,11 @@ export const SelectUserRoles: FC<{
                             true
                         )
                         .define(
+                            'canEditTerms',
+                            phrase('', 'Hantera definitioner'),
+                            true
+                        )
+                        .define(
                             'canEditSystemCategories',
                             phrase('', 'Hantera system kategorier (admin)'),
                             true
