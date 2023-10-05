@@ -34,7 +34,7 @@ export const AdvertQrCodeView: FC<{ advert: Advert }> = ({ advert }) => {
             <GlobalStyles
                 styles={{
                     '@page': {
-                        margin: 5,
+                        margin: 15,
                         size: 'landscape',
                     },
                     'body,html': {
@@ -70,7 +70,7 @@ export const AdvertQrCodeView: FC<{ advert: Advert }> = ({ advert }) => {
                 <QRCode size={size} value={link} />
                 <div
                     style={{
-                        fontSize: size / 4,
+                        fontSize: size / 5,
                         fontFamily: 'Arial, Helvetica, sans-serif',
                         breakInside: 'avoid',
                     }}
