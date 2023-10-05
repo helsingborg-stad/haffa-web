@@ -23,7 +23,7 @@ export const AdvertQrCodeView: FC<{ advert: Advert }> = ({ advert }) => {
         40
     )
     const [size, setSize] = useState<number>(initialSize)
-    console.log("We're in dev.", link)
+    console.log(link)
     return (
         <div
             style={{
