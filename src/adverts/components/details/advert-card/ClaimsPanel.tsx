@@ -1,6 +1,7 @@
 import {
     Button,
     ButtonGroup,
+    ButtonProps,
     Card,
     CardActions,
     CardContent,
@@ -46,33 +47,38 @@ const ActionsButton: FC<{
         icon?: ReactNode
         action: () => void
         disabled?: boolean
+        variant?: ButtonProps['variant']
     }
+
+    const makeOption = (o: Option): Option => ({ variant: 'contained', ...o })
+
     const options = useMemo<Option[]>(
         () =>
             [
-                {
+                makeOption({
                     label: phrase('', 'Välj hantering'),
                     action: () => {},
                     disabled: true,
-                },
+                    variant: 'outlined',
+                }),
                 claim.canCancel && claim.type === AdvertClaimType.reserved
-                    ? {
+                    ? makeOption({
                           label: phrase('', 'Ångra reservation'),
                           icon: <CancelIcon color="primary" />,
                           action: () =>
                               onUpdate(cancelAdvertClaim(advert.id, claim)),
-                      }
+                      })
                     : null,
                 claim.canCancel && claim.type === AdvertClaimType.collected
-                    ? {
+                    ? makeOption({
                           label: phrase('', 'Ångra hämtning'),
                           icon: <CancelIcon color="primary" />,
                           action: () =>
                               onUpdate(cancelAdvertClaim(advert.id, claim)),
-                      }
+                      })
                     : null,
                 claim.canConvert && claim.type !== AdvertClaimType.collected
-                    ? {
+                    ? makeOption({
                           label: phrase('', 'Lämna ut manuellt'),
                           icon: <ConvertIcon color="primary" />,
                           action: () =>
@@ -83,10 +89,10 @@ const ActionsButton: FC<{
                                       AdvertClaimType.collected
                                   )
                               ),
-                      }
+                      })
                     : null,
                 claim.canConvert && claim.type === AdvertClaimType.collected
-                    ? {
+                    ? makeOption({
                           label: phrase('', 'Ändra till reservation'),
                           icon: <ConvertIcon color="primary" />,
                           action: () =>
@@ -97,7 +103,7 @@ const ActionsButton: FC<{
                                       AdvertClaimType.reserved
                                   )
                               ),
-                      }
+                      })
                     : null,
             ]
                 .filter((o) => o)
@@ -137,16 +143,18 @@ const ActionsButton: FC<{
                     onClick={selectedOption.action}
                     fullWidth={!largeScreen}
                     startIcon={selectedOption.icon}
+                    variant={selectedOption.variant}
                 >
                     {selectedOption.label}
                 </Button>
                 <Button
                     size="small"
                     aria-expanded={open ? 'true' : undefined}
-                    aria-label="select merge strategy"
+                    aria-label="Välj hantering"
                     aria-haspopup="menu"
                     fullWidth={false}
                     onClick={handleToggle}
+                    variant={selectedOption.variant}
                 >
                     <ArrowDropDownIcon />
                 </Button>
