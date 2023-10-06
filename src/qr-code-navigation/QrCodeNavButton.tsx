@@ -13,7 +13,7 @@ export const QrCodeNavButton: FC = () => {
         <QrCodeButton
             label={SCAN_QR_CODE}
             onSameDomain={(url, close) => {
-                navigate(url.toString())
+                navigate(url.pathname)
                 close()
             }}
             onOtherDomain={() =>
