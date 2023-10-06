@@ -14,6 +14,10 @@ import useLocalStorage from 'hooks/use-local-storage'
 import { FC, useContext, useState } from 'react'
 import QRCode from 'react-qr-code'
 
+type State = {
+    margin: number
+    size: number
+}
 const NonPrintableComponent = styled('div')({
     '@media print': {
         display: 'none',
@@ -25,12 +29,15 @@ const firstElement = <T,>(value: T | T[]): T =>
 export const AdvertQrCodeView: FC<{ advert: Advert }> = ({ advert }) => {
     const { getAdvertLinkForQrCode } = useContext(DeepLinkContext)
     const link = getAdvertLinkForQrCode(advert)
-    const [initialSize, setInitialSize] = useLocalStorage<number>(
-        'initial-qr-size',
-        40
+    const [initialState, setInitialState] = useLocalStorage<State>(
+        'haffa-qr-code-view',
+        {
+            size: 40,
+            margin: 15,
+        }
     )
-    const [size, setSize] = useState<number>(initialSize)
-    console.log("We're on main branch", link)
+    const [state, setState] = useState<State>(initialState)
+    console.log(link)
     return (
         <div
             style={{
@@ -40,13 +47,23 @@ export const AdvertQrCodeView: FC<{ advert: Advert }> = ({ advert }) => {
         >
             <GlobalStyles
                 styles={{
-                    '@page': {
-                        margin: 15,
-                        size: 'landscape',
+                    '@media print': {
+                        '@page': {
+                            margin: 0,
+                            size: 'landscape',
+                        },
+                        'body,html,#root': {
+                            margin: 0,
+                            padding: 0,
+                        },
+                        '#container': {
+                            border: 0,
+                        },
                     },
-                    'body,html': {
-                        margin: 0,
-                        padding: 0,
+                    '@media screen': {
+                        '#container': {
+                            'border-top': '1px dotted black',
+                        },
                     },
                 }}
             />
@@ -60,14 +77,45 @@ export const AdvertQrCodeView: FC<{ advert: Advert }> = ({ advert }) => {
                                 min={10}
                                 max={500}
                                 step={1}
-                                value={size}
+                                value={state.size}
                                 aria-label="Default"
                                 valueLabelDisplay="auto"
                                 onChangeCommitted={(_, value) =>
-                                    setInitialSize(firstElement(value))
+                                    setInitialState({
+                                        size: firstElement(value),
+                                        margin: state.margin,
+                                    })
                                 }
                                 onChange={(_, value) =>
-                                    setSize(firstElement(value))
+                                    setState({
+                                        size: firstElement(value),
+                                        margin: state.margin,
+                                    })
+                                }
+                            />
+                        </Grid>
+                    </Grid>
+                    <Typography gutterBottom>Marginal</Typography>
+                    <Grid container spacing={2} alignItems="center">
+                        <Grid item xs>
+                            <Slider
+                                min={0}
+                                max={500}
+                                step={1}
+                                value={state.margin}
+                                aria-label="Default"
+                                valueLabelDisplay="auto"
+                                onChangeCommitted={(_, value) =>
+                                    setInitialState({
+                                        margin: firstElement(value),
+                                        size: state.size,
+                                    })
+                                }
+                                onChange={(_, value) =>
+                                    setState({
+                                        margin: firstElement(value),
+                                        size: state.size,
+                                    })
                                 }
                             />
                         </Grid>
@@ -80,16 +128,18 @@ export const AdvertQrCodeView: FC<{ advert: Advert }> = ({ advert }) => {
                 </Box>
             </NonPrintableComponent>
             <div
+                id="container"
                 style={{
                     textAlign: 'center',
                     breakAfter: 'always',
                     width: '100%',
+                    paddingTop: state.margin,
                 }}
             >
-                <QRCode size={size} value={link} />
+                <QRCode size={state.size} value={link} />
                 <div
                     style={{
-                        fontSize: size / 5,
+                        fontSize: state.size / 5,
                         fontFamily: 'Arial, Helvetica, sans-serif',
                         breakInside: 'avoid',
                     }}
