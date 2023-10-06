@@ -18,6 +18,7 @@ import useTimeout from 'hooks/useTimout'
 import { AdminButton } from 'admin'
 import { useNotifications } from 'notifications'
 import { AuthContext } from 'auth'
+import { QrCodeNavButton } from 'qr-code-navigation'
 import { Navbar } from './Navbar'
 import { PhraseContext } from '../phrases/PhraseContext'
 
@@ -84,6 +85,7 @@ export const DefaultRenderAppbarControls = (): React.JSX.Element => {
                     {CREATE_ADVERT}
                 </Button>
             )}
+            <QrCodeNavButton />
             <AdminButton />
         </>
     )

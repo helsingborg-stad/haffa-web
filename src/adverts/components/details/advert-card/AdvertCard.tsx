@@ -28,7 +28,8 @@ export const AdvertCard: FC<{
     const showRightsDisclaimer =
         !meta.isMine && (meta.canEdit || meta.canRemove || meta.canManageClaims)
 
-    const showCollect = meta.canCollect && isCurrentLinkFromQrCode(advert)
+    const showCollect =
+        meta.canCollect && isCurrentLinkFromQrCode(advert) && false
 
     return (
         <>

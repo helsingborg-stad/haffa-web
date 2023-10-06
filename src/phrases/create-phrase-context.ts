@@ -13,14 +13,14 @@ const defaultPhrases: Omit<PhraseContextType, 'phrase' | 'fromNow'> = {
     NAV_MY_ADVERTS: 'Mina annonser',
     NAV_MY_RESERVATIONS: 'Haffat!',
     NAV_PROFILE: 'Min profil',
-    CREATE_ADVERT: 'Skapa annons',
+    CREATE_ADVERT: 'Ny annons',
     EDIT_ADVERT: 'Redigera annons',
     SAVE_ADVERT: 'Spara annonsen',
     REMOVE_ADVERT: 'Ta bort annonsen',
     EDIT_PROFILE: 'Redigera din profil',
     SAVE_PROFILE: 'Spara din profil',
-    SCAN_QR_CODE: 'Skanna kod',
-    PICKUP_ADVERT: 'Jag tar med mig prylen nu!',
+    SCAN_QR_CODE: 'Skanna',
+    PICKUP_ADVERT: 'Hämta pryl',
     LIST_NO_MORE_ADVERTS: 'Inga fler annonser',
 }
 

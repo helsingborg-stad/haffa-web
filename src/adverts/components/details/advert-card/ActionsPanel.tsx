@@ -2,18 +2,33 @@ import { Button } from '@mui/material'
 import { Advert, AdvertMutationResult, AdvertsContext } from 'adverts'
 import { PhraseContext } from 'phrases/PhraseContext'
 import { FC, useContext } from 'react'
+import { QrCodeCollectButton } from './QrCodeCollectButton'
 
 export const ActionsPanel: FC<{
     advert: Advert
     onUpdate: (p: Promise<AdvertMutationResult>) => void
 }> = ({ advert, onUpdate }) => {
     const { meta } = advert
-    const { reserveAdvert, cancelAdvertReservation } =
+    const { reserveAdvert, cancelAdvertReservation, collectAdvert } =
         useContext(AdvertsContext)
     const { phrase } = useContext(PhraseContext)
     return (
         <>
+            {meta.canCollect && (
+                <QrCodeCollectButton
+                    key="collect"
+                    advert={advert}
+                    onCollect={() => onUpdate(collectAdvert(advert.id, 1))}
+                    buttonProps={{
+                        fullWidth: true,
+                        color: 'primary',
+                        variant: 'contained',
+                    }}
+                    sx={{ mb: 1 }}
+                />
+            )}
             <Button
+                key="reserve"
                 fullWidth
                 color="primary"
                 variant="contained"
@@ -24,6 +39,7 @@ export const ActionsPanel: FC<{
                 {phrase('', 'Reservera')}
             </Button>
             <Button
+                key="cancel"
                 fullWidth
                 color="primary"
                 variant="outlined"

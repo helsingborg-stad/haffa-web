@@ -59,10 +59,9 @@ export const AdminButton: FC = () => {
         <>
             <Button
                 color="inherit"
-                startIcon={<AdminIcon />}
                 onClick={(e) => setAnchorEl(e.currentTarget)}
             >
-                Admin
+                <AdminIcon />
             </Button>
             <Menu
                 anchorEl={anchorEl}
