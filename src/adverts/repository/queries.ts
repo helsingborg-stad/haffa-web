@@ -36,6 +36,7 @@ const advertProps = /* GraphQL */ `
 	condition
 	usage
 	category
+	reference
 
 	location {
 		adress

@@ -215,6 +215,13 @@ export const AdvertForm: FC<{
                                 { fullWidth: true }
                             ),
                     ],
+                    [
+                        () =>
+                            textField('reference', 'Egen referens', {
+                                disabled,
+                                fullWidth: true,
+                            }),
+                    ],
                 ],
             },
             {

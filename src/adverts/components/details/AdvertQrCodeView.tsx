@@ -144,7 +144,10 @@ export const AdvertQrCodeView: FC<{ advert: Advert }> = ({ advert }) => {
                         breakInside: 'avoid',
                     }}
                 >
-                    {advert.title}
+                    {[advert.reference, advert.title]
+                        .map((s) => (s || '').trim())
+                        .filter((v) => v)
+                        .join(' - ')}
                 </div>
             </div>
         </div>

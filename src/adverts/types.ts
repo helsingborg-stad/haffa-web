@@ -10,6 +10,7 @@ export interface AdvertUserFields {
     condition: string
     usage: string
     category: string
+    reference: string
 
     location: AdvertLocation
     contact: AdvertContact
@@ -88,6 +89,7 @@ export interface AdvertInput {
     condition: string
     usage: string
     category: string
+    reference: string
 
     location: AdvertLocation
     contact: AdvertContact
