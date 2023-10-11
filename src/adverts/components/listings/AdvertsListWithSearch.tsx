@@ -11,7 +11,7 @@ import { SearchableAdvertsList } from '../filter'
 import { AsyncEnqueue, useLiveSearch } from '../../../hooks/use-live-search'
 import useLocalStorage from '../../../hooks/use-local-storage'
 
-const PAGE_SIZE = 4
+const PAGE_SIZE = 5
 
 const createEmptyResult = (): AdvertList => ({
     adverts: [],
@@ -23,13 +23,15 @@ const AdvertsListPagination: FC<{
     sx?: SxProps<Theme>
     hideEmpty?: boolean
     adverts: AdvertList
+    searchParams: AdvertFilterInput
     setSearchParams: (p: AdvertFilterInput) => void
 }> = ({
     sx,
     hideEmpty,
     adverts: {
-        paging: { totalCount, pageIndex, pageCount, pageSize },
+        paging: { totalCount, pageIndex, pageCount },
     },
+    searchParams,
     setSearchParams,
 }) => (
     <Stack alignItems="center" sx={sx}>
@@ -48,9 +50,10 @@ const AdvertsListPagination: FC<{
                 showLastButton
                 onChange={(_, page) =>
                     setSearchParams({
+                        ...searchParams,
                         paging: {
                             pageIndex: page - 1,
-                            pageSize,
+                            pageSize: PAGE_SIZE,
                         },
                     })
                 }
@@ -123,6 +126,7 @@ export const AdvertsListWithSearch: FC<
             >
                 <AdvertsListPagination
                     adverts={adverts}
+                    searchParams={searchParams}
                     setSearchParams={(p) => enqueue(() => next(p))}
                     sx={{ mb: 1 }}
                 />
@@ -137,6 +141,7 @@ export const AdvertsListWithSearch: FC<
                 />
                 <AdvertsListPagination
                     adverts={adverts}
+                    searchParams={searchParams}
                     setSearchParams={(p) => enqueue(() => next(p))}
                     sx={{ mt: 1 }}
                     hideEmpty
