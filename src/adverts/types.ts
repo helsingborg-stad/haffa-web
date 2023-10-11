@@ -61,9 +61,9 @@ export interface AdvertSorting {
     ascending?: boolean
 }
 
-export interface AdvertPaging {
-    cursor?: string
-    limit: number
+export interface AdvertFilterInputPaging {
+    pageIndex: number
+    pageSize: number
 }
 
 export interface AdvertFilterInput {
@@ -71,7 +71,7 @@ export interface AdvertFilterInput {
     fields?: AdvertFieldsFilterInput
     restrictions?: AdvertRestrictionsFilterInput
     sorting?: AdvertSorting
-    paging?: AdvertPaging
+    paging?: AdvertFilterInputPaging
 }
 
 export interface AdvertImage {
@@ -162,21 +162,23 @@ export interface AdvertMutationResult {
     advert: Advert
 }
 
-export interface Paging {
+export interface AdvertListPaging {
     totalCount: number
-    nextCursor: string | null
+    pageIndex: number
+    pageSize: number
+    pageCount: number
 }
 
 export interface AdvertList {
     adverts: Advert[]
     categories: Category[]
-    paging: Paging
+    paging: AdvertListPaging
 }
 
 export interface AdvertListFlat {
     adverts: Advert[]
     categories: CategoryFlat[]
-    paging: Paging
+    paging: AdvertListPaging
 }
 
 export interface AdvertsRepository {

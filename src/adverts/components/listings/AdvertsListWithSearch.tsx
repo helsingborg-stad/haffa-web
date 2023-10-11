@@ -1,36 +1,78 @@
 import { FC, PropsWithChildren, useCallback, useContext } from 'react'
-import { Box } from '@mui/material'
-import { Advert, AdvertFilterInput, AdvertList } from 'adverts'
+import { Pagination, Stack, SxProps, Theme } from '@mui/material'
+import { AdvertFilterInput, AdvertList } from 'adverts'
 import useAbortController from 'hooks/use-abort-controller'
-import merge from 'lodash.merge'
 import { createTreeAdapter } from 'lib/tree-adapter'
+import { Phrase } from 'phrases/Phrase'
 import { AdvertsContext } from '../../AdvertsContext'
 import { AdvertsList } from './AdvertsList'
 import { ErrorView } from '../../../errors'
 import { SearchableAdvertsList } from '../filter'
 import { AsyncEnqueue, useLiveSearch } from '../../../hooks/use-live-search'
 import useLocalStorage from '../../../hooks/use-local-storage'
-import { Phrase } from '../../../phrases/Phrase'
-import { AdvertPagingControls } from './AdvertPagingControls'
 
+const PAGE_SIZE = 4
+
+const createEmptyResult = (): AdvertList => ({
+    adverts: [],
+    categories: [],
+    paging: { pageIndex: 0, pageSize: PAGE_SIZE, pageCount: 0, totalCount: 0 },
+})
+
+const AdvertsListPagination: FC<{
+    sx?: SxProps<Theme>
+    hideEmpty?: boolean
+    adverts: AdvertList
+    setSearchParams: (p: AdvertFilterInput) => void
+}> = ({
+    sx,
+    hideEmpty,
+    adverts: {
+        paging: { totalCount, pageIndex, pageCount, pageSize },
+    },
+    setSearchParams,
+}) => (
+    <Stack alignItems="center" sx={sx}>
+        {totalCount === 0 && !hideEmpty && (
+            <Phrase
+                id="SEARCH_EMPTY_RESULT"
+                value="Hoppsan, det blev inga träffar på den"
+            />
+        )}
+        {pageCount > 1 && (
+            <Pagination
+                color="primary"
+                page={pageIndex + 1}
+                count={pageCount}
+                showFirstButton
+                showLastButton
+                onChange={(_, page) =>
+                    setSearchParams({
+                        paging: {
+                            pageIndex: page - 1,
+                            pageSize,
+                        },
+                    })
+                }
+            />
+        )}
+    </Stack>
+)
 export const AdvertsListWithSearch: FC<
     {
         cacheName: string
         defaultSearchParams: Partial<AdvertFilterInput>
-        renderControls?: (
-            searchParams: AdvertFilterInput,
-            setSearchParams: (p: AdvertFilterInput) => void
-        ) => JSX.Element
     } & PropsWithChildren
-> = ({ children, cacheName, defaultSearchParams, renderControls }) => {
+> = ({ children, cacheName, defaultSearchParams }) => {
     const { signal } = useAbortController()
+
     const effectiveInitialSearchParams: AdvertFilterInput = {
         search: '',
         sorting: {
             field: 'title',
             ascending: true,
         },
-        paging: { limit: 25 },
+        paging: { pageIndex: 0, pageSize: PAGE_SIZE },
         ...defaultSearchParams,
     }
     const versionKey = btoa(JSON.stringify(effectiveInitialSearchParams))
@@ -40,7 +82,7 @@ export const AdvertsListWithSearch: FC<
     // parameters occus (which could be a schema addition or similar)
     // Change in default parameters are thus treated as a major version change
     const [searchParamsRaw, setSearchParamsRaw] = useLocalStorage(
-        `haffa-filter-${cacheName}`,
+        `haffa-filter-v2-${cacheName}`,
         {
             versionKey,
             p: effectiveInitialSearchParams,
@@ -51,14 +93,7 @@ export const AdvertsListWithSearch: FC<
         (p: AdvertFilterInput) =>
             setSearchParamsRaw({
                 versionKey,
-                p: {
-                    ...p,
-                    paging: {
-                        limit:
-                            p.paging?.limit ??
-                            effectiveInitialSearchParams.paging?.limit!,
-                    },
-                },
+                p,
             }),
         [setSearchParamsRaw, versionKey]
     )
@@ -69,69 +104,28 @@ export const AdvertsListWithSearch: FC<
             : effectiveInitialSearchParams
 
     const { listAdverts } = useContext(AdvertsContext)
-
-    const appendListAdverts = useCallback(
-        async (p: AdvertFilterInput, activeList: Advert[]) =>
-            listAdverts(p, { signal }).then((newAdvertList) => ({
-                ...newAdvertList,
-                adverts: [...activeList, ...newAdvertList.adverts],
-            })),
-        [listAdverts]
-    )
-
-    const view = useLiveSearch(() => appendListAdverts(searchParams, []))
-
     const next = useCallback(
-        (p: AdvertFilterInput, appendOnto: Advert[] = []) => {
+        (p: AdvertFilterInput) => {
             setSearchParams(p)
-            return () => appendListAdverts(p, appendOnto)
+            return listAdverts(p, { signal })
         },
-        [setSearchParams, appendListAdverts, signal]
+        [setSearchParams, signal]
     )
 
-    const tryLoadMoreAdverts = (
-        enqueue: AsyncEnqueue<AdvertList>,
-        activeAdverts: Advert[],
-        cursor: string | null | undefined
-    ) => {
-        enqueue(
-            next(
-                merge(searchParams, {
-                    paging: {
-                        limit: searchParams.paging?.limit,
-                        cursor,
-                    },
-                }),
-                activeAdverts
-            )
-        )
-    }
+    const view = useLiveSearch<AdvertList>(() => next(searchParams))
 
     const listResult = useCallback(
-        (adverts: AdvertList | null, enqueue: AsyncEnqueue<AdvertList>) => (
+        (adverts: AdvertList, enqueue: AsyncEnqueue<AdvertList>) => (
             <SearchableAdvertsList
                 key="sal"
                 searchParams={searchParams}
-                setSearchParams={(p) => enqueue(next(p))}
+                setSearchParams={(p) => enqueue(() => next(p))}
             >
-                <Box key="e" sx={{ m: 2 }}>
-                    {adverts?.adverts.length === 0 ? (
-                        <Phrase
-                            id="SEARCH_EMPTY_RESULT"
-                            value="Hoppsan, det blev inga träffar på den"
-                        />
-                    ) : (
-                        <Phrase
-                            id="SEARCH_TOTAL_COUNT"
-                            value="Visar {count} av {totalCount} annonser"
-                            variables={{
-                                count: adverts?.adverts.length ?? '?',
-                                totalCount: adverts?.paging.totalCount ?? '?',
-                            }}
-                        />
-                    )}
-                </Box>
-                {renderControls?.(searchParams, (p) => enqueue(next(p)))}
+                <AdvertsListPagination
+                    adverts={adverts}
+                    setSearchParams={(p) => enqueue(() => next(p))}
+                    sx={{ mb: 1 }}
+                />
                 <AdvertsList
                     key="al"
                     adverts={adverts?.adverts || []}
@@ -141,32 +135,26 @@ export const AdvertsListWithSearch: FC<
                         (c) => c.categories
                     )}
                 />
-                {adverts?.adverts.length === 0 ? null : (
-                    <AdvertPagingControls
-                        onLoadMore={() =>
-                            tryLoadMoreAdverts(
-                                enqueue,
-                                adverts?.adverts ?? [],
-                                adverts?.paging.nextCursor
-                            )
-                        }
-                        nextCursor={adverts?.paging.nextCursor}
-                    />
-                )}
+                <AdvertsListPagination
+                    adverts={adverts}
+                    setSearchParams={(p) => enqueue(() => next(p))}
+                    sx={{ mt: 1 }}
+                    hideEmpty
+                />
             </SearchableAdvertsList>
         ),
-        [renderControls, searchParams, setSearchParams, next]
+        [searchParams, setSearchParams, next]
     )
 
     return view({
-        pending: listResult,
+        pending: (result, enqueue) =>
+            listResult(result || createEmptyResult(), enqueue),
         rejected: (error, enqueue) => (
             <SearchableAdvertsList
                 key="sal"
                 searchParams={searchParams}
-                setSearchParams={(p) => enqueue(next(p))}
+                setSearchParams={(p) => enqueue(() => next(p))}
             >
-                {renderControls?.(searchParams, setSearchParams)}
                 <ErrorView key="ev" error={error} />
                 {children}
             </SearchableAdvertsList>
