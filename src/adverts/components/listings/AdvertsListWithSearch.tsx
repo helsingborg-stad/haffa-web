@@ -122,7 +122,14 @@ export const AdvertsListWithSearch: FC<
             <SearchableAdvertsList
                 key="sal"
                 searchParams={searchParams}
-                setSearchParams={(p) => enqueue(() => next(p))}
+                setSearchParams={(p) =>
+                    enqueue(() =>
+                        next({
+                            ...p,
+                            paging: { pageIndex: 0, pageSize: PAGE_SIZE },
+                        })
+                    )
+                }
             >
                 <AdvertsListPagination
                     adverts={adverts}
