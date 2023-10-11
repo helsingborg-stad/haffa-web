@@ -91,6 +91,10 @@ query Query($filter: AdvertFilterInput) {
 		paging {
       nextCursor
       totalCount
+			pageIndex
+			pageCount
+			pageSize
+			pageCount
     }
 	}
 }
