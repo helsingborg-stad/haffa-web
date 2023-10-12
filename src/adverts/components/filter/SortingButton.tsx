@@ -66,7 +66,7 @@ export const SortingButton: FC<{
     return (
         <>
             <Button
-                variant="contained"
+                variant="outlined"
                 onClick={(e) => showSortMenu(e.currentTarget)}
             >
                 {bestMatchingOption.label}

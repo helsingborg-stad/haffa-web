@@ -7,7 +7,7 @@ export interface FilterButtonProps {
 }
 
 export const FilterButton: FC<FilterButtonProps> = ({ onClick }) => (
-    <Button variant="contained" onClick={onClick}>
+    <Button variant="outlined" onClick={onClick}>
         <FilterListIcon />
     </Button>
 )
