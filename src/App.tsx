@@ -25,12 +25,17 @@ import {
     createApiKeysRepository,
     createNotifyingApiKeysRepository,
 } from 'api-keys'
-import { BrandingProvider } from 'branding/BrandingProvider'
+import { BrandingProvider } from 'branding/BrandingContext'
 import {
     TermsProvider,
     createNotifyingTermsRepository,
     createTermsRepository,
 } from 'terms'
+import {
+    createBrandingRepository,
+    createNotifyingBrandingRepository,
+} from 'branding'
+import { GlobalBrandingProvider } from 'branding/GlobalBrandingContext'
 import { AdvertsProvider } from './adverts/AdvertsContext'
 import { createAdvertsRepository } from './adverts/repository/adverts-repository'
 import { AppRouter } from './routes/AppRouter'
@@ -43,6 +48,16 @@ const Main: FC = () => {
     const { fetch } = useContext(FetchContext)
     const { phrase } = useContext(PhraseContext)
     const notifications = useContext(NotificationsContext)
+
+    const branding = useMemo(
+        () =>
+            createNotifyingBrandingRepository(
+                notifications,
+                phrase,
+                createBrandingRepository(token, fetch)
+            ),
+        [notifications, phrase]
+    )
 
     const terms = useMemo(
         () =>
@@ -102,33 +117,36 @@ const Main: FC = () => {
         [notifications, phrase, token, fetch]
     )
     return isAuthenticated ? (
-        <ApiKeysProvider repository={apiKeys}>
-            <LoginPoliciesProvider repository={loginPolicies}>
-                <CategoriesProvider repository={categories}>
-                    <TermsProvider repository={terms}>
-                        <AdvertsProvider repository={adverts}>
-                            <ProfileProvider repository={profiles}>
-                                <AppRouter />
-                            </ProfileProvider>
-                        </AdvertsProvider>
-                    </TermsProvider>
-                </CategoriesProvider>
-            </LoginPoliciesProvider>
-        </ApiKeysProvider>
+        <BrandingProvider repository={branding}>
+            <ApiKeysProvider repository={apiKeys}>
+                <LoginPoliciesProvider repository={loginPolicies}>
+                    <CategoriesProvider repository={categories}>
+                        <TermsProvider repository={terms}>
+                            <AdvertsProvider repository={adverts}>
+                                <ProfileProvider repository={profiles}>
+                                    <AppRouter />
+                                </ProfileProvider>
+                            </AdvertsProvider>
+                        </TermsProvider>
+                    </CategoriesProvider>
+                </LoginPoliciesProvider>
+            </ApiKeysProvider>
+        </BrandingProvider>
     ) : (
         <AuthenticateView />
     )
 }
+
 const App: FC = () => {
     const [authProvider] = useState(createAuthProvider())
     return (
-        <BrandingProvider>
+        <GlobalBrandingProvider>
             <FetchContextProvider>
                 <AuthContextProvider authProvider={authProvider}>
                     <Main />
                 </AuthContextProvider>
             </FetchContextProvider>
-        </BrandingProvider>
+        </GlobalBrandingProvider>
     )
 }
 

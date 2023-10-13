@@ -47,6 +47,9 @@ export const AdminButton: FC = () => {
                 roles.canEditApiKeys
                     ? makeMenuItem('/admin/api-keys', phrase('', 'API nycklar'))
                     : null,
+                roles.canEditTerms
+                    ? makeMenuItem('/admin/branding', phrase('', 'Tema'))
+                    : null,
             ].filter((v) => v),
         [phrase, roles]
     )
