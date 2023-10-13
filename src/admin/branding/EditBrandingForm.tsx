@@ -4,6 +4,7 @@ import { Editorial } from 'editorials'
 // eslint-disable-next-line import/no-extraneous-dependencies
 import { SwatchesPicker } from 'react-color'
 import { getOption, themeDefaults } from 'branding/theme-factory'
+import SaveIcon from '@mui/icons-material/Save'
 import type { Option } from '../../branding/types'
 
 export const EditBrandingForm: FC<{
@@ -22,7 +23,7 @@ export const EditBrandingForm: FC<{
     return (
         <>
             <Editorial>Definitioner för tema</Editorial>
-            <Grid container direction="row">
+            <Grid container direction="row" sx={{ paddingBottom: 5 }}>
                 <Grid key="primaryColor" item xs={12} sm={4} sx={{ p: 1 }}>
                     <Typography>Primär färg</Typography>
                     <SwatchesPicker
@@ -39,6 +40,9 @@ export const EditBrandingForm: FC<{
                 </Grid>
             </Grid>
             <Button
+                type="submit"
+                variant="contained"
+                startIcon={<SaveIcon />}
                 onClick={() =>
                     onUpdate([
                         {
@@ -53,6 +57,14 @@ export const EditBrandingForm: FC<{
                 }
             >
                 Spara
+            </Button>
+            <Button
+                onClick={() => {
+                    setPrimary(themeDefaults.primary)
+                    setSecondary(themeDefaults.secondary)
+                }}
+            >
+                Återställ
             </Button>
         </>
     )
