@@ -39,5 +39,6 @@ export const createAuthProvider = (): AuthProvider => {
             request('/api/v1/haffa/auth/login', { email, pincode }).then(
                 ({ token, roles }) => makeAuthentication(token, roles)
             ),
+        signOut: () => request('/api/v1/haffa/auth/signout', {}),
     }
 }
