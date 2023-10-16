@@ -1,13 +1,13 @@
 import { ThemeProvider, createTheme } from '@mui/material'
 import useAsync from 'hooks/use-async'
 import { FC, PropsWithChildren, useMemo } from 'react'
-import type { Option } from './types'
+import type { Option } from '../options/types'
 import { createCustomTheme } from './theme-factory'
+import { BrandingOptions } from './types'
 
-const BrandedView: FC<PropsWithChildren & { options: Option[] }> = ({
-    children,
-    options,
-}) => {
+const BrandedView: FC<
+    PropsWithChildren & { options: Option<BrandingOptions>[] }
+> = ({ children, options }) => {
     const theme = useMemo(
         () => createTheme(createCustomTheme(options), [options]),
         [options]
@@ -15,9 +15,9 @@ const BrandedView: FC<PropsWithChildren & { options: Option[] }> = ({
     return <ThemeProvider theme={theme}>{children}</ThemeProvider>
 }
 
-export const GlobalBrandingProvider: FC<PropsWithChildren> = ({ children }) => {
+export const BrandingProvider: FC<PropsWithChildren> = ({ children }) => {
     const inspect = useAsync<any>(() =>
-        fetch('/api/v1/haffa/branding', {
+        fetch('/api/v1/haffa/options/branding-options', {
             method: 'POST',
             headers: {
                 Accept: 'application/json',

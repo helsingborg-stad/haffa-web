@@ -1,11 +1,6 @@
-import { Option, OptionName, ThemeFactory } from './types'
-
-export const getOption = (
-    name: OptionName,
-    options: Option[],
-    defaultValue: string = ''
-): string =>
-    options.find((option) => option.name === name)?.value ?? defaultValue
+import { getOption } from 'options'
+import type { Option } from '../options/types'
+import { BrandingOptions, type ThemeFactory } from './types'
 
 export const themeDefaults = {
     primary: '#33691e',
@@ -15,10 +10,14 @@ export const themeDefaults = {
 export const createCustomTheme: ThemeFactory = (options: Option[]) => ({
     palette: {
         primary: {
-            main: getOption('theme.primary', options, themeDefaults.primary),
+            main: getOption<BrandingOptions>(
+                'theme.primary',
+                options,
+                themeDefaults.primary
+            ),
         },
         secondary: {
-            main: getOption(
+            main: getOption<BrandingOptions>(
                 'theme.secondary',
                 options,
                 themeDefaults.secondary

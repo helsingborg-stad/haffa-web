@@ -1,20 +1,19 @@
 import { ErrorView } from 'errors'
 import useAsync from 'hooks/use-async'
 import { FC, useContext } from 'react'
-import { BrandingContext } from 'branding/BrandingContext'
+import { OptionsContext } from 'options/OptionsContext'
 import { EditBrandingForm } from './EditBrandingForm'
 
 export const EditBrandingView: FC = () => {
-    const { getBrandingOptions, updateBrandingOptions } =
-        useContext(BrandingContext)
+    const { getOptions, updateOptions } = useContext(OptionsContext)
 
-    const inspect = useAsync(getBrandingOptions)
+    const inspect = useAsync(getOptions)
 
     return inspect({
         resolved: (options, _, update) => (
             <EditBrandingForm
                 options={options}
-                onUpdate={(t) => update(updateBrandingOptions(t))}
+                onUpdate={(t) => update(updateOptions(t))}
             />
         ),
         rejected: (error) => <ErrorView error={error} />,

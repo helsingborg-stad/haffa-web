@@ -1,10 +1,3 @@
-import { BrandingContext, BrandingProvider } from './BrandingContext'
-import { createBrandingRepository } from './branding-repository'
-import { createNotifyingBrandingRepository } from './notifying-branding-repository'
+import { BrandingProvider } from './BrandingProvider'
 
-export {
-    BrandingContext,
-    BrandingProvider,
-    createBrandingRepository,
-    createNotifyingBrandingRepository,
-}
+export { BrandingProvider }

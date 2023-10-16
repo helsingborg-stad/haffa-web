@@ -3,9 +3,10 @@ import { FC, useState } from 'react'
 import { Editorial } from 'editorials'
 // eslint-disable-next-line import/no-extraneous-dependencies
 import { SwatchesPicker } from 'react-color'
-import { getOption, themeDefaults } from 'branding/theme-factory'
+import { themeDefaults } from 'branding/theme-factory'
 import SaveIcon from '@mui/icons-material/Save'
-import type { Option } from '../../branding/types'
+import { getOption } from 'options'
+import type { Option } from '../../options/types'
 
 export const EditBrandingForm: FC<{
     options: Option[]
@@ -46,11 +47,11 @@ export const EditBrandingForm: FC<{
                 onClick={() =>
                     onUpdate([
                         {
-                            name: 'theme.primary',
+                            key: 'theme.primary',
                             value: primary,
                         },
                         {
-                            name: 'theme.secondary',
+                            key: 'theme.secondary',
                             value: secondary,
                         },
                     ])

@@ -1,14 +1,5 @@
 import { ThemeOptions } from '@mui/material'
+import type { Option } from '../options/types'
 
-export type OptionName = 'theme.primary' | 'theme.secondary'
-
-export interface Option {
-    name: OptionName
-    value: string
-}
-export interface BrandingRepository {
-    getBrandingOptions: () => Promise<Option[]>
-    updateBrandingOptions: (options: Option[]) => Promise<Option[]>
-}
-
-export type ThemeFactory = (options: Option[]) => ThemeOptions
+export type BrandingOptions = 'theme.primary' | 'theme.secondary'
+export type ThemeFactory = (options: Option<BrandingOptions>[]) => ThemeOptions

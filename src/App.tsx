@@ -25,17 +25,17 @@ import {
     createApiKeysRepository,
     createNotifyingApiKeysRepository,
 } from 'api-keys'
-import { BrandingProvider } from 'branding/BrandingContext'
+import { OptionsProvider } from 'options/OptionsContext'
 import {
     TermsProvider,
     createNotifyingTermsRepository,
     createTermsRepository,
 } from 'terms'
 import {
-    createBrandingRepository,
-    createNotifyingBrandingRepository,
-} from 'branding'
-import { GlobalBrandingProvider } from 'branding/GlobalBrandingContext'
+    createNotifyingOptionsRepository,
+    createOptionsRepository,
+} from 'options'
+import { BrandingProvider } from 'branding/BrandingProvider'
 import { AdvertsProvider } from './adverts/AdvertsContext'
 import { createAdvertsRepository } from './adverts/repository/adverts-repository'
 import { AppRouter } from './routes/AppRouter'
@@ -51,10 +51,10 @@ const Main: FC = () => {
 
     const branding = useMemo(
         () =>
-            createNotifyingBrandingRepository(
+            createNotifyingOptionsRepository(
                 notifications,
                 phrase,
-                createBrandingRepository(token, fetch)
+                createOptionsRepository('branding-options', token, fetch)
             ),
         [notifications, phrase]
     )
@@ -117,7 +117,7 @@ const Main: FC = () => {
         [notifications, phrase, token, fetch]
     )
     return isAuthenticated ? (
-        <BrandingProvider repository={branding}>
+        <OptionsProvider repository={branding}>
             <ApiKeysProvider repository={apiKeys}>
                 <LoginPoliciesProvider repository={loginPolicies}>
                     <CategoriesProvider repository={categories}>
@@ -131,7 +131,7 @@ const Main: FC = () => {
                     </CategoriesProvider>
                 </LoginPoliciesProvider>
             </ApiKeysProvider>
-        </BrandingProvider>
+        </OptionsProvider>
     ) : (
         <AuthenticateView />
     )
@@ -140,13 +140,13 @@ const Main: FC = () => {
 const App: FC = () => {
     const [authProvider] = useState(createAuthProvider())
     return (
-        <GlobalBrandingProvider>
+        <BrandingProvider>
             <FetchContextProvider>
                 <AuthContextProvider authProvider={authProvider}>
                     <Main />
                 </AuthContextProvider>
             </FetchContextProvider>
-        </GlobalBrandingProvider>
+        </BrandingProvider>
     )
 }
 
