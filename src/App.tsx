@@ -54,7 +54,7 @@ const Main: FC = () => {
             createNotifyingOptionsRepository(
                 notifications,
                 phrase,
-                createOptionsRepository('branding-options', token, fetch)
+                createOptionsRepository('branding', token, fetch)
             ),
         [notifications, phrase]
     )

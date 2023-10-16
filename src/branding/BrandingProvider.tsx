@@ -17,7 +17,7 @@ const BrandedView: FC<
 
 export const BrandingProvider: FC<PropsWithChildren> = ({ children }) => {
     const inspect = useAsync<any>(() =>
-        fetch('/api/v1/haffa/options/branding-options', {
+        fetch('/api/v1/haffa/options/branding', {
             method: 'POST',
             headers: {
                 Accept: 'application/json',
