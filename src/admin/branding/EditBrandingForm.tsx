@@ -13,10 +13,8 @@ export const EditBrandingForm: FC<{
     onUpdate: (options: Option[]) => void
 }> = ({ options, onUpdate }) => {
     const [[primary, setPrimary], [secondary, setSecondary]] = [
-        useState(getOption('theme.primary', options, themeDefaults.primary)),
-        useState(
-            getOption('theme.secondary', options, themeDefaults.secondary)
-        ),
+        useState(getOption('primary', options, themeDefaults.primary)),
+        useState(getOption('secondary', options, themeDefaults.secondary)),
     ]
 
     return (
@@ -45,11 +43,11 @@ export const EditBrandingForm: FC<{
                 onClick={() =>
                     onUpdate([
                         {
-                            key: 'theme.primary',
+                            key: 'primary',
                             value: primary,
                         },
                         {
-                            key: 'theme.secondary',
+                            key: 'secondary',
                             value: secondary,
                         },
                     ])

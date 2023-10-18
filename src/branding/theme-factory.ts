@@ -11,14 +11,14 @@ export const createCustomTheme: ThemeFactory = (options: Option[]) => ({
     palette: {
         primary: {
             main: getOption<BrandingOptions>(
-                'theme.primary',
+                'primary',
                 options,
                 themeDefaults.primary
             ),
         },
         secondary: {
             main: getOption<BrandingOptions>(
-                'theme.secondary',
+                'secondary',
                 options,
                 themeDefaults.secondary
             ),

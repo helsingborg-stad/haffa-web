@@ -48,7 +48,10 @@ export const AdminButton: FC = () => {
                     ? makeMenuItem('/admin/api-keys', phrase('', 'API nycklar'))
                     : null,
                 roles.canEditTerms
-                    ? makeMenuItem('/admin/branding', phrase('', 'Tema'))
+                    ? makeMenuItem(
+                          '/admin/branding',
+                          phrase('', 'Inställningar')
+                      )
                     : null,
             ].filter((v) => v),
         [phrase, roles]
