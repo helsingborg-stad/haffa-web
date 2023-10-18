@@ -12,8 +12,6 @@ export const EditBrandingForm: FC<{
     options: Option[]
     onUpdate: (options: Option[]) => void
 }> = ({ options, onUpdate }) => {
-    //  const { phrase } = useContext(PhraseContext)
-
     const [[primary, setPrimary], [secondary, setSecondary]] = [
         useState(getOption('theme.primary', options, themeDefaults.primary)),
         useState(
