@@ -13,10 +13,10 @@ export const AuthContextProvider: FC<
             roles: {},
         }
     )
-    const signout = useCallback(
-        async () => setAuthentication({ token: '', roles: {} }),
-        [setAuthentication]
-    )
+    const signout = useCallback(async () => {
+        await authProvider.signOut()
+        setAuthentication({ token: '', roles: {} })
+    }, [authProvider, setAuthentication])
     const { token } = authentication
 
     const getAuthenticationSignature = (a: Authentication) => JSON.stringify(a)

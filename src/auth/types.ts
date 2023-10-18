@@ -31,5 +31,6 @@ export interface AuthProvider {
     requestPincode: (
         email: string
     ) => Promise<'accepted' | 'denied' | 'invalid'>
-    authenticate(email: string, pincode: string): Promise<Authentication>
+    authenticate: (email: string, pincode: string) => Promise<Authentication>
+    signOut: () => Promise<void>
 }
