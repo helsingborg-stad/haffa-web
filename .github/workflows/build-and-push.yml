@@ -22,6 +22,7 @@ jobs:
                   gdi-gitops-token: ${{ secrets.GDI_GITOPS_TOKEN }}
                   gdi-gitops-app: ${{ secrets.GDI_GITOPS_APP }}
                   gdi-gitops-env: production
+                  git-checkout-branch: main
 
                   docker-username: ${{ github.repository_owner }}
                   docker-password: ${{ secrets.GITHUB_TOKEN }}
