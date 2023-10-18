@@ -1,57 +1,38 @@
 import { ThemeProvider, createTheme } from '@mui/material'
 import useAsync from 'hooks/use-async'
-import { PhraseContext } from 'phrases/PhraseContext'
-import { createPhraseContext } from 'phrases/create-phrase-context'
 import { FC, PropsWithChildren, useMemo } from 'react'
+import type { Option } from '../options/types'
+import { createCustomTheme } from './theme-factory'
+import { BrandingOptions } from './types'
 
-const BrandedView: FC<PropsWithChildren & { branding: any }> = ({
-    children,
-    branding,
-}) => {
+const BrandedView: FC<
+    PropsWithChildren & { options: Option<BrandingOptions>[] }
+> = ({ children, options }) => {
     const theme = useMemo(
-        () =>
-            createTheme(
-                branding?.theme || {
-                    palette: {
-                        primary: {
-                            main: 'rgb(80, 129, 27)',
-                        },
-                        secondary: {
-                            main: 'rgb(225, 233, 219)',
-                        },
-                    },
-                }
-            ),
-        [branding]
+        () => createTheme(createCustomTheme(options), [options]),
+        [options]
     )
-    const overridingPhrases = Object.fromEntries(
-        Object.entries(branding?.phrases || {}).filter(
-            ([_, value]) => typeof value === 'string'
-        )
-    ) as Record<string, string>
-    return (
-        <ThemeProvider theme={theme}>
-            <PhraseContext.Provider
-                value={createPhraseContext(overridingPhrases)}
-            >
-                {children}
-            </PhraseContext.Provider>
-        </ThemeProvider>
-    )
+    return <ThemeProvider theme={theme}>{children}</ThemeProvider>
 }
 
 export const BrandingProvider: FC<PropsWithChildren> = ({ children }) => {
     const inspect = useAsync<any>(() =>
-        fetch('/branding.json')
+        fetch('/api/v1/haffa/options/branding', {
+            method: 'POST',
+            headers: {
+                Accept: 'application/json',
+                'Content-Type': 'application/json',
+            },
+        })
             .then((response) => response.json())
-            .catch(() => ({}))
+            .catch(() => [])
     )
 
     return inspect({
         pending: () => <div />,
-        resolved: (branding) => (
-            <BrandedView branding={branding}>{children}</BrandedView>
+        resolved: (options) => (
+            <BrandedView options={options}>{children}</BrandedView>
         ),
-        rejected: () => <BrandedView branding={{}}>{children}</BrandedView>,
+        rejected: () => <BrandedView options={[]}>{children}</BrandedView>,
     })
 }
