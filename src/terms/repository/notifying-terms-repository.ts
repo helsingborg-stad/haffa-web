@@ -16,7 +16,10 @@ export const createNotifyingTermsRepository = (
         updateTerms: (...args) =>
             inner.updateTerms(...args).then((result) => {
                 notifications.info({
-                    message: phrase('', 'Definitionerna är uppdaterade'),
+                    message: phrase(
+                        'NOTIFICATIONS_TERMS_WAS_UPDATED',
+                        'Definitionerna är uppdaterade'
+                    ),
                 })
                 return result
             }),

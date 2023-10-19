@@ -36,7 +36,7 @@ export const ActionsPanel: FC<{
                 onClick={() => onUpdate(reserveAdvert(advert.id, 1))}
                 sx={{ mb: 1 }}
             >
-                {phrase('', 'Reservera')}
+                {phrase('USER_ACTION_RESERVE_ADVERT', 'Reservera')}
             </Button>
             <Button
                 key="cancel"
@@ -46,7 +46,10 @@ export const ActionsPanel: FC<{
                 disabled={!meta.canCancelReservation}
                 onClick={() => onUpdate(cancelAdvertReservation(advert.id))}
             >
-                {phrase('', 'Ångra mina reservationer')}
+                {phrase(
+                    'USER_ACTION_CANCEL_ADVERT_RESERVATION',
+                    'Ångra mina reservationer'
+                )}
             </Button>
         </>
     )

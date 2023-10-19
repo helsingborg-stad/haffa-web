@@ -11,7 +11,10 @@ export const createNotifyingCategoriesRepository = (
     updateCategories: (...args) =>
         inner.updateCategories(...args).then((result) => {
             notifications.info({
-                message: phrase('', 'Inställningarna är sparade'),
+                message: phrase(
+                    'NOTIFICATIONS_CATEGORIES_WAS_UPDATED',
+                    'Inställningarna är sparade'
+                ),
             })
             return result
         }),

@@ -25,62 +25,92 @@ export const SelectUserRoles: FC<{
                     b
                         .define(
                             'canEditOwnAdverts',
-                            phrase('', 'Skapa annonser')
+                            phrase(
+                                'ROLES_CAN_EDIT_OWN_ADVERTS',
+                                'Skapa annonser'
+                            )
                         )
                         .define(
                             'canArchiveOwnAdverts',
-                            phrase('', 'Arkivera egna annonser')
+                            phrase(
+                                'ROLES_CAN_ARCHIVE_OWN_ADVERTS',
+                                'Arkivera egna annonser'
+                            )
                         )
                         .define(
                             'canRemoveOwnAdverts',
-                            phrase('', 'Ta bort egna annonser')
+                            phrase(
+                                'ROLES_CAN_REMOVE_OWN_ADVERTS',
+                                'Ta bort egna annonser'
+                            )
                         )
                         .define(
                             'canReserveAdverts',
-                            phrase('', 'Reservera annonser')
+                            phrase(
+                                'ROLES_CAN_RESERVE_ADVERTS',
+                                'Reservera annonser'
+                            )
                         )
                         .define(
                             'canCollectAdverts',
-                            phrase('', 'Hämta ut annonser')
+                            phrase(
+                                'ROLES_CAN_COLLECT_ADVERTS',
+                                'Hämta ut annonser'
+                            )
                         )
                         .define(
                             'canManageOwnAdvertsHistory',
-                            phrase('', 'Hantera egna annonsers historik')
+                            phrase(
+                                'ROLES_CAN_MANAGE_OWN_ADVERTS_HISTORY',
+                                'Hantera egna annonsers historik'
+                            )
                         )
                         .define(
                             'canManageAllAdverts',
                             phrase(
-                                '',
+                                'ROLES_CAN_MANAGE_ALL_ADVERTS',
                                 'Hantera egna och andras annonser (admin)'
                             ),
                             true
                         )
                         .define(
                             'canEditTerms',
-                            phrase('', 'Hantera definitioner (demo)'),
+                            phrase(
+                                'ROLES_CAN_EDIT_TERMS',
+                                'Hantera definitioner (admin)'
+                            ),
                             true
                         )
                         .define(
                             'canEditSystemCategories',
-                            phrase('', 'Hantera system kategorier (admin)'),
+                            phrase(
+                                'ROLES_CAN_EDIT_SYSTEM_CATEGORIES',
+                                'Hantera system kategorier (admin)'
+                            ),
                             true
                         )
                         .define(
                             'canEditSystemLoginPolicies',
                             phrase(
-                                '',
+                                'ROLES_CAN_EDIT_SYSTEM_LOGIN_POLICIES',
                                 'Hantera systemets användare & behörigheter (admin)'
                             ),
                             true
                         )
                         .define(
                             'canEditApiKeys',
-                            phrase('', 'Hantera API nycklar'),
+                            phrase(
+                                'ROLES_CAN_EDIT_API_KEYS',
+                                'Hantera API nycklar'
+                            ),
                             true
                         )
                         .define(
                             'canRunSystemJobs',
-                            phrase('', 'Agent som får köra jobb (admin)'),
+                            phrase(
+                                'ROLES_CAN_RUN_SYSTEM_JOBS',
+                                'Agent som får köra jobb (admin)'
+                            ),
                             true
                         )
                 ),
@@ -89,12 +119,14 @@ export const SelectUserRoles: FC<{
 
     return (
         <FormControl fullWidth>
-            <InputLabel>{phrase('', 'Behörigheter')}</InputLabel>
+            <InputLabel>
+                {phrase('ROLES_SELECT_LABEL', 'Behörigheter')}
+            </InputLabel>
             <Select
                 multiple
                 fullWidth
-                label={phrase('', 'Behörigheter')}
-                placeholder={phrase('', 'Behörigheter')}
+                label={phrase('ROLES_SELECT_LABEL', 'Behörigheter')}
+                placeholder={phrase('ROLES_SELECT_LABEL', 'Behörigheter')}
                 value={toInputValue(userRoles)}
                 onChange={(e) => onChange(fromInputValue(e.target.value))}
                 renderValue={(selected) => (

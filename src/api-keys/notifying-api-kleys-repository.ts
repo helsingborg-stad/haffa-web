@@ -11,7 +11,10 @@ export const createNotifyingApiKeysRepository = (
     updateApiKeys: (...args) =>
         inner.updateApiKeys(...args).then((result) => {
             notifications.info({
-                message: phrase('', 'API nycklar är uppdaterade'),
+                message: phrase(
+                    'NOTIFICATIONS_APIKEYS_WAS_UPDATED',
+                    'API nycklar är uppdaterade'
+                ),
             })
             return result
         }),

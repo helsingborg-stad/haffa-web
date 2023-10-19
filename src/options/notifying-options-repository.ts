@@ -11,7 +11,10 @@ export const createNotifyingOptionsRepository = (
     updateOptions: (...args) =>
         inner.updateOptions(...args).then((result) => {
             notifications.info({
-                message: phrase('', 'Dina ändringar är sparade'),
+                message: phrase(
+                    'NOTIFICATIONS_OPTIONS_WAS_UPDATED',
+                    'Dina ändringar är sparade'
+                ),
             })
             return result
         }),

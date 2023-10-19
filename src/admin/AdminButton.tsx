@@ -35,22 +35,25 @@ export const AdminButton: FC = () => {
                 roles.canEditSystemCategories
                     ? makeMenuItem(
                           '/admin/categories',
-                          phrase('', 'Kategorier')
+                          phrase('CATEGORIES_TITLE', 'Kategorier')
                       )
                     : null,
                 roles.canEditSystemLoginPolicies
                     ? makeMenuItem(
                           '/admin/logins',
-                          phrase('', 'Användare & behörigheter')
+                          phrase('LOGINS_TITLE', 'Användare & behörigheter')
                       )
                     : null,
                 roles.canEditApiKeys
-                    ? makeMenuItem('/admin/api-keys', phrase('', 'API nycklar'))
+                    ? makeMenuItem(
+                          '/admin/api-keys',
+                          phrase('APIKEYS_TITLE', 'API nycklar')
+                      )
                     : null,
                 roles.canEditTerms
                     ? makeMenuItem(
                           '/admin/branding',
-                          phrase('', 'Inställningar')
+                          phrase('BRANDING_TITLE', 'Tema')
                       )
                     : null,
             ].filter((v) => v),

@@ -71,13 +71,20 @@ Givet api nyckel i autkoriseringsheader körs ett anrop som användaren angivet 
             </CardContent>
             <CardContent>
                 <TableContainer component={Paper}>
-                    <Table aria-label={phrase('', 'API nycklar')}>
+                    <Table aria-label={phrase('APIKEYS_TITLE', 'API nycklar')}>
                         <TableHead>
                             <TableRow>
-                                <TableCell>{phrase('', 'Nyckel')}</TableCell>
-                                <TableCell>{phrase('', 'Email')}</TableCell>
                                 <TableCell>
-                                    {phrase('', 'Giltig till')}
+                                    {phrase('APIKEYS_FIELD_EMAIL', 'Email')}
+                                </TableCell>
+                                <TableCell>
+                                    {phrase('APIKEYS_FIELD_KEY', 'Nyckel')}
+                                </TableCell>
+                                <TableCell>
+                                    {phrase(
+                                        'APIKEYS_FIELD_EXPIRES',
+                                        'Giltig till'
+                                    )}
                                 </TableCell>
                             </TableRow>
                         </TableHead>
@@ -90,9 +97,12 @@ Givet api nyckel i autkoriseringsheader körs ett anrop som användaren angivet 
                                                 fullWidth
                                                 type="email"
                                                 value={email}
-                                                label={phrase('', 'Email')}
+                                                label={phrase(
+                                                    'APIKEYS_FIELD_EMAIL',
+                                                    'Email'
+                                                )}
                                                 placeholder={phrase(
-                                                    '',
+                                                    'APIKEYS_FIELD_EMAIL',
                                                     'Email'
                                                 )}
                                                 onChange={(e) =>
@@ -110,9 +120,12 @@ Givet api nyckel i autkoriseringsheader körs ett anrop som användaren angivet 
                                             <TextField
                                                 fullWidth
                                                 value={secret}
-                                                label={phrase('', 'Nyckel')}
+                                                label={phrase(
+                                                    'APIKEYS_FIELD_KEY',
+                                                    'Nyckel'
+                                                )}
                                                 placeholder={phrase(
-                                                    '',
+                                                    'APIKEYS_FIELD_KEY',
                                                     'Nyckel'
                                                 )}
                                                 onChange={(e) =>
@@ -132,11 +145,11 @@ Givet api nyckel i autkoriseringsheader körs ett anrop som användaren angivet 
                                                 type="date"
                                                 value={expires}
                                                 label={phrase(
-                                                    '',
+                                                    'APIKEYS_FIELD_EXPIRES',
                                                     'Giltig till'
                                                 )}
                                                 placeholder={phrase(
-                                                    '',
+                                                    'APIKEYS_FIELD_EXPIRES',
                                                     'Giltig till'
                                                 )}
                                                 onChange={(e) =>
@@ -169,7 +182,7 @@ Givet api nyckel i autkoriseringsheader körs ett anrop som användaren angivet 
                         )
                     }
                 >
-                    {phrase('', 'Lägg till nyckel')}
+                    {phrase('APIKEYS_ADD', 'Lägg till nyckel')}
                 </Button>
                 <Box flex={1} />
                 <Button
@@ -185,7 +198,7 @@ Givet api nyckel i autkoriseringsheader körs ett anrop som användaren angivet 
                         )
                     }
                 >
-                    {phrase('', 'Spara')}
+                    {phrase('APIKEYS_SAVE', 'Spara')}
                 </Button>
             </CardActions>
         </Card>

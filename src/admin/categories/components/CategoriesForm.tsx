@@ -42,7 +42,10 @@ export const CategoriesForm: FC<{
     const [rootCategory] = useState(
         cat({
             id: ROOT_CATEGORY_ID,
-            label: phrase('', 'Alla Kategorier (platshållare)'),
+            label: phrase(
+                'CATEGORIES_ALL_PLACEHOLDER',
+                'Alla Kategorier (platshållare)'
+            ),
             categories,
         })
     )
@@ -98,8 +101,14 @@ export const CategoriesForm: FC<{
                     <FormControl fullWidth>
                         <TextField
                             fullWidth
-                            label={phrase('', 'Benämning')}
-                            placeholder={phrase('', 'Benämning')}
+                            label={phrase(
+                                'CATEGORIES_FIELD_LABEL',
+                                'Benämning'
+                            )}
+                            placeholder={phrase(
+                                'CATEGORIES_FIELD_LABEL',
+                                'Benämning'
+                            )}
                             value={selectedNode.label}
                             onChange={(e) =>
                                 updateNode(selectedNode, () => ({
@@ -111,8 +120,14 @@ export const CategoriesForm: FC<{
                     <FormControl fullWidth>
                         <TextField
                             fullWidth
-                            label={phrase('', 'CO₂ besparing')}
-                            placeholder={phrase('', 'CO₂ besparing')}
+                            label={phrase(
+                                'CATEGORIES_FIELD_C02',
+                                'CO₂ besparing'
+                            )}
+                            placeholder={phrase(
+                                'CATEGORIES_FIELD_C02',
+                                'CO₂ besparing'
+                            )}
                             type="number"
                             value={selectedNode.co2kg}
                             InputProps={{
@@ -135,7 +150,7 @@ export const CategoriesForm: FC<{
                     {advertCount > 0 && (
                         <Alert>
                             {phrase(
-                                '',
+                                'CATEGORIES_INFO_CONECTED_ADVERTS',
                                 'Denna kategori har {count} kopplade annonser',
                                 { count: advertCount }
                             )}
@@ -165,7 +180,7 @@ export const CategoriesForm: FC<{
                     disabled={!canAddCategory}
                     onClick={() => addNode(cat({ label: 'Ny kategori' }))}
                 >
-                    {phrase('', 'Lägg till ny kategori')}
+                    {phrase('CATEGORIES_ADD', 'Lägg till ny kategori')}
                 </Button>
                 <Button
                     variant="outlined"
@@ -173,13 +188,13 @@ export const CategoriesForm: FC<{
                     disabled={!canRemoveCategory}
                     onClick={() => removeNode(selectedNode!)}
                 >
-                    {phrase('', 'Ta bort kategori')}
+                    {phrase('CATEGORIES_REMOVE', 'Ta bort kategori')}
                 </Button>
                 <Button
                     disabled={!canSave}
                     onClick={() => onSave(getUserCategories(), viewState)}
                 >
-                    {phrase('', 'Spara')}
+                    {phrase('CATEGORIES_SAVE', 'Spara')}
                 </Button>
             </ButtonGroup>
         )

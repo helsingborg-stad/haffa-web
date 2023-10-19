@@ -21,42 +21,94 @@ export const createNotifyingAdvertsRepository = (
         getAdvert: wrap(inner.getAdvert),
         listAdverts: wrap(inner.listAdverts),
         createAdvert: (...args) =>
-            inner.createAdvert(...args).then(info('', 'Annonsen har skapats')),
+            inner
+                .createAdvert(...args)
+                .then(
+                    info(
+                        'NOTIFICATIONS_ADVERT_WAS_CREATED',
+                        'Annonsen har skapats'
+                    )
+                ),
         updateAdvert: (...args) =>
             inner
                 .updateAdvert(...args)
-                .then(info('', 'Annonsen har uppdaterats')),
+                .then(
+                    info(
+                        'NOTIFICATIONS_ADVERT_WAS_UPDATED',
+                        'Annonsen har uppdaterats'
+                    )
+                ),
         removeAdvert: (...args) =>
             inner
                 .removeAdvert(...args)
-                .then(info('', 'Annonsen har tagits bort')),
+                .then(
+                    info(
+                        'NOTIFICATIONS_ADVERT_WAS_REMOVED',
+                        'Annonsen har tagits bort'
+                    )
+                ),
         archiveAdvert: (...args) =>
             inner
                 .archiveAdvert(...args)
-                .then(info('', 'Annonsen är nu arkiverad')),
+                .then(
+                    info(
+                        'NOTIFICATIONS_ADVERT_WAS_ARCHIVED',
+                        'Annonsen är nu arkiverad'
+                    )
+                ),
         unarchiveAdvert: (...args) =>
             inner
                 .unarchiveAdvert(...args)
-                .then(info('', 'Annonsen är återställd från arkivet')),
+                .then(
+                    info(
+                        'NOTIFICATIONS_ADVERT_WAS_UNARCHIVED',
+                        'Annonsen är återställd från arkivet'
+                    )
+                ),
         reserveAdvert: (...args) =>
             inner
                 .reserveAdvert(...args)
-                .then(info('', 'Annonsen är reserverad')),
+                .then(
+                    info(
+                        'NOTIFICATIONS_ADVERT_WAS_RESERVED',
+                        'Annonsen är reserverad'
+                    )
+                ),
         cancelAdvertReservation: (...args) =>
             inner
                 .cancelAdvertReservation(...args)
-                .then(info('', 'Reservationen är borttagen')),
+                .then(
+                    info(
+                        'NOTIFICATIONS_ADVERT_RESERVATION_WAS_CANCELLED',
+                        'Reservationen är borttagen'
+                    )
+                ),
         collectAdvert: (...args) =>
             inner
                 .collectAdvert(...args)
-                .then(info('', 'Annonsartikeln är makerad som uthämtad')),
+                .then(
+                    info(
+                        'NOTIFICATIONS_ADVERT_WAS_COLLECTED',
+                        'Annonsartikeln är makerad som uthämtad'
+                    )
+                ),
         cancelAdvertClaim: (...args) =>
             inner
                 .cancelAdvertClaim(...args)
-                .then(info('', 'Markeringen är borttagningen')),
+                .then(
+                    info(
+                        'NOTIFICATIONS_ADVERT_CLAIM_WAS_REMOVED',
+                        'Markeringen är borttagningen'
+                    )
+                ),
         convertAdvertClaim: (...args) =>
             inner
                 .convertAdvertClaim(...args)
-                .then(info('', 'Markeringen har ändrats')),
+                .then(
+                    info(
+                        'NOTIFICATIONS_ADVERT_CLAIM_WAS_CHANGED',
+                        'Markeringen har ändrats'
+                    )
+                ),
     }
 }

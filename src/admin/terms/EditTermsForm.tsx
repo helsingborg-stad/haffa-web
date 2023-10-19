@@ -26,23 +26,27 @@ export const EditTermsForm: FC<{
 
     const bindings: TermBinding[] = [
         {
-            label: phrase('', 'Organisationer'),
+            label: phrase('TERMS_FIELD_ORGANIZATION', 'Organisationer'),
             value: organization,
             setValue: setOrganization,
         },
-        { label: phrase('', 'Enheter'), value: unit, setValue: setUnit },
         {
-            label: phrase('', 'Material'),
+            label: phrase('TERMS_FIELD_UNIT', 'Enheter'),
+            value: unit,
+            setValue: setUnit,
+        },
+        {
+            label: phrase('TERMS_FIELD_MATERIAL', 'Material'),
             value: material,
             setValue: setMaterial,
         },
         {
-            label: phrase('', 'Skick'),
+            label: phrase('TERMS_FIELD_CONDITION', 'Skick'),
             value: condition,
             setValue: setCondition,
         },
         {
-            label: phrase('', 'Användningsområden'),
+            label: phrase('TERMS_FIELD_USAGE', 'Användningsområden'),
             value: usage,
             setValue: setUsage,
         },
@@ -87,22 +91,3 @@ export const EditTermsForm: FC<{
         </>
     )
 }
-
-/*
-{bindings.map(({ label, value, setValue }) => (
-	<Grid item xs={12} sm={4}>
-			<Card sx={{ m: 1 }}>
-					<CardHeader title={label} />
-					<TextField
-							fullWidth
-							rows={10}
-							multiline
-							value={value}
-							onChange={(e) =>
-									setValue(e.currentTarget.value)
-							}
-					/>
-			</Card>
-	</Grid>
-))}
-*/

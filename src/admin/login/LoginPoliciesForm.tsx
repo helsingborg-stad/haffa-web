@@ -84,13 +84,23 @@ export const LoginPoliciesForm: FC<{
             </CardContent>
             <CardContent>
                 <TableContainer component={Paper}>
-                    <Table aria-label={phrase('', 'Loginregler')}>
+                    <Table
+                        aria-label={phrase(
+                            'LOGINS_TITLE',
+                            'Användare & behörigheter'
+                        )}
+                    >
                         <TableHead>
                             <TableRow>
                                 <TableCell>
-                                    {phrase('', 'Email & behörigheter')}
+                                    {phrase(
+                                        'LOGINS_FIELD_PERMISSIONS',
+                                        'Email & behörigheter'
+                                    )}
                                 </TableCell>
-                                <TableCell>{phrase('', 'Neka')}</TableCell>
+                                <TableCell>
+                                    {phrase('LOGINS_DENY', 'Neka')}
+                                </TableCell>
                             </TableRow>
                         </TableHead>
                         <TableBody>
@@ -108,9 +118,12 @@ export const LoginPoliciesForm: FC<{
                                                 <TextField
                                                     fullWidth
                                                     value={email}
-                                                    label={phrase('', 'Email')}
+                                                    label={phrase(
+                                                        'LOGINS_FIELD_EMAIL',
+                                                        'Email'
+                                                    )}
                                                     placeholder={phrase(
-                                                        '',
+                                                        'LOGINS_FIELD_EMAIL',
                                                         'Email'
                                                     )}
                                                     onChange={(e) =>
@@ -173,7 +186,7 @@ export const LoginPoliciesForm: FC<{
                         )
                     }
                 >
-                    {phrase('', 'Lägg till regel')}
+                    {phrase('LOGINS_ADD_RULE', 'Lägg till regel')}
                 </Button>
                 <Box flex={1} />
                 <Button
@@ -189,7 +202,7 @@ export const LoginPoliciesForm: FC<{
                         )
                     }
                 >
-                    {phrase('', 'Spara')}
+                    {phrase('LOGINS_SAVE', 'Spara')}
                 </Button>
             </CardActions>
         </Card>

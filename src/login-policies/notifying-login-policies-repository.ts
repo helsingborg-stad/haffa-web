@@ -11,7 +11,10 @@ export const createNotifyingLoginPoliciesRepository = (
     updateLoginPolicies: (...args) =>
         inner.updateLoginPolicies(...args).then((result) => {
             notifications.info({
-                message: phrase('', 'Inställningarna är sparade'),
+                message: phrase(
+                    'NOTIFICATIONS_LOGINS_WAS_UPDATED',
+                    'Inställningarna är sparade'
+                ),
             })
             return result
         }),

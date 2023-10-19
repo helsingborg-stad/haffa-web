@@ -11,7 +11,10 @@ export const createNotifyingProfileRepository = (
     updateProfile: (...args) =>
         inner.updateProfile(...args).then((result) => {
             notifications.info({
-                message: phrase('', 'Din profil är uppdaterad'),
+                message: phrase(
+                    'NOTIFICATIONS_PROFILE_WAS_UPDATED',
+                    'Din profil är uppdaterad'
+                ),
             })
             return result
         }),

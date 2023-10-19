@@ -14,7 +14,7 @@ export const ArchivedPanel: FC<{
             <AlertTitle>
                 {' '}
                 {phrase(
-                    '',
+                    'USER_INFO_ADVERT_IS_ARCHIVED',
                     'Annonsen är arkiverad och syns inte i annonsflödet'
                 )}
             </AlertTitle>
@@ -25,7 +25,7 @@ export const ArchivedPanel: FC<{
                 color="primary"
                 onClick={async () => onUpdate(unarchiveAdvert(advert.id))}
             >
-                {phrase('', 'Återställ')}
+                {phrase('USER_ACTION_UNARCHIVE_ADVERT', 'Återställ')}
             </Button>
         </Alert>
     ) : null
