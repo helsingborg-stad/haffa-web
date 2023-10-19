@@ -1,15 +1,14 @@
 import { Button, Grid, Typography } from '@mui/material'
 import { FC, useContext, useState } from 'react'
 import { Editorial } from 'editorials'
-// eslint-disable-next-line import/no-extraneous-dependencies
 import { SwatchesPicker } from 'react-color'
 import { themeDefaults } from 'branding/theme-factory'
 import SaveIcon from '@mui/icons-material/Save'
 import { getOption } from 'options'
 import { PhraseContext } from 'phrases'
-import type { Option } from '../../options/types'
+import type { Option } from '../../../options/types'
 
-export const EditBrandingForm: FC<{
+export const EditThemeForm: FC<{
     options: Option[]
     onUpdate: (options: Option[]) => void
 }> = ({ options, onUpdate }) => {

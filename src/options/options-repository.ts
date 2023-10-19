@@ -10,16 +10,15 @@ const gql = (token: string, f?: typeof fetch, init?: RequestInit) =>
         .headers({ Authorization: `Bearer ${token}` })
 
 export const createOptionsRepository = (
-    name: string,
     token: string,
     f?: typeof fetch
 ): OptionsRepository => ({
-    getOptions: async () =>
+    getOptions: async (name) =>
         gql(token, f)
             .query(getOptionsQuery)
             .variables({ name })
             .map<Option[]>('options'),
-    updateOptions: async (options) =>
+    updateOptions: async (name, options) =>
         gql(token, f)
             .query(updateOptionsMutation)
             .variables({ name, input: options })

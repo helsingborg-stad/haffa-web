@@ -3,6 +3,6 @@ export interface Option<T = string> {
     value: string
 }
 export interface OptionsRepository {
-    getOptions: () => Promise<Option[]>
-    updateOptions: (options: Option[]) => Promise<Option[]>
+    getOptions: (name: string) => Promise<Option[]>
+    updateOptions: (name: string, options: Option[]) => Promise<Option[]>
 }

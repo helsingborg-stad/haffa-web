@@ -54,7 +54,7 @@ const Main: FC = () => {
             createNotifyingOptionsRepository(
                 notifications,
                 phrase,
-                createOptionsRepository('branding-theme', token, fetch)
+                createOptionsRepository(token, fetch)
             ),
         [notifications, phrase]
     )

@@ -1,3 +1,8 @@
+export interface PhraseDefinition {
+    key: string
+    template: string
+    actual: string
+}
 export interface PhraseContextType {
     APP_TITLE: string
     INFO_SLOW_CONNECTION: string
@@ -17,11 +22,11 @@ export interface PhraseContextType {
     SAVE_PROFILE: string
     SCAN_QR_CODE: string
     PICKUP_ADVERT: string
-    LIST_NO_MORE_ADVERTS: string
     phrase: (
         key: string,
         defaultTemplateString: string,
         templateVariables?: Record<string, string | number>
     ) => string
     fromNow: (date: string) => string
+    getConfig: () => PhraseDefinition[]
 }

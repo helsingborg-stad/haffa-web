@@ -7,7 +7,7 @@ export const createNotifyingOptionsRepository = (
     phrase: PhraseContextType['phrase'],
     inner: OptionsRepository
 ): OptionsRepository => ({
-    getOptions: () => inner.getOptions(),
+    getOptions: (name) => inner.getOptions(name),
     updateOptions: (...args) =>
         inner.updateOptions(...args).then((result) => {
             notifications.info({

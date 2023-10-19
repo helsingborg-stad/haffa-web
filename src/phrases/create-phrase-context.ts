@@ -2,7 +2,10 @@ import { interpolate } from 'lib/interpolate'
 import dayjs from 'dayjs'
 import { PhraseContextType } from './types'
 
-const defaultPhrases: Omit<PhraseContextType, 'phrase' | 'fromNow'> &
+const defaultPhrases: Omit<
+    PhraseContextType,
+    'phrase' | 'fromNow' | 'getConfig'
+> &
     Record<string, string> = {
     APP_TITLE: 'Haffa!',
     INFO_SLOW_CONNECTION: '... väntar på innehåll från servern ...',
@@ -22,22 +25,54 @@ const defaultPhrases: Omit<PhraseContextType, 'phrase' | 'fromNow'> &
     SAVE_PROFILE: 'Spara din profil',
     SCAN_QR_CODE: 'Skanna',
     PICKUP_ADVERT: 'Hämta pryl',
-    LIST_NO_MORE_ADVERTS: 'Inga fler annonser',
 
     ...{
-        Definitioner: 'Definitioner',
         CATEGORIES_TITLE: 'Kategorier',
         LOGINS_TITLE: 'Användare & behörigheter',
         APIKEYS_TITLE: 'API nycklar',
         BRANDING_TITLE: 'Tema',
-        USER_ACTION_RESERVE_ADVERT: 'Reservera',
-        USER_ACTION_CANCEL_ADVERT_RESERVATION: 'Ångra mina reservationer',
-        'Skriv ut QR': 'Skriv ut QR',
-        Arkivera: 'Arkivera',
-    },
-    ...{
-        Avbryt: 'Avbryt',
-        UPLOAD_IMAGE: 'Välj en fin bild',
+        THEME_EDITORIAL: 'Definitioner för tema',
+        THEME_PROP_PRIMARY_COLOR: 'Primär färg',
+        THEME_PROP_SECONDARY_COLOR: 'Sekundär färg',
+        THEME_SAVE: 'Spara',
+        THEME_RESTORE: 'Återställ',
+        TERMS_FIELD_ORGANIZATION: 'Organisationer',
+        TERMS_FIELD_UNIT: 'Enheter',
+        TERMS_FIELD_MATERIAL: 'Material',
+        TERMS_FIELD_CONDITION: 'Skick',
+        TERMS_FIELD_USAGE: 'Användningsområden',
+        CATEGORIES_ALL_PLACEHOLDER: 'Alla Kategorier (platshållare)',
+        CATEGORIES_ADD: 'Lägg till ny kategori',
+        CATEGORIES_REMOVE: 'Ta bort kategori',
+        CATEGORIES_SAVE: 'Spara',
+        LOGINS_FIELD_PERMISSIONS: 'Email & behörigheter',
+        LOGINS_DENY: 'Neka',
+        LOGINS_FIELD_EMAIL: 'Email',
+        LOGINS_ADD_RULE: 'Lägg till regel',
+        LOGINS_SAVE: 'Spara',
+        ROLES_CAN_EDIT_OWN_ADVERTS: 'Skapa annonser',
+        ROLES_CAN_ARCHIVE_OWN_ADVERTS: 'Arkivera egna annonser',
+        ROLES_CAN_REMOVE_OWN_ADVERTS: 'Ta bort egna annonser',
+        ROLES_CAN_RESERVE_ADVERTS: 'Reservera annonser',
+        ROLES_CAN_COLLECT_ADVERTS: 'Hämta ut annonser',
+        ROLES_CAN_MANAGE_OWN_ADVERTS_HISTORY: 'Hantera egna annonsers historik',
+        ROLES_CAN_MANAGE_ALL_ADVERTS:
+            'Hantera egna och andras annonser (admin)',
+        ROLES_CAN_EDIT_TERMS: 'Hantera definitioner (admin)',
+        ROLES_CAN_EDIT_SYSTEM_CATEGORIES: 'Hantera system kategorier (admin)',
+        ROLES_CAN_EDIT_SYSTEM_LOGIN_POLICIES:
+            'Hantera systemets användare & behörigheter (admin)',
+        ROLES_CAN_EDIT_API_KEYS: 'Hantera API nycklar',
+        ROLES_CAN_RUN_SYSTEM_JOBS: 'Agent som får köra jobb (admin)',
+        ROLES_SELECT_LABEL: 'Behörigheter',
+        APIKEYS_FIELD_EMAIL: 'Email',
+        APIKEYS_FIELD_KEY: 'Nyckel',
+        APIKEYS_FIELD_EXPIRES: 'Giltig till',
+        APIKEYS_ADD: 'Lägg till nyckel',
+        APIKEYS_SAVE: 'Spara',
+        PHRASES_FIELD_VALUE: 'Värde',
+        PHRASES_FIELD_DEFAULT: 'Frabriksinställning',
+        PHRASES_FIELD_KEY: 'ID',
     },
 }
 
@@ -49,6 +84,12 @@ const createProductionPhraseContext = (
     phrase: (_, template, values) =>
         values ? interpolate(template, values) : template,
     fromNow: (date) => dayjs(date).fromNow(),
+    getConfig: () =>
+        Object.entries(defaultPhrases).map(([key, template]) => ({
+            key,
+            template,
+            actual: phrases[key] || '',
+        })),
 })
 
 const createDevelopmentPhraseContext = (
@@ -61,6 +102,16 @@ const createDevelopmentPhraseContext = (
         if (!key) {
             console.warn(`[phrases] use of unkeyed phrase ${template}`)
             return p
+        }
+
+        if (
+            Object.hasOwn(defaultPhrases, key) &&
+            defaultPhrases[key] !== template
+        ) {
+            console.warn(`[phrases] ${key} has different defaults`, {
+                fromCode: template,
+                fromDefinition: defaultPhrases[key],
+            })
         }
 
         if (!recordings[key] && !Object.hasOwn(defaultPhrases, key)) {
@@ -92,6 +143,12 @@ const createDevelopmentPhraseContext = (
         }),
         phrase,
         fromNow: (date) => dayjs(date).fromNow(),
+        getConfig: () =>
+            Object.entries(defaultPhrases).map(([key, template]) => ({
+                key,
+                template,
+                actual: phrases[key] || '',
+            })),
     }
 }
 
