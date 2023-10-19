@@ -71,7 +71,7 @@ const defaultPhrases: Omit<
         APIKEYS_ADD: 'Lägg till nyckel',
         APIKEYS_SAVE: 'Spara',
         PHRASES_FIELD_VALUE: 'Värde',
-        PHRASES_FIELD_DEFAULT: 'Frabriksinställning',
+        PHRASES_FIELD_DEFAULT: 'Fabriksinställning',
         PHRASES_FIELD_KEY: 'ID',
     },
 }

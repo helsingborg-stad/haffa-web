@@ -83,7 +83,7 @@ export const EditPhrasesForm: FC<{
                                 <TableCell>
                                     {phrase(
                                         'PHRASES_FIELD_DEFAULT',
-                                        'Frabriksinställning'
+                                        'Fabriksinställning'
                                     )}
                                 </TableCell>
                                 <TableCell>
