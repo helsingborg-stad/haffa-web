@@ -30,7 +30,7 @@ function ColorIcon(props: SvgIconProps) {
     )
 }
 
-export const EditBrandingForm: FC<{
+export const EditThemeForm: FC<{
     options: Option[]
     onUpdate: (options: Option[]) => void
 }> = ({ options, onUpdate }) => {
