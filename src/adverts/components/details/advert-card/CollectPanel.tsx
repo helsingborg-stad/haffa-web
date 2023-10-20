@@ -8,7 +8,7 @@ export const CollectPanel: FC<{
     advert: Advert
     onUpdate: (p: Promise<AdvertMutationResult>) => void
 }> = ({ advert, onUpdate }) => {
-    const { PICKUP_ADVERT } = useContext(PhraseContext)
+    const { ADVERT_COLLECT: PICKUP_ADVERT } = useContext(PhraseContext)
     const { collectAdvert } = useContext(AdvertsContext)
 
     return (

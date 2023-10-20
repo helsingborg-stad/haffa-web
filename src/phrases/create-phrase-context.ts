@@ -17,15 +17,47 @@ const defaultPhrases: Omit<
     NAV_MY_ADVERTS: 'Mina annonser',
     NAV_MY_RESERVATIONS: 'Haffat!',
     NAV_PROFILE: 'Min profil',
-    CREATE_ADVERT: 'Ny annons',
-    EDIT_ADVERT: 'Redigera annons',
-    SAVE_ADVERT: 'Spara annonsen',
-    REMOVE_ADVERT: 'Ta bort annonsen',
-    EDIT_PROFILE: 'Redigera din profil',
-    SAVE_PROFILE: 'Spara din profil',
+    ADVERT_CREATE: 'Ny annons',
+    ADVERT_EDIT: 'Redigera annons',
+    ADVERT_EDIT_SAVE: 'Spara annonsen',
+    ADVERT_EDIT_CANCEL: 'Avbryt',
+    ADVERT_REMOVE: 'Ta bort annonsen',
+    ADVERT_COLLECT: 'Hämta pryl',
+    ADVERT_RESERVE: 'Reservera',
+    ADVERT_CANCEL_RESERVATION: 'Ångra mina reservationer',
+    ADVERT_PRINT_QRCODE: 'Skriv ut QR',
+    ADVERT_ARCHIVE: 'Arkivera',
+    PROFILE_EDIT: 'Redigera din profil',
+    PROFILE_SAVE: 'Spara din profil',
     SCAN_QR_CODE: 'Skanna',
-    PICKUP_ADVERT: 'Hämta pryl',
-
+    ...{
+        NOTIFICATIONS_ADVERT_WAS_CREATED: 'Annonsen har skapats',
+        NOTIFICATIONS_ADVERT_WAS_UPDATED: 'Annonsen har uppdaterats',
+        NOTIFICATIONS_ADVERT_WAS_REMOVED: 'Annonsen har tagits bort',
+        NOTIFICATIONS_ADVERT_WAS_ARCHIVED: 'Annonsen är nu arkiverad',
+        NOTIFICATIONS_ADVERT_WAS_UNARCHIVED:
+            'Annonsen är återställd från arkivet',
+        NOTIFICATIONS_ADVERT_WAS_RESERVED: 'Annonsen är reserverad',
+        NOTIFICATIONS_ADVERT_RESERVATION_WAS_CANCELLED:
+            'Reservationen är borttagen',
+        NOTIFICATIONS_ADVERT_WAS_COLLECTED:
+            'Annonsartikeln är markerad som uthämtad',
+        NOTIFICATIONS_ADVERT_CLAIM_WAS_REMOVED: 'Markeringen är borttagningen',
+        NOTIFICATIONS_ADVERT_CLAIM_WAS_CHANGED: 'Markeringen har ändrats',
+        NOTIFICATIONS_APIKEYS_WAS_UPDATED: 'API nycklar är uppdaterade',
+        NOTIFICATIONS_CATEGORIES_WAS_UPDATED: 'Inställningarna är sparade',
+        NOTIFICATIONS_LOGINS_WAS_UPDATED: 'Inställningarna är sparade',
+        NOTIFICATIONS_OPTIONS_WAS_UPDATED: 'Dina ändringar är sparade',
+        NOTIFICATIONS_PROFILE_WAS_UPDATED: 'Din profil är uppdaterad',
+        NOTIFICATIONS_TERMS_WAS_UPDATED: 'Definitionerna är uppdaterade',
+    },
+    ...{
+        SORT_OPTION_TITLE_ASC: 'A-Ö',
+        SORT_OPTION_TITLE_DESC: 'Ö-A',
+        SORT_OPTION_CREATEDAT_ASC: 'Äldst',
+        SORT_OPTION_CREATEDAT_DESC: 'Nyast',
+        SEARCH_EMPTY_RESULT: 'Hoppsan, det blev inga träffar på den',
+    },
     ...{
         CATEGORIES_TITLE: 'Kategorier',
         LOGINS_TITLE: 'Användare & behörigheter',
@@ -36,6 +68,7 @@ const defaultPhrases: Omit<
         THEME_PROP_SECONDARY_COLOR: 'Sekundär färg',
         THEME_SAVE: 'Spara',
         THEME_RESTORE: 'Återställ',
+        TERMS_TITLE: 'Definitioner',
         TERMS_FIELD_ORGANIZATION: 'Organisationer',
         TERMS_FIELD_UNIT: 'Enheter',
         TERMS_FIELD_MATERIAL: 'Material',
@@ -74,6 +107,51 @@ const defaultPhrases: Omit<
         PHRASES_FIELD_DEFAULT: 'Fabriksinställning',
         PHRASES_FIELD_KEY: 'ID',
     },
+    ...{
+        ADVERT_EDITOR_SECTION_DESCRIPTION:
+            'Beskriv din annons så att den blir sökbar och ser fin ut i listningen.',
+        ADVERT_EDITOR_SECTION_IMAGES: 'En bild säger mer än tusen ord!',
+        ADVERT_EDITOR_SECTION_LOCATION: 'Var finns prylen?',
+        ADVERT_EDITOR_SECTION_CONTACT:
+            'Vem kan man kontakta angående haffningar?',
+        ADVERT_EDITOR_SECTION_ADDITIONAL:
+            'Om det är viktigt, kan du ange ytterligare detaljer här.',
+        ADVERT_FIELD_TITLE: 'Titel',
+        ADVERT_FIELD_DESCRIPTION: 'Beskrivning',
+        ADVERT_FIELD_QUANTITY: 'Antal',
+        ADVERT_FIELD_CATEGORY: 'Kategori',
+        ADVERT_FIELD_REFERENCE: 'Egen referens',
+        ADVERT_FIELD_LOCATION_ADRESS: 'Adress',
+        ADVERT_FIELD_LOCATION_ZIPCODE: 'Postnummer',
+        ADVERT_FIELD_LOCATION_CITY: 'Stad',
+        ADVERT_FIELD_CONTACT_EMAIL: 'Email',
+        ADVERT_FIELD_CONTACT_PHONE: 'Telefon',
+        ADVERT_FIELD_ORGANIZATION: 'Organisation',
+        ADVERT_FIELD_UNIT: 'Enhet',
+        ADVERT_FIELD_MATERIAL: 'Material',
+        ADVERT_FIELD_CONDITION: 'Skick',
+        ADVERT_FIELD_USAGE: 'Användningsområde',
+        ADVERT_UPLOAD_IMAGE: 'Välj en fin bild',
+    },
+    ...{
+        MYADVERTS_ACTIVE: 'Aktiva',
+        MYADVERTS_RESERVED: 'Reserverade',
+        MYADVERTS_COLLECTED: 'Uthämtade',
+        MYADVERTS_ARCHIVED: 'Arkiverade',
+        MYRESERVATIONS_RESERVED: 'Reserverade',
+        MYRESERVATIONS_COLLECTED: 'Uthämtat',
+    },
+    ...{
+        ADVERT_IS_COLLECTED_BY_YOU: 'Du har hämtat {count} {unit}',
+        ADVERT_CLAIM_IS_COLLECTED: '{by} hämtade {quantity} {unit} {at}',
+        ADVERT_CLAIMS_MANAGE_TITLE: 'Välj hantering',
+        ADVERT_CLAIMS_CANCEL_COLLECT: 'Ångra hämtning',
+        ADVERT_CLAIMS_CHANGE_TO_RESERVED: 'Ändra till reservation',
+        ADVERT_IS_RESERVED_BY_YOU: 'Du har reserverat {count} {unit}',
+        ADVERT_CLAIM_IS_RESERVED: '{by} reserverade {quantity} {unit} {at}',
+        ADVERT_CLAIMS_CANCEL_RESERVATION: 'Ångra reservation',
+        ADVERT_CLAIMS_COLLECT_MANUALLY: 'Lämna ut manuellt',
+    },
 }
 
 const createProductionPhraseContext = (
@@ -97,7 +175,12 @@ const createDevelopmentPhraseContext = (
 ): PhraseContextType => {
     const recordings: Record<string, string> = {}
     const phrase: PhraseContextType['phrase'] = (key, template, values) => {
-        const p = values ? interpolate(template, values) : template
+        const p = values
+            ? interpolate(
+                  phrases[key] || defaultPhrases[key] || template,
+                  values
+              )
+            : template
 
         if (!key) {
             console.warn(`[phrases] use of unkeyed phrase ${template}`)
@@ -115,7 +198,7 @@ const createDevelopmentPhraseContext = (
         }
 
         if (!recordings[key] && !Object.hasOwn(defaultPhrases, key)) {
-            recordings[key] = p
+            recordings[key] = template
             // console.log(`new phrase: ${key} => ${p}`)
             console.warn(
                 `unknown phrase (${key},"${p}"). consider extending phrase config with `,

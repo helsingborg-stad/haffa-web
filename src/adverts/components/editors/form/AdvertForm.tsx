@@ -113,7 +113,7 @@ export const AdvertForm: FC<{
         factory,
         simplifiedFactory: { select, textField },
     } = useFormControls<AdvertInput>(advert)
-    const { phrase, SAVE_ADVERT } = useContext(PhraseContext)
+    const { phrase, ADVERT_EDIT_SAVE } = useContext(PhraseContext)
 
     const makeOptions = (values: string[]) =>
         values.map((v) => ({ label: v, value: v }))
@@ -175,40 +175,58 @@ export const AdvertForm: FC<{
     const layout = useMemo<ControlGroup[]>(
         () => [
             {
-                label: 'Beskriv din annons så att den blir sökbar och ser fin ut i listningen.',
+                label: phrase(
+                    'ADVERT_EDITOR_SECTION_DESCRIPTION',
+                    'Beskriv din annons så att den blir sökbar och ser fin ut i listningen.'
+                ),
                 rows: [
                     [
                         () =>
-                            textField('title', 'Titel', {
-                                required: true,
-                                disabled,
-                                fullWidth: true,
-                            }),
+                            textField(
+                                'title',
+                                phrase('ADVERT_FIELD_TITLE', 'Titel'),
+                                {
+                                    required: true,
+                                    disabled,
+                                    fullWidth: true,
+                                }
+                            ),
                     ],
                     [
                         () =>
-                            textField('description', 'Beskrivning', {
-                                required: true,
-                                multiline: true,
-                                minRows: 4,
-                                disabled,
-                                fullWidth: true,
-                            }),
+                            textField(
+                                'description',
+                                phrase(
+                                    'ADVERT_FIELD_DESCRIPTION',
+                                    'Beskrivning'
+                                ),
+                                {
+                                    required: true,
+                                    multiline: true,
+                                    minRows: 4,
+                                    disabled,
+                                    fullWidth: true,
+                                }
+                            ),
                     ],
                     [
                         () =>
-                            textField('quantity', 'Antal', {
-                                required: true,
-                                type: 'number',
-                                inputProps: { min: 1 },
-                                disabled,
-                            }),
+                            textField(
+                                'quantity',
+                                phrase('ADVERT_FIELD_QUANTITY', 'Antal'),
+                                {
+                                    required: true,
+                                    type: 'number',
+                                    inputProps: { min: 1 },
+                                    disabled,
+                                }
+                            ),
                     ],
                     [
                         () =>
                             select(
                                 'category',
-                                'Kategori',
+                                phrase('ADVERT_FIELD_CATEGORY', 'Kategori'),
                                 categories
                                     .map((c) => categoryToOptions(c))
                                     .flat(),
@@ -217,15 +235,25 @@ export const AdvertForm: FC<{
                     ],
                     [
                         () =>
-                            textField('reference', 'Egen referens', {
-                                disabled,
-                                fullWidth: true,
-                            }),
+                            textField(
+                                'reference',
+                                phrase(
+                                    'ADVERT_FIELD_REFERENCE',
+                                    'Egen referens'
+                                ),
+                                {
+                                    disabled,
+                                    fullWidth: true,
+                                }
+                            ),
                     ],
                 ],
             },
             {
-                label: 'En bild säger mer än tusen ord!',
+                label: phrase(
+                    'ADVERT_EDITOR_SECTION_IMAGES',
+                    'En bild säger mer än tusen ord!'
+                ),
                 rows: [
                     [
                         () => (
@@ -257,7 +285,10 @@ export const AdvertForm: FC<{
                 ],
             },
             {
-                label: 'Var finns prylen?',
+                label: phrase(
+                    'ADVERT_EDITOR_SECTION_LOCATION',
+                    'Var finns prylen?'
+                ),
                 rows: [
                     [
                         () =>
@@ -272,8 +303,14 @@ export const AdvertForm: FC<{
                                 }),
                                 {
                                     fullWidth: true,
-                                    label: 'Adress',
-                                    placeholder: 'Adress',
+                                    label: phrase(
+                                        'ADVERT_FIELD_LOCATION_ADRESS',
+                                        'Adress'
+                                    ),
+                                    placeholder: phrase(
+                                        'ADVERT_FIELD_LOCATION_ADRESS',
+                                        'Adress'
+                                    ),
                                 }
                             ),
                         () =>
@@ -288,8 +325,14 @@ export const AdvertForm: FC<{
                                 }),
                                 {
                                     fullWidth: true,
-                                    label: 'Postnummer',
-                                    placeholder: 'Postnummer',
+                                    label: phrase(
+                                        'ADVERT_FIELD_LOCATION_ZIPCODE',
+                                        'Postnummer'
+                                    ),
+                                    placeholder: phrase(
+                                        'ADVERT_FIELD_LOCATION_ZIPCODE',
+                                        'Postnummer'
+                                    ),
                                 }
                             ),
                         () =>
@@ -304,8 +347,14 @@ export const AdvertForm: FC<{
                                 }),
                                 {
                                     fullWidth: true,
-                                    label: 'Stad',
-                                    placeholder: 'Stad',
+                                    label: phrase(
+                                        'ADVERT_FIELD_LOCATION_CITY',
+                                        'Stad'
+                                    ),
+                                    placeholder: phrase(
+                                        'ADVERT_FIELD_LOCATION_CITY',
+                                        'Stad'
+                                    ),
                                 }
                             ),
                     ],
@@ -324,7 +373,10 @@ export const AdvertForm: FC<{
                 ],
             },
             {
-                label: 'Vem kan man kontakta angående haffningar?',
+                label: phrase(
+                    'ADVERT_EDITOR_SECTION_CONTACT',
+                    'Vem kan man kontakta angående haffningar?'
+                ),
                 rows: [
                     [
                         () =>
@@ -339,8 +391,14 @@ export const AdvertForm: FC<{
                                 }),
                                 {
                                     fullWidth: true,
-                                    label: 'Email',
-                                    placeholder: 'Email',
+                                    label: phrase(
+                                        'ADVERT_FIELD_CONTACT_EMAIL',
+                                        'Email'
+                                    ),
+                                    placeholder: phrase(
+                                        'ADVERT_FIELD_CONTACT_EMAIL',
+                                        'Email'
+                                    ),
                                     type: 'email',
                                 }
                             ),
@@ -356,8 +414,14 @@ export const AdvertForm: FC<{
                                 }),
                                 {
                                     fullWidth: true,
-                                    label: 'Telefon',
-                                    placeholder: 'Telefon',
+                                    label: phrase(
+                                        'ADVERT_FIELD_CONTACT_PHONE',
+                                        'Telefon'
+                                    ),
+                                    placeholder: phrase(
+                                        'ADVERT_FIELD_CONTACT_PHONE',
+                                        'Telefon'
+                                    ),
                                     type: 'phone',
                                 }
                             ),
@@ -374,8 +438,14 @@ export const AdvertForm: FC<{
                                 makeOptions(terms.organization),
                                 {
                                     fullWidth: true,
-                                    label: 'Organisation',
-                                    placeholder: 'Organisation',
+                                    label: phrase(
+                                        'ADVERT_FIELD_ORGANIZATION',
+                                        'Organisation'
+                                    ),
+                                    placeholder: phrase(
+                                        'ADVERT_FIELD_ORGANIZATION',
+                                        'Organisation'
+                                    ),
                                 }
                             ),
                     ],
@@ -394,17 +464,25 @@ export const AdvertForm: FC<{
                 ],
             },
             {
-                label: 'Om det är viktigt, kan du ange ytterligare detaljer här.',
+                label: phrase(
+                    'ADVERT_EDITOR_SECTION_ADDITIONAL',
+                    'Om det är viktigt, kan du ange ytterligare detaljer här.'
+                ),
                 rows: [
                     [
                         () =>
-                            select('unit', 'Enhet', makeOptions(terms.unit), {
-                                fullWidth: true,
-                            }),
+                            select(
+                                'unit',
+                                phrase('ADVERT_FIELD_UNIT', 'Enhet'),
+                                makeOptions(terms.unit),
+                                {
+                                    fullWidth: true,
+                                }
+                            ),
                         () =>
                             select(
                                 'material',
-                                'Material',
+                                phrase('ADVERT_FIELD_MATERIAL', 'Material'),
                                 makeOptions(terms.material),
                                 {
                                     fullWidth: true,
@@ -413,7 +491,7 @@ export const AdvertForm: FC<{
                         () =>
                             select(
                                 'condition',
-                                'Skick',
+                                phrase('ADVERT_FIELD_CONDITION', 'Skick'),
                                 makeOptions(terms.condition),
                                 {
                                     fullWidth: true,
@@ -422,7 +500,10 @@ export const AdvertForm: FC<{
                         () =>
                             select(
                                 'usage',
-                                'Användningsområde',
+                                phrase(
+                                    'ADVERT_FIELD_USAGE',
+                                    'Användningsområde'
+                                ),
                                 makeOptions(terms.usage),
                                 {
                                     fullWidth: true,
@@ -487,7 +568,7 @@ export const AdvertForm: FC<{
                             disabled={disabled}
                             onClick={() => navigate('/')}
                         >
-                            {phrase('', 'Avbryt')}
+                            {phrase('ADVERT_EDIT_CANCEL', 'Avbryt')}
                         </Button>
                         <Button
                             type="submit"
@@ -495,7 +576,7 @@ export const AdvertForm: FC<{
                             startIcon={<SaveIcon />}
                             disabled={disabled}
                         >
-                            {SAVE_ADVERT}
+                            {ADVERT_EDIT_SAVE}
                         </Button>
                     </ButtonGroup>
                 </CardActions>

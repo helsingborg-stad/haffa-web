@@ -18,7 +18,8 @@ export const EditProfileView: FC<{ profile: Profile; terms: Terms }> = ({
     const [saving, setSaving] = useState(false)
     const [error, setError] = useState(false)
     const { updateProfile } = useContext(ProfileContext)
-    const { EDIT_PROFILE, ERROR_UNKNOWN } = useContext(PhraseContext)
+    const { PROFILE_EDIT: EDIT_PROFILE, ERROR_UNKNOWN } =
+        useContext(PhraseContext)
     const navigate = useNavigate()
 
     const save = useCallback(

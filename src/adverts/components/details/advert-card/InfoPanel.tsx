@@ -19,18 +19,26 @@ export const InfoPanel: FC<{
 
             {advert.meta.reservedyMe > 0 && (
                 <Alert severity="success">
-                    {phrase('', 'Du har reserverat {count} {unit}', {
-                        count: advert.meta.reservedyMe,
-                        unit: advert.unit,
-                    })}
+                    {phrase(
+                        'ADVERT_IS_RESERVED_BY_YOU',
+                        'Du har reserverat {count} {unit}',
+                        {
+                            count: advert.meta.reservedyMe,
+                            unit: advert.unit,
+                        }
+                    )}
                 </Alert>
             )}
             {advert.meta.collectedByMe > 0 && (
                 <Alert severity="success">
-                    {phrase('', 'Du har hämtat {count} {unit}', {
-                        count: advert.meta.collectedByMe,
-                        unit: advert.unit,
-                    })}
+                    {phrase(
+                        'ADVERT_IS_COLLECTED_BY_YOU',
+                        'Du har hämtat {count} {unit}',
+                        {
+                            count: advert.meta.collectedByMe,
+                            unit: advert.unit,
+                        }
+                    )}
                 </Alert>
             )}
             <Typography variant="h5" component="div">

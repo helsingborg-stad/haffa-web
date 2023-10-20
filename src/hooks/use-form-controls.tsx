@@ -134,7 +134,7 @@ export const useFormControls = <TModel,>(
     ) => (
         // render button as label since label will trigger inner hidden input...
         <Button variant="outlined" component="label">
-            <Phrase id="UPLOAD_IMAGE" value="Välj en fin bild" />
+            <Phrase id="ADVERT_UPLOAD_IMAGE" value="Välj en fin bild" />
             <input
                 style={{ display: 'none' }}
                 type="file"

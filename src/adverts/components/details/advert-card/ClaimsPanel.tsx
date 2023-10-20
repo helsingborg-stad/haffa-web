@@ -56,14 +56,20 @@ const ActionsButton: FC<{
         () =>
             [
                 makeOption({
-                    label: phrase('', 'Välj hantering'),
+                    label: phrase(
+                        'ADVERT_CLAIMS_MANAGE_TITLE',
+                        'Välj hantering'
+                    ),
                     action: () => {},
                     disabled: true,
                     variant: 'outlined',
                 }),
                 claim.canCancel && claim.type === AdvertClaimType.reserved
                     ? makeOption({
-                          label: phrase('', 'Ångra reservation'),
+                          label: phrase(
+                              'ADVERT_CLAIMS_CANCEL_RESERVATION',
+                              'Ångra reservation'
+                          ),
                           icon: <CancelIcon color="primary" />,
                           action: () =>
                               onUpdate(cancelAdvertClaim(advert.id, claim)),
@@ -71,7 +77,10 @@ const ActionsButton: FC<{
                     : null,
                 claim.canCancel && claim.type === AdvertClaimType.collected
                     ? makeOption({
-                          label: phrase('', 'Ångra hämtning'),
+                          label: phrase(
+                              'ADVERT_CLAIMS_CANCEL_COLLECT',
+                              'Ångra hämtning'
+                          ),
                           icon: <CancelIcon color="primary" />,
                           action: () =>
                               onUpdate(cancelAdvertClaim(advert.id, claim)),
@@ -79,7 +88,10 @@ const ActionsButton: FC<{
                     : null,
                 claim.canConvert && claim.type !== AdvertClaimType.collected
                     ? makeOption({
-                          label: phrase('', 'Lämna ut manuellt'),
+                          label: phrase(
+                              'ADVERT_CLAIMS_COLLECT_MANUALLY',
+                              'Lämna ut manuellt'
+                          ),
                           icon: <ConvertIcon color="primary" />,
                           action: () =>
                               onUpdate(
@@ -93,7 +105,10 @@ const ActionsButton: FC<{
                     : null,
                 claim.canConvert && claim.type === AdvertClaimType.collected
                     ? makeOption({
-                          label: phrase('', 'Ändra till reservation'),
+                          label: phrase(
+                              'ADVERT_CLAIMS_CHANGE_TO_RESERVED',
+                              'Ändra till reservation'
+                          ),
                           icon: <ConvertIcon color="primary" />,
                           action: () =>
                               onUpdate(
@@ -227,13 +242,29 @@ export const ClaimCard: FC<{
     return (
         <Card sx={{ mb: 2 }}>
             <CardContent>
-                <Typography variant="subtitle1">{claim.by}</Typography>
-                <Typography variant="subtitle2">
+                <Typography variant="subtitle1">
                     {type === AdvertClaimType.reserved &&
-                        phrase('', 'Reserverade')}
+                        phrase(
+                            'ADVERT_CLAIM_IS_RESERVED',
+                            '{by} reserverade {quantity} {unit} {at}',
+                            {
+                                by: claim.by,
+                                unit,
+                                quantity,
+                                at: fromNow(claim.at),
+                            }
+                        )}
                     {type === AdvertClaimType.collected &&
-                        phrase('', 'Hämtade')}{' '}
-                    {quantity} {unit} {fromNow(claim.at)}
+                        phrase(
+                            'ADVERT_CLAIM_IS_COLLECTED',
+                            '{by} hämtade {quantity} {unit} {at}',
+                            {
+                                by: claim.by,
+                                unit,
+                                quantity,
+                                at: fromNow(claim.at),
+                            }
+                        )}
                 </Typography>
             </CardContent>
             <CardActions>

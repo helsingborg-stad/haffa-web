@@ -30,7 +30,10 @@ export const AdminButton: FC = () => {
         () =>
             [
                 roles.canEditTerms
-                    ? makeMenuItem('/admin/terms', phrase('', 'Definitioner'))
+                    ? makeMenuItem(
+                          '/admin/terms',
+                          phrase('TERMS_TITLE', 'Definitioner')
+                      )
                     : null,
                 roles.canEditSystemCategories
                     ? makeMenuItem(

@@ -89,7 +89,7 @@ export const createNotifyingAdvertsRepository = (
                 .then(
                     info(
                         'NOTIFICATIONS_ADVERT_WAS_COLLECTED',
-                        'Annonsartikeln är makerad som uthämtad'
+                        'Annonsartikeln är markerad som uthämtad'
                     )
                 ),
         cancelAdvertClaim: (...args) =>

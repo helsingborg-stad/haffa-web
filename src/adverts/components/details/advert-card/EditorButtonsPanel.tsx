@@ -16,7 +16,11 @@ export const EditorButtonsPanel: FC<{
     const navigate = useNavigate()
     const { removeAdvert, archiveAdvert } = useContext(AdvertsContext)
 
-    const { phrase, EDIT_ADVERT, REMOVE_ADVERT } = useContext(PhraseContext)
+    const {
+        phrase,
+        ADVERT_EDIT,
+        ADVERT_REMOVE: REMOVE_ADVERT,
+    } = useContext(PhraseContext)
     const { meta } = advert
 
     const theme = useTheme()
@@ -38,7 +42,7 @@ export const EditorButtonsPanel: FC<{
                     to={`/advert/edit/${advert?.id}`}
                     startIcon={<EditIcon />}
                 >
-                    {EDIT_ADVERT}
+                    {ADVERT_EDIT}
                 </Button>
             )}
             {meta.canEdit && (
@@ -50,7 +54,7 @@ export const EditorButtonsPanel: FC<{
                     target="blank"
                     startIcon={<QrCodeIcon />}
                 >
-                    {phrase('', 'Skriv ut QR')}
+                    {phrase('ADVERT_PRINT_QRCODE', 'Skriv ut QR')}
                 </Button>
             )}
             {meta.canArchive && (
@@ -61,7 +65,7 @@ export const EditorButtonsPanel: FC<{
                     onClick={async () => onUpdate(archiveAdvert(advert.id))}
                     startIcon={<ArchiveIcon />}
                 >
-                    {phrase('', 'Arkivera')}
+                    {phrase('ADVERT_ARCHIVE', 'Arkivera')}
                 </Button>
             )}
             {meta.canRemove && (

@@ -44,7 +44,7 @@ export const ProfileView: FC<{ profile: Profile }> = ({ profile }) => {
     const { signout } = useContext(AuthContext)
     const navigate = useNavigate()
 
-    const { SIGNOUT, EDIT_PROFILE } = useContext(PhraseContext)
+    const { SIGNOUT, PROFILE_EDIT: EDIT_PROFILE } = useContext(PhraseContext)
     return (
         <Card>
             <CardContent>

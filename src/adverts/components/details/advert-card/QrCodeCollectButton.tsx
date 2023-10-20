@@ -13,7 +13,7 @@ export const QrCodeCollectButton: FC<{
     sx?: SxProps<Theme> | undefined
 }> = ({ advert, onCollect, buttonProps, sx }) => {
     const { getAdvertLinkForQrCode } = useContext(DeepLinkContext)
-    const { phrase, PICKUP_ADVERT } = useContext(PhraseContext)
+    const { phrase, ADVERT_COLLECT: PICKUP_ADVERT } = useContext(PhraseContext)
     const [message, setMessage] = useState('')
 
     return (

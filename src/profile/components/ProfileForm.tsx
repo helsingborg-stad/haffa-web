@@ -27,7 +27,7 @@ export const ProfileForm: FC<{
         model,
         simplifiedFactory: { textField, select },
     } = useFormControls<ProfileInput>(profile)
-    const { SAVE_PROFILE } = useContext(PhraseContext)
+    const { PROFILE_SAVE: SAVE_PROFILE } = useContext(PhraseContext)
 
     const layout = useMemo(
         () => [

@@ -8,22 +8,22 @@ export const MyAdvertsView: FC = () => {
     const tabs = useMemo<AdvertsTab[]>(
         () => [
             {
-                label: phrase('', 'Aktiva'),
+                label: phrase('MYADVERTS_ACTIVE', 'Aktiva'),
                 restrictions: { createdByMe: true, canBeReserved: true },
                 name: 'active',
             },
             {
-                label: phrase('', 'Reserverade'),
+                label: phrase('MYADVERTS_RESERVED', 'Reserverade'),
                 name: 'reserved',
                 restrictions: { createdByMe: true, hasReservations: true },
             },
             {
-                label: phrase('', 'Uthämtade'),
+                label: phrase('MYADVERTS_COLLECTED', 'Uthämtade'),
                 name: 'collected',
                 restrictions: { createdByMe: true, hasCollects: true },
             },
             {
-                label: phrase('', 'Arkiverade'),
+                label: phrase('MYADVERTS_ARCHIVED', 'Arkiverade'),
                 name: 'archived',
                 restrictions: { createdByMe: true, isArchived: true },
             },

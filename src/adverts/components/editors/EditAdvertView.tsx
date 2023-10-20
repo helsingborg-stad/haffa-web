@@ -12,7 +12,7 @@ export const EditAdvertView: FC<{
     categories: Category[]
 }> = ({ advert, terms, categories }) => {
     const { updateAdvert } = useContext(AdvertsContext)
-    const { EDIT_ADVERT } = useContext(PhraseContext)
+    const { ADVERT_EDIT } = useContext(PhraseContext)
 
     const onUpdate = useCallback(
         async (a: AdvertInput) => updateAdvert(advert.id, a),
@@ -21,7 +21,7 @@ export const EditAdvertView: FC<{
 
     return (
         <AdvertEditor
-            title={EDIT_ADVERT}
+            title={ADVERT_EDIT}
             advert={advert}
             terms={terms}
             categories={categories}

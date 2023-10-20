@@ -7,12 +7,12 @@ export const MyReservationsView: FC = () => {
     const tabs = useMemo<AdvertsTab[]>(
         () => [
             {
-                label: phrase('', 'Reserverade'),
+                label: phrase('MYRESERVATIONS_RESERVED', 'Reserverade'),
                 restrictions: { reservedByMe: true },
                 name: 'reserved',
             },
             {
-                label: phrase('', 'Uthämtat'),
+                label: phrase('MYRESERVATIONS_COLLECTED', 'Uthämtat'),
                 restrictions: { collectedByMe: true },
                 name: 'collected',
             },

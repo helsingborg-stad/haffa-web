@@ -69,7 +69,7 @@ const NotificationsSnackbar: FC = () => {
 }
 
 export const DefaultRenderAppbarControls = (): React.JSX.Element => {
-    const { CREATE_ADVERT } = useContext(PhraseContext)
+    const { ADVERT_CREATE: CREATE_ADVERT } = useContext(PhraseContext)
     const {
         roles: { canEditOwnAdverts },
     } = useContext(AuthContext)

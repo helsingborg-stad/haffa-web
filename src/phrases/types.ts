@@ -14,14 +14,15 @@ export interface PhraseContextType {
     NAV_MY_ADVERTS: string
     NAV_MY_RESERVATIONS: string
     NAV_PROFILE: string
-    CREATE_ADVERT: string
-    EDIT_ADVERT: string
-    SAVE_ADVERT: string
-    REMOVE_ADVERT: string
-    EDIT_PROFILE: string
-    SAVE_PROFILE: string
+    ADVERT_CREATE: string
+    ADVERT_EDIT: string
+    ADVERT_EDIT_SAVE: string
+    ADVERT_EDIT_CANCEL: string
+    ADVERT_REMOVE: string
+    ADVERT_COLLECT: string
+    PROFILE_EDIT: string
+    PROFILE_SAVE: string
     SCAN_QR_CODE: string
-    PICKUP_ADVERT: string
     phrase: (
         key: string,
         defaultTemplateString: string,

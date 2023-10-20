@@ -18,7 +18,7 @@ export const CreateAdvertView: FC<{
     categories: Category[]
 }> = ({ terms, profile, categories }) => {
     const { createAdvert } = useContext(AdvertsContext)
-    const { CREATE_ADVERT } = useContext(PhraseContext)
+    const { ADVERT_CREATE: CREATE_ADVERT } = useContext(PhraseContext)
 
     const onCreate = useCallback(
         async (a: AdvertInput) => createAdvert(a),
