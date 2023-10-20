@@ -20,4 +20,5 @@ export const AuthContext = createContext<AuthContextType>({
     },
     setAuthentication: notProvided('setAuthentication'),
     signout: notProvided('signout'),
+    getEffectivePermissions: notProvided('getEffectivePermissions'),
 })

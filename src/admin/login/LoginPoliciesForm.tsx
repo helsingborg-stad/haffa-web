@@ -26,6 +26,7 @@ import { LoginPolicy } from 'login-policies/types'
 import { rolesArrayToRoles, rolesToRolesArray } from 'auth/mappers'
 import { HaffaUserRoles } from 'auth'
 import { SelectUserRoles } from './SelectUserRoles'
+import { EffectivePermissionsPanel } from './EffectivePermissionsPanel'
 
 export const LoginPoliciesForm: FC<{
     title?: string
@@ -67,11 +68,12 @@ export const LoginPoliciesForm: FC<{
     )
 
     return (
-        <Card>
-            {title && <CardHeader title={title} />}
-            <CardContent>
-                <Editorial>
-                    {`
+        <>
+            <Card>
+                {title && <CardHeader title={title} />}
+                <CardContent>
+                    <Editorial>
+                        {`
                     Här anges vilka användare som ges eller nekas tillträde till
                     sajten. Användare matchas mot email
                     
@@ -80,131 +82,143 @@ export const LoginPoliciesForm: FC<{
 
                     Regler utan email tas automatiskt bort.
                     `}
-                </Editorial>
-            </CardContent>
-            <CardContent>
-                <TableContainer component={Paper}>
-                    <Table
-                        aria-label={phrase(
-                            'LOGINS_TITLE',
-                            'Användare & behörigheter'
-                        )}
-                    >
-                        <TableHead>
-                            <TableRow>
-                                <TableCell>
-                                    {phrase(
-                                        'LOGINS_FIELD_PERMISSIONS',
-                                        'Email & behörigheter'
-                                    )}
-                                </TableCell>
-                                <TableCell>
-                                    {phrase('LOGINS_DENY', 'Neka')}
-                                </TableCell>
-                            </TableRow>
-                        </TableHead>
-                        <TableBody>
-                            {policies.map(
-                                (
-                                    { id, email, deny, roles: userRoles },
-                                    index
-                                ) => (
-                                    <TableRow key={id}>
-                                        <TableCell>
-                                            <FormControl
-                                                fullWidth
-                                                sx={{ mb: 2 }}
-                                            >
-                                                <TextField
+                    </Editorial>
+                </CardContent>
+                <CardContent>
+                    <TableContainer component={Paper}>
+                        <Table
+                            aria-label={phrase(
+                                'LOGINS_TITLE',
+                                'Användare & behörigheter'
+                            )}
+                        >
+                            <TableHead>
+                                <TableRow>
+                                    <TableCell>
+                                        {phrase(
+                                            'LOGINS_FIELD_PERMISSIONS',
+                                            'Email & behörigheter'
+                                        )}
+                                    </TableCell>
+                                    <TableCell>
+                                        {phrase('LOGINS_DENY', 'Neka')}
+                                    </TableCell>
+                                </TableRow>
+                            </TableHead>
+                            <TableBody>
+                                {policies.map(
+                                    (
+                                        { id, email, deny, roles: userRoles },
+                                        index
+                                    ) => (
+                                        <TableRow key={id}>
+                                            <TableCell>
+                                                <FormControl
                                                     fullWidth
-                                                    value={email}
-                                                    label={phrase(
-                                                        'LOGINS_FIELD_EMAIL',
-                                                        'Email'
-                                                    )}
-                                                    placeholder={phrase(
-                                                        'LOGINS_FIELD_EMAIL',
-                                                        'Email'
-                                                    )}
-                                                    onChange={(e) =>
+                                                    sx={{ mb: 2 }}
+                                                >
+                                                    <TextField
+                                                        fullWidth
+                                                        value={email}
+                                                        label={phrase(
+                                                            'LOGINS_FIELD_EMAIL',
+                                                            'Email'
+                                                        )}
+                                                        placeholder={phrase(
+                                                            'LOGINS_FIELD_EMAIL',
+                                                            'Email'
+                                                        )}
+                                                        onChange={(e) =>
+                                                            mutateRowField(
+                                                                index,
+                                                                'email',
+                                                                e.target.value
+                                                            )
+                                                        }
+                                                    />
+                                                </FormControl>
+                                                <SelectUserRoles
+                                                    userRoles={userRoles}
+                                                    onChange={(roles) =>
                                                         mutateRowField(
                                                             index,
-                                                            'email',
-                                                            e.target.value
+                                                            'roles',
+                                                            roles
                                                         )
                                                     }
                                                 />
-                                            </FormControl>
-                                            <SelectUserRoles
-                                                userRoles={userRoles}
-                                                onChange={(roles) =>
-                                                    mutateRowField(
-                                                        index,
-                                                        'roles',
-                                                        roles
-                                                    )
-                                                }
-                                            />
-                                        </TableCell>
-                                        <TableCell>
-                                            <Checkbox
-                                                checked={deny}
-                                                onChange={(e) =>
-                                                    mutateRowField(
-                                                        index,
-                                                        'deny',
-                                                        e.target.checked
-                                                    )
-                                                }
-                                            />
-                                        </TableCell>
-                                    </TableRow>
-                                )
-                            )}
-                        </TableBody>
-                    </Table>
-                </TableContainer>
-            </CardContent>
-            <CardActions>
-                <Button
-                    variant="contained"
-                    startIcon={<AddIcon />}
-                    onClick={() =>
-                        setPolicies(
-                            policies.concat({
-                                id: nanoid(),
-                                email: '',
-                                roles: {
-                                    canEditOwnAdverts: true,
-                                    canArchiveOwnAdverts: true,
-                                    canRemoveOwnAdverts: true,
-                                    canReserveAdverts: true,
-                                    canCollectAdverts: true,
-                                },
-                                deny: false,
-                            })
-                        )
-                    }
-                >
-                    {phrase('LOGINS_ADD_RULE', 'Lägg till regel')}
-                </Button>
-                <Box flex={1} />
-                <Button
-                    variant="contained"
-                    startIcon={<SaveIcon />}
-                    onClick={() =>
-                        onSave(
-                            policies.map(({ email, roles, deny }) => ({
-                                emailPattern: email,
-                                roles: rolesToRolesArray(roles),
-                                deny,
-                            }))
-                        )
-                    }
-                >
-                    {phrase('LOGINS_SAVE', 'Spara')}
-                </Button>
-            </CardActions>
-        </Card>
+                                            </TableCell>
+                                            <TableCell>
+                                                <Checkbox
+                                                    checked={deny}
+                                                    onChange={(e) =>
+                                                        mutateRowField(
+                                                            index,
+                                                            'deny',
+                                                            e.target.checked
+                                                        )
+                                                    }
+                                                />
+                                            </TableCell>
+                                        </TableRow>
+                                    )
+                                )}
+                            </TableBody>
+                        </Table>
+                    </TableContainer>
+                </CardContent>
+                <CardActions>
+                    <Button
+                        variant="contained"
+                        startIcon={<AddIcon />}
+                        onClick={() =>
+                            setPolicies(
+                                policies.concat({
+                                    id: nanoid(),
+                                    email: '',
+                                    roles: {
+                                        canEditOwnAdverts: true,
+                                        canArchiveOwnAdverts: true,
+                                        canRemoveOwnAdverts: true,
+                                        canReserveAdverts: true,
+                                        canCollectAdverts: true,
+                                    },
+                                    deny: false,
+                                })
+                            )
+                        }
+                    >
+                        {phrase('LOGINS_ADD_RULE', 'Lägg till regel')}
+                    </Button>
+                    <Box flex={1} />
+                    <Button
+                        variant="contained"
+                        startIcon={<SaveIcon />}
+                        onClick={() =>
+                            onSave(
+                                policies.map(({ email, roles, deny }) => ({
+                                    emailPattern: email,
+                                    roles: rolesToRolesArray(roles),
+                                    deny,
+                                }))
+                            )
+                        }
+                    >
+                        {phrase('LOGINS_SAVE', 'Spara')}
+                    </Button>
+                </CardActions>
+            </Card>
+            <Card sx={{ mt: 2 }}>
+                <CardHeader
+                    title={phrase(
+                        'LOGINS_EFECTIVE_PERMISSIONS',
+                        'Effektiva behörigheter'
+                    )}
+                />
+                <CardContent>
+                    <EffectivePermissionsPanel />
+                </CardContent>
+            </Card>
+        </>
     )
 }

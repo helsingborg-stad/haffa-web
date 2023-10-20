@@ -1,3 +1,6 @@
+import { HaffaUserRoles } from 'auth'
+import { PhraseContextType } from 'phrases'
+
 interface RoleMappingBuilder<TRoles> {
     define: (
         prop: keyof TRoles,
@@ -85,3 +88,82 @@ export const createRoleInputBindings = <TRoles>(
 
     return [tuples, mapInputValueToTuples, toInputValue, fromInputValue]
 }
+
+export const createDefaultRoleInputBindings = (
+    phrase: PhraseContextType['phrase']
+) =>
+    createRoleInputBindings<HaffaUserRoles>((b) =>
+        b
+            .define(
+                'canEditOwnAdverts',
+                phrase('ROLES_CAN_EDIT_OWN_ADVERTS', 'Skapa annonser')
+            )
+            .define(
+                'canArchiveOwnAdverts',
+                phrase(
+                    'ROLES_CAN_ARCHIVE_OWN_ADVERTS',
+                    'Arkivera egna annonser'
+                )
+            )
+            .define(
+                'canRemoveOwnAdverts',
+                phrase('ROLES_CAN_REMOVE_OWN_ADVERTS', 'Ta bort egna annonser')
+            )
+            .define(
+                'canReserveAdverts',
+                phrase('ROLES_CAN_RESERVE_ADVERTS', 'Reservera annonser')
+            )
+            .define(
+                'canCollectAdverts',
+                phrase('ROLES_CAN_COLLECT_ADVERTS', 'Hämta ut annonser')
+            )
+            .define(
+                'canManageOwnAdvertsHistory',
+                phrase(
+                    'ROLES_CAN_MANAGE_OWN_ADVERTS_HISTORY',
+                    'Hantera egna annonsers historik'
+                )
+            )
+            .define(
+                'canManageAllAdverts',
+                phrase(
+                    'ROLES_CAN_MANAGE_ALL_ADVERTS',
+                    'Hantera egna och andras annonser (admin)'
+                ),
+                true
+            )
+            .define(
+                'canEditTerms',
+                phrase('ROLES_CAN_EDIT_TERMS', 'Hantera definitioner (admin)'),
+                true
+            )
+            .define(
+                'canEditSystemCategories',
+                phrase(
+                    'ROLES_CAN_EDIT_SYSTEM_CATEGORIES',
+                    'Hantera system kategorier (admin)'
+                ),
+                true
+            )
+            .define(
+                'canEditSystemLoginPolicies',
+                phrase(
+                    'ROLES_CAN_EDIT_SYSTEM_LOGIN_POLICIES',
+                    'Hantera systemets användare & behörigheter (admin)'
+                ),
+                true
+            )
+            .define(
+                'canEditApiKeys',
+                phrase('ROLES_CAN_EDIT_API_KEYS', 'Hantera API nycklar'),
+                true
+            )
+            .define(
+                'canRunSystemJobs',
+                phrase(
+                    'ROLES_CAN_RUN_SYSTEM_JOBS',
+                    'Agent som får köra jobb (admin)'
+                ),
+                true
+            )
+    )

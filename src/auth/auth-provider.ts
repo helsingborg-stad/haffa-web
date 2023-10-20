@@ -40,5 +40,13 @@ export const createAuthProvider = (): AuthProvider => {
                 ({ token, roles }) => makeAuthentication(token, roles)
             ),
         signOut: () => request('/api/v1/haffa/auth/signout', {}),
+        getEffectivePermissions: (email) =>
+            request('/api/v1/haffa/auth/effective-permissions', { email }).then(
+                ({ email, roles, canLogin }) => ({
+                    email,
+                    roles,
+                    canLogin,
+                })
+            ),
     }
 }

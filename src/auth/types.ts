@@ -17,6 +17,12 @@ export interface Authentication {
     token: string
     roles: HaffaUserRoles
 }
+
+export interface EffectivePermissions {
+    email: string
+    roles: string[]
+    canLogin: boolean
+}
 export interface AuthContextType {
     readonly isAuthenticated: boolean
     readonly token: string
@@ -24,6 +30,7 @@ export interface AuthContextType {
     readonly authProvider: AuthProvider
     setAuthentication: (Authentication: Authentication) => void
     signout: () => Promise<void>
+    getEffectivePermissions: (email: string) => Promise<EffectivePermissions>
 }
 
 export interface AuthProvider {
@@ -33,4 +40,5 @@ export interface AuthProvider {
     ) => Promise<'accepted' | 'denied' | 'invalid'>
     authenticate: (email: string, pincode: string) => Promise<Authentication>
     signOut: () => Promise<void>
+    getEffectivePermissions: (email: string) => Promise<EffectivePermissions>
 }
