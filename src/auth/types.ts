@@ -40,5 +40,8 @@ export interface AuthProvider {
     ) => Promise<'accepted' | 'denied' | 'invalid'>
     authenticate: (email: string, pincode: string) => Promise<Authentication>
     signOut: () => Promise<void>
-    getEffectivePermissions: (email: string) => Promise<EffectivePermissions>
+    getEffectivePermissions: (
+        token: string,
+        email: string
+    ) => Promise<EffectivePermissions>
 }

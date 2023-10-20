@@ -41,7 +41,10 @@ export const AuthContextProvider: FC<
                 setAuthentication,
                 signout,
                 getEffectivePermissions: (email) =>
-                    authProvider.getEffectivePermissions(email),
+                    authProvider.getEffectivePermissions(
+                        authentication.token,
+                        email
+                    ),
             }}
         >
             {children}

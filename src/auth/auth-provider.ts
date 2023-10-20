@@ -8,12 +8,13 @@ const makeAuthentication = (token: any, roles: any): Authentication => ({
     roles: rolesArrayToRoles(roles),
 })
 export const createAuthProvider = (): AuthProvider => {
-    const request = (url: string, body: any) =>
+    const request = (url: string, body: any, headers?: any) =>
         fetch(url, {
             method: 'POST',
             headers: {
                 Accept: 'application/json',
                 'Content-Type': 'application/json',
+                ...headers,
             },
             body: JSON.stringify(body),
         }).then((response) => response.json())
@@ -40,13 +41,15 @@ export const createAuthProvider = (): AuthProvider => {
                 ({ token, roles }) => makeAuthentication(token, roles)
             ),
         signOut: () => request('/api/v1/haffa/auth/signout', {}),
-        getEffectivePermissions: (email) =>
-            request('/api/v1/haffa/auth/effective-permissions', { email }).then(
-                ({ email, roles, canLogin }) => ({
-                    email,
-                    roles,
-                    canLogin,
-                })
-            ),
+        getEffectivePermissions: (token, email) =>
+            request(
+                '/api/v1/haffa/auth/effective-permissions',
+                { email },
+                { Authorization: `Bearer ${token}` }
+            ).then(({ email, roles, canLogin }) => ({
+                email,
+                roles,
+                canLogin,
+            })),
     }
 }
