@@ -5,9 +5,8 @@ import { Option } from './types'
 
 export const getOption = <T = string>(
     key: T,
-    options: Option[],
-    defaultValue: string = ''
-): string => options.find((option) => option.key === key)?.value ?? defaultValue
+    options: Option[]
+): string | undefined => options.find((option) => option.key === key)?.value
 
 export {
     OptionsProvider,
