@@ -105,6 +105,7 @@ export const EditPhrasesForm: FC<{
                                                     e.target.value
                                                 )
                                             }
+                                            sx={{ minWidth: '20em' }}
                                         />
                                     </TableCell>
                                     <TableCell>{m.template}</TableCell>
