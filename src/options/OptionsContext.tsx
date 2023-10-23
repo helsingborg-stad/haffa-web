@@ -10,6 +10,8 @@ export interface OptionsContextType {
     updateThemeOptions: (options: Option[]) => Promise<Option[]>
     getPhraseOptions: () => Promise<Option[]>
     updatePhraseOptions: (options: Option[]) => Promise<Option[]>
+    getAnalyticsOptions: () => Promise<Option[]>
+    updateAnalyticsOptions: (options: Option[]) => Promise<Option[]>
 }
 
 export const OptionsContext = createContext<OptionsContextType>({
@@ -17,6 +19,8 @@ export const OptionsContext = createContext<OptionsContextType>({
     updateThemeOptions: notImplemented('updateThemeOptions'),
     getPhraseOptions: notImplemented('getPhraseOptions'),
     updatePhraseOptions: notImplemented('updatePhraseOptions'),
+    getAnalyticsOptions: notImplemented('getAnalyticsOptions'),
+    updateAnalyticsOptions: notImplemented('updateAnalyticsOptions'),
 })
 
 export const OptionsProvider: FC<
@@ -30,6 +34,10 @@ export const OptionsProvider: FC<
             getPhraseOptions: () => repository.getOptions('branding-phrases'),
             updatePhraseOptions: (options) =>
                 repository.updateOptions('branding-phrases', options),
+            getAnalyticsOptions: () =>
+                repository.getOptions('analytics-tagmanager'),
+            updateAnalyticsOptions: (options) =>
+                repository.updateOptions('analytics-tagmanager', options),
         }}
     >
         {children}

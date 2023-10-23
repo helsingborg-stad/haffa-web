@@ -35,6 +35,7 @@ import { EditTermsView } from 'admin/terms'
 import { TermsRepository } from 'terms/types'
 import { TermsContext } from 'terms'
 import { EditBrandingView } from 'admin/branding'
+import { EditAnalyticsView } from 'admin/analytics'
 import { ErrorRouteView } from './ErrorRouteView'
 
 const UnpackLoaderData: FC<{ render: (loaderData: any) => JSX.Element }> = ({
@@ -285,6 +286,17 @@ const createRouter = (
         ),
     })
 
+    /**
+     * path: /admin/analytics
+     */
+    const viewAdminAnalyticsProps = (): AsyncRouteConfig => ({
+        element: (
+            <RequireRole predicate={(r) => !!r.canEditTerms}>
+                <EditAnalyticsView />
+            </RequireRole>
+        ),
+    })
+
     return createBrowserRouter(
         createRoutesFromElements(
             <Route path="/" errorElement={<ErrorRouteView />}>
@@ -311,6 +323,7 @@ const createRouter = (
                 <Route path="admin/api-keys" {...viewAdminApiKeysProps()} />
                 <Route path="admin/terms" {...viewAdminTermsProps()} />
                 <Route path="admin/branding" {...viewAdminBrandingProps()} />
+                <Route path="admin/analytics" {...viewAdminAnalyticsProps()} />
             </Route>
         )
     )
