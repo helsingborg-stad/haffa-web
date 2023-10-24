@@ -40,7 +40,7 @@ export const EditAnalyticsForm: FC<{
                     </FormLabel>
                     <Select
                         labelId="analytics-provider-label"
-                        defaultValue={provider}
+                        value={provider}
                         onChange={(event) => {
                             setProvider(event?.target.value)
                         }}
@@ -63,7 +63,8 @@ export const EditAnalyticsForm: FC<{
                     </FormLabel>
                     <TextField
                         fullWidth
-                        defaultValue={config}
+                        value={config}
+                        disabled={provider === 'none'}
                         onChange={(event) => {
                             setConfig(event?.target.value)
                         }}
