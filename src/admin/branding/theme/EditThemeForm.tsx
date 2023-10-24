@@ -31,8 +31,8 @@ function ColorIcon(props: SvgIconProps) {
 }
 
 export const EditThemeForm: FC<{
-    options: Option[]
-    onUpdate: (options: Option[]) => void
+    options: Option<BrandingOptions>[]
+    onUpdate: (options: Option<BrandingOptions>[]) => void
 }> = ({ options, onUpdate }) => {
     const { phrase } = useContext(PhraseContext)
 

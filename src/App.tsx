@@ -1,4 +1,4 @@
-import { FC, useContext, useMemo, useState } from 'react'
+import { FC, useContext, useEffect, useMemo, useState } from 'react'
 import './App.css'
 import { FetchContext, FetchContextProvider } from 'hooks/fetch/FetchContext'
 import {
@@ -36,6 +36,7 @@ import {
     createOptionsRepository,
 } from 'options'
 import { BrandingProvider } from 'branding/BrandingProvider'
+import { AnalyticsProvider } from 'analytics'
 import { AdvertsProvider } from './adverts/AdvertsContext'
 import { createAdvertsRepository } from './adverts/repository/adverts-repository'
 import { AppRouter } from './routes/AppRouter'
@@ -49,7 +50,7 @@ const Main: FC = () => {
     const { phrase } = useContext(PhraseContext)
     const notifications = useContext(NotificationsContext)
 
-    const branding = useMemo(
+    const options = useMemo(
         () =>
             createNotifyingOptionsRepository(
                 notifications,
@@ -116,8 +117,9 @@ const Main: FC = () => {
             ),
         [notifications, phrase, token, fetch]
     )
+
     return isAuthenticated ? (
-        <OptionsProvider repository={branding}>
+        <OptionsProvider repository={options}>
             <ApiKeysProvider repository={apiKeys}>
                 <LoginPoliciesProvider repository={loginPolicies}>
                     <CategoriesProvider repository={categories}>
@@ -139,6 +141,11 @@ const Main: FC = () => {
 
 const App: FC = () => {
     const [authProvider] = useState(createAuthProvider())
+
+    useEffect(() => {
+        AnalyticsProvider()
+    }, [])
+
     return (
         <BrandingProvider>
             <FetchContextProvider>

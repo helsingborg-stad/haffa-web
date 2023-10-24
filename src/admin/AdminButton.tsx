@@ -59,6 +59,12 @@ export const AdminButton: FC = () => {
                           phrase('BRANDING_TITLE', 'Tema')
                       )
                     : null,
+                roles.canEditTerms
+                    ? makeMenuItem(
+                          '/admin/analytics',
+                          phrase('ANALYTICS_TITLE', 'Webanalys')
+                      )
+                    : null,
             ].filter((v) => v),
         [phrase, roles]
     )

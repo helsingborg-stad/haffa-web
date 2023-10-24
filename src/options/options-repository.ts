@@ -13,11 +13,11 @@ export const createOptionsRepository = (
     token: string,
     f?: typeof fetch
 ): OptionsRepository => ({
-    getOptions: async (name) =>
+    getOptions: async <T>(name: string) =>
         gql(token, f)
             .query(getOptionsQuery)
             .variables({ name })
-            .map<Option[]>('options'),
+            .map<Option<T>[]>('options'),
     updateOptions: async (name, options) =>
         gql(token, f)
             .query(updateOptionsMutation)

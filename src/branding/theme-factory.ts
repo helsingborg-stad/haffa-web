@@ -1,7 +1,7 @@
 import { getOption } from 'options'
 import { ThemeOptions } from '@mui/material'
 import type { Option } from '../options/types'
-import { BrandingOptions, type ThemeFactory } from './types'
+import { BrandingOptions, ThemeFactory } from './types'
 
 export const defaultThemeColors: Option<BrandingOptions>[] = [
     {
