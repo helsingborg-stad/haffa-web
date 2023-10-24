@@ -37,6 +37,7 @@ import {
 } from 'options'
 import { BrandingProvider } from 'branding/BrandingProvider'
 import { AnalyticsProvider } from 'analytics'
+import { StatisticsProvider, createStatisticsProvider } from 'statistics'
 import { AdvertsProvider } from './adverts/AdvertsContext'
 import { createAdvertsRepository } from './adverts/repository/adverts-repository'
 import { AppRouter } from './routes/AppRouter'
@@ -118,17 +119,24 @@ const Main: FC = () => {
         [notifications, phrase, token, fetch]
     )
 
+    const statistics = useMemo(
+        () => createStatisticsProvider(token, fetch),
+        [token, fetch]
+    )
+
     return isAuthenticated ? (
         <OptionsProvider repository={options}>
             <ApiKeysProvider repository={apiKeys}>
                 <LoginPoliciesProvider repository={loginPolicies}>
                     <CategoriesProvider repository={categories}>
                         <TermsProvider repository={terms}>
-                            <AdvertsProvider repository={adverts}>
-                                <ProfileProvider repository={profiles}>
-                                    <AppRouter />
-                                </ProfileProvider>
-                            </AdvertsProvider>
+                            <StatisticsProvider provider={statistics}>
+                                <AdvertsProvider repository={adverts}>
+                                    <ProfileProvider repository={profiles}>
+                                        <AppRouter />
+                                    </ProfileProvider>
+                                </AdvertsProvider>
+                            </StatisticsProvider>
                         </TermsProvider>
                     </CategoriesProvider>
                 </LoginPoliciesProvider>
