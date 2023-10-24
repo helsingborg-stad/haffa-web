@@ -1,4 +1,6 @@
 import { FC, PropsWithChildren, createContext } from 'react'
+import { BrandingOptions } from 'branding/types'
+import { AnalyticsOptions } from 'analytics/types'
 import { Option, OptionsRepository } from './types'
 
 const notImplemented = (name: string) => (): never => {
@@ -6,39 +8,51 @@ const notImplemented = (name: string) => (): never => {
 }
 
 export interface OptionsContextType {
-    getThemeOptions: () => Promise<Option[]>
-    updateThemeOptions: (options: Option[]) => Promise<Option[]>
+    // Theme settings
+    getThemeOptions: () => Promise<Option<BrandingOptions>[]>
+    updateThemeOptions: (
+        options: Option<BrandingOptions>[]
+    ) => Promise<Option<BrandingOptions>[]>
+
+    // Analytics settings
+    getAnalyticsOptions: () => Promise<Option<AnalyticsOptions>[]>
+    updateAnalyticsOptions: (
+        options: Option<AnalyticsOptions>[]
+    ) => Promise<Option<AnalyticsOptions>[]>
+
+    // Phrases settings
     getPhraseOptions: () => Promise<Option[]>
     updatePhraseOptions: (options: Option[]) => Promise<Option[]>
-    getAnalyticsOptions: () => Promise<Option[]>
-    updateAnalyticsOptions: (options: Option[]) => Promise<Option[]>
 }
 
 export const OptionsContext = createContext<OptionsContextType>({
     getThemeOptions: notImplemented('getThemeOptions'),
     updateThemeOptions: notImplemented('updateThemeOptions'),
-    getPhraseOptions: notImplemented('getPhraseOptions'),
-    updatePhraseOptions: notImplemented('updatePhraseOptions'),
     getAnalyticsOptions: notImplemented('getAnalyticsOptions'),
     updateAnalyticsOptions: notImplemented('updateAnalyticsOptions'),
+    getPhraseOptions: notImplemented('getPhraseOptions'),
+    updatePhraseOptions: notImplemented('updatePhraseOptions'),
 })
 
 export const OptionsProvider: FC<
     PropsWithChildren<{ repository: OptionsRepository }>
 > = ({ repository, children }) => (
     <OptionsContext.Provider
-        value={{
-            getThemeOptions: () => repository.getOptions('branding-theme'),
-            updateThemeOptions: (options) =>
-                repository.updateOptions('branding-theme', options),
-            getPhraseOptions: () => repository.getOptions('branding-phrases'),
-            updatePhraseOptions: (options) =>
-                repository.updateOptions('branding-phrases', options),
-            getAnalyticsOptions: () =>
-                repository.getOptions('analytics-tagmanager'),
-            updateAnalyticsOptions: (options) =>
-                repository.updateOptions('analytics-tagmanager', options),
-        }}
+        value={
+            {
+                getThemeOptions: () => repository.getOptions('branding-theme'),
+                updateThemeOptions: (options) =>
+                    repository.updateOptions('branding-theme', options),
+                getPhraseOptions: () =>
+                    repository.getOptions('branding-phrases'),
+                updatePhraseOptions: (options) =>
+                    repository.updateOptions('branding-phrases', options),
+                getAnalyticsOptions: () =>
+                    repository.getOptions('analytics-tagmanager'),
+                updateAnalyticsOptions: (options) =>
+                    repository.updateOptions('analytics-tagmanager', options),
+            } as OptionsContextType
+        }
     >
         {children}
     </OptionsContext.Provider>

@@ -7,8 +7,8 @@ import { EditAnalyticsForm } from './EditAnalyticsForm'
 export const EditAnalyticsView: FC = () => {
     const { getAnalyticsOptions, updateAnalyticsOptions } =
         useContext(OptionsContext)
-
     const inspect = useAsync(getAnalyticsOptions)
+
     return inspect({
         rejected: (error) => <ErrorView error={error} />,
         pending: () => <span />,

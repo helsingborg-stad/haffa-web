@@ -14,11 +14,12 @@ import { Editorial } from 'editorials'
 import SaveIcon from '@mui/icons-material/Save'
 import { PhraseContext } from 'phrases'
 import { getOption } from 'options'
+import { AnalyticsOptions } from 'analytics/types'
 import type { Option } from '../../options/types'
 
 export const EditAnalyticsForm: FC<{
-    options: Option[]
-    onUpdate: (options: Option[]) => void
+    options: Option<AnalyticsOptions>[]
+    onUpdate: (options: Option<AnalyticsOptions>[]) => void
 }> = ({ options, onUpdate }) => {
     const { phrase } = useContext(PhraseContext)
 

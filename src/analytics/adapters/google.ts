@@ -1,5 +1,5 @@
 export const GoogleAdapter = (config: string) => {
-    document.getElementsByTagName('body')[0]?.insertAdjacentHTML(
+    document.getElementsByTagName('head')[0]?.insertAdjacentHTML(
         'afterbegin',
         `<!-- Google Tag Manager -->
 	<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
@@ -7,6 +7,6 @@ export const GoogleAdapter = (config: string) => {
 	j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 	'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
 	})(window,document,'script','dataLayer','${config}');</script>
-	<!-- End Google Tag Manager -->)`
+	<!-- End Google Tag Manager -->`
     )
 }
