@@ -36,6 +36,7 @@ import { TermsRepository } from 'terms/types'
 import { TermsContext } from 'terms'
 import { EditBrandingView } from 'admin/branding'
 import { EditAnalyticsView } from 'admin/analytics'
+import { EventLogView } from 'admin/events/EventLogView'
 import { ErrorRouteView } from './ErrorRouteView'
 
 const UnpackLoaderData: FC<{ render: (loaderData: any) => JSX.Element }> = ({
@@ -297,6 +298,17 @@ const createRouter = (
         ),
     })
 
+    /**
+     * path: /admin/analytics
+     */
+    const viewAdminEventLogProps = (): AsyncRouteConfig => ({
+        element: (
+            <RequireRole predicate={(r) => !!r.canEditTerms}>
+                <EventLogView />
+            </RequireRole>
+        ),
+    })
+
     return createBrowserRouter(
         createRoutesFromElements(
             <Route path="/" errorElement={<ErrorRouteView />}>
@@ -324,6 +336,7 @@ const createRouter = (
                 <Route path="admin/terms" {...viewAdminTermsProps()} />
                 <Route path="admin/branding" {...viewAdminBrandingProps()} />
                 <Route path="admin/analytics" {...viewAdminAnalyticsProps()} />
+                <Route path="admin/event-log" {...viewAdminEventLogProps()} />
             </Route>
         )
     )
