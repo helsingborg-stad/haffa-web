@@ -17,6 +17,8 @@ import { getOption } from 'options'
 import { AnalyticsOptions } from 'analytics/types'
 import type { Option } from '../../options/types'
 
+const NS = 'ANALYTICS'
+
 export const EditAnalyticsForm: FC<{
     options: Option<AnalyticsOptions>[]
     onUpdate: (options: Option<AnalyticsOptions>[]) => void
@@ -31,12 +33,15 @@ export const EditAnalyticsForm: FC<{
     return (
         <Card>
             <Editorial>
-                {phrase('ANALYTICS_EDITORIAL', 'Definitioner för web-analys')}
+                {phrase(
+                    `${NS}_SECTION_EDITORIAL`,
+                    'Definitioner för web-analys'
+                )}
             </Editorial>
             <CardContent>
                 <FormControl fullWidth>
                     <FormLabel id="analytics-provider-label">
-                        {phrase('ANALYTICS_PROVIDER_LABEL', 'Leverantör')}
+                        {phrase(`${NS}_FIELD_PROVIDER`, 'Leverantör')}
                     </FormLabel>
                     <Select
                         labelId="analytics-provider-label"
@@ -46,20 +51,20 @@ export const EditAnalyticsForm: FC<{
                         }}
                     >
                         <MenuItem value="none">
-                            {phrase('ANALYTICS_PROVIDER_MENU_NONE', 'Ej aktiv')}
+                            {phrase(`${NS}_PROVIDER_OPTION_NONE`, 'Ej aktiv')}
                         </MenuItem>
                         <MenuItem value="matomo">
-                            {phrase('ANALYTICS_PROVIDER_MENU_MATOMO', 'Matomo')}
+                            {phrase(`${NS}_PROVIDER_OPTION_MATOMO`, 'Matomo')}
                         </MenuItem>
                         <MenuItem value="google">
-                            {phrase('ANALYTICS_PROVIDER_MENU_GOOGLE', 'Google')}
+                            {phrase(`${NS}_PROVIDER_OPTION_GOOGLE`, 'Google')}
                         </MenuItem>
                     </Select>
                     <FormLabel
                         id="analytics-config-label"
                         sx={{ paddingTop: 3 }}
                     >
-                        {phrase('ANALYTICS_CONFIG_LABEL', 'Konfiguration')}
+                        {phrase(`${NS}_FIELD_CONFIG`, 'Konfiguration')}
                     </FormLabel>
                     <TextField
                         fullWidth
@@ -73,6 +78,7 @@ export const EditAnalyticsForm: FC<{
             </CardContent>
             <CardActions>
                 <Button
+                    id={`${NS}_ACTION_SAVE`}
                     type="submit"
                     variant="contained"
                     startIcon={<SaveIcon />}
@@ -89,7 +95,7 @@ export const EditAnalyticsForm: FC<{
                         ])
                     }
                 >
-                    {phrase('ANALYTICS_SAVE', 'Spara')}
+                    {phrase(`${NS}_ACTION_SAVE`, 'Spara')}
                 </Button>
             </CardActions>
         </Card>

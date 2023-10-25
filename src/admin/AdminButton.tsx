@@ -56,7 +56,7 @@ export const AdminButton: FC = () => {
                 roles.canEditTerms
                     ? makeMenuItem(
                           '/admin/branding',
-                          phrase('BRANDING_TITLE', 'Tema')
+                          phrase('THEME_TITLE', 'Tema')
                       )
                     : null,
                 roles.canEditTerms

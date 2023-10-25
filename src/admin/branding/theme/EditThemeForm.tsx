@@ -22,6 +22,8 @@ import { BrandingOptions } from 'branding/types'
 import { Card } from 'antd'
 import type { Option } from '../../../options/types'
 
+const NS = 'THEME'
+
 function ColorIcon(props: SvgIconProps) {
     return (
         <SvgIcon {...props}>
@@ -45,45 +47,47 @@ export const EditThemeForm: FC<{
         color?: string
         isOpen: boolean
     }
+    const [hasChanged, setHasChanged] = useState<boolean>(false)
+
     const [model, setModel] = useState<Model[]>([
         {
             key: 'primary',
-            id: 'THEME_PROP_PRIMARY_COLOR',
+            id: `${NS}_FIELD_PRIMARY_COLOR`,
             label: 'Primär färg',
             color: getOption('primary', colors),
             isOpen: false,
         },
         {
             key: 'secondary',
-            id: 'THEME_PROP_SECONDARY_COLOR',
+            id: `${NS}_FIELD_SECONDARY_COLOR`,
             label: 'Sekundär färg',
             color: getOption('secondary', colors),
             isOpen: false,
         },
         {
             key: 'info',
-            id: 'THEME_PROP_INFO_COLOR',
+            id: `${NS}_FIELD_INFO_COLOR`,
             label: 'Information',
             color: getOption('info', colors),
             isOpen: false,
         },
         {
             key: 'warning',
-            id: 'THEME_PROP_WARNING_COLOR',
+            id: `${NS}_FIELD_WARNING_COLOR`,
             label: 'Varning',
             color: getOption('warning', colors),
             isOpen: false,
         },
         {
             key: 'error',
-            id: 'THEME_PROP_ERROR_COLOR',
+            id: `${NS}_FIELD_ERROR_COLOR`,
             label: 'Fel',
             color: getOption('error', colors),
             isOpen: false,
         },
         {
             key: 'success',
-            id: 'THEME_PROP_SUCCESS_COLOR',
+            id: `${NS}_FIELD_SUCCESS_COLOR`,
             label: 'Genomfört',
             color: getOption('success', colors),
             isOpen: false,
@@ -98,7 +102,8 @@ export const EditThemeForm: FC<{
                 isOpen: false,
             }))
         )
-    }, [model, setModel])
+        setHasChanged(true)
+    }, [model, setModel, hasChanged])
 
     const mutateItem = useCallback(
         (index: number, patch: Partial<Model>) => {
@@ -110,6 +115,7 @@ export const EditThemeForm: FC<{
                 },
                 ...model.slice(index + 1),
             ])
+            setHasChanged(true)
         },
         [model, setModel]
     )
@@ -123,17 +129,18 @@ export const EditThemeForm: FC<{
     return (
         <Card>
             <Editorial>
-                {phrase('THEME_EDITORIAL', 'Definitioner för tema')}
+                {phrase(`${NS}_SECTION_EDITORIAL`, 'Definitioner för tema')}
             </Editorial>
             <CardContent>
                 <Typography gutterBottom variant="h5" component="div">
-                    {phrase('THEME_COLORS_TITLE', 'Färger')}
+                    {phrase(`${NS}_SECTION_COLORS`, 'Färger')}
                 </Typography>
                 <Grid container direction="row" sx={{ paddingBottom: 5 }}>
                     {model.map((item, i) => (
                         <Grid key={item.key} item xs={12} sm={4} sx={{ p: 1 }}>
                             <Button
                                 fullWidth
+                                id={item.id}
                                 variant="outlined"
                                 startIcon={
                                     <ColorIcon sx={{ color: item.color }} />
@@ -149,12 +156,13 @@ export const EditThemeForm: FC<{
                             {item.isOpen ? (
                                 <SwatchesPicker
                                     color={item.color}
-                                    onChangeComplete={(color) =>
+                                    onChangeComplete={(color) => {
                                         mutateItem(i, {
                                             color: color.hex,
                                             isOpen: false,
                                         })
-                                    }
+                                        setHasChanged(true)
+                                    }}
                                 />
                             ) : (
                                 ''
@@ -166,14 +174,16 @@ export const EditThemeForm: FC<{
             <CardActions>
                 <Button
                     type="submit"
+                    disabled={hasChanged !== true}
+                    id={`${NS}_ACTION_SAVE`}
                     variant="contained"
                     startIcon={<SaveIcon />}
                     onClick={() => onUpdate(createOptions())}
                 >
-                    {phrase('THEME_SAVE', 'Spara')}
+                    {phrase(`${NS}_ACTION_SAVE`, 'Spara')}
                 </Button>
-                <Button onClick={() => resetOptions()}>
-                    {phrase('THEME_RESTORE', 'Återställ')}
+                <Button onClick={() => resetOptions()} id={`${NS}RESTORE`}>
+                    {phrase(`${NS}_ACTION_RESTORE`, 'Återställ')}
                 </Button>
             </CardActions>
         </Card>
