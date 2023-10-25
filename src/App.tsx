@@ -38,6 +38,11 @@ import {
 import { BrandingProvider } from 'branding/BrandingProvider'
 import { AnalyticsProvider } from 'analytics'
 import { StatisticsProvider, createStatisticsProvider } from 'statistics'
+import {
+    SubscriptionsProvider,
+    createNotifyingSubscriptionsRepository,
+    createSubscriptionsRepository,
+} from 'subscriptions'
 import { AdvertsProvider } from './adverts/AdvertsContext'
 import { createAdvertsRepository } from './adverts/repository/adverts-repository'
 import { AppRouter } from './routes/AppRouter'
@@ -124,6 +129,16 @@ const Main: FC = () => {
         [token, fetch]
     )
 
+    const subscriptions = useMemo(
+        () =>
+            createNotifyingSubscriptionsRepository(
+                notifications,
+                phrase,
+                createSubscriptionsRepository(token, fetch)
+            ),
+        [notifications, phrase, token, fetch]
+    )
+
     return isAuthenticated ? (
         <OptionsProvider repository={options}>
             <ApiKeysProvider repository={apiKeys}>
@@ -131,11 +146,15 @@ const Main: FC = () => {
                     <CategoriesProvider repository={categories}>
                         <TermsProvider repository={terms}>
                             <StatisticsProvider provider={statistics}>
-                                <AdvertsProvider repository={adverts}>
-                                    <ProfileProvider repository={profiles}>
-                                        <AppRouter />
-                                    </ProfileProvider>
-                                </AdvertsProvider>
+                                <SubscriptionsProvider
+                                    repository={subscriptions}
+                                >
+                                    <AdvertsProvider repository={adverts}>
+                                        <ProfileProvider repository={profiles}>
+                                            <AppRouter />
+                                        </ProfileProvider>
+                                    </AdvertsProvider>
+                                </SubscriptionsProvider>
                             </StatisticsProvider>
                         </TermsProvider>
                     </CategoriesProvider>

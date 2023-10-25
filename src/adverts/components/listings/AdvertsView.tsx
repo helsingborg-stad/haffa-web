@@ -3,6 +3,7 @@ import { AdvertsListWithSearch } from './AdvertsListWithSearch'
 
 export const AdvertsView: FC = () => (
     <AdvertsListWithSearch
+        showMonitorNewAds
         cacheName="adverts"
         defaultSearchParams={{
             restrictions: { canBeReserved: true },

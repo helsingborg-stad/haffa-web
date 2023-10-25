@@ -1,9 +1,13 @@
 import { FC, PropsWithChildren, useCallback, useContext } from 'react'
-import { Pagination, Stack, SxProps, Theme } from '@mui/material'
+import { Button, Pagination, Stack, SxProps, Theme } from '@mui/material'
 import { AdvertFilterInput, AdvertList } from 'adverts'
 import useAbortController from 'hooks/use-abort-controller'
 import { createTreeAdapter } from 'lib/tree-adapter'
 import { Phrase } from 'phrases/Phrase'
+import { SubscriptionsContext } from 'subscriptions'
+import { PhraseContext } from 'phrases'
+import SubscriptionsIcon from '@mui/icons-material/Subscriptions'
+import NotificationAddIcon from '@mui/icons-material/NotificationAdd'
 import { AdvertsContext } from '../../AdvertsContext'
 import { AdvertsList } from './AdvertsList'
 import { ErrorView } from '../../../errors'
@@ -19,6 +23,51 @@ const createEmptyResult = (): AdvertList => ({
     paging: { pageIndex: 0, pageSize: PAGE_SIZE, pageCount: 0, totalCount: 0 },
 })
 
+const AdvertListSubscribe: FC<{
+    searchParams: AdvertFilterInput
+    sx?: SxProps<Theme>
+}> = ({ searchParams, sx }) => {
+    const {
+        canManageSubscriptions,
+        canSubscribeToFilter,
+        addAdvertFilterSubscription,
+    } = useContext(SubscriptionsContext)
+    const { phrase } = useContext(PhraseContext)
+
+    const buttons = canManageSubscriptions()
+        ? [
+              <Button
+                  key="subscribe"
+                  variant="outlined"
+                  startIcon={<NotificationAddIcon />}
+                  disabled={!canSubscribeToFilter(searchParams)}
+                  onClick={() => addAdvertFilterSubscription(searchParams)}
+              >
+                  {phrase(
+                      'SUBSCRIPTIONS_SUBSCRIBE_TO_SEARCH',
+                      'Bevaka denna sökning'
+                  )}
+              </Button>,
+              <Button
+                  key="nav"
+                  variant="outlined"
+                  startIcon={<SubscriptionsIcon />}
+              >
+                  {phrase('NAV_SUBSCRIPTIONS', 'Visa mina bevakningar')}
+              </Button>,
+          ]
+        : []
+    return buttons.length > 0 ? (
+        <Stack
+            useFlexGap
+            justifyContent="end"
+            direction={{ xs: 'column', sm: 'row' }}
+            sx={{ gap: 1, ...sx }}
+        >
+            {buttons}
+        </Stack>
+    ) : null
+}
 const AdvertsListPagination: FC<{
     sx?: SxProps<Theme>
     hideEmpty?: boolean
@@ -65,8 +114,16 @@ export const AdvertsListWithSearch: FC<
     {
         cacheName: string
         defaultSearchParams: Partial<AdvertFilterInput>
+        hideFilter?: boolean
+        showMonitorNewAds?: boolean
     } & PropsWithChildren
-> = ({ children, cacheName, defaultSearchParams }) => {
+> = ({
+    children,
+    hideFilter,
+    showMonitorNewAds,
+    cacheName,
+    defaultSearchParams,
+}) => {
     const { signal } = useAbortController()
 
     const effectiveInitialSearchParams: AdvertFilterInput = {
@@ -121,6 +178,7 @@ export const AdvertsListWithSearch: FC<
         (adverts: AdvertList, enqueue: AsyncEnqueue<AdvertList>) => (
             <SearchableAdvertsList
                 key="sal"
+                hideFilter={hideFilter}
                 searchParams={searchParams}
                 setSearchParams={(p) =>
                     enqueue(() =>
@@ -131,14 +189,18 @@ export const AdvertsListWithSearch: FC<
                     )
                 }
             >
+                {showMonitorNewAds && (
+                    <AdvertListSubscribe searchParams={searchParams} />
+                )}
                 <AdvertsListPagination
+                    key="pagination-top"
                     adverts={adverts}
                     searchParams={searchParams}
                     setSearchParams={(p) => enqueue(() => next(p))}
                     sx={{ mb: 1 }}
                 />
                 <AdvertsList
-                    key="al"
+                    key="adverts-listing"
                     adverts={adverts?.adverts || []}
                     categories={createTreeAdapter(
                         adverts?.categories || [],
@@ -147,6 +209,7 @@ export const AdvertsListWithSearch: FC<
                     )}
                 />
                 <AdvertsListPagination
+                    key="pagination-bottom"
                     adverts={adverts}
                     searchParams={searchParams}
                     setSearchParams={(p) => enqueue(() => next(p))}

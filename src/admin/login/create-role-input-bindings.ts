@@ -118,6 +118,10 @@ export const createDefaultRoleInputBindings = (
                 phrase('ROLES_CAN_COLLECT_ADVERTS', 'Hämta ut annonser')
             )
             .define(
+                'canSubscribe',
+                phrase('ROLES_CAN_SUBSCRIBE', 'Bevaka annonser')
+            )
+            .define(
                 'canManageOwnAdvertsHistory',
                 phrase(
                     'ROLES_CAN_MANAGE_OWN_ADVERTS_HISTORY',
