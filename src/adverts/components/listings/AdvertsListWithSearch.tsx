@@ -4,7 +4,10 @@ import { AdvertFilterInput, AdvertList } from 'adverts'
 import useAbortController from 'hooks/use-abort-controller'
 import { createTreeAdapter } from 'lib/tree-adapter'
 import { Phrase } from 'phrases/Phrase'
-import { SubscriptionsContext } from 'subscriptions'
+import {
+    SubscriptionsContext,
+    convertAdvertFilterToSubscriptionFilter,
+} from 'subscriptions'
 import { PhraseContext } from 'phrases'
 import SubscriptionsIcon from '@mui/icons-material/Subscriptions'
 import NotificationAddIcon from '@mui/icons-material/NotificationAdd'
@@ -30,18 +33,18 @@ const AdvertListSubscribe: FC<{
     const {
         canManageSubscriptions,
         canSubscribeToFilter,
-        addAdvertFilterSubscription,
+        addAdvertSubscription,
     } = useContext(SubscriptionsContext)
     const { phrase } = useContext(PhraseContext)
-
+    const filter = convertAdvertFilterToSubscriptionFilter(searchParams)
     const buttons = canManageSubscriptions()
         ? [
               <Button
                   key="subscribe"
                   variant="outlined"
                   startIcon={<NotificationAddIcon />}
-                  disabled={!canSubscribeToFilter(searchParams)}
-                  onClick={() => addAdvertFilterSubscription(searchParams)}
+                  disabled={!canSubscribeToFilter(filter)}
+                  onClick={() => addAdvertSubscription(filter)}
               >
                   {phrase(
                       'SUBSCRIPTIONS_SUBSCRIBE_TO_SEARCH',

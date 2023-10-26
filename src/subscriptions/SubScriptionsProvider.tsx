@@ -1,13 +1,14 @@
 import { FC, PropsWithChildren, useContext, useMemo } from 'react'
 import { AuthContext } from 'auth'
-import { AdvertFilterInput } from 'adverts'
-import { SubscriptionsContextType, SubscriptionsRepository } from './types'
+import {
+    AdvertSubscriptionFilter,
+    SubscriptionsContextType,
+    SubscriptionsRepository,
+} from './types'
 import { SubscriptionsContext } from './SubscriptionsContext'
 
-const isSubscribeableFilter = (filter: AdvertFilterInput): boolean =>
-    [filter.search, ...(filter.fields?.category?.in || [])].some((v) =>
-        v?.trim()
-    )
+const isSubscribeableFilter = (filter: AdvertSubscriptionFilter): boolean =>
+    [filter.search, ...(filter.categories || [])].some((v) => v?.trim())
 
 export const SubscriptionsProvider: FC<
     { repository: SubscriptionsRepository } & PropsWithChildren
@@ -23,8 +24,11 @@ export const SubscriptionsProvider: FC<
                     roles.canSubscribe &&
                     isSubscribeableFilter(filter)
                 ),
-            addAdvertFilterSubscription: (...args) =>
-                repository.addAdvertFilterSubscription(...args),
+            getAdvertSubscriptions: () => repository.getAdvertSubscriptions(),
+            addAdvertSubscription: (...args) =>
+                repository.addAdvertSubscription(...args),
+            removeAdvertSubscription: (...args) =>
+                repository.removeAdvertSubscription(...args),
         }),
         [roles]
     )

@@ -7,13 +7,26 @@ export const createNotifyingSubscriptionsRepository = (
     phrase: PhraseContextType['phrase'],
     inner: SubscriptionsRepository
 ): SubscriptionsRepository => ({
-    addAdvertFilterSubscription: (...args) =>
-        inner.addAdvertFilterSubscription(...args).then(
+    getAdvertSubscriptions: () => inner.getAdvertSubscriptions(),
+    addAdvertSubscription: (...args) =>
+        inner.addAdvertSubscription(...args).then(
             (result) => (
                 notifications.info({
                     message: phrase(
-                        'NOTIFICATIONS_ADVERT_FILTER_SUBSCRIPTION_WAS_ADDED',
+                        'NOTIFICATIONS_ADVERT_SUBSCRIPTION_WAS_ADDED',
                         'Din bevakning är skapad'
+                    ),
+                }),
+                result
+            )
+        ),
+    removeAdvertSubscription: (...args) =>
+        inner.removeAdvertSubscription(...args).then(
+            (result) => (
+                notifications.info({
+                    message: phrase(
+                        'NOTIFICATIONS_ADVERT_SUBSCRIPTION_WAS_REMOVED',
+                        'Din bevakning är borttagen'
                     ),
                 }),
                 result

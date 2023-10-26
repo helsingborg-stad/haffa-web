@@ -8,5 +8,7 @@ const notProvided = (method: string) => () => {
 export const SubscriptionsContext = createContext<SubscriptionsContextType>({
     canManageSubscriptions: notProvided('canManageSubscriptions'),
     canSubscribeToFilter: notProvided('canSubscribeToFilter'),
-    addAdvertFilterSubscription: notProvided('addAdvertFilterSubscription'),
+    getAdvertSubscriptions: notProvided('getAdvertSubscriptions'),
+    addAdvertSubscription: notProvided('addAdvertSubscription'),
+    removeAdvertSubscription: notProvided('removeAdvertSubscription'),
 })

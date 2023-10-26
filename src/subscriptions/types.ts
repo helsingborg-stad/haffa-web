@@ -1,10 +1,23 @@
-import { AdvertFilterInput } from 'adverts'
+export interface AdvertSubscriptionFilter {
+    search?: string
+    categories?: string[]
+}
 
-export interface SubscriptionsContextType extends SubscriptionsRepository {
-    canManageSubscriptions: () => boolean
-    canSubscribeToFilter: (filter: AdvertFilterInput) => boolean
+export interface AdvertSubscription {
+    subscriptionId: string
+    lastNotifiedAt?: string
+    filter: AdvertSubscriptionFilter
 }
 
 export interface SubscriptionsRepository {
-    addAdvertFilterSubscription: (filter: AdvertFilterInput) => Promise<any>
+    getAdvertSubscriptions: () => Promise<AdvertSubscription[]>
+    addAdvertSubscription: (filter: AdvertSubscriptionFilter) => Promise<any>
+    removeAdvertSubscription: (
+        subscriptionId: string
+    ) => Promise<AdvertSubscription | null>
+}
+
+export interface SubscriptionsContextType extends SubscriptionsRepository {
+    canManageSubscriptions: () => boolean
+    canSubscribeToFilter: (filter: AdvertSubscriptionFilter) => boolean
 }
