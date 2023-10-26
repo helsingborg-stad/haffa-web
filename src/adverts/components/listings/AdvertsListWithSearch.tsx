@@ -47,7 +47,7 @@ const AdvertsListPagination: FC<{
                 page={pageIndex + 1}
                 count={pageCount}
                 showFirstButton
-                showLastButton
+                hideNextButton
                 onChange={(_, page) =>
                     setSearchParams({
                         ...searchParams,
