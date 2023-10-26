@@ -4,7 +4,7 @@ import {
     CardActions,
     CardContent,
     FormControl,
-    FormLabel,
+    InputLabel,
     MenuItem,
     Select,
     TextField,
@@ -40,12 +40,13 @@ export const EditAnalyticsForm: FC<{
             </Editorial>
             <CardContent>
                 <FormControl fullWidth>
-                    <FormLabel id="analytics-provider-label">
+                    <InputLabel id="analytics-provider-label">
                         {phrase(`${NS}_FIELD_PROVIDER`, 'Leverantör')}
-                    </FormLabel>
+                    </InputLabel>
                     <Select
                         labelId="analytics-provider-label"
                         value={provider}
+                        label={phrase(`${NS}_FIELD_PROVIDER`, 'Leverantör')}
                         onChange={(event) => {
                             setProvider(event?.target.value)
                         }}
@@ -60,14 +61,10 @@ export const EditAnalyticsForm: FC<{
                             {phrase(`${NS}_PROVIDER_OPTION_GOOGLE`, 'Google')}
                         </MenuItem>
                     </Select>
-                    <FormLabel
-                        id="analytics-config-label"
-                        sx={{ paddingTop: 3 }}
-                    >
-                        {phrase(`${NS}_FIELD_CONFIG`, 'Konfiguration')}
-                    </FormLabel>
                     <TextField
                         fullWidth
+                        sx={{ marginTop: 4 }}
+                        label={phrase(`${NS}_FIELD_CONFIG`, 'Konfiguration')}
                         value={config}
                         disabled={provider === 'none'}
                         onChange={(event) => {
