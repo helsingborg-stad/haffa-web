@@ -1,16 +1,10 @@
 import { FC, PropsWithChildren, useCallback, useContext } from 'react'
-import { Button, Pagination, Stack, SxProps, Theme } from '@mui/material'
+import { Pagination, Stack, SxProps, Theme } from '@mui/material'
 import { AdvertFilterInput, AdvertList } from 'adverts'
 import useAbortController from 'hooks/use-abort-controller'
 import { createTreeAdapter } from 'lib/tree-adapter'
 import { Phrase } from 'phrases/Phrase'
-import {
-    SubscriptionsContext,
-    convertAdvertFilterToSubscriptionFilter,
-} from 'subscriptions'
-import { PhraseContext } from 'phrases'
-import SubscriptionsIcon from '@mui/icons-material/Subscriptions'
-import NotificationAddIcon from '@mui/icons-material/NotificationAdd'
+import { AdvertSubscriptionControls } from 'subscriptions'
 import { AdvertsContext } from '../../AdvertsContext'
 import { AdvertsList } from './AdvertsList'
 import { ErrorView } from '../../../errors'
@@ -26,53 +20,6 @@ const createEmptyResult = (): AdvertList => ({
     paging: { pageIndex: 0, pageSize: PAGE_SIZE, pageCount: 0, totalCount: 0 },
 })
 
-const AdvertListSubscribe: FC<{
-    searchParams: AdvertFilterInput
-    sx?: SxProps<Theme>
-}> = ({ searchParams, sx }) => {
-    const {
-        canManageSubscriptions,
-        canSubscribeToFilter,
-        addAdvertSubscription,
-    } = useContext(SubscriptionsContext)
-    const { phrase } = useContext(PhraseContext)
-    const filter = convertAdvertFilterToSubscriptionFilter(searchParams)
-    const buttons = canManageSubscriptions()
-        ? [
-              <Button
-                  key="subscribe"
-                  variant="outlined"
-                  startIcon={<NotificationAddIcon />}
-                  disabled={!canSubscribeToFilter(filter)}
-                  onClick={() => addAdvertSubscription(filter).catch(() => {})}
-              >
-                  {phrase(
-                      'SUBSCRIPTIONS_SUBSCRIBE_TO_SEARCH',
-                      'Bevaka denna sökning'
-                  )}
-              </Button>,
-              <Button
-                  key="nav"
-                  variant="outlined"
-                  component={Button}
-                  startIcon={<SubscriptionsIcon />}
-                  href="/my-subscriptions"
-              >
-                  {phrase('NAV_SUBSCRIPTIONS', 'Visa mina bevakningar')}
-              </Button>,
-          ]
-        : []
-    return buttons.length > 0 ? (
-        <Stack
-            useFlexGap
-            justifyContent="end"
-            direction={{ xs: 'column', sm: 'row' }}
-            sx={{ gap: 1, ...sx }}
-        >
-            {buttons}
-        </Stack>
-    ) : null
-}
 const AdvertsListPagination: FC<{
     sx?: SxProps<Theme>
     hideEmpty?: boolean
@@ -195,7 +142,7 @@ export const AdvertsListWithSearch: FC<
                 }
             >
                 {showMonitorNewAds && (
-                    <AdvertListSubscribe searchParams={searchParams} />
+                    <AdvertSubscriptionControls searchParams={searchParams} />
                 )}
                 <AdvertsListPagination
                     key="pagination-top"

@@ -37,7 +37,7 @@ import { TermsContext } from 'terms'
 import { EditBrandingView } from 'admin/branding'
 import { EditAnalyticsView } from 'admin/analytics'
 import { EventLogView } from 'admin/events/EventLogView'
-import { MySubscriptionsView } from 'subscriptions/components/MySubscriptionsView'
+import { MySubscriptionsView } from 'subscriptions'
 import { ErrorRouteView } from './ErrorRouteView'
 
 const UnpackLoaderData: FC<{ render: (loaderData: any) => JSX.Element }> = ({
