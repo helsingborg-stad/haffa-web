@@ -13,7 +13,7 @@ import {
 } from 'login-policies'
 
 import { PhraseContext } from 'phrases/PhraseContext'
-import { NotificationsContext } from 'notifications'
+import { NotificationsContext, NotificationsProvider } from 'notifications'
 import { createNotifyingAdvertsRepository } from 'adverts'
 import {
     ProfileProvider,
@@ -175,11 +175,13 @@ const App: FC = () => {
 
     return (
         <BrandingProvider>
-            <FetchContextProvider>
-                <AuthContextProvider authProvider={authProvider}>
-                    <Main />
-                </AuthContextProvider>
-            </FetchContextProvider>
+            <NotificationsProvider>
+                <FetchContextProvider>
+                    <AuthContextProvider authProvider={authProvider}>
+                        <Main />
+                    </AuthContextProvider>
+                </FetchContextProvider>
+            </NotificationsProvider>
         </BrandingProvider>
     )
 }

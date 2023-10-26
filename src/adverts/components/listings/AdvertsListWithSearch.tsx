@@ -44,7 +44,7 @@ const AdvertListSubscribe: FC<{
                   variant="outlined"
                   startIcon={<NotificationAddIcon />}
                   disabled={!canSubscribeToFilter(filter)}
-                  onClick={() => addAdvertSubscription(filter)}
+                  onClick={() => addAdvertSubscription(filter).catch(() => {})}
               >
                   {phrase(
                       'SUBSCRIPTIONS_SUBSCRIBE_TO_SEARCH',
@@ -54,7 +54,9 @@ const AdvertListSubscribe: FC<{
               <Button
                   key="nav"
                   variant="outlined"
+                  component={Button}
                   startIcon={<SubscriptionsIcon />}
+                  href="/my-subscriptions"
               >
                   {phrase('NAV_SUBSCRIPTIONS', 'Visa mina bevakningar')}
               </Button>,
@@ -118,12 +120,12 @@ export const AdvertsListWithSearch: FC<
         cacheName: string
         defaultSearchParams: Partial<AdvertFilterInput>
         hideFilter?: boolean
-        showMonitorNewAds?: boolean
+        showSubscriptionOptions?: boolean
     } & PropsWithChildren
 > = ({
     children,
     hideFilter,
-    showMonitorNewAds,
+    showSubscriptionOptions: showMonitorNewAds,
     cacheName,
     defaultSearchParams,
 }) => {

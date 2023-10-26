@@ -1,5 +1,6 @@
 const advertSubscriptionFields = `
 	subscriptionId
+	createdAt
 	lastNotifiedAt
 	filter {
 		search

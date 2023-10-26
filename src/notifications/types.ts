@@ -20,4 +20,8 @@ export interface Notifications {
     info: (notification: SufficientlyDescribedNotification) => Notification
     warning: (notification: SufficientlyDescribedNotification) => Notification
     error: (notification: SufficientlyDescribedNotification) => Notification
+    notifyInvocation: <T>(
+        invocation: () => Promise<T>,
+        info: SufficientlyDescribedNotification
+    ) => Promise<T>
 }
