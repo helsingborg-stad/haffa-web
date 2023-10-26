@@ -110,7 +110,7 @@ export const useFormControls = <TModel,>(
         options,
         props
     ) => (
-        <FormControl variant="standard" sx={{ m: 1, minWidth: 120 }} {...props}>
+        <FormControl variant="outlined" sx={{ m: 1, minWidth: 120 }} {...props}>
             <InputLabel id={props?.id || ''}>{props?.label}</InputLabel>
             <Select
                 fullWidth={props?.fullWidth}
