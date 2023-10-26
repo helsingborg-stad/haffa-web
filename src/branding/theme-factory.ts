@@ -43,6 +43,15 @@ export const createCustomTheme: ThemeFactory = (
 
     const theme: ThemeOptions = {
         palette: {},
+        components: {
+            MuiButton: {
+                styleOverrides: {
+                    root: {
+                        borderRadius: 24,
+                    },
+                },
+            },
+        },
     }
     colors.forEach((color) => {
         if (theme.palette) {
