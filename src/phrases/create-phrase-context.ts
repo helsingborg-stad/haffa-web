@@ -7,8 +7,11 @@ export const createProductionPhraseContext = (
     phrases: Record<string, string>
 ): PhraseContextType => {
     const phrase: PhraseContextType['phrase'] = (key, template, values) => {
-        const t = phrases[key] || defaultPhrases[key] || template
-        return values ? interpolate(t, values) : t
+        const effectiveTemplate =
+            phrases[key] || defaultPhrases[key] || template
+        return values
+            ? interpolate(effectiveTemplate, values)
+            : effectiveTemplate
     }
 
     const convertToGetters = (o: Record<string, string>) =>
@@ -44,12 +47,11 @@ export const createDevelopmentPhraseContext = (
 ): PhraseContextType => {
     const recordings: Record<string, string> = {}
     const phrase: PhraseContextType['phrase'] = (key, template, values) => {
+        const effectiveTemplate =
+            phrases[key] || defaultPhrases[key] || template
         const p = values
-            ? interpolate(
-                  phrases[key] || defaultPhrases[key] || template,
-                  values
-              )
-            : template
+            ? interpolate(effectiveTemplate, values)
+            : effectiveTemplate
 
         if (!key) {
             console.warn(`[phrases] use of unkeyed phrase ${template}`)
