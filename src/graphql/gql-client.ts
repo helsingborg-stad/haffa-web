@@ -1,10 +1,5 @@
 import { FluentGql, FluentGqlOptions } from './types'
 
-/*
-const mapNullToNotFoundError = <T>(value: T): T => {
-	if ((value === null) || (value === undefined))
-}
-*/
 const gqlFetch = (options: FluentGqlOptions) =>
     (options.fetch || fetch)(options.url, {
         ...options.init,
