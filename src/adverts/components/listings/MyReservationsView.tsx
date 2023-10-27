@@ -20,5 +20,5 @@ export const MyReservationsView: FC = () => {
         [phrase]
     )
 
-    return <TabbedAdvertsView baseCacheName="my-reservations" tabs={tabs} />
+    return <TabbedAdvertsView tabs={tabs} />
 }

@@ -4,7 +4,7 @@ import { AdvertsListWithSearch } from './AdvertsListWithSearch'
 export const AdvertsView: FC = () => (
     <AdvertsListWithSearch
         showSubscriptionOptions
-        cacheName="adverts"
+        prefix=""
         defaultSearchParams={{
             restrictions: { canBeReserved: true },
             sorting: { field: 'createdAt', ascending: false },
