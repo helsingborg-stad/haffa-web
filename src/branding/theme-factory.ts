@@ -1,55 +1,113 @@
-import { getOption } from 'options'
 import { ThemeOptions } from '@mui/material'
+import { toMap } from 'lib/to-map'
+import { BrandingOptions, ThemeFactory, ThemeModel } from './types'
 import type { Option } from '../options/types'
-import { BrandingOptions, ThemeFactory } from './types'
 
-export const defaultThemeColors: Option<BrandingOptions>[] = [
-    {
-        key: 'primary',
-        value: '#33691e',
-    },
-    {
-        key: 'secondary',
-        value: '#dcedc8',
-    },
-    {
-        key: 'error',
-        value: '#d32f2f',
-    },
-    {
-        key: 'warning',
-        value: '#ed6c02',
-    },
-    {
-        key: 'info',
-        value: '#0288d1',
-    },
-    {
-        key: 'success',
-        value: '#2e7d32',
-    },
-]
+const defaultThemeColors: ThemeModel['colors'] = {
+    primary: '#33691e',
+    secondary: '#dcedc8',
+    error: '#d32f2f',
+    warning: '#ed6c02',
+    info: '#0288d1',
+    success: '#2e7d32',
+}
 
-export const normalizeThemeColors = (options: Option[]) =>
-    defaultThemeColors.map((color) => ({
-        key: color.key,
-        value: getOption(color.key, options) ?? color.value,
+const defaultThemeLayout: ThemeModel['layout'] = {
+    radius: 0,
+}
+
+export const defaultThemeModel: ThemeModel = {
+    colors: defaultThemeColors,
+    layout: defaultThemeLayout,
+}
+
+export const createThemeModel = (options: Option[]): ThemeModel => {
+    const colors = {
+        ...defaultThemeColors,
+        ...toMap(
+            options.filter((color) =>
+                [
+                    'primary',
+                    'secondary',
+                    'info',
+                    'warning',
+                    'error',
+                    'success',
+                ].includes(color.key)
+            ),
+            ({ key }) => key,
+            ({ value }) => value
+        ),
+    }
+    const layout = {
+        ...defaultThemeLayout,
+        ...toMap(
+            options.filter((layout) => ['radius'].includes(layout.key)),
+            ({ key }) => key,
+            ({ value }) => value
+        ),
+    }
+    return {
+        colors,
+        layout,
+    }
+}
+
+export const createThemeOptions = (
+    model: ThemeModel
+): Option<BrandingOptions>[] => {
+    const colors = Object.entries(model.colors).map(([key, value]) => ({
+        key,
+        value: String(value),
     }))
+    const layout = Object.entries(model.layout).map(([key, value]) => ({
+        key,
+        value: String(value),
+    }))
+    return [...colors, ...layout] as Option<BrandingOptions>[]
+}
 
 export const createCustomTheme: ThemeFactory = (
-    options: Option<BrandingOptions>[]
+    model: ThemeModel
 ): ThemeOptions => {
-    const colors = normalizeThemeColors(options)
-
-    const theme: ThemeOptions = {
-        palette: {},
+    const colors = {
+        ...defaultThemeColors,
+        ...model.colors,
     }
-    colors.forEach((color) => {
-        if (theme.palette) {
-            theme.palette[color.key] = {
-                main: color.value,
-            }
-        }
-    })
+    const layout = {
+        ...defaultThemeLayout,
+        ...model.layout,
+    }
+    const theme: ThemeOptions = {
+        palette: {
+            primary: {
+                main: colors.primary,
+            },
+            secondary: {
+                main: colors.secondary,
+            },
+            error: {
+                main: colors.error,
+            },
+            warning: {
+                main: colors.warning,
+            },
+            info: {
+                main: colors.info,
+            },
+            success: {
+                main: colors.success,
+            },
+        },
+        components: {
+            MuiButton: {
+                styleOverrides: {
+                    root: {
+                        borderRadius: Number(layout.radius),
+                    },
+                },
+            },
+        },
+    }
     return theme
 }
