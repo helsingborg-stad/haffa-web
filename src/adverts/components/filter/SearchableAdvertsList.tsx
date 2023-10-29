@@ -6,10 +6,11 @@ import { FilterDialog, SelectedFilters } from './FilterDialog'
 
 export const SearchableAdvertsList: FC<
     {
+        hideFilter?: boolean
         searchParams: AdvertFilterInput
         setSearchParams: (p: AdvertFilterInput) => void
     } & PropsWithChildren
-> = ({ searchParams, setSearchParams, children }) => {
+> = ({ hideFilter, searchParams, setSearchParams, children }) => {
     const [dialogOpen, setDialogOpen] = useState(false)
 
     const openDialog = () => setDialogOpen(true)
@@ -37,11 +38,13 @@ export const SearchableAdvertsList: FC<
     return (
         <>
             <Box>
-                <FreeTextSearchInput
-                    searchParams={searchParams}
-                    setSearchParams={setSearchParams}
-                    onFilterButtonClick={openDialog}
-                />
+                {!hideFilter && (
+                    <FreeTextSearchInput
+                        searchParams={searchParams}
+                        setSearchParams={setSearchParams}
+                        onFilterButtonClick={openDialog}
+                    />
+                )}
                 {children}
             </Box>
             <FilterDialog

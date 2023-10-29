@@ -4,6 +4,7 @@ import { AdvertFilterInput, AdvertList } from 'adverts'
 import useAbortController from 'hooks/use-abort-controller'
 import { createTreeAdapter } from 'lib/tree-adapter'
 import { Phrase } from 'phrases/Phrase'
+import { AdvertSubscriptionControls } from 'subscriptions'
 import { AdvertsContext } from '../../AdvertsContext'
 import { AdvertsList } from './AdvertsList'
 import { ErrorView } from '../../../errors'
@@ -65,8 +66,16 @@ export const AdvertsListWithSearch: FC<
     {
         cacheName: string
         defaultSearchParams: Partial<AdvertFilterInput>
+        hideFilter?: boolean
+        showSubscriptionOptions?: boolean
     } & PropsWithChildren
-> = ({ children, cacheName, defaultSearchParams }) => {
+> = ({
+    children,
+    hideFilter,
+    showSubscriptionOptions: showMonitorNewAds,
+    cacheName,
+    defaultSearchParams,
+}) => {
     const { signal } = useAbortController()
 
     const effectiveInitialSearchParams: AdvertFilterInput = {
@@ -121,6 +130,7 @@ export const AdvertsListWithSearch: FC<
         (adverts: AdvertList, enqueue: AsyncEnqueue<AdvertList>) => (
             <SearchableAdvertsList
                 key="sal"
+                hideFilter={hideFilter}
                 searchParams={searchParams}
                 setSearchParams={(p) =>
                     enqueue(() =>
@@ -131,14 +141,18 @@ export const AdvertsListWithSearch: FC<
                     )
                 }
             >
+                {showMonitorNewAds && (
+                    <AdvertSubscriptionControls searchParams={searchParams} />
+                )}
                 <AdvertsListPagination
+                    key="pagination-top"
                     adverts={adverts}
                     searchParams={searchParams}
                     setSearchParams={(p) => enqueue(() => next(p))}
                     sx={{ mb: 1 }}
                 />
                 <AdvertsList
-                    key="al"
+                    key="adverts-listing"
                     adverts={adverts?.adverts || []}
                     categories={createTreeAdapter(
                         adverts?.categories || [],
@@ -147,6 +161,7 @@ export const AdvertsListWithSearch: FC<
                     )}
                 />
                 <AdvertsListPagination
+                    key="pagination-bottom"
                     adverts={adverts}
                     searchParams={searchParams}
                     setSearchParams={(p) => enqueue(() => next(p))}

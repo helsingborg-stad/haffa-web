@@ -5,7 +5,9 @@ import {
     SufficientlyDescribedNotification,
 } from './types'
 
-export const createNotifications = (): Notifications => {
+export const createNotifications = (
+    defaultInvocationError?: SufficientlyDescribedNotification
+): Notifications => {
     const ee = new EventEmitter()
     let notification: Notification | null = null
 
@@ -35,5 +37,20 @@ export const createNotifications = (): Notifications => {
         info: (n) => setNotification({ severity: 'info', ...n }),
         warning: (n) => setNotification({ severity: 'warning', ...n }),
         error: (n) => setNotification({ severity: 'error', ...n }),
+        notifyInvocation: (invocation, info) =>
+            invocation().then(
+                (result) => {
+                    info && setNotification({ severity: 'info', ...info })
+                    return result
+                },
+                (error) => {
+                    defaultInvocationError &&
+                        setNotification({
+                            severity: 'error',
+                            ...defaultInvocationError,
+                        })
+                    throw error
+                }
+            ),
     }
 }
