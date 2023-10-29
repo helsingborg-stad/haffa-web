@@ -5,7 +5,7 @@ import { PhraseContext } from 'phrases'
 import { createPhraseContext } from 'phrases/create-phrase-context'
 import { toMap } from 'lib/to-map'
 import type { Option } from '../options/types'
-import { createCustomTheme } from './theme-factory'
+import { createCustomTheme, createThemeModel } from './theme-factory'
 import { BrandingOptions } from './types'
 
 const BrandedView: FC<
@@ -15,7 +15,7 @@ const BrandedView: FC<
     }
 > = ({ children, themeOptions, phraseOptions }) => {
     const theme = useMemo(
-        () => createTheme(createCustomTheme(themeOptions), [themeOptions]),
+        () => createTheme(createCustomTheme(createThemeModel(themeOptions))),
         [themeOptions]
     )
 

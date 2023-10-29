@@ -1,5 +1,4 @@
 import { ThemeOptions } from '@mui/material'
-import type { Option } from '../options/types'
 
 export type BrandingOptions =
     | 'primary'
@@ -8,5 +7,20 @@ export type BrandingOptions =
     | 'warning'
     | 'error'
     | 'success'
+    | 'radius'
 
-export type ThemeFactory = (options: Option<BrandingOptions>[]) => ThemeOptions
+export interface ThemeModel {
+    colors: {
+        primary: string
+        secondary: string
+        error: string
+        warning: string
+        info: string
+        success: string
+    }
+    layout: {
+        radius: number
+    }
+}
+
+export type ThemeFactory = (model: ThemeModel) => ThemeOptions
