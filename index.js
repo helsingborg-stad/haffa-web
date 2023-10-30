@@ -64,21 +64,6 @@ app.use(serve('./build'))
 
 /************************************************************
  *
- * Publish custom branding to client
- *
- ***********************************************************/
-const brandingPath = process.env.BRANDING_PATH || ''
-router.get(
-    '/branding.json',
-    brandingPath
-        ? (ctx) => send(ctx, join('.', brandingPath), { hidden: true })
-        : (ctx) => {
-              ctx.body = {}
-          }
-)
-
-/************************************************************
- *
  * Catch all to compensate for react-router-dom routing
  * see https://stackoverflow.com/questions/27928372/react-router-urls-dont-work-when-refreshing-or-writing-manually
  *

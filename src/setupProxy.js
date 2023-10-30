@@ -7,12 +7,6 @@ const tryLoadJson = (path) =>
         .catch(() => null)
 
 module.exports = function (app) {
-    // Theme/branding managament
-    app.use('/branding.json', async (req, res, next) => {
-        const theme = await tryLoadJson(process.env.BRANDING_PATH)
-        res.send(theme || {})
-    })
-
     // Proxy API requests to backend
     ;[{ path: '/api', target: process.env.HAFFA_BACKEND_URL }]
         .filter(({ path, target }) => path && target)
