@@ -6,6 +6,7 @@ import {
     CardActions,
     CardContent,
     CardHeader,
+    Container,
     Grid,
     GridProps,
 } from '@mui/material'
@@ -561,24 +562,27 @@ export const AdvertForm: FC<{
             )}
             <Card>
                 <CardActions>
-                    <ButtonGroup fullWidth>
+                    <Container>
                         <Button
-                            variant="outlined"
+                            fullWidth
+                            type="submit"
+                            variant="contained"
+                            startIcon={<SaveIcon />}
+                            disabled={disabled}
+                            sx={{ mb: 1 }}
+                        >
+                            {ADVERT_EDIT_SAVE}
+                        </Button>
+                        <Button
+                            fullWidth
+                            variant="text"
                             startIcon={<CancelIcon />}
                             disabled={disabled}
                             onClick={() => navigate('/')}
                         >
                             {phrase('ADVERT_EDIT_CANCEL', 'Avbryt')}
                         </Button>
-                        <Button
-                            type="submit"
-                            variant="contained"
-                            startIcon={<SaveIcon />}
-                            disabled={disabled}
-                        >
-                            {ADVERT_EDIT_SAVE}
-                        </Button>
-                    </ButtonGroup>
+                    </Container>
                 </CardActions>
             </Card>
         </form>
