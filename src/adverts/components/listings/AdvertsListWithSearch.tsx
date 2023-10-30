@@ -1,16 +1,16 @@
-import { FC, PropsWithChildren, useCallback, useContext } from 'react'
+import { FC, PropsWithChildren, useCallback, useContext, useState } from 'react'
 import { Pagination, Stack, SxProps, Theme } from '@mui/material'
 import { AdvertFilterInput, AdvertList } from 'adverts'
 import useAbortController from 'hooks/use-abort-controller'
 import { createTreeAdapter } from 'lib/tree-adapter'
 import { Phrase } from 'phrases/Phrase'
 import { AdvertSubscriptionControls } from 'subscriptions'
+import { UrlParamsContext } from 'url-params'
 import { AdvertsContext } from '../../AdvertsContext'
 import { AdvertsList } from './AdvertsList'
 import { ErrorView } from '../../../errors'
 import { SearchableAdvertsList } from '../filter'
 import { AsyncEnqueue, useLiveSearch } from '../../../hooks/use-live-search'
-import useLocalStorage from '../../../hooks/use-local-storage'
 
 const PAGE_SIZE = 5
 
@@ -62,9 +62,10 @@ const AdvertsListPagination: FC<{
         )}
     </Stack>
 )
+
 export const AdvertsListWithSearch: FC<
     {
-        cacheName: string
+        prefix: string
         defaultSearchParams: Partial<AdvertFilterInput>
         hideFilter?: boolean
         showSubscriptionOptions?: boolean
@@ -73,10 +74,12 @@ export const AdvertsListWithSearch: FC<
     children,
     hideFilter,
     showSubscriptionOptions: showMonitorNewAds,
-    cacheName,
+    prefix,
     defaultSearchParams,
 }) => {
     const { signal } = useAbortController()
+    const { updateUrlFromAdvertFilterInput, patchAdvertFilterInputFromUrl } =
+        useContext(UrlParamsContext)
 
     const effectiveInitialSearchParams: AdvertFilterInput = {
         search: '',
@@ -89,31 +92,20 @@ export const AdvertsListWithSearch: FC<
     }
     const versionKey = btoa(JSON.stringify(effectiveInitialSearchParams))
 
-    // We store searchpatams in local storage
-    // The version key is used to detect when changes in default
-    // parameters occus (which could be a schema addition or similar)
-    // Change in default parameters are thus treated as a major version change
-    const [searchParamsRaw, setSearchParamsRaw] = useLocalStorage(
-        `haffa-filter-v2-${cacheName}`,
-        {
-            versionKey,
-            p: effectiveInitialSearchParams,
-        }
+    const [searchParamsRaw, setSearchParamsRaw] = useState<AdvertFilterInput>(
+        () =>
+            patchAdvertFilterInputFromUrl(prefix, effectiveInitialSearchParams)
     )
 
     const setSearchParams = useCallback(
-        (p: AdvertFilterInput) =>
-            setSearchParamsRaw({
-                versionKey,
-                p,
-            }),
+        (p: AdvertFilterInput) => {
+            setSearchParamsRaw(p)
+            updateUrlFromAdvertFilterInput(prefix, p)
+        },
         [setSearchParamsRaw, versionKey]
     )
 
-    const searchParams =
-        searchParamsRaw.versionKey === versionKey
-            ? searchParamsRaw.p
-            : effectiveInitialSearchParams
+    const searchParams = searchParamsRaw
 
     const { listAdverts } = useContext(AdvertsContext)
     const next = useCallback(

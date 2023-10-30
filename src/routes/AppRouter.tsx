@@ -38,6 +38,7 @@ import { EditBrandingView } from 'admin/branding'
 import { EditAnalyticsView } from 'admin/analytics'
 import { EventLogView } from 'admin/events/EventLogView'
 import { MySubscriptionsView } from 'subscriptions'
+import { SubscriptionView } from 'subscriptions/components/SubscriptionView'
 import { ErrorRouteView } from './ErrorRouteView'
 
 const UnpackLoaderData: FC<{ render: (loaderData: any) => JSX.Element }> = ({
@@ -323,6 +324,19 @@ const createRouter = (
         ),
     })
 
+    /**
+     * path: /subscription
+     */
+    const viewSubscriptionProps = (): AsyncRouteConfig => ({
+        element: (
+            <RequireRole predicate={(r) => !!r.canSubscribe}>
+                <Layout>
+                    <SubscriptionView />
+                </Layout>
+            </RequireRole>
+        ),
+    })
+
     return createBrowserRouter(
         createRoutesFromElements(
             <Route path="/" errorElement={<ErrorRouteView />}>
@@ -345,6 +359,7 @@ const createRouter = (
                     path="my-subscriptions"
                     {...viewMySubscriptionsProps()}
                 />
+                <Route path="subscription" {...viewSubscriptionProps()} />
                 <Route path="admin/logins" {...viewAdminLoginsProps()} />
                 <Route
                     path="admin/categories"

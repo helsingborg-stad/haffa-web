@@ -1,5 +1,6 @@
 import {
     Button,
+    ButtonGroup,
     Card,
     CardActions,
     CardContent,
@@ -18,6 +19,8 @@ import { FC, Fragment, useCallback, useContext } from 'react'
 import { SubscriptionsContext } from 'subscriptions'
 import { AdvertSubscription } from 'subscriptions/types'
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever'
+import LinkIcon from '@mui/icons-material/Link'
+import { UrlParamsContext } from 'url-params'
 
 interface SubscriptionModel extends AdvertSubscription {
     categories: SubscriptionCategoryModel[]
@@ -79,10 +82,11 @@ export const SubscriptionsListing: FC<{
     onRemove: (subscription: SubscriptionModel) => void
 }> = ({ subscriptions, onRemove }) => {
     const { phrase } = useContext(PhraseContext)
+    const { makeAdvertSubscriptionUrl } = useContext(UrlParamsContext)
     return (
-        <Grid container columns={{ xs: 1, sm: 3 }} gap={2} key="p">
+        <Grid container spacing={2} key="p">
             {subscriptions.map((subscription) => (
-                <Grid item key={subscription.subscriptionId}>
+                <Grid item key={subscription.subscriptionId} xs={12} sm={4}>
                     <Card
                         sx={{
                             height: '100%',
@@ -101,17 +105,40 @@ export const SubscriptionsListing: FC<{
                                 categories={subscription.categories}
                             />
                         </CardContent>
-                        <CardActions key="a" disableSpacing sx={{ mt: 'auto' }}>
-                            <Button
-                                variant="contained"
-                                onClick={() => onRemove(subscription)}
-                                startIcon={<DeleteForeverIcon />}
-                            >
-                                {phrase(
-                                    'SUBSCRIPTIONS_UNSUBSCRIBE_TO_SEARCH',
-                                    'Ta bort bevakning'
-                                )}
-                            </Button>
+                        <CardActions
+                            key="a"
+                            disableSpacing
+                            sx={{ mt: 'auto', width: '100%' }}
+                        >
+                            <ButtonGroup orientation="vertical" fullWidth>
+                                <Button
+                                    fullWidth
+                                    variant="contained"
+                                    startIcon={<LinkIcon />}
+                                    href={makeAdvertSubscriptionUrl(
+                                        '/subscription',
+                                        subscription.filter
+                                    )}
+                                    sx={{ mb: 1 }}
+                                >
+                                    {phrase(
+                                        'SUBSCRIPTIONS_UNSUBSCRIBE_TO_SEARCH',
+                                        'Visa bevakning'
+                                    )}
+                                </Button>
+                                <Button
+                                    fullWidth
+                                    variant="contained"
+                                    color="warning"
+                                    onClick={() => onRemove(subscription)}
+                                    startIcon={<DeleteForeverIcon />}
+                                >
+                                    {phrase(
+                                        'SUBSCRIPTIONS_UNSUBSCRIBE_TO_SEARCH',
+                                        'Ta bort bevakning'
+                                    )}
+                                </Button>
+                            </ButtonGroup>
                         </CardActions>
                     </Card>
                 </Grid>

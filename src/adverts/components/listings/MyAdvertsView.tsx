@@ -31,5 +31,5 @@ export const MyAdvertsView: FC = () => {
         [phrase]
     )
 
-    return <TabbedAdvertsView baseCacheName="my-adverts" tabs={tabs} />
+    return <TabbedAdvertsView tabs={tabs} />
 }

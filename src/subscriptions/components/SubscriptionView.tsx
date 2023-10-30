@@ -1,9 +1,9 @@
+import { AdvertsListWithSearch } from 'adverts/components/listings/AdvertsListWithSearch'
 import { FC } from 'react'
-import { AdvertsListWithSearch } from './AdvertsListWithSearch'
 
-export const AdvertsView: FC = () => (
+export const SubscriptionView: FC = () => (
     <AdvertsListWithSearch
-        showSubscriptionOptions
+        showSubscriptionOptions={false}
         prefix=""
         defaultSearchParams={{
             restrictions: { canBeReserved: true },

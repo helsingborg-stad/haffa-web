@@ -1,10 +1,8 @@
 import { FC } from 'react'
 import { Tab, Tabs } from '@mui/material'
-import useLocalStorage from 'hooks/use-local-storage'
 import { AdvertRestrictionsFilterInput } from 'adverts'
+import { useUrlParams } from 'url-params'
 import { AdvertsListWithSearch } from './AdvertsListWithSearch'
-
-const CACHE_VERSION = 'v4'
 
 export interface AdvertsTab {
     label: string
@@ -36,14 +34,14 @@ function CustomTabPanel(props: TabPanelProps) {
 }
 
 const SearchTabPanel: FC<{
-    cacheName: string
+    prefix: string
     index: number
     value: number
     restrictions: AdvertRestrictionsFilterInput
-}> = ({ index, value, cacheName, restrictions }) => (
+}> = ({ index, value, prefix, restrictions }) => (
     <CustomTabPanel index={index} value={value}>
         <AdvertsListWithSearch
-            cacheName={cacheName}
+            prefix={prefix}
             defaultSearchParams={{
                 restrictions,
                 sorting: { field: 'createdAt', ascending: false },
@@ -53,12 +51,12 @@ const SearchTabPanel: FC<{
 )
 
 export const TabbedAdvertsView: FC<{
-    baseCacheName: string
     tabs: AdvertsTab[]
-}> = ({ baseCacheName, tabs }) => {
-    const [tabIndex, setTabIndex] = useLocalStorage(
-        `${baseCacheName}-tab-${CACHE_VERSION}`,
-        0
+}> = ({ tabs }) => {
+    const [tabIndex, setTabIndex] = useUrlParams(
+        '',
+        (p) => parseInt(p.tab, 10) || 0,
+        (tabIndex) => ({ tab: tabIndex })
     )
     return (
         <>
@@ -76,7 +74,7 @@ export const TabbedAdvertsView: FC<{
             {tabs.map(({ name, restrictions }, index) => (
                 <SearchTabPanel
                     key={name}
-                    cacheName={`${baseCacheName}-${name}-${CACHE_VERSION}`}
+                    prefix={index.toString()}
                     index={index}
                     value={tabIndex}
                     restrictions={restrictions}
