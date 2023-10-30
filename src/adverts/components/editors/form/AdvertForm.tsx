@@ -216,10 +216,20 @@ export const AdvertForm: FC<{
                                 'quantity',
                                 phrase('ADVERT_FIELD_QUANTITY', 'Antal'),
                                 {
+                                    fullWidth: true,
                                     required: true,
                                     type: 'number',
                                     inputProps: { min: 1 },
                                     disabled,
+                                }
+                            ),
+                        () =>
+                            select(
+                                'unit',
+                                phrase('ADVERT_FIELD_UNIT', 'Enhet'),
+                                makeOptions(terms.unit),
+                                {
+                                    fullWidth: true,
                                 }
                             ),
                     ],
@@ -232,20 +242,6 @@ export const AdvertForm: FC<{
                                     .map((c) => categoryToOptions(c))
                                     .flat(),
                                 { fullWidth: true }
-                            ),
-                    ],
-                    [
-                        () =>
-                            textField(
-                                'reference',
-                                phrase(
-                                    'ADVERT_FIELD_REFERENCE',
-                                    'Egen referens'
-                                ),
-                                {
-                                    disabled,
-                                    fullWidth: true,
-                                }
                             ),
                     ],
                 ],
@@ -279,6 +275,60 @@ export const AdvertForm: FC<{
                                     images: [...model.images, { url }],
                                 }),
                                 {
+                                    fullWidth: true,
+                                }
+                            ),
+                    ],
+                ],
+            },
+            {
+                label: phrase(
+                    'ADVERT_EDITOR_SECTION_ADDITIONAL',
+                    'Om det är viktigt, kan du ange ytterligare detaljer här.'
+                ),
+                rows: [
+                    [
+                        () =>
+                            select(
+                                'material',
+                                phrase('ADVERT_FIELD_MATERIAL', 'Material'),
+                                makeOptions(terms.material),
+                                {
+                                    fullWidth: true,
+                                }
+                            ),
+                        () =>
+                            select(
+                                'condition',
+                                phrase('ADVERT_FIELD_CONDITION', 'Skick'),
+                                makeOptions(terms.condition),
+                                {
+                                    fullWidth: true,
+                                }
+                            ),
+                        () =>
+                            select(
+                                'usage',
+                                phrase(
+                                    'ADVERT_FIELD_USAGE',
+                                    'Användningsområde'
+                                ),
+                                makeOptions(terms.usage),
+                                {
+                                    fullWidth: true,
+                                }
+                            ),
+                    ],
+                    [
+                        () =>
+                            textField(
+                                'reference',
+                                phrase(
+                                    'ADVERT_FIELD_REFERENCE',
+                                    'Egen referens'
+                                ),
+                                {
+                                    disabled,
                                     fullWidth: true,
                                 }
                             ),
@@ -464,55 +514,6 @@ export const AdvertForm: FC<{
                     ],
                 ],
             },
-            {
-                label: phrase(
-                    'ADVERT_EDITOR_SECTION_ADDITIONAL',
-                    'Om det är viktigt, kan du ange ytterligare detaljer här.'
-                ),
-                rows: [
-                    [
-                        () =>
-                            select(
-                                'unit',
-                                phrase('ADVERT_FIELD_UNIT', 'Enhet'),
-                                makeOptions(terms.unit),
-                                {
-                                    fullWidth: true,
-                                }
-                            ),
-                        () =>
-                            select(
-                                'material',
-                                phrase('ADVERT_FIELD_MATERIAL', 'Material'),
-                                makeOptions(terms.material),
-                                {
-                                    fullWidth: true,
-                                }
-                            ),
-                        () =>
-                            select(
-                                'condition',
-                                phrase('ADVERT_FIELD_CONDITION', 'Skick'),
-                                makeOptions(terms.condition),
-                                {
-                                    fullWidth: true,
-                                }
-                            ),
-                        () =>
-                            select(
-                                'usage',
-                                phrase(
-                                    'ADVERT_FIELD_USAGE',
-                                    'Användningsområde'
-                                ),
-                                makeOptions(terms.usage),
-                                {
-                                    fullWidth: true,
-                                }
-                            ),
-                    ],
-                ],
-            },
         ],
         [model]
     )
@@ -546,7 +547,9 @@ export const AdvertForm: FC<{
                         {rows.map((row, rowIndex) => (
                             <Row key={rowIndex}>
                                 {row.map((cell, cellIndex) => (
-                                    <Cell key={cellIndex}>{cell()}</Cell>
+                                    <Cell xs key={cellIndex}>
+                                        {cell()}
+                                    </Cell>
                                 ))}
                             </Row>
                         ))}
