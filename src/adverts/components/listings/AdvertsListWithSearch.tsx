@@ -78,7 +78,8 @@ export const AdvertsListWithSearch: FC<
     defaultSearchParams,
 }) => {
     const { signal } = useAbortController()
-    const { parseUrlParams, patchUrlParams } = useContext(UrlParamsContext)
+    const { updateUrlFromAdvertFilterInput, patchAdvertFilterInputFromUrl } =
+        useContext(UrlParamsContext)
 
     const effectiveInitialSearchParams: AdvertFilterInput = {
         search: '',
@@ -92,34 +93,14 @@ export const AdvertsListWithSearch: FC<
     const versionKey = btoa(JSON.stringify(effectiveInitialSearchParams))
 
     const [searchParamsRaw, setSearchParamsRaw] = useState<AdvertFilterInput>(
-        () => {
-            const params = parseUrlParams(prefix)
-            const search = params.s || ''
-            const categories = (params.c || '').split(',')
-            const page = parseInt(params.p, 10) || 0
-            return {
-                ...effectiveInitialSearchParams,
-                search,
-                ...(categories.length && {
-                    fields: {
-                        category: {
-                            in: categories,
-                        },
-                    },
-                }),
-                paging: { pageIndex: page, pageSize: PAGE_SIZE },
-            }
-        }
+        () =>
+            patchAdvertFilterInputFromUrl(prefix, effectiveInitialSearchParams)
     )
 
     const setSearchParams = useCallback(
         (p: AdvertFilterInput) => {
             setSearchParamsRaw(p)
-            patchUrlParams(prefix, {
-                s: p.search,
-                c: (p.fields?.category?.in || []).join(','),
-                p: p.paging?.pageIndex,
-            })
+            updateUrlFromAdvertFilterInput(prefix, p)
         },
         [setSearchParamsRaw, versionKey]
     )

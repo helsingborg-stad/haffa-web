@@ -3,18 +3,18 @@ import { UrlParamsAdapter, UrlParamsMapper } from './types'
 
 export const createUrlParamsAdapter = (
     mapper: UrlParamsMapper
-): UrlParamsAdapter => ({
-    parseUrlParams: (prefix) =>
+): UrlParamsAdapter => {
+    const parseUrlParams: UrlParamsAdapter['parseUrlParams'] = (prefix) =>
         toMap(
             [...new URLSearchParams(mapper.getUrlParams()).entries()].filter(
                 ([key]) => key.startsWith(prefix)
             ),
             ([key]) => key.substring(prefix.length),
             ([_, value]) => value
-        ),
+        )
 
-    patchUrlParams: (prefix, patch) => {
-        const s = Object.entries(patch || {})
+    const makeUrlParams: UrlParamsAdapter['makeUrlParams'] = (prefix, patch) =>
+        Object.entries(patch || {})
             .reduce((s, [key, value]) => {
                 value
                     ? s.set(prefix + key, value.toString())
@@ -22,6 +22,17 @@ export const createUrlParamsAdapter = (
                 return s
             }, new URLSearchParams(mapper.getUrlParams()))
             .toString()
-        mapper.setUrlParams(s)
-    },
-})
+
+    const patchUrlParams: UrlParamsAdapter['updateLocationWithUrlParams'] = (
+        prefix,
+        patch
+    ) => {
+        mapper.setUrlParams(makeUrlParams(prefix, patch))
+    }
+
+    return {
+        parseUrlParams,
+        makeUrlParams,
+        updateLocationWithUrlParams: patchUrlParams,
+    }
+}

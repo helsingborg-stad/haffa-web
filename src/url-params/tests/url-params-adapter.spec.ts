@@ -29,7 +29,7 @@ describe('createUrlParamsAdapter', () => {
 
     it('patchUrlParams() only touches affected', () => {
         const a = createTestAdapter({ hash: 'a=ABC&b=BCD&c=gizmo' })
-        a.patchUrlParams('', { c: 'CDE' })
+        a.updateLocationWithUrlParams('', { c: 'CDE' })
         expect(a.parseUrlParams('')).toMatchObject({
             a: 'ABC',
             b: 'BCD',
@@ -38,7 +38,7 @@ describe('createUrlParamsAdapter', () => {
     })
     it('patchUrlParams() removed empty entries', () => {
         const a = createTestAdapter({ hash: 'a=ABC&b=BCD&c=gizmo' })
-        a.patchUrlParams('', { b: 0, c: '' })
+        a.updateLocationWithUrlParams('', { b: 0, c: '' })
         expect(a.parseUrlParams('')).toMatchObject({
             a: 'ABC',
         })
