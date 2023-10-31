@@ -14,6 +14,7 @@ const defaultThemeColors: ThemeModel['colors'] = {
 
 const defaultThemeLayout: ThemeModel['layout'] = {
     radius: 0,
+    cardHeader: 'body1',
 }
 
 export const defaultThemeModel: ThemeModel = {
@@ -104,6 +105,14 @@ export const createCustomTheme: ThemeFactory = (
                 styleOverrides: {
                     root: {
                         borderRadius: Number(layout.radius),
+                    },
+                },
+            },
+            MuiCardHeader: {
+                defaultProps: {
+                    titleTypographyProps: {
+                        variant: layout.cardHeader,
+                        fontWeight: 'bold',
                     },
                 },
             },
