@@ -1,122 +1,61 @@
-import {
-    Backdrop,
-    Box,
-    ImageList,
-    ImageListItem,
-    useMediaQuery,
-    useTheme,
-} from '@mui/material'
+import { Backdrop, Box, useMediaQuery, useTheme } from '@mui/material'
 import { Advert, AdvertImage } from 'adverts/types'
-import { FC, Fragment, useState } from 'react'
+import { FC, useMemo, useState } from 'react'
+import { Swiper, SwiperSlide } from 'swiper/react'
+import { Pagination } from 'swiper/modules'
+import 'swiper/css'
+import 'swiper/css/pagination'
+import { SwiperOptions } from 'swiper/types'
 
-interface OnClickImage {
-    (url: string): void
-}
-const IpImage: FC<{ url: string; onClick: OnClickImage }> = ({
-    url,
-    onClick,
-}) => (
-    <Box
-        component="img"
-        src={url}
-        alt=""
-        title=""
-        sx={{
-            objectFit: 'cover',
-            aspectRatio: 1,
-            objectPosition: 'center',
-            overflow: 'hidden',
-            minHeight: '100%',
-            minWidth: '100%',
-            maxWidth: '100%',
-            maxHeight: '100%',
-            cursor: 'pointer',
-        }}
-        onClick={() => url && onClick(url)}
-    />
-)
-const IpImageList: FC<{
-    images: AdvertImage[]
-    start: number
-    onClick: OnClickImage
-}> = ({ images, start, onClick }) => (
-    <ImageList cols={images.length} key={start}>
-        {images.map(({ url }, index) => (
-            <ImageListItem key={index}>
-                {url && <IpImage url={url} onClick={onClick} />}
-            </ImageListItem>
-        ))}
-    </ImageList>
-)
-
-export const ImagesPanel: FC<{ advert: Advert }> = ({ advert }) => {
-    const [backdropUrl, setBackdropUrl] = useState<string | null>(null)
+const SwiperCarousel: FC<{ images: AdvertImage[] }> = ({ images }) => {
     const theme = useTheme()
-    const largeScreen = useMediaQuery(theme.breakpoints.up('md'))
-
-    const columns = largeScreen ? 3 : 2
-
-    /**
-     *
-     * The goal is to create horizontal imagelist {columns} wide
-     * In order to avoid single image remainders we allow rows
-     * to contain +1
-     * In case images are few, they are padded to achieve a
-     * centered effect
-     */
-    const imagesRecursive = (
-        images: AdvertImage[],
-        start: number = 0
-    ): JSX.Element[] => {
-        const { length } = images
-        if (length === 0) {
-            return []
-        }
-        if (length < columns) {
-            let padded = [...images]
-            while (padded.length < columns) {
-                padded = [{ url: null! }, ...padded, { url: null! }]
-            }
-            while (padded.length > columns) {
-                padded = padded.slice(1)
-            }
-            return [
-                <IpImageList
-                    images={padded.slice(0, columns)}
-                    start={start}
-                    key={start}
-                    onClick={setBackdropUrl}
-                />,
-            ]
-        }
-
-        if (length === columns + 1) {
-            // accept +1 wideness
-            return [
-                <IpImageList
-                    images={images}
-                    start={start}
-                    key={start}
-                    onClick={setBackdropUrl}
-                />,
-            ]
-        }
-
-        return [
-            <IpImageList
-                images={images.slice(0, columns)}
-                start={start}
-                key={start}
-                onClick={setBackdropUrl}
-            />,
-            ...imagesRecursive(images.slice(columns), start + columns),
-        ]
-    }
-
-    const imageComponents = imagesRecursive(advert.images)
+    const largeScreen = useMediaQuery(theme.breakpoints.up('sm'))
+    const [backdropUrl, setBackdropUrl] = useState<string | null>(null)
+    const swiperProps: SwiperOptions = useMemo(
+        () =>
+            largeScreen
+                ? {
+                      centeredSlides:
+                          [false, true, false, false][images.length] || false,
+                      slidesPerView: [0, 3, 2, 3][images.length] || 3,
+                  }
+                : {
+                      slidesPerView: 1,
+                  },
+        [largeScreen]
+    )
     return (
-        <Fragment key="il">
-            {imageComponents}
+        <>
+            <Swiper
+                {...swiperProps}
+                pagination={{
+                    clickable: true,
+                }}
+                modules={[Pagination]}
+            >
+                {images.map((image, index) => (
+                    <SwiperSlide key={index}>
+                        <Box
+                            component="img"
+                            src={image.url}
+                            alt=""
+                            title=""
+                            sx={{
+                                objectFit: 'cover',
+                                aspectRatio: 4 / 3,
+                                objectPosition: 'center',
+                                overflow: 'hidden',
+                                minHeight: '100%',
+                                minWidth: '100%',
+                                maxWidth: '100%',
+                                maxHeight: '100%',
+                                cursor: 'pointer',
+                            }}
+                            onClick={() => setBackdropUrl(image.url)}
+                        />
+                    </SwiperSlide>
+                ))}
+            </Swiper>
             <Backdrop
                 open={!!backdropUrl}
                 onClick={() => setBackdropUrl(null)}
@@ -136,6 +75,14 @@ export const ImagesPanel: FC<{ advert: Advert }> = ({ advert }) => {
                     }}
                 />
             </Backdrop>
-        </Fragment>
+        </>
     )
+}
+
+export const ImagesPanel: FC<{ advert: Advert }> = ({ advert: { images } }) => {
+    if (images.length === 0) {
+        return null
+    }
+
+    return <SwiperCarousel images={[...images, ...images].slice(0, 100)} />
 }
