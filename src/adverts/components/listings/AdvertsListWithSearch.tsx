@@ -141,13 +141,6 @@ export const AdvertsListWithSearch: FC<
                         hideIfEmptySearch={false}
                     />
                 )}
-                <AdvertsListPagination
-                    key="pagination-top"
-                    adverts={adverts}
-                    searchParams={searchParams}
-                    setSearchParams={(p) => enqueue(() => next(p))}
-                    sx={{ mb: 1 }}
-                />
                 <AdvertsList
                     key="adverts-listing"
                     adverts={adverts?.adverts || []}
