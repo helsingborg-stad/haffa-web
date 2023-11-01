@@ -12,7 +12,7 @@ import { ErrorView } from '../../../errors'
 import { SearchableAdvertsList } from '../filter'
 import { AsyncEnqueue, useLiveSearch } from '../../../hooks/use-live-search'
 
-const PAGE_SIZE = 1
+const PAGE_SIZE = 5
 
 const createEmptyResult = (): AdvertList => ({
     adverts: [],
