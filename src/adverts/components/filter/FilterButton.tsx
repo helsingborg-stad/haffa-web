@@ -1,13 +1,18 @@
 import { FC } from 'react'
-import { Button } from '@mui/material'
+import { Badge, Button } from '@mui/material'
 import FilterListIcon from '@mui/icons-material/FilterList'
+import { AdvertFilterInput } from 'adverts'
 
-export interface FilterButtonProps {
+export const FilterButton: FC<{
+    searchParams: AdvertFilterInput
     onClick: () => void
-}
-
-export const FilterButton: FC<FilterButtonProps> = ({ onClick }) => (
-    <Button variant="outlined" onClick={onClick}>
-        <FilterListIcon />
-    </Button>
+}> = ({ searchParams, onClick }) => (
+    <Badge
+        badgeContent={searchParams.fields?.category?.in?.length}
+        color="secondary"
+    >
+        <Button variant="outlined" onClick={onClick}>
+            <FilterListIcon />
+        </Button>
+    </Badge>
 )

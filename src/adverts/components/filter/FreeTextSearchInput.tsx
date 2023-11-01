@@ -28,7 +28,10 @@ export const FreeTextSearchInput: FC<{
                         searchParams={searchParams}
                         setSearchParams={setSearchParams}
                     />
-                    <FilterButton onClick={onFilterButtonClick} />
+                    <FilterButton
+                        searchParams={searchParams}
+                        onClick={onFilterButtonClick}
+                    />
                 </InputAdornment>
             ),
         }}
