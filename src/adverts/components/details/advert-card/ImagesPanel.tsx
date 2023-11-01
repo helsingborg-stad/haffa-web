@@ -1,16 +1,25 @@
 import { Backdrop, Box, useMediaQuery, useTheme } from '@mui/material'
 import { Advert, AdvertImage } from 'adverts/types'
-import { FC, useMemo, useState } from 'react'
+import { CSSProperties, FC, useMemo, useState } from 'react'
 import { Swiper, SwiperSlide } from 'swiper/react'
-import { Pagination } from 'swiper/modules'
+import { Navigation, Pagination } from 'swiper/modules'
 import 'swiper/css'
 import 'swiper/css/pagination'
+import 'swiper/css/navigation'
+import 'swiper/css/thumbs'
+
 import { SwiperOptions } from 'swiper/types'
 
 const SwiperCarousel: FC<{ images: AdvertImage[] }> = ({ images }) => {
     const theme = useTheme()
     const largeScreen = useMediaQuery(theme.breakpoints.up('sm'))
     const [backdropUrl, setBackdropUrl] = useState<string | null>(null)
+
+    // we want to adjust slider according to number of images
+    // 0 - not shown
+    // 1 - centered single image with 2 missing siblings
+    // 2 - both images
+    // 3 or more - slider
     const swiperProps: SwiperOptions = useMemo(
         () =>
             largeScreen
@@ -24,14 +33,22 @@ const SwiperCarousel: FC<{ images: AdvertImage[] }> = ({ images }) => {
                   },
         [largeScreen]
     )
+
     return (
         <>
             <Swiper
+                style={
+                    {
+                        '--swiper-navigation-color': theme.palette.primary.main, // '#fff',
+                        '--swiper-pagination-color': theme.palette.primary.main, // '#fff',
+                    } as CSSProperties
+                }
                 {...swiperProps}
                 pagination={{
                     clickable: true,
                 }}
-                modules={[Pagination]}
+                navigation
+                modules={[Pagination, Navigation]}
             >
                 {images.map((image, index) => (
                     <SwiperSlide key={index}>
@@ -84,5 +101,5 @@ export const ImagesPanel: FC<{ advert: Advert }> = ({ advert: { images } }) => {
         return null
     }
 
-    return <SwiperCarousel images={[...images, ...images].slice(0, 100)} />
+    return <SwiperCarousel images={images} />
 }
