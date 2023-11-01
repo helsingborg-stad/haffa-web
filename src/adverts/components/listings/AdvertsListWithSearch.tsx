@@ -134,7 +134,10 @@ export const AdvertsListWithSearch: FC<
                 }
             >
                 {showMonitorNewAds && (
-                    <AdvertSubscriptionControls searchParams={searchParams} />
+                    <AdvertSubscriptionControls
+                        searchParams={searchParams}
+                        hideIfEmptySearch={false}
+                    />
                 )}
                 <AdvertsListPagination
                     key="pagination-top"

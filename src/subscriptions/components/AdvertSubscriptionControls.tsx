@@ -11,8 +11,9 @@ import SubscriptionsIcon from '@mui/icons-material/Subscriptions'
 
 export const AdvertSubscriptionControls: FC<{
     searchParams: AdvertFilterInput
+    hideIfEmptySearch?: boolean
     sx?: SxProps<Theme>
-}> = ({ searchParams, sx }) => {
+}> = ({ searchParams, hideIfEmptySearch, sx }) => {
     const {
         canManageSubscriptions,
         canSubscribeToFilter,
@@ -20,13 +21,17 @@ export const AdvertSubscriptionControls: FC<{
     } = useContext(SubscriptionsContext)
     const { phrase } = useContext(PhraseContext)
     const filter = convertAdvertFilterToSubscriptionFilter(searchParams)
-    const buttons = canManageSubscriptions()
+
+    const canSubscribe = canSubscribeToFilter(filter)
+    const showControls =
+        canManageSubscriptions() && hideIfEmptySearch ? canSubscribe : true
+    const buttons = showControls
         ? [
               <Button
                   key="subscribe"
                   variant="outlined"
                   startIcon={<NotificationAddIcon />}
-                  disabled={!canSubscribeToFilter(filter)}
+                  disabled={!canSubscribe}
                   onClick={() => addAdvertSubscription(filter).catch(() => {})}
               >
                   {phrase(
