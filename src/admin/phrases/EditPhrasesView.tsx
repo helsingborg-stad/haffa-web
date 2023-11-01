@@ -4,7 +4,7 @@ import { OptionsContext } from 'options/OptionsContext'
 import { FC, useContext } from 'react'
 import { EditPhrasesForm } from './EditPhrasesForm'
 
-export const EditPhrasesPanel: FC = () => {
+export const EditPhrasesView: FC = () => {
     const { getPhraseOptions, updatePhraseOptions } = useContext(OptionsContext)
     const inspect = useAsync(getPhraseOptions)
     return inspect({

@@ -27,18 +27,13 @@ import {
 import { AdvertQrCodeView } from 'adverts/components/details'
 import { AuthContext, HaffaUserRoles } from 'auth'
 import { UnauthorizedView } from 'auth/components/UnathorizedView'
-import { EditCategoriesView, EditLoginPoliciesView } from 'admin'
 import { CategoriesRepository } from 'categories/types'
 import { CategoriesContext } from 'categories'
-import { EditApiKeysView } from 'admin/api-keys'
-import { EditTermsView } from 'admin/terms'
 import { TermsRepository } from 'terms/types'
 import { TermsContext } from 'terms'
-import { EditBrandingView } from 'admin/branding'
-import { EditAnalyticsView } from 'admin/analytics'
-import { EventLogView } from 'admin/events/EventLogView'
 import { MySubscriptionsView } from 'subscriptions'
 import { SubscriptionView } from 'subscriptions/components/SubscriptionView'
+import { AdminView } from 'admin'
 import { ErrorRouteView } from './ErrorRouteView'
 
 const UnpackLoaderData: FC<{ render: (loaderData: any) => JSX.Element }> = ({
@@ -238,80 +233,6 @@ const createRouter = (
     })
 
     /**
-     * path: /admin/logins
-     */
-    const viewAdminLoginsProps = (): AsyncRouteConfig => ({
-        element: (
-            <RequireRole predicate={(r) => !!r.canEditSystemLoginPolicies}>
-                <EditLoginPoliciesView />
-            </RequireRole>
-        ),
-    })
-    /**
-     * path: /admin/categories
-     */
-    const viewAdminCategoriesProps = (): AsyncRouteConfig => ({
-        element: (
-            <RequireRole predicate={(r) => !!r.canEditSystemCategories}>
-                <EditCategoriesView />
-            </RequireRole>
-        ),
-    })
-    /**
-     * path: /admin/api-keys
-     */
-    const viewAdminApiKeysProps = (): AsyncRouteConfig => ({
-        element: (
-            <RequireRole predicate={(r) => !!r.canEditApiKeys}>
-                <EditApiKeysView />
-            </RequireRole>
-        ),
-    })
-    /**
-     * path: /admin/terms
-     */
-    const viewAdminTermsProps = (): AsyncRouteConfig => ({
-        element: (
-            <RequireRole predicate={(r) => !!r.canEditTerms}>
-                <EditTermsView />
-            </RequireRole>
-        ),
-    })
-
-    /**
-     * path: /admin/branding
-     */
-    const viewAdminBrandingProps = (): AsyncRouteConfig => ({
-        element: (
-            <RequireRole predicate={(r) => !!r.canEditTerms}>
-                <EditBrandingView />
-            </RequireRole>
-        ),
-    })
-
-    /**
-     * path: /admin/analytics
-     */
-    const viewAdminAnalyticsProps = (): AsyncRouteConfig => ({
-        element: (
-            <RequireRole predicate={(r) => !!r.canEditTerms}>
-                <EditAnalyticsView />
-            </RequireRole>
-        ),
-    })
-
-    /**
-     * path: /admin/analytics
-     */
-    const viewAdminEventLogProps = (): AsyncRouteConfig => ({
-        element: (
-            <RequireRole predicate={(r) => !!r.canEditTerms}>
-                <EventLogView />
-            </RequireRole>
-        ),
-    })
-
-    /**
      * path: /my-subscriptions
      */
     const viewMySubscriptionsProps = (): AsyncRouteConfig => ({
@@ -332,6 +253,29 @@ const createRouter = (
             <RequireRole predicate={(r) => !!r.canSubscribe}>
                 <Layout>
                     <SubscriptionView />
+                </Layout>
+            </RequireRole>
+        ),
+    })
+
+    /**
+     * path: /admin
+     */
+    const viewAdminProps = (): AsyncRouteConfig => ({
+        element: (
+            <RequireRole
+                predicate={(r) =>
+                    !!(
+                        r.canEditApiKeys ||
+                        r.canEditSystemCategories ||
+                        r.canEditSystemLoginPolicies ||
+                        r.canEditTerms ||
+                        r.canRunSystemJobs
+                    )
+                }
+            >
+                <Layout>
+                    <AdminView />
                 </Layout>
             </RequireRole>
         ),
@@ -360,16 +304,7 @@ const createRouter = (
                     {...viewMySubscriptionsProps()}
                 />
                 <Route path="subscription" {...viewSubscriptionProps()} />
-                <Route path="admin/logins" {...viewAdminLoginsProps()} />
-                <Route
-                    path="admin/categories"
-                    {...viewAdminCategoriesProps()}
-                />
-                <Route path="admin/api-keys" {...viewAdminApiKeysProps()} />
-                <Route path="admin/terms" {...viewAdminTermsProps()} />
-                <Route path="admin/branding" {...viewAdminBrandingProps()} />
-                <Route path="admin/analytics" {...viewAdminAnalyticsProps()} />
-                <Route path="admin/event-log" {...viewAdminEventLogProps()} />
+                <Route path="admin" {...viewAdminProps()} />
             </Route>
         )
     )

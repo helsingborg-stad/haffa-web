@@ -16,7 +16,7 @@ import {
 import { PhraseContext } from 'phrases'
 import { toMap } from 'lib/to-map'
 import { PhraseDefinition } from 'phrases/types'
-import type { Option } from '../../../options/types'
+import type { Option } from '../../options/types'
 
 export const EditPhrasesForm: FC<{
     options: Option[]

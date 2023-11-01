@@ -4,7 +4,7 @@ import useAsync from 'hooks/use-async'
 import { ErrorView } from 'errors'
 import { EditThemeForm } from './EditThemeForm'
 
-export const EditThemePanel: FC = () => {
+export const EditThemeView: FC = () => {
     const { getThemeOptions, updateThemeOptions } = useContext(OptionsContext)
     const inspectTheme = useAsync(getThemeOptions)
     return inspectTheme({

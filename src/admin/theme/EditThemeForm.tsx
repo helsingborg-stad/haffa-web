@@ -27,7 +27,7 @@ import { PhraseContext } from 'phrases'
 import SvgIcon, { SvgIconProps } from '@mui/material/SvgIcon'
 import { BrandingOptions, ThemeModel } from 'branding/types'
 import { SwatchesPicker } from 'react-color'
-import type { Option } from '../../../options/types'
+import type { Option } from '../../options/types'
 
 const NS = 'THEME'
 
