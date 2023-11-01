@@ -12,7 +12,7 @@ import { ErrorView } from '../../../errors'
 import { SearchableAdvertsList } from '../filter'
 import { AsyncEnqueue, useLiveSearch } from '../../../hooks/use-live-search'
 
-const PAGE_SIZE = 5
+const PAGE_SIZE = 1
 
 const createEmptyResult = (): AdvertList => ({
     adverts: [],
@@ -48,6 +48,8 @@ const AdvertsListPagination: FC<{
                 page={pageIndex + 1}
                 count={pageCount}
                 showFirstButton
+                showLastButton
+                hidePrevButton
                 hideNextButton
                 onChange={(_, page) =>
                     setSearchParams({
