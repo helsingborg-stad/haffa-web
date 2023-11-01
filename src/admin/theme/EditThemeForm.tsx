@@ -1,10 +1,11 @@
 import {
+    Alert,
+    AlertColor,
     Box,
     Button,
     Card,
     CardActions,
     CardContent,
-    Container,
     FormControl,
     Grid,
     InputLabel,
@@ -230,99 +231,368 @@ export const EditThemeForm: FC<{
 
             <CardContent>
                 <ThemeProvider theme={createTheme(createCustomTheme(model))}>
-                    <Paper elevation={4}>
-                        <Container sx={{ pb: 2 }}>
-                            <Button fullWidth sx={{ mt: 3 }} variant="outlined">
-                                Outlined
-                            </Button>
-                            <Button
-                                fullWidth
-                                sx={{ mt: 3 }}
-                                variant="contained"
-                            >
-                                Contained
-                            </Button>
-                            <Button fullWidth sx={{ mt: 3 }} variant="text">
-                                Text
-                            </Button>
-                        </Container>
-                        <Container sx={{ pb: 2 }}>
-                            <TextField
-                                fullWidth
-                                sx={{ mt: 3 }}
-                                variant="filled"
-                                label="Filled"
-                                value="Filled"
-                            />
-                            <TextField
-                                fullWidth
-                                sx={{ mt: 3 }}
-                                variant="outlined"
-                                label="Outlined"
-                                value="Outlined"
-                            />
-                            <TextField
-                                fullWidth
-                                sx={{ mt: 3 }}
-                                variant="standard"
-                                label="Standard"
-                                value="Standard"
-                            />
-                        </Container>
-                        <Container sx={{ pb: 2 }}>
-                            <FormControl
-                                variant="filled"
-                                fullWidth
-                                sx={{ mt: 3 }}
-                            >
-                                <InputLabel id="Filled">Filled</InputLabel>
-                                <Select
-                                    label="Filled"
-                                    labelId="Filled"
-                                    value="Filled"
+                    <Paper elevation={4} sx={{ p: 2 }}>
+                        <Typography variant="h6" mb={2} mt={1}>
+                            Buttons
+                        </Typography>
+                        <Grid container xs={12} mt={1}>
+                            <Grid item pr={1} xs={4}>
+                                <Typography>Outlined</Typography>
+                                <Button
+                                    fullWidth
+                                    variant="outlined"
+                                    color="primary"
                                 >
-                                    <MenuItem value="Filled">Filled</MenuItem>
-                                </Select>
-                            </FormControl>
-                            <FormControl
-                                variant="outlined"
-                                fullWidth
-                                sx={{ mt: 3 }}
-                            >
-                                <InputLabel id="Outlined">Outlined</InputLabel>
-                                <Select
-                                    label="Outlined"
-                                    labelId="Outlined"
-                                    value="Outlined"
+                                    Primary
+                                </Button>
+                                <Button
+                                    fullWidth
+                                    sx={{ mt: 1 }}
+                                    variant="outlined"
+                                    color="secondary"
                                 >
-                                    <MenuItem value="Outlined">
-                                        Outlined
-                                    </MenuItem>
-                                </Select>
-                            </FormControl>
-                            <FormControl
-                                variant="standard"
-                                fullWidth
-                                sx={{ mt: 3 }}
-                            >
-                                <InputLabel id="Standard">Standard</InputLabel>
-                                <Select
-                                    label="Standard"
-                                    labelId="Standard"
-                                    value="Standard"
+                                    Secondary
+                                </Button>
+                                <Button
+                                    fullWidth
+                                    sx={{ mt: 1 }}
+                                    variant="outlined"
+                                    disabled
                                 >
-                                    <MenuItem value="Standard">
-                                        Standard
-                                    </MenuItem>
-                                </Select>
-                            </FormControl>
-                        </Container>
-                        <Container sx={{ pb: 2 }}>
-                            <Editorial severity="error">Fel</Editorial>
-                            <Editorial severity="warning">Varning</Editorial>
-                            <Editorial severity="info">Info</Editorial>
-                            <Editorial severity="success">Genomfört</Editorial>
-                        </Container>
+                                    Disabled
+                                </Button>
+                            </Grid>
+                            <Grid item pr={1} xs={4}>
+                                <Typography>Contained</Typography>
+                                <Button
+                                    fullWidth
+                                    variant="contained"
+                                    color="primary"
+                                >
+                                    Primary
+                                </Button>
+                                <Button
+                                    fullWidth
+                                    sx={{ mt: 1 }}
+                                    variant="contained"
+                                    color="secondary"
+                                >
+                                    Secondary
+                                </Button>
+                                <Button
+                                    fullWidth
+                                    sx={{ mt: 1 }}
+                                    variant="contained"
+                                    disabled
+                                >
+                                    Disabled
+                                </Button>
+                            </Grid>
+                            <Grid item pr={1} xs={4}>
+                                <Typography>Text</Typography>
+                                <Button
+                                    fullWidth
+                                    variant="text"
+                                    color="primary"
+                                >
+                                    Primary
+                                </Button>
+                                <Button
+                                    fullWidth
+                                    sx={{ mt: 1 }}
+                                    variant="text"
+                                    color="secondary"
+                                >
+                                    Secondary
+                                </Button>
+                                <Button
+                                    fullWidth
+                                    sx={{ mt: 1 }}
+                                    variant="text"
+                                    disabled
+                                >
+                                    Disabled
+                                </Button>
+                            </Grid>
+                        </Grid>
+                        <Typography variant="h6" mb={2} mt={1}>
+                            Alerts
+                        </Typography>
+                        <Grid container xs={12} mt={1}>
+                            <Grid item pr={1} xs={4}>
+                                <Typography>Outlined</Typography>
+                                {['success', 'info', 'warning', 'error'].map(
+                                    (s) => (
+                                        <Alert
+                                            severity={s as AlertColor}
+                                            variant="outlined"
+                                            sx={{ mb: 1 }}
+                                        >
+                                            {s}
+                                        </Alert>
+                                    )
+                                )}
+                            </Grid>
+                            <Grid item pr={1} xs={4}>
+                                <Typography>Filled</Typography>
+                                {['success', 'info', 'warning', 'error'].map(
+                                    (s) => (
+                                        <Alert
+                                            severity={s as AlertColor}
+                                            variant="filled"
+                                            sx={{ mb: 1 }}
+                                        >
+                                            {s}
+                                        </Alert>
+                                    )
+                                )}
+                            </Grid>
+                            <Grid item pr={1} xs={4}>
+                                <Typography>Standard</Typography>
+                                {['success', 'info', 'warning', 'error'].map(
+                                    (s) => (
+                                        <Alert
+                                            severity={s as AlertColor}
+                                            variant="standard"
+                                            sx={{ mb: 1 }}
+                                        >
+                                            {s}
+                                        </Alert>
+                                    )
+                                )}
+                            </Grid>
+                        </Grid>
+                        <Typography variant="h6" mb={2} mt={1}>
+                            TextFields
+                        </Typography>
+                        <Grid container xs={12} mt={1}>
+                            <Grid item xs={4} pr={1}>
+                                <Typography mb={2}>Outlined</Typography>
+                                <TextField
+                                    fullWidth
+                                    variant="outlined"
+                                    label="Primary"
+                                    value="Primary"
+                                    color="primary"
+                                />
+                                <TextField
+                                    fullWidth
+                                    sx={{ mt: 2 }}
+                                    variant="outlined"
+                                    label="Secondary"
+                                    value="Secondary"
+                                    color="secondary"
+                                />
+                                <TextField
+                                    fullWidth
+                                    sx={{ mt: 2 }}
+                                    variant="outlined"
+                                    label="Disabled"
+                                    value="Disabled"
+                                    disabled
+                                />
+                            </Grid>
+                            <Grid item xs={4} pr={1}>
+                                <Typography mb={2}>Filled</Typography>
+                                <TextField
+                                    fullWidth
+                                    variant="filled"
+                                    label="Primary"
+                                    value="Primary"
+                                    color="primary"
+                                />
+                                <TextField
+                                    fullWidth
+                                    sx={{ mt: 2 }}
+                                    variant="filled"
+                                    label="Secondary"
+                                    value="Secondary"
+                                    color="secondary"
+                                />
+                                <TextField
+                                    fullWidth
+                                    sx={{ mt: 2 }}
+                                    variant="filled"
+                                    label="Disabled"
+                                    value="Disabled"
+                                    disabled
+                                />
+                            </Grid>
+                            <Grid item xs={4} pr={1}>
+                                <Typography mb={2}>Standard</Typography>
+                                <TextField
+                                    fullWidth
+                                    sx={{ mt: 1 }}
+                                    variant="standard"
+                                    label="Primary"
+                                    value="Primary"
+                                    color="primary"
+                                />
+                                <TextField
+                                    fullWidth
+                                    sx={{ mt: 3 }}
+                                    variant="standard"
+                                    label="Secondary"
+                                    value="Secondary"
+                                    color="secondary"
+                                />
+                                <TextField
+                                    fullWidth
+                                    sx={{ mt: 3 }}
+                                    variant="standard"
+                                    label="Disabled"
+                                    value="Disabled"
+                                    disabled
+                                />
+                            </Grid>
+                        </Grid>
+                        <Typography variant="h6" mb={2} mt={1}>
+                            Selects
+                        </Typography>
+                        <Grid container xs={12} mt={1}>
+                            <Grid item xs={4} pr={1}>
+                                <Typography mb={2}>Outlined</Typography>
+                                <FormControl variant="outlined" fullWidth>
+                                    <InputLabel id="Primary">
+                                        Primary
+                                    </InputLabel>
+                                    <Select
+                                        label="Primary"
+                                        labelId="Primary"
+                                        color="primary"
+                                    >
+                                        <MenuItem>Primary</MenuItem>
+                                    </Select>
+                                </FormControl>
+                                <FormControl
+                                    sx={{ mt: 2 }}
+                                    variant="outlined"
+                                    fullWidth
+                                >
+                                    <InputLabel id="Secondary">
+                                        Secondary
+                                    </InputLabel>
+                                    <Select
+                                        label="Secondary"
+                                        labelId="Secondary"
+                                        color="secondary"
+                                    >
+                                        <MenuItem>Secondary</MenuItem>
+                                    </Select>
+                                </FormControl>
+                                <FormControl
+                                    sx={{ mt: 2 }}
+                                    variant="outlined"
+                                    fullWidth
+                                >
+                                    <InputLabel id="Disabled">
+                                        Disabled
+                                    </InputLabel>
+                                    <Select
+                                        label="Disabled"
+                                        labelId="Disabled"
+                                        defaultValue="Disabled"
+                                        disabled
+                                    />
+                                </FormControl>
+                            </Grid>
+                            <Grid item xs={4} pr={1}>
+                                <Typography mb={2}>Filled</Typography>
+                                <FormControl variant="filled" fullWidth>
+                                    <InputLabel id="Primary">
+                                        Primary
+                                    </InputLabel>
+                                    <Select
+                                        label="Primary"
+                                        labelId="Primary"
+                                        color="primary"
+                                    >
+                                        <MenuItem>Primary</MenuItem>
+                                    </Select>
+                                </FormControl>
+                                <FormControl
+                                    sx={{ mt: 2 }}
+                                    variant="filled"
+                                    fullWidth
+                                >
+                                    <InputLabel id="Secondary">
+                                        Secondary
+                                    </InputLabel>
+                                    <Select
+                                        label="Secondary"
+                                        labelId="Secondary"
+                                        color="secondary"
+                                    >
+                                        <MenuItem>Secondary</MenuItem>
+                                    </Select>
+                                </FormControl>
+                                <FormControl
+                                    sx={{ mt: 2 }}
+                                    variant="filled"
+                                    fullWidth
+                                >
+                                    <InputLabel id="Disabled">
+                                        Disabled
+                                    </InputLabel>
+                                    <Select
+                                        label="Disabled"
+                                        labelId="Disabled"
+                                        defaultValue="Disabled"
+                                        disabled
+                                    />
+                                </FormControl>
+                            </Grid>
+                            <Grid item xs={4} pr={1}>
+                                <Typography mb={2}>Standard</Typography>
+                                <FormControl
+                                    sx={{ mt: 1 }}
+                                    variant="standard"
+                                    fullWidth
+                                >
+                                    <InputLabel id="Primary">
+                                        Primary
+                                    </InputLabel>
+                                    <Select
+                                        label="Primary"
+                                        labelId="Primary"
+                                        color="primary"
+                                    >
+                                        <MenuItem>Primary</MenuItem>
+                                    </Select>
+                                </FormControl>
+                                <FormControl
+                                    sx={{ mt: 3 }}
+                                    variant="standard"
+                                    fullWidth
+                                >
+                                    <InputLabel id="Secondary">
+                                        Secondary
+                                    </InputLabel>
+                                    <Select
+                                        label="Secondary"
+                                        labelId="Secondary"
+                                        color="secondary"
+                                    >
+                                        <MenuItem>Secondary</MenuItem>
+                                    </Select>
+                                </FormControl>
+                                <FormControl
+                                    sx={{ mt: 3 }}
+                                    variant="standard"
+                                    fullWidth
+                                >
+                                    <InputLabel id="Disabled">
+                                        Disabled
+                                    </InputLabel>
+                                    <Select
+                                        label="Disabled"
+                                        labelId="Disabled"
+                                        defaultValue="Disabled"
+                                        disabled
+                                    />
+                                </FormControl>
+                            </Grid>
+                        </Grid>
                     </Paper>
                 </ThemeProvider>
             </CardContent>
