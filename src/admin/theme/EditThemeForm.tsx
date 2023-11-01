@@ -1,4 +1,5 @@
 import {
+    Box,
     Button,
     Card,
     CardActions,
@@ -8,6 +9,7 @@ import {
     Grid,
     InputLabel,
     MenuItem,
+    Paper,
     Select,
     TextField,
     ThemeProvider,
@@ -20,7 +22,7 @@ import {
     createThemeOptions,
     defaultThemeModel,
 } from 'branding/theme-factory'
-import { FC, useContext, useState } from 'react'
+import { FC, useCallback, useContext, useState } from 'react'
 import { Editorial } from 'editorials'
 import SaveIcon from '@mui/icons-material/Save'
 import { PhraseContext } from 'phrases'
@@ -80,6 +82,36 @@ export const EditThemeForm: FC<{
 
     const [model, setModel] = useState<ThemeModel>(createThemeModel(options))
     const [canSave, setCanSave] = useState<boolean>(false)
+
+    const renderCardActions = useCallback(
+        () => (
+            <CardActions>
+                <Button
+                    onClick={() => {
+                        setModel({ ...defaultThemeModel })
+                        setCanSave(true)
+                    }}
+                    id={`${NS}RESTORE`}
+                >
+                    {phrase(`${NS}_ACTION_RESTORE`, 'Återställ')}
+                </Button>
+                <Box flex={1} />
+                <Button
+                    type="submit"
+                    disabled={canSave !== true}
+                    id={`${NS}_ACTION_SAVE`}
+                    variant="contained"
+                    startIcon={<SaveIcon />}
+                    onClick={() => {
+                        onUpdate(createThemeOptions(model))
+                    }}
+                >
+                    {phrase(`${NS}_ACTION_SAVE`, 'Spara')}
+                </Button>
+            </CardActions>
+        ),
+        [model, phrase, canSave, setCanSave, onUpdate, createThemeOptions]
+    )
 
     return (
         <Card>
@@ -193,112 +225,108 @@ export const EditThemeForm: FC<{
                         />
                     </Grid>
                 </Grid>
+            </CardContent>
+            {renderCardActions()}
+
+            <CardContent>
                 <ThemeProvider theme={createTheme(createCustomTheme(model))}>
-                    <Container sx={{ pb: 2 }}>
-                        <Button fullWidth sx={{ mt: 3 }} variant="outlined">
-                            Outlined
-                        </Button>
-                        <Button fullWidth sx={{ mt: 3 }} variant="contained">
-                            Contained
-                        </Button>
-                        <Button fullWidth sx={{ mt: 3 }} variant="text">
-                            Text
-                        </Button>
-                    </Container>
-                    <Container sx={{ pb: 2 }}>
-                        <TextField
-                            fullWidth
-                            sx={{ mt: 3 }}
-                            variant="filled"
-                            label="Filled"
-                            value="Filled"
-                        />
-                        <TextField
-                            fullWidth
-                            sx={{ mt: 3 }}
-                            variant="outlined"
-                            label="Outlined"
-                            value="Outlined"
-                        />
-                        <TextField
-                            fullWidth
-                            sx={{ mt: 3 }}
-                            variant="standard"
-                            label="Standard"
-                            value="Standard"
-                        />
-                    </Container>
-                    <Container sx={{ pb: 2 }}>
-                        <FormControl variant="filled" fullWidth sx={{ mt: 3 }}>
-                            <InputLabel id="Filled">Filled</InputLabel>
-                            <Select
+                    <Paper elevation={4}>
+                        <Container sx={{ pb: 2 }}>
+                            <Button fullWidth sx={{ mt: 3 }} variant="outlined">
+                                Outlined
+                            </Button>
+                            <Button
+                                fullWidth
+                                sx={{ mt: 3 }}
+                                variant="contained"
+                            >
+                                Contained
+                            </Button>
+                            <Button fullWidth sx={{ mt: 3 }} variant="text">
+                                Text
+                            </Button>
+                        </Container>
+                        <Container sx={{ pb: 2 }}>
+                            <TextField
+                                fullWidth
+                                sx={{ mt: 3 }}
+                                variant="filled"
                                 label="Filled"
-                                labelId="Filled"
                                 value="Filled"
-                            >
-                                <MenuItem value="Filled">Filled</MenuItem>
-                            </Select>
-                        </FormControl>
-                        <FormControl
-                            variant="outlined"
-                            fullWidth
-                            sx={{ mt: 3 }}
-                        >
-                            <InputLabel id="Outlined">Outlined</InputLabel>
-                            <Select
+                            />
+                            <TextField
+                                fullWidth
+                                sx={{ mt: 3 }}
+                                variant="outlined"
                                 label="Outlined"
-                                labelId="Outlined"
                                 value="Outlined"
-                            >
-                                <MenuItem value="Outlined">Outlined</MenuItem>
-                            </Select>
-                        </FormControl>
-                        <FormControl
-                            variant="standard"
-                            fullWidth
-                            sx={{ mt: 3 }}
-                        >
-                            <InputLabel id="Standard">Standard</InputLabel>
-                            <Select
+                            />
+                            <TextField
+                                fullWidth
+                                sx={{ mt: 3 }}
+                                variant="standard"
                                 label="Standard"
-                                labelId="Standard"
                                 value="Standard"
+                            />
+                        </Container>
+                        <Container sx={{ pb: 2 }}>
+                            <FormControl
+                                variant="filled"
+                                fullWidth
+                                sx={{ mt: 3 }}
                             >
-                                <MenuItem value="Standard">Standard</MenuItem>
-                            </Select>
-                        </FormControl>
-                    </Container>
-                    <Container sx={{ pb: 2 }}>
-                        <Editorial severity="error">Fel</Editorial>
-                        <Editorial severity="warning">Varning</Editorial>
-                        <Editorial severity="info">Info</Editorial>
-                        <Editorial severity="success">Genomfört</Editorial>
-                    </Container>
+                                <InputLabel id="Filled">Filled</InputLabel>
+                                <Select
+                                    label="Filled"
+                                    labelId="Filled"
+                                    value="Filled"
+                                >
+                                    <MenuItem value="Filled">Filled</MenuItem>
+                                </Select>
+                            </FormControl>
+                            <FormControl
+                                variant="outlined"
+                                fullWidth
+                                sx={{ mt: 3 }}
+                            >
+                                <InputLabel id="Outlined">Outlined</InputLabel>
+                                <Select
+                                    label="Outlined"
+                                    labelId="Outlined"
+                                    value="Outlined"
+                                >
+                                    <MenuItem value="Outlined">
+                                        Outlined
+                                    </MenuItem>
+                                </Select>
+                            </FormControl>
+                            <FormControl
+                                variant="standard"
+                                fullWidth
+                                sx={{ mt: 3 }}
+                            >
+                                <InputLabel id="Standard">Standard</InputLabel>
+                                <Select
+                                    label="Standard"
+                                    labelId="Standard"
+                                    value="Standard"
+                                >
+                                    <MenuItem value="Standard">
+                                        Standard
+                                    </MenuItem>
+                                </Select>
+                            </FormControl>
+                        </Container>
+                        <Container sx={{ pb: 2 }}>
+                            <Editorial severity="error">Fel</Editorial>
+                            <Editorial severity="warning">Varning</Editorial>
+                            <Editorial severity="info">Info</Editorial>
+                            <Editorial severity="success">Genomfört</Editorial>
+                        </Container>
+                    </Paper>
                 </ThemeProvider>
             </CardContent>
-            <CardActions>
-                <Button
-                    type="submit"
-                    disabled={canSave !== true}
-                    id={`${NS}_ACTION_SAVE`}
-                    variant="contained"
-                    startIcon={<SaveIcon />}
-                    onClick={() => {
-                        onUpdate(createThemeOptions(model))
-                    }}
-                >
-                    {phrase(`${NS}_ACTION_SAVE`, 'Spara')}
-                </Button>
-                <Button
-                    onClick={() => {
-                        setModel({ ...defaultThemeModel })
-                        setCanSave(true)
-                    }}
-                    id={`${NS}RESTORE`}
-                >
-                    {phrase(`${NS}_ACTION_RESTORE`, 'Återställ')}
-                </Button>
-            </CardActions>
+            {renderCardActions()}
         </Card>
     )
 }

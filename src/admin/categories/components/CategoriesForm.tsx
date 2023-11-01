@@ -192,6 +192,7 @@ export const CategoriesForm: FC<{
                 </Button>
                 <Button
                     disabled={!canSave}
+                    variant="contained"
                     onClick={() => onSave(getUserCategories(), viewState)}
                 >
                     {phrase('CATEGORIES_SAVE', 'Spara')}

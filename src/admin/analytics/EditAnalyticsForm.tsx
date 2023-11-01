@@ -1,4 +1,5 @@
 import {
+    Box,
     Button,
     Card,
     CardActions,
@@ -74,6 +75,7 @@ export const EditAnalyticsForm: FC<{
                 </FormControl>
             </CardContent>
             <CardActions>
+                <Box flex={1} />
                 <Button
                     id={`${NS}_ACTION_SAVE`}
                     type="submit"

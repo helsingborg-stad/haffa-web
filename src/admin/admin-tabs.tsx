@@ -7,6 +7,7 @@ import { EditCategoriesView } from './categories'
 import { EditLoginPoliciesView } from './login'
 import { EditApiKeysView } from './api-keys'
 import { EditAnalyticsView } from './analytics'
+import { EditTermsView } from './terms'
 
 const tab = (
     enabled: boolean | undefined,
@@ -27,12 +28,17 @@ export const createAdminTabs = (
     [
         tab(
             roles.canEditTerms,
-            phrase('ADMIN_THEME_TITLE', 'Tema'),
+            phrase('THEME_TITLE', 'Tema'),
             <EditThemeView />
         ),
         tab(
             roles.canEditTerms,
-            phrase('ADMIN_PHRASES_TITLE', 'Fraser'),
+            phrase('TERMS_TITLE', 'Definitioner'),
+            <EditTermsView />
+        ),
+        tab(
+            roles.canEditTerms,
+            phrase('PHRASES_TITLE', 'Fraser'),
             <EditPhrasesView />
         ),
         tab(
