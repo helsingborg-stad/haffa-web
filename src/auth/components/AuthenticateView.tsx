@@ -107,7 +107,7 @@ export const AuthenticateView: FC = () => {
     }, [authProvider, state, email, pincode])
 
     return (
-        <Layout renderAppbarControls={() => null} hideNavbar>
+        <Layout hideNavbar hideNavbarControls>
             <Box>
                 {errorMessage && (
                     <Alert sx={{ py: 2 }} severity="error">

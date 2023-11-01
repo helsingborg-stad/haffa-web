@@ -112,7 +112,7 @@ const createRouter = (
             <UnpackLoaderData
                 key="create-advert"
                 render={({ profile, terms, categories }) => (
-                    <Layout renderAppbarControls={() => null}>
+                    <Layout hideNavbarControls>
                         <CreateAdvertView
                             profile={profile}
                             terms={terms}
@@ -142,7 +142,7 @@ const createRouter = (
             <UnpackLoaderData
                 key="edit-advert"
                 render={({ advert, terms, categories }) => (
-                    <Layout renderAppbarControls={() => null}>
+                    <Layout hideNavbarControls>
                         <EditAdvertView
                             advert={advert}
                             terms={terms}

@@ -22,11 +22,6 @@ import { QrCodeNavButton } from 'qr-code-navigation'
 import { Navbar } from './Navbar'
 import { PhraseContext } from '../phrases/PhraseContext'
 
-interface LayoutProps {
-    hideNavbar?: boolean
-    renderAppbarControls?: () => React.JSX.Element | null
-}
-
 const SlowFetchWarning: FC = () => {
     const hasSlowFetch = useSomeFetchIsSlow()
     const { INFO_SLOW_CONNECTION } = useContext(PhraseContext)
@@ -91,11 +86,12 @@ export const DefaultRenderAppbarControls = (): React.JSX.Element => {
     )
 }
 
-export const Layout: FC<LayoutProps & PropsWithChildren> = ({
-    hideNavbar,
-    renderAppbarControls = DefaultRenderAppbarControls,
-    children,
-}) => {
+export const Layout: FC<
+    {
+        hideNavbar?: boolean
+        hideNavbarControls?: boolean
+    } & PropsWithChildren
+> = ({ hideNavbar, hideNavbarControls, children }) => {
     const { APP_TITLE } = useContext(PhraseContext)
     return (
         <Box sx={{ pb: 7 }}>
@@ -107,7 +103,7 @@ export const Layout: FC<LayoutProps & PropsWithChildren> = ({
                     <Box sx={{ flexGrow: 1 }}>
                         <PendingIndicator />
                     </Box>
-                    {renderAppbarControls?.()}
+                    {!hideNavbarControls && DefaultRenderAppbarControls()}
                 </Toolbar>
             </AppBar>
             <Grid
