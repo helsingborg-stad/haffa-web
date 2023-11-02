@@ -1,4 +1,4 @@
-import React, {
+import {
     FC,
     PropsWithChildren,
     ReactNode,
@@ -26,12 +26,8 @@ import {
     useMediaQuery,
     useTheme,
 } from '@mui/material'
-import AddIcon from '@mui/icons-material/Add'
-import { NavLink } from 'react-router-dom'
-import { AdminButton } from 'admin'
 import MenuIcon from '@mui/icons-material/Menu'
 import { AuthContext } from 'auth'
-import { QrCodeNavButton } from 'qr-code-navigation'
 import { PhraseContext } from '../phrases/PhraseContext'
 import { HaffaLink, createNavLinks } from './nav-links'
 import { SlowFetchWarning } from './SlowFetchWarning'
@@ -45,29 +41,6 @@ const PendingIndicator: FC = () => {
     return visible && pending ? <LinearProgress color="primary" /> : null
 }
 */
-
-export const DefaultRenderAppbarControls = (): React.JSX.Element => {
-    const { ADVERT_CREATE: CREATE_ADVERT } = useContext(PhraseContext)
-    const {
-        roles: { canEditOwnAdverts },
-    } = useContext(AuthContext)
-    return (
-        <>
-            {canEditOwnAdverts && (
-                <Button
-                    color="inherit"
-                    component={NavLink}
-                    to="/advert/create"
-                    startIcon={<AddIcon />}
-                >
-                    {CREATE_ADVERT}
-                </Button>
-            )}
-            <QrCodeNavButton />
-            <AdminButton />
-        </>
-    )
-}
 
 const NavIconLink: FC<{
     label: string
@@ -90,7 +63,17 @@ const insideToolbarLinkFactory: Record<
     HaffaLink['type'],
     (link: HaffaLink) => JSX.Element | null
 > = {
-    button: () => null,
+    button: ({ label, href, icon }) => (
+        <Button
+            key={href}
+            color="inherit"
+            variant="outlined"
+            startIcon={icon}
+            href={href}
+        >
+            {label}
+        </Button>
+    ),
     link: ({ label, href, icon }) => (
         <NavIconLink key={href} label={label} icon={icon} button={{ href }} />
     ),
