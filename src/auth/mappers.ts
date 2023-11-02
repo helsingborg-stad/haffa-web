@@ -1,6 +1,15 @@
 import { toMap } from 'lib/to-map'
 import { HaffaUserRoles } from './types'
 
+export const hasSomeAdminRoles = (r: HaffaUserRoles): boolean =>
+    !!(
+        r.canEditApiKeys ||
+        r.canEditSystemCategories ||
+        r.canEditSystemLoginPolicies ||
+        r.canEditTerms ||
+        r.canRunSystemJobs
+    )
+
 export const rolesToRolesArray = (roles?: HaffaUserRoles) =>
     Object.entries(normalizeRoles(roles))
         .filter(([, enabled]) => enabled)

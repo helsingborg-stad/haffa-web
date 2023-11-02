@@ -1,67 +1,50 @@
-import React, { FC, PropsWithChildren, useContext, useState } from 'react'
+import React, {
+    FC,
+    PropsWithChildren,
+    ReactNode,
+    useContext,
+    useMemo,
+    useState,
+} from 'react'
 import {
-    Alert,
     AppBar,
     Box,
     Button,
+    ButtonProps,
     Container,
+    Divider,
+    Drawer,
     Grid,
-    LinearProgress,
-    Snackbar,
+    IconButton,
+    List,
+    ListItem,
+    ListItemButton,
+    ListItemIcon,
+    ListItemText,
+    Stack,
     Toolbar,
+    useMediaQuery,
+    useTheme,
 } from '@mui/material'
 import AddIcon from '@mui/icons-material/Add'
 import { NavLink } from 'react-router-dom'
-import useSomeFetchIsSlow from 'hooks/fetch/use-some-fetch-is-slow'
-import usePendingFetch from 'hooks/fetch/use-pending-fetch'
-import useTimeout from 'hooks/useTimout'
 import { AdminButton } from 'admin'
-import { useNotifications } from 'notifications'
+import MenuIcon from '@mui/icons-material/Menu'
 import { AuthContext } from 'auth'
 import { QrCodeNavButton } from 'qr-code-navigation'
-import { Navbar } from './Navbar'
 import { PhraseContext } from '../phrases/PhraseContext'
+import { HaffaLink, createNavLinks } from './nav-links'
+import { SlowFetchWarning } from './SlowFetchWarning'
+import { NotificationsSnackbar } from './NotificationSnackbar'
 
-const SlowFetchWarning: FC = () => {
-    const hasSlowFetch = useSomeFetchIsSlow()
-    const { INFO_SLOW_CONNECTION } = useContext(PhraseContext)
-    return hasSlowFetch ? (
-        <Container key="sf">
-            <Alert severity="warning">{INFO_SLOW_CONNECTION}</Alert>
-        </Container>
-    ) : null
-}
-
+/*
 const PendingIndicator: FC = () => {
     const pending = usePendingFetch()
     const [visible, setVisible] = useState(false)
     useTimeout(1000, () => setVisible(pending), [pending, setVisible])
     return visible && pending ? <LinearProgress color="primary" /> : null
 }
-
-const NotificationsSnackbar: FC = () => {
-    const [notification, closeNotification] = useNotifications()
-    const open = !!notification
-
-    return (
-        <Snackbar
-            anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
-            color="primary"
-            open={open}
-            autoHideDuration={6000}
-            onClose={() => closeNotification()}
-            message={notification?.message}
-        >
-            <Alert
-                onClose={closeNotification}
-                severity="success"
-                sx={{ width: '100%' }}
-            >
-                {notification?.message}
-            </Alert>
-        </Snackbar>
-    )
-}
+*/
 
 export const DefaultRenderAppbarControls = (): React.JSX.Element => {
     const { ADVERT_CREATE: CREATE_ADVERT } = useContext(PhraseContext)
@@ -86,41 +69,128 @@ export const DefaultRenderAppbarControls = (): React.JSX.Element => {
     )
 }
 
+const NavIconLink: FC<{
+    label: string
+    icon: ReactNode
+    button: ButtonProps
+}> = ({ label, icon, button }) => (
+    <Button
+        color="inherit"
+        sx={{ fontSize: { xs: 'xx-small', sm: '' } }}
+        {...button}
+    >
+        <Stack direction="column" sx={{ alignItems: 'center' }}>
+            {icon}
+            <Box>{label}</Box>
+        </Stack>
+    </Button>
+)
+
+const insideToolbarLinkFactory: Record<
+    HaffaLink['type'],
+    (link: HaffaLink) => JSX.Element | null
+> = {
+    button: () => null,
+    link: ({ label, href, icon }) => (
+        <NavIconLink key={href} label={label} icon={icon} button={{ href }} />
+    ),
+    menuitem: () => null,
+}
+
+const insideDrawerLinkFactory: Record<
+    HaffaLink['type'],
+    (link: HaffaLink) => ReactNode | null
+> = {
+    button: () => null,
+    link: () => null,
+    menuitem: ({ label, href, icon }) => (
+        <ListItem key={href} disablePadding>
+            <ListItemButton href={href}>
+                <ListItemIcon>{icon}</ListItemIcon>
+                <ListItemText primary={label} />
+            </ListItemButton>
+        </ListItem>
+    ),
+}
+
 export const Layout: FC<
     {
-        hideNavbar?: boolean
-        hideNavbarControls?: boolean
+        hideNavigation?: boolean
     } & PropsWithChildren
-> = ({ hideNavbar, hideNavbarControls, children }) => {
-    const { APP_TITLE } = useContext(PhraseContext)
+> = ({ hideNavigation, children }) => {
+    const theme = useTheme()
+    const isDesktop = useMediaQuery(theme.breakpoints.up('sm'))
+    const phrases = useContext(PhraseContext)
+    const { roles } = useContext(AuthContext)
+    const { APP_TITLE } = phrases
+    const [drawer, setDrawer] = useState(false)
+    const links = useMemo(
+        () =>
+            hideNavigation
+                ? []
+                : createNavLinks({
+                      mobile: !isDesktop,
+                      desktop: isDesktop,
+                      roles,
+                      phrases,
+                  }),
+        [isDesktop, roles, phrases, hideNavigation]
+    )
+
+    const insideToolbarLinks = links
+        .map((link) => insideToolbarLinkFactory[link.type](link))
+        .filter((c) => c)
+    const insideDrawerLinks = links
+        .map((link) => insideDrawerLinkFactory[link.type](link))
+        .filter((c) => c)
+
     return (
-        <Box sx={{ pb: 7 }}>
+        <Box>
             <AppBar key="ab">
                 <Toolbar>
                     <Button color="inherit" component="a" href="/">
                         {APP_TITLE}
                     </Button>
-                    <Box sx={{ flexGrow: 1 }}>
-                        <PendingIndicator />
-                    </Box>
-                    {!hideNavbarControls && DefaultRenderAppbarControls()}
+
+                    {insideToolbarLinks}
+                    {insideDrawerLinks.length > 0 && (
+                        <IconButton
+                            color="inherit"
+                            edge="end"
+                            onClick={() => setDrawer(!drawer)}
+                        >
+                            <MenuIcon />
+                        </IconButton>
+                    )}
                 </Toolbar>
             </AppBar>
-            <Grid
-                key="c"
-                item
-                xs={12}
-                md={8}
-                sx={{
-                    pt: 10,
-                }}
+
+            <Drawer
+                anchor="right"
+                open={drawer}
+                onClose={() => setDrawer(false)}
             >
+                <Toolbar>
+                    <Box flex={1} />
+                    <IconButton
+                        color="inherit"
+                        edge="end"
+                        onClick={() => setDrawer(!drawer)}
+                    >
+                        <MenuIcon />
+                    </IconButton>
+                </Toolbar>
+                <Divider />
+                <List>{insideDrawerLinks}</List>
+            </Drawer>
+
+            <Toolbar /* for pushing down content */ />
+            <Grid key="c" item xs={12} md={8} sx={{}}>
                 <SlowFetchWarning key="sf" />
                 <Container key="c" sx={{ position: 'relative' }}>
                     {children}
                 </Container>
             </Grid>
-            {!hideNavbar && <Navbar key="nb" />}
             <NotificationsSnackbar />
         </Box>
     )
