@@ -10,7 +10,6 @@ import {
     AppBar,
     Box,
     Button,
-    ButtonProps,
     Container,
     Divider,
     Drawer,
@@ -28,31 +27,22 @@ import {
 } from '@mui/material'
 import MenuIcon from '@mui/icons-material/Menu'
 import { AuthContext } from 'auth'
+import { NavLink, NavLinkProps } from 'react-router-dom'
 import { PhraseContext } from '../phrases/PhraseContext'
 import { HaffaLink, createNavLinks } from './nav-links'
 import { SlowFetchWarning } from './SlowFetchWarning'
 import { NotificationsSnackbar } from './NotificationSnackbar'
 
-/*
-const PendingIndicator: FC = () => {
-    const pending = usePendingFetch()
-    const [visible, setVisible] = useState(false)
-    useTimeout(1000, () => setVisible(pending), [pending, setVisible])
-    return visible && pending ? <LinearProgress color="primary" /> : null
-}
-*/
-
 const NavIconLink: FC<{
     label: string
     icon: ReactNode
-    button: ButtonProps
-}> = ({ label, icon, button }) => (
-    <Button
-        color="inherit"
-        sx={{ fontSize: { xs: 'xx-small', sm: '' } }}
-        {...button}
-    >
-        <Stack direction="column" sx={{ alignItems: 'center' }}>
+    link: NavLinkProps
+}> = ({ label, icon, link }) => (
+    <Button color="inherit" component={NavLink} to={link.to}>
+        <Stack
+            direction="column"
+            sx={{ alignItems: 'center', fontSize: { xs: 'xx-small', sm: '' } }}
+        >
             {icon}
             <Box>{label}</Box>
         </Stack>
@@ -66,16 +56,17 @@ const insideToolbarLinkFactory: Record<
     button: ({ label, href, icon }) => (
         <Button
             key={href}
-            color="inherit"
-            variant="outlined"
+            color="primary"
+            variant="contained"
             startIcon={icon}
-            href={href}
+            to={href}
+            component={NavLink}
         >
             {label}
         </Button>
     ),
     link: ({ label, href, icon }) => (
-        <NavIconLink key={href} label={label} icon={icon} button={{ href }} />
+        <NavIconLink key={href} label={label} icon={icon} link={{ to: href }} />
     ),
     menuitem: () => null,
 }
@@ -88,7 +79,7 @@ const insideDrawerLinkFactory: Record<
     link: () => null,
     menuitem: ({ label, href, icon }) => (
         <ListItem key={href} disablePadding>
-            <ListItemButton href={href}>
+            <ListItemButton to={href} component={NavLink}>
                 <ListItemIcon>{icon}</ListItemIcon>
                 <ListItemText primary={label} />
             </ListItemButton>
@@ -102,7 +93,7 @@ export const Layout: FC<
     } & PropsWithChildren
 > = ({ hideNavigation, children }) => {
     const theme = useTheme()
-    const isDesktop = useMediaQuery(theme.breakpoints.up('sm'))
+    const isDesktop = useMediaQuery(theme.breakpoints.up('md'))
     const phrases = useContext(PhraseContext)
     const { roles } = useContext(AuthContext)
     const { APP_TITLE } = phrases
@@ -129,7 +120,7 @@ export const Layout: FC<
 
     return (
         <Box>
-            <AppBar key="ab">
+            <AppBar key="ab" color="default">
                 <Container disableGutters>
                     <Toolbar>
                         <Button color="inherit" component="a" href="/">
@@ -138,13 +129,16 @@ export const Layout: FC<
 
                         {insideToolbarLinks}
                         {insideDrawerLinks.length > 0 && (
-                            <IconButton
-                                color="inherit"
-                                edge="end"
-                                onClick={() => setDrawer(!drawer)}
-                            >
-                                <MenuIcon />
-                            </IconButton>
+                            <>
+                                <Box flex={1} />
+                                <IconButton
+                                    color="inherit"
+                                    edge="end"
+                                    onClick={() => setDrawer(!drawer)}
+                                >
+                                    <MenuIcon />
+                                </IconButton>
+                            </>
                         )}
                     </Toolbar>
                 </Container>

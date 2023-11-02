@@ -1,4 +1,4 @@
-import { ThemeProvider, createTheme } from '@mui/material'
+import { GlobalStyles, ThemeProvider, createTheme } from '@mui/material'
 import useAsync from 'hooks/use-async'
 import { FC, PropsWithChildren, useMemo } from 'react'
 import { PhraseContext } from 'phrases'
@@ -30,6 +30,15 @@ const BrandedView: FC<
                     )
                 )}
             >
+                <GlobalStyles
+                    styles={{
+                        /*
+	                        <NavLink> and active:
+ 		                    https://reactrouter.com/en/main/components/nav-link#default-active-class
+                        */
+                        'a.active': { color: theme.palette.primary.main },
+                    }}
+                />
                 {children}
             </PhraseContext.Provider>
         </ThemeProvider>
