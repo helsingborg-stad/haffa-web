@@ -147,22 +147,24 @@ export const Layout: FC<
     return (
         <Box>
             <AppBar key="ab">
-                <Toolbar>
-                    <Button color="inherit" component="a" href="/">
-                        {APP_TITLE}
-                    </Button>
+                <Container disableGutters>
+                    <Toolbar>
+                        <Button color="inherit" component="a" href="/">
+                            {APP_TITLE}
+                        </Button>
 
-                    {insideToolbarLinks}
-                    {insideDrawerLinks.length > 0 && (
-                        <IconButton
-                            color="inherit"
-                            edge="end"
-                            onClick={() => setDrawer(!drawer)}
-                        >
-                            <MenuIcon />
-                        </IconButton>
-                    )}
-                </Toolbar>
+                        {insideToolbarLinks}
+                        {insideDrawerLinks.length > 0 && (
+                            <IconButton
+                                color="inherit"
+                                edge="end"
+                                onClick={() => setDrawer(!drawer)}
+                            >
+                                <MenuIcon />
+                            </IconButton>
+                        )}
+                    </Toolbar>
+                </Container>
             </AppBar>
 
             <Drawer

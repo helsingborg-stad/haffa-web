@@ -34,6 +34,7 @@ import { TermsContext } from 'terms'
 import { MySubscriptionsView } from 'subscriptions'
 import { SubscriptionView } from 'subscriptions/components/SubscriptionView'
 import { AdminView } from 'admin'
+import { ScanQrCodeView } from 'qr-code-navigation/ScanQrCodeView'
 import { ErrorRouteView } from './ErrorRouteView'
 
 const UnpackLoaderData: FC<{ render: (loaderData: any) => JSX.Element }> = ({
@@ -259,6 +260,17 @@ const createRouter = (
     })
 
     /**
+     * path: /scan
+     */
+    const viewScanQrCodeProps = (): AsyncRouteConfig => ({
+        element: (
+            <Layout>
+                <ScanQrCodeView />
+            </Layout>
+        ),
+    })
+
+    /**
      * path: /admin
      */
     const viewAdminProps = (): AsyncRouteConfig => ({
@@ -304,6 +316,7 @@ const createRouter = (
                     {...viewMySubscriptionsProps()}
                 />
                 <Route path="subscription" {...viewSubscriptionProps()} />
+                <Route path="scan" {...viewScanQrCodeProps()} />
                 <Route path="admin" {...viewAdminProps()} />
             </Route>
         )
