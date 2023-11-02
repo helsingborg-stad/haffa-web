@@ -163,6 +163,14 @@ export const createDefaultRoleInputBindings = (
                 true
             )
             .define(
+                'canSeeSystemStatistics',
+                phrase(
+                    'ROLES_CAN_SEE_SYSTEM_STATISTICS',
+                    'Se statistikunderlag'
+                ),
+                true
+            )
+            .define(
                 'canRunSystemJobs',
                 phrase(
                     'ROLES_CAN_RUN_SYSTEM_JOBS',

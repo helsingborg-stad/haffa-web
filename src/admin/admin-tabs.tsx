@@ -8,6 +8,7 @@ import { EditLoginPoliciesView } from './login'
 import { EditApiKeysView } from './api-keys'
 import { EditAnalyticsView } from './analytics'
 import { EditTermsView } from './terms'
+import { EventLogView } from './events/EventLogView'
 
 const tab = (
     enabled: boolean | undefined,
@@ -60,6 +61,11 @@ export const createAdminTabs = (
             roles.canEditApiKeys,
             phrase('APIKEYS_TITLE', 'API nycklar'),
             <EditApiKeysView />
+        ),
+        tab(
+            roles.canSeeSystemStatistics,
+            phrase('EVENTLOG_TITLE', 'Statistikunderlag'),
+            <EventLogView />
         ),
     ]
         .filter((t) => t)
