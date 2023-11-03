@@ -1,8 +1,9 @@
 import {
     Alert,
-    AlertColor,
+    AlertProps,
     Box,
     Button,
+    ButtonProps,
     Card,
     CardActions,
     CardContent,
@@ -12,7 +13,9 @@ import {
     MenuItem,
     Paper,
     Select,
+    SelectProps,
     TextField,
+    TextFieldProps,
     ThemeProvider,
     Typography,
     createTheme,
@@ -39,6 +42,88 @@ const ColorIcon = (props: SvgIconProps) => (
         <ellipse cx="12" cy="12" rx="12" ry="12" />
     </SvgIcon>
 )
+const AlertColumn: AlertProps[] = [
+    { severity: 'success' },
+    { severity: 'info' },
+    { severity: 'warning' },
+    { severity: 'error' },
+]
+const PreviewAlert = (props: AlertProps) => (
+    <Alert {...props} sx={{ mt: 1 }}>
+        {props.severity}
+    </Alert>
+)
+const ButtonColumn: ButtonProps[] = [
+    {
+        color: 'primary',
+    },
+    {
+        color: 'secondary',
+    },
+    {
+        disabled: true,
+    },
+]
+const PreviewButton = (props: ButtonProps) => (
+    <Button {...props} fullWidth sx={{ mt: 1 }}>
+        {props.disabled ? 'disabled' : props.color}
+    </Button>
+)
+const TextFieldColumn: Array<SelectProps & TextFieldProps> = [
+    {
+        color: 'primary',
+        helperText: 'Some helpertext',
+    },
+    {
+        color: 'secondary',
+    },
+    {
+        disabled: true,
+    },
+    {
+        error: true,
+        helperText: 'Some helpertext',
+    },
+]
+const PreviewTextField = (props: TextFieldProps) => {
+    let text = 'N/A'
+    if (props.color) {
+        text = props.color
+    } else if (props.disabled) {
+        text = 'disabled'
+    } else if (props.error) {
+        text = 'error'
+    }
+    let mt = 2
+    if (props.variant === 'standard') {
+        mt += 1
+    }
+    return (
+        <TextField {...props} fullWidth sx={{ mt }} label={text} value={text} />
+    )
+}
+const PreviewSelect = (props: SelectProps) => {
+    let text = 'N/A'
+    if (props.color) {
+        text = props.color
+    } else if (props.disabled) {
+        text = 'disabled'
+    } else if (props.error) {
+        text = 'error'
+    }
+    let mt = 2
+    if (props.variant === 'standard') {
+        mt += 1
+    }
+    return (
+        <FormControl variant={props.variant} fullWidth sx={{ mt }}>
+            <InputLabel id={text}>{text}</InputLabel>
+            <Select {...props} label={text} labelId={text}>
+                <MenuItem>{text}</MenuItem>
+            </Select>
+        </FormControl>
+    )
+}
 
 const ColorPicker = (
     props: React.PropsWithoutRef<{
@@ -238,81 +323,30 @@ export const EditThemeForm: FC<{
                         <Grid container xs={12} mt={1}>
                             <Grid item pr={1} xs={4}>
                                 <Typography>Outlined</Typography>
-                                <Button
-                                    fullWidth
-                                    variant="outlined"
-                                    color="primary"
-                                >
-                                    Primary
-                                </Button>
-                                <Button
-                                    fullWidth
-                                    sx={{ mt: 1 }}
-                                    variant="outlined"
-                                    color="secondary"
-                                >
-                                    Secondary
-                                </Button>
-                                <Button
-                                    fullWidth
-                                    sx={{ mt: 1 }}
-                                    variant="outlined"
-                                    disabled
-                                >
-                                    Disabled
-                                </Button>
+                                {ButtonColumn.map((props) =>
+                                    PreviewButton({
+                                        ...props,
+                                        variant: 'outlined',
+                                    })
+                                )}
                             </Grid>
                             <Grid item pr={1} xs={4}>
                                 <Typography>Contained</Typography>
-                                <Button
-                                    fullWidth
-                                    variant="contained"
-                                    color="primary"
-                                >
-                                    Primary
-                                </Button>
-                                <Button
-                                    fullWidth
-                                    sx={{ mt: 1 }}
-                                    variant="contained"
-                                    color="secondary"
-                                >
-                                    Secondary
-                                </Button>
-                                <Button
-                                    fullWidth
-                                    sx={{ mt: 1 }}
-                                    variant="contained"
-                                    disabled
-                                >
-                                    Disabled
-                                </Button>
+                                {ButtonColumn.map((props) =>
+                                    PreviewButton({
+                                        ...props,
+                                        variant: 'contained',
+                                    })
+                                )}
                             </Grid>
                             <Grid item pr={1} xs={4}>
                                 <Typography>Text</Typography>
-                                <Button
-                                    fullWidth
-                                    variant="text"
-                                    color="primary"
-                                >
-                                    Primary
-                                </Button>
-                                <Button
-                                    fullWidth
-                                    sx={{ mt: 1 }}
-                                    variant="text"
-                                    color="secondary"
-                                >
-                                    Secondary
-                                </Button>
-                                <Button
-                                    fullWidth
-                                    sx={{ mt: 1 }}
-                                    variant="text"
-                                    disabled
-                                >
-                                    Disabled
-                                </Button>
+                                {ButtonColumn.map((props) =>
+                                    PreviewButton({
+                                        ...props,
+                                        variant: 'text',
+                                    })
+                                )}
                             </Grid>
                         </Grid>
                         <Typography variant="h6" mb={2} mt={1}>
@@ -321,44 +355,29 @@ export const EditThemeForm: FC<{
                         <Grid container xs={12} mt={1}>
                             <Grid item pr={1} xs={4}>
                                 <Typography>Outlined</Typography>
-                                {['success', 'info', 'warning', 'error'].map(
-                                    (s) => (
-                                        <Alert
-                                            severity={s as AlertColor}
-                                            variant="outlined"
-                                            sx={{ mb: 1 }}
-                                        >
-                                            {s}
-                                        </Alert>
-                                    )
+                                {AlertColumn.map((props) =>
+                                    PreviewAlert({
+                                        ...props,
+                                        variant: 'outlined',
+                                    })
                                 )}
                             </Grid>
                             <Grid item pr={1} xs={4}>
                                 <Typography>Filled</Typography>
-                                {['success', 'info', 'warning', 'error'].map(
-                                    (s) => (
-                                        <Alert
-                                            severity={s as AlertColor}
-                                            variant="filled"
-                                            sx={{ mb: 1 }}
-                                        >
-                                            {s}
-                                        </Alert>
-                                    )
+                                {AlertColumn.map((props) =>
+                                    PreviewAlert({
+                                        ...props,
+                                        variant: 'filled',
+                                    })
                                 )}
                             </Grid>
                             <Grid item pr={1} xs={4}>
                                 <Typography>Standard</Typography>
-                                {['success', 'info', 'warning', 'error'].map(
-                                    (s) => (
-                                        <Alert
-                                            severity={s as AlertColor}
-                                            variant="standard"
-                                            sx={{ mb: 1 }}
-                                        >
-                                            {s}
-                                        </Alert>
-                                    )
+                                {AlertColumn.map((props) =>
+                                    PreviewAlert({
+                                        ...props,
+                                        variant: 'standard',
+                                    })
                                 )}
                             </Grid>
                         </Grid>
@@ -368,112 +387,30 @@ export const EditThemeForm: FC<{
                         <Grid container xs={12} mt={1}>
                             <Grid item xs={4} pr={1}>
                                 <Typography mb={2}>Outlined</Typography>
-                                <TextField
-                                    fullWidth
-                                    variant="outlined"
-                                    label="Primary"
-                                    value="Primary"
-                                    color="primary"
-                                    helperText="Some helpertext"
-                                />
-                                <TextField
-                                    fullWidth
-                                    sx={{ mt: 2 }}
-                                    variant="outlined"
-                                    label="Secondary"
-                                    value="Secondary"
-                                    color="secondary"
-                                />
-                                <TextField
-                                    fullWidth
-                                    sx={{ mt: 2 }}
-                                    variant="outlined"
-                                    label="Disabled"
-                                    value="Disabled"
-                                    disabled
-                                />
-                                <TextField
-                                    fullWidth
-                                    sx={{ mt: 2 }}
-                                    variant="outlined"
-                                    label="Error"
-                                    value="Error"
-                                    helperText="Some helpertext"
-                                    error
-                                />
+                                {TextFieldColumn.map((props) =>
+                                    PreviewTextField({
+                                        ...props,
+                                        variant: 'outlined',
+                                    })
+                                )}
                             </Grid>
                             <Grid item xs={4} pr={1}>
                                 <Typography mb={2}>Filled</Typography>
-                                <TextField
-                                    fullWidth
-                                    variant="filled"
-                                    label="Primary"
-                                    value="Primary"
-                                    color="primary"
-                                    helperText="Some helpertext"
-                                />
-                                <TextField
-                                    fullWidth
-                                    sx={{ mt: 2 }}
-                                    variant="filled"
-                                    label="Secondary"
-                                    value="Secondary"
-                                    color="secondary"
-                                />
-                                <TextField
-                                    fullWidth
-                                    sx={{ mt: 2 }}
-                                    variant="filled"
-                                    label="Disabled"
-                                    value="Disabled"
-                                    disabled
-                                />
-                                <TextField
-                                    fullWidth
-                                    sx={{ mt: 2 }}
-                                    variant="filled"
-                                    label="Error"
-                                    value="Error"
-                                    helperText="Some helpertext"
-                                    error
-                                />
+                                {TextFieldColumn.map((props) =>
+                                    PreviewTextField({
+                                        ...props,
+                                        variant: 'filled',
+                                    })
+                                )}
                             </Grid>
                             <Grid item xs={4} pr={1}>
                                 <Typography mb={2}>Standard</Typography>
-                                <TextField
-                                    fullWidth
-                                    sx={{ mt: 1 }}
-                                    variant="standard"
-                                    label="Primary"
-                                    value="Primary"
-                                    color="primary"
-                                    helperText="Some helpertext"
-                                />
-                                <TextField
-                                    fullWidth
-                                    sx={{ mt: 3 }}
-                                    variant="standard"
-                                    label="Secondary"
-                                    value="Secondary"
-                                    color="secondary"
-                                />
-                                <TextField
-                                    fullWidth
-                                    sx={{ mt: 3 }}
-                                    variant="standard"
-                                    label="Disabled"
-                                    value="Disabled"
-                                    disabled
-                                />
-                                <TextField
-                                    fullWidth
-                                    sx={{ mt: 3 }}
-                                    variant="standard"
-                                    label="Error"
-                                    value="Error"
-                                    helperText="Some helpertext"
-                                    error
-                                />
+                                {TextFieldColumn.map((props) =>
+                                    PreviewTextField({
+                                        ...props,
+                                        variant: 'standard',
+                                    })
+                                )}
                             </Grid>
                         </Grid>
                         <Typography variant="h6" mb={2} mt={1}>
@@ -481,185 +418,31 @@ export const EditThemeForm: FC<{
                         </Typography>
                         <Grid container xs={12} mt={1}>
                             <Grid item xs={4} pr={1}>
-                                <Typography mb={2}>Outlined</Typography>
-                                <FormControl variant="outlined" fullWidth>
-                                    <InputLabel id="Primary">
-                                        Primary
-                                    </InputLabel>
-                                    <Select
-                                        label="Primary"
-                                        labelId="Primary"
-                                        color="primary"
-                                    >
-                                        <MenuItem>Primary</MenuItem>
-                                    </Select>
-                                </FormControl>
-                                <FormControl
-                                    sx={{ mt: 2 }}
-                                    variant="outlined"
-                                    fullWidth
-                                >
-                                    <InputLabel id="Secondary">
-                                        Secondary
-                                    </InputLabel>
-                                    <Select
-                                        label="Secondary"
-                                        labelId="Secondary"
-                                        color="secondary"
-                                    >
-                                        <MenuItem>Secondary</MenuItem>
-                                    </Select>
-                                </FormControl>
-                                <FormControl
-                                    sx={{ mt: 2 }}
-                                    variant="outlined"
-                                    fullWidth
-                                >
-                                    <InputLabel id="Disabled">
-                                        Disabled
-                                    </InputLabel>
-                                    <Select
-                                        label="Disabled"
-                                        labelId="Disabled"
-                                        defaultValue="Disabled"
-                                        disabled
-                                    />
-                                </FormControl>
-                                <FormControl
-                                    sx={{ mt: 2 }}
-                                    variant="outlined"
-                                    fullWidth
-                                >
-                                    <InputLabel id="Error">Error</InputLabel>
-                                    <Select
-                                        label="Error"
-                                        labelId="Error"
-                                        defaultValue="Error"
-                                        error
-                                    />
-                                </FormControl>
+                                <Typography mb={1}>Outlined</Typography>
+                                {TextFieldColumn.map((props) =>
+                                    PreviewSelect({
+                                        ...props,
+                                        variant: 'outlined',
+                                    })
+                                )}
                             </Grid>
                             <Grid item xs={4} pr={1}>
-                                <Typography mb={2}>Filled</Typography>
-                                <FormControl variant="filled" fullWidth>
-                                    <InputLabel id="Primary">
-                                        Primary
-                                    </InputLabel>
-                                    <Select
-                                        label="Primary"
-                                        labelId="Primary"
-                                        color="primary"
-                                    >
-                                        <MenuItem>Primary</MenuItem>
-                                    </Select>
-                                </FormControl>
-                                <FormControl
-                                    sx={{ mt: 2 }}
-                                    variant="filled"
-                                    fullWidth
-                                >
-                                    <InputLabel id="Secondary">
-                                        Secondary
-                                    </InputLabel>
-                                    <Select
-                                        label="Secondary"
-                                        labelId="Secondary"
-                                        color="secondary"
-                                    >
-                                        <MenuItem>Secondary</MenuItem>
-                                    </Select>
-                                </FormControl>
-                                <FormControl
-                                    sx={{ mt: 2 }}
-                                    variant="filled"
-                                    fullWidth
-                                >
-                                    <InputLabel id="Disabled">
-                                        Disabled
-                                    </InputLabel>
-                                    <Select
-                                        label="Disabled"
-                                        labelId="Disabled"
-                                        defaultValue="Disabled"
-                                        disabled
-                                    />
-                                </FormControl>
-                                <FormControl
-                                    sx={{ mt: 2 }}
-                                    variant="filled"
-                                    fullWidth
-                                >
-                                    <InputLabel id="Error">Error</InputLabel>
-                                    <Select
-                                        label="Error"
-                                        labelId="Error"
-                                        defaultValue="Error"
-                                        error
-                                    />
-                                </FormControl>
+                                <Typography mb={1}>Filled</Typography>
+                                {TextFieldColumn.map((props) =>
+                                    PreviewSelect({
+                                        ...props,
+                                        variant: 'filled',
+                                    })
+                                )}
                             </Grid>
                             <Grid item xs={4} pr={1}>
-                                <Typography mb={2}>Standard</Typography>
-                                <FormControl
-                                    sx={{ mt: 1 }}
-                                    variant="standard"
-                                    fullWidth
-                                >
-                                    <InputLabel id="Primary">
-                                        Primary
-                                    </InputLabel>
-                                    <Select
-                                        label="Primary"
-                                        labelId="Primary"
-                                        color="primary"
-                                    >
-                                        <MenuItem>Primary</MenuItem>
-                                    </Select>
-                                </FormControl>
-                                <FormControl
-                                    sx={{ mt: 3 }}
-                                    variant="standard"
-                                    fullWidth
-                                >
-                                    <InputLabel id="Secondary">
-                                        Secondary
-                                    </InputLabel>
-                                    <Select
-                                        label="Secondary"
-                                        labelId="Secondary"
-                                        color="secondary"
-                                    >
-                                        <MenuItem>Secondary</MenuItem>
-                                    </Select>
-                                </FormControl>
-                                <FormControl
-                                    sx={{ mt: 3 }}
-                                    variant="standard"
-                                    fullWidth
-                                >
-                                    <InputLabel id="Disabled">
-                                        Disabled
-                                    </InputLabel>
-                                    <Select
-                                        label="Disabled"
-                                        labelId="Disabled"
-                                        defaultValue="Disabled"
-                                        disabled
-                                    />
-                                </FormControl>
-                                <FormControl
-                                    sx={{ mt: 3 }}
-                                    variant="standard"
-                                    fullWidth
-                                >
-                                    <InputLabel id="Error">Error</InputLabel>
-                                    <Select
-                                        label="Error"
-                                        labelId="Error"
-                                        defaultValue="Error"
-                                        error
-                                    />
-                                </FormControl>
+                                <Typography mb={1}>Standard</Typography>
+                                {TextFieldColumn.map((props) =>
+                                    PreviewSelect({
+                                        ...props,
+                                        variant: 'standard',
+                                    })
+                                )}
                             </Grid>
                         </Grid>
                     </Paper>
