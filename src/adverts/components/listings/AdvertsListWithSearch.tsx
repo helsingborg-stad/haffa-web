@@ -1,11 +1,12 @@
 import { FC, PropsWithChildren, useCallback, useContext, useState } from 'react'
-import { Pagination, Stack, SxProps, Theme } from '@mui/material'
+import { Alert, Pagination, Stack, SxProps, Theme } from '@mui/material'
 import { AdvertFilterInput, AdvertList } from 'adverts'
 import useAbortController from 'hooks/use-abort-controller'
 import { createTreeAdapter } from 'lib/tree-adapter'
 import { Phrase } from 'phrases/Phrase'
 import { AdvertSubscriptionControls } from 'subscriptions'
 import { UrlParamsContext } from 'url-params'
+import { PhraseContext } from 'phrases'
 import { AdvertsContext } from '../../AdvertsContext'
 import { AdvertsList } from './AdvertsList'
 import { ErrorView } from '../../../errors'
@@ -80,6 +81,7 @@ export const AdvertsListWithSearch: FC<
     defaultSearchParams,
 }) => {
     const { signal } = useAbortController()
+    const { phrase } = useContext(PhraseContext)
     const { updateUrlFromAdvertFilterInput, patchAdvertFilterInputFromUrl } =
         useContext(UrlParamsContext)
 
@@ -141,15 +143,24 @@ export const AdvertsListWithSearch: FC<
                         hideIfEmptySearch={false}
                     />
                 )}
-                <AdvertsList
-                    key="adverts-listing"
-                    adverts={adverts?.adverts || []}
-                    categories={createTreeAdapter(
-                        adverts?.categories || [],
-                        (c) => c.id,
-                        (c) => c.categories
-                    )}
-                />
+                {adverts?.adverts.length > 0 ? (
+                    <AdvertsList
+                        key="adverts-listing"
+                        adverts={adverts?.adverts || []}
+                        categories={createTreeAdapter(
+                            adverts?.categories || [],
+                            (c) => c.id,
+                            (c) => c.categories
+                        )}
+                    />
+                ) : (
+                    <Alert sx={{ my: 2 }}>
+                        {phrase(
+                            'SEARCH_EMPTY_RESULT',
+                            'Det finns inga matchande annonser'
+                        )}
+                    </Alert>
+                )}
                 <AdvertsListPagination
                     key="pagination-bottom"
                     adverts={adverts}

@@ -8,6 +8,7 @@ export interface AdvertsTab {
     label: string
     name: string
     restrictions: AdvertRestrictionsFilterInput
+    hideFilter: boolean
 }
 
 interface TabPanelProps {
@@ -38,10 +39,12 @@ const SearchTabPanel: FC<{
     index: number
     value: number
     restrictions: AdvertRestrictionsFilterInput
-}> = ({ index, value, prefix, restrictions }) => (
+    hideFilter: boolean
+}> = ({ index, value, prefix, restrictions, hideFilter }) => (
     <CustomTabPanel index={index} value={value}>
         <AdvertsListWithSearch
             prefix={prefix}
+            hideFilter={hideFilter}
             defaultSearchParams={{
                 restrictions,
                 sorting: { field: 'createdAt', ascending: false },
@@ -71,13 +74,14 @@ export const TabbedAdvertsView: FC<{
                     <Tab key={name} label={label} />
                 ))}
             </Tabs>
-            {tabs.map(({ name, restrictions }, index) => (
+            {tabs.map(({ name, restrictions, hideFilter }, index) => (
                 <SearchTabPanel
                     key={name}
                     prefix={index.toString()}
                     index={index}
                     value={tabIndex}
                     restrictions={restrictions}
+                    hideFilter={hideFilter}
                 />
             ))}
         </>

@@ -10,11 +10,13 @@ export const MyReservationsView: FC = () => {
                 label: phrase('MYRESERVATIONS_RESERVED', 'Reserverade'),
                 restrictions: { reservedByMe: true },
                 name: 'reserved',
+                hideFilter: true,
             },
             {
                 label: phrase('MYRESERVATIONS_COLLECTED', 'Uthämtat'),
                 restrictions: { collectedByMe: true },
                 name: 'collected',
+                hideFilter: true,
             },
         ],
         [phrase]
