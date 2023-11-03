@@ -27,7 +27,7 @@ import {
 } from '@mui/material'
 import MenuIcon from '@mui/icons-material/Menu'
 import { AuthContext } from 'auth'
-import { NavLink, NavLinkProps } from 'react-router-dom'
+import { NavLink, NavLinkProps, ScrollRestoration } from 'react-router-dom'
 import { PhraseContext } from '../phrases/PhraseContext'
 import { HaffaLink, createNavLinks } from './nav-links'
 import { SlowFetchWarning } from './SlowFetchWarning'
@@ -120,6 +120,13 @@ export const Layout: FC<
 
     return (
         <Box>
+            {/**
+             *  Scroll restoration is mainly used for resetting scroll to (0,0).
+             *  Without it, short pages might reneder weird after navigation from
+             * a long page.
+             */}
+            <ScrollRestoration getKey={(location) => location.pathname} />
+
             <AppBar key="ab" color="default">
                 <Container disableGutters>
                     <Toolbar>
