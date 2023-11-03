@@ -374,6 +374,7 @@ export const EditThemeForm: FC<{
                                     label="Primary"
                                     value="Primary"
                                     color="primary"
+                                    helperText="Some helpertext"
                                 />
                                 <TextField
                                     fullWidth
@@ -390,6 +391,15 @@ export const EditThemeForm: FC<{
                                     label="Disabled"
                                     value="Disabled"
                                     disabled
+                                />
+                                <TextField
+                                    fullWidth
+                                    sx={{ mt: 2 }}
+                                    variant="outlined"
+                                    label="Error"
+                                    value="Error"
+                                    helperText="Some helpertext"
+                                    error
                                 />
                             </Grid>
                             <Grid item xs={4} pr={1}>
@@ -400,6 +410,7 @@ export const EditThemeForm: FC<{
                                     label="Primary"
                                     value="Primary"
                                     color="primary"
+                                    helperText="Some helpertext"
                                 />
                                 <TextField
                                     fullWidth
@@ -416,6 +427,15 @@ export const EditThemeForm: FC<{
                                     label="Disabled"
                                     value="Disabled"
                                     disabled
+                                />
+                                <TextField
+                                    fullWidth
+                                    sx={{ mt: 2 }}
+                                    variant="filled"
+                                    label="Error"
+                                    value="Error"
+                                    helperText="Some helpertext"
+                                    error
                                 />
                             </Grid>
                             <Grid item xs={4} pr={1}>
@@ -427,6 +447,7 @@ export const EditThemeForm: FC<{
                                     label="Primary"
                                     value="Primary"
                                     color="primary"
+                                    helperText="Some helpertext"
                                 />
                                 <TextField
                                     fullWidth
@@ -443,6 +464,15 @@ export const EditThemeForm: FC<{
                                     label="Disabled"
                                     value="Disabled"
                                     disabled
+                                />
+                                <TextField
+                                    fullWidth
+                                    sx={{ mt: 3 }}
+                                    variant="standard"
+                                    label="Error"
+                                    value="Error"
+                                    helperText="Some helpertext"
+                                    error
                                 />
                             </Grid>
                         </Grid>
@@ -495,6 +525,19 @@ export const EditThemeForm: FC<{
                                         disabled
                                     />
                                 </FormControl>
+                                <FormControl
+                                    sx={{ mt: 2 }}
+                                    variant="outlined"
+                                    fullWidth
+                                >
+                                    <InputLabel id="Error">Error</InputLabel>
+                                    <Select
+                                        label="Error"
+                                        labelId="Error"
+                                        defaultValue="Error"
+                                        error
+                                    />
+                                </FormControl>
                             </Grid>
                             <Grid item xs={4} pr={1}>
                                 <Typography mb={2}>Filled</Typography>
@@ -539,6 +582,19 @@ export const EditThemeForm: FC<{
                                         labelId="Disabled"
                                         defaultValue="Disabled"
                                         disabled
+                                    />
+                                </FormControl>
+                                <FormControl
+                                    sx={{ mt: 2 }}
+                                    variant="filled"
+                                    fullWidth
+                                >
+                                    <InputLabel id="Error">Error</InputLabel>
+                                    <Select
+                                        label="Error"
+                                        labelId="Error"
+                                        defaultValue="Error"
+                                        error
                                     />
                                 </FormControl>
                             </Grid>
@@ -589,6 +645,19 @@ export const EditThemeForm: FC<{
                                         labelId="Disabled"
                                         defaultValue="Disabled"
                                         disabled
+                                    />
+                                </FormControl>
+                                <FormControl
+                                    sx={{ mt: 3 }}
+                                    variant="standard"
+                                    fullWidth
+                                >
+                                    <InputLabel id="Error">Error</InputLabel>
+                                    <Select
+                                        label="Error"
+                                        labelId="Error"
+                                        defaultValue="Error"
+                                        error
                                     />
                                 </FormControl>
                             </Grid>
