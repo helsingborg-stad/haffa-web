@@ -22,5 +22,5 @@ export const MyReservationsView: FC = () => {
         [phrase]
     )
 
-    return <TabbedAdvertsView tabs={tabs} />
+    return <TabbedAdvertsView tabs={tabs} scrollTopOnFilterChange />
 }

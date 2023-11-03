@@ -35,5 +35,5 @@ export const MyAdvertsView: FC = () => {
         [phrase]
     )
 
-    return <TabbedAdvertsView tabs={tabs} />
+    return <TabbedAdvertsView tabs={tabs} scrollTopOnFilterChange />
 }

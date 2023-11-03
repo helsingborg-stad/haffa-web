@@ -40,11 +40,20 @@ const SearchTabPanel: FC<{
     value: number
     restrictions: AdvertRestrictionsFilterInput
     hideFilter: boolean
-}> = ({ index, value, prefix, restrictions, hideFilter }) => (
+    scrollTopOnFilterChange?: boolean
+}> = ({
+    index,
+    value,
+    prefix,
+    restrictions,
+    hideFilter,
+    scrollTopOnFilterChange,
+}) => (
     <CustomTabPanel index={index} value={value}>
         <AdvertsListWithSearch
             prefix={prefix}
             hideFilter={hideFilter}
+            scrollTopOnFilterChange={scrollTopOnFilterChange}
             defaultSearchParams={{
                 restrictions,
                 sorting: { field: 'createdAt', ascending: false },
@@ -55,7 +64,8 @@ const SearchTabPanel: FC<{
 
 export const TabbedAdvertsView: FC<{
     tabs: AdvertsTab[]
-}> = ({ tabs }) => {
+    scrollTopOnFilterChange?: boolean
+}> = ({ tabs, scrollTopOnFilterChange }) => {
     const [tabIndex, setTabIndex] = useUrlParams(
         '',
         (p) => parseInt(p.tab, 10) || 0,
@@ -82,6 +92,7 @@ export const TabbedAdvertsView: FC<{
                     value={tabIndex}
                     restrictions={restrictions}
                     hideFilter={hideFilter}
+                    scrollTopOnFilterChange={scrollTopOnFilterChange}
                 />
             ))}
         </>
