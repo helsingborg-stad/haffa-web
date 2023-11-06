@@ -70,7 +70,6 @@ export const defaultPhrases: Omit<
         THEME_FIELD_SUCCESS_COLOR: 'Genomfört',
         THEME_FIELD_WARNING_COLOR: 'Varning',
         THEME_SECTION_COLORS: 'Färger',
-        THEME_SECTION_EDITORIAL: 'Definitioner för tema',
         ANALYTICS_TITLE: 'Webanalys',
         ANALYTICS_ACTION_SAVE: 'Spara',
         ANALYTICS_FIELD_CONFIG: 'Konfiguration',

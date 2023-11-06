@@ -28,7 +28,6 @@ import {
     defaultThemeModel,
 } from 'branding/theme-factory'
 import { FC, useCallback, useContext, useState } from 'react'
-import { Editorial } from 'editorials'
 import SaveIcon from '@mui/icons-material/Save'
 import { PhraseContext } from 'phrases'
 import SvgIcon, { SvgIconProps } from '@mui/material/SvgIcon'
@@ -71,7 +70,7 @@ const PreviewButton = (props: ButtonProps) => (
         {props.disabled ? 'disabled' : props.color}
     </Button>
 )
-const TextFieldColumn: Array<SelectProps & TextFieldProps> = [
+const TextFieldColumn: Array<TextFieldProps> = [
     {
         color: 'primary',
         helperText: 'Some helpertext',
@@ -104,7 +103,21 @@ const PreviewTextField = (props: TextFieldProps) => {
         <TextField {...props} fullWidth sx={{ mt }} label={text} value={text} />
     )
 }
-const PreviewSelect = (props: SelectProps) => {
+const SelectColumn: Array<SelectProps> = [
+    {
+        color: 'primary',
+    },
+    {
+        color: 'secondary',
+    },
+    {
+        disabled: true,
+    },
+    {
+        error: true,
+    },
+]
+const PreviewSelect = (props: SelectProps & { key: number }) => {
     let text = 'N/A'
     if (props.color) {
         text = props.color
@@ -118,7 +131,12 @@ const PreviewSelect = (props: SelectProps) => {
         mt += 1
     }
     return (
-        <FormControl variant={props.variant} fullWidth sx={{ mt }}>
+        <FormControl
+            key={props.key}
+            variant={props.variant}
+            fullWidth
+            sx={{ mt }}
+        >
             <InputLabel id={text}>{text}</InputLabel>
             <Select {...props} label={text} labelId={text}>
                 <MenuItem>{text}</MenuItem>
@@ -155,7 +173,6 @@ export const EditThemeForm: FC<{
     const validateFields = useCallback(() => {
         let result = true
         Object.entries(model.colors).forEach(([_, value]) => {
-            console.log(value)
             if (!isValid(value)) {
                 result = false
             }
@@ -197,14 +214,11 @@ export const EditThemeForm: FC<{
 
     return (
         <Card>
-            <Editorial>
-                {phrase(`${NS}_SECTION_EDITORIAL`, 'Definitioner för tema')}
-            </Editorial>
             <CardContent>
                 <Typography gutterBottom variant="h5" component="div">
                     {phrase(`${NS}_SECTION_COLORS`, 'Färger')}
                 </Typography>
-                <Grid container direction="row" sx={{ pb: 5 }}>
+                <Grid container direction="row" sx={{ pb: 1 }}>
                     <Grid item xs={12} sm={4} sx={{ p: 1 }}>
                         <ColorTextField
                             key={`${NS}_FIELD_PRIMARY_COLOR`}
@@ -318,13 +332,13 @@ export const EditThemeForm: FC<{
                     </Grid>
                 </Grid>
                 <Typography gutterBottom variant="h5" component="div">
-                    {phrase(`${NS}_SECTION_LOOKS`, 'Utseende')}
+                    {phrase(`${NS}_SECTION_LAYOUT`, 'Utseende')}
                 </Typography>
-                <Grid container direction="row" sx={{ paddingBottom: 5 }}>
+                <Grid container direction="row" sx={{ pb: 1 }}>
                     <Grid item xs={12} sm={4} sx={{ p: 1 }}>
                         <TextField
                             key={`${NS}_FIELD_RADIUS`}
-                            label="Radius på knappar"
+                            label="Radie på knappar"
                             type="number"
                             value={model.layout.radius}
                             onChange={(e) => {
@@ -351,30 +365,33 @@ export const EditThemeForm: FC<{
                             <Typography variant="h6" mb={2} mt={1}>
                                 Buttons
                             </Typography>
-                            <Grid container xs={12} mt={1}>
+                            <Grid container mt={1}>
                                 <Grid item pr={1} xs={4}>
                                     <Typography>Outlined</Typography>
-                                    {ButtonColumn.map((props) =>
+                                    {ButtonColumn.map((props, key) =>
                                         PreviewButton({
                                             ...props,
+                                            key,
                                             variant: 'outlined',
                                         })
                                     )}
                                 </Grid>
                                 <Grid item pr={1} xs={4}>
                                     <Typography>Contained</Typography>
-                                    {ButtonColumn.map((props) =>
+                                    {ButtonColumn.map((props, key) =>
                                         PreviewButton({
                                             ...props,
+                                            key,
                                             variant: 'contained',
                                         })
                                     )}
                                 </Grid>
                                 <Grid item pr={1} xs={4}>
                                     <Typography>Text</Typography>
-                                    {ButtonColumn.map((props) =>
+                                    {ButtonColumn.map((props, key) =>
                                         PreviewButton({
                                             ...props,
+                                            key,
                                             variant: 'text',
                                         })
                                     )}
@@ -383,30 +400,33 @@ export const EditThemeForm: FC<{
                             <Typography variant="h6" mb={2} mt={1}>
                                 Alerts
                             </Typography>
-                            <Grid container xs={12} mt={1}>
+                            <Grid container mt={1}>
                                 <Grid item pr={1} xs={4}>
                                     <Typography>Outlined</Typography>
-                                    {AlertColumn.map((props) =>
+                                    {AlertColumn.map((props, key) =>
                                         PreviewAlert({
                                             ...props,
+                                            key,
                                             variant: 'outlined',
                                         })
                                     )}
                                 </Grid>
                                 <Grid item pr={1} xs={4}>
                                     <Typography>Filled</Typography>
-                                    {AlertColumn.map((props) =>
+                                    {AlertColumn.map((props, key) =>
                                         PreviewAlert({
                                             ...props,
+                                            key,
                                             variant: 'filled',
                                         })
                                     )}
                                 </Grid>
                                 <Grid item pr={1} xs={4}>
                                     <Typography>Standard</Typography>
-                                    {AlertColumn.map((props) =>
+                                    {AlertColumn.map((props, key) =>
                                         PreviewAlert({
                                             ...props,
+                                            key,
                                             variant: 'standard',
                                         })
                                     )}
@@ -415,30 +435,33 @@ export const EditThemeForm: FC<{
                             <Typography variant="h6" mb={2} mt={1}>
                                 TextFields
                             </Typography>
-                            <Grid container xs={12} mt={1}>
+                            <Grid container mt={1}>
                                 <Grid item xs={4} pr={1}>
                                     <Typography mb={2}>Outlined</Typography>
-                                    {TextFieldColumn.map((props) =>
+                                    {TextFieldColumn.map((props, key) =>
                                         PreviewTextField({
                                             ...props,
+                                            key,
                                             variant: 'outlined',
                                         })
                                     )}
                                 </Grid>
                                 <Grid item xs={4} pr={1}>
                                     <Typography mb={2}>Filled</Typography>
-                                    {TextFieldColumn.map((props) =>
+                                    {TextFieldColumn.map((props, key) =>
                                         PreviewTextField({
                                             ...props,
+                                            key,
                                             variant: 'filled',
                                         })
                                     )}
                                 </Grid>
                                 <Grid item xs={4} pr={1}>
                                     <Typography mb={2}>Standard</Typography>
-                                    {TextFieldColumn.map((props) =>
+                                    {TextFieldColumn.map((props, key) =>
                                         PreviewTextField({
                                             ...props,
+                                            key,
                                             variant: 'standard',
                                         })
                                     )}
@@ -447,30 +470,33 @@ export const EditThemeForm: FC<{
                             <Typography variant="h6" mb={2} mt={1}>
                                 Selects
                             </Typography>
-                            <Grid container xs={12} mt={1}>
+                            <Grid container mt={1}>
                                 <Grid item xs={4} pr={1}>
                                     <Typography mb={1}>Outlined</Typography>
-                                    {TextFieldColumn.map((props) =>
+                                    {SelectColumn.map((props, key) =>
                                         PreviewSelect({
                                             ...props,
+                                            key,
                                             variant: 'outlined',
                                         })
                                     )}
                                 </Grid>
                                 <Grid item xs={4} pr={1}>
                                     <Typography mb={1}>Filled</Typography>
-                                    {TextFieldColumn.map((props) =>
+                                    {SelectColumn.map((props, key) =>
                                         PreviewSelect({
                                             ...props,
+                                            key,
                                             variant: 'filled',
                                         })
                                     )}
                                 </Grid>
                                 <Grid item xs={4} pr={1}>
                                     <Typography mb={1}>Standard</Typography>
-                                    {TextFieldColumn.map((props) =>
+                                    {SelectColumn.map((props, key) =>
                                         PreviewSelect({
                                             ...props,
+                                            key,
                                             variant: 'standard',
                                         })
                                     )}
