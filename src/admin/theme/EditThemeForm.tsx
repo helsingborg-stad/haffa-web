@@ -7,8 +7,13 @@ import {
     Card,
     CardActions,
     CardContent,
+    Dialog,
+    DialogActions,
+    DialogContent,
+    DialogTitle,
     FormControl,
     Grid,
+    IconButton,
     InputAdornment,
     InputLabel,
     MenuItem,
@@ -32,16 +37,19 @@ import SaveIcon from '@mui/icons-material/Save'
 import { PhraseContext } from 'phrases'
 import SvgIcon, { SvgIconProps } from '@mui/material/SvgIcon'
 import { BrandingOptions, ThemeModel } from 'branding/types'
+import { ColorResult, SketchPicker } from 'react-color'
 import type { Option } from '../../options/types'
 
 const NS = 'THEME'
 
 const isValid = (color: string) => /^#[A-Fa-f0-9]{2,6}$/.test(color)
 
-const ColorIcon = (props: SvgIconProps) => (
-    <SvgIcon {...props}>
-        <ellipse cx="12" cy="12" rx="12" ry="12" />
-    </SvgIcon>
+const ColorButton = (props: SvgIconProps & ButtonProps) => (
+    <IconButton onClick={props.onClick}>
+        <SvgIcon sx={props.sx}>
+            <ellipse cx="12" cy="12" rx="12" ry="12" />
+        </SvgIcon>
+    </IconButton>
 )
 const AlertColumn: AlertProps[] = [
     { severity: 'success' },
@@ -145,22 +153,61 @@ const PreviewSelect = (props: SelectProps & { key: number }) => {
     )
 }
 
-const ColorTextField = (props: TextFieldProps) => (
-    <TextField
-        {...props}
-        required
-        fullWidth
-        error={!isValid(props.value as string)}
-        variant="outlined"
-        InputProps={{
-            startAdornment: (
-                <InputAdornment position="start">
-                    <ColorIcon sx={{ color: props.value as string }} />
-                </InputAdornment>
-            ),
-        }}
-    />
-)
+const ColorTextField = (
+    props: TextFieldProps & { onColorChange: (color: string) => void }
+) => {
+    const [state, setState] = useState<{
+        color: string
+        isOpen: boolean
+    }>({
+        color: props.value as string,
+        isOpen: false,
+    })
+    const onClose = () =>
+        setState({
+            ...state,
+            isOpen: !state.isOpen,
+        })
+    const onChange = (color: ColorResult) => {
+        setState({
+            ...state,
+            color: color.hex,
+        })
+        props.onColorChange(color.hex)
+    }
+    return (
+        <>
+            <TextField
+                {...props}
+                disabled
+                fullWidth
+                variant="outlined"
+                InputProps={{
+                    startAdornment: (
+                        <InputAdornment position="start">
+                            <ColorButton
+                                sx={{ color: props.value as string }}
+                                onClick={onClose}
+                            />
+                        </InputAdornment>
+                    ),
+                }}
+            />
+            <Dialog open={state.isOpen} onClose={onClose}>
+                <DialogTitle>Välj färg</DialogTitle>
+                <DialogContent>
+                    <SketchPicker
+                        onChange={onChange}
+                        color={props.value as string}
+                    />
+                </DialogContent>
+                <DialogActions>
+                    <Button onClick={onClose}>Ok</Button>
+                </DialogActions>
+            </Dialog>
+        </>
+    )
+}
 
 export const EditThemeForm: FC<{
     options: Option<BrandingOptions>[]
@@ -227,12 +274,12 @@ export const EditThemeForm: FC<{
                                 'Primär färg'
                             )}
                             value={model.colors.primary}
-                            onChange={(e) => {
+                            onColorChange={(e) => {
                                 setModel({
                                     ...model,
                                     colors: {
                                         ...model.colors,
-                                        primary: e.target.value.trim(),
+                                        primary: e,
                                     },
                                 })
                             }}
@@ -246,12 +293,12 @@ export const EditThemeForm: FC<{
                                 'Sekundär färg'
                             )}
                             value={model.colors.secondary}
-                            onChange={(e) => {
+                            onColorChange={(e) => {
                                 setModel({
                                     ...model,
                                     colors: {
                                         ...model.colors,
-                                        secondary: e.target.value.trim(),
+                                        secondary: e,
                                     },
                                 })
                             }}
@@ -265,12 +312,12 @@ export const EditThemeForm: FC<{
                                 'Information'
                             )}
                             value={model.colors.info}
-                            onChange={(e) => {
+                            onColorChange={(e) => {
                                 setModel({
                                     ...model,
                                     colors: {
                                         ...model.colors,
-                                        info: e.target.value.trim(),
+                                        info: e,
                                     },
                                 })
                             }}
@@ -284,12 +331,12 @@ export const EditThemeForm: FC<{
                                 'Varning'
                             )}
                             value={model.colors.warning}
-                            onChange={(e) => {
+                            onColorChange={(e) => {
                                 setModel({
                                     ...model,
                                     colors: {
                                         ...model.colors,
-                                        warning: e.target.value.trim(),
+                                        warning: e,
                                     },
                                 })
                             }}
@@ -300,12 +347,12 @@ export const EditThemeForm: FC<{
                             key={`${NS}_FIELD_ERROR_COLOR`}
                             label={phrase(`${NS}_FIELD_ERROR_COLOR`, 'Fel')}
                             value={model.colors.error}
-                            onChange={(e) => {
+                            onColorChange={(e) => {
                                 setModel({
                                     ...model,
                                     colors: {
                                         ...model.colors,
-                                        error: e.target.value.trim(),
+                                        error: e,
                                     },
                                 })
                             }}
@@ -319,12 +366,12 @@ export const EditThemeForm: FC<{
                                 'Genomfört'
                             )}
                             value={model.colors.success}
-                            onChange={(e) => {
+                            onColorChange={(e) => {
                                 setModel({
                                     ...model,
                                     colors: {
                                         ...model.colors,
-                                        success: e.target.value.trim(),
+                                        success: e,
                                     },
                                 })
                             }}
