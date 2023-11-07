@@ -13,13 +13,13 @@ export const AddressCard = (props: CardProps & { advert: Advert }) => {
         zipCode &&
         city && (
             <Card {...props}>
-                <Grid container>
+                <Grid container height="100%" alignItems="center">
                     <Grid item p={2}>
                         <Avatar>
                             <HomeOutlinedIcon />
                         </Avatar>
                     </Grid>
-                    <Grid item pt={2} pb={2}>
+                    <Grid item pt={2} pb={2} pl={1}>
                         <Typography variant="subtitle1">
                             {phrase(
                                 'ADVERT_FIELD_ADDRESS_TITLE',

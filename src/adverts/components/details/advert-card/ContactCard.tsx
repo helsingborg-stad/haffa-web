@@ -11,13 +11,13 @@ export const ContactCard = (props: CardProps & { advert: Advert }) => {
     return (
         email && (
             <Card {...props}>
-                <Grid container>
+                <Grid container height="100%" alignItems="center">
                     <Grid item p={2}>
                         <Avatar>
                             <ContactMailOutlinedIcon />
                         </Avatar>
                     </Grid>
-                    <Grid item pt={2} pb={2}>
+                    <Grid item pt={2} pb={2} pl={1}>
                         <Typography variant="subtitle1">
                             {phrase('ADVERT_FIELD_CONTACT_TITLE', 'Kontakt')}
                         </Typography>
