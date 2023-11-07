@@ -16,7 +16,7 @@ export const AdvertsList: FC<{
         spacing={2}
     >
         {adverts.map((advert) => (
-            <Grid item xs={6} sm={3}>
+            <Grid item xs={6} sm={3} key={advert.id}>
                 <AdvertListItem
                     sx={{ height: '100%' }}
                     advert={advert}
