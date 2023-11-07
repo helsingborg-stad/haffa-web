@@ -15,7 +15,14 @@ export const AddressCard = (props: CardProps & { advert: Advert }) => {
             <Card {...props}>
                 <Grid container height="100%" alignItems="center">
                     <Grid item p={2}>
-                        <Avatar>
+                        <Avatar
+                            sx={{
+                                width: 48,
+                                height: 48,
+                                color: 'black',
+                                bgcolor: '#f6f3eb',
+                            }}
+                        >
                             <HomeOutlinedIcon />
                         </Avatar>
                     </Grid>
