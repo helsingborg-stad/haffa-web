@@ -29,28 +29,18 @@ const createEmptyResult = (): AdvertList => ({
 
 const AdvertsListPagination: FC<{
     sx?: SxProps<Theme>
-    hideEmpty?: boolean
     adverts: AdvertList
     searchParams: AdvertFilterInput
     setSearchParams: (p: AdvertFilterInput) => void
 }> = ({
     sx,
-    hideEmpty,
     adverts: {
-        paging: { totalCount, pageIndex, pageCount },
+        paging: { pageIndex, pageCount },
     },
     searchParams,
     setSearchParams,
 }) => (
     <Stack alignItems="center" sx={sx}>
-        {totalCount === 0 && !hideEmpty && (
-            <Alert>
-                <Phrase
-                    id="SEARCH_EMPTY_RESULT"
-                    value="Hoppsan, det blev inga träffar på den"
-                />
-            </Alert>
-        )}
         {pageCount > 1 && (
             <Pagination
                 color="primary"
@@ -70,6 +60,27 @@ const AdvertsListPagination: FC<{
                     })
                 }
             />
+        )}
+    </Stack>
+)
+
+const AdvertsListEmptyResult: FC<{
+    sx?: SxProps<Theme>
+    adverts: AdvertList
+}> = ({
+    sx,
+    adverts: {
+        paging: { totalCount },
+    },
+}) => (
+    <Stack alignItems="center" sx={sx}>
+        {totalCount === 0 && (
+            <Alert>
+                <Phrase
+                    id="SEARCH_EMPTY_RESULT"
+                    value="Hoppsan, det blev inga träffar på den"
+                />
+            </Alert>
         )}
     </Stack>
 )
@@ -131,23 +142,35 @@ export const AdvertsListWithSearch: FC<
             setSearchParams(p)
             return listAdverts(p, { signal })
         },
-        [setSearchParams, signal]
+        [setSearchParams, listAdverts, signal]
+    )
+    const changed = useCallback(
+        (p: AdvertFilterInput, enqueue: AsyncEnqueue<AdvertList>) => {
+            setSearchParams(p)
+            return enqueue(() => listAdverts(p, { signal }))
+        },
+        [setSearchParams, listAdverts, signal]
     )
 
     const view = useLiveSearch<AdvertList>(() => next(searchParams))
 
     const listResult = useCallback(
-        (adverts: AdvertList, enqueue: AsyncEnqueue<AdvertList>) => (
+        (
+            adverts: AdvertList,
+            enqueue: AsyncEnqueue<AdvertList>,
+            isPendingResult?: boolean
+        ) => (
             <SearchableAdvertsList
                 key="sal"
                 hideFilter={hideFilter}
                 searchParams={searchParams}
                 setSearchParams={(p) =>
-                    enqueue(() =>
-                        next({
+                    changed(
+                        {
                             ...p,
                             paging: { pageIndex: 0, pageSize: PAGE_SIZE },
-                        })
+                        },
+                        enqueue
                     )
                 }
             >
@@ -167,26 +190,32 @@ export const AdvertsListWithSearch: FC<
                         (c) => c.categories
                     )}
                 />
+                {!isPendingResult && (
+                    <AdvertsListEmptyResult
+                        key="empty-result"
+                        adverts={adverts}
+                    />
+                )}
                 <AdvertsListPagination
                     key="pagination-bottom"
                     adverts={adverts}
                     searchParams={searchParams}
-                    setSearchParams={(p) => enqueue(() => next(p))}
+                    setSearchParams={(p) => changed(p, enqueue)}
                     sx={{ my: 2 }}
                 />
             </SearchableAdvertsList>
         ),
-        [searchParams, setSearchParams, next]
+        [searchParams, setSearchParams, changed]
     )
 
     return view({
         pending: (result, enqueue) =>
-            listResult(result || createEmptyResult(), enqueue),
+            listResult(result || createEmptyResult(), enqueue, true),
         rejected: (error, enqueue) => (
             <SearchableAdvertsList
                 key="sal"
                 searchParams={searchParams}
-                setSearchParams={(p) => enqueue(() => next(p))}
+                setSearchParams={(p) => changed(p, enqueue)}
             >
                 <ErrorView key="ev" error={error} />
                 {children}
