@@ -404,154 +404,150 @@ export const EditThemeForm: FC<{
             {renderCardActions()}
 
             <CardContent>
-                {validateFields() && (
-                    <ThemeProvider
-                        theme={createTheme(createCustomTheme(model))}
-                    >
-                        <Paper elevation={4} sx={{ p: 2 }}>
-                            <Typography variant="h6" mb={2} mt={1}>
-                                Buttons
-                            </Typography>
-                            <Grid container mt={1}>
-                                <Grid item pr={1} xs={4}>
-                                    <Typography>Outlined</Typography>
-                                    {ButtonColumn.map((props, key) =>
-                                        PreviewButton({
-                                            ...props,
-                                            key,
-                                            variant: 'outlined',
-                                        })
-                                    )}
-                                </Grid>
-                                <Grid item pr={1} xs={4}>
-                                    <Typography>Contained</Typography>
-                                    {ButtonColumn.map((props, key) =>
-                                        PreviewButton({
-                                            ...props,
-                                            key,
-                                            variant: 'contained',
-                                        })
-                                    )}
-                                </Grid>
-                                <Grid item pr={1} xs={4}>
-                                    <Typography>Text</Typography>
-                                    {ButtonColumn.map((props, key) =>
-                                        PreviewButton({
-                                            ...props,
-                                            key,
-                                            variant: 'text',
-                                        })
-                                    )}
-                                </Grid>
+                <ThemeProvider theme={createTheme(createCustomTheme(model))}>
+                    <Paper elevation={4} sx={{ p: 2 }}>
+                        <Typography variant="h6" mt={1}>
+                            Buttons
+                        </Typography>
+                        <Grid container>
+                            <Grid item mt={1} pr={1} xs={12} sm={4}>
+                                <Typography>Outlined</Typography>
+                                {ButtonColumn.map((props, key) =>
+                                    PreviewButton({
+                                        ...props,
+                                        key,
+                                        variant: 'outlined',
+                                    })
+                                )}
                             </Grid>
-                            <Typography variant="h6" mb={2} mt={1}>
-                                Alerts
-                            </Typography>
-                            <Grid container mt={1}>
-                                <Grid item pr={1} xs={4}>
-                                    <Typography>Outlined</Typography>
-                                    {AlertColumn.map((props, key) =>
-                                        PreviewAlert({
-                                            ...props,
-                                            key,
-                                            variant: 'outlined',
-                                        })
-                                    )}
-                                </Grid>
-                                <Grid item pr={1} xs={4}>
-                                    <Typography>Filled</Typography>
-                                    {AlertColumn.map((props, key) =>
-                                        PreviewAlert({
-                                            ...props,
-                                            key,
-                                            variant: 'filled',
-                                        })
-                                    )}
-                                </Grid>
-                                <Grid item pr={1} xs={4}>
-                                    <Typography>Standard</Typography>
-                                    {AlertColumn.map((props, key) =>
-                                        PreviewAlert({
-                                            ...props,
-                                            key,
-                                            variant: 'standard',
-                                        })
-                                    )}
-                                </Grid>
+                            <Grid item mt={1} pr={1} xs={12} sm={4}>
+                                <Typography>Contained</Typography>
+                                {ButtonColumn.map((props, key) =>
+                                    PreviewButton({
+                                        ...props,
+                                        key,
+                                        variant: 'contained',
+                                    })
+                                )}
                             </Grid>
-                            <Typography variant="h6" mb={2} mt={1}>
-                                TextFields
-                            </Typography>
-                            <Grid container mt={1}>
-                                <Grid item xs={4} pr={1}>
-                                    <Typography mb={2}>Outlined</Typography>
-                                    {TextFieldColumn.map((props, key) =>
-                                        PreviewTextField({
-                                            ...props,
-                                            key,
-                                            variant: 'outlined',
-                                        })
-                                    )}
-                                </Grid>
-                                <Grid item xs={4} pr={1}>
-                                    <Typography mb={2}>Filled</Typography>
-                                    {TextFieldColumn.map((props, key) =>
-                                        PreviewTextField({
-                                            ...props,
-                                            key,
-                                            variant: 'filled',
-                                        })
-                                    )}
-                                </Grid>
-                                <Grid item xs={4} pr={1}>
-                                    <Typography mb={2}>Standard</Typography>
-                                    {TextFieldColumn.map((props, key) =>
-                                        PreviewTextField({
-                                            ...props,
-                                            key,
-                                            variant: 'standard',
-                                        })
-                                    )}
-                                </Grid>
+                            <Grid item mt={1} pr={1} xs={12} sm={4}>
+                                <Typography>Text</Typography>
+                                {ButtonColumn.map((props, key) =>
+                                    PreviewButton({
+                                        ...props,
+                                        key,
+                                        variant: 'text',
+                                    })
+                                )}
                             </Grid>
-                            <Typography variant="h6" mb={2} mt={1}>
-                                Selects
-                            </Typography>
-                            <Grid container mt={1}>
-                                <Grid item xs={4} pr={1}>
-                                    <Typography mb={1}>Outlined</Typography>
-                                    {SelectColumn.map((props, key) =>
-                                        PreviewSelect({
-                                            ...props,
-                                            key,
-                                            variant: 'outlined',
-                                        })
-                                    )}
-                                </Grid>
-                                <Grid item xs={4} pr={1}>
-                                    <Typography mb={1}>Filled</Typography>
-                                    {SelectColumn.map((props, key) =>
-                                        PreviewSelect({
-                                            ...props,
-                                            key,
-                                            variant: 'filled',
-                                        })
-                                    )}
-                                </Grid>
-                                <Grid item xs={4} pr={1}>
-                                    <Typography mb={1}>Standard</Typography>
-                                    {SelectColumn.map((props, key) =>
-                                        PreviewSelect({
-                                            ...props,
-                                            key,
-                                            variant: 'standard',
-                                        })
-                                    )}
-                                </Grid>
+                        </Grid>
+                        <Typography variant="h6" mt={1}>
+                            Alerts
+                        </Typography>
+                        <Grid container>
+                            <Grid item mt={1} pr={1} xs={12} sm={4}>
+                                <Typography>Outlined</Typography>
+                                {AlertColumn.map((props, key) =>
+                                    PreviewAlert({
+                                        ...props,
+                                        key,
+                                        variant: 'outlined',
+                                    })
+                                )}
                             </Grid>
-                        </Paper>
-                    </ThemeProvider>
-                )}
+                            <Grid item mt={1} pr={1} xs={12} sm={4}>
+                                <Typography>Filled</Typography>
+                                {AlertColumn.map((props, key) =>
+                                    PreviewAlert({
+                                        ...props,
+                                        key,
+                                        variant: 'filled',
+                                    })
+                                )}
+                            </Grid>
+                            <Grid item mt={1} pr={1} xs={12} sm={4}>
+                                <Typography>Standard</Typography>
+                                {AlertColumn.map((props, key) =>
+                                    PreviewAlert({
+                                        ...props,
+                                        key,
+                                        variant: 'standard',
+                                    })
+                                )}
+                            </Grid>
+                        </Grid>
+                        <Typography variant="h6" mt={1}>
+                            TextFields
+                        </Typography>
+                        <Grid container>
+                            <Grid item mt={1} pr={1} xs={12} sm={4}>
+                                <Typography>Outlined</Typography>
+                                {TextFieldColumn.map((props, key) =>
+                                    PreviewTextField({
+                                        ...props,
+                                        key,
+                                        variant: 'outlined',
+                                    })
+                                )}
+                            </Grid>
+                            <Grid item mt={1} pr={1} xs={12} sm={4}>
+                                <Typography>Filled</Typography>
+                                {TextFieldColumn.map((props, key) =>
+                                    PreviewTextField({
+                                        ...props,
+                                        key,
+                                        variant: 'filled',
+                                    })
+                                )}
+                            </Grid>
+                            <Grid item mt={1} pr={1} xs={12} sm={4}>
+                                <Typography>Standard</Typography>
+                                {TextFieldColumn.map((props, key) =>
+                                    PreviewTextField({
+                                        ...props,
+                                        key,
+                                        variant: 'standard',
+                                    })
+                                )}
+                            </Grid>
+                        </Grid>
+                        <Typography variant="h6" mt={1}>
+                            Selects
+                        </Typography>
+                        <Grid container mt={1}>
+                            <Grid item mt={1} pr={1} xs={12} sm={4}>
+                                <Typography>Outlined</Typography>
+                                {SelectColumn.map((props, key) =>
+                                    PreviewSelect({
+                                        ...props,
+                                        key,
+                                        variant: 'outlined',
+                                    })
+                                )}
+                            </Grid>
+                            <Grid item mt={1} pr={1} xs={12} sm={4}>
+                                <Typography>Filled</Typography>
+                                {SelectColumn.map((props, key) =>
+                                    PreviewSelect({
+                                        ...props,
+                                        key,
+                                        variant: 'filled',
+                                    })
+                                )}
+                            </Grid>
+                            <Grid item mt={1} pr={1} xs={12} sm={4}>
+                                <Typography>Standard</Typography>
+                                {SelectColumn.map((props, key) =>
+                                    PreviewSelect({
+                                        ...props,
+                                        key,
+                                        variant: 'standard',
+                                    })
+                                )}
+                            </Grid>
+                        </Grid>
+                    </Paper>
+                </ThemeProvider>
             </CardContent>
             {renderCardActions()}
         </Card>
