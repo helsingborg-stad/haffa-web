@@ -126,6 +126,11 @@ export interface AdvertMeta {
     claims: AdvertClaim[]
 }
 
+export enum AdvertType {
+    recycle = 'recycle',
+    borrow = 'borrow',
+}
+
 export interface AdvertLocation {
     adress: string
     zipCode: string
@@ -142,6 +147,7 @@ export interface AdvertContact {
 export interface Advert extends AdvertUserFields {
     meta: AdvertMeta
     id: string
+    type: AdvertType
     createdAt: string
 }
 

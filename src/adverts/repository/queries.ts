@@ -1,5 +1,6 @@
 const advertProps = /* GraphQL */ `
 	id
+	type
 	createdAt
 	title
 	description
