@@ -10,6 +10,8 @@ import { ClaimsPanel } from './ClaimsPanel'
 import { ImagesPanel } from './ImagesPanel'
 import { ArchivedPanel } from './ArchivedPanel'
 import { EditorButtonsPanel } from './EditorButtonsPanel'
+import { AddressCard } from './AddressCard'
+import { ContactCard } from './ContactCard'
 
 export const AdvertCard: FC<{
     advert: Advert
@@ -26,7 +28,7 @@ export const AdvertCard: FC<{
     return (
         <>
             <ArchivedPanel advert={advert} onUpdate={onUpdate} />
-            <Card sx={{ mb: 2 }}>
+            <Card sx={{ mb: 1 }} variant="outlined">
                 <CardContent>
                     <ImagesPanel advert={advert} />
                 </CardContent>
@@ -66,7 +68,6 @@ export const AdvertCard: FC<{
                         </Grid>
                     </Box>
                 </CardContent>
-
                 {showRightsDisclaimer && (
                     <CardContent>
                         <Editorial severity="warning">
@@ -76,6 +77,18 @@ export const AdvertCard: FC<{
                     </CardContent>
                 )}
             </Card>
+
+            <AddressCard
+                variant="outlined"
+                advert={advert}
+                sx={{ mb: 1, height: 120 }}
+            />
+            <ContactCard
+                variant="outlined"
+                advert={advert}
+                sx={{ mb: 2, height: 120 }}
+            />
+
             {meta.canManageClaims && (
                 <ClaimsPanel advert={advert} onUpdate={onUpdate} />
             )}
