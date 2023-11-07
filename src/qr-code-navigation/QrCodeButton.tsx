@@ -42,7 +42,7 @@ export const QrCodeButton: FC<
         <>
             <Button
                 color="inherit"
-                startIcon={<QrCodeScannerIcon />}
+                endIcon={<QrCodeScannerIcon />}
                 {...buttonProps}
                 onClick={() => setScanning(true)}
                 sx={sx}

@@ -2,6 +2,7 @@ import { Button } from '@mui/material'
 import { Advert, AdvertMutationResult, AdvertsContext } from 'adverts'
 import { PhraseContext } from 'phrases/PhraseContext'
 import { FC, useContext } from 'react'
+import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder'
 import { QrCodeCollectButton } from './QrCodeCollectButton'
 
 export const ActionsPanel: FC<{
@@ -28,10 +29,11 @@ export const ActionsPanel: FC<{
                 />
             )}
             <Button
+                endIcon={<FavoriteBorderIcon />}
                 key="reserve"
                 fullWidth
                 color="primary"
-                variant="contained"
+                variant="outlined"
                 disabled={!meta.canReserve}
                 onClick={() => onUpdate(reserveAdvert(advert.id, 1))}
                 sx={{ mb: 1 }}
