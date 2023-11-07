@@ -5,6 +5,10 @@ import relativeTime from 'dayjs/plugin/relativeTime'
 import App from './App'
 import reportWebVitals from './reportWebVitals'
 import 'dayjs/locale/sv'
+import '@fontsource/roboto/300.css' // eslint-disable-line import/no-extraneous-dependencies
+import '@fontsource/roboto/400.css' // eslint-disable-line import/no-extraneous-dependencies
+import '@fontsource/roboto/500.css' // eslint-disable-line import/no-extraneous-dependencies
+import '@fontsource/roboto/700.css' // eslint-disable-line import/no-extraneous-dependencies
 
 dayjs.extend(relativeTime)
 dayjs.locale('sv')
