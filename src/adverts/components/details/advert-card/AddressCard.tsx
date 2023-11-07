@@ -1,8 +1,11 @@
 import { Avatar, Card, CardProps, Grid, Typography } from '@mui/material'
 import HomeOutlinedIcon from '@mui/icons-material/HomeOutlined'
 import { Advert } from 'adverts'
+import { useContext } from 'react'
+import { PhraseContext } from 'phrases'
 
 export const AddressCard = (props: CardProps & { advert: Advert }) => {
+    const { phrase } = useContext(PhraseContext)
     const { adress, zipCode, city } = props.advert.location
 
     return (
@@ -18,7 +21,10 @@ export const AddressCard = (props: CardProps & { advert: Advert }) => {
                     </Grid>
                     <Grid item pt={2} pb={2}>
                         <Typography variant="subtitle1">
-                            Adress för avhämtning
+                            {phrase(
+                                'ADVERT_FIELD_ADDRESS_TITLE',
+                                'Adress för avhämtning'
+                            )}
                         </Typography>
                         <Typography variant="body2">{adress}</Typography>
                         <Typography variant="body2">

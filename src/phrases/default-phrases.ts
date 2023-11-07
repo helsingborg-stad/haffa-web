@@ -141,6 +141,8 @@ export const defaultPhrases: Omit<
         ADVERT_FIELD_MATERIAL: 'Material',
         ADVERT_FIELD_CONDITION: 'Skick',
         ADVERT_FIELD_USAGE: 'Användningsområde',
+        ADVERT_FIELD_CONTACT_TITLE: 'Kontakt',
+        ADVERT_FIELD_ADDRESS_TITLE: 'Adress för avhämtning',
         ADVERT_UPLOAD_IMAGE: 'Välj en fin bild',
     },
     ...{
