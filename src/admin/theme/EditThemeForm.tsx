@@ -38,9 +38,8 @@ import { PhraseContext } from 'phrases'
 import SvgIcon, { SvgIconProps } from '@mui/material/SvgIcon'
 import { BrandingOptions, ThemeModel } from 'branding/types'
 import { ColorResult, SketchPicker } from 'react-color'
+import { nanoid } from 'nanoid'
 import type { Option } from '../../options/types'
-
-const NS = 'THEME'
 
 const isValid = (color: string) => /^#[A-Fa-f0-9]{2,6}$/.test(color)
 
@@ -153,9 +152,10 @@ const PreviewSelect = (props: SelectProps & { key: number }) => {
     )
 }
 
-const ColorTextField = (
-    props: TextFieldProps & { onColorChange: (color: string) => void }
-) => {
+const ColorTextField = ({
+    onColorChange,
+    ...props
+}: TextFieldProps & { onColorChange: (color: string) => void }) => {
     const [state, setState] = useState<{
         color: string
         isOpen: boolean
@@ -173,7 +173,7 @@ const ColorTextField = (
             ...state,
             color: color.hex,
         })
-        props.onColorChange(color.hex)
+        onColorChange(color.hex)
     }
     return (
         <>
@@ -237,22 +237,22 @@ export const EditThemeForm: FC<{
                     onClick={() => {
                         setModel({ ...defaultThemeModel })
                     }}
-                    id={`${NS}RESTORE`}
+                    id="THEME_ACTION_RESTORE"
                 >
-                    {phrase(`${NS}_ACTION_RESTORE`, 'Återställ')}
+                    {phrase('THEME_ACTION_RESTORE', 'Återställ')}
                 </Button>
                 <Box flex={1} />
                 <Button
                     type="submit"
                     disabled={!validateFields()}
-                    id={`${NS}_ACTION_SAVE`}
+                    id="THEME_ACTION_SAVE"
                     variant="contained"
                     startIcon={<SaveIcon />}
                     onClick={() => {
                         onUpdate(createThemeOptions(model))
                     }}
                 >
-                    {phrase(`${NS}_ACTION_SAVE`, 'Spara')}
+                    {phrase('THEME_ACTION_SAVE', 'Spara')}
                 </Button>
             </CardActions>
         ),
@@ -262,130 +262,133 @@ export const EditThemeForm: FC<{
     return (
         <Card>
             <CardContent>
-                <Typography gutterBottom variant="h5" component="div">
-                    {phrase(`${NS}_SECTION_COLORS`, 'Färger')}
+                <Typography gutterBottom variant="h5">
+                    {phrase('THEME_SECTION_COLORS', 'Färger')}
                 </Typography>
-                <Grid container direction="row" sx={{ pb: 1 }}>
-                    <Grid item xs={12} sm={4} sx={{ p: 1 }}>
+                <Grid container pb={1}>
+                    <Grid item xs={12} sm={4} p={1}>
                         <ColorTextField
-                            key={`${NS}_FIELD_PRIMARY_COLOR`}
+                            key={nanoid()}
                             label={phrase(
-                                `${NS}_FIELD_PRIMARY_COLOR`,
+                                'THEME_FIELD_PRIMARY_COLOR',
                                 'Primär färg'
                             )}
                             value={model.colors.primary}
-                            onColorChange={(e) => {
+                            onColorChange={(color) => {
                                 setModel({
                                     ...model,
                                     colors: {
                                         ...model.colors,
-                                        primary: e,
+                                        primary: color,
                                     },
                                 })
                             }}
                         />
                     </Grid>
-                    <Grid item xs={12} sm={4} sx={{ p: 1 }}>
+                    <Grid item xs={12} sm={4} p={1}>
                         <ColorTextField
-                            key={`${NS}_FIELD_SECONDARY_COLOR`}
+                            key={nanoid()}
                             label={phrase(
-                                `${NS}_FIELD_SECONDARY_COLOR`,
+                                'THEME_FIELD_SECONDARY_COLOR',
                                 'Sekundär färg'
                             )}
                             value={model.colors.secondary}
-                            onColorChange={(e) => {
+                            onColorChange={(color) => {
                                 setModel({
                                     ...model,
                                     colors: {
                                         ...model.colors,
-                                        secondary: e,
+                                        secondary: color,
                                     },
                                 })
                             }}
                         />
                     </Grid>
-                    <Grid item xs={12} sm={4} sx={{ p: 1 }}>
+                    <Grid item xs={12} sm={4} p={1}>
                         <ColorTextField
-                            key={`${NS}_FIELD_INFO_COLOR`}
+                            key={nanoid()}
                             label={phrase(
-                                `${NS}_FIELD_INFO_COLOR`,
+                                'THEME_FIELD_INFO_COLOR',
                                 'Information'
                             )}
                             value={model.colors.info}
-                            onColorChange={(e) => {
+                            onColorChange={(color) => {
                                 setModel({
                                     ...model,
                                     colors: {
                                         ...model.colors,
-                                        info: e,
+                                        info: color,
                                     },
                                 })
                             }}
                         />
                     </Grid>
-                    <Grid item xs={12} sm={4} sx={{ p: 1 }}>
+                    <Grid item xs={12} sm={4} p={1}>
                         <ColorTextField
-                            key={`${NS}_FIELD_WARNING_COLOR`}
+                            key={nanoid()}
                             label={phrase(
-                                `${NS}_FIELD_WARNING_COLOR`,
+                                'THEME_FIELD_WARNING_COLOR',
                                 'Varning'
                             )}
                             value={model.colors.warning}
-                            onColorChange={(e) => {
+                            onColorChange={(color) => {
                                 setModel({
                                     ...model,
                                     colors: {
                                         ...model.colors,
-                                        warning: e,
+                                        warning: color,
                                     },
                                 })
                             }}
                         />
                     </Grid>
-                    <Grid item xs={12} sm={4} sx={{ p: 1 }}>
+                    <Grid item xs={12} sm={4} p={1}>
                         <ColorTextField
-                            key={`${NS}_FIELD_ERROR_COLOR`}
-                            label={phrase(`${NS}_FIELD_ERROR_COLOR`, 'Fel')}
+                            key={nanoid()}
+                            label={phrase('THEME_FIELD_ERROR_COLOR', 'Fel')}
                             value={model.colors.error}
-                            onColorChange={(e) => {
+                            onColorChange={(color) => {
                                 setModel({
                                     ...model,
                                     colors: {
                                         ...model.colors,
-                                        error: e,
+                                        error: color,
                                     },
                                 })
                             }}
                         />
                     </Grid>
-                    <Grid item xs={12} sm={4} sx={{ p: 1 }}>
+                    <Grid item xs={12} sm={4} p={1}>
                         <ColorTextField
-                            key={`${NS}_FIELD_SUCCESS_COLOR`}
+                            key={nanoid()}
                             label={phrase(
-                                `${NS}_FIELD_SUCCESS_COLOR`,
+                                'THEME_FIELD_SUCCESS_COLOR',
                                 'Genomfört'
                             )}
                             value={model.colors.success}
-                            onColorChange={(e) => {
+                            onColorChange={(color) => {
                                 setModel({
                                     ...model,
                                     colors: {
                                         ...model.colors,
-                                        success: e,
+                                        success: color,
                                     },
                                 })
                             }}
                         />
                     </Grid>
                 </Grid>
-                <Typography gutterBottom variant="h5" component="div">
-                    {phrase(`${NS}_SECTION_LAYOUT`, 'Utseende')}
+                <Typography gutterBottom variant="h5">
+                    {phrase('THEME_SECTION_LAYOUT', 'Utseende')}
                 </Typography>
-                <Grid container direction="row" sx={{ pb: 1 }}>
-                    <Grid item xs={12} sm={4} sx={{ p: 1 }}>
+                <Grid container pb={1}>
+                    <Grid item xs={12} sm={4} p={1}>
                         <TextField
-                            key={`${NS}_FIELD_RADIUS`}
-                            label="Radie på knappar"
+                            key={nanoid()}
+                            label={phrase(
+                                'THEME_FIELD_RADIUS',
+                                'Radie på knappar'
+                            )}
                             type="number"
                             value={model.layout.radius}
                             onChange={(e) => {
