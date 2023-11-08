@@ -1,4 +1,5 @@
 import { AdvertFilterInput } from 'adverts'
+import { AdvertFilterSortableFieldDescriptor } from 'hard-coded-config/types'
 import { AdvertSubscriptionFilter } from 'subscriptions/types'
 
 export interface UrlParamsAdapter {
@@ -21,11 +22,17 @@ export interface UrlParamsMapper {
 export interface UrlParamsContextType extends UrlParamsAdapter {
     patchAdvertFilterInputFromUrl: (
         prefix: string,
-        filter: AdvertFilterInput
+        filter: AdvertFilterInput,
+        config: {
+            sortableFields: AdvertFilterSortableFieldDescriptor[]
+        }
     ) => AdvertFilterInput
     updateUrlFromAdvertFilterInput: (
         prefix: string,
-        filter: AdvertFilterInput
+        filter: AdvertFilterInput,
+        config: {
+            sortableFields: AdvertFilterSortableFieldDescriptor[]
+        }
     ) => void
     makeAdvertSubscriptionUrl: (
         basePath: string,

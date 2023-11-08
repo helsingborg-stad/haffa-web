@@ -7,13 +7,14 @@ const createUrlParamsContext = (
     adapter: UrlParamsAdapter
 ): UrlParamsContextType => ({
     ...adapter,
-    patchAdvertFilterInputFromUrl: (prefix, filter) => {
+    patchAdvertFilterInputFromUrl: (prefix, filter, { sortableFields }) => {
         const params = adapter.parseUrlParams(prefix)
         const search = params.s || ''
         const categories = (params.c || '')
             .split(',')
             .map((s) => s.trim())
             .filter((v) => v)
+        const sorting = params.sf || ''
         const page = parseInt(params.p, 10) || 0
         return {
             ...filter,
@@ -22,12 +23,20 @@ const createUrlParamsContext = (
                 ...filter.fields,
                 category: categories.length ? { in: categories } : undefined,
             },
+            sorting:
+                sortableFields.find((sf) => sf.key === sorting)?.sorting ||
+                filter.sorting,
             paging: { pageSize: 25, ...filter.paging, pageIndex: page },
         }
     },
-    updateUrlFromAdvertFilterInput: (prefix, filter) => {
+    updateUrlFromAdvertFilterInput: (prefix, filter, { sortableFields }) => {
         adapter.updateLocationWithUrlParams(prefix, {
             s: filter.search,
+            sf: sortableFields.find(
+                ({ sorting }) =>
+                    sorting.field === filter.sorting?.field &&
+                    sorting.ascending === filter.sorting?.ascending
+            )?.key,
             c: filter.fields?.category?.in?.join(','),
             p: filter.paging?.pageIndex,
         })

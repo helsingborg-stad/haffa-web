@@ -4,6 +4,7 @@ import {
     useCallback,
     useContext,
     useEffect,
+    useMemo,
     useState,
 } from 'react'
 import { Alert, Pagination, Stack, SxProps, Theme } from '@mui/material'
@@ -13,6 +14,8 @@ import { createTreeAdapter } from 'lib/tree-adapter'
 import { Phrase } from 'phrases/Phrase'
 import { AdvertSubscriptionControls } from 'subscriptions'
 import { UrlParamsContext } from 'url-params'
+import { getAdvertFieldSortOptions } from 'hard-coded-config'
+import { PhraseContext } from 'phrases'
 import { AdvertsContext } from '../../AdvertsContext'
 import { AdvertsList } from './AdvertsList'
 import { ErrorView } from '../../../errors'
@@ -102,6 +105,7 @@ export const AdvertsListWithSearch: FC<
     defaultSearchParams,
 }) => {
     const { signal } = useAbortController()
+    const { phrase } = useContext(PhraseContext)
     const { updateUrlFromAdvertFilterInput, patchAdvertFilterInputFromUrl } =
         useContext(UrlParamsContext)
 
@@ -115,9 +119,20 @@ export const AdvertsListWithSearch: FC<
         ...defaultSearchParams,
     }
 
+    const sortableFields = useMemo(
+        () => getAdvertFieldSortOptions(phrase),
+        [phrase]
+    )
+
     const [searchParamsRaw, setSearchParamsRaw] = useState<AdvertFilterInput>(
         () =>
-            patchAdvertFilterInputFromUrl(prefix, effectiveInitialSearchParams)
+            patchAdvertFilterInputFromUrl(
+                prefix,
+                effectiveInitialSearchParams,
+                {
+                    sortableFields,
+                }
+            )
     )
 
     useEffect(() => {
@@ -129,7 +144,9 @@ export const AdvertsListWithSearch: FC<
     const setSearchParams = useCallback(
         (p: AdvertFilterInput) => {
             setSearchParamsRaw(p)
-            updateUrlFromAdvertFilterInput(prefix, p)
+            updateUrlFromAdvertFilterInput(prefix, p, {
+                sortableFields,
+            })
         },
         [setSearchParamsRaw]
     )
