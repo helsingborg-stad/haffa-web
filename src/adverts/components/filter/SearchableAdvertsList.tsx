@@ -26,7 +26,10 @@ const FilterPanel: FC<
                 />
             </Grid>
             <Grid item>
-                <FiltersIconButton onClick={() => setShowFilter(true)} />
+                <FiltersIconButton
+                    searchParams={searchParams}
+                    onClick={() => setShowFilter(true)}
+                />
                 <FilterDialog
                     open={showFilter}
                     onClose={() => setShowFilter(false)}
