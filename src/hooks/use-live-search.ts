@@ -1,4 +1,59 @@
+import { Action1 } from 'lib/types'
 import { useCallback, useState } from 'react'
+
+const createQueue = <TModel>() => {
+    let current: (() => Promise<void>) | null = null
+    let next: (() => Promise<void>) | null = null
+
+    const enqueue = (
+        f: AsyncFunc<TModel> | null,
+        completion: Action1<{
+            data: TModel | null
+            error: Error | null
+            pending: boolean
+        }>
+    ) => {
+        if (!f) {
+            return null
+        }
+
+        const completed = (data: TModel | null, error: Error | null) => {
+            completion({ data, error, pending: next !== null })
+            if (next) {
+                current = next
+                next = null
+            } else {
+                current = null
+                next = null
+            }
+            if (current) {
+                current()
+            }
+        }
+
+        const wrapped = () =>
+            f()
+                .then((data) => completed(data, null))
+                .catch((error) => completed(null, error))
+
+        if (current) {
+            next = wrapped
+            return
+        }
+        current = wrapped
+        next = null
+        if (current) {
+            current()
+        }
+    }
+
+    return {
+        get pending() {
+            return current !== null || next !== null
+        },
+        enqueue,
+    }
+}
 
 interface AsyncFunc<TModel> {
     (): Promise<TModel>
@@ -22,49 +77,39 @@ export const useLiveSearch = <TModel>(
     getData: AsyncFunc<TModel>
 ): AsyncInspect<TModel> => {
     const [initialized, setInitialized] = useState(false)
+
+    const [queue] = useState(() => createQueue<TModel | null>())
+
     const [state, setState] = useState<{
-        pending: Promise<void> | null
-        next: AsyncFunc<TModel> | null
+        pending: boolean
         data: TModel | null
         error: Error | null
     }>({
-        pending: null,
-        next: null,
+        pending: true,
         data: null,
         error: null,
     })
 
     const enqueue = useCallback(
         (next: AsyncFunc<TModel>): void => {
-            const { pending } = state
-            // hackish, no react way of updating state
-            // in order to avoid FOUC
-            if (pending) {
-                state.next = next
-                return
-            }
-            state.next = null
-            state.error = null
-            state.pending = next()
-                .then((data) => dequeue(data, null))
-                .catch((error) => dequeue(null, error))
+            setState({
+                ...state,
+                pending: true,
+            })
+            queue.enqueue(
+                () => next(),
+                ({ data, error, pending }) =>
+                    setState({
+                        ...state,
+                        data: data || state.data,
+                        error,
+                        pending,
+                    })
+            )
         },
-        [state]
+        [queue, state]
     )
-    const dequeue = useCallback((data: TModel | null, error: Error | null) => {
-        const { next } = state
-        if (next) {
-            state.next = null
-            enqueue(next)
-        }
-        setState({
-            ...state,
-            pending: null,
-            next: null,
-            data,
-            error,
-        })
-    }, [])
+
     if (!initialized) {
         setInitialized(true)
         enqueue(getData)
