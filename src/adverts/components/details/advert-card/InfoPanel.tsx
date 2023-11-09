@@ -48,7 +48,7 @@ export const InfoPanel: FC<{
                     {advert.title}
                 </Typography>
             )}
-            {hideTitle && (
+            {!hideTitle && (
                 <Typography variant="subtitle1" color="primary" gutterBottom>
                     {categoryLabel ? `${categoryLabel}, ` : ''}
                     {`${advert.meta.reservableQuantity} ${
