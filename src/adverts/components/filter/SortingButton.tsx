@@ -2,12 +2,7 @@ import { AdvertFilterInput, AdvertSorting } from 'adverts'
 import { FC, useContext, useMemo, useState } from 'react'
 import { Button, Menu, MenuItem } from '@mui/material'
 import { PhraseContext } from 'phrases/PhraseContext'
-
-interface SortOption {
-    label: string
-    ascending: boolean
-    sorting: AdvertSorting
-}
+import { getAdvertFieldSortOptions } from 'hard-coded-config'
 
 export const SortingButton: FC<{
     searchParams: AdvertFilterInput
@@ -30,29 +25,8 @@ export const SortingButton: FC<{
 
     const { phrase } = useContext(PhraseContext)
 
-    const sortOptions = useMemo<SortOption[]>(
-        () => [
-            {
-                label: phrase('SORT_OPTION_TITLE_ASC', 'A-Ö'),
-                ascending: true,
-                sorting: { field: 'title', ascending: true },
-            },
-            {
-                label: phrase('SORT_OPTION_TITLE_DESC', 'Ö-A'),
-                ascending: false,
-                sorting: { field: 'title', ascending: false },
-            },
-            {
-                label: phrase('SORT_OPTION_CREATEDAT_ASC', 'Äldst'),
-                ascending: true,
-                sorting: { field: 'createdAt', ascending: true },
-            },
-            {
-                label: phrase('SORT_OPTION_CREATEDAT_DESC', 'Nyast'),
-                ascending: false,
-                sorting: { field: 'createdAt', ascending: false },
-            },
-        ],
+    const sortOptions = useMemo(
+        () => getAdvertFieldSortOptions(phrase),
         [phrase]
     )
 
@@ -76,10 +50,10 @@ export const SortingButton: FC<{
                 open={!!sortMenuAnchor}
                 onClose={() => setSortMenuAnchor(null)}
             >
-                {sortOptions.map((option, index) => (
+                {sortOptions.map((option) => (
                     <MenuItem
                         selected={option === bestMatchingOption}
-                        key={index}
+                        key={option.key}
                         onClick={() => applySortOption(option.sorting)}
                     >
                         {option.label}
