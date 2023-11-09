@@ -39,15 +39,17 @@ export const AdvertSubscriptionControls: FC<{
                       'Bevaka denna sökning'
                   )}
               </Button>,
-              <Button
-                  key="nav"
-                  variant="outlined"
-                  component={Button}
-                  startIcon={<SubscriptionsIcon />}
-                  href="/my-subscriptions"
-              >
-                  {phrase('NAV_SUBSCRIPTIONS', 'Visa mina bevakningar')}
-              </Button>,
+              false && (
+                  <Button
+                      key="nav"
+                      variant="outlined"
+                      component={Button}
+                      startIcon={<SubscriptionsIcon />}
+                      href="/my-subscriptions"
+                  >
+                      {phrase('NAV_SUBSCRIPTIONS', 'Visa mina bevakningar')}
+                  </Button>
+              ),
           ]
         : []
     return buttons.length > 0 ? (
