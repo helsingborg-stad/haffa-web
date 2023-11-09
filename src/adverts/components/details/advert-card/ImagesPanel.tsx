@@ -69,6 +69,7 @@ const SwiperCarousel: FC<{ images: AdvertImage[] }> = ({ images }) => {
             <Swiper
                 key="carousel"
                 style={swiperStyle}
+                loop
                 {...swiperProps}
                 pagination={{
                     clickable: true,
