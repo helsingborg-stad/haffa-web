@@ -56,7 +56,8 @@ const SwiperCarousel: FC<{ images: AdvertImage[] }> = ({ images }) => {
                 ? {
                       centeredSlides:
                           [false, true, false, false][images.length] || false,
-                      slidesPerView: [0, 3, 2, 3][images.length] || 3,
+                      // slidesPerView: [0, 3, 2, 3][images.length] || 3,
+                      slidesPerView: 1,
                   }
                 : {
                       slidesPerView: 1,
@@ -110,7 +111,8 @@ const SwiperCarousel: FC<{ images: AdvertImage[] }> = ({ images }) => {
                     key="preview"
                     open={backdropImageIndex >= 0}
                     sx={{
-                        background: (theme) => theme.palette.primary.light,
+                        // background: (theme) => theme.palette.primary.light,
+                        background: 'black',
                         zIndex: (theme) => theme.zIndex.drawer + 1,
                     }}
                 >

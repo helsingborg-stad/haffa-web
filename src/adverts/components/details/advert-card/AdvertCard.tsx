@@ -1,5 +1,5 @@
 import { FC } from 'react'
-import { Box, Card, CardContent, Grid } from '@mui/material'
+import { Card, CardContent, Grid, Stack } from '@mui/material'
 import { Editorial } from 'editorials'
 import { TreeAdapter } from 'lib/types'
 import { Category } from 'categories/types'
@@ -26,73 +26,85 @@ export const AdvertCard: FC<{
         !meta.isMine && (meta.canEdit || meta.canRemove || meta.canManageClaims)
 
     return (
-        <>
+        <Stack spacing={2}>
             <ArchivedPanel advert={advert} onUpdate={onUpdate} />
-            <Card sx={{ mb: 1 }} variant="outlined">
-                <CardContent>
-                    <ImagesPanel advert={advert} />
+
+            <Card>
+                <CardContent key="mobile" sx={{ display: { sm: 'none' } }}>
+                    <CardContent>
+                        <ImagesPanel advert={advert} />
+                    </CardContent>
+                    <CardContent>
+                        <InfoPanel
+                            advert={advert}
+                            categories={categories}
+                            error={error}
+                            hideDescription
+                        />
+                        <ActionsPanel advert={advert} onUpdate={onUpdate} />
+                        <InfoPanel
+                            advert={advert}
+                            categories={categories}
+                            error={error}
+                            hideTitle
+                        />
+                    </CardContent>
                 </CardContent>
-                <CardContent>
-                    <Box sx={{ display: { xs: 'none', sm: 'block' } }}>
-                        <Grid container spacing={2}>
-                            <Grid item xs={12} sm={9}>
-                                <InfoPanel
-                                    advert={advert}
-                                    categories={categories}
-                                    error={error}
-                                />
-                            </Grid>
-                            <Grid item xs={12} sm={3}>
-                                <ActionsPanel
-                                    advert={advert}
-                                    onUpdate={onUpdate}
-                                />
+                <CardContent
+                    key="desktop"
+                    sx={{ display: { xs: 'none', sm: 'block' } }}
+                >
+                    <Grid container spacing={2} direction="row">
+                        <Grid item xs={6}>
+                            <ImagesPanel advert={advert} />
+                        </Grid>
+                        <Grid item xs={6}>
+                            <Grid container direction="column">
+                                <Grid>
+                                    <InfoPanel
+                                        advert={advert}
+                                        categories={categories}
+                                        error={error}
+                                        hideDescription
+                                    />
+                                </Grid>
+                                <Grid item>
+                                    <ActionsPanel
+                                        advert={advert}
+                                        onUpdate={onUpdate}
+                                    />
+                                </Grid>
+                                <Grid item>
+                                    <InfoPanel
+                                        advert={advert}
+                                        categories={categories}
+                                        error={error}
+                                        hideTitle
+                                    />
+                                </Grid>
                             </Grid>
                         </Grid>
-                    </Box>
-                    <Box sx={{ display: { xs: 'block', sm: 'none' } }}>
-                        <Grid container spacing={2}>
-                            <Grid item xs={12}>
-                                <ActionsPanel
-                                    advert={advert}
-                                    onUpdate={onUpdate}
-                                />
-                            </Grid>
-                            <Grid item xs={12}>
-                                <InfoPanel
-                                    advert={advert}
-                                    categories={categories}
-                                    error={error}
-                                />
-                            </Grid>
-                        </Grid>
-                    </Box>
+                    </Grid>
                 </CardContent>
-                {showRightsDisclaimer && (
+            </Card>
+            <AddressCard variant="outlined" advert={advert} />
+            <ContactCard variant="outlined" advert={advert} />
+
+            {showRightsDisclaimer && (
+                <Card>
                     <CardContent>
                         <Editorial severity="warning">
                             Du har givits rättigheter att adminstrera denna
                             annons trots att den tillhör någon annan.
                         </Editorial>
                     </CardContent>
-                )}
-            </Card>
-
-            <AddressCard
-                variant="outlined"
-                advert={advert}
-                sx={{ mb: 1, height: 120 }}
-            />
-            <ContactCard
-                variant="outlined"
-                advert={advert}
-                sx={{ mb: 2, height: 120 }}
-            />
+                </Card>
+            )}
 
             {meta.canManageClaims && (
                 <ClaimsPanel advert={advert} onUpdate={onUpdate} />
             )}
             <EditorButtonsPanel advert={advert} onUpdate={onUpdate} />
-        </>
+        </Stack>
     )
 }

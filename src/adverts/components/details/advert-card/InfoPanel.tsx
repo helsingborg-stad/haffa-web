@@ -10,7 +10,9 @@ export const InfoPanel: FC<{
     advert: Advert
     categories: TreeAdapter<Category>
     error?: string
-}> = ({ advert, categories, error }) => {
+    hideTitle?: boolean
+    hideDescription?: boolean
+}> = ({ advert, categories, error, hideTitle, hideDescription }) => {
     const { fromNow, phrase } = useContext(PhraseContext)
     const categoryLabel = categories.findById(advert.category)?.label
     return (
@@ -41,16 +43,20 @@ export const InfoPanel: FC<{
                     )}
                 </Alert>
             )}
-            <Typography variant="h5" component="div">
-                {advert.title}
-            </Typography>
-            <Typography variant="subtitle1" color="primary" gutterBottom>
-                {categoryLabel ? `${categoryLabel}, ` : ''}
-                {`${advert.meta.reservableQuantity} ${advert.unit} ${fromNow(
-                    advert.createdAt
-                )}`}
-            </Typography>
-            <Markdown markdown={advert.description} />
+            {!hideTitle && (
+                <Typography variant="h5" component="div">
+                    {advert.title}
+                </Typography>
+            )}
+            {hideTitle && (
+                <Typography variant="subtitle1" color="primary" gutterBottom>
+                    {categoryLabel ? `${categoryLabel}, ` : ''}
+                    {`${advert.meta.reservableQuantity} ${
+                        advert.unit
+                    } ${fromNow(advert.createdAt)}`}
+                </Typography>
+            )}
+            {!hideDescription && <Markdown markdown={advert.description} />}
         </>
     )
 }
