@@ -2,10 +2,10 @@ import { Tree } from 'antd'
 import { DataNode } from 'antd/es/tree'
 import { FC, useCallback, useContext, useState } from 'react'
 import { Box, Button } from '@mui/material'
-import { Category } from '../../../categories/types'
-import useAsync from '../../../hooks/use-async'
-import { encodeCategoryTree } from '../../../categories/mappers'
-import { CategoriesContext } from '../../../categories'
+import { Category } from '../../../../categories/types'
+import useAsync from '../../../../hooks/use-async'
+import { encodeCategoryTree } from '../../../../categories/mappers'
+import { CategoriesContext } from '../../../../categories'
 
 export interface CategoriesFilterProps {
     selected: string[]

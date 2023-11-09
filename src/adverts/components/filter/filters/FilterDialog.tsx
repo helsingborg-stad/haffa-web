@@ -9,40 +9,43 @@ import {
     useTheme,
 } from '@mui/material'
 import { FC, useState } from 'react'
+import { AdvertFilterInput } from 'adverts'
 import { CategoriesFilter } from './CategoriesFilter'
 
 export interface SelectedFilters {
     categories: string[]
 }
 
-export interface FilterDialogProps {
+export const FilterDialog: FC<{
     open: boolean
-    closeDialog: () => void
-    filters: SelectedFilters
-    onFiltersChanged: (filters: SelectedFilters) => void
-}
-
-export const FilterDialog: FC<FilterDialogProps> = ({
-    open,
-    closeDialog,
-    filters,
-    onFiltersChanged,
-}) => {
+    onClose: () => void
+    searchParams: AdvertFilterInput
+    setSearchParams: (p: AdvertFilterInput) => void
+}> = ({ open, onClose, searchParams, setSearchParams }) => {
     const theme = useTheme()
     const fullScreen = useMediaQuery(theme.breakpoints.down('md'))
 
-    const [categories, setCategories] = useState<string[]>(filters.categories)
+    const [categories, setCategories] = useState<string[]>(
+        searchParams.fields?.category?.in ?? []
+    )
 
     const onSave = () => {
-        onFiltersChanged({ categories })
-        closeDialog()
+        setSearchParams({
+            ...searchParams,
+            fields: {
+                ...searchParams.fields,
+                category:
+                    categories.length > 0 ? { in: categories } : undefined,
+            },
+        })
+        onClose()
     }
 
     return (
         <Dialog
             fullScreen={fullScreen}
             open={open}
-            onClose={closeDialog}
+            onClose={() => onClose()}
             aria-labelledby="responsive-dialog-title"
             fullWidth
             maxWidth="sm"

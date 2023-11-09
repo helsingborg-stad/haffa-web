@@ -1,8 +1,51 @@
 import { FC, PropsWithChildren, useState } from 'react'
-import { Box } from '@mui/material'
+import { Box, Grid } from '@mui/material'
 import { AdvertFilterInput } from 'adverts'
-import { FreeTextSearchInput } from './FreeTextSearchInput'
-import { FilterDialog, SelectedFilters } from './FilterDialog'
+import { SearchInput } from './search'
+import { SortIconButton } from './sorting/SortIconButton'
+import { SortMenu } from './sorting'
+import { FiltersIconButton, FilterDialog } from './filters'
+
+const FilterPanel: FC<
+    {
+        searchParams: AdvertFilterInput
+        setSearchParams: (p: AdvertFilterInput) => void
+    } & PropsWithChildren
+> = ({ searchParams, setSearchParams }) => {
+    const [showFilter, setShowFilter] = useState(false)
+    const [sortMenuAnchor, setSortMenuAnchor] = useState<HTMLElement | null>(
+        null
+    )
+
+    return (
+        <Grid container>
+            <Grid item sx={{ flex: 1 }}>
+                <SearchInput
+                    searchParams={searchParams}
+                    setSearchParams={setSearchParams}
+                />
+            </Grid>
+            <Grid item>
+                <FiltersIconButton onClick={() => setShowFilter(true)} />
+                <FilterDialog
+                    open={showFilter}
+                    onClose={() => setShowFilter(false)}
+                    searchParams={searchParams}
+                    setSearchParams={setSearchParams}
+                />
+            </Grid>
+            <Grid item>
+                <SortIconButton onClick={setSortMenuAnchor} />
+                <SortMenu
+                    anchor={sortMenuAnchor}
+                    onClose={() => setSortMenuAnchor(null)}
+                    searchParams={searchParams}
+                    setSearchParams={setSearchParams}
+                />
+            </Grid>
+        </Grid>
+    )
+}
 
 export const SearchableAdvertsList: FC<
     {
@@ -10,49 +53,14 @@ export const SearchableAdvertsList: FC<
         searchParams: AdvertFilterInput
         setSearchParams: (p: AdvertFilterInput) => void
     } & PropsWithChildren
-> = ({ hideFilter, searchParams, setSearchParams, children }) => {
-    const [dialogOpen, setDialogOpen] = useState(false)
-
-    const openDialog = () => setDialogOpen(true)
-    const closeDialog = () => setDialogOpen(false)
-
-    const setFiltersOnSearchParams = (filters: SelectedFilters) => {
-        setSearchParams({
-            ...searchParams,
-            fields: {
-                ...searchParams.fields,
-                category:
-                    filters.categories.length > 0
-                        ? {
-                              in: filters.categories,
-                          }
-                        : {},
-            },
-        })
-    }
-
-    const selectedFiltersFromSearchParams = (): SelectedFilters => ({
-        categories: searchParams.fields?.category?.in ?? [],
-    })
-
-    return (
-        <>
-            <Box>
-                {!hideFilter && (
-                    <FreeTextSearchInput
-                        searchParams={searchParams}
-                        setSearchParams={setSearchParams}
-                        onFilterButtonClick={openDialog}
-                    />
-                )}
-                {children}
-            </Box>
-            <FilterDialog
-                open={dialogOpen}
-                closeDialog={closeDialog}
-                filters={selectedFiltersFromSearchParams()}
-                onFiltersChanged={setFiltersOnSearchParams}
+> = ({ hideFilter, searchParams, setSearchParams, children }) => (
+    <Box>
+        {!hideFilter && (
+            <FilterPanel
+                searchParams={searchParams}
+                setSearchParams={setSearchParams}
             />
-        </>
-    )
-}
+        )}
+        {children}
+    </Box>
+)
