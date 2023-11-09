@@ -44,12 +44,18 @@ const UnpackLoaderData: FC<{ render: (loaderData: any) => JSX.Element }> = ({
     return render(loaderData)
 }
 
-const RequireRole: FC<
-    PropsWithChildren & { predicate: (roles: HaffaUserRoles) => boolean }
-> = ({ predicate, children }) => {
+const RouteLayout: FC<
+    PropsWithChildren & { ifRoles: (roles: HaffaUserRoles) => boolean }
+> = ({ ifRoles, children }) => {
     const { roles } = useContext(AuthContext)
 
-    return <Layout>{predicate(roles) ? children : <UnauthorizedView />}</Layout>
+    return ifRoles(roles) ? (
+        <Layout key="a">{children}</Layout>
+    ) : (
+        <Layout key="u">
+            <UnauthorizedView />
+        </Layout>
+    )
 }
 
 const createRouter = (
@@ -238,11 +244,9 @@ const createRouter = (
      */
     const viewMySubscriptionsProps = (): AsyncRouteConfig => ({
         element: (
-            <RequireRole predicate={(r) => !!r.canSubscribe}>
-                <Layout>
-                    <MySubscriptionsView />
-                </Layout>
-            </RequireRole>
+            <RouteLayout ifRoles={(r) => !!r.canSubscribe}>
+                <MySubscriptionsView />
+            </RouteLayout>
         ),
     })
 
@@ -251,11 +255,9 @@ const createRouter = (
      */
     const viewSubscriptionProps = (): AsyncRouteConfig => ({
         element: (
-            <RequireRole predicate={(r) => !!r.canSubscribe}>
-                <Layout>
-                    <SubscriptionView />
-                </Layout>
-            </RequireRole>
+            <RouteLayout ifRoles={(r) => !!r.canSubscribe}>
+                <SubscriptionView />
+            </RouteLayout>
         ),
     })
 
@@ -275,8 +277,8 @@ const createRouter = (
      */
     const viewAdminProps = (): AsyncRouteConfig => ({
         element: (
-            <RequireRole
-                predicate={(r) =>
+            <RouteLayout
+                ifRoles={(r) =>
                     !!(
                         r.canEditApiKeys ||
                         r.canEditSystemCategories ||
@@ -286,10 +288,8 @@ const createRouter = (
                     )
                 }
             >
-                <Layout>
-                    <AdminView />
-                </Layout>
-            </RequireRole>
+                <AdminView />
+            </RouteLayout>
         ),
     })
 

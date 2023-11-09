@@ -14,7 +14,6 @@ export const FreeTextSearchInput: FC<{
         value={searchParams.search}
         type="search"
         fullWidth
-        sx={{ my: 2 }}
         InputProps={{
             style: { fontSize: '150%' },
             startAdornment: (

@@ -166,7 +166,7 @@ export const Layout: FC<
             <Toolbar /* for pushing down content */ />
             <Grid key="c" item xs={12} md={8} sx={{}}>
                 <SlowFetchWarning key="sf" />
-                <Container key="c" sx={{ position: 'relative' }}>
+                <Container key="c" sx={{ position: 'relative', my: 2 }}>
                     {children}
                 </Container>
             </Grid>

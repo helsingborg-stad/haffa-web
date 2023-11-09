@@ -60,9 +60,12 @@ export const createNavLinks: Func1<
     },
 }) =>
     [
-        desktop && button(ADVERT_CREATE, '/advert/create', <AddIcon />),
+        false &&
+            desktop &&
+            button(ADVERT_CREATE, '/advert/create', <AddIcon />),
         link(NAV_HOME, '/', <SearchIcon />),
-        mobile && link(ADVERT_CREATE, '/advert/create', <AddIcon />),
+        // mobile && link(ADVERT_CREATE, '/advert/create', <AddIcon />),
+        link(ADVERT_CREATE, '/advert/create', <AddIcon />),
         link(SCAN_QR_CODE, '/scan', <QrCodeScannerIcon />),
         (mobile ? menuitem : link)(
             'Bevakningar',
