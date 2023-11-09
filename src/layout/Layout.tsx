@@ -10,11 +10,11 @@ import {
     AppBar,
     Box,
     Button,
+    ButtonProps,
     Container,
     Divider,
     Drawer,
     Grid,
-    IconButton,
     List,
     ListItem,
     ListItemButton,
@@ -33,6 +33,27 @@ import { HaffaLink, createNavLinks } from './nav-links'
 import { SlowFetchWarning } from './SlowFetchWarning'
 import { NotificationsSnackbar } from './NotificationSnackbar'
 
+const NavIconButton: FC<{
+    label: string
+    icon: ReactNode
+    button: ButtonProps
+}> = ({ label, icon, button }) => (
+    <Button color="inherit" {...button}>
+        <Stack
+            direction="column"
+            sx={{
+                alignItems: 'center',
+                fontSize: { xs: 'x-small', sm: '' },
+                fontWeight: 'initial',
+                textTransform: 'none',
+            }}
+        >
+            {icon}
+            <Box>{label}</Box>
+        </Stack>
+    </Button>
+)
+
 const NavIconLink: FC<{
     label: string
     icon: ReactNode
@@ -41,7 +62,13 @@ const NavIconLink: FC<{
     <Button color="inherit" component={NavLink} to={link.to}>
         <Stack
             direction="column"
-            sx={{ alignItems: 'center', fontSize: { xs: 'xx-small', sm: '' } }}
+            sx={{
+                alignItems: 'center',
+                fontSize: { xs: 'x-small', sm: '' },
+                fontWeight: 'initial',
+                textTransform: 'none',
+                m: 1,
+            }}
         >
             {icon}
             <Box>{label}</Box>
@@ -126,19 +153,14 @@ export const Layout: FC<
                         <Button color="inherit" component="a" href="/">
                             {APP_TITLE}
                         </Button>
-
+                        <Box flex={1} />
                         {insideToolbarLinks}
                         {insideDrawerLinks.length > 0 && (
-                            <>
-                                <Box flex={1} />
-                                <IconButton
-                                    color="inherit"
-                                    edge="end"
-                                    onClick={() => setDrawer(!drawer)}
-                                >
-                                    <MenuIcon />
-                                </IconButton>
-                            </>
+                            <NavIconButton
+                                label="Meny"
+                                icon={<MenuIcon />}
+                                button={{ onClick: () => setDrawer(!drawer) }}
+                            />
                         )}
                     </Toolbar>
                 </Container>
@@ -151,13 +173,11 @@ export const Layout: FC<
             >
                 <Toolbar>
                     <Box flex={1} />
-                    <IconButton
-                        color="inherit"
-                        edge="end"
-                        onClick={() => setDrawer(!drawer)}
-                    >
-                        <MenuIcon />
-                    </IconButton>
+                    <NavIconButton
+                        label="Meny"
+                        icon={<MenuIcon />}
+                        button={{ onClick: () => setDrawer(!drawer) }}
+                    />
                 </Toolbar>
                 <Divider />
                 <List>{insideDrawerLinks}</List>
@@ -166,7 +186,7 @@ export const Layout: FC<
             <Toolbar /* for pushing down content */ />
             <Grid key="c" item xs={12} md={8} sx={{}}>
                 <SlowFetchWarning key="sf" />
-                <Container key="c" sx={{ position: 'relative', my: 2 }}>
+                <Container key="c" sx={{ position: 'relative', mt: 4, mb: 8 }}>
                     {children}
                 </Container>
             </Grid>

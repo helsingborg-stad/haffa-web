@@ -1,4 +1,4 @@
-import AddIcon from '@mui/icons-material/Add'
+import AddIcon from '@mui/icons-material/AddCircleOutline'
 import SearchIcon from '@mui/icons-material/Search'
 import QrCodeScannerIcon from '@mui/icons-material/QrCodeScanner'
 import { ReactNode } from 'react'
@@ -63,7 +63,7 @@ export const createNavLinks: Func1<
         false &&
             desktop &&
             button(ADVERT_CREATE, '/advert/create', <AddIcon />),
-        link(NAV_HOME, '/', <SearchIcon />),
+        false && link(NAV_HOME, '/', <SearchIcon />),
         // mobile && link(ADVERT_CREATE, '/advert/create', <AddIcon />),
         link(ADVERT_CREATE, '/advert/create', <AddIcon />),
         link(SCAN_QR_CODE, '/scan', <QrCodeScannerIcon />),

@@ -195,6 +195,7 @@ export const AdvertsListWithSearch: FC<
                     <AdvertSubscriptionControls
                         searchParams={searchParams}
                         hideIfEmptySearch={false}
+                        sx={{ mt: 1 }}
                     />
                 )}
 
