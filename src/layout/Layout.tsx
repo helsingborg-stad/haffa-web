@@ -150,7 +150,14 @@ export const Layout: FC<
             <AppBar key="ab" color="default">
                 <Container disableGutters>
                     <Toolbar>
-                        <Button color="inherit" component="a" href="/">
+                        <Button
+                            color="inherit"
+                            component="a"
+                            href="/"
+                            sx={{
+                                textTransform: 'none',
+                            }}
+                        >
                             {APP_TITLE}
                         </Button>
                         <Box flex={1} />
