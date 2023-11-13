@@ -45,7 +45,9 @@ export const createThemeModel = (options: Option[]): ThemeModel => {
     const layout = {
         ...defaultThemeLayout,
         ...toMap(
-            options.filter((layout) => ['radius'].includes(layout.key)),
+            options.filter((layout) =>
+                ['radius', 'papervariant', 'appbarshadow'].includes(layout.key)
+            ),
             ({ key }) => key,
             ({ value }) => value
         ),

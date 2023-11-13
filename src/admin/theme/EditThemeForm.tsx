@@ -1,6 +1,7 @@
 import {
     Alert,
     AlertProps,
+    AppBar,
     Box,
     Button,
     ButtonProps,
@@ -18,6 +19,7 @@ import {
     InputLabel,
     MenuItem,
     Paper,
+    PaperProps,
     Select,
     SelectProps,
     TextField,
@@ -32,7 +34,7 @@ import {
     createThemeOptions,
     defaultThemeModel,
 } from 'branding/theme-factory'
-import { FC, useCallback, useContext, useState } from 'react'
+import { FC, PropsWithChildren, useCallback, useContext, useState } from 'react'
 import SaveIcon from '@mui/icons-material/Save'
 import { PhraseContext } from 'phrases'
 import SvgIcon, { SvgIconProps } from '@mui/material/SvgIcon'
@@ -42,6 +44,8 @@ import { nanoid } from 'nanoid'
 import type { Option } from '../../options/types'
 
 const isValid = (color: string) => /^#[A-Fa-f0-9]{2,6}$/.test(color)
+
+const arrayWithNumbers = (max: number) => Array.from(Array(max).keys())
 
 const ColorButton = (props: SvgIconProps & ButtonProps) => (
     <IconButton onClick={props.onClick}>
@@ -208,7 +212,20 @@ const ColorTextField = ({
         </>
     )
 }
+const InputSelectField = (props: SelectProps & PropsWithChildren) => {
+    const { id = nanoid(), children } = props
+    const { phrase } = useContext(PhraseContext)
+    const label = phrase(id, (props.label as string) ?? 'N/A')
 
+    return (
+        <FormControl fullWidth>
+            <InputLabel id={id}>{label}</InputLabel>
+            <Select {...props} key={nanoid()} labelId={id} label={label}>
+                {children}
+            </Select>
+        </FormControl>
+    )
+}
 export const EditThemeForm: FC<{
     options: Option<BrandingOptions>[]
     onUpdate: (options: Option<BrandingOptions>[]) => void
@@ -383,24 +400,68 @@ export const EditThemeForm: FC<{
                 </Typography>
                 <Grid container pb={1}>
                     <Grid item xs={12} sm={4} p={1}>
-                        <TextField
-                            key={nanoid()}
-                            label={phrase(
-                                'THEME_FIELD_RADIUS',
-                                'Radie på knappar'
-                            )}
-                            type="number"
+                        <InputSelectField
+                            id="THEME_FIELD_RADIUS"
+                            label="Radie på knappar"
                             value={model.layout.radius}
                             onChange={(e) => {
                                 setModel({
                                     ...model,
                                     layout: {
                                         ...model.layout,
-                                        radius: Number(e.target.value.trim()),
+                                        radius: Number(e.target.value),
                                     },
                                 })
                             }}
-                        />
+                        >
+                            {arrayWithNumbers(40).map((i) => (
+                                <MenuItem key={nanoid()} value={i}>
+                                    {i}
+                                </MenuItem>
+                            ))}
+                        </InputSelectField>
+                    </Grid>
+                    <Grid item xs={12} sm={4} p={1}>
+                        <InputSelectField
+                            id="THEME_FIELD_APPBAR_BOXSHADOW"
+                            label="Appbar skuggning"
+                            value={model.layout.appbarshadow}
+                            onChange={(e) => {
+                                setModel({
+                                    ...model,
+                                    layout: {
+                                        ...model.layout,
+                                        appbarshadow: Number(e.target.value),
+                                    },
+                                })
+                            }}
+                        >
+                            {arrayWithNumbers(24).map((i) => (
+                                <MenuItem key={nanoid()} value={i}>
+                                    {i}
+                                </MenuItem>
+                            ))}
+                        </InputSelectField>
+                    </Grid>
+                    <Grid item xs={12} sm={4} p={1}>
+                        <InputSelectField
+                            id="THEME_FIELD_PAPER_VARIANT"
+                            label="Stil på omslag"
+                            value={model.layout.papervariant}
+                            onChange={(e) => {
+                                setModel({
+                                    ...model,
+                                    layout: {
+                                        ...model.layout,
+                                        papervariant: e.target
+                                            .value as PaperProps['variant'],
+                                    },
+                                })
+                            }}
+                        >
+                            <MenuItem value="outlined">Flat</MenuItem>
+                            <MenuItem value="elevation">Förhöjd</MenuItem>
+                        </InputSelectField>
                     </Grid>
                 </Grid>
             </CardContent>
@@ -408,7 +469,17 @@ export const EditThemeForm: FC<{
 
             <CardContent>
                 <ThemeProvider theme={createTheme(createCustomTheme(model))}>
-                    <Paper elevation={4} sx={{ p: 2 }}>
+                    <Paper sx={{ p: 2 }}>
+                        <Typography variant="h6" mt={1}>
+                            Appbar
+                        </Typography>
+                        <Grid container>
+                            <Grid item mt={1} pr={1} xs={12} sm={12}>
+                                <AppBar position="static" sx={{ p: 3 }}>
+                                    <Typography variant="h6">HAFFA</Typography>
+                                </AppBar>
+                            </Grid>
+                        </Grid>
                         <Typography variant="h6" mt={1}>
                             Buttons
                         </Typography>
