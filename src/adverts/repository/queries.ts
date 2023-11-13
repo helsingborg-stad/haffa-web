@@ -33,6 +33,10 @@ const advertProps = /* GraphQL */ `
 		url
 	}
 	unit
+	height
+	width
+	depth
+	weight
 	material
 	condition
 	usage

@@ -232,8 +232,6 @@ export const AdvertForm: FC<{
                                     fullWidth: true,
                                 }
                             ),
-                    ],
-                    [
                         () =>
                             select(
                                 'category',
@@ -289,6 +287,40 @@ export const AdvertForm: FC<{
                 rows: [
                     [
                         () =>
+                            textField(
+                                'width',
+                                phrase('ADVERT_FIELD_WIDTH', 'Bredd'),
+                                {
+                                    fullWidth: true,
+                                }
+                            ),
+                        () =>
+                            textField(
+                                'height',
+                                phrase('ADVERT_FIELD_HEIGHT', 'Höjd'),
+                                {
+                                    fullWidth: true,
+                                }
+                            ),
+                        () =>
+                            textField(
+                                'depth',
+                                phrase('ADVERT_FIELD_DEPTH', 'Djup'),
+                                {
+                                    fullWidth: true,
+                                }
+                            ),
+                        () =>
+                            textField(
+                                'weight',
+                                phrase('ADVERT_FIELD_WEIGHT', 'Vikt'),
+                                {
+                                    fullWidth: true,
+                                }
+                            ),
+                    ],
+                    [
+                        () =>
                             select(
                                 'material',
                                 phrase('ADVERT_FIELD_MATERIAL', 'Material'),
@@ -318,8 +350,6 @@ export const AdvertForm: FC<{
                                     fullWidth: true,
                                 }
                             ),
-                    ],
-                    [
                         () =>
                             textField(
                                 'reference',

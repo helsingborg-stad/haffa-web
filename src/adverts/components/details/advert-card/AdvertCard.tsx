@@ -12,6 +12,7 @@ import { ArchivedPanel } from './ArchivedPanel'
 import { EditorButtonsPanel } from './EditorButtonsPanel'
 import { AddressCard } from './AddressCard'
 import { ContactCard } from './ContactCard'
+import { ParcelCard } from './ParcelCard'
 
 export const AdvertCard: FC<{
     advert: Advert
@@ -87,6 +88,7 @@ export const AdvertCard: FC<{
                     </Grid>
                 </CardContent>
             </Card>
+            <ParcelCard variant="outlined" advert={advert} />
             <AddressCard variant="outlined" advert={advert} />
             <ContactCard variant="outlined" advert={advert} />
 
