@@ -1,4 +1,4 @@
-import { ThemeOptions, TypographyOwnProps } from '@mui/material'
+import { PaperProps, ThemeOptions, TypographyOwnProps } from '@mui/material'
 
 export type BrandingOptions =
     | 'primary'
@@ -20,6 +20,8 @@ export interface ThemeModel {
     }
     layout: {
         radius: number
+        appbarshadow: number
+        papervariant: PaperProps['variant']
         cardHeader: TypographyOwnProps['variant']
     }
 }

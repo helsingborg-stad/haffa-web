@@ -1,4 +1,4 @@
-import { ThemeOptions } from '@mui/material'
+import { ThemeOptions, createTheme } from '@mui/material/styles'
 import { toMap } from 'lib/to-map'
 import { BrandingOptions, ThemeFactory, ThemeModel } from './types'
 import type { Option } from '../options/types'
@@ -14,6 +14,8 @@ const defaultThemeColors: ThemeModel['colors'] = {
 
 const defaultThemeLayout: ThemeModel['layout'] = {
     radius: 0,
+    appbarshadow: 0,
+    papervariant: 'outlined',
     cardHeader: 'body1',
 }
 
@@ -79,6 +81,8 @@ export const createCustomTheme: ThemeFactory = (
         ...defaultThemeLayout,
         ...model.layout,
     }
+    const defaultTheme = createTheme()
+
     const theme: ThemeOptions = {
         palette: {
             primary: {
@@ -113,6 +117,18 @@ export const createCustomTheme: ThemeFactory = (
                     titleTypographyProps: {
                         variant: layout.cardHeader,
                         fontWeight: 'bold',
+                    },
+                },
+            },
+            MuiPaper: {
+                defaultProps: {
+                    variant: layout.papervariant,
+                },
+            },
+            MuiAppBar: {
+                styleOverrides: {
+                    root: {
+                        boxShadow: defaultTheme.shadows[layout.appbarshadow],
                     },
                 },
             },
