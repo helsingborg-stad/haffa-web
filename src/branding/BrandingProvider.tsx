@@ -32,11 +32,10 @@ const BrandedView: FC<
             >
                 <GlobalStyles
                     styles={{
-                        /*
-	                        <NavLink> and active:
- 		                    https://reactrouter.com/en/main/components/nav-link#default-active-class
-                        */
-                        'a.active': { color: theme.palette.primary.main },
+                        // active AppBar links
+                        'header a.active': {
+                            backgroundColor: theme.palette.primary.light,
+                        },
                     }}
                 />
                 {children}

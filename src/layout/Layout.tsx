@@ -147,7 +147,7 @@ export const Layout: FC<
 
     return (
         <Box>
-            <AppBar key="ab" color="default">
+            <AppBar key="ab">
                 <Container disableGutters>
                     <Toolbar>
                         <Button
