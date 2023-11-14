@@ -76,7 +76,9 @@ export const createCustomTheme = (model: ThemeModel): ThemeOptions => {
             MuiButton: {
                 styleOverrides: {
                     root: {
-                        borderRadius: options['component.button.radius'],
+                        borderRadius: Number(
+                            options['component.button.radius']
+                        ),
                     },
                 },
             },
