@@ -1,4 +1,9 @@
-import { GlobalStyles, ThemeProvider, createTheme } from '@mui/material'
+import {
+    CssBaseline,
+    GlobalStyles,
+    ThemeProvider,
+    createTheme,
+} from '@mui/material'
 import useAsync from 'hooks/use-async'
 import { FC, PropsWithChildren, useMemo } from 'react'
 import { PhraseContext } from 'phrases'
@@ -67,11 +72,13 @@ export const BrandingProvider: FC<PropsWithChildren> = ({ children }) => {
         pending: () => <div />,
         resolved: ([theme, phrases]) => (
             <BrandedView themeOptions={theme} phraseOptions={phrases}>
+                <CssBaseline />
                 {children}
             </BrandedView>
         ),
         rejected: () => (
             <BrandedView themeOptions={[]} phraseOptions={[]}>
+                <CssBaseline />
                 {children}
             </BrandedView>
         ),

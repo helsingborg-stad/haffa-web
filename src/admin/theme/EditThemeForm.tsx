@@ -8,6 +8,7 @@ import {
     Card,
     CardActions,
     CardContent,
+    CssBaseline,
     Dialog,
     DialogActions,
     DialogContent,
@@ -469,6 +470,7 @@ export const EditThemeForm: FC<{
 
             <CardContent>
                 <ThemeProvider theme={createTheme(createCustomTheme(model))}>
+                    <CssBaseline />
                     <Paper sx={{ p: 2 }}>
                         <Typography variant="h6" mt={1}>
                             Appbar
