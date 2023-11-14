@@ -39,12 +39,10 @@ import { FC, PropsWithChildren, useCallback, useContext, useState } from 'react'
 import SaveIcon from '@mui/icons-material/Save'
 import { PhraseContext } from 'phrases'
 import SvgIcon, { SvgIconProps } from '@mui/material/SvgIcon'
-import { BrandingOptions, ThemeModel } from 'branding/types'
-import { ColorResult, SketchPicker } from 'react-color'
+import { ThemeModel } from 'branding/types'
+import { SketchPicker } from 'react-color'
 import { nanoid } from 'nanoid'
 import type { Option } from '../../options/types'
-
-const isValid = (color: string) => /^#[A-Fa-f0-9]{2,6}$/.test(color)
 
 const arrayWithNumbers = (max: number) => Array.from(Array(max).keys())
 
@@ -168,17 +166,14 @@ const ColorTextField = ({
         color: props.value as string,
         isOpen: false,
     })
-    const onClose = () =>
+    const onClose = () => {
+        if (state.isOpen) {
+            onColorChange(state.color)
+        }
         setState({
             ...state,
             isOpen: !state.isOpen,
         })
-    const onChange = (color: ColorResult) => {
-        setState({
-            ...state,
-            color: color.hex,
-        })
-        onColorChange(color.hex)
     }
     return (
         <>
@@ -202,8 +197,13 @@ const ColorTextField = ({
                 <DialogTitle>Välj färg</DialogTitle>
                 <DialogContent>
                     <SketchPicker
-                        onChange={onChange}
-                        color={props.value as string}
+                        onChange={(color) => {
+                            setState({
+                                ...state,
+                                color: color.hex,
+                            })
+                        }}
+                        color={state.color}
                     />
                 </DialogContent>
                 <DialogActions>
@@ -228,25 +228,12 @@ const InputSelectField = (props: SelectProps & PropsWithChildren) => {
     )
 }
 export const EditThemeForm: FC<{
-    options: Option<BrandingOptions>[]
-    onUpdate: (options: Option<BrandingOptions>[]) => void
+    options: Option[]
+    onUpdate: (options: Option[]) => void
 }> = ({ options, onUpdate }) => {
     const { phrase } = useContext(PhraseContext)
 
     const [model, setModel] = useState<ThemeModel>(createThemeModel(options))
-
-    const validateFields = useCallback(() => {
-        let result = true
-        Object.entries(model.colors).forEach(([_, value]) => {
-            if (!isValid(value)) {
-                result = false
-            }
-        })
-        if (Number.isNaN(model.layout.radius)) {
-            result = false
-        }
-        return result
-    }, [model])
 
     const renderCardActions = useCallback(
         () => (
@@ -262,7 +249,6 @@ export const EditThemeForm: FC<{
                 <Box flex={1} />
                 <Button
                     type="submit"
-                    disabled={!validateFields()}
                     id="THEME_ACTION_SAVE"
                     variant="contained"
                     startIcon={<SaveIcon />}
@@ -291,14 +277,11 @@ export const EditThemeForm: FC<{
                                 'THEME_FIELD_PRIMARY_COLOR',
                                 'Primär färg'
                             )}
-                            value={model.colors.primary}
+                            value={model['palette.primary']}
                             onColorChange={(color) => {
                                 setModel({
                                     ...model,
-                                    colors: {
-                                        ...model.colors,
-                                        primary: color,
-                                    },
+                                    'palette.primary': color,
                                 })
                             }}
                         />
@@ -310,14 +293,11 @@ export const EditThemeForm: FC<{
                                 'THEME_FIELD_SECONDARY_COLOR',
                                 'Sekundär färg'
                             )}
-                            value={model.colors.secondary}
+                            value={model['palette.secondary']}
                             onColorChange={(color) => {
                                 setModel({
                                     ...model,
-                                    colors: {
-                                        ...model.colors,
-                                        secondary: color,
-                                    },
+                                    'palette.secondary': color,
                                 })
                             }}
                         />
@@ -329,14 +309,11 @@ export const EditThemeForm: FC<{
                                 'THEME_FIELD_INFO_COLOR',
                                 'Information'
                             )}
-                            value={model.colors.info}
+                            value={model['palette.info']}
                             onColorChange={(color) => {
                                 setModel({
                                     ...model,
-                                    colors: {
-                                        ...model.colors,
-                                        info: color,
-                                    },
+                                    'palette.info': color,
                                 })
                             }}
                         />
@@ -348,14 +325,11 @@ export const EditThemeForm: FC<{
                                 'THEME_FIELD_WARNING_COLOR',
                                 'Varning'
                             )}
-                            value={model.colors.warning}
+                            value={model['palette.warning']}
                             onColorChange={(color) => {
                                 setModel({
                                     ...model,
-                                    colors: {
-                                        ...model.colors,
-                                        warning: color,
-                                    },
+                                    'palette.warning': color,
                                 })
                             }}
                         />
@@ -364,14 +338,11 @@ export const EditThemeForm: FC<{
                         <ColorTextField
                             key={nanoid()}
                             label={phrase('THEME_FIELD_ERROR_COLOR', 'Fel')}
-                            value={model.colors.error}
+                            value={model['palette.error']}
                             onColorChange={(color) => {
                                 setModel({
                                     ...model,
-                                    colors: {
-                                        ...model.colors,
-                                        error: color,
-                                    },
+                                    'palette.error': color,
                                 })
                             }}
                         />
@@ -383,14 +354,11 @@ export const EditThemeForm: FC<{
                                 'THEME_FIELD_SUCCESS_COLOR',
                                 'Genomfört'
                             )}
-                            value={model.colors.success}
+                            value={model['palette.success']}
                             onColorChange={(color) => {
                                 setModel({
                                     ...model,
-                                    colors: {
-                                        ...model.colors,
-                                        success: color,
-                                    },
+                                    'palette.success': color,
                                 })
                             }}
                         />
@@ -404,14 +372,13 @@ export const EditThemeForm: FC<{
                         <InputSelectField
                             id="THEME_FIELD_RADIUS"
                             label="Radie på knappar"
-                            value={model.layout.radius}
+                            value={model['component.button.radius']}
                             onChange={(e) => {
                                 setModel({
                                     ...model,
-                                    layout: {
-                                        ...model.layout,
-                                        radius: Number(e.target.value),
-                                    },
+                                    'component.button.radius': Number(
+                                        e.target.value
+                                    ),
                                 })
                             }}
                         >
@@ -426,14 +393,13 @@ export const EditThemeForm: FC<{
                         <InputSelectField
                             id="THEME_FIELD_APPBAR_BOXSHADOW"
                             label="Appbar skuggning"
-                            value={model.layout.appbarshadow}
+                            value={model['component.appbar.shadow']}
                             onChange={(e) => {
                                 setModel({
                                     ...model,
-                                    layout: {
-                                        ...model.layout,
-                                        appbarshadow: Number(e.target.value),
-                                    },
+                                    'component.appbar.shadow': Number(
+                                        e.target.value
+                                    ),
                                 })
                             }}
                         >
@@ -448,15 +414,12 @@ export const EditThemeForm: FC<{
                         <InputSelectField
                             id="THEME_FIELD_PAPER_VARIANT"
                             label="Stil på omslag"
-                            value={model.layout.papervariant}
+                            value={model['component.paper.variant']}
                             onChange={(e) => {
                                 setModel({
                                     ...model,
-                                    layout: {
-                                        ...model.layout,
-                                        papervariant: e.target
-                                            .value as PaperProps['variant'],
-                                    },
+                                    'component.paper.variant': e.target
+                                        .value as PaperProps['variant'],
                                 })
                             }}
                         >

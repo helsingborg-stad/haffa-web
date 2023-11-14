@@ -11,11 +11,10 @@ import { createPhraseContext } from 'phrases/create-phrase-context'
 import { toMap } from 'lib/to-map'
 import type { Option } from '../options/types'
 import { createCustomTheme, createThemeModel } from './theme-factory'
-import { BrandingOptions } from './types'
 
 const BrandedView: FC<
     PropsWithChildren & {
-        themeOptions: Option<BrandingOptions>[]
+        themeOptions: Option[]
         phraseOptions: Option[]
     }
 > = ({ children, themeOptions, phraseOptions }) => {

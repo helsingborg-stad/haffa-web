@@ -1,29 +1,14 @@
-import { PaperProps, ThemeOptions, TypographyOwnProps } from '@mui/material'
-
-export type BrandingOptions =
-    | 'primary'
-    | 'secondary'
-    | 'info'
-    | 'warning'
-    | 'error'
-    | 'success'
-    | 'radius'
+import { PaperProps, TypographyOwnProps } from '@mui/material'
 
 export interface ThemeModel {
-    colors: {
-        primary: string
-        secondary: string
-        error: string
-        warning: string
-        info: string
-        success: string
-    }
-    layout: {
-        radius: number
-        appbarshadow: number
-        papervariant: PaperProps['variant']
-        cardHeader: TypographyOwnProps['variant']
-    }
+    'palette.primary': string
+    'palette.secondary': string
+    'palette.error': string
+    'palette.warning': string
+    'palette.info': string
+    'palette.success': string
+    'component.button.radius': number
+    'component.appbar.shadow': number
+    'component.paper.variant': PaperProps['variant']
+    'component.cardheader.variant': TypographyOwnProps['variant']
 }
-
-export type ThemeFactory = (model: ThemeModel) => ThemeOptions

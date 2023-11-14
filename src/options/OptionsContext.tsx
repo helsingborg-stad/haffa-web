@@ -1,5 +1,4 @@
 import { FC, PropsWithChildren, createContext } from 'react'
-import { BrandingOptions } from 'branding/types'
 import { AnalyticsOptions } from 'analytics/types'
 import { Option, OptionsRepository } from './types'
 
@@ -9,10 +8,8 @@ const notImplemented = (name: string) => (): never => {
 
 export interface OptionsContextType {
     // Theme settings
-    getThemeOptions: () => Promise<Option<BrandingOptions>[]>
-    updateThemeOptions: (
-        options: Option<BrandingOptions>[]
-    ) => Promise<Option<BrandingOptions>[]>
+    getThemeOptions: () => Promise<Option[]>
+    updateThemeOptions: (options: Option[]) => Promise<Option[]>
 
     // Analytics settings
     getAnalyticsOptions: () => Promise<Option<AnalyticsOptions>[]>

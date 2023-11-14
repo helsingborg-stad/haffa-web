@@ -1,136 +1,105 @@
 import { ThemeOptions, createTheme } from '@mui/material/styles'
 import { toMap } from 'lib/to-map'
-import { BrandingOptions, ThemeFactory, ThemeModel } from './types'
+import { ThemeModel } from './types'
 import type { Option } from '../options/types'
 
-const defaultThemeColors: ThemeModel['colors'] = {
-    primary: '#33691e',
-    secondary: '#dcedc8',
-    error: '#d32f2f',
-    warning: '#ed6c02',
-    info: '#0288d1',
-    success: '#2e7d32',
-}
-
-const defaultThemeLayout: ThemeModel['layout'] = {
-    radius: 0,
-    appbarshadow: 0,
-    papervariant: 'outlined',
-    cardHeader: 'body1',
-}
-
 export const defaultThemeModel: ThemeModel = {
-    colors: defaultThemeColors,
-    layout: defaultThemeLayout,
+    'palette.primary': '#33691e',
+    'palette.secondary': '#dcedc8',
+    'palette.error': '#d32f2f',
+    'palette.warning': '#ed6c02',
+    'palette.info': '#0288d1',
+    'palette.success': '#2e7d32',
+    'component.button.radius': 0,
+    'component.appbar.shadow': 0,
+    'component.paper.variant': 'outlined',
+    'component.cardheader.variant': 'body1',
 }
 
-export const createThemeModel = (options: Option[]): ThemeModel => {
-    const colors = {
-        ...defaultThemeColors,
-        ...toMap(
-            options.filter((color) =>
-                [
-                    'primary',
-                    'secondary',
-                    'info',
-                    'warning',
-                    'error',
-                    'success',
-                ].includes(color.key)
-            ),
-            ({ key }) => key,
-            ({ value }) => value
+export const createThemeModel = (options: Option[]): ThemeModel => ({
+    ...defaultThemeModel,
+    ...toMap(
+        options.filter((option) =>
+            [
+                'palette.primary',
+                'palette.secondary',
+                'palette.error',
+                'palette.warning',
+                'palette.info',
+                'palette.success',
+                'component.button.radius',
+                'component.appbar.shadow',
+                'component.paper.variant',
+                'component.cardheader.variant',
+            ].includes(option.key)
         ),
-    }
-    const layout = {
-        ...defaultThemeLayout,
-        ...toMap(
-            options.filter((layout) =>
-                ['radius', 'papervariant', 'appbarshadow'].includes(layout.key)
-            ),
-            ({ key }) => key,
-            ({ value }) => value
-        ),
-    }
-    return {
-        colors,
-        layout,
-    }
-}
+        ({ key }) => key,
+        ({ value }) => value
+    ),
+})
 
-export const createThemeOptions = (
-    model: ThemeModel
-): Option<BrandingOptions>[] => {
-    const colors = Object.entries(model.colors).map(([key, value]) => ({
+export const createThemeOptions = (model: ThemeModel): Option[] =>
+    Object.entries(model).map(([key, value]) => ({
         key,
         value: String(value),
     }))
-    const layout = Object.entries(model.layout).map(([key, value]) => ({
-        key,
-        value: String(value),
-    }))
-    return [...colors, ...layout] as Option<BrandingOptions>[]
-}
 
-export const createCustomTheme: ThemeFactory = (
-    model: ThemeModel
-): ThemeOptions => {
-    const colors = {
-        ...defaultThemeColors,
-        ...model.colors,
+export const createCustomTheme = (model: ThemeModel): ThemeOptions => {
+    const options = {
+        ...defaultThemeModel,
+        ...model,
     }
-    const layout = {
-        ...defaultThemeLayout,
-        ...model.layout,
-    }
-    const defaultTheme = createTheme()
+    const systemTheme = createTheme()
 
     const theme: ThemeOptions = {
         palette: {
             primary: {
-                main: colors.primary,
+                main: options['palette.primary'],
             },
             secondary: {
-                main: colors.secondary,
+                main: options['palette.secondary'],
             },
             error: {
-                main: colors.error,
+                main: options['palette.error'],
             },
             warning: {
-                main: colors.warning,
+                main: options['palette.warning'],
             },
             info: {
-                main: colors.info,
+                main: options['palette.info'],
             },
             success: {
-                main: colors.success,
+                main: options['palette.success'],
             },
         },
         components: {
             MuiButton: {
                 styleOverrides: {
                     root: {
-                        borderRadius: Number(layout.radius),
+                        borderRadius: options['component.button.radius'],
                     },
                 },
             },
             MuiCardHeader: {
                 defaultProps: {
                     titleTypographyProps: {
-                        variant: layout.cardHeader,
+                        variant: options['component.cardheader.variant'],
                         fontWeight: 'bold',
                     },
                 },
             },
             MuiPaper: {
                 defaultProps: {
-                    variant: layout.papervariant,
+                    variant: options['component.paper.variant'],
                 },
             },
             MuiAppBar: {
                 styleOverrides: {
                     root: {
-                        boxShadow: defaultTheme.shadows[layout.appbarshadow],
+                        boxShadow:
+                            systemTheme.shadows[
+                                options['component.appbar.shadow']
+                            ],
                     },
                 },
             },
