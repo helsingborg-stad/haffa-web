@@ -10,6 +10,8 @@ export const defaultThemeModel: ThemeModel = {
     'palette.warning': '#ed6c02',
     'palette.info': '#0288d1',
     'palette.success': '#2e7d32',
+    'palette.background': '#fff',
+    'palette.paper': '#fff',
     'component.button.radius': '0',
     'component.appbar.variant': 'outlined',
     'component.appbar.border': '0',
@@ -29,6 +31,8 @@ export const createThemeModel = (options: Option[]): ThemeModel => ({
                 'palette.warning',
                 'palette.info',
                 'palette.success',
+                'palette.background',
+                'palette.paper',
                 'component.button.radius',
                 'component.appbar.variant',
                 'component.appbar.border',
@@ -56,6 +60,10 @@ export const createCustomTheme = (model: ThemeModel): ThemeOptions => {
 
     const theme: ThemeOptions = {
         palette: {
+            background: {
+                default: options['palette.background'],
+                paper: options['palette.paper'],
+            },
             primary: {
                 main: options['palette.primary'],
             },

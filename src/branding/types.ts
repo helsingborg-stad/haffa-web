@@ -7,6 +7,8 @@ export interface ThemeModel {
     'palette.warning': string
     'palette.info': string
     'palette.success': string
+    'palette.background': string
+    'palette.paper': string
     'component.button.radius': string
     'component.appbar.variant': AppBarProps['variant']
     'component.appbar.border': string

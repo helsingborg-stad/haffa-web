@@ -276,7 +276,7 @@ export const EditThemeForm: FC<{
                     {phrase('THEME_SECTION_COLORS', 'Färger')}
                 </Typography>
                 <Grid container pb={1}>
-                    <Grid item xs={12} sm={4} p={1}>
+                    <Grid item xs={12} sm={3} p={1}>
                         <ColorTextField
                             id="THEME_FIELD_PRIMARY_COLOR"
                             label="Primär färg"
@@ -289,7 +289,7 @@ export const EditThemeForm: FC<{
                             }}
                         />
                     </Grid>
-                    <Grid item xs={12} sm={4} p={1}>
+                    <Grid item xs={12} sm={3} p={1}>
                         <ColorTextField
                             id="THEME_FIELD_SECONDARY_COLOR"
                             label="Sekundär färg"
@@ -302,7 +302,7 @@ export const EditThemeForm: FC<{
                             }}
                         />
                     </Grid>
-                    <Grid item xs={12} sm={4} p={1}>
+                    <Grid item xs={12} sm={3} p={1}>
                         <ColorTextField
                             id="THEME_FIELD_INFO_COLOR"
                             label="Information"
@@ -315,7 +315,7 @@ export const EditThemeForm: FC<{
                             }}
                         />
                     </Grid>
-                    <Grid item xs={12} sm={4} p={1}>
+                    <Grid item xs={12} sm={3} p={1}>
                         <ColorTextField
                             id="THEME_FIELD_WARNING_COLOR"
                             label="Varning"
@@ -328,7 +328,7 @@ export const EditThemeForm: FC<{
                             }}
                         />
                     </Grid>
-                    <Grid item xs={12} sm={4} p={1}>
+                    <Grid item xs={12} sm={3} p={1}>
                         <ColorTextField
                             id="THEME_FIELD_ERROR_COLOR"
                             label="Fel"
@@ -341,7 +341,7 @@ export const EditThemeForm: FC<{
                             }}
                         />
                     </Grid>
-                    <Grid item xs={12} sm={4} p={1}>
+                    <Grid item xs={12} sm={3} p={1}>
                         <ColorTextField
                             id="THEME_FIELD_SUCCESS_COLOR"
                             label="Genomfört"
@@ -354,7 +354,33 @@ export const EditThemeForm: FC<{
                             }}
                         />
                     </Grid>
-                    <Grid item xs={12} sm={4} p={1}>
+                    <Grid item xs={12} sm={3} p={1}>
+                        <ColorTextField
+                            id="THEME_FIELD_BACKGROUND_COLOR"
+                            label="Bakgrund"
+                            value={model['palette.background']}
+                            onColorChange={(color) => {
+                                setModel({
+                                    ...model,
+                                    'palette.background': color,
+                                })
+                            }}
+                        />
+                    </Grid>
+                    <Grid item xs={12} sm={3} p={1}>
+                        <ColorTextField
+                            id="THEME_FIELD_PAPER_COLOR"
+                            label="Bakgrund kort"
+                            value={model['palette.paper']}
+                            onColorChange={(color) => {
+                                setModel({
+                                    ...model,
+                                    'palette.paper': color,
+                                })
+                            }}
+                        />
+                    </Grid>
+                    <Grid item xs={12} sm={3} p={1}>
                         <InputSelectField
                             id="THEME_FIELD_APPBAR_COLOR"
                             label="Appbar bakgrund"
