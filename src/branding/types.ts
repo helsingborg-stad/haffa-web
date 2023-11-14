@@ -1,4 +1,4 @@
-import { PaperProps, TypographyOwnProps } from '@mui/material'
+import { AppBarProps, PaperProps, TypographyOwnProps } from '@mui/material'
 
 export interface ThemeModel {
     'palette.primary': string
@@ -8,7 +8,9 @@ export interface ThemeModel {
     'palette.info': string
     'palette.success': string
     'component.button.radius': string
-    'component.appbar.shadow': string
+    'component.appbar.variant': AppBarProps['variant']
+    'component.appbar.border': string
+    'component.appbar.color': AppBarProps['color']
     'component.paper.variant': PaperProps['variant']
     'component.cardheader.variant': TypographyOwnProps['variant']
 }

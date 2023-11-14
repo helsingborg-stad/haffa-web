@@ -1,4 +1,4 @@
-import { ThemeOptions, createTheme } from '@mui/material/styles'
+import { ThemeOptions } from '@mui/material/styles'
 import { toMap } from 'lib/to-map'
 import { ThemeModel } from './types'
 import type { Option } from '../options/types'
@@ -11,7 +11,9 @@ export const defaultThemeModel: ThemeModel = {
     'palette.info': '#0288d1',
     'palette.success': '#2e7d32',
     'component.button.radius': '0',
-    'component.appbar.shadow': '0',
+    'component.appbar.variant': 'outlined',
+    'component.appbar.border': '0',
+    'component.appbar.color': 'default',
     'component.paper.variant': 'outlined',
     'component.cardheader.variant': 'body1',
 }
@@ -28,7 +30,9 @@ export const createThemeModel = (options: Option[]): ThemeModel => ({
                 'palette.info',
                 'palette.success',
                 'component.button.radius',
-                'component.appbar.shadow',
+                'component.appbar.variant',
+                'component.appbar.border',
+                'component.appbar.color',
                 'component.paper.variant',
                 'component.cardheader.variant',
             ].includes(option.key)
@@ -49,7 +53,6 @@ export const createCustomTheme = (model: ThemeModel): ThemeOptions => {
         ...defaultThemeModel,
         ...model,
     }
-    const systemTheme = createTheme()
 
     const theme: ThemeOptions = {
         palette: {
@@ -96,12 +99,17 @@ export const createCustomTheme = (model: ThemeModel): ThemeOptions => {
                 },
             },
             MuiAppBar: {
+                defaultProps: {
+                    elevation:
+                        options['component.appbar.variant'] === 'outlined'
+                            ? 0
+                            : 4,
+                    variant: options['component.appbar.variant'],
+                    color: options['component.appbar.color'],
+                },
                 styleOverrides: {
                     root: {
-                        boxShadow:
-                            systemTheme.shadows[
-                                Number(options['component.appbar.shadow'])
-                            ],
+                        border: options['component.appbar.border'],
                     },
                 },
             },

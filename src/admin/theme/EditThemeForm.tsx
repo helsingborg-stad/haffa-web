@@ -2,6 +2,7 @@ import {
     Alert,
     AlertProps,
     AppBar,
+    AppBarProps,
     Box,
     Button,
     ButtonProps,
@@ -166,6 +167,9 @@ const ColorTextField = ({
         color: props.value as string,
         isOpen: false,
     })
+    const { phrase } = useContext(PhraseContext)
+    const label = phrase(props.id ?? '', (props.label as string) ?? 'N/A')
+
     const onClose = () => {
         if (state.isOpen) {
             onColorChange(state.color)
@@ -179,6 +183,8 @@ const ColorTextField = ({
         <>
             <TextField
                 {...props}
+                key={nanoid()}
+                label={label}
                 disabled
                 fullWidth
                 variant="outlined"
@@ -272,11 +278,8 @@ export const EditThemeForm: FC<{
                 <Grid container pb={1}>
                     <Grid item xs={12} sm={4} p={1}>
                         <ColorTextField
-                            key={nanoid()}
-                            label={phrase(
-                                'THEME_FIELD_PRIMARY_COLOR',
-                                'Primär färg'
-                            )}
+                            id="THEME_FIELD_PRIMARY_COLOR"
+                            label="Primär färg"
                             value={model['palette.primary']}
                             onColorChange={(color) => {
                                 setModel({
@@ -288,11 +291,8 @@ export const EditThemeForm: FC<{
                     </Grid>
                     <Grid item xs={12} sm={4} p={1}>
                         <ColorTextField
-                            key={nanoid()}
-                            label={phrase(
-                                'THEME_FIELD_SECONDARY_COLOR',
-                                'Sekundär färg'
-                            )}
+                            id="THEME_FIELD_SECONDARY_COLOR"
+                            label="Sekundär färg"
                             value={model['palette.secondary']}
                             onColorChange={(color) => {
                                 setModel({
@@ -304,11 +304,8 @@ export const EditThemeForm: FC<{
                     </Grid>
                     <Grid item xs={12} sm={4} p={1}>
                         <ColorTextField
-                            key={nanoid()}
-                            label={phrase(
-                                'THEME_FIELD_INFO_COLOR',
-                                'Information'
-                            )}
+                            id="THEME_FIELD_INFO_COLOR"
+                            label="Information"
                             value={model['palette.info']}
                             onColorChange={(color) => {
                                 setModel({
@@ -320,11 +317,8 @@ export const EditThemeForm: FC<{
                     </Grid>
                     <Grid item xs={12} sm={4} p={1}>
                         <ColorTextField
-                            key={nanoid()}
-                            label={phrase(
-                                'THEME_FIELD_WARNING_COLOR',
-                                'Varning'
-                            )}
+                            id="THEME_FIELD_WARNING_COLOR"
+                            label="Varning"
                             value={model['palette.warning']}
                             onColorChange={(color) => {
                                 setModel({
@@ -336,8 +330,8 @@ export const EditThemeForm: FC<{
                     </Grid>
                     <Grid item xs={12} sm={4} p={1}>
                         <ColorTextField
-                            key={nanoid()}
-                            label={phrase('THEME_FIELD_ERROR_COLOR', 'Fel')}
+                            id="THEME_FIELD_ERROR_COLOR"
+                            label="Fel"
                             value={model['palette.error']}
                             onColorChange={(color) => {
                                 setModel({
@@ -349,11 +343,8 @@ export const EditThemeForm: FC<{
                     </Grid>
                     <Grid item xs={12} sm={4} p={1}>
                         <ColorTextField
-                            key={nanoid()}
-                            label={phrase(
-                                'THEME_FIELD_SUCCESS_COLOR',
-                                'Genomfört'
-                            )}
+                            id="THEME_FIELD_SUCCESS_COLOR"
+                            label="Genomfört"
                             value={model['palette.success']}
                             onColorChange={(color) => {
                                 setModel({
@@ -362,6 +353,34 @@ export const EditThemeForm: FC<{
                                 })
                             }}
                         />
+                    </Grid>
+                    <Grid item xs={12} sm={4} p={1}>
+                        <InputSelectField
+                            id="THEME_FIELD_APPBAR_COLOR"
+                            label="Appbar bakgrund"
+                            value={model['component.appbar.color']}
+                            onChange={(e) => {
+                                setModel({
+                                    ...model,
+                                    'component.appbar.color': String(
+                                        e.target.value
+                                    ) as AppBarProps['color'],
+                                })
+                            }}
+                        >
+                            <MenuItem key={nanoid()} value="default">
+                                Standard
+                            </MenuItem>
+                            <MenuItem key={nanoid()} value="transparent">
+                                Genomskinlig
+                            </MenuItem>
+                            <MenuItem key={nanoid()} value="primary">
+                                Primär
+                            </MenuItem>
+                            <MenuItem key={nanoid()} value="secondary">
+                                Sekundär
+                            </MenuItem>
+                        </InputSelectField>
                     </Grid>
                 </Grid>
                 <Typography gutterBottom variant="h5">
@@ -391,27 +410,6 @@ export const EditThemeForm: FC<{
                     </Grid>
                     <Grid item xs={12} sm={4} p={1}>
                         <InputSelectField
-                            id="THEME_FIELD_APPBAR_BOXSHADOW"
-                            label="Appbar skuggning"
-                            value={model['component.appbar.shadow']}
-                            onChange={(e) => {
-                                setModel({
-                                    ...model,
-                                    'component.appbar.shadow': String(
-                                        e.target.value
-                                    ),
-                                })
-                            }}
-                        >
-                            {arrayWithNumbers(24).map((i) => (
-                                <MenuItem key={nanoid()} value={i}>
-                                    {i}
-                                </MenuItem>
-                            ))}
-                        </InputSelectField>
-                    </Grid>
-                    <Grid item xs={12} sm={4} p={1}>
-                        <InputSelectField
                             id="THEME_FIELD_PAPER_VARIANT"
                             label="Stil på omslag"
                             value={model['component.paper.variant']}
@@ -425,6 +423,50 @@ export const EditThemeForm: FC<{
                         >
                             <MenuItem value="outlined">Flat</MenuItem>
                             <MenuItem value="elevation">Förhöjd</MenuItem>
+                        </InputSelectField>
+                    </Grid>
+                    <Grid item xs={12} sm={4} p={1}>
+                        <InputSelectField
+                            id="THEME_FIELD_APPBAR_VARIANT"
+                            label="Appbar skuggning"
+                            value={model['component.appbar.variant']}
+                            onChange={(e) => {
+                                setModel({
+                                    ...model,
+                                    'component.appbar.variant': String(
+                                        e.target.value
+                                    ) as AppBarProps['variant'],
+                                })
+                            }}
+                        >
+                            <MenuItem key={nanoid()} value="outlined">
+                                Flat
+                            </MenuItem>
+                            <MenuItem key={nanoid()} value="elevation">
+                                Förhöjd
+                            </MenuItem>
+                        </InputSelectField>
+                    </Grid>
+                    <Grid item xs={12} sm={4} p={1}>
+                        <InputSelectField
+                            id="THEME_FIELD_APPBAR_BORDER"
+                            label="Appbar ram"
+                            value={model['component.appbar.border']}
+                            onChange={(e) => {
+                                setModel({
+                                    ...model,
+                                    'component.appbar.border': String(
+                                        e.target.value
+                                    ),
+                                })
+                            }}
+                        >
+                            <MenuItem key={nanoid()} value={0}>
+                                Nej
+                            </MenuItem>
+                            <MenuItem key={nanoid()} value={1}>
+                                Ja
+                            </MenuItem>
                         </InputSelectField>
                     </Grid>
                 </Grid>
