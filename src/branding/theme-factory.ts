@@ -10,8 +10,8 @@ export const defaultThemeModel: ThemeModel = {
     'palette.warning': '#ed6c02',
     'palette.info': '#0288d1',
     'palette.success': '#2e7d32',
-    'component.button.radius': 0,
-    'component.appbar.shadow': 0,
+    'component.button.radius': '0',
+    'component.appbar.shadow': '0',
     'component.paper.variant': 'outlined',
     'component.cardheader.variant': 'body1',
 }
@@ -100,7 +100,7 @@ export const createCustomTheme = (model: ThemeModel): ThemeOptions => {
                     root: {
                         boxShadow:
                             systemTheme.shadows[
-                                options['component.appbar.shadow']
+                                Number(options['component.appbar.shadow'])
                             ],
                     },
                 },

@@ -376,7 +376,7 @@ export const EditThemeForm: FC<{
                             onChange={(e) => {
                                 setModel({
                                     ...model,
-                                    'component.button.radius': Number(
+                                    'component.button.radius': String(
                                         e.target.value
                                     ),
                                 })
@@ -397,7 +397,7 @@ export const EditThemeForm: FC<{
                             onChange={(e) => {
                                 setModel({
                                     ...model,
-                                    'component.appbar.shadow': Number(
+                                    'component.appbar.shadow': String(
                                         e.target.value
                                     ),
                                 })

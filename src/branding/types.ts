@@ -7,8 +7,8 @@ export interface ThemeModel {
     'palette.warning': string
     'palette.info': string
     'palette.success': string
-    'component.button.radius': number
-    'component.appbar.shadow': number
+    'component.button.radius': string
+    'component.appbar.shadow': string
     'component.paper.variant': PaperProps['variant']
     'component.cardheader.variant': TypographyOwnProps['variant']
 }
