@@ -18,6 +18,7 @@ export const defaultThemeModel: ThemeModel = {
     'component.appbar.color': 'default',
     'component.paper.variant': 'outlined',
     'component.cardheader.variant': 'body1',
+    'shape.radius': '4',
 }
 
 export const createThemeModel = (options: Option[]): ThemeModel => ({
@@ -39,6 +40,7 @@ export const createThemeModel = (options: Option[]): ThemeModel => ({
                 'component.appbar.color',
                 'component.paper.variant',
                 'component.cardheader.variant',
+                'shape.radius',
             ].includes(option.key)
         ),
         ({ key }) => key,
@@ -82,6 +84,9 @@ export const createCustomTheme = (model: ThemeModel): ThemeOptions => {
             success: {
                 main: options['palette.success'],
             },
+        },
+        shape: {
+            borderRadius: Number(options['shape.radius']),
         },
         components: {
             MuiButton: {

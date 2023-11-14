@@ -436,6 +436,25 @@ export const EditThemeForm: FC<{
                     </Grid>
                     <Grid item xs={12} sm={4} p={1}>
                         <InputSelectField
+                            id="THEME_FIELD_SHAPE_RADIUS"
+                            label="Radie på objekt"
+                            value={model['shape.radius']}
+                            onChange={(e) => {
+                                setModel({
+                                    ...model,
+                                    'shape.radius': String(e.target.value),
+                                })
+                            }}
+                        >
+                            {arrayWithNumbers(40).map((i) => (
+                                <MenuItem key={nanoid()} value={i}>
+                                    {i}
+                                </MenuItem>
+                            ))}
+                        </InputSelectField>
+                    </Grid>
+                    <Grid item xs={12} sm={4} p={1}>
+                        <InputSelectField
                             id="THEME_FIELD_PAPER_VARIANT"
                             label="Stil på omslag"
                             value={model['component.paper.variant']}

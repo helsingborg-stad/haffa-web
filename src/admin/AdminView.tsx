@@ -41,6 +41,7 @@ export const AdminView: FC = () => {
                 allowScrollButtonsMobile
                 value={tabIndex}
                 onChange={(_, newTabIndex) => setTabIndex(newTabIndex)}
+                sx={{ pb: 2 }}
             >
                 {tabs.map(({ label }, index) => (
                     <Tab key={index} label={label} />
