@@ -35,7 +35,12 @@ export const AdvertCard: FC<{
                         <ImagesPanel advert={advert} />
                     </CardContent>
                     <CardContent>
-                        <Grid container direction="column" rowGap={1}>
+                        <Grid
+                            container
+                            direction="column"
+                            rowGap={1}
+                            typography="body2"
+                        >
                             <Grid item>
                                 <InfoPanel
                                     advert={advert}
@@ -84,7 +89,13 @@ export const AdvertCard: FC<{
                     key="desktop"
                     sx={{ display: { xs: 'none', sm: 'block' } }}
                 >
-                    <Grid container spacing={2} direction="row" p={4}>
+                    <Grid
+                        container
+                        spacing={2}
+                        direction="row"
+                        p={4}
+                        typography="body2"
+                    >
                         <Grid item xs={7} pr={8}>
                             <ImagesPanel advert={advert} />
                         </Grid>

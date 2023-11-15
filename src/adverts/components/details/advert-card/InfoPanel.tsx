@@ -22,7 +22,7 @@ export const InfoPanel: FC<{
     hideNotifications,
 }) => {
     const { fromNow, phrase } = useContext(PhraseContext)
-    const categoryLabel = categories.findById(advert.category)?.label
+    const category = categories.findById(advert.category)
     return (
         <>
             {error && <Alert severity="error">{error}</Alert>}
@@ -32,15 +32,18 @@ export const InfoPanel: FC<{
                     {advert.title}
                 </Typography>
             )}
-            {!hideTitle && (
-                <Typography variant="subtitle1" color="primary" gutterBottom>
-                    {categoryLabel ? `${categoryLabel}, ` : ''}
+            {!hideDescription && <Markdown markdown={advert.description} />}
+            {!hideDescription && (
+                <Typography variant="body2" gutterBottom>
+                    {category ? `${category.label} | ` : ''}
                     {`${advert.meta.reservableQuantity} ${
                         advert.unit
-                    } ${fromNow(advert.createdAt)}`}
+                    } ${fromNow(advert.createdAt)}`}{' '}
+                    {category?.co2kg
+                        ? `| Sparar ${category?.co2kg} kg CO2`
+                        : ''}
                 </Typography>
             )}
-            {!hideDescription && <Markdown markdown={advert.description} />}
             {!hideNotifications && advert.meta.reservedyMe > 0 && (
                 <Alert severity="success">
                     {phrase(
