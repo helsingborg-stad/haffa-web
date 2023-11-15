@@ -38,7 +38,7 @@ export const ParcelCard = (props: CardProps & { advert: Advert }) => {
                     </Grid>
                     <Grid item pt={2} pb={2} pl={1}>
                         {infos.map(({ label, value }, index) => (
-                            <Typography variant="subtitle1" key={index}>
+                            <Typography key={index}>
                                 {`${label}: ${value}`}
                             </Typography>
                         ))}

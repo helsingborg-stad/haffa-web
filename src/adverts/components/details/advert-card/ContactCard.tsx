@@ -28,14 +28,10 @@ export const ContactCard = (props: CardProps & { advert: Advert }) => {
                         <Typography variant="subtitle1">
                             {phrase('ADVERT_FIELD_CONTACT_TITLE', 'Kontakt')}
                         </Typography>
-                        <Typography variant="body2">{email}</Typography>
-                        {phone && (
-                            <Typography variant="body2">{phone}</Typography>
-                        )}
+                        <Typography>{email}</Typography>
+                        {phone && <Typography>{phone}</Typography>}
                         {organization && (
-                            <Typography variant="body2">
-                                {organization}
-                            </Typography>
+                            <Typography>{organization}</Typography>
                         )}
                     </Grid>
                 </Grid>

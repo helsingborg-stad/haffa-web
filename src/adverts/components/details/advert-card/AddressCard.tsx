@@ -33,10 +33,8 @@ export const AddressCard = (props: CardProps & { advert: Advert }) => {
                                 'Adress för avhämtning'
                             )}
                         </Typography>
-                        <Typography variant="body2">{adress}</Typography>
-                        <Typography variant="body2">
-                            {`${zipCode} ${city}`}
-                        </Typography>
+                        <Typography>{adress}</Typography>
+                        <Typography>{`${zipCode} ${city}`}</Typography>
                     </Grid>
                 </Grid>
             </Card>

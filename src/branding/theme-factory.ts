@@ -89,6 +89,11 @@ export const createCustomTheme = (model: ThemeModel): ThemeOptions => {
             borderRadius: Number(options['shape.radius']),
         },
         components: {
+            MuiTypography: {
+                defaultProps: {
+                    variant: 'body2',
+                },
+            },
             MuiButton: {
                 styleOverrides: {
                     root: {
