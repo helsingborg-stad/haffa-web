@@ -14,6 +14,7 @@ export interface ThemeModel {
     'component.appbar.border': string
     'component.appbar.color': AppBarProps['color']
     'component.paper.variant': PaperProps['variant']
+    'component.typography.variant': TypographyOwnProps['variant']
     'component.cardheader.variant': TypographyOwnProps['variant']
     'shape.radius': string
 }

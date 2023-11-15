@@ -60,22 +60,13 @@ export const AdvertCard: FC<{
                                 />
                             </Grid>
                             <Grid item>
-                                <ParcelCard
-                                    variant="outlined"
-                                    advert={advert}
-                                />
+                                <ParcelCard advert={advert} />
                             </Grid>
                             <Grid item>
-                                <AddressCard
-                                    variant="outlined"
-                                    advert={advert}
-                                />
+                                <AddressCard advert={advert} />
                             </Grid>
                             <Grid item>
-                                <ContactCard
-                                    variant="outlined"
-                                    advert={advert}
-                                />
+                                <ContactCard advert={advert} />
                             </Grid>
                         </Grid>
                     </CardContent>
@@ -114,22 +105,13 @@ export const AdvertCard: FC<{
                                     />
                                 </Grid>
                                 <Grid item>
-                                    <ParcelCard
-                                        variant="outlined"
-                                        advert={advert}
-                                    />
+                                    <ParcelCard advert={advert} />
                                 </Grid>
                                 <Grid item>
-                                    <AddressCard
-                                        variant="outlined"
-                                        advert={advert}
-                                    />
+                                    <AddressCard advert={advert} />
                                 </Grid>
                                 <Grid item>
-                                    <ContactCard
-                                        variant="outlined"
-                                        advert={advert}
-                                    />
+                                    <ContactCard advert={advert} />
                                 </Grid>
                             </Grid>
                         </Grid>

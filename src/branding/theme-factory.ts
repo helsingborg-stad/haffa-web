@@ -17,6 +17,7 @@ export const defaultThemeModel: ThemeModel = {
     'component.appbar.border': '0',
     'component.appbar.color': 'default',
     'component.paper.variant': 'outlined',
+    'component.typography.variant': 'body2',
     'component.cardheader.variant': 'body1',
     'shape.radius': '4',
 }
@@ -39,6 +40,7 @@ export const createThemeModel = (options: Option[]): ThemeModel => ({
                 'component.appbar.border',
                 'component.appbar.color',
                 'component.paper.variant',
+                'component.typography.variant',
                 'component.cardheader.variant',
                 'shape.radius',
             ].includes(option.key)
@@ -91,7 +93,7 @@ export const createCustomTheme = (model: ThemeModel): ThemeOptions => {
         components: {
             MuiTypography: {
                 defaultProps: {
-                    variant: 'body2',
+                    variant: options['component.typography.variant'],
                 },
             },
             MuiButton: {

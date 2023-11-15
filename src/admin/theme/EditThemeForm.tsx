@@ -28,6 +28,7 @@ import {
     TextFieldProps,
     ThemeProvider,
     Typography,
+    TypographyOwnProps,
     createTheme,
 } from '@mui/material'
 import {
@@ -511,6 +512,28 @@ export const EditThemeForm: FC<{
                             </MenuItem>
                             <MenuItem key={nanoid()} value={1}>
                                 Ja
+                            </MenuItem>
+                        </InputSelectField>
+                    </Grid>
+                    <Grid item xs={12} sm={4} p={1}>
+                        <InputSelectField
+                            id="THEME_FIELD_TYPHOGRAPHY_BODY"
+                            label="Brödtext storlek"
+                            value={model['component.typography.variant']}
+                            onChange={(e) => {
+                                setModel({
+                                    ...model,
+                                    'component.typography.variant': String(
+                                        e.target.value
+                                    ) as TypographyOwnProps['variant'],
+                                })
+                            }}
+                        >
+                            <MenuItem key={nanoid()} value="body2">
+                                Liten
+                            </MenuItem>
+                            <MenuItem key={nanoid()} value="body1">
+                                Stor
                             </MenuItem>
                         </InputSelectField>
                     </Grid>
