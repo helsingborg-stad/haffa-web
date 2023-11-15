@@ -4,6 +4,7 @@ import { PhraseContext } from 'phrases/PhraseContext'
 import { FC, useContext } from 'react'
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder'
 import { QrCodeCollectButton } from './QrCodeCollectButton'
+import { SelectCountButton } from './SelectCountButton'
 
 export const ActionsPanel: FC<{
     advert: Advert
@@ -28,18 +29,21 @@ export const ActionsPanel: FC<{
                     sx={{ mb: 1 }}
                 />
             )}
-            <Button
+            <SelectCountButton
                 endIcon={<FavoriteBorderIcon />}
                 key="reserve"
                 fullWidth
                 color="primary"
                 variant="outlined"
                 disabled={!meta.canReserve}
-                onClick={() => onUpdate(reserveAdvert(advert.id, 1))}
+                minCount={1}
+                maxCount={meta.reservableQuantity}
+                onSelectCount={(n) => onUpdate(reserveAdvert(advert.id, n))}
                 sx={{ mb: 1 }}
             >
                 {phrase('ADVERT_RESERVE', 'Reservera')}
-            </Button>
+            </SelectCountButton>
+
             <Button
                 key="cancel"
                 fullWidth
