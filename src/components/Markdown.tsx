@@ -11,7 +11,7 @@ const components: Components = {
     h6: ({ children }) => <Typography variant="h6">{children}</Typography>,
 }
 export const Markdown: FC<{ markdown: string }> = ({ markdown }) => (
-    <Typography>
+    <Typography component="div">
         <ReactMarkdown components={components}>{markdown}</ReactMarkdown>
     </Typography>
 )
