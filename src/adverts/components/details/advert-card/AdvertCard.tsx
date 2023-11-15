@@ -84,13 +84,13 @@ export const AdvertCard: FC<{
                     key="desktop"
                     sx={{ display: { xs: 'none', sm: 'block' } }}
                 >
-                    <Grid container spacing={2} direction="row">
-                        <Grid item xs={6}>
+                    <Grid container spacing={2} direction="row" p={4}>
+                        <Grid item xs={7} pr={8}>
                             <ImagesPanel advert={advert} />
                         </Grid>
-                        <Grid item xs={6}>
+                        <Grid item xs={5}>
                             <Grid container direction="column" rowGap={1}>
-                                <Grid>
+                                <Grid item pt={4}>
                                     <InfoPanel
                                         advert={advert}
                                         categories={categories}
@@ -118,13 +118,13 @@ export const AdvertCard: FC<{
                                         advert={advert}
                                     />
                                 </Grid>
-                                <Grid>
+                                <Grid item>
                                     <AddressCard
                                         variant="outlined"
                                         advert={advert}
                                     />
                                 </Grid>
-                                <Grid>
+                                <Grid item>
                                     <ContactCard
                                         variant="outlined"
                                         advert={advert}
