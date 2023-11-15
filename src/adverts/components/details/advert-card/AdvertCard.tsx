@@ -29,7 +29,6 @@ export const AdvertCard: FC<{
     return (
         <Stack spacing={2}>
             <ArchivedPanel advert={advert} onUpdate={onUpdate} />
-
             <Card>
                 <CardContent key="mobile" sx={{ display: { sm: 'none' } }}>
                     <CardContent>
@@ -138,19 +137,14 @@ export const AdvertCard: FC<{
                 </CardContent>
             </Card>
 
-            {showRightsDisclaimer && (
-                <Card>
-                    <CardContent>
-                        <Editorial severity="warning">
-                            Du har givits rättigheter att adminstrera denna
-                            annons trots att den tillhör någon annan.
-                        </Editorial>
-                    </CardContent>
-                </Card>
-            )}
-
             {meta.canManageClaims && (
                 <ClaimsPanel advert={advert} onUpdate={onUpdate} />
+            )}
+            {showRightsDisclaimer && (
+                <Editorial severity="warning">
+                    Du har givits rättigheter att adminstrera denna annons trots
+                    att den tillhör någon annan.
+                </Editorial>
             )}
             <EditorButtonsPanel advert={advert} onUpdate={onUpdate} />
         </Stack>
