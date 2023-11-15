@@ -52,17 +52,37 @@ export const InfoPanel: FC<{
             {!hideDescription && <Markdown markdown={advert.description} />}
             {!hideDescription && (
                 <Typography gutterBottom>
-                    {category ? `${category.label} | ` : ''}
+                    {category && (
+                        <>
+                            <Typography component="span">
+                                {category.label}
+                            </Typography>
+                            <Typography
+                                color="text.disabled"
+                                component="span"
+                                sx={{ pl: 1, pr: 1 }}
+                            >
+                                |
+                            </Typography>
+                        </>
+                    )}
                     {`${advert.meta.reservableQuantity} ${
                         advert.unit
-                    } ${fromNow(advert.createdAt)}`}{' '}
-                    {category?.co2kg ? (
+                    } ${fromNow(advert.createdAt)}`}
+                    {category && (
                         <>
-                            <span>| Sparar {category?.co2kg} kg </span>
+                            <Typography
+                                color="text.disabled"
+                                component="span"
+                                sx={{ pl: 1, pr: 1 }}
+                            >
+                                |
+                            </Typography>
+                            <Typography component="span" sx={{ pr: 1 }}>
+                                Sparar {category.co2kg} kg
+                            </Typography>
                             <Co2Icon sx={{ verticalAlign: 'middle' }} />
                         </>
-                    ) : (
-                        ''
                     )}
                 </Typography>
             )}
