@@ -36,19 +36,48 @@ export const AdvertCard: FC<{
                         <ImagesPanel advert={advert} />
                     </CardContent>
                     <CardContent>
-                        <InfoPanel
-                            advert={advert}
-                            categories={categories}
-                            error={error}
-                            hideDescription
-                        />
-                        <ActionsPanel advert={advert} onUpdate={onUpdate} />
-                        <InfoPanel
-                            advert={advert}
-                            categories={categories}
-                            error={error}
-                            hideTitle
-                        />
+                        <Grid container direction="column" rowGap={1}>
+                            <Grid item>
+                                <InfoPanel
+                                    advert={advert}
+                                    categories={categories}
+                                    error={error}
+                                    hideDescription
+                                />
+                            </Grid>
+                            <Grid item>
+                                <InfoPanel
+                                    advert={advert}
+                                    categories={categories}
+                                    error={error}
+                                    hideTitle
+                                />
+                            </Grid>
+                            <Grid item>
+                                <ActionsPanel
+                                    advert={advert}
+                                    onUpdate={onUpdate}
+                                />
+                            </Grid>
+                            <Grid item>
+                                <ParcelCard
+                                    variant="outlined"
+                                    advert={advert}
+                                />
+                            </Grid>
+                            <Grid item>
+                                <AddressCard
+                                    variant="outlined"
+                                    advert={advert}
+                                />
+                            </Grid>
+                            <Grid item>
+                                <ContactCard
+                                    variant="outlined"
+                                    advert={advert}
+                                />
+                            </Grid>
+                        </Grid>
                     </CardContent>
                 </CardContent>
                 <CardContent
@@ -60,19 +89,13 @@ export const AdvertCard: FC<{
                             <ImagesPanel advert={advert} />
                         </Grid>
                         <Grid item xs={6}>
-                            <Grid container direction="column">
+                            <Grid container direction="column" rowGap={1}>
                                 <Grid>
                                     <InfoPanel
                                         advert={advert}
                                         categories={categories}
                                         error={error}
                                         hideDescription
-                                    />
-                                </Grid>
-                                <Grid item>
-                                    <ActionsPanel
-                                        advert={advert}
-                                        onUpdate={onUpdate}
                                     />
                                 </Grid>
                                 <Grid item>
@@ -83,14 +106,35 @@ export const AdvertCard: FC<{
                                         hideTitle
                                     />
                                 </Grid>
+                                <Grid item>
+                                    <ActionsPanel
+                                        advert={advert}
+                                        onUpdate={onUpdate}
+                                    />
+                                </Grid>
+                                <Grid item>
+                                    <ParcelCard
+                                        variant="outlined"
+                                        advert={advert}
+                                    />
+                                </Grid>
+                                <Grid>
+                                    <AddressCard
+                                        variant="outlined"
+                                        advert={advert}
+                                    />
+                                </Grid>
+                                <Grid>
+                                    <ContactCard
+                                        variant="outlined"
+                                        advert={advert}
+                                    />
+                                </Grid>
                             </Grid>
                         </Grid>
                     </Grid>
                 </CardContent>
             </Card>
-            <ParcelCard variant="outlined" advert={advert} />
-            <AddressCard variant="outlined" advert={advert} />
-            <ContactCard variant="outlined" advert={advert} />
 
             {showRightsDisclaimer && (
                 <Card>
