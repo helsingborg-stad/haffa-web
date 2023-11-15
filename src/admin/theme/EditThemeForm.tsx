@@ -398,6 +398,9 @@ export const EditThemeForm: FC<{
                             <MenuItem key={nanoid()} value="default">
                                 Standard
                             </MenuItem>
+                            <MenuItem key={nanoid()} value="inherit">
+                                Bakgrund
+                            </MenuItem>
                             <MenuItem key={nanoid()} value="transparent">
                                 Genomskinlig
                             </MenuItem>
