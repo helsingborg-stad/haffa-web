@@ -414,7 +414,7 @@ export const EditThemeForm: FC<{
                     {phrase('THEME_SECTION_LAYOUT', 'Utseende')}
                 </Typography>
                 <Grid container pb={1}>
-                    <Grid item xs={12} sm={4} p={1}>
+                    <Grid item xs={12} sm={2} p={1}>
                         <InputSelectField
                             id="THEME_FIELD_RADIUS"
                             label="Radie på knappar"
@@ -435,7 +435,29 @@ export const EditThemeForm: FC<{
                             ))}
                         </InputSelectField>
                     </Grid>
-                    <Grid item xs={12} sm={4} p={1}>
+                    <Grid item xs={12} sm={2} p={1}>
+                        <InputSelectField
+                            id="THEME_FIELD_BUTTON_ELEVATION"
+                            label="Förhöjda knappar"
+                            value={model['component.button.elevation']}
+                            onChange={(e) => {
+                                setModel({
+                                    ...model,
+                                    'component.button.elevation': String(
+                                        e.target.value
+                                    ),
+                                })
+                            }}
+                        >
+                            <MenuItem key={nanoid()} value="true">
+                                Nej
+                            </MenuItem>
+                            <MenuItem key={nanoid()} value="false">
+                                Ja
+                            </MenuItem>
+                        </InputSelectField>
+                    </Grid>
+                    <Grid item xs={12} sm={2} p={1}>
                         <InputSelectField
                             id="THEME_FIELD_SHAPE_RADIUS"
                             label="Radie på objekt"
@@ -454,10 +476,10 @@ export const EditThemeForm: FC<{
                             ))}
                         </InputSelectField>
                     </Grid>
-                    <Grid item xs={12} sm={4} p={1}>
+                    <Grid item xs={12} sm={2} p={1}>
                         <InputSelectField
                             id="THEME_FIELD_PAPER_VARIANT"
-                            label="Stil på omslag"
+                            label="Stil på kort"
                             value={model['component.paper.variant']}
                             onChange={(e) => {
                                 setModel({
@@ -471,7 +493,7 @@ export const EditThemeForm: FC<{
                             <MenuItem value="elevation">Förhöjd</MenuItem>
                         </InputSelectField>
                     </Grid>
-                    <Grid item xs={12} sm={4} p={1}>
+                    <Grid item xs={12} sm={2} p={1}>
                         <InputSelectField
                             id="THEME_FIELD_APPBAR_VARIANT"
                             label="Appbar skuggning"
@@ -493,7 +515,7 @@ export const EditThemeForm: FC<{
                             </MenuItem>
                         </InputSelectField>
                     </Grid>
-                    <Grid item xs={12} sm={4} p={1}>
+                    <Grid item xs={12} sm={2} p={1}>
                         <InputSelectField
                             id="THEME_FIELD_APPBAR_BORDER"
                             label="Appbar ram"
@@ -515,7 +537,7 @@ export const EditThemeForm: FC<{
                             </MenuItem>
                         </InputSelectField>
                     </Grid>
-                    <Grid item xs={12} sm={4} p={1}>
+                    <Grid item xs={12} sm={2} p={1}>
                         <InputSelectField
                             id="THEME_FIELD_TYPHOGRAPHY_BODY"
                             label="Brödtext storlek"
@@ -545,6 +567,37 @@ export const EditThemeForm: FC<{
                 <ThemeProvider theme={createTheme(createCustomTheme(model))}>
                     <CssBaseline />
                     <Paper sx={{ p: 2 }}>
+                        <Typography variant="h6" mt={1}>
+                            Bodytext
+                        </Typography>
+                        <Grid container>
+                            <Grid item mt={1} pr={1} xs={12} sm={12}>
+                                <Card>
+                                    <Typography p={2}>
+                                        Lorem ipsum dolor sit amet, consectetur
+                                        adipiscing elit. Praesent sit amet
+                                        pellentesque odio. Morbi non dolor
+                                        auctor, placerat tellus vitae, volutpat
+                                        tellus. Etiam eget interdum libero, quis
+                                        tempus eros. Etiam porttitor vel tellus
+                                        eu fermentum. Suspendisse volutpat sit
+                                        amet leo non imperdiet. Nulla aliquam
+                                        sem vitae urna rhoncus rhoncus. Vivamus
+                                        pretium eleifend tincidunt. Phasellus
+                                        enim risus, facilisis nec dui eu,
+                                        sodales porttitor sapien. Donec nunc
+                                        quam, rutrum a orci vel, tincidunt
+                                        dapibus mi. In vitae aliquet augue. Ut
+                                        ac sem vel metus vehicula hendrerit.
+                                        Cras non erat vitae nunc aliquam
+                                        molestie id in mi. Maecenas dictum neque
+                                        ante, quis consequat mi feugiat
+                                        venenatis. Duis tempor arcu eu velit
+                                        pharetra, a porttitor sapien gravida.
+                                    </Typography>
+                                </Card>
+                            </Grid>
+                        </Grid>
                         <Typography variant="h6" mt={1}>
                             Appbar
                         </Typography>

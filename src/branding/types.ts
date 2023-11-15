@@ -10,6 +10,7 @@ export interface ThemeModel {
     'palette.background': string
     'palette.paper': string
     'component.button.radius': string
+    'component.button.elevation': string
     'component.appbar.variant': AppBarProps['variant']
     'component.appbar.border': string
     'component.appbar.color': AppBarProps['color']

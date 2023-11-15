@@ -13,6 +13,7 @@ export const defaultThemeModel: ThemeModel = {
     'palette.background': '#fff',
     'palette.paper': '#fff',
     'component.button.radius': '0',
+    'component.button.elevation': 'false',
     'component.appbar.variant': 'outlined',
     'component.appbar.border': '0',
     'component.appbar.color': 'default',
@@ -36,6 +37,7 @@ export const createThemeModel = (options: Option[]): ThemeModel => ({
                 'palette.background',
                 'palette.paper',
                 'component.button.radius',
+                'component.button.elevation',
                 'component.appbar.variant',
                 'component.appbar.border',
                 'component.appbar.color',
@@ -97,6 +99,10 @@ export const createCustomTheme = (model: ThemeModel): ThemeOptions => {
                 },
             },
             MuiButton: {
+                defaultProps: {
+                    disableElevation:
+                        options['component.button.elevation'] === 'true',
+                },
                 styleOverrides: {
                     root: {
                         borderRadius: Number(
