@@ -12,37 +12,21 @@ export const InfoPanel: FC<{
     error?: string
     hideTitle?: boolean
     hideDescription?: boolean
-}> = ({ advert, categories, error, hideTitle, hideDescription }) => {
+    hideNotifications?: boolean
+}> = ({
+    advert,
+    categories,
+    error,
+    hideTitle,
+    hideDescription,
+    hideNotifications,
+}) => {
     const { fromNow, phrase } = useContext(PhraseContext)
     const categoryLabel = categories.findById(advert.category)?.label
     return (
         <>
             {error && <Alert severity="error">{error}</Alert>}
 
-            {advert.meta.reservedyMe > 0 && (
-                <Alert severity="success">
-                    {phrase(
-                        'ADVERT_IS_RESERVED_BY_YOU',
-                        'Du har reserverat {count} {unit}',
-                        {
-                            count: advert.meta.reservedyMe,
-                            unit: advert.unit,
-                        }
-                    )}
-                </Alert>
-            )}
-            {advert.meta.collectedByMe > 0 && (
-                <Alert severity="success">
-                    {phrase(
-                        'ADVERT_IS_COLLECTED_BY_YOU',
-                        'Du har hämtat {count} {unit}',
-                        {
-                            count: advert.meta.collectedByMe,
-                            unit: advert.unit,
-                        }
-                    )}
-                </Alert>
-            )}
             {!hideTitle && (
                 <Typography variant="h5" component="div">
                     {advert.title}
@@ -57,6 +41,30 @@ export const InfoPanel: FC<{
                 </Typography>
             )}
             {!hideDescription && <Markdown markdown={advert.description} />}
+            {!hideNotifications && advert.meta.reservedyMe > 0 && (
+                <Alert severity="success">
+                    {phrase(
+                        'ADVERT_IS_RESERVED_BY_YOU',
+                        'Du har reserverat {count} {unit}',
+                        {
+                            count: advert.meta.reservedyMe,
+                            unit: advert.unit,
+                        }
+                    )}
+                </Alert>
+            )}
+            {!hideNotifications && advert.meta.collectedByMe > 0 && (
+                <Alert severity="success">
+                    {phrase(
+                        'ADVERT_IS_COLLECTED_BY_YOU',
+                        'Du har hämtat {count} {unit}',
+                        {
+                            count: advert.meta.collectedByMe,
+                            unit: advert.unit,
+                        }
+                    )}
+                </Alert>
+            )}
         </>
     )
 }

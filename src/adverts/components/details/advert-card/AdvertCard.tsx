@@ -43,6 +43,7 @@ export const AdvertCard: FC<{
                                     categories={categories}
                                     error={error}
                                     hideDescription
+                                    hideNotifications
                                 />
                             </Grid>
                             <Grid item>
@@ -96,6 +97,7 @@ export const AdvertCard: FC<{
                                         categories={categories}
                                         error={error}
                                         hideDescription
+                                        hideNotifications
                                     />
                                 </Grid>
                                 <Grid item>
