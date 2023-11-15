@@ -47,8 +47,8 @@ export const ActionsPanel: FC<{
             <Button
                 key="cancel"
                 fullWidth
-                color="primary"
-                variant="outlined"
+                color="secondary"
+                variant="text"
                 disabled={!meta.canCancelReservation}
                 onClick={() => onUpdate(cancelAdvertReservation(advert.id))}
             >
