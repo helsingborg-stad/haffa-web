@@ -64,7 +64,7 @@ const CollectButton: FC<
 > = (props) => {
     const { advert, onCollect, ...buttonProps } = props
     const {
-        meta: { canCollect, reservableQuantity },
+        meta: { canCollect, collectableQuantity },
     } = advert
     const { ADVERT_COLLECT } = useContext(PhraseContext)
     const [{ scanDialog, countDialog }, setModel] = useState<{
@@ -91,7 +91,7 @@ const CollectButton: FC<
                 label={ADVERT_COLLECT}
                 matchAdvert={advert}
                 onScan={() => {
-                    if (reservableQuantity > 1) {
+                    if (collectableQuantity > 1) {
                         return setModel({ countDialog: true })
                     }
                     onCollect(1)
@@ -107,7 +107,7 @@ const CollectButton: FC<
                 key="select-count"
                 open={!!countDialog}
                 minCount={1}
-                maxCount={reservableQuantity}
+                maxCount={collectableQuantity}
                 onClose={() => setModel({})}
                 onSelectCount={(n) => onCollect(n)}
                 renderConfirmButton={(n) => (
