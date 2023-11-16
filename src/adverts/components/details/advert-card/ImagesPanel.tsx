@@ -1,11 +1,4 @@
-import {
-    Backdrop,
-    Box,
-    Button,
-    Toolbar,
-    useMediaQuery,
-    useTheme,
-} from '@mui/material'
+import { Backdrop, Box, Button, Toolbar, useTheme } from '@mui/material'
 import { Advert, AdvertImage } from 'adverts/types'
 import { CSSProperties, FC, useContext, useMemo, useState } from 'react'
 import { Swiper, SwiperSlide } from 'swiper/react'
@@ -15,12 +8,10 @@ import 'swiper/css/pagination'
 import 'swiper/css/navigation'
 import 'swiper/css/thumbs'
 
-import { SwiperOptions } from 'swiper/types'
 import { PhraseContext } from 'phrases'
 
 const SwiperCarousel: FC<{ images: AdvertImage[] }> = ({ images }) => {
     const theme = useTheme()
-    const largeScreen = useMediaQuery(theme.breakpoints.up('sm'))
     const [backdropImageIndex, setBackdropImageIndxex] = useState(-1)
     const { phrase } = useContext(PhraseContext)
 
@@ -45,37 +36,17 @@ const SwiperCarousel: FC<{ images: AdvertImage[] }> = ({ images }) => {
         [theme]
     )
 
-    // we want to adjust slider according to number of images
-    // 0 - not shown
-    // 1 - centered single image with 2 missing siblings
-    // 2 - both images
-    // 3 or more - slider
-    const swiperProps: SwiperOptions = useMemo(
-        () =>
-            largeScreen
-                ? {
-                      centeredSlides:
-                          [false, true, false, false][images.length] || false,
-                      // slidesPerView: [0, 3, 2, 3][images.length] || 3,
-                      slidesPerView: 1,
-                  }
-                : {
-                      slidesPerView: 1,
-                  },
-        [largeScreen]
-    )
-
     return (
         <>
             <Swiper
                 key="carousel"
-                style={swiperStyle}
-                loop
-                {...swiperProps}
-                pagination={{
-                    clickable: true,
+                style={{
+                    ...swiperStyle,
                 }}
+                slidesPerView={1}
+                loop
                 navigation
+                pagination={{ clickable: true }}
                 modules={[Pagination, Navigation]}
             >
                 {images.map((image, index) => (
@@ -116,6 +87,21 @@ const SwiperCarousel: FC<{ images: AdvertImage[] }> = ({ images }) => {
                         zIndex: (theme) => theme.zIndex.drawer + 1,
                     }}
                 >
+                    <Toolbar
+                        sx={{
+                            position: 'absolute',
+                            zIndex: (theme) => theme.zIndex.appBar,
+                            top: 0,
+                            right: 0,
+                        }}
+                    >
+                        <Button
+                            variant="contained"
+                            onClick={() => setBackdropImageIndxex(-1)}
+                        >
+                            {phrase('', 'Stäng')}
+                        </Button>
+                    </Toolbar>
                     <Swiper
                         style={{
                             ...swiperStyle,
@@ -129,22 +115,6 @@ const SwiperCarousel: FC<{ images: AdvertImage[] }> = ({ images }) => {
                         pagination={{ clickable: true }}
                         modules={[Pagination, Navigation]}
                     >
-                        <Toolbar
-                            sx={{
-                                position: 'absolute',
-                                zIndex: (theme) => theme.zIndex.appBar,
-                                top: 0,
-                                right: 0,
-                            }}
-                        >
-                            <Button
-                                variant="contained"
-                                onClick={() => setBackdropImageIndxex(-1)}
-                            >
-                                {phrase('', 'Stäng')}
-                            </Button>
-                        </Toolbar>
-
                         {backdropImages.map((image, index) => (
                             <SwiperSlide key={`${image.url}:${index}`}>
                                 <Box
