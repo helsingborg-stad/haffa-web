@@ -21,6 +21,7 @@ const TICK_COUNT: number = 5
 export const SelectCountDialog: FC<
     DialogProps & {
         open: boolean
+        count?: number
         minCount: number
         maxCount: number
         renderConfirmButton: (n: number) => JSX.Element
@@ -30,6 +31,7 @@ export const SelectCountDialog: FC<
 > = (props) => {
     const {
         open,
+        count,
         minCount,
         maxCount,
         renderConfirmButton,
@@ -37,7 +39,9 @@ export const SelectCountDialog: FC<
         onClose,
         ...dialogProps
     } = props
-    const [selectedCount, setSelectedCount] = useState(minCount)
+    const [selectedCount, setSelectedCount] = useState(
+        Math.min(Math.max(count || 0, minCount), maxCount)
+    )
 
     const marks = useMemo(() => {
         const indices = range(minCount, maxCount)
