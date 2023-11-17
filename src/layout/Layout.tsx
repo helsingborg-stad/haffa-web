@@ -2,6 +2,8 @@ import {
     FC,
     PropsWithChildren,
     ReactNode,
+    Ref,
+    forwardRef,
     useContext,
     useMemo,
     useState,
@@ -54,19 +56,24 @@ const NavIconButton: FC<{
     </Button>
 )
 
-const NavLinkCustom = (props: NavLinkProps) => (
-    <NavLink
-        {...props}
-        style={({ isActive }) =>
-            isActive
-                ? {
-                      textDecoration: 'underline',
-                      textDecorationThickness: 2,
-                      textUnderlineOffset: 10,
-                  }
-                : {}
-        }
-    />
+const NavLinkCustom = forwardRef(
+    (props: NavLinkProps, ref: Ref<HTMLAnchorElement>) => (
+        <NavLink
+            {...props}
+            ref={ref}
+            style={({ isActive }) =>
+                isActive
+                    ? {
+                          textDecoration: 'underline',
+                          textDecorationThickness: 2,
+                          textUnderlineOffset: 10,
+                      }
+                    : {}
+            }
+        >
+            {props.children}
+        </NavLink>
+    )
 )
 
 const NavIconLink: FC<{
