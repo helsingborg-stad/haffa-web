@@ -18,6 +18,7 @@ export interface HaffaUserRoles {
 export interface Authentication {
     token: string
     roles: HaffaUserRoles
+    guest: boolean
 }
 
 export interface EffectivePermissions {
@@ -27,6 +28,7 @@ export interface EffectivePermissions {
 }
 export interface AuthContextType {
     readonly isAuthenticated: boolean
+    readonly isGuest: boolean
     readonly token: string
     readonly roles: HaffaUserRoles
     readonly authProvider: AuthProvider

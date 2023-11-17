@@ -12,6 +12,8 @@ import {
     Button,
     ButtonProps,
     Container,
+    Dialog,
+    DialogContent,
     Divider,
     Drawer,
     Grid,
@@ -26,19 +28,21 @@ import {
     useTheme,
 } from '@mui/material'
 import MenuIcon from '@mui/icons-material/Menu'
-import { AuthContext } from 'auth'
-import { NavLink, NavLinkProps } from 'react-router-dom'
+import { AuthContext, AuthenticatePanel } from 'auth'
+import { NavLink } from 'react-router-dom'
+import LoginIcon from '@mui/icons-material/Login'
 import { PhraseContext } from '../phrases/PhraseContext'
 import { HaffaLink, createNavLinks } from './nav-links'
 import { SlowFetchWarning } from './SlowFetchWarning'
 import { NotificationsSnackbar } from './NotificationSnackbar'
 
-const NavIconButton: FC<{
-    label: string
-    icon: ReactNode
-    button: ButtonProps
-}> = ({ label, icon, button }) => (
-    <Button color="inherit" {...button}>
+const NavIconButton: FC<
+    ButtonProps & {
+        label: string
+        icon: ReactNode
+    }
+> = ({ label, icon, ...buttonProps }) => (
+    <Button color="inherit" {...buttonProps}>
         <Stack
             direction="column"
             sx={{
@@ -54,12 +58,14 @@ const NavIconButton: FC<{
     </Button>
 )
 
-const NavIconLink: FC<{
-    label: string
-    icon: ReactNode
-    link: NavLinkProps
-}> = ({ label, icon, link }) => (
-    <Button color="inherit" component={NavLink} to={link.to}>
+const NavIconLink: FC<
+    ButtonProps & {
+        label: string
+        icon: ReactNode
+        to: string
+    }
+> = ({ label, icon, to, ...buttonProps }) => (
+    <Button component={NavLink} color="inherit" to={to} {...buttonProps}>
         <Stack
             direction="column"
             sx={{
@@ -93,7 +99,7 @@ const insideToolbarLinkFactory: Record<
         </Button>
     ),
     link: ({ label, href, icon }) => (
-        <NavIconLink key={href} label={label} icon={icon} link={{ to: href }} />
+        <NavIconLink key={href} label={label} icon={icon} to={href} />
     ),
     menuitem: () => null,
 }
@@ -122,9 +128,10 @@ export const Layout: FC<
     const theme = useTheme()
     const isDesktop = useMediaQuery(theme.breakpoints.up('md'))
     const phrases = useContext(PhraseContext)
-    const { roles } = useContext(AuthContext)
+    const { isGuest, roles } = useContext(AuthContext)
     const { APP_TITLE } = phrases
     const [drawer, setDrawer] = useState(false)
+    const [authenticateDialog, setAuthenticateDialog] = useState(false)
     const links = useMemo(
         () =>
             hideNavigation
@@ -132,10 +139,11 @@ export const Layout: FC<
                 : createNavLinks({
                       mobile: !isDesktop,
                       desktop: isDesktop,
+                      guest: isGuest,
                       roles,
                       phrases,
                   }),
-        [isDesktop, roles, phrases, hideNavigation]
+        [isDesktop, isGuest, roles, phrases, hideNavigation]
     )
 
     const insideToolbarLinks = links
@@ -162,11 +170,20 @@ export const Layout: FC<
                         </Button>
                         <Box flex={1} />
                         {insideToolbarLinks}
+                        {isGuest && (
+                            <NavIconButton
+                                label="Logga in"
+                                icon={<LoginIcon />}
+                                color="primary"
+                                variant="contained"
+                                onClick={() => setAuthenticateDialog(true)}
+                            />
+                        )}
                         {insideDrawerLinks.length > 0 && (
                             <NavIconButton
                                 label="Meny"
                                 icon={<MenuIcon />}
-                                button={{ onClick: () => setDrawer(!drawer) }}
+                                onClick={() => setDrawer(!drawer)}
                             />
                         )}
                     </Toolbar>
@@ -183,7 +200,7 @@ export const Layout: FC<
                     <NavIconButton
                         label="Meny"
                         icon={<MenuIcon />}
-                        button={{ onClick: () => setDrawer(!drawer) }}
+                        onClick={() => setDrawer(!drawer)}
                     />
                 </Toolbar>
                 <Divider />
@@ -198,6 +215,20 @@ export const Layout: FC<
                 </Container>
             </Grid>
             <NotificationsSnackbar />
+
+            <Dialog
+                open={authenticateDialog}
+                onClose={() => setAuthenticateDialog(false)}
+            >
+                <DialogContent>
+                    <AuthenticatePanel
+                        onAuthenticated={() => {
+                            setAuthenticateDialog(false)
+                            window.location.reload()
+                        }}
+                    />
+                </DialogContent>
+            </Dialog>
         </Box>
     )
 }
