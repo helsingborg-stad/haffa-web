@@ -54,12 +54,24 @@ const NavIconButton: FC<{
     </Button>
 )
 
+const NavLinkCustom = (props: NavLinkProps) => {
+    const theme = useTheme()
+    return (
+        <NavLink
+            {...props}
+            style={({ isActive }) => ({
+                color: isActive ? theme.palette.primary.dark : '',
+            })}
+        />
+    )
+}
+
 const NavIconLink: FC<{
     label: string
     icon: ReactNode
     link: NavLinkProps
 }> = ({ label, icon, link }) => (
-    <Button color="inherit" component={NavLink} to={link.to}>
+    <Button color="inherit" component={NavLinkCustom} to={link.to}>
         <Stack
             direction="column"
             sx={{
@@ -87,7 +99,7 @@ const insideToolbarLinkFactory: Record<
             variant="contained"
             startIcon={icon}
             to={href}
-            component={NavLink}
+            component={NavLinkCustom}
         >
             {label}
         </Button>
@@ -106,7 +118,7 @@ const insideDrawerLinkFactory: Record<
     link: () => null,
     menuitem: ({ label, href, icon }) => (
         <ListItem key={href} disablePadding>
-            <ListItemButton to={href} component={NavLink}>
+            <ListItemButton to={href} component={NavLinkCustom}>
                 <ListItemIcon>{icon}</ListItemIcon>
                 <ListItemText primary={label} />
             </ListItemButton>
