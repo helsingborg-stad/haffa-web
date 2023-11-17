@@ -12,7 +12,7 @@ import { ArchivedPanel } from './ArchivedPanel'
 import { EditorButtonsPanel } from './EditorButtonsPanel'
 import { AddressCard } from './AddressCard'
 import { ContactCard } from './ContactCard'
-import { ParcelCard } from './ParcelCard'
+import { DetailsPanel } from './DetailsPanel'
 
 export const AdvertCard: FC<{
     advert: Advert
@@ -60,7 +60,7 @@ export const AdvertCard: FC<{
                                 />
                             </Grid>
                             <Grid item>
-                                <ParcelCard advert={advert} />
+                                <DetailsPanel advert={advert} />
                             </Grid>
                             <Grid item>
                                 <AddressCard advert={advert} />
@@ -105,7 +105,7 @@ export const AdvertCard: FC<{
                                     />
                                 </Grid>
                                 <Grid item>
-                                    <ParcelCard advert={advert} />
+                                    <DetailsPanel advert={advert} />
                                 </Grid>
                                 <Grid item>
                                     <AddressCard advert={advert} />
