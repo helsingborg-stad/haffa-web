@@ -54,17 +54,20 @@ const NavIconButton: FC<{
     </Button>
 )
 
-const NavLinkCustom = (props: NavLinkProps) => {
-    const theme = useTheme()
-    return (
-        <NavLink
-            {...props}
-            style={({ isActive }) => ({
-                color: isActive ? theme.palette.primary.dark : '',
-            })}
-        />
-    )
-}
+const NavLinkCustom = (props: NavLinkProps) => (
+    <NavLink
+        {...props}
+        style={({ isActive }) =>
+            isActive
+                ? {
+                      textDecoration: 'underline',
+                      textDecorationThickness: 2,
+                      textUnderlineOffset: 10,
+                  }
+                : {}
+        }
+    />
+)
 
 const NavIconLink: FC<{
     label: string
