@@ -70,9 +70,7 @@ const NavLinkCustom = forwardRef(
                       }
                     : {}
             }
-        >
-            {props.children}
-        </NavLink>
+        />
     )
 )
 
@@ -180,7 +178,11 @@ export const Layout: FC<
                                 textTransform: 'none',
                             }}
                         >
-                            {APP_TITLE}
+                            {theme.logotype ? (
+                                <img src={theme.logotype} alt={APP_TITLE} />
+                            ) : (
+                                APP_TITLE
+                            )}
                         </Button>
                         <Box flex={1} />
                         {insideToolbarLinks}

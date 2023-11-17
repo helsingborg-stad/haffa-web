@@ -1,5 +1,15 @@
 import { AppBarProps, PaperProps, TypographyOwnProps } from '@mui/material'
 
+declare module '@mui/material/styles' {
+    interface Theme {
+        logotype?: string
+    }
+    // allow configuration using `createTheme`
+    interface ThemeOptions {
+        logotype?: string
+    }
+}
+
 export interface ThemeModel {
     'palette.primary': string
     'palette.secondary': string
@@ -17,5 +27,6 @@ export interface ThemeModel {
     'component.paper.variant': PaperProps['variant']
     'component.typography.variant': TypographyOwnProps['variant']
     'component.cardheader.variant': TypographyOwnProps['variant']
+    'custom.image.logotype': string
     'shape.radius': string
 }
