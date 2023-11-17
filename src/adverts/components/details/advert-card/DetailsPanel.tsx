@@ -1,7 +1,7 @@
 import { Grid, GridProps, Typography } from '@mui/material'
 import { Advert } from 'adverts'
 import { PhraseContext } from 'phrases'
-import { useContext } from 'react'
+import { Fragment, useContext } from 'react'
 
 export const DetailsPanel = (props: GridProps & { advert: Advert }) => {
     const { phrase, fromNow } = useContext(PhraseContext)
@@ -26,27 +26,25 @@ export const DetailsPanel = (props: GridProps & { advert: Advert }) => {
         [condition, phrase('ADVERT_FIELD_CONDITION', 'Skick')],
         [usage, phrase('ADVERT_FIELD_USAGE', 'Användning')],
         [fromNow(createdAt), phrase('ADVERT_FIELD_CREATED', 'Publicerades')],
-    ].filter((item) => item[0])
+    ].filter(([item]) => item)
 
     return (
         <>
             <Typography gutterBottom variant="h6">
-                Produktinformation
+                {phrase('ADVERT_FIELD_HEADING', 'Produktinformation')}
             </Typography>
-            <Typography component="span">
-                <Grid container columns={2} pb={2}>
-                    {fields.map(([value, label]) => (
-                        <>
-                            <Grid xs={1} item>
-                                {label}
-                            </Grid>
-                            <Grid xs={1} textAlign="right" item>
-                                {value}
-                            </Grid>
-                        </>
-                    ))}
-                </Grid>
-            </Typography>
+            <Grid container columns={2} pb={2}>
+                {fields.map(([value, label], key) => (
+                    <Fragment key={key}>
+                        <Grid item xs={1}>
+                            {label}
+                        </Grid>
+                        <Grid item xs={1} textAlign="right">
+                            {value}
+                        </Grid>
+                    </Fragment>
+                ))}
+            </Grid>
         </>
     )
 }

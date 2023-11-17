@@ -54,9 +54,7 @@ export const InfoPanel: FC<{
                 <Typography gutterBottom>
                     {category && (
                         <>
-                            <Typography component="span">
-                                {category.label}
-                            </Typography>
+                            {category.label}
                             <Typography
                                 color="text.disabled"
                                 component="span"
