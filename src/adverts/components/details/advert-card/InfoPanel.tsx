@@ -38,7 +38,7 @@ export const InfoPanel: FC<{
     hideDescription,
     hideNotifications,
 }) => {
-    const { fromNow, phrase } = useContext(PhraseContext)
+    const { phrase } = useContext(PhraseContext)
     const category = categories.findById(advert.category)
     return (
         <>
@@ -66,9 +66,7 @@ export const InfoPanel: FC<{
                             </Typography>
                         </>
                     )}
-                    {`${advert.meta.reservableQuantity} ${
-                        advert.unit
-                    } ${fromNow(advert.createdAt)}`}
+                    {`${advert.meta.reservableQuantity} ${advert.unit}`}
                     {category && (
                         <>
                             <Typography
