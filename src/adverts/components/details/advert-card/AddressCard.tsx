@@ -20,7 +20,7 @@ export const AddressCard = (props: PaperProps & { advert: Advert }) => {
                     height="100%"
                     alignItems="center"
                 >
-                    <Grid item>
+                    <Grid item sx={{ display: { xs: 'none', sm: 'block' } }}>
                         <Avatar
                             sx={{
                                 width: 48,
