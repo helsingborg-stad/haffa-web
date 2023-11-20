@@ -1,7 +1,7 @@
 import { Tree } from 'antd'
 import { DataNode } from 'antd/es/tree'
-import { FC, useCallback, useContext, useState } from 'react'
-import { Box, Button } from '@mui/material'
+import React, { FC, useCallback, useContext, useState } from 'react'
+import { Box } from '@mui/material'
 import { Category } from '../../../../categories/types'
 import useAsync from '../../../../hooks/use-async'
 import { encodeCategoryTree } from '../../../../categories/mappers'
@@ -113,8 +113,6 @@ export const CategoriesFilter: FC<CategoriesFilterProps> = ({
         [setCategoriesCache, categoriesCache]
     )
 
-    const uncheckAll = () => onCheck([])
-
     return categoriesInspect({
         pending: () => null,
         rejected: (e) => {
@@ -125,9 +123,6 @@ export const CategoriesFilter: FC<CategoriesFilterProps> = ({
             cacheCategories(categories)
             return (
                 <Box>
-                    <Button variant="text" size="small" onClick={uncheckAll}>
-                        Nollställ
-                    </Button>
                     <Tree
                         checkable
                         checkStrictly

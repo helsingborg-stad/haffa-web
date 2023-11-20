@@ -2,14 +2,16 @@ import {
     Dialog,
     DialogTitle,
     DialogContent,
-    DialogContentText,
     DialogActions,
     useMediaQuery,
     Button,
     useTheme,
+    IconButton,
 } from '@mui/material'
-import { FC, useState } from 'react'
+import { FC, useContext, useState } from 'react'
 import { AdvertFilterInput } from 'adverts'
+import { PhraseContext } from 'phrases'
+import CloseIcon from '@mui/icons-material/Close'
 import { CategoriesFilter } from './CategoriesFilter'
 
 export interface SelectedFilters {
@@ -23,6 +25,7 @@ export const FilterDialog: FC<{
     setSearchParams: (p: AdvertFilterInput) => void
 }> = ({ open, onClose, searchParams, setSearchParams }) => {
     const theme = useTheme()
+    const { phrase } = useContext(PhraseContext)
     const fullScreen = useMediaQuery(theme.breakpoints.down('md'))
 
     const [categories, setCategories] = useState<string[]>(
@@ -51,18 +54,35 @@ export const FilterDialog: FC<{
             maxWidth="sm"
         >
             <DialogTitle id="responsive-dialog-title">
-                Filtrera Annonser
+                {phrase('DIALOG_FILTER_TITLE', 'Filter')}
             </DialogTitle>
-            <DialogContent>
-                <DialogContentText>Kategorier</DialogContentText>
+            <IconButton
+                aria-label="Stäng"
+                onClick={onClose}
+                sx={{
+                    position: 'absolute',
+                    right: 8,
+                    top: 8,
+                }}
+            >
+                <CloseIcon />
+            </IconButton>
+            <DialogContent dividers>
                 <CategoriesFilter
                     selected={categories}
                     onCategoriesChanged={setCategories}
                 />
             </DialogContent>
             <DialogActions>
-                <Button onClick={onSave} autoFocus>
-                    Ok
+                <Button variant="contained" onClick={onSave} autoFocus>
+                    {phrase('DIALOG_FILTER_SAVE', 'Spara')}
+                </Button>
+                <Button
+                    variant="outlined"
+                    onClick={() => setCategories([])}
+                    autoFocus
+                >
+                    {phrase('DIALOG_FILTER_CLEAR', 'Rensa')}
                 </Button>
             </DialogActions>
         </Dialog>
