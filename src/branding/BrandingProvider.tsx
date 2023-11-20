@@ -31,7 +31,6 @@ const BrandedView: FC<
         [themeModel]
     )
 
-    console.log(themeModel)
     const advertImageAspectRatio =
         parseAspectRatio(themeModel['advert.image.aspectRatio']) || 4 / 3
 
