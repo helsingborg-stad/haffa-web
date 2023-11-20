@@ -19,6 +19,7 @@ export const defaultThemeModel: ThemeModel = {
     'component.appbar.border': '0',
     'component.appbar.color': 'default',
     'component.paper.variant': 'outlined',
+    'component.avatar.bgcolor': '#f6f3eb',
     'component.cardheader.variant': 'body1',
     'typography.body1.fontsize': '0.875rem',
     'shape.radius': '4',
@@ -42,6 +43,7 @@ const ThemModelKeys = new Set<keyof ThemeModel>([
     'component.appbar.border',
     'component.appbar.color',
     'component.paper.variant',
+    'component.avatar.bgcolor',
     'component.cardheader.variant',
     'typography.body1.fontsize',
     'custom.image.logotype',
@@ -142,6 +144,13 @@ export const createCustomTheme = (model: ThemeModel): ThemeOptions => {
                 styleOverrides: {
                     root: {
                         border: options['component.appbar.border'],
+                    },
+                },
+            },
+            MuiAvatar: {
+                styleOverrides: {
+                    root: {
+                        backgroundColor: options['component.avatar.bgcolor'],
                     },
                 },
             },
