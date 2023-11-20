@@ -11,6 +11,7 @@ declare module '@mui/material/styles' {
 }
 
 export interface ThemeModel {
+    'advert.image.aspectRatio': string
     'palette.primary': string
     'palette.secondary': string
     'palette.error': string

@@ -9,8 +9,10 @@ import 'swiper/css/navigation'
 import 'swiper/css/thumbs'
 
 import { PhraseContext } from 'phrases'
+import { BrandingContext } from 'branding'
 
 const SwiperCarousel: FC<{ images: AdvertImage[] }> = ({ images }) => {
+    const { advertImageAspectRatio } = useContext(BrandingContext)
     const theme = useTheme()
     const [backdropImageIndex, setBackdropImageIndxex] = useState(-1)
     const { phrase } = useContext(PhraseContext)
@@ -58,7 +60,7 @@ const SwiperCarousel: FC<{ images: AdvertImage[] }> = ({ images }) => {
                             title=""
                             sx={{
                                 objectFit: 'cover',
-                                aspectRatio: 4 / 3,
+                                aspectRatio: advertImageAspectRatio,
                                 objectPosition: 'center',
                                 overflow: 'hidden',
                                 minHeight: '100%',

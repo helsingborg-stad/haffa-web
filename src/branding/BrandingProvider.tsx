@@ -6,6 +6,15 @@ import { createPhraseContext } from 'phrases/create-phrase-context'
 import { toMap } from 'lib/to-map'
 import type { Option } from '../options/types'
 import { createCustomTheme, createThemeModel } from './theme-factory'
+import { BrandingContext } from './BrandingContext'
+
+const parseAspectRatio = (ar: string): number | null => {
+    const [w, h] = ar.split(':').map((v) => parseInt(v, 10))
+    if (w > 0 && h > 0) {
+        return w / h
+    }
+    return null
+}
 
 const BrandedView: FC<
     PropsWithChildren & {
@@ -13,10 +22,18 @@ const BrandedView: FC<
         phraseOptions: Option[]
     }
 > = ({ children, themeOptions, phraseOptions }) => {
-    const theme = useMemo(
-        () => createTheme(createCustomTheme(createThemeModel(themeOptions))),
+    const themeModel = useMemo(
+        () => createThemeModel(themeOptions),
         [themeOptions]
     )
+    const theme = useMemo(
+        () => createTheme(createCustomTheme(themeModel)),
+        [themeModel]
+    )
+
+    console.log(themeModel)
+    const advertImageAspectRatio =
+        parseAspectRatio(themeModel['advert.image.aspectRatio']) || 4 / 3
 
     return (
         <ThemeProvider theme={theme}>
@@ -29,7 +46,9 @@ const BrandedView: FC<
                     )
                 )}
             >
-                {children}
+                <BrandingContext.Provider value={{ advertImageAspectRatio }}>
+                    {children}
+                </BrandingContext.Provider>
             </PhraseContext.Provider>
         </ThemeProvider>
     )

@@ -13,6 +13,7 @@ import { Category } from 'categories/types'
 import { TreeAdapter } from 'lib/types'
 import { PhraseContext } from 'phrases'
 import RecyclingIcon from '@mui/icons-material/Recycling'
+import { BrandingContext } from 'branding'
 import { Advert } from '../../types'
 
 const join = (sep: string, ...parts: (string | number | undefined)[]) =>
@@ -23,6 +24,7 @@ export const AdvertListItem: FC<{
     categories: TreeAdapter<Category>
     sx?: SxProps<Theme>
 }> = ({ advert, categories, sx }) => {
+    const { advertImageAspectRatio } = useContext(BrandingContext)
     const { phrase } = useContext(PhraseContext)
     const imageUrl = advert.images[0]?.url || '/empty-advert.svg'
 
@@ -37,13 +39,19 @@ export const AdvertListItem: FC<{
         <Card sx={{ ...sx, display: 'flex', justifyContent: 'stretch' }}>
             <CardActionArea component={Link} to={`/advert/${advert.id}`}>
                 <Grid container direction="column" sx={{ height: '100%' }}>
-                    <Grid item sx={{ width: '100%', aspectRatio: 4 / 3 }}>
+                    <Grid
+                        item
+                        sx={{
+                            width: '100%',
+                            aspectRatio: advertImageAspectRatio,
+                        }}
+                    >
                         <CardMedia
                             component="img"
                             src={imageUrl}
                             alt={title}
                             sx={{
-                                aspectRatio: 4 / 3,
+                                aspectRatio: advertImageAspectRatio,
                                 objectFit: 'cover',
                                 objectPosition: 'center',
                             }}
