@@ -3,6 +3,7 @@ import {
     AlertProps,
     AppBar,
     AppBarProps,
+    Avatar,
     Box,
     Button,
     ButtonProps,
@@ -515,6 +516,27 @@ export const EditThemeForm: FC<{
                                     Sekundär
                                 </MenuItem>
                             </InputSelectField>
+                        </Grid>
+                    </Grid>
+                    <Typography variant="h6" py={2}>
+                        Avatar
+                    </Typography>
+                    <Grid container rowSpacing={4}>
+                        <Grid item xs={12} sm={12}>
+                            <Avatar sx={{ p: 3 }}>
+                                <Typography variant="h6">H</Typography>
+                            </Avatar>
+                        </Grid>
+                        <Grid item xs={12} sm={2} pr={1}>
+                            <InputColorField
+                                label="Bakgrundsfärg"
+                                value={model['component.avatar.bgcolor']}
+                                onColorChange={(color) =>
+                                    apply({
+                                        'component.avatar.bgcolor': color,
+                                    })
+                                }
+                            />
                         </Grid>
                     </Grid>
                     <Typography variant="h6" py={2}>
