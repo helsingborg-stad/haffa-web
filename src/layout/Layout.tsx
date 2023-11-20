@@ -81,9 +81,9 @@ const NavLinkCustom = forwardRef(
 const NavIconLink: FC<{
     label: string
     icon: ReactNode
-    link: NavLinkProps
-}> = ({ label, icon, link }) => (
-    <Button color="inherit" component={NavLinkCustom} to={link.to}>
+    to: string
+}> = ({ label, icon, to }) => (
+    <Button color="inherit" component={NavLinkCustom} to={to}>
         <Stack
             direction="column"
             sx={{
