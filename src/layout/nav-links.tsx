@@ -41,6 +41,7 @@ export const createNavLinks: Func1<
     {
         mobile: boolean
         desktop: boolean
+        guest: boolean
         roles: HaffaUserRoles
         phrases: PhraseContextType
     },
@@ -48,6 +49,7 @@ export const createNavLinks: Func1<
 > = ({
     mobile,
     desktop,
+    guest,
     roles,
     phrases: {
         phrase,
@@ -59,36 +61,46 @@ export const createNavLinks: Func1<
         SCAN_QR_CODE,
     },
 }) =>
-    [
-        false &&
-            desktop &&
-            button(ADVERT_CREATE, '/advert/create', <AddIcon />),
-        false && link(NAV_HOME, '/', <SearchIcon />),
-        // mobile && link(ADVERT_CREATE, '/advert/create', <AddIcon />),
-        link(ADVERT_CREATE, '/advert/create', <AddIcon />),
-        link(SCAN_QR_CODE, '/scan', <QrCodeScannerIcon />),
-        (mobile ? menuitem : link)(
-            'Bevakningar',
-            '/my-subscriptions',
-            <StarBorderIcon />
-        ),
-        (mobile ? menuitem : link)(
-            NAV_MY_RESERVATIONS,
-            '/my-reservations',
-            <CheckIcon />
-        ),
-        (mobile ? menuitem : link)(
-            NAV_MY_ADVERTS,
-            '/my-adverts',
-            <BookmarkBorderIcon />
-        ),
-        (mobile ? menuitem : link)(NAV_PROFILE, '/profile', <PersonIcon />),
-        hasSomeAdminRoles(roles) &&
-            (mobile ? menuitem : link)(
-                phrase('NAV_ADMIN', 'Administration'),
-                '/admin',
-                <SettingsIcon />
-            ),
-    ]
-        .filter((v) => v)
-        .map((v) => v as HaffaLink)
+    guest
+        ? [
+              // button('Logga in', '/login', <LoginIcon />),
+              link(SCAN_QR_CODE, '/scan', <QrCodeScannerIcon />),
+          ]
+        : [
+              false &&
+                  desktop &&
+                  button(ADVERT_CREATE, '/advert/create', <AddIcon />),
+              false && link(NAV_HOME, '/', <SearchIcon />),
+              // mobile && link(ADVERT_CREATE, '/advert/create', <AddIcon />),
+
+              link(ADVERT_CREATE, '/advert/create', <AddIcon />),
+              link(SCAN_QR_CODE, '/scan', <QrCodeScannerIcon />),
+              (mobile ? menuitem : link)(
+                  'Bevakningar',
+                  '/my-subscriptions',
+                  <StarBorderIcon />
+              ),
+              (mobile ? menuitem : link)(
+                  NAV_MY_RESERVATIONS,
+                  '/my-reservations',
+                  <CheckIcon />
+              ),
+              (mobile ? menuitem : link)(
+                  NAV_MY_ADVERTS,
+                  '/my-adverts',
+                  <BookmarkBorderIcon />
+              ),
+              (mobile ? menuitem : link)(
+                  NAV_PROFILE,
+                  '/profile',
+                  <PersonIcon />
+              ),
+              hasSomeAdminRoles(roles) &&
+                  (mobile ? menuitem : link)(
+                      phrase('NAV_ADMIN', 'Administration'),
+                      '/admin',
+                      <SettingsIcon />
+                  ),
+          ]
+              .filter((v) => v)
+              .map((v) => v as HaffaLink)

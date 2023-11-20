@@ -9,6 +9,9 @@ export const AuthContext = createContext<AuthContextType>({
     get isAuthenticated() {
         return notProvided('isAuthenticated'), false
     },
+    get isGuest() {
+        return notProvided('isGuest'), false
+    },
     get token() {
         return notProvided('token'), ''
     },
