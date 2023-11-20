@@ -2,6 +2,8 @@ import {
     FC,
     PropsWithChildren,
     ReactNode,
+    Ref,
+    forwardRef,
     useContext,
     useMemo,
     useState,
@@ -29,7 +31,7 @@ import {
 } from '@mui/material'
 import MenuIcon from '@mui/icons-material/Menu'
 import { AuthContext, AuthenticatePanel } from 'auth'
-import { NavLink } from 'react-router-dom'
+import { NavLink, NavLinkProps } from 'react-router-dom'
 import LoginIcon from '@mui/icons-material/Login'
 import { PhraseContext } from '../phrases/PhraseContext'
 import { HaffaLink, createNavLinks } from './nav-links'
@@ -58,14 +60,30 @@ const NavIconButton: FC<
     </Button>
 )
 
-const NavIconLink: FC<
-    ButtonProps & {
-        label: string
-        icon: ReactNode
-        to: string
-    }
-> = ({ label, icon, to, ...buttonProps }) => (
-    <Button component={NavLink} color="inherit" to={to} {...buttonProps}>
+const NavLinkCustom = forwardRef(
+    (props: NavLinkProps, ref: Ref<HTMLAnchorElement>) => (
+        <NavLink
+            {...props}
+            ref={ref}
+            style={({ isActive }) =>
+                isActive
+                    ? {
+                          textDecoration: 'underline',
+                          textDecorationThickness: 2,
+                          textUnderlineOffset: 10,
+                      }
+                    : {}
+            }
+        />
+    )
+)
+
+const NavIconLink: FC<{
+    label: string
+    icon: ReactNode
+    link: NavLinkProps
+}> = ({ label, icon, link }) => (
+    <Button color="inherit" component={NavLinkCustom} to={link.to}>
         <Stack
             direction="column"
             sx={{
@@ -93,7 +111,7 @@ const insideToolbarLinkFactory: Record<
             variant="contained"
             startIcon={icon}
             to={href}
-            component={NavLink}
+            component={NavLinkCustom}
         >
             {label}
         </Button>
@@ -112,7 +130,7 @@ const insideDrawerLinkFactory: Record<
     link: () => null,
     menuitem: ({ label, href, icon }) => (
         <ListItem key={href} disablePadding>
-            <ListItemButton to={href} component={NavLink}>
+            <ListItemButton to={href} component={NavLinkCustom}>
                 <ListItemIcon>{icon}</ListItemIcon>
                 <ListItemText primary={label} />
             </ListItemButton>
@@ -166,7 +184,11 @@ export const Layout: FC<
                                 textTransform: 'none',
                             }}
                         >
-                            {APP_TITLE}
+                            {theme.logotype ? (
+                                <img src={theme.logotype} alt={APP_TITLE} />
+                            ) : (
+                                APP_TITLE
+                            )}
                         </Button>
                         <Box flex={1} />
                         {insideToolbarLinks}

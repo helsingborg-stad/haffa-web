@@ -1,9 +1,4 @@
-import {
-    CssBaseline,
-    GlobalStyles,
-    ThemeProvider,
-    createTheme,
-} from '@mui/material'
+import { CssBaseline, ThemeProvider, createTheme } from '@mui/material'
 import useAsync from 'hooks/use-async'
 import { FC, PropsWithChildren, useMemo } from 'react'
 import { PhraseContext } from 'phrases'
@@ -34,14 +29,6 @@ const BrandedView: FC<
                     )
                 )}
             >
-                <GlobalStyles
-                    styles={{
-                        // active AppBar links
-                        'header a.active': {
-                            backgroundColor: theme.palette.primary.light,
-                        },
-                    }}
-                />
                 {children}
             </PhraseContext.Provider>
         </ThemeProvider>

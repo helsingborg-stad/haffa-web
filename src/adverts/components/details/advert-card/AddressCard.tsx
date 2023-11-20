@@ -1,10 +1,10 @@
-import { Avatar, Card, CardProps, Grid, Typography } from '@mui/material'
+import { Avatar, Grid, Paper, PaperProps, Typography } from '@mui/material'
 import HomeOutlinedIcon from '@mui/icons-material/HomeOutlined'
 import { Advert } from 'adverts'
 import { useContext } from 'react'
 import { PhraseContext } from 'phrases'
 
-export const AddressCard = (props: CardProps & { advert: Advert }) => {
+export const AddressCard = (props: PaperProps & { advert: Advert }) => {
     const { phrase } = useContext(PhraseContext)
     const { adress, zipCode, city } = props.advert.location
 
@@ -12,9 +12,15 @@ export const AddressCard = (props: CardProps & { advert: Advert }) => {
         adress &&
         zipCode &&
         city && (
-            <Card {...props}>
-                <Grid container height="100%" alignItems="center">
-                    <Grid item p={2}>
+            <Paper {...props}>
+                <Grid
+                    container
+                    p={2}
+                    spacing={2}
+                    height="100%"
+                    alignItems="center"
+                >
+                    <Grid item sx={{ display: { xs: 'none', sm: 'block' } }}>
                         <Avatar
                             sx={{
                                 width: 48,
@@ -26,7 +32,7 @@ export const AddressCard = (props: CardProps & { advert: Advert }) => {
                             <HomeOutlinedIcon />
                         </Avatar>
                     </Grid>
-                    <Grid item pt={2} pb={2} pl={1}>
+                    <Grid item>
                         <Typography variant="subtitle1">
                             {phrase(
                                 'ADVERT_FIELD_ADDRESS_TITLE',
@@ -37,7 +43,7 @@ export const AddressCard = (props: CardProps & { advert: Advert }) => {
                         <Typography>{`${zipCode} ${city}`}</Typography>
                     </Grid>
                 </Grid>
-            </Card>
+            </Paper>
         )
     )
 }
