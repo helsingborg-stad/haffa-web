@@ -1,5 +1,4 @@
 import {
-    Alert,
     AlertProps,
     AppBar,
     AppBarProps,
@@ -11,20 +10,10 @@ import {
     CardActions,
     CardContent,
     CssBaseline,
-    Dialog,
-    DialogActions,
-    DialogContent,
-    DialogTitle,
-    FormControl,
     Grid,
-    IconButton,
-    InputAdornment,
-    InputLabel,
     MenuItem,
     PaperProps,
-    Select,
     SelectProps,
-    TextField,
     TextFieldProps,
     ThemeProvider,
     Typography,
@@ -36,65 +25,21 @@ import {
     createThemeOptions,
     defaultThemeModel,
 } from 'branding/theme-factory'
-import { FC, PropsWithChildren, useCallback, useContext, useState } from 'react'
+import { FC, useCallback, useContext, useState } from 'react'
 import SaveIcon from '@mui/icons-material/Save'
 import { PhraseContext } from 'phrases'
-import SvgIcon, { SvgIconProps } from '@mui/material/SvgIcon'
 import { ThemeModel } from 'branding/types'
-import { SketchPicker } from 'react-color'
 import { nanoid } from 'nanoid'
 import type { Option } from '../../options/types'
+import { ColorSelect } from './components/ColorSelect'
+import { RegularSelect } from './components/RegularSelect'
+import { PreviewButton } from './preview/Button'
+import { PreviewAlert } from './preview/Alert'
+import { PreviewTextField } from './preview/TextField'
+import { PreviewSelect } from './preview/Select'
 
 const arrayWithNumbers = (max: number) => Array.from(Array(max).keys())
 
-const PreviewAlert = (props: AlertProps) => (
-    <Alert {...props} sx={{ mt: 1 }}>
-        {props.severity}
-    </Alert>
-)
-const PreviewButton = (props: ButtonProps) => (
-    <Button {...props} fullWidth sx={{ mt: 1 }}>
-        {props.disabled ? 'disabled' : props.color}
-    </Button>
-)
-const PreviewTextField = (props: TextFieldProps) => {
-    let text = 'N/A'
-    if (props.color) {
-        text = props.color
-    } else if (props.disabled) {
-        text = 'disabled'
-    } else if (props.error) {
-        text = 'error'
-    }
-    const mt = props.variant === 'standard' ? 3 : 2
-    return (
-        <TextField {...props} fullWidth sx={{ mt }} label={text} value={text} />
-    )
-}
-const PreviewSelect = (props: SelectProps & { key: number }) => {
-    let text = 'N/A'
-    if (props.color) {
-        text = props.color
-    } else if (props.disabled) {
-        text = 'disabled'
-    } else if (props.error) {
-        text = 'error'
-    }
-    const mt = props.variant === 'standard' ? 3 : 2
-    return (
-        <FormControl
-            key={props.key}
-            variant={props.variant}
-            fullWidth
-            sx={{ mt }}
-        >
-            <InputLabel id={text}>{text}</InputLabel>
-            <Select {...props} label={text} labelId={text}>
-                <MenuItem>{text}</MenuItem>
-            </Select>
-        </FormControl>
-    )
-}
 const AlertColumn: AlertProps[] = [
     { severity: 'success' },
     { severity: 'info' },
@@ -144,83 +89,6 @@ const SelectColumn: Array<SelectProps> = [
     },
 ]
 
-const InputColorButton = (props: SvgIconProps & ButtonProps) => (
-    <IconButton onClick={props.onClick}>
-        <SvgIcon sx={props.sx}>
-            <ellipse cx="12" cy="12" rx="12" ry="12" />
-        </SvgIcon>
-    </IconButton>
-)
-const InputColorField = ({
-    onColorChange,
-    ...props
-}: TextFieldProps & { onColorChange: (color: string) => void }) => {
-    const [state, setState] = useState<{
-        color: string
-        isOpen: boolean
-    }>({
-        color: props.value as string,
-        isOpen: false,
-    })
-    const onClose = () => {
-        if (state.isOpen) {
-            onColorChange(state.color)
-        }
-        setState({
-            ...state,
-            isOpen: !state.isOpen,
-        })
-    }
-    return (
-        <>
-            <TextField
-                {...props}
-                key={nanoid()}
-                disabled
-                fullWidth
-                variant="outlined"
-                InputProps={{
-                    startAdornment: (
-                        <InputAdornment position="start">
-                            <InputColorButton
-                                sx={{ color: props.value as string }}
-                                onClick={onClose}
-                            />
-                        </InputAdornment>
-                    ),
-                }}
-            />
-            <Dialog open={state.isOpen} onClose={onClose}>
-                <DialogTitle>Välj färg</DialogTitle>
-                <DialogContent>
-                    <SketchPicker
-                        onChange={(color) => {
-                            setState({
-                                ...state,
-                                color: color.hex,
-                            })
-                        }}
-                        color={state.color}
-                    />
-                </DialogContent>
-                <DialogActions>
-                    <Button onClick={onClose}>Ok</Button>
-                </DialogActions>
-            </Dialog>
-        </>
-    )
-}
-const InputSelectField = (props: SelectProps<string> & PropsWithChildren) => {
-    const { children, label, id = nanoid() } = props
-    return (
-        <FormControl fullWidth>
-            <InputLabel id={id}>{label}</InputLabel>
-            <Select {...props} key={nanoid()} labelId={id} label={label}>
-                {children}
-            </Select>
-        </FormControl>
-    )
-}
 export const EditThemeForm: FC<{
     options: Option[]
     onUpdate: (options: Option[]) => void
@@ -273,7 +141,7 @@ export const EditThemeForm: FC<{
                     </Typography>
                     <Grid container rowSpacing={2}>
                         <Grid item xs={12} sm={3} pr={1}>
-                            <InputColorField
+                            <ColorSelect
                                 label="Primär färg"
                                 value={model['palette.primary']}
                                 onColorChange={(color) =>
@@ -284,7 +152,7 @@ export const EditThemeForm: FC<{
                             />
                         </Grid>
                         <Grid item xs={12} sm={3} pr={1}>
-                            <InputColorField
+                            <ColorSelect
                                 label="Sekundär färg"
                                 value={model['palette.secondary']}
                                 onColorChange={(color) =>
@@ -295,7 +163,7 @@ export const EditThemeForm: FC<{
                             />
                         </Grid>
                         <Grid item xs={12} sm={3} pr={1}>
-                            <InputColorField
+                            <ColorSelect
                                 label="Information"
                                 value={model['palette.info']}
                                 onColorChange={(color) =>
@@ -306,7 +174,7 @@ export const EditThemeForm: FC<{
                             />
                         </Grid>
                         <Grid item xs={12} sm={3} pr={1}>
-                            <InputColorField
+                            <ColorSelect
                                 label="Varning"
                                 value={model['palette.warning']}
                                 onColorChange={(color) =>
@@ -317,7 +185,7 @@ export const EditThemeForm: FC<{
                             />
                         </Grid>
                         <Grid item xs={12} sm={3} pr={1}>
-                            <InputColorField
+                            <ColorSelect
                                 label="Fel"
                                 value={model['palette.error']}
                                 onColorChange={(color) =>
@@ -328,7 +196,7 @@ export const EditThemeForm: FC<{
                             />
                         </Grid>
                         <Grid item xs={12} sm={3} pr={1}>
-                            <InputColorField
+                            <ColorSelect
                                 label="Genomfört"
                                 value={model['palette.success']}
                                 onColorChange={(color) =>
@@ -339,7 +207,7 @@ export const EditThemeForm: FC<{
                             />
                         </Grid>
                         <Grid item xs={12} sm={3} pr={1}>
-                            <InputColorField
+                            <ColorSelect
                                 label="Bakgrund"
                                 value={model['palette.background']}
                                 onColorChange={(color) =>
@@ -350,7 +218,7 @@ export const EditThemeForm: FC<{
                             />
                         </Grid>
                         <Grid item xs={12} sm={3} pr={1}>
-                            <InputColorField
+                            <ColorSelect
                                 label="Bakgrund kort"
                                 value={model['palette.paper']}
                                 onColorChange={(color) =>
@@ -369,28 +237,21 @@ export const EditThemeForm: FC<{
                             <Card>
                                 <Typography p={2}>
                                     Lorem ipsum dolor sit amet, consectetur
-                                    adipiscing elit. Praesent sit amet
-                                    pellentesque odio. Morbi non dolor auctor,
-                                    placerat tellus vitae, volutpat tellus.
-                                    Etiam eget interdum libero, quis tempus
-                                    eros. Etiam porttitor vel tellus eu
-                                    fermentum. Suspendisse volutpat sit amet leo
-                                    non imperdiet. Nulla aliquam sem vitae urna
-                                    rhoncus rhoncus. Vivamus pretium eleifend
-                                    tincidunt. Phasellus enim risus, facilisis
-                                    nec dui eu, sodales porttitor sapien. Donec
-                                    nunc quam, rutrum a orci vel, tincidunt
-                                    dapibus mi. In vitae aliquet augue. Ut ac
-                                    sem vel metus vehicula hendrerit. Cras non
-                                    erat vitae nunc aliquam molestie id in mi.
-                                    Maecenas dictum neque ante, quis consequat
-                                    mi feugiat venenatis. Duis tempor arcu eu
-                                    velit pharetra, a porttitor sapien gravida.
+                                    adipiscing elit, sed do eiusmod tempor
+                                    incididunt ut labore et dolore magna aliqua.
+                                    Ut enim ad minim veniam, quis nostrud
+                                    exercitation ullamco laboris nisi ut aliquip
+                                    ex ea commodo consequat. Duis aute irure
+                                    dolor in reprehenderit in voluptate velit
+                                    esse cillum dolore eu fugiat nulla pariatur.
+                                    Excepteur sint occaecat cupidatat non
+                                    proident, sunt in culpa qui officia deserunt
+                                    mollit anim id est laborum.
                                 </Typography>
                             </Card>
                         </Grid>
                         <Grid item xs={12} sm={2} pr={1}>
-                            <InputSelectField
+                            <RegularSelect
                                 label="Skuggning"
                                 value={model['component.paper.variant']}
                                 onChange={(e) =>
@@ -402,10 +263,10 @@ export const EditThemeForm: FC<{
                             >
                                 <MenuItem value="outlined">Nej</MenuItem>
                                 <MenuItem value="elevation">Ja</MenuItem>
-                            </InputSelectField>
+                            </RegularSelect>
                         </Grid>
                         <Grid item xs={12} sm={2} pr={1}>
-                            <InputSelectField
+                            <RegularSelect
                                 label="Brödtext"
                                 value={model['typography.body1.fontsize']}
                                 onChange={(e) =>
@@ -415,16 +276,16 @@ export const EditThemeForm: FC<{
                                     })
                                 }
                             >
-                                <MenuItem key={nanoid()} value="0.875rem">
+                                <MenuItem key={nanoid()} value="0.875">
                                     Liten
                                 </MenuItem>
-                                <MenuItem key={nanoid()} value="1.0rem">
+                                <MenuItem key={nanoid()} value="1.0">
                                     Stor
                                 </MenuItem>
-                            </InputSelectField>
+                            </RegularSelect>
                         </Grid>
                         <Grid item xs={12} sm={2} pr={1}>
-                            <InputSelectField
+                            <RegularSelect
                                 label="Radie på komponenter"
                                 value={model['shape.radius']}
                                 onChange={(e) =>
@@ -438,7 +299,7 @@ export const EditThemeForm: FC<{
                                         {i}
                                     </MenuItem>
                                 ))}
-                            </InputSelectField>
+                            </RegularSelect>
                         </Grid>
                     </Grid>
                     <Typography variant="h6" py={2}>
@@ -451,7 +312,7 @@ export const EditThemeForm: FC<{
                             </AppBar>
                         </Grid>
                         <Grid item xs={12} sm={2} pr={1}>
-                            <InputSelectField
+                            <RegularSelect
                                 label="Skuggning"
                                 value={model['component.appbar.variant']}
                                 onChange={(e) =>
@@ -467,10 +328,10 @@ export const EditThemeForm: FC<{
                                 <MenuItem key={nanoid()} value="elevation">
                                     Ja
                                 </MenuItem>
-                            </InputSelectField>
+                            </RegularSelect>
                         </Grid>
                         <Grid item xs={12} sm={2} pr={1}>
-                            <InputSelectField
+                            <RegularSelect
                                 label="Ram"
                                 value={model['component.appbar.border']}
                                 onChange={(e) =>
@@ -486,11 +347,11 @@ export const EditThemeForm: FC<{
                                 <MenuItem key={nanoid()} value={1}>
                                     Ja
                                 </MenuItem>
-                            </InputSelectField>
+                            </RegularSelect>
                         </Grid>
                         <Grid item xs={12} sm={2} pr={1}>
-                            <InputSelectField
-                                label="Bakgrund"
+                            <RegularSelect
+                                label="Färg"
                                 value={model['component.appbar.color']}
                                 onChange={(e) =>
                                     apply({
@@ -514,7 +375,7 @@ export const EditThemeForm: FC<{
                                 <MenuItem key={nanoid()} value="secondary">
                                     Sekundär
                                 </MenuItem>
-                            </InputSelectField>
+                            </RegularSelect>
                         </Grid>
                     </Grid>
                     <Typography variant="h6" py={2}>
@@ -527,7 +388,7 @@ export const EditThemeForm: FC<{
                             </Avatar>
                         </Grid>
                         <Grid item xs={12} sm={2} pr={1}>
-                            <InputColorField
+                            <ColorSelect
                                 label="Bakgrundsfärg"
                                 value={model['component.avatar.bgcolor']}
                                 onColorChange={(color) =>
@@ -543,7 +404,7 @@ export const EditThemeForm: FC<{
                     </Typography>
                     <Grid container rowSpacing={4}>
                         <Grid item xs={12} sm={2} pr={1}>
-                            <InputSelectField
+                            <RegularSelect
                                 label="Bildförhållande"
                                 value={model['advert.image.aspectRatio']}
                                 onChange={(e) =>
@@ -568,7 +429,7 @@ export const EditThemeForm: FC<{
                                 <MenuItem key={nanoid()} value="16:9">
                                     16:9
                                 </MenuItem>
-                            </InputSelectField>
+                            </RegularSelect>
                         </Grid>
                     </Grid>
                     <Typography variant="h6" py={2}>
@@ -606,7 +467,7 @@ export const EditThemeForm: FC<{
                             )}
                         </Grid>
                         <Grid item xs={12} sm={2} pr={1}>
-                            <InputSelectField
+                            <RegularSelect
                                 label="Skuggning"
                                 value={model['component.button.elevation']}
                                 onChange={(e) =>
@@ -622,10 +483,10 @@ export const EditThemeForm: FC<{
                                 <MenuItem key={nanoid()} value="false">
                                     Ja
                                 </MenuItem>
-                            </InputSelectField>
+                            </RegularSelect>
                         </Grid>
                         <Grid item xs={12} sm={2} pr={1}>
-                            <InputSelectField
+                            <RegularSelect
                                 label="Radie"
                                 value={model['component.button.radius']}
                                 onChange={(e) =>
@@ -640,7 +501,7 @@ export const EditThemeForm: FC<{
                                         {i}
                                     </MenuItem>
                                 ))}
-                            </InputSelectField>
+                            </RegularSelect>
                         </Grid>
                     </Grid>
                     <Typography variant="h6" py={2}>
