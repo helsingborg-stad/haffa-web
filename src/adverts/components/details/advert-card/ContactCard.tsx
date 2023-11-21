@@ -1,4 +1,11 @@
-import { Avatar, Grid, Paper, PaperProps, Typography } from '@mui/material'
+import {
+    Avatar,
+    Grid,
+    Link,
+    Paper,
+    PaperProps,
+    Typography,
+} from '@mui/material'
 import ContactMailOutlinedIcon from '@mui/icons-material/ContactMailOutlined'
 import { Advert } from 'adverts'
 import { useContext } from 'react'
@@ -32,8 +39,14 @@ export const ContactCard = (props: PaperProps & { advert: Advert }) => {
                         <Typography variant="subtitle1">
                             {phrase('ADVERT_FIELD_CONTACT_TITLE', 'Kontakt')}
                         </Typography>
-                        <Typography>{email}</Typography>
-                        {phone && <Typography>{phone}</Typography>}
+                        <Typography>
+                            <Link href={`mailto:${email}`}>{email}</Link>
+                        </Typography>
+                        {phone && (
+                            <Typography>
+                                <Link href={`tel:${phone}`}>{phone}</Link>
+                            </Typography>
+                        )}
                         {organization && (
                             <Typography>{organization}</Typography>
                         )}

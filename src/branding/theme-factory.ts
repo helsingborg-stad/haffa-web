@@ -133,6 +133,11 @@ export const createCustomTheme = (model: ThemeModel): ThemeOptions => {
                     },
                 },
             },
+            MuiLink: {
+                defaultProps: {
+                    underline: 'hover',
+                },
+            },
             MuiPaper: {
                 defaultProps: {
                     variant: options['component.paper.variant'],
