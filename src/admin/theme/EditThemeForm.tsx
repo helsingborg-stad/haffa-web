@@ -389,6 +389,17 @@ export const EditThemeForm: FC<{
                         </Grid>
                         <Grid item xs={12} sm={2} pr={1}>
                             <ColorSelect
+                                label="Förgrundsfärg"
+                                value={model['component.avatar.color']}
+                                onColorChange={(color) =>
+                                    apply({
+                                        'component.avatar.color': color,
+                                    })
+                                }
+                            />
+                        </Grid>
+                        <Grid item xs={12} sm={2} pr={1}>
+                            <ColorSelect
                                 label="Bakgrundsfärg"
                                 value={model['component.avatar.bgcolor']}
                                 onColorChange={(color) =>
@@ -428,6 +439,21 @@ export const EditThemeForm: FC<{
                                 </MenuItem>
                                 <MenuItem key={nanoid()} value="16:9">
                                     16:9
+                                </MenuItem>
+                                <MenuItem key={nanoid()} value="2:3">
+                                    2:3
+                                </MenuItem>
+                                <MenuItem key={nanoid()} value="3:4">
+                                    3:4
+                                </MenuItem>
+                                <MenuItem key={nanoid()} value="3:5">
+                                    3:5
+                                </MenuItem>
+                                <MenuItem key={nanoid()} value="4:5">
+                                    4:5
+                                </MenuItem>
+                                <MenuItem key={nanoid()} value="1:1">
+                                    1:1
                                 </MenuItem>
                             </RegularSelect>
                         </Grid>

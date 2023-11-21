@@ -28,6 +28,7 @@ export interface ThemeModel {
     'component.paper.variant': PaperProps['variant']
     'component.cardheader.variant': TypographyOwnProps['variant']
     'component.avatar.bgcolor': string
+    'component.avatar.color': string
     'typography.body1.fontsize': string
     'custom.image.logotype': string
     'shape.radius': string

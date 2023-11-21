@@ -23,7 +23,6 @@ export const ContactCard = (props: PaperProps & { advert: Advert }) => {
                             sx={{
                                 width: 48,
                                 height: 48,
-                                color: 'black',
                             }}
                         >
                             <ContactMailOutlinedIcon />
