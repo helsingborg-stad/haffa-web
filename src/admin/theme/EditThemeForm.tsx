@@ -234,7 +234,6 @@ export const EditThemeForm: FC<{
             ...model,
             ...patch,
         })
-
     const renderCardActions = useCallback(
         () => (
             <CardActions>
@@ -270,7 +269,7 @@ export const EditThemeForm: FC<{
                 <ThemeProvider theme={createTheme(createCustomTheme(model))}>
                     <CssBaseline />
                     <Typography variant="h6" py={2}>
-                        Färger
+                        Palett
                     </Typography>
                     <Grid container rowSpacing={2}>
                         <Grid item xs={12} sm={3} pr={1}>
@@ -537,6 +536,39 @@ export const EditThemeForm: FC<{
                                     })
                                 }
                             />
+                        </Grid>
+                    </Grid>
+                    <Typography variant="h6" py={2}>
+                        Bilder och media
+                    </Typography>
+                    <Grid container rowSpacing={4}>
+                        <Grid item xs={12} sm={2} pr={1}>
+                            <InputSelectField
+                                label="Bildförhållande"
+                                value={model['advert.image.aspectRatio']}
+                                onChange={(e) =>
+                                    apply({
+                                        'advert.image.aspectRatio':
+                                            e.target.value,
+                                    })
+                                }
+                            >
+                                <MenuItem key={nanoid()} value="3:2">
+                                    3:2
+                                </MenuItem>
+                                <MenuItem key={nanoid()} value="4:3">
+                                    4:3
+                                </MenuItem>
+                                <MenuItem key={nanoid()} value="5:3">
+                                    5:3
+                                </MenuItem>
+                                <MenuItem key={nanoid()} value="5:4">
+                                    5:4
+                                </MenuItem>
+                                <MenuItem key={nanoid()} value="16:9">
+                                    16:9
+                                </MenuItem>
+                            </InputSelectField>
                         </Grid>
                     </Grid>
                     <Typography variant="h6" py={2}>
