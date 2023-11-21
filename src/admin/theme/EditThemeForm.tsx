@@ -94,13 +94,12 @@ export const EditThemeForm: FC<{
     onUpdate: (options: Option[]) => void
 }> = ({ options, onUpdate }) => {
     const { phrase } = useContext(PhraseContext)
-
     const [model, setModel] = useState<ThemeModel>(createThemeModel(options))
 
-    const apply = (patch: Partial<ThemeModel>) =>
+    const apply = (name: keyof ThemeModel, value: string) =>
         setModel({
             ...model,
-            ...patch,
+            [name]: value,
         })
 
     const renderCardActions = useCallback(
@@ -146,9 +145,7 @@ export const EditThemeForm: FC<{
                                 label="Primär färg"
                                 value={model['palette.primary']}
                                 onColorChange={(color) =>
-                                    apply({
-                                        'palette.primary': color,
-                                    })
+                                    apply('palette.primary', color)
                                 }
                             />
                         </Grid>
@@ -157,9 +154,7 @@ export const EditThemeForm: FC<{
                                 label="Sekundär färg"
                                 value={model['palette.secondary']}
                                 onColorChange={(color) =>
-                                    apply({
-                                        'palette.secondary': color,
-                                    })
+                                    apply('palette.secondary', color)
                                 }
                             />
                         </Grid>
@@ -168,9 +163,7 @@ export const EditThemeForm: FC<{
                                 label="Information"
                                 value={model['palette.info']}
                                 onColorChange={(color) =>
-                                    apply({
-                                        'palette.info': color,
-                                    })
+                                    apply('palette.info', color)
                                 }
                             />
                         </Grid>
@@ -179,9 +172,7 @@ export const EditThemeForm: FC<{
                                 label="Varning"
                                 value={model['palette.warning']}
                                 onColorChange={(color) =>
-                                    apply({
-                                        'palette.warning': color,
-                                    })
+                                    apply('palette.warning', color)
                                 }
                             />
                         </Grid>
@@ -190,9 +181,7 @@ export const EditThemeForm: FC<{
                                 label="Fel"
                                 value={model['palette.error']}
                                 onColorChange={(color) =>
-                                    apply({
-                                        'palette.error': color,
-                                    })
+                                    apply('palette.error', color)
                                 }
                             />
                         </Grid>
@@ -201,9 +190,7 @@ export const EditThemeForm: FC<{
                                 label="Genomfört"
                                 value={model['palette.success']}
                                 onColorChange={(color) =>
-                                    apply({
-                                        'palette.success': color,
-                                    })
+                                    apply('palette.success', color)
                                 }
                             />
                         </Grid>
@@ -212,9 +199,7 @@ export const EditThemeForm: FC<{
                                 label="Bakgrund"
                                 value={model['palette.background']}
                                 onColorChange={(color) =>
-                                    apply({
-                                        'palette.background': color,
-                                    })
+                                    apply('palette.background', color)
                                 }
                             />
                         </Grid>
@@ -223,9 +208,7 @@ export const EditThemeForm: FC<{
                                 label="Förgrund"
                                 value={model['palette.paper']}
                                 onColorChange={(color) =>
-                                    apply({
-                                        'palette.paper': color,
-                                    })
+                                    apply('palette.paper', color)
                                 }
                             />
                         </Grid>
@@ -255,11 +238,8 @@ export const EditThemeForm: FC<{
                             <RegularSelect
                                 label="Skuggning"
                                 value={model['component.paper.variant']}
-                                onChange={(e) =>
-                                    apply({
-                                        'component.paper.variant': e.target
-                                            .value as PaperProps['variant'],
-                                    })
+                                onChange={({ target: { value } }) =>
+                                    apply('component.paper.variant', value)
                                 }
                             >
                                 {CreateMenuItems<PaperProps['variant']>([
@@ -272,11 +252,8 @@ export const EditThemeForm: FC<{
                             <RegularSelect
                                 label="Brödtext"
                                 value={model['typography.body1.fontsize']}
-                                onChange={(e) =>
-                                    apply({
-                                        'typography.body1.fontsize':
-                                            e.target.value,
-                                    })
+                                onChange={({ target: { value } }) =>
+                                    apply('typography.body1.fontsize', value)
                                 }
                             >
                                 {CreateMenuItems([
@@ -289,10 +266,8 @@ export const EditThemeForm: FC<{
                             <RegularSelect
                                 label="Radie på komponenter"
                                 value={model['shape.radius']}
-                                onChange={(e) =>
-                                    apply({
-                                        'shape.radius': e.target.value,
-                                    })
+                                onChange={({ target: { value } }) =>
+                                    apply('shape.radius', value)
                                 }
                             >
                                 {arrayWithNumbers(25).map((i) => (
@@ -316,11 +291,8 @@ export const EditThemeForm: FC<{
                             <RegularSelect
                                 label="Skuggning"
                                 value={model['component.appbar.variant']}
-                                onChange={(e) =>
-                                    apply({
-                                        'component.appbar.variant': e.target
-                                            .value as AppBarProps['variant'],
-                                    })
+                                onChange={({ target: { value } }) =>
+                                    apply('component.appbar.variant', value)
                                 }
                             >
                                 {CreateMenuItems<AppBarProps['variant']>([
@@ -333,11 +305,8 @@ export const EditThemeForm: FC<{
                             <RegularSelect
                                 label="Ram"
                                 value={model['component.appbar.border']}
-                                onChange={(e) =>
-                                    apply({
-                                        'component.appbar.border':
-                                            e.target.value,
-                                    })
+                                onChange={({ target: { value } }) =>
+                                    apply('component.appbar.border', value)
                                 }
                             >
                                 {CreateMenuItems([
@@ -350,11 +319,8 @@ export const EditThemeForm: FC<{
                             <RegularSelect
                                 label="Färg"
                                 value={model['component.appbar.color']}
-                                onChange={(e) =>
-                                    apply({
-                                        'component.appbar.color': e.target
-                                            .value as AppBarProps['color'],
-                                    })
+                                onChange={({ target: { value } }) =>
+                                    apply('component.appbar.color', value)
                                 }
                             >
                                 {CreateMenuItems<AppBarProps['color']>([
@@ -380,11 +346,8 @@ export const EditThemeForm: FC<{
                             <RegularSelect
                                 label="Variant"
                                 value={model['component.avatar.variant']}
-                                onChange={(e) =>
-                                    apply({
-                                        'component.avatar.variant': e.target
-                                            .value as AvatarProps['variant'],
-                                    })
+                                onChange={({ target: { value } }) =>
+                                    apply('component.avatar.variant', value)
                                 }
                             >
                                 {CreateMenuItems<AvatarProps['variant']>([
@@ -399,9 +362,7 @@ export const EditThemeForm: FC<{
                                 label="Förgrundsfärg"
                                 value={model['component.avatar.color']}
                                 onColorChange={(color) =>
-                                    apply({
-                                        'component.avatar.color': color,
-                                    })
+                                    apply('component.avatar.color', color)
                                 }
                             />
                         </Grid>
@@ -410,9 +371,7 @@ export const EditThemeForm: FC<{
                                 label="Bakgrundsfärg"
                                 value={model['component.avatar.bgcolor']}
                                 onColorChange={(color) =>
-                                    apply({
-                                        'component.avatar.bgcolor': color,
-                                    })
+                                    apply('component.avatar.bgcolor', color)
                                 }
                             />
                         </Grid>
@@ -425,11 +384,8 @@ export const EditThemeForm: FC<{
                             <RegularSelect
                                 label="Bildförhållande"
                                 value={model['advert.image.aspectRatio']}
-                                onChange={(e) =>
-                                    apply({
-                                        'advert.image.aspectRatio':
-                                            e.target.value,
-                                    })
+                                onChange={({ target: { value } }) =>
+                                    apply('advert.image.aspectRatio', value)
                                 }
                             >
                                 {CreateMenuItems([
@@ -485,11 +441,8 @@ export const EditThemeForm: FC<{
                             <RegularSelect
                                 label="Skuggning"
                                 value={model['component.button.elevation']}
-                                onChange={(e) =>
-                                    apply({
-                                        'component.button.elevation':
-                                            e.target.value,
-                                    })
+                                onChange={({ target: { value } }) =>
+                                    apply('component.button.elevation', value)
                                 }
                             >
                                 {CreateMenuItems([
@@ -502,11 +455,8 @@ export const EditThemeForm: FC<{
                             <RegularSelect
                                 label="Radie"
                                 value={model['component.button.radius']}
-                                onChange={(e) =>
-                                    apply({
-                                        'component.button.radius':
-                                            e.target.value,
-                                    })
+                                onChange={({ target: { value } }) =>
+                                    apply('component.button.radius', value)
                                 }
                             >
                                 {arrayWithNumbers(25).map((i) => (
