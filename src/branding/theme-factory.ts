@@ -14,7 +14,7 @@ export const defaultThemeModel: ThemeModel = {
     'palette.background': '#fff',
     'palette.paper': '#fff',
     'component.button.radius': '12',
-    'component.button.elevation': 'false',
+    'component.button.elevation': 'true',
     'component.appbar.variant': 'outlined',
     'component.appbar.border': '0',
     'component.appbar.color': 'default',

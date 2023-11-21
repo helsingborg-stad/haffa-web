@@ -32,7 +32,7 @@ import { PhraseContext } from 'phrases'
 import { ThemeModel } from 'branding/types'
 import type { Option } from '../../options/types'
 import { ColorSelect } from './components/ColorSelect'
-import { RegularSelect } from './components/RegularSelect'
+import { CreateMenuItems, RegularSelect } from './components/RegularSelect'
 import { PreviewButton } from './preview/Button'
 import { PreviewAlert } from './preview/Alert'
 import { PreviewTextField } from './preview/TextField'
@@ -102,6 +102,7 @@ export const EditThemeForm: FC<{
             ...model,
             ...patch,
         })
+
     const renderCardActions = useCallback(
         () => (
             <CardActions>
@@ -261,8 +262,10 @@ export const EditThemeForm: FC<{
                                     })
                                 }
                             >
-                                <MenuItem value="outlined">Nej</MenuItem>
-                                <MenuItem value="elevation">Ja</MenuItem>
+                                {CreateMenuItems<PaperProps['variant']>([
+                                    ['Nej', 'outlined'],
+                                    ['Ja', 'elevation'],
+                                ])}
                             </RegularSelect>
                         </Grid>
                         <Grid item xs={12} sm={2} pr={1}>
@@ -276,14 +279,10 @@ export const EditThemeForm: FC<{
                                     })
                                 }
                             >
-                                {[
+                                {CreateMenuItems([
                                     ['Liten', '0.875'],
                                     ['Stor', '1.0'],
-                                ].map(([label, value], key) => (
-                                    <MenuItem key={key} value={value}>
-                                        {label}
-                                    </MenuItem>
-                                ))}
+                                ])}
                             </RegularSelect>
                         </Grid>
                         <Grid item xs={12} sm={2} pr={1}>
@@ -324,14 +323,10 @@ export const EditThemeForm: FC<{
                                     })
                                 }
                             >
-                                {[
+                                {CreateMenuItems<AppBarProps['variant']>([
                                     ['Nej', 'outlined'],
                                     ['Ja', 'elevation'],
-                                ].map(([label, value], key) => (
-                                    <MenuItem key={key} value={value}>
-                                        {label}
-                                    </MenuItem>
-                                ))}
+                                ])}
                             </RegularSelect>
                         </Grid>
                         <Grid item xs={12} sm={2} pr={1}>
@@ -345,14 +340,10 @@ export const EditThemeForm: FC<{
                                     })
                                 }
                             >
-                                {[
+                                {CreateMenuItems([
                                     ['Nej', '0'],
                                     ['Ja', '1'],
-                                ].map(([label, value], key) => (
-                                    <MenuItem key={key} value={value}>
-                                        {label}
-                                    </MenuItem>
-                                ))}
+                                ])}
                             </RegularSelect>
                         </Grid>
                         <Grid item xs={12} sm={2} pr={1}>
@@ -366,17 +357,13 @@ export const EditThemeForm: FC<{
                                     })
                                 }
                             >
-                                {[
+                                {CreateMenuItems<AppBarProps['color']>([
                                     ['Standard', 'default'],
                                     ['Förgrund', 'inherit'],
                                     ['Genomskinlig', 'transparent'],
                                     ['Primär', 'primary'],
                                     ['Sekundär', 'secondary'],
-                                ].map(([label, value], key) => (
-                                    <MenuItem key={key} value={value}>
-                                        {label}
-                                    </MenuItem>
-                                ))}
+                                ])}
                             </RegularSelect>
                         </Grid>
                     </Grid>
@@ -400,15 +387,11 @@ export const EditThemeForm: FC<{
                                     })
                                 }
                             >
-                                {[
+                                {CreateMenuItems<AvatarProps['variant']>([
                                     ['Cirkulär', 'circular'],
                                     ['Kvadratisk', 'square'],
                                     ['Rundad', 'rounded'],
-                                ].map(([label, value], key) => (
-                                    <MenuItem key={key} value={value}>
-                                        {label}
-                                    </MenuItem>
-                                ))}
+                                ])}
                             </RegularSelect>
                         </Grid>
                         <Grid item xs={12} sm={2} pr={1}>
@@ -449,22 +432,18 @@ export const EditThemeForm: FC<{
                                     })
                                 }
                             >
-                                {[
-                                    '1:1',
-                                    '3:2',
-                                    '4:3',
-                                    '5:3',
-                                    '5:4',
-                                    '16:9',
-                                    '2:3',
-                                    '3:4',
-                                    '3:5',
-                                    '4:5',
-                                ].map((value, key) => (
-                                    <MenuItem key={key} value={value}>
-                                        {value}
-                                    </MenuItem>
-                                ))}
+                                {CreateMenuItems([
+                                    ['1:1'],
+                                    ['3:2'],
+                                    ['4:3'],
+                                    ['5:3'],
+                                    ['5:4'],
+                                    ['16:9'],
+                                    ['2:3'],
+                                    ['3:4'],
+                                    ['3:5'],
+                                    ['4:5'],
+                                ])}
                             </RegularSelect>
                         </Grid>
                     </Grid>
@@ -513,14 +492,10 @@ export const EditThemeForm: FC<{
                                     })
                                 }
                             >
-                                {[
+                                {CreateMenuItems([
                                     ['Nej', 'true'],
                                     ['Ja', 'false'],
-                                ].map(([label, value], key) => (
-                                    <MenuItem key={key} value={value}>
-                                        {label}
-                                    </MenuItem>
-                                ))}
+                                ])}
                             </RegularSelect>
                         </Grid>
                         <Grid item xs={12} sm={2} pr={1}>
