@@ -28,6 +28,7 @@ export const ColorSelect = ({
     onColorChange,
     ...props
 }: TextFieldProps & { onColorChange: (color: string) => void }) => {
+    const { key = nanoid() } = props
     const [state, setState] = useState<{
         color: string
         isOpen: boolean
@@ -48,7 +49,7 @@ export const ColorSelect = ({
         <>
             <TextField
                 {...props}
-                key={nanoid()}
+                key={key}
                 disabled
                 fullWidth
                 variant="outlined"

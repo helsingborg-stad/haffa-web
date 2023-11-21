@@ -3,6 +3,7 @@ import {
     AppBar,
     AppBarProps,
     Avatar,
+    AvatarProps,
     Box,
     Button,
     ButtonProps,
@@ -29,7 +30,6 @@ import { FC, useCallback, useContext, useState } from 'react'
 import SaveIcon from '@mui/icons-material/Save'
 import { PhraseContext } from 'phrases'
 import { ThemeModel } from 'branding/types'
-import { nanoid } from 'nanoid'
 import type { Option } from '../../options/types'
 import { ColorSelect } from './components/ColorSelect'
 import { RegularSelect } from './components/RegularSelect'
@@ -219,7 +219,7 @@ export const EditThemeForm: FC<{
                         </Grid>
                         <Grid item xs={12} sm={3} pr={1}>
                             <ColorSelect
-                                label="Bakgrund kort"
+                                label="Förgrund"
                                 value={model['palette.paper']}
                                 onColorChange={(color) =>
                                     apply({
@@ -276,12 +276,14 @@ export const EditThemeForm: FC<{
                                     })
                                 }
                             >
-                                <MenuItem key={nanoid()} value="0.875">
-                                    Liten
-                                </MenuItem>
-                                <MenuItem key={nanoid()} value="1.0">
-                                    Stor
-                                </MenuItem>
+                                {[
+                                    ['Liten', '0.875'],
+                                    ['Stor', '1.0'],
+                                ].map(([label, value], key) => (
+                                    <MenuItem key={key} value={value}>
+                                        {label}
+                                    </MenuItem>
+                                ))}
                             </RegularSelect>
                         </Grid>
                         <Grid item xs={12} sm={2} pr={1}>
@@ -322,12 +324,14 @@ export const EditThemeForm: FC<{
                                     })
                                 }
                             >
-                                <MenuItem key={nanoid()} value="outlined">
-                                    Nej
-                                </MenuItem>
-                                <MenuItem key={nanoid()} value="elevation">
-                                    Ja
-                                </MenuItem>
+                                {[
+                                    ['Nej', 'outlined'],
+                                    ['Ja', 'elevation'],
+                                ].map(([label, value], key) => (
+                                    <MenuItem key={key} value={value}>
+                                        {label}
+                                    </MenuItem>
+                                ))}
                             </RegularSelect>
                         </Grid>
                         <Grid item xs={12} sm={2} pr={1}>
@@ -341,12 +345,14 @@ export const EditThemeForm: FC<{
                                     })
                                 }
                             >
-                                <MenuItem key={nanoid()} value={0}>
-                                    Nej
-                                </MenuItem>
-                                <MenuItem key={nanoid()} value={1}>
-                                    Ja
-                                </MenuItem>
+                                {[
+                                    ['Nej', '0'],
+                                    ['Ja', '1'],
+                                ].map(([label, value], key) => (
+                                    <MenuItem key={key} value={value}>
+                                        {label}
+                                    </MenuItem>
+                                ))}
                             </RegularSelect>
                         </Grid>
                         <Grid item xs={12} sm={2} pr={1}>
@@ -360,21 +366,17 @@ export const EditThemeForm: FC<{
                                     })
                                 }
                             >
-                                <MenuItem key={nanoid()} value="default">
-                                    Standard
-                                </MenuItem>
-                                <MenuItem key={nanoid()} value="inherit">
-                                    Bakgrund
-                                </MenuItem>
-                                <MenuItem key={nanoid()} value="transparent">
-                                    Genomskinlig
-                                </MenuItem>
-                                <MenuItem key={nanoid()} value="primary">
-                                    Primär
-                                </MenuItem>
-                                <MenuItem key={nanoid()} value="secondary">
-                                    Sekundär
-                                </MenuItem>
+                                {[
+                                    ['Standard', 'default'],
+                                    ['Förgrund', 'inherit'],
+                                    ['Genomskinlig', 'transparent'],
+                                    ['Primär', 'primary'],
+                                    ['Sekundär', 'secondary'],
+                                ].map(([label, value], key) => (
+                                    <MenuItem key={key} value={value}>
+                                        {label}
+                                    </MenuItem>
+                                ))}
                             </RegularSelect>
                         </Grid>
                     </Grid>
@@ -386,6 +388,28 @@ export const EditThemeForm: FC<{
                             <Avatar sx={{ p: 3 }}>
                                 <Typography variant="h6">H</Typography>
                             </Avatar>
+                        </Grid>
+                        <Grid item xs={12} sm={2} pr={1}>
+                            <RegularSelect
+                                label="Variant"
+                                value={model['component.avatar.variant']}
+                                onChange={(e) =>
+                                    apply({
+                                        'component.avatar.variant': e.target
+                                            .value as AvatarProps['variant'],
+                                    })
+                                }
+                            >
+                                {[
+                                    ['Cirkulär', 'circular'],
+                                    ['Kvadratisk', 'square'],
+                                    ['Rundad', 'rounded'],
+                                ].map(([label, value], key) => (
+                                    <MenuItem key={key} value={value}>
+                                        {label}
+                                    </MenuItem>
+                                ))}
+                            </RegularSelect>
                         </Grid>
                         <Grid item xs={12} sm={2} pr={1}>
                             <ColorSelect
@@ -425,36 +449,22 @@ export const EditThemeForm: FC<{
                                     })
                                 }
                             >
-                                <MenuItem key={nanoid()} value="3:2">
-                                    3:2
-                                </MenuItem>
-                                <MenuItem key={nanoid()} value="4:3">
-                                    4:3
-                                </MenuItem>
-                                <MenuItem key={nanoid()} value="5:3">
-                                    5:3
-                                </MenuItem>
-                                <MenuItem key={nanoid()} value="5:4">
-                                    5:4
-                                </MenuItem>
-                                <MenuItem key={nanoid()} value="16:9">
-                                    16:9
-                                </MenuItem>
-                                <MenuItem key={nanoid()} value="2:3">
-                                    2:3
-                                </MenuItem>
-                                <MenuItem key={nanoid()} value="3:4">
-                                    3:4
-                                </MenuItem>
-                                <MenuItem key={nanoid()} value="3:5">
-                                    3:5
-                                </MenuItem>
-                                <MenuItem key={nanoid()} value="4:5">
-                                    4:5
-                                </MenuItem>
-                                <MenuItem key={nanoid()} value="1:1">
-                                    1:1
-                                </MenuItem>
+                                {[
+                                    '1:1',
+                                    '3:2',
+                                    '4:3',
+                                    '5:3',
+                                    '5:4',
+                                    '16:9',
+                                    '2:3',
+                                    '3:4',
+                                    '3:5',
+                                    '4:5',
+                                ].map((value, key) => (
+                                    <MenuItem key={key} value={value}>
+                                        {value}
+                                    </MenuItem>
+                                ))}
                             </RegularSelect>
                         </Grid>
                     </Grid>
@@ -503,12 +513,14 @@ export const EditThemeForm: FC<{
                                     })
                                 }
                             >
-                                <MenuItem key={nanoid()} value="true">
-                                    Nej
-                                </MenuItem>
-                                <MenuItem key={nanoid()} value="false">
-                                    Ja
-                                </MenuItem>
+                                {[
+                                    ['Nej', 'true'],
+                                    ['Ja', 'false'],
+                                ].map(([label, value], key) => (
+                                    <MenuItem key={key} value={value}>
+                                        {label}
+                                    </MenuItem>
+                                ))}
                             </RegularSelect>
                         </Grid>
                         <Grid item xs={12} sm={2} pr={1}>

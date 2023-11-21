@@ -1,4 +1,9 @@
-import { AppBarProps, PaperProps, TypographyOwnProps } from '@mui/material'
+import {
+    AppBarProps,
+    AvatarProps,
+    PaperProps,
+    TypographyOwnProps,
+} from '@mui/material'
 
 declare module '@mui/material/styles' {
     interface Theme {
@@ -29,6 +34,7 @@ export interface ThemeModel {
     'component.cardheader.variant': TypographyOwnProps['variant']
     'component.avatar.bgcolor': string
     'component.avatar.color': string
+    'component.avatar.variant': AvatarProps['variant']
     'typography.body1.fontsize': string
     'custom.image.logotype': string
     'shape.radius': string
