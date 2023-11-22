@@ -14,7 +14,7 @@ import {
 } from '@mui/material'
 import { nanoid } from 'nanoid'
 import { useState } from 'react'
-import { SketchPicker } from 'react-color'
+import { SketchPicker, SketchPickerProps } from 'react-color'
 
 const ColorButton = (props: SvgIconProps & ButtonProps) => (
     <IconButton onClick={props.onClick}>
@@ -27,8 +27,9 @@ const ColorButton = (props: SvgIconProps & ButtonProps) => (
 export const ColorSelect = ({
     onColorChange,
     ...props
-}: TextFieldProps & { onColorChange: (color: string) => void }) => {
-    const { key = nanoid() } = props
+}: TextFieldProps &
+    SketchPickerProps & { onColorChange: (color: string) => void }) => {
+    const { key = nanoid(), label, value, disableAlpha } = props
     const [state, setState] = useState<{
         color: string
         isOpen: boolean
@@ -48,8 +49,9 @@ export const ColorSelect = ({
     return (
         <>
             <TextField
-                {...props}
                 key={key}
+                label={label}
+                value={value}
                 disabled
                 fullWidth
                 variant="outlined"
@@ -68,10 +70,14 @@ export const ColorSelect = ({
                 <DialogTitle>Välj färg</DialogTitle>
                 <DialogContent dividers>
                     <SketchPicker
-                        onChange={(color) => {
+                        disableAlpha={disableAlpha}
+                        onChange={({ rgb, hex }) => {
                             setState({
                                 ...state,
-                                color: color.hex,
+                                color:
+                                    disableAlpha === true
+                                        ? hex
+                                        : `rgba(${rgb.r},${rgb.g},${rgb.b},${rgb.a})`,
                             })
                         }}
                         color={state.color}

@@ -144,6 +144,7 @@ export const EditThemeForm: FC<{
                             <ColorSelect
                                 label="Primär färg"
                                 value={model['palette.primary']}
+                                disableAlpha
                                 onColorChange={(color) =>
                                     apply('palette.primary', color)
                                 }
@@ -153,6 +154,7 @@ export const EditThemeForm: FC<{
                             <ColorSelect
                                 label="Sekundär färg"
                                 value={model['palette.secondary']}
+                                disableAlpha
                                 onColorChange={(color) =>
                                     apply('palette.secondary', color)
                                 }
@@ -162,6 +164,7 @@ export const EditThemeForm: FC<{
                             <ColorSelect
                                 label="Information"
                                 value={model['palette.info']}
+                                disableAlpha
                                 onColorChange={(color) =>
                                     apply('palette.info', color)
                                 }
@@ -171,6 +174,7 @@ export const EditThemeForm: FC<{
                             <ColorSelect
                                 label="Varning"
                                 value={model['palette.warning']}
+                                disableAlpha
                                 onColorChange={(color) =>
                                     apply('palette.warning', color)
                                 }
@@ -180,6 +184,7 @@ export const EditThemeForm: FC<{
                             <ColorSelect
                                 label="Fel"
                                 value={model['palette.error']}
+                                disableAlpha
                                 onColorChange={(color) =>
                                     apply('palette.error', color)
                                 }
@@ -189,6 +194,7 @@ export const EditThemeForm: FC<{
                             <ColorSelect
                                 label="Genomfört"
                                 value={model['palette.success']}
+                                disableAlpha
                                 onColorChange={(color) =>
                                     apply('palette.success', color)
                                 }
@@ -198,6 +204,7 @@ export const EditThemeForm: FC<{
                             <ColorSelect
                                 label="Bakgrund"
                                 value={model['palette.background']}
+                                disableAlpha
                                 onColorChange={(color) =>
                                     apply('palette.background', color)
                                 }
@@ -207,6 +214,7 @@ export const EditThemeForm: FC<{
                             <ColorSelect
                                 label="Förgrund"
                                 value={model['palette.paper']}
+                                disableAlpha
                                 onColorChange={(color) =>
                                     apply('palette.paper', color)
                                 }
@@ -218,39 +226,78 @@ export const EditThemeForm: FC<{
                     </Typography>
                     <Grid container rowSpacing={4}>
                         <Grid item xs={12} sm={12}>
-                            <Card>
-                                <Typography p={2}>
+                            <Card sx={{ p: 2 }}>
+                                <Typography fontWeight="bold">
+                                    Primär färg:
+                                </Typography>
+                                <Typography gutterBottom>
                                     Lorem ipsum dolor sit amet, consectetur
                                     adipiscing elit, sed do eiusmod tempor
                                     incididunt ut labore et dolore magna aliqua.
                                     Ut enim ad minim veniam, quis nostrud
                                     exercitation ullamco laboris nisi ut aliquip
-                                    ex ea commodo consequat. Duis aute irure
-                                    dolor in reprehenderit in voluptate velit
-                                    esse cillum dolore eu fugiat nulla pariatur.
-                                    Excepteur sint occaecat cupidatat non
-                                    proident, sunt in culpa qui officia deserunt
-                                    mollit anim id est laborum.
+                                    ex ea commodo consequat.
+                                </Typography>
+                                <Typography
+                                    fontWeight="bold"
+                                    color="text.secondary"
+                                >
+                                    Sekundär färg
+                                </Typography>
+                                <Typography color="text.secondary" gutterBottom>
+                                    Lorem ipsum dolor sit amet, consectetur
+                                    adipiscing elit, sed do eiusmod tempor
+                                    incididunt ut labore et dolore magna aliqua.
+                                    Ut enim ad minim veniam, quis nostrud
+                                    exercitation ullamco laboris nisi ut aliquip
+                                    ex ea commodo consequat.
+                                </Typography>
+                                <Typography
+                                    fontWeight="bold"
+                                    color="text.disabled"
+                                >
+                                    Inaktiverad färg
+                                </Typography>
+                                <Typography color="text.disabled" gutterBottom>
+                                    Lorem ipsum dolor sit amet, consectetur
+                                    adipiscing elit, sed do eiusmod tempor
+                                    incididunt ut labore et dolore magna aliqua.
+                                    Ut enim ad minim veniam, quis nostrud
+                                    exercitation ullamco laboris nisi ut aliquip
+                                    ex ea commodo consequat.
                                 </Typography>
                             </Card>
                         </Grid>
-                        <Grid item xs={12} sm={2} pr={1}>
-                            <RegularSelect
-                                label="Skuggning"
-                                value={model['component.paper.variant']}
-                                onChange={({ target: { value } }) =>
-                                    apply('component.paper.variant', value)
+                        <Grid item xs={12} sm={3} pr={1}>
+                            <ColorSelect
+                                label="Primär textfärg"
+                                value={model['palette.text.primary']}
+                                onColorChange={(color) =>
+                                    apply('palette.text.primary', color)
                                 }
-                            >
-                                {CreateMenuItems<PaperProps['variant']>([
-                                    ['Nej', 'outlined'],
-                                    ['Ja', 'elevation'],
-                                ])}
-                            </RegularSelect>
+                            />
+                        </Grid>
+                        <Grid item xs={12} sm={3} pr={1}>
+                            <ColorSelect
+                                label="Sekundär textfärg"
+                                value={model['palette.text.secondary']}
+                                onColorChange={(color) =>
+                                    apply('palette.text.secondary', color)
+                                }
+                            />
+                        </Grid>
+                        <Grid item xs={12} sm={3} pr={1}>
+                            <ColorSelect
+                                label="Inaktiverad textfärg"
+                                value={model['palette.text.disabled']}
+                                onColorChange={(color) =>
+                                    apply('palette.text.disabled', color)
+                                }
+                            />
                         </Grid>
                         <Grid item xs={12} sm={2} pr={1}>
                             <RegularSelect
-                                label="Brödtext"
+                                label="Storlek brödtext"
                                 value={model['typography.body1.fontsize']}
                                 onChange={({ target: { value } }) =>
                                     apply('typography.body1.fontsize', value)
@@ -259,6 +306,20 @@ export const EditThemeForm: FC<{
                                 {CreateMenuItems([
                                     ['Liten', '0.875'],
                                     ['Stor', '1.0'],
+                                ])}
+                            </RegularSelect>
+                        </Grid>
+                        <Grid item xs={12} sm={2} pr={1}>
+                            <RegularSelect
+                                label="Skuggning kort"
+                                value={model['component.paper.variant']}
+                                onChange={({ target: { value } }) =>
+                                    apply('component.paper.variant', value)
+                                }
+                            >
+                                {CreateMenuItems<PaperProps['variant']>([
+                                    ['Nej', 'outlined'],
+                                    ['Ja', 'elevation'],
                                 ])}
                             </RegularSelect>
                         </Grid>
@@ -361,6 +422,7 @@ export const EditThemeForm: FC<{
                             <ColorSelect
                                 label="Förgrundsfärg"
                                 value={model['component.avatar.color']}
+                                disableAlpha
                                 onColorChange={(color) =>
                                     apply('component.avatar.color', color)
                                 }
@@ -370,6 +432,7 @@ export const EditThemeForm: FC<{
                             <ColorSelect
                                 label="Bakgrundsfärg"
                                 value={model['component.avatar.bgcolor']}
+                                disableAlpha
                                 onColorChange={(color) =>
                                     apply('component.avatar.bgcolor', color)
                                 }

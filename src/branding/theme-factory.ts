@@ -13,6 +13,9 @@ export const defaultThemeModel: ThemeModel = {
     'palette.success': '#2e7d32',
     'palette.background': '#fff',
     'palette.paper': '#fff',
+    'palette.text.primary': 'rgba(0,0,0,0.87)',
+    'palette.text.secondary': 'rgba(0,0,0,0.6)',
+    'palette.text.disabled': 'rgba(0,0,0,0.38)',
     'component.button.radius': '12',
     'component.button.elevation': 'true',
     'component.appbar.variant': 'outlined',
@@ -39,6 +42,9 @@ const ThemModelKeys = new Set<keyof ThemeModel>([
     'palette.success',
     'palette.background',
     'palette.paper',
+    'palette.text.primary',
+    'palette.text.secondary',
+    'palette.text.disabled',
     'component.button.radius',
     'component.button.elevation',
     'component.appbar.variant',
@@ -106,6 +112,11 @@ export const createCustomTheme = (model: ThemeModel): ThemeOptions => {
             },
             success: {
                 main: options['palette.success'],
+            },
+            text: {
+                primary: options['palette.text.primary'],
+                secondary: options['palette.text.secondary'],
+                disabled: options['palette.text.disabled'],
             },
         },
         shape: {

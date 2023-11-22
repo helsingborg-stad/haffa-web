@@ -25,6 +25,9 @@ export interface ThemeModel {
     'palette.success': string
     'palette.background': string
     'palette.paper': string
+    'palette.text.primary': string
+    'palette.text.secondary': string
+    'palette.text.disabled': string
     'component.button.radius': string
     'component.button.elevation': string
     'component.appbar.variant': AppBarProps['variant']
