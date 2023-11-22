@@ -1,5 +1,4 @@
 import {
-    Alert,
     Button,
     ButtonGroup,
     Card,
@@ -19,6 +18,7 @@ import { useNavigate } from 'react-router-dom'
 import { Terms } from 'terms/types'
 import { Profile, ProfileContext } from 'profile'
 import useAbortController from 'hooks/use-abort-controller'
+import { Editorial } from 'editorials'
 import { AdvertInput } from '../../../types'
 import {
     SelectOption,
@@ -100,13 +100,14 @@ const nextKey = (baseName: string): (() => string) => {
 
 export const AdvertForm: FC<{
     title: string
-    error: string
+    error: boolean
     terms: Terms
     categories: Category[]
     advert: AdvertInput
     disabled: boolean
     onSave: (advert: AdvertInput) => void
 }> = ({ title, advert, terms, error, onSave, disabled, categories }) => {
+    const { ERROR_UNKNOWN } = useContext(PhraseContext)
     const navigate = useNavigate()
     const {
         model,
@@ -566,7 +567,9 @@ export const AdvertForm: FC<{
             {error && (
                 <Row key="error-top">
                     <Cell>
-                        <Alert severity="error">{error}</Alert>
+                        <Editorial severity="error" phraseKey="ERROR_UNKNOWN">
+                            {ERROR_UNKNOWN}
+                        </Editorial>
                     </Cell>
                 </Row>
             )}
@@ -589,7 +592,9 @@ export const AdvertForm: FC<{
             {error && (
                 <Row key="error-bottom">
                     <Cell>
-                        <Alert severity="error">{error}</Alert>
+                        <Editorial severity="error" phraseKey="ERROR_UNKNOWN">
+                            {ERROR_UNKNOWN}
+                        </Editorial>
                     </Cell>
                 </Row>
             )}

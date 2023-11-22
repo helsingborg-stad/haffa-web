@@ -59,7 +59,7 @@ export const createDevelopmentPhraseContext = (
             return p
         }
 
-        if (
+        /* if (
             Object.hasOwn(defaultPhrases, key) &&
             defaultPhrases[key] !== template
         ) {
@@ -67,7 +67,7 @@ export const createDevelopmentPhraseContext = (
                 fromCode: template,
                 fromDefinition: defaultPhrases[key],
             })
-        }
+        } */
 
         if (!recordings[key] && !Object.hasOwn(defaultPhrases, key)) {
             recordings[key] = template

@@ -1,8 +1,7 @@
-import { FC, useCallback, useContext, useState } from 'react'
+import { FC, useCallback, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { Terms } from 'terms/types'
 import { AdvertInput, AdvertMutationResult } from '../../types'
-import { PhraseContext } from '../../../phrases/PhraseContext'
 import { sanitizeAdvertInput } from '../../repository/mappers'
 import { AdvertForm } from './form'
 import { Category } from '../../../categories/types'
@@ -18,8 +17,7 @@ export const AdvertEditor: FC<{
         sanitizeAdvertInput(inputAdvert)
     )
     const [saving, setSaving] = useState(false)
-    const [error, setError] = useState('')
-    const { ERROR_UNKNOWN } = useContext(PhraseContext)
+    const [error, setError] = useState(false)
     const navigate = useNavigate()
 
     const save = useCallback(
@@ -29,7 +27,7 @@ export const AdvertEditor: FC<{
             try {
                 const result = await onUpdate(a)
                 setSaving(false)
-                setError(result.status ? result.status.message : '')
+                setError(!!result.status)
                 if (result.status) {
                     setAdvert(sanitizeAdvertInput(result.advert || advert))
                 } else if (result.advert) {
@@ -37,7 +35,7 @@ export const AdvertEditor: FC<{
                 }
             } catch (error) {
                 console.log(error)
-                setError(ERROR_UNKNOWN)
+                setError(true)
                 setSaving(false)
             }
         },

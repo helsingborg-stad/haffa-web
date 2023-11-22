@@ -32,23 +32,15 @@ const PropBox: FC<PropsWithChildren & { icon: React.JSX.Element }> = ({
     </Grid>
 )
 
-const InfoText = /* markdown */ `
-# Din profil är viktig!
-
-När du skapar en annons kopieras innehållet i din profil till den nya annonsen. 
-
-Du kan fortfarande ändra alla uppgifter i annonsen, men skriver du
-bara rätt här slipper du kanske lite pyssel senare.
-`
 export const ProfileView: FC<{ profile: Profile }> = ({ profile }) => {
     const { signout } = useContext(AuthContext)
     const navigate = useNavigate()
 
-    const { SIGNOUT, PROFILE_EDIT: EDIT_PROFILE } = useContext(PhraseContext)
+    const { SIGNOUT, PROFILE_EDIT } = useContext(PhraseContext)
     return (
         <Card>
             <CardContent>
-                <Editorial phraseKey="PROFILE_EDITORIAL">{InfoText}</Editorial>
+                <Editorial phraseKey="PROFILE_EDITORIAL" />
                 <PropBox icon={<EmailIcon />}>
                     <Typography variant="h5" component="div" gutterBottom>
                         {profile.email}
@@ -83,7 +75,7 @@ export const ProfileView: FC<{ profile: Profile }> = ({ profile }) => {
             <CardActions>
                 <Button color="primary" component={NavLink} to="/profile/edit">
                     <EditIcon />
-                    {EDIT_PROFILE}
+                    {PROFILE_EDIT}
                 </Button>
                 <Button
                     color="primary"

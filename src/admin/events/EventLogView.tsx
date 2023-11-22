@@ -143,8 +143,8 @@ export const DownloadHeader: FC<{
             fullWidth
             value={name}
             onChange={(e) => setName(e.target.value)}
-            label={phrase('', 'Filnamn')}
-            placeholder={phrase('', 'Filnamn')}
+            label={phrase('EVENTLOG_EXPORT_FILENAME', 'Filnamn')}
+            placeholder={phrase('EVENTLOG_EXPORT_FILENAME', 'Filnamn')}
             InputProps={{
                 endAdornment: (
                     <InputAdornment position="end" sx={{ gap: 1 }}>
@@ -154,7 +154,10 @@ export const DownloadHeader: FC<{
                             color="primary"
                             onClick={() => onExport(name)}
                         >
-                            {phrase('', 'Exportera till excel')}
+                            {phrase(
+                                'EVENTLOG_EXPOR_FILENAME',
+                                'Exportera till excel'
+                            )}
                         </Button>
                     </InputAdornment>
                 ),
@@ -188,9 +191,9 @@ export const EventLogView: FC = () => {
 
     const eventLabels: ServerSideLogEventLabels = useMemo(
         () => ({
-            event: phrase('', 'Händelse'),
-            at: phrase('', 'Dag'),
-            by: phrase('', 'Användare'),
+            event: phrase('EVENTLOG_FIELD_EVENT', 'Händelse'),
+            at: phrase('EVENTLOG_FIELD_DAY', 'Dag'),
+            by: phrase('EVENTLOG_FIELD_USER', 'Användare'),
             category: phrase('ADVERT_FIELD_CATEGORY', 'Kategori'),
             organization: phrase('ADVERT_FIELD_ORGANIZATION', 'Organisation'),
             co2kg: phrase('CATEGORIES_FIELD_C02', 'CO₂ besparing'),

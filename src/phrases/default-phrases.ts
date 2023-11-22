@@ -9,7 +9,7 @@ export const defaultPhrases: Omit<
     INFO_SLOW_CONNECTION: '... väntar på innehåll från servern ...',
     ERROR_UNAUTHORIZED: 'Du saknar behörighet.',
     ERROR_NOT_FOUND: 'Hoppsan, vi kan inte hitta sidan eller resursen.\n',
-    ERROR_UNKNOWN: 'Något gick fel. Försök igen.',
+    ERROR_UNKNOWN: 'Något gick fel. Försök igen.\n',
     SIGNOUT: 'Logga ut',
     NAV_HOME: 'Hem',
     NAV_MY_ADVERTS: 'Mina annonser',
@@ -26,11 +26,21 @@ export const defaultPhrases: Omit<
     ADVERT_CANCEL_RESERVATION: 'Ångra mina reservationer',
     ADVERT_PRINT_QRCODE: 'Skriv ut QR',
     ADVERT_ARCHIVE: 'Arkivera',
-    PROFILE_EDIT: 'Redigera din profil',
-    PROFILE_SAVE: 'Spara din profil',
     SCAN_QR_CODE: 'Skanna',
     ...{
         SUBSCRIPTIONS_SUBSCRIBE_TO_SEARCH: 'Bevaka denna sökning',
+    },
+    ...{
+        PROFILE_EDIT: 'Redigera din profil',
+        PROFILE_SAVE: 'Spara din profil',
+        PROFILE_EDITORIAL: `
+# Din profil är viktig!
+
+När du skapar en annons kopieras innehållet i din profil till den nya annonsen. 
+
+Du kan fortfarande ändra alla uppgifter i annonsen, men skriver du
+bara rätt här slipper du kanske lite pyssel senare.
+        `,
     },
     ...{
         NOTIFICATIONS_ADVERT_WAS_CREATED: 'Annonsen har skapats',
@@ -91,7 +101,9 @@ export const defaultPhrases: Omit<
         ANALYTICS_PROVIDER_OPTION_GOOGLE: 'Google',
         ANALYTICS_PROVIDER_OPTION_MATOMO: 'Matomo',
         ANALYTICS_PROVIDER_OPTION_NONE: 'Ej aktiv',
-        ANALYTICS_SECTION_EDITORIAL: 'Definitioner för web-analys\n',
+        ANALYTICS_SECTION_EDITORIAL: `
+Definitioner för web-analys
+`,
         TERMS_TITLE: 'Definitioner',
         TERMS_FIELD_ORGANIZATION: 'Organisationer',
         TERMS_FIELD_UNIT: 'Enheter',
@@ -145,7 +157,8 @@ export const defaultPhrases: Omit<
         ADVERT_FIELD_CONTACT_PHONE: 'Telefon',
         ADVERT_FIELD_ORGANIZATION: 'Organisation',
         ADVERT_FIELD_UNIT: 'Enhet',
-        ADVERT_TYPE_RECYCLE: 'Återbruk',
+        ADVERT_FIELD_CREATED: 'Publicerades',
+        ADVERT_FIELD_HEADING: 'Produktinformation',
         ADVERT_FIELD_WIDTH: 'Bredd',
         ADVERT_FIELD_HEIGHT: 'Höjd',
         ADVERT_FIELD_DEPTH: 'Djup',
@@ -155,6 +168,7 @@ export const defaultPhrases: Omit<
         ADVERT_FIELD_USAGE: 'Användningsområde',
         ADVERT_FIELD_CONTACT_TITLE: 'Kontakt',
         ADVERT_FIELD_ADDRESS_TITLE: 'Adress för avhämtning',
+        ADVERT_TYPE_RECYCLE: 'Återbruk',
         ADVERT_UPLOAD_IMAGE: 'Välj en fin bild',
     },
     ...{
@@ -180,11 +194,13 @@ export const defaultPhrases: Omit<
         LOGINS_TITLE: 'Användare & behörigheter',
         LOGINS_EFECTIVE_PERMISSIONS: 'Effektiva behörigheter',
         LOGINS_EDITORIAL: `
-                Här anges vilka användare som ges eller nekas tillträde till sajten.
-                Användare matchas mot email
-                    - *@exempel.se matchar alla som tillhör emaildomänen @exempel.se
-                    - test@exempel.se matchar användare exakt                   
-                Regler utan email tas automatiskt bort.`,
+Här anges vilka användare som ges eller nekas tillträde till sajten.
+Användare matchas mot email
+
+- *@exempel.se matchar alla som tillhör emaildomänen @exempel.se
+- test@exempel.se matchar användare exakt
+
+Regler utan email tas automatiskt bort.`,
         LOGINS_EFFECTIVE_EMAIL: 'Email',
         LOGINS_FIELD_PERMISSIONS: 'Email & behörigheter',
         LOGINS_DENY: 'Neka',
@@ -193,16 +209,28 @@ export const defaultPhrases: Omit<
         LOGINS_SAVE: 'Spara',
     },
     ...{
+        EVENTLOG_TITLE: 'Statistikunderlag',
+        EVENTLOG_FIELD_EVENT: 'Händelse',
+        EVENTLOG_FIELD_DAY: 'Dag',
+        EVENTLOG_FIELD_USER: 'Användare',
+        EVENTLOG_EXPORT_FILENAME: 'Filnamn',
+        EVENTLOG_EXPOR_FILENAME: 'Exportera till excel',
+    },
+    ...{
         DIALOG_FILTER_TITLE: 'Filter',
         DIALOG_FILTER_SAVE: 'Spara',
         DIALOG_FILTER_CLEAR: 'Rensa',
         PHRASES_TITLE: 'Fraser',
-        EVENTLOG_TITLE: 'Statistikunderlag',
         TERMS_EDITORIAL: `
-            Definitioner editeras som textblock där varje rad utgör ett valbart värde i profil och annonseditor.
-            Ändringar i definitioner uppdaterar inte existerande profiler och annonser och kan påverka statistiken negativt.`,
+Definitioner editeras som textblock där varje rad utgör ett valbart värde i profil och annonseditor.
+Ändringar i definitioner uppdaterar inte existerande profiler och annonser och kan påverka statistiken negativt.`,
         APP_GENERIC_SEARCH: 'Sök...',
-        APIKEYS_EDITORIAL:
-            '\nAPI nycklar används för icke-interaktiva integrationer och möjliggör externa tjänster att autentisera (via nyckel) \noch auktorisera (via email) gentemot tjänster i Haffa.\n\nGivet api nyckel i autkoriseringsheader körs ett anrop som användaren angivet i email.\n\n> curl -H "Authorization: api-key <nycklel>" https://<haffa>\n                    ',
+        APIKEYS_EDITORIAL: `
+API nycklar används för icke-interaktiva integrationer och möjliggör externa tjänster att autentisera (via nyckel) och auktorisera (via email) gentemot tjänster i Haffa.
+
+Givet api nyckel i auktoriseringsheader körs ett anrop som användaren angivet i email.
+
+> curl -H "Authorization: api-key <nycklel>" https://<haffa>
+`,
     },
 }
