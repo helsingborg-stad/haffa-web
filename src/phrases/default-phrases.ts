@@ -8,7 +8,7 @@ export const defaultPhrases: Omit<
     APP_TITLE: 'Haffa!',
     INFO_SLOW_CONNECTION: '... väntar på innehåll från servern ...',
     ERROR_UNAUTHORIZED: 'Du saknar behörighet.',
-    ERROR_NOT_FOUND: 'Hoppsan, vi kan inte hitta sidan eller resursen.',
+    ERROR_NOT_FOUND: 'Hoppsan, vi kan inte hitta sidan eller resursen.\n',
     ERROR_UNKNOWN: 'Något gick fel. Försök igen.',
     SIGNOUT: 'Logga ut',
     NAV_HOME: 'Hem',

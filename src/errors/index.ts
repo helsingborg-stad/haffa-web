@@ -1,8 +1,8 @@
 import { ErrorView } from './ErrorView'
-import { NotFoundView } from './NotFoundView'
+
+export { ErrorView }
 
 const ERROR_NOT_FOUND = 'NOT FOUND'
-export { ErrorView, NotFoundView }
 export interface RenderError<T> {
     unathorized: (error: any) => T
     notFound: (error: any) => T
