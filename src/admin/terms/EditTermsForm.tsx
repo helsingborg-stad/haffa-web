@@ -63,7 +63,7 @@ export const EditTermsForm: FC<{
     return (
         <Card>
             <CardContent>
-                <Editorial>
+                <Editorial phraseKey="TERMS_EDITORIAL">
                     Definitioner editeras som textblock där varje rad utgör ett
                     valbart värde i profil och annonseditor. Ändringar i
                     definitioner uppdaterar inte existerande profiler och

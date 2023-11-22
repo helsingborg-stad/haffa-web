@@ -33,11 +33,8 @@ export const EditAnalyticsForm: FC<{
 
     return (
         <Card>
-            <Editorial>
-                {phrase(
-                    `${NS}_SECTION_EDITORIAL`,
-                    'Definitioner för web-analys'
-                )}
+            <Editorial phraseKey="ANALYTICS_SECTION_EDITORIAL">
+                Definitioner för web-analys
             </Editorial>
             <CardContent>
                 <FormControl fullWidth>

@@ -2,6 +2,7 @@ export interface PhraseDefinition {
     key: string
     template: string
     actual: string
+    multiline: boolean
 }
 export interface PhraseContextType {
     APP_TITLE: string

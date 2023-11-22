@@ -123,7 +123,10 @@ export const AdvertCard: FC<{
                 <ClaimsPanel advert={advert} onUpdate={onUpdate} />
             )}
             {showRightsDisclaimer && (
-                <Editorial severity="warning">
+                <Editorial
+                    phraseKey="ADVERT_IMPERSONATION_EDITORIAL"
+                    severity="warning"
+                >
                     Du har givits rättigheter att adminstrera denna annons trots
                     att den tillhör någon annan.
                 </Editorial>

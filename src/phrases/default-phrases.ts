@@ -58,11 +58,21 @@ export const defaultPhrases: Omit<
         SORT_OPTION_TITLE_DESC: 'Ö-A',
         SORT_OPTION_CREATEDAT_ASC: 'Äldst',
         SORT_OPTION_CREATEDAT_DESC: 'Nyast',
-        SEARCH_EMPTY_RESULT: 'Hoppsan, det blev inga träffar på den',
+        SEARCH_EMPTY_RESULT: 'Hoppsan, det blev inga träffar på den\n',
     },
     ...{
+        CATEGORIES_ALL_PLACEHOLDER: 'Alla Kategorier (platshållare)',
+        CATEGORIES_ADD: 'Lägg till ny kategori',
+        CATEGORIES_REMOVE: 'Ta bort kategori',
+        CATEGORIES_SAVE: 'Spara',
         CATEGORIES_TITLE: 'Kategorier',
-        LOGINS_TITLE: 'Användare & behörigheter',
+        CATEGORIES_FIELD_C02: 'CO₂ besparing',
+
+        CATEGORIES_FIELD_LABEL: 'Benämning',
+        CATEGORIES_INFO_CONECTED_ADVERTS:
+            'Denna kategori har {count} kopplade annonser',
+    },
+    ...{
         APIKEYS_TITLE: 'API nycklar',
         THEME_TITLE: 'Tema',
         THEME_ACTION_RESTORE: 'Återställ',
@@ -81,22 +91,13 @@ export const defaultPhrases: Omit<
         ANALYTICS_PROVIDER_OPTION_GOOGLE: 'Google',
         ANALYTICS_PROVIDER_OPTION_MATOMO: 'Matomo',
         ANALYTICS_PROVIDER_OPTION_NONE: 'Ej aktiv',
-        ANALYTICS_SECTION_EDITORIAL: 'Definitioner för web-analys',
+        ANALYTICS_SECTION_EDITORIAL: 'Definitioner för web-analys\n',
         TERMS_TITLE: 'Definitioner',
         TERMS_FIELD_ORGANIZATION: 'Organisationer',
         TERMS_FIELD_UNIT: 'Enheter',
         TERMS_FIELD_MATERIAL: 'Material',
         TERMS_FIELD_CONDITION: 'Skick',
         TERMS_FIELD_USAGE: 'Användningsområden',
-        CATEGORIES_ALL_PLACEHOLDER: 'Alla Kategorier (platshållare)',
-        CATEGORIES_ADD: 'Lägg till ny kategori',
-        CATEGORIES_REMOVE: 'Ta bort kategori',
-        CATEGORIES_SAVE: 'Spara',
-        LOGINS_FIELD_PERMISSIONS: 'Email & behörigheter',
-        LOGINS_DENY: 'Neka',
-        LOGINS_FIELD_EMAIL: 'Email',
-        LOGINS_ADD_RULE: 'Lägg till regel',
-        LOGINS_SAVE: 'Spara',
         ROLES_CAN_EDIT_OWN_ADVERTS: 'Skapa annonser',
         ROLES_CAN_ARCHIVE_OWN_ADVERTS: 'Arkivera egna annonser',
         ROLES_CAN_REMOVE_OWN_ADVERTS: 'Ta bort egna annonser',
@@ -111,6 +112,8 @@ export const defaultPhrases: Omit<
             'Hantera systemets användare & behörigheter (admin)',
         ROLES_CAN_EDIT_API_KEYS: 'Hantera API nycklar',
         ROLES_CAN_RUN_SYSTEM_JOBS: 'Agent som får köra jobb (admin)',
+        ROLES_CAN_SUBSCRIBE: 'Bevaka annonser',
+        ROLES_CAN_SEE_SYSTEM_STATISTICS: 'Se statistikunderlag',
         ROLES_SELECT_LABEL: 'Behörigheter',
         APIKEYS_FIELD_EMAIL: 'Email',
         APIKEYS_FIELD_KEY: 'Nyckel',
@@ -172,5 +175,34 @@ export const defaultPhrases: Omit<
         ADVERT_CLAIM_IS_RESERVED: '{by} reserverade {quantity} {unit} {at}',
         ADVERT_CLAIMS_CANCEL_RESERVATION: 'Ångra reservation',
         ADVERT_CLAIMS_COLLECT_MANUALLY: 'Lämna ut manuellt',
+    },
+    ...{
+        LOGINS_TITLE: 'Användare & behörigheter',
+        LOGINS_EFECTIVE_PERMISSIONS: 'Effektiva behörigheter',
+        LOGINS_EDITORIAL: `
+                Här anges vilka användare som ges eller nekas tillträde till sajten.
+                Användare matchas mot email
+                    - *@exempel.se matchar alla som tillhör emaildomänen @exempel.se
+                    - test@exempel.se matchar användare exakt                   
+                Regler utan email tas automatiskt bort.`,
+        LOGINS_EFFECTIVE_EMAIL: 'Email',
+        LOGINS_FIELD_PERMISSIONS: 'Email & behörigheter',
+        LOGINS_DENY: 'Neka',
+        LOGINS_FIELD_EMAIL: 'Email',
+        LOGINS_ADD_RULE: 'Lägg till regel',
+        LOGINS_SAVE: 'Spara',
+    },
+    ...{
+        DIALOG_FILTER_TITLE: 'Filter',
+        DIALOG_FILTER_SAVE: 'Spara',
+        DIALOG_FILTER_CLEAR: 'Rensa',
+        PHRASES_TITLE: 'Fraser',
+        EVENTLOG_TITLE: 'Statistikunderlag',
+        TERMS_EDITORIAL: `
+            Definitioner editeras som textblock där varje rad utgör ett valbart värde i profil och annonseditor.
+            Ändringar i definitioner uppdaterar inte existerande profiler och annonser och kan påverka statistiken negativt.`,
+        APP_GENERIC_SEARCH: 'Sök...',
+        APIKEYS_EDITORIAL:
+            '\nAPI nycklar används för icke-interaktiva integrationer och möjliggör externa tjänster att autentisera (via nyckel) \noch auktorisera (via email) gentemot tjänster i Haffa.\n\nGivet api nyckel i autkoriseringsheader körs ett anrop som användaren angivet i email.\n\n> curl -H "Authorization: api-key <nycklel>" https://<haffa>\n                    ',
     },
 }

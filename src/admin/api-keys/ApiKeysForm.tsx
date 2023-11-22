@@ -58,7 +58,7 @@ export const ApiKeysForm: FC<{
         <Card>
             {title && <CardHeader title={title} />}
             <CardContent>
-                <Editorial>
+                <Editorial phraseKey="APIKEYS_EDITORIAL">
                     {`
 API nycklar används för icke-interaktiva integrationer och möjliggör externa tjänster att autentisera (via nyckel) 
 och auktorisera (via email) gentemot tjänster i Haffa.

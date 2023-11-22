@@ -99,7 +99,7 @@ const CollectButton: FC<
                 }}
                 onClose={() => setModel({})}
             >
-                <Editorial>
+                <Editorial phraseKey="ADVERT_COLLECT_SCAN_EDITORIAL">
                     Skanna QR koden på prylen du vill hämta ut.
                 </Editorial>
             </ScanQrCodeDialog>

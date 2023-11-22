@@ -7,15 +7,15 @@ import {
     useMemo,
     useState,
 } from 'react'
-import { Alert, Pagination, Stack, SxProps, Theme } from '@mui/material'
+import { Pagination, Stack, SxProps, Theme } from '@mui/material'
 import { AdvertFilterInput, AdvertList } from 'adverts'
 import useAbortController from 'hooks/use-abort-controller'
 import { createTreeAdapter } from 'lib/tree-adapter'
-import { Phrase } from 'phrases/Phrase'
 import { AdvertSubscriptionControls } from 'subscriptions'
 import { UrlParamsContext } from 'url-params'
 import { getAdvertFieldSortOptions } from 'hard-coded-config'
 import { PhraseContext } from 'phrases'
+import { Editorial } from 'editorials'
 import { AdvertsContext } from '../../AdvertsContext'
 import { AdvertsList } from './AdvertsList'
 import { ErrorView } from '../../../errors'
@@ -78,12 +78,9 @@ const AdvertsListEmptyResult: FC<{
 }) => (
     <Stack alignItems="center" sx={sx}>
         {totalCount === 0 && (
-            <Alert>
-                <Phrase
-                    id="SEARCH_EMPTY_RESULT"
-                    value="Hoppsan, det blev inga träffar på den"
-                />
-            </Alert>
+            <Editorial phraseKey="SEARCH_EMPTY_RESULT">
+                Hoppsan, det blev inga träffar på den
+            </Editorial>
         )}
     </Stack>
 )

@@ -162,6 +162,12 @@ export const EditPhrasesForm: FC<{
                                                                 .value,
                                                         })
                                                     }
+                                                    {...(m.multiline
+                                                        ? {
+                                                              multiline: true,
+                                                              rows: 4,
+                                                          }
+                                                        : {})}
                                                     sx={{ minWidth: '20em' }}
                                                 />
                                             </TableCell>

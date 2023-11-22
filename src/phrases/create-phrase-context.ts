@@ -38,6 +38,7 @@ export const createProductionPhraseContext = (
                 key,
                 template,
                 actual: phrases[key] || '',
+                multiline: template.indexOf('\n') >= 0,
             })),
     }
 }
@@ -102,6 +103,7 @@ export const createDevelopmentPhraseContext = (
                 key,
                 template,
                 actual: phrases[key] || '',
+                multiline: template.indexOf('\n') >= 0,
             })),
     }
 }

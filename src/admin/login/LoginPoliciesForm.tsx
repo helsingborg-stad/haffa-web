@@ -72,7 +72,7 @@ export const LoginPoliciesForm: FC<{
             <Card>
                 {title && <CardHeader title={title} />}
                 <CardContent>
-                    <Editorial>
+                    <Editorial phraseKey="LOGINS_EDITORIAL">
                         {`
                     Här anges vilka användare som ges eller nekas tillträde till
                     sajten. Användare matchas mot email
