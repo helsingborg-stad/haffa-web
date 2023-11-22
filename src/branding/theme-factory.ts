@@ -136,6 +136,7 @@ export const createCustomTheme = (model: ThemeModel): ThemeOptions => {
             MuiLink: {
                 defaultProps: {
                     underline: 'hover',
+                    color: 'text.primary',
                 },
             },
             MuiPaper: {
