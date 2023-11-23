@@ -27,6 +27,7 @@ import {
 import { PhraseContext } from '../../../../phrases/PhraseContext'
 import { Category } from '../../../../categories/types'
 import { ImageContainer, ImageInput } from './Image'
+import { TagEditor } from './TagEditor'
 
 const swapArrayItems = <T,>(list: T[], index1: number, index2: number): T[] => {
     const l = [...list]
@@ -242,6 +243,22 @@ export const AdvertForm: FC<{
                                     .flat(),
                                 { fullWidth: true }
                             ),
+                    ],
+                ],
+            },
+            {
+                label: phrase(
+                    'ADVERT_EDITOR_SECTION_TAGS',
+                    'Tagga din annons för att lättare hitta den'
+                ),
+                rows: [
+                    [
+                        () => (
+                            <TagEditor
+                                tags={model.tags}
+                                onUpdateTags={(tags) => patchModel({ tags })}
+                            />
+                        ),
                     ],
                 ],
             },

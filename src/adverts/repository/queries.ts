@@ -42,6 +42,7 @@ const advertProps = /* GraphQL */ `
 	usage
 	category
 	reference
+	tags
 
 	location {
 		adress
