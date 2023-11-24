@@ -19,10 +19,6 @@ export const TagEditor = (props: {
             id="tags"
             value={tags}
             options={options}
-            noOptionsText={phrase(
-                'ADVERT_FIELD_TAGS_NOOPTIONS',
-                'Inga fler val'
-            )}
             onChange={(_, values) => {
                 onUpdateTags(values)
             }}
