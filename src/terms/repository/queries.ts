@@ -6,6 +6,7 @@ export const getTermsQuery = /* GraphQL */ `
             material
             condition
             usage
+            tags
         }
     }
 `
@@ -18,6 +19,7 @@ export const updateTermsMutation = /* GraphQL */ `
             material
             condition
             usage
+            tags
         }
     }
 `
