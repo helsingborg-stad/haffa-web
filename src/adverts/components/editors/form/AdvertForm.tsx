@@ -248,22 +248,6 @@ export const AdvertForm: FC<{
             },
             {
                 label: phrase(
-                    'ADVERT_EDITOR_SECTION_TAGS',
-                    'Tagga din annons för att lättare hitta den'
-                ),
-                rows: [
-                    [
-                        () => (
-                            <TagEditor
-                                tags={model.tags}
-                                onUpdateTags={(tags) => patchModel({ tags })}
-                            />
-                        ),
-                    ],
-                ],
-            },
-            {
-                label: phrase(
                     'ADVERT_EDITOR_SECTION_IMAGES',
                     'En bild säger mer än tusen ord!'
                 ),
@@ -380,6 +364,18 @@ export const AdvertForm: FC<{
                                     fullWidth: true,
                                 }
                             ),
+                    ],
+                    [
+                        () => (
+                            <TagEditor
+                                options={terms.tags}
+                                tags={model.tags}
+                                onUpdateTags={(tags) => patchModel({ tags })}
+                                sx={{
+                                    pt: 1,
+                                }}
+                            />
+                        ),
                     ],
                 ],
             },

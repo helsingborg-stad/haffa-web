@@ -1,49 +1,45 @@
-import { Button, Chip, Grid, TextField } from '@mui/material'
-import { useState } from 'react'
+import { Autocomplete, SxProps, TextField } from '@mui/material'
+import { PhraseContext } from 'phrases'
+import { useContext } from 'react'
 
 export const TagEditor = (props: {
+    sx?: SxProps
     tags: string[]
+    options: string[]
     onUpdateTags: (tags: string[]) => void
 }) => {
-    const { tags, onUpdateTags } = props
-    const [text, setText] = useState('')
+    const { tags, onUpdateTags, options, sx } = props
+
+    const { phrase } = useContext(PhraseContext)
 
     return (
-        <Grid container rowSpacing={2}>
-            <Grid item xs={12}>
+        <Autocomplete
+            sx={sx}
+            multiple
+            id="tags"
+            value={tags}
+            options={options}
+            noOptionsText={phrase(
+                'ADVERT_FIELD_TAGS_NOOPTIONS',
+                'Inga fler val'
+            )}
+            onChange={(_, values) => {
+                onUpdateTags(values)
+            }}
+            filterSelectedOptions
+            renderInput={(params) => (
                 <TextField
-                    label="Skapa tag"
-                    value={text}
-                    onChange={({ target: { value } }) => setText(value)}
+                    {...params}
+                    label={phrase(
+                        'ADVERT_FIELD_TAGS_LABEL',
+                        'Tagga din annons för att göra det lättare att hitta den'
+                    )}
+                    placeholder={phrase(
+                        'ADVERT_FIELD_TAGS_PLACEHOLDER',
+                        'Klicka för att lägga till'
+                    )}
                 />
-                <Button
-                    disabled={text.length === 0}
-                    onClick={() => {
-                        const value = Array.from(new Set([...tags, text])).sort(
-                            (a, b) => a.localeCompare(b)
-                        )
-                        setText('')
-
-                        onUpdateTags(value)
-                    }}
-                >
-                    Lägg till
-                </Button>
-            </Grid>
-            <Grid item xs={12}>
-                {tags.map((f) => (
-                    <Chip
-                        key={f}
-                        onDelete={() => {
-                            const value = Array.from(
-                                new Set(tags.filter((e) => e !== f))
-                            ).sort((a, b) => a.localeCompare(b))
-                            onUpdateTags(value)
-                        }}
-                        label={f}
-                    />
-                ))}
-            </Grid>
-        </Grid>
+            )}
+        />
     )
 }

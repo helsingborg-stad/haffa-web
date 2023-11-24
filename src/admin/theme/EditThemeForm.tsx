@@ -18,7 +18,6 @@ import {
     TextFieldProps,
     ThemeProvider,
     Typography,
-    createTheme,
 } from '@mui/material'
 import {
     createCustomTheme,
@@ -134,7 +133,7 @@ export const EditThemeForm: FC<{
         <Card>
             {renderCardActions()}
             <CardContent>
-                <ThemeProvider theme={createTheme(createCustomTheme(model))}>
+                <ThemeProvider theme={createCustomTheme(model)}>
                     <CssBaseline />
                     <Typography variant="h6" py={2}>
                         Palett

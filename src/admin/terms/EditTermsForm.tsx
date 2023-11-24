@@ -25,6 +25,7 @@ export const EditTermsForm: FC<{
     const [material, setMaterial] = useState(terms.material.join('\n'))
     const [condition, setCondition] = useState(terms.condition.join('\n'))
     const [usage, setUsage] = useState(terms.usage.join('\n'))
+    const [tags, setTags] = useState(terms.tags.join('\n'))
 
     interface TermBinding {
         label: string
@@ -57,6 +58,11 @@ export const EditTermsForm: FC<{
             label: phrase('TERMS_FIELD_USAGE', 'Användningsområden'),
             value: usage,
             setValue: setUsage,
+        },
+        {
+            label: phrase('TERMS_FIELD_TAGS', 'Taggar'),
+            value: tags,
+            setValue: setTags,
         },
     ]
 
@@ -100,6 +106,7 @@ export const EditTermsForm: FC<{
                             material: material.split('\n'),
                             condition: condition.split('\n'),
                             usage: usage.split('\n'),
+                            tags: tags.split('\n'),
                         })
                     }
                 >
