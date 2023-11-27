@@ -35,6 +35,7 @@ import { MySubscriptionsView } from 'subscriptions'
 import { SubscriptionView } from 'subscriptions/components/SubscriptionView'
 import { AdminView } from 'admin'
 import { ScanQrCodeView } from 'qr-code-navigation/ScanQrCodeView'
+import { AboutView } from 'about'
 import { ErrorRouteView } from './ErrorRouteView'
 
 const UnpackLoaderData: FC<{ render: (loaderData: any) => JSX.Element }> = ({
@@ -293,6 +294,17 @@ const createRouter = (
         ),
     })
 
+    /**
+     * path: /about
+     */
+    const viewAboutProps = (): AsyncRouteConfig => ({
+        element: (
+            <Layout>
+                <AboutView />
+            </Layout>
+        ),
+    })
+
     return createBrowserRouter(
         createRoutesFromElements(
             <Route path="/" errorElement={<ErrorRouteView />}>
@@ -317,6 +329,7 @@ const createRouter = (
                 />
                 <Route path="subscription" {...viewSubscriptionProps()} />
                 <Route path="scan" {...viewScanQrCodeProps()} />
+                <Route path="about" {...viewAboutProps()} />
                 <Route path="admin" {...viewAdminProps()} />
             </Route>
         )
