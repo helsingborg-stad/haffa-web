@@ -233,4 +233,9 @@ Givet api nyckel i auktoriseringsheader körs ett anrop som användaren angivet 
 > curl -H "Authorization: api-key <nycklel>" https://<haffa>
 `,
     },
+    ...{
+        CONFIRM_DIALOG_TITLE: 'Är du säker?',
+        CONFIRM_DIALOG_CANCEL: 'Nej, avbryt',
+        CONFIRM_DIALOG_PROCEED: 'Ja, fortsätt',
+    },
 }

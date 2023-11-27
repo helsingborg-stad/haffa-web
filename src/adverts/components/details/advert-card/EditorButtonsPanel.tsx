@@ -8,6 +8,7 @@ import RemoveIcon from '@mui/icons-material/Delete'
 import QrCodeIcon from '@mui/icons-material/QrCode2'
 import ArchiveIcon from '@mui/icons-material/Archive'
 import { useTheme } from '@mui/material/styles'
+import { ConfirmButton } from 'components/ConfirmButton'
 
 export const EditorButtonsPanel: FC<{
     advert: Advert
@@ -69,7 +70,7 @@ export const EditorButtonsPanel: FC<{
                 </Button>
             )}
             {meta.canRemove && (
-                <Button
+                <ConfirmButton
                     {...{ props }}
                     component={Link}
                     color="warning"
@@ -84,7 +85,7 @@ export const EditorButtonsPanel: FC<{
                     startIcon={<RemoveIcon />}
                 >
                     {REMOVE_ADVERT}
-                </Button>
+                </ConfirmButton>
             )}
         </ButtonGroup>
     )
