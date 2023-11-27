@@ -1,4 +1,4 @@
-import { Typography } from '@mui/material'
+import { Link, Typography } from '@mui/material'
 import { FC } from 'react'
 import ReactMarkdown, { Components } from 'react-markdown'
 
@@ -9,6 +9,7 @@ const components: Components = {
     h4: ({ children }) => <Typography variant="h6">{children}</Typography>,
     h5: ({ children }) => <Typography variant="h6">{children}</Typography>,
     h6: ({ children }) => <Typography variant="h6">{children}</Typography>,
+    a: ({ children, href }) => <Link href={href}>{children}</Link>,
 }
 export const Markdown: FC<{ markdown: string }> = ({ markdown }) => (
     <Typography component="div">

@@ -17,6 +17,7 @@ export const createEmptyAdvertInput = (): AdvertInput => ({
     usage: '',
     category: '',
     reference: '',
+    tags: [],
     location: createEmptyAdvertLocation(),
     contact: createEmptyAdvertContact(),
 })
@@ -51,6 +52,7 @@ export const sanitizeAdvertInput = (
         usage,
         category,
         reference,
+        tags,
         location,
         contact,
     }: AdvertInput = createEmptyAdvertInput()
@@ -70,6 +72,7 @@ export const sanitizeAdvertInput = (
     usage,
     category,
     reference,
+    tags,
     location: sanitizeAdvertLocation(location),
     contact: sanitizeAdvertContact(contact),
 })

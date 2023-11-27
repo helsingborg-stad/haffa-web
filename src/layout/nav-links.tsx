@@ -4,6 +4,7 @@ import QrCodeScannerIcon from '@mui/icons-material/QrCodeScanner'
 import { ReactNode } from 'react'
 import StarBorderIcon from '@mui/icons-material/StarBorder'
 import CheckIcon from '@mui/icons-material/Check'
+import InfoOutlinedIcon from '@mui/icons-material/InfoOutlined'
 import BookmarkBorderIcon from '@mui/icons-material/BookmarkBorder'
 import PersonIcon from '@mui/icons-material/Person'
 import SettingsIcon from '@mui/icons-material/Settings'
@@ -59,6 +60,7 @@ export const createNavLinks: Func1<
         NAV_MY_RESERVATIONS,
         NAV_PROFILE,
         SCAN_QR_CODE,
+        NAV_ABOUT_HAFFA,
     },
 }) =>
     guest
@@ -94,6 +96,11 @@ export const createNavLinks: Func1<
                   NAV_PROFILE,
                   '/profile',
                   <PersonIcon />
+              ),
+              (mobile ? menuitem : link)(
+                  NAV_ABOUT_HAFFA,
+                  '/about',
+                  <InfoOutlinedIcon />
               ),
               hasSomeAdminRoles(roles) &&
                   (mobile ? menuitem : link)(

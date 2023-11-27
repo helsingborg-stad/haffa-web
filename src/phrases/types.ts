@@ -15,6 +15,7 @@ export interface PhraseContextType {
     NAV_MY_ADVERTS: string
     NAV_MY_RESERVATIONS: string
     NAV_PROFILE: string
+    NAV_ABOUT_HAFFA: string
     ADVERT_CREATE: string
     ADVERT_EDIT: string
     ADVERT_EDIT_SAVE: string

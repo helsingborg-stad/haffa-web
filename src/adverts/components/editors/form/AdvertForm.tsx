@@ -27,6 +27,7 @@ import {
 import { PhraseContext } from '../../../../phrases/PhraseContext'
 import { Category } from '../../../../categories/types'
 import { ImageContainer, ImageInput } from './Image'
+import { TagEditor } from './TagEditor'
 
 const swapArrayItems = <T,>(list: T[], index1: number, index2: number): T[] => {
     const l = [...list]
@@ -363,6 +364,18 @@ export const AdvertForm: FC<{
                                     fullWidth: true,
                                 }
                             ),
+                    ],
+                    [
+                        () => (
+                            <TagEditor
+                                options={terms.tags}
+                                tags={model.tags}
+                                onUpdateTags={(tags) => patchModel({ tags })}
+                                sx={{
+                                    pt: 1,
+                                }}
+                            />
+                        ),
                     ],
                 ],
             },

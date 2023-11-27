@@ -45,18 +45,31 @@ export const EventsTable: FC<{
                     <TableCell>{labels.category}</TableCell>
                     <TableCell>{labels.organization}</TableCell>
                     <TableCell>{labels.co2kg}</TableCell>
+                    <TableCell>{labels.valueByUnit}</TableCell>
                 </TableRow>
             </TableHead>
             <TableBody>
-                {events.map(({ event, at, category, organization, co2kg }) => (
-                    <TableRow key={`${event}@${at}`}>
-                        <TableCell>{event}</TableCell>
-                        <TableCell>{dayjs(at).format('YYYY-MM-DD')}</TableCell>
-                        <TableCell>{category}</TableCell>
-                        <TableCell>{organization}</TableCell>
-                        <TableCell>{co2kg}</TableCell>
-                    </TableRow>
-                ))}
+                {events.map(
+                    ({
+                        event,
+                        at,
+                        category,
+                        organization,
+                        co2kg,
+                        valueByUnit,
+                    }) => (
+                        <TableRow key={`${event}@${at}`}>
+                            <TableCell>{event}</TableCell>
+                            <TableCell>
+                                {dayjs(at).format('YYYY-MM-DD')}
+                            </TableCell>
+                            <TableCell>{category}</TableCell>
+                            <TableCell>{organization}</TableCell>
+                            <TableCell>{co2kg}</TableCell>
+                            <TableCell>{valueByUnit}</TableCell>
+                        </TableRow>
+                    )
+                )}
             </TableBody>
         </Table>
     </TableContainer>
@@ -197,6 +210,7 @@ export const EventLogView: FC = () => {
             category: phrase('ADVERT_FIELD_CATEGORY', 'Kategori'),
             organization: phrase('ADVERT_FIELD_ORGANIZATION', 'Organisation'),
             co2kg: phrase('CATEGORIES_FIELD_C02', 'CO₂ besparing'),
+            valueByUnit: phrase('CATEGORIES_FIELD_VALUE', 'Kostnadsvärdering'),
         }),
         [phrase]
     )
@@ -210,15 +224,25 @@ export const EventLogView: FC = () => {
                 eventLabels.organization,
                 eventLabels.category,
                 eventLabels.co2kg,
+                eventLabels.valueByUnit,
             ]
             const data = events.map(
-                ({ event, at, quantity, organization, category, co2kg }) => [
+                ({
                     event,
                     at,
                     quantity,
                     organization,
                     category,
                     co2kg,
+                    valueByUnit,
+                }) => [
+                    event,
+                    at,
+                    quantity,
+                    organization,
+                    category,
+                    co2kg,
+                    valueByUnit,
                 ]
             )
             const ws = xlsx.utils.aoa_to_sheet([headers, ...data])

@@ -13,4 +13,5 @@ export interface ServerSideLogEvent {
     organization?: string
     category?: string
     co2kg?: number
+    valueByUnit?: number
 }

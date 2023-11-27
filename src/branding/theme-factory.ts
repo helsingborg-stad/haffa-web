@@ -1,5 +1,6 @@
-import { ThemeOptions } from '@mui/material/styles'
+import { Theme, createTheme } from '@mui/material/styles'
 import { toMap } from 'lib/to-map'
+import { svSE } from '@mui/material/locale'
 import { ThemeModel } from './types'
 import type { Option } from '../options/types'
 
@@ -75,7 +76,7 @@ export const createThemeOptions = (model: ThemeModel): Option[] =>
         value: String(value),
     }))
 
-export const createCustomTheme = (model: ThemeModel): ThemeOptions => {
+export const createCustomTheme = (model: ThemeModel): Theme => {
     const options = {
         ...defaultThemeModel,
         ...model,
@@ -83,105 +84,108 @@ export const createCustomTheme = (model: ThemeModel): ThemeOptions => {
 
     const fontSize = (value: string) => `${value}rem`
 
-    const theme: ThemeOptions = {
-        logotype: options['custom.image.logotype'],
-        typography: {
-            body1: {
-                fontSize: fontSize(options['typography.body1.fontsize']),
-            },
-        },
-        palette: {
-            background: {
-                default: options['palette.background'],
-                paper: options['palette.paper'],
-            },
-            primary: {
-                main: options['palette.primary'],
-            },
-            secondary: {
-                main: options['palette.secondary'],
-            },
-            error: {
-                main: options['palette.error'],
-            },
-            warning: {
-                main: options['palette.warning'],
-            },
-            info: {
-                main: options['palette.info'],
-            },
-            success: {
-                main: options['palette.success'],
-            },
-            text: {
-                primary: options['palette.text.primary'],
-                secondary: options['palette.text.secondary'],
-                disabled: options['palette.text.disabled'],
-            },
-        },
-        shape: {
-            borderRadius: Number(options['shape.radius']),
-        },
-        components: {
-            MuiButton: {
-                defaultProps: {
-                    disableElevation:
-                        options['component.button.elevation'] === 'true',
+    return createTheme(
+        {
+            logotype: options['custom.image.logotype'],
+            typography: {
+                body1: {
+                    fontSize: fontSize(options['typography.body1.fontsize']),
                 },
-                styleOverrides: {
-                    root: {
-                        borderRadius: Number(
-                            options['component.button.radius']
-                        ),
+            },
+            palette: {
+                background: {
+                    default: options['palette.background'],
+                    paper: options['palette.paper'],
+                },
+                primary: {
+                    main: options['palette.primary'],
+                },
+                secondary: {
+                    main: options['palette.secondary'],
+                },
+                error: {
+                    main: options['palette.error'],
+                },
+                warning: {
+                    main: options['palette.warning'],
+                },
+                info: {
+                    main: options['palette.info'],
+                },
+                success: {
+                    main: options['palette.success'],
+                },
+                text: {
+                    primary: options['palette.text.primary'],
+                    secondary: options['palette.text.secondary'],
+                    disabled: options['palette.text.disabled'],
+                },
+            },
+            shape: {
+                borderRadius: Number(options['shape.radius']),
+            },
+            components: {
+                MuiButton: {
+                    defaultProps: {
+                        disableElevation:
+                            options['component.button.elevation'] === 'true',
+                    },
+                    styleOverrides: {
+                        root: {
+                            borderRadius: Number(
+                                options['component.button.radius']
+                            ),
+                        },
+                    },
+                },
+                MuiCardHeader: {
+                    defaultProps: {
+                        titleTypographyProps: {
+                            variant: options['component.cardheader.variant'],
+                            fontWeight: 'bold',
+                        },
+                    },
+                },
+                MuiLink: {
+                    defaultProps: {
+                        underline: 'hover',
+                        color: 'text.primary',
+                    },
+                },
+                MuiPaper: {
+                    defaultProps: {
+                        variant: options['component.paper.variant'],
+                    },
+                },
+                MuiAppBar: {
+                    defaultProps: {
+                        elevation:
+                            options['component.appbar.variant'] === 'outlined'
+                                ? 0
+                                : 4,
+                        variant: options['component.appbar.variant'],
+                        color: options['component.appbar.color'],
+                    },
+                    styleOverrides: {
+                        root: {
+                            border: options['component.appbar.border'],
+                        },
+                    },
+                },
+                MuiAvatar: {
+                    defaultProps: {
+                        variant: options['component.avatar.variant'],
+                    },
+                    styleOverrides: {
+                        root: {
+                            color: options['component.avatar.color'],
+                            backgroundColor:
+                                options['component.avatar.bgcolor'],
+                        },
                     },
                 },
             },
-            MuiCardHeader: {
-                defaultProps: {
-                    titleTypographyProps: {
-                        variant: options['component.cardheader.variant'],
-                        fontWeight: 'bold',
-                    },
-                },
-            },
-            MuiLink: {
-                defaultProps: {
-                    underline: 'hover',
-                    color: 'text.primary',
-                },
-            },
-            MuiPaper: {
-                defaultProps: {
-                    variant: options['component.paper.variant'],
-                },
-            },
-            MuiAppBar: {
-                defaultProps: {
-                    elevation:
-                        options['component.appbar.variant'] === 'outlined'
-                            ? 0
-                            : 4,
-                    variant: options['component.appbar.variant'],
-                    color: options['component.appbar.color'],
-                },
-                styleOverrides: {
-                    root: {
-                        border: options['component.appbar.border'],
-                    },
-                },
-            },
-            MuiAvatar: {
-                defaultProps: {
-                    variant: options['component.avatar.variant'],
-                },
-                styleOverrides: {
-                    root: {
-                        color: options['component.avatar.color'],
-                        backgroundColor: options['component.avatar.bgcolor'],
-                    },
-                },
-            },
         },
-    }
-    return theme
+        svSE
+    )
 }

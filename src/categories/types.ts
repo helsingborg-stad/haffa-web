@@ -2,6 +2,7 @@ export interface Category {
     id: string
     label: string
     co2kg: number
+    valueByUnit: number
     categories: Category[]
     advertCount?: number
 }
@@ -11,6 +12,7 @@ export interface CategoryFlat {
     parentId: string
     label: string
     co2kg: number
+    valueByUnit: number
     advertCount?: number
 }
 

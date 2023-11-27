@@ -1,4 +1,4 @@
-import { CssBaseline, ThemeProvider, createTheme } from '@mui/material'
+import { CssBaseline, ThemeProvider } from '@mui/material'
 import useAsync from 'hooks/use-async'
 import { FC, PropsWithChildren, useMemo } from 'react'
 import { PhraseContext } from 'phrases'
@@ -26,10 +26,7 @@ const BrandedView: FC<
         () => createThemeModel(themeOptions),
         [themeOptions]
     )
-    const theme = useMemo(
-        () => createTheme(createCustomTheme(themeModel)),
-        [themeModel]
-    )
+    const theme = useMemo(() => createCustomTheme(themeModel), [themeModel])
 
     const advertImageAspectRatio =
         parseAspectRatio(themeModel['advert.image.aspectRatio']) || 4 / 3

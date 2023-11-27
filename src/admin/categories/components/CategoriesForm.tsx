@@ -27,6 +27,7 @@ const cat = (c: Partial<Category>): Category => ({
     id: nanoid(),
     label: '',
     co2kg: 0,
+    valueByUnit: 0,
     categories: [],
     advertCount: 0,
     ...c,
@@ -140,6 +141,36 @@ export const CategoriesForm: FC<{
                             onChange={(e) =>
                                 updateNode(selectedNode, () => ({
                                     co2kg: Math.max(
+                                        0,
+                                        parseInt(e.target.value, 10) || 0
+                                    ),
+                                }))
+                            }
+                        />
+                    </FormControl>
+                    <FormControl fullWidth>
+                        <TextField
+                            fullWidth
+                            label={phrase(
+                                'CATEGORIES_FIELD_VALUE',
+                                'Kostnadsvärdering'
+                            )}
+                            placeholder={phrase(
+                                'CATEGORIES_FIELD_VALUE',
+                                'Kostnadsvärdering'
+                            )}
+                            type="number"
+                            value={selectedNode.valueByUnit}
+                            InputProps={{
+                                endAdornment: (
+                                    <InputAdornment position="end">
+                                        kr
+                                    </InputAdornment>
+                                ),
+                            }}
+                            onChange={(e) =>
+                                updateNode(selectedNode, () => ({
+                                    valueByUnit: Math.max(
                                         0,
                                         parseInt(e.target.value, 10) || 0
                                     ),

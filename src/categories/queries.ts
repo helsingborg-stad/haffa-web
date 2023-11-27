@@ -5,6 +5,7 @@ export const getCategoriesQuery = /* GraphQL */ `
             parentId
             label
             co2kg
+            valueByUnit
             advertCount
         }
     }
@@ -17,6 +18,7 @@ export const setCategoriesMutation = /* GraphQL */ `
             parentId
             label
             co2kg
+            valueByUnit
             advertCount
         }
     }

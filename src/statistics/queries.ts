@@ -7,6 +7,7 @@ export const getEventsQuery = /* GraphQL */ `
             organization
             category
             co2kg
+            valueByUnit
         }
     }
 `
