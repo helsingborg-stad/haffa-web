@@ -89,7 +89,7 @@ const ConfirmView: FC<{
                             <ProblemItem key="has-adverts">
                                 {phrase(
                                     'PROFILE_REMOVAL_HAS_ADVERTS',
-                                    'Du har aktiva annonser som kommer at tas bort'
+                                    'Du har aktiva annonser som kommer att tas bort'
                                 )}
                             </ProblemItem>
                         )}

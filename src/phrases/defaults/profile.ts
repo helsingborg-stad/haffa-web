@@ -13,7 +13,7 @@ bara rätt här slipper du kanske lite pyssel senare.
     PROFILE_REMOVAL_CAN_PROCEED:
         'Du har inga aktiva engagemang kring dina annonser',
     PROFILE_REMOVAL_HAS_ADVERTS:
-        'Du har aktiva annonser som kommer at tas bort',
+        'Du har aktiva annonser som kommer att tas bort',
     PROFILE_REMOVAL_HAS_RESERVATIONS: 'Några av dina annonser är reserverade',
     PROFILE_REMOVAL_EDITORIAL: `
 # Checklista vid borttagning av profil
