@@ -25,3 +25,11 @@ export const updateProfileMutation = /* GraphQL */ `
 		}
 	}
 `
+
+export const removeProfileMutation = /* GraphQL */ `
+    mutation Mutation($input: RemoveProfileInput!) {
+        removeProfile(input: $input) {
+            success
+        }
+    }
+`

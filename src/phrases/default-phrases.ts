@@ -1,10 +1,16 @@
 import { PhraseContextType } from 'phrases'
 
+import profile from './defaults/profile'
+import terms from './defaults/terms'
+
 export const defaultPhrases: Omit<
     PhraseContextType,
     'phrase' | 'fromNow' | 'getConfig'
 > &
     Record<string, string> = {
+    ...profile,
+    ...terms,
+
     APP_TITLE: 'Haffa!',
     INFO_SLOW_CONNECTION: '... väntar på innehåll från servern ...',
     ERROR_UNAUTHORIZED: 'Du saknar behörighet.',
@@ -29,16 +35,6 @@ export const defaultPhrases: Omit<
     ADVERT_ARCHIVE: 'Arkivera',
     SCAN_QR_CODE: 'Skanna',
     SUBSCRIPTIONS_SUBSCRIBE_TO_SEARCH: 'Bevaka denna sökning',
-    PROFILE_EDIT: 'Redigera din profil',
-    PROFILE_SAVE: 'Spara din profil',
-    PROFILE_EDITORIAL: `
-# Din profil är viktig!
-
-När du skapar en annons kopieras innehållet i din profil till den nya annonsen. 
-
-Du kan fortfarande ändra alla uppgifter i annonsen, men skriver du
-bara rätt här slipper du kanske lite pyssel senare.
-        `,
     NOTIFICATIONS_ADVERT_WAS_CREATED: 'Annonsen har skapats',
     NOTIFICATIONS_ADVERT_WAS_UPDATED: 'Annonsen har uppdaterats',
     NOTIFICATIONS_ADVERT_WAS_REMOVED: 'Annonsen har tagits bort',
@@ -57,6 +53,7 @@ bara rätt här slipper du kanske lite pyssel senare.
     NOTIFICATIONS_OPTIONS_WAS_UPDATED: 'Dina ändringar är sparade',
     NOTIFICATIONS_PROFILE_WAS_UPDATED: 'Din profil är uppdaterad',
     NOTIFICATIONS_TERMS_WAS_UPDATED: 'Definitionerna är uppdaterade',
+    NOTIFICATIONS_PROFILE_WAS_REMOVED: 'Din profil är borttagen',
     SORT_OPTION_TITLE_ASC: 'A-Ö',
     SORT_OPTION_TITLE_DESC: 'Ö-A',
     SORT_OPTION_CREATEDAT_ASC: 'Äldst',
@@ -93,12 +90,6 @@ bara rätt här slipper du kanske lite pyssel senare.
     ANALYTICS_SECTION_EDITORIAL: `
 Definitioner för web-analys
 `,
-    TERMS_TITLE: 'Definitioner',
-    TERMS_FIELD_ORGANIZATION: 'Organisationer',
-    TERMS_FIELD_UNIT: 'Enheter',
-    TERMS_FIELD_MATERIAL: 'Material',
-    TERMS_FIELD_CONDITION: 'Skick',
-    TERMS_FIELD_USAGE: 'Användningsområden',
     ROLES_CAN_EDIT_OWN_ADVERTS: 'Skapa annonser',
     ROLES_CAN_ARCHIVE_OWN_ADVERTS: 'Arkivera egna annonser',
     ROLES_CAN_REMOVE_OWN_ADVERTS: 'Ta bort egna annonser',
@@ -196,9 +187,6 @@ Regler utan email tas automatiskt bort.`,
     DIALOG_FILTER_SAVE: 'Spara',
     DIALOG_FILTER_CLEAR: 'Rensa',
     PHRASES_TITLE: 'Fraser',
-    TERMS_EDITORIAL: `
-Definitioner editeras som textblock där varje rad utgör ett valbart värde i profil och annonseditor.
-Ändringar i definitioner uppdaterar inte existerande profiler och annonser och kan påverka statistiken negativt.`,
     APP_GENERIC_SEARCH: 'Sök...',
     APIKEYS_EDITORIAL: `
 API nycklar används för icke-interaktiva integrationer och möjliggör externa tjänster att autentisera (via nyckel) och auktorisera (via email) gentemot tjänster i Haffa.

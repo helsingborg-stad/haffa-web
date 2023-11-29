@@ -8,6 +8,7 @@ import {
 } from '@mui/material'
 import LogoutIcon from '@mui/icons-material/Logout'
 import EditIcon from '@mui/icons-material/Edit'
+import DeleteForeverIcon from '@mui/icons-material/DeleteForever'
 import EmailIcon from '@mui/icons-material/Email'
 import PhoneIcon from '@mui/icons-material/Phone'
 import AdressIcon from '@mui/icons-material/LocationCity'
@@ -36,7 +37,7 @@ export const ProfileView: FC<{ profile: Profile }> = ({ profile }) => {
     const { signout } = useContext(AuthContext)
     const navigate = useNavigate()
 
-    const { SIGNOUT, PROFILE_EDIT } = useContext(PhraseContext)
+    const { phrase, SIGNOUT, PROFILE_EDIT } = useContext(PhraseContext)
     return (
         <Card>
             <CardContent>
@@ -76,6 +77,14 @@ export const ProfileView: FC<{ profile: Profile }> = ({ profile }) => {
                 <Button color="primary" component={NavLink} to="/profile/edit">
                     <EditIcon />
                     {PROFILE_EDIT}
+                </Button>
+                <Button
+                    color="primary"
+                    component={NavLink}
+                    to="/profile/remove"
+                >
+                    <DeleteForeverIcon />
+                    {phrase('PROFILE_REMOVE', 'Ta bort min profil')}
                 </Button>
                 <Button
                     color="primary"

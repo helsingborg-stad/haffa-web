@@ -1,3 +1,5 @@
+import { OperationResult } from 'graphql'
+
 export interface ProfileUserFields {
     phone: string
     adress: string
@@ -19,10 +21,18 @@ export interface ProfileInput {
     organization: string
 }
 
+export interface RemoveProfileInput {
+    removeAdverts: boolean
+}
+
 export interface ProfileRepository {
     getProfile: (init?: Pick<RequestInit, 'signal'>) => Promise<Profile>
     updateProfile: (
         input: ProfileInput,
         init?: Pick<RequestInit, 'signal'>
     ) => Promise<Profile>
+    removeProfile: (
+        input: RemoveProfileInput,
+        init?: Pick<RequestInit, 'signal'>
+    ) => Promise<OperationResult>
 }

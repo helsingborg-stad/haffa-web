@@ -23,6 +23,7 @@ import {
     ProfileContext,
     ProfileRepository,
     ProfileView,
+    RemoveProfileView,
 } from 'profile'
 import { AdvertQrCodeView } from 'adverts/components/details'
 import { AuthContext, HaffaUserRoles } from 'auth'
@@ -224,6 +225,24 @@ const createRouter = (
     })
 
     /**
+     * path: /profile/remove
+     */
+    const removeProfileProps = (): AsyncRouteConfig => ({
+        loader: () =>
+            Promise.all([getProfile()]).then(([profile]) => ({ profile })),
+        element: (
+            <UnpackLoaderData
+                key="remove-profile"
+                render={({ profile }) => (
+                    <Layout>
+                        <RemoveProfileView profile={profile} />
+                    </Layout>
+                )}
+            />
+        ),
+    })
+
+    /**
      * path: /profile
      */
     const viewProfileProps = (): AsyncRouteConfig => ({
@@ -322,6 +341,7 @@ const createRouter = (
                 />
                 <Route path="advert/:advertId" {...viewAdvertProps()} />
                 <Route path="profile/edit" {...editProfileProps()} />
+                <Route path="profile/remove" {...removeProfileProps()} />
                 <Route path="profile" {...viewProfileProps()} />
                 <Route
                     path="my-subscriptions"

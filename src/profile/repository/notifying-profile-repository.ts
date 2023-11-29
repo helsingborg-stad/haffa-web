@@ -18,4 +18,14 @@ export const createNotifyingProfileRepository = (
             })
             return result
         }),
+    removeProfile: (...args) =>
+        inner.removeProfile(...args).then((result) => {
+            notifications.info({
+                message: phrase(
+                    'NOTIFICATIONS_PROFILE_WAS_REMOVED',
+                    'Din profil är borttagen'
+                ),
+            })
+            return result
+        }),
 })

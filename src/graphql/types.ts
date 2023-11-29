@@ -15,3 +15,8 @@ export interface FluentGqlOptions {
     query: string
     variables: any | null
 }
+
+// Generic result from Haffa GQL backend
+export interface OperationResult {
+    success: boolean
+}

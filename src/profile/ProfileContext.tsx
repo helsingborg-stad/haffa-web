@@ -8,6 +8,7 @@ const notProvided = (method: string) => () => {
 export const ProfileContext = createContext<ProfileRepository>({
     getProfile: notProvided('getProfile'),
     updateProfile: notProvided('updateProfile'),
+    removeProfile: notProvided('removeProfile'),
 })
 
 export const ProfileProvider: FC<
