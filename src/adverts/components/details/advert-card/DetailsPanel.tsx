@@ -14,6 +14,7 @@ export const DetailsPanel = (props: GridProps & { advert: Advert }) => {
         weight,
         material,
         usage,
+        reference,
         createdAt,
     } = props.advert
 
@@ -25,6 +26,7 @@ export const DetailsPanel = (props: GridProps & { advert: Advert }) => {
         [material, phrase('ADVERT_FIELD_MATERIAL', 'Material')],
         [condition, phrase('ADVERT_FIELD_CONDITION', 'Skick')],
         [usage, phrase('ADVERT_FIELD_USAGE', 'Användning')],
+        [reference, phrase('ADVERT_FIELD_REFERENCE', 'Egen referens')],
         [fromNow(createdAt), phrase('ADVERT_FIELD_CREATED', 'Publicerades')],
     ].filter(([item]) => item)
 
