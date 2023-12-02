@@ -44,14 +44,15 @@ export type FilterInput<T> = {
     in?: T[]
 } & (T extends string ? { contains?: string } : Record<string, never>)
 
+type Flatten<Type> = Type extends Array<infer Item> ? Item : Type
+
 export type AdvertFieldsFilterInput = {
     id?: FilterInput<string>
 } & {
     [Property in keyof Omit<AdvertUserFields, 'images'>]?: FilterInput<
-        AdvertUserFields[Property]
+        Flatten<AdvertUserFields[Property]>
     >
 }
-
 export interface AdvertRestrictionsFilterInput {
     canBeReserved?: boolean
     reservedByMe?: boolean

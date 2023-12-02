@@ -13,9 +13,11 @@ import { AdvertFilterInput } from 'adverts'
 import { PhraseContext } from 'phrases'
 import CloseIcon from '@mui/icons-material/Close'
 import { CategoriesFilter } from './CategoriesFilter'
+import { TagsFilter } from './TagsFilter'
 
 export interface SelectedFilters {
     categories: string[]
+    tags: string[]
 }
 
 export const FilterDialog: FC<{
@@ -31,12 +33,16 @@ export const FilterDialog: FC<{
     const [categories, setCategories] = useState<string[]>(
         searchParams.fields?.category?.in ?? []
     )
+    const [tags, setTags] = useState<string[]>(
+        searchParams.fields?.tags?.in ?? []
+    )
 
     const onSave = () => {
         setSearchParams({
             ...searchParams,
             fields: {
                 ...searchParams.fields,
+                tags: tags.length > 0 ? { in: tags } : undefined,
                 category:
                     categories.length > 0 ? { in: categories } : undefined,
             },
@@ -72,6 +78,7 @@ export const FilterDialog: FC<{
                     selected={categories}
                     onCategoriesChanged={setCategories}
                 />
+                <TagsFilter selected={tags} onTagsChanged={setTags} />
             </DialogContent>
             <DialogActions>
                 <Button variant="contained" onClick={onSave} autoFocus>
@@ -79,8 +86,11 @@ export const FilterDialog: FC<{
                 </Button>
                 <Button
                     variant="outlined"
-                    onClick={() => setCategories([])}
                     autoFocus
+                    onClick={() => {
+                        setCategories([])
+                        setTags([])
+                    }}
                 >
                     {phrase('DIALOG_FILTER_CLEAR', 'Rensa')}
                 </Button>

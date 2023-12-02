@@ -14,6 +14,10 @@ const createUrlParamsContext = (
             .split(',')
             .map((s) => s.trim())
             .filter((v) => v)
+        const tags = (params.t || '')
+            .split(',')
+            .map((s) => s.trim())
+            .filter((v) => v)
         const sorting = params.sf || ''
         const page = parseInt(params.p, 10) || 0
         return {
@@ -22,6 +26,7 @@ const createUrlParamsContext = (
             fields: {
                 ...filter.fields,
                 category: categories.length ? { in: categories } : undefined,
+                tags: tags.length ? { in: tags } : undefined,
             },
             sorting:
                 sortableFields.find((sf) => sf.key === sorting)?.sorting ||
@@ -38,6 +43,7 @@ const createUrlParamsContext = (
                     sorting.ascending === filter.sorting?.ascending
             )?.key,
             c: filter.fields?.category?.in?.join(','),
+            t: filter.fields?.tags?.in?.join(','),
             p: filter.paging?.pageIndex,
         })
     },
