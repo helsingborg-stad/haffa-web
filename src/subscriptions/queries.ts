@@ -5,6 +5,7 @@ const advertSubscriptionFields = `
 	filter {
 		search
 		categories
+		tags
 	}
 `
 

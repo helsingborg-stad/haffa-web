@@ -100,6 +100,13 @@ export const SubscriptionsListing: FC<{
                                 value={subscription.filter.search}
                                 disabled
                             />
+                            <TextField
+                                key="t"
+                                value={
+                                    subscription.filter.tags?.join(', ') ?? ''
+                                }
+                                disabled
+                            />
                             <SubscriptionCategoriesPreview
                                 key="p"
                                 categories={subscription.categories}
