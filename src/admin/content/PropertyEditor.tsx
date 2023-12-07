@@ -54,7 +54,7 @@ export const PropertyEditor = (props: PropertyEditorProps) => {
     const patch = (key: string, value: string) => {
         onUpdate({
             ...module,
-            [key]: value.trim(),
+            [key]: value,
         })
     }
 
