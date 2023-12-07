@@ -37,6 +37,9 @@ import { SubscriptionView } from 'subscriptions/components/SubscriptionView'
 import { AdminView } from 'admin'
 import { ScanQrCodeView } from 'qr-code-navigation/ScanQrCodeView'
 import { AboutView } from 'about'
+import { ContentContext } from 'content'
+import { ContentRepository } from 'content/types'
+import { HomeView } from 'home'
 import { ErrorRouteView } from './ErrorRouteView'
 
 const UnpackLoaderData: FC<{ render: (loaderData: any) => JSX.Element }> = ({
@@ -64,7 +67,8 @@ const createRouter = (
     { getTerms }: TermsRepository,
     { getAdvert }: AdvertsRepository,
     { getProfile }: ProfileRepository,
-    { getCategories }: CategoriesRepository
+    { getCategories }: CategoriesRepository,
+    { getComposition }: ContentRepository
 ) => {
     // So many of the routes relies on
     // - an async fetch of some data
@@ -79,8 +83,25 @@ const createRouter = (
      * path: /
      */
     const createHomeProps = (): AsyncRouteConfig => ({
+        loader: () => getComposition(),
         element: (
-            <Layout key="home">
+            <UnpackLoaderData
+                key="home"
+                render={(composition) => (
+                    <Layout key="home">
+                        <HomeView composition={composition} />
+                    </Layout>
+                )}
+            />
+        ),
+    })
+
+    /**
+     * path: /browse
+     */
+    const createBrowseProps = (): AsyncRouteConfig => ({
+        element: (
+            <Layout key="browse">
                 <AdvertsView />
             </Layout>
         ),
@@ -328,6 +349,7 @@ const createRouter = (
         createRoutesFromElements(
             <Route path="/" errorElement={<ErrorRouteView />}>
                 <Route path="" {...createHomeProps()} />
+                <Route path="browse" {...createBrowseProps()} />
                 <Route
                     path="my-reservations"
                     {...createMyReservationsProps()}
@@ -361,8 +383,9 @@ export const AppRouter: FC = () => {
     const adverts = useContext(AdvertsContext)
     const profiles = useContext(ProfileContext)
     const categories = useContext(CategoriesContext)
+    const content = useContext(ContentContext)
     const [router] = useState(
-        createRouter(terms, adverts, profiles, categories)
+        createRouter(terms, adverts, profiles, categories, content)
     )
     return <RouterProvider router={router} />
 }

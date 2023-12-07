@@ -11,7 +11,8 @@ export const AdminButton: FC = () => {
         roles.canEditSystemCategories ||
         roles.canEditSystemLoginPolicies ||
         roles.canEditTerms ||
-        roles.canRunSystemJobs
+        roles.canRunSystemJobs ||
+        roles.canManageContent
 
     return showAdmin ? (
         <Button startIcon={<SettingsIcon />} href="/admin" color="inherit" />

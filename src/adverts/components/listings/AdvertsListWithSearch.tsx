@@ -30,11 +30,12 @@ const createEmptyResult = (): AdvertList => ({
     paging: { pageIndex: 0, pageSize: PAGE_SIZE, pageCount: 0, totalCount: 0 },
 })
 
-const AdvertsListPagination: FC<{
+export const AdvertsListPagination: FC<{
     sx?: SxProps<Theme>
     adverts: AdvertList
     searchParams: AdvertFilterInput
     setSearchParams: (p: AdvertFilterInput) => void
+    pageSize: number
 }> = ({
     sx,
     adverts: {
@@ -42,6 +43,7 @@ const AdvertsListPagination: FC<{
     },
     searchParams,
     setSearchParams,
+    pageSize,
 }) => (
     <Stack alignItems="center" sx={sx}>
         {pageCount > 1 && (
@@ -58,7 +60,7 @@ const AdvertsListPagination: FC<{
                         ...searchParams,
                         paging: {
                             pageIndex: page - 1,
-                            pageSize: PAGE_SIZE,
+                            pageSize,
                         },
                     })
                 }
@@ -217,6 +219,7 @@ export const AdvertsListWithSearch: FC<
                     searchParams={searchParams}
                     setSearchParams={(p) => changed(p, enqueue)}
                     sx={{ my: 2 }}
+                    pageSize={PAGE_SIZE}
                 />
             </SearchableAdvertsList>
         ),

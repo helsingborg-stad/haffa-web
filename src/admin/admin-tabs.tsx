@@ -9,6 +9,7 @@ import { EditApiKeysView } from './api-keys'
 import { EditAnalyticsView } from './analytics'
 import { EditTermsView } from './terms'
 import { EventLogView } from './events/EventLogView'
+import { EditContentView } from './content'
 
 const tab = (
     enabled: boolean | undefined,
@@ -27,6 +28,11 @@ export const createAdminTabs = (
     phrase: PhraseContextType['phrase']
 ) =>
     [
+        tab(
+            roles.canManageContent,
+            phrase('CONTENT_TITLE', 'Redaktionellt'),
+            <EditContentView />
+        ),
         tab(
             roles.canEditTerms,
             phrase('THEME_TITLE', 'Tema'),

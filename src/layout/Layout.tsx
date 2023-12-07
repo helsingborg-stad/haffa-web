@@ -156,7 +156,6 @@ export const Layout: FC<
                 ? []
                 : createNavLinks({
                       mobile: !isDesktop,
-                      desktop: isDesktop,
                       guest: isGuest,
                       roles,
                       phrases,

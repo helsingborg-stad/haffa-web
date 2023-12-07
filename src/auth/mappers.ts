@@ -44,4 +44,5 @@ export const normalizeRoles = (
     canEditTerms: !!roles?.canEditTerms,
     canRunSystemJobs: !!roles?.canRunSystemJobs,
     canSeeSystemStatistics: !!roles?.canSeeSystemStatistics,
+    canManageContent: !!roles?.canManageContent,
 })

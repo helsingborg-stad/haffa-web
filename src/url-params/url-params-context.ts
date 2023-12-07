@@ -51,6 +51,7 @@ const createUrlParamsContext = (
         `${basePath}#${adapter.makeUrlParams('', {
             s: filter.search,
             c: filter.categories?.join(','),
+            t: filter.tags?.join(','),
         })}`,
 })
 

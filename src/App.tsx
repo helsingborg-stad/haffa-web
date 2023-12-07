@@ -43,6 +43,9 @@ import {
     createNotifyingSubscriptionsRepository,
     createSubscriptionsRepository,
 } from 'subscriptions'
+import { createNotifyingContentRepository } from 'content/notifying-content-repository'
+import { createContentRepository } from 'content/content-repository'
+import { ContentProvider } from 'content/ContentContext'
 import { AdvertsProvider } from './adverts/AdvertsContext'
 import { createAdvertsRepository } from './adverts/repository/adverts-repository'
 import { AppRouter } from './routes/AppRouter'
@@ -138,6 +141,15 @@ const Main: FC = () => {
             ),
         [notifications, phrase, token, fetch]
     )
+    const content = useMemo(
+        () =>
+            createNotifyingContentRepository(
+                notifications,
+                phrase,
+                createContentRepository(token, fetch)
+            ),
+        [notifications, phrase, token, fetch]
+    )
 
     return isAuthenticated ? (
         <OptionsProvider repository={options}>
@@ -151,7 +163,11 @@ const Main: FC = () => {
                                 >
                                     <AdvertsProvider repository={adverts}>
                                         <ProfileProvider repository={profiles}>
-                                            <AppRouter />
+                                            <ContentProvider
+                                                repository={content}
+                                            >
+                                                <AppRouter />
+                                            </ContentProvider>
                                         </ProfileProvider>
                                     </AdvertsProvider>
                                 </SubscriptionsProvider>
