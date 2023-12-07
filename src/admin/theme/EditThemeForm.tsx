@@ -29,6 +29,7 @@ import { FC, useCallback, useContext, useState } from 'react'
 import SaveIcon from '@mui/icons-material/Save'
 import { PhraseContext } from 'phrases'
 import { ThemeModel } from 'branding/types'
+import { ImageBrowseButton } from 'admin/content/components/ImageBrowseButton'
 import type { Option } from '../../options/types'
 import { ColorSelect } from './components/ColorSelect'
 import { CreateMenuItems, RegularSelect } from './components/RegularSelect'
@@ -463,6 +464,26 @@ export const EditThemeForm: FC<{
                                     ['4:5'],
                                 ])}
                             </RegularSelect>
+                        </Grid>
+                    </Grid>
+                    <Typography variant="h6" py={2}>
+                        Logotype
+                    </Typography>
+                    <Grid container rowSpacing={4}>
+                        <Grid item xs={12} sm={2} pr={1}>
+                            <Box>
+                                <Box
+                                    component="img"
+                                    border="1px dotted black"
+                                    src={model['custom.image.logotype']}
+                                    sx={{ p: 2 }}
+                                />
+                                <ImageBrowseButton
+                                    onUpdate={(e) =>
+                                        apply('custom.image.logotype', e)
+                                    }
+                                />
+                            </Box>
                         </Grid>
                     </Grid>
                     <Typography variant="h6" py={2}>
