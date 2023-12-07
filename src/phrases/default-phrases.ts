@@ -149,6 +149,8 @@ Definitioner för web-analys
     ADVERT_FIELD_ADDRESS_TITLE: 'Adress för avhämtning',
     ADVERT_TYPE_RECYCLE: 'Återbruk',
     ADVERT_UPLOAD_IMAGE: 'Välj en fin bild',
+    ADVERT_BUTTON_SYNCH_FROM_PROFILE: 'Hämta från min profil',
+    ADVERT_BUTTON_SYNCH_TO_PROFILE: 'Uppdatera min profil',
     MYADVERTS_ACTIVE: 'Aktiva',
     MYADVERTS_RESERVED: 'Reserverade',
     MYADVERTS_COLLECTED: 'Uthämtade',

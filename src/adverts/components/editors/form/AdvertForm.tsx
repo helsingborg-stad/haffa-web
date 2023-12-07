@@ -48,9 +48,10 @@ const Cell: FC<PropsWithChildren & GridProps> = (props) => (
     </Grid>
 )
 
-const SyncFromProfileInput: FC<{ onProfile: (profile: Profile) => void }> = ({
-    onProfile,
-}) => {
+const SyncFromProfileInput: FC<{
+    onProfile: (profile: Profile) => void
+    label: string
+}> = ({ onProfile, label }) => {
     const { signal } = useAbortController()
     const { getProfile } = useContext(ProfileContext)
     return (
@@ -58,12 +59,15 @@ const SyncFromProfileInput: FC<{ onProfile: (profile: Profile) => void }> = ({
             onClick={() => getProfile({ signal }).then(onProfile)}
             startIcon={<RefreshIcon />}
         >
-            Hämta från min profil
+            {label}
         </Button>
     )
 }
 
-const SyncToProfileInput: FC<{ patch: Partial<Profile> }> = ({ patch }) => {
+const SyncToProfileInput: FC<{ patch: Partial<Profile>; label: string }> = ({
+    patch,
+    label,
+}) => {
     const { signal } = useAbortController()
     const { getProfile, updateProfile } = useContext(ProfileContext)
     return (
@@ -78,7 +82,7 @@ const SyncToProfileInput: FC<{ patch: Partial<Profile> }> = ({ patch }) => {
             }
             startIcon={<CloudUploadIcon />}
         >
-            Uppdatera min profil
+            {label}
         </Button>
     )
 }
@@ -86,12 +90,28 @@ const SyncToProfileInput: FC<{ patch: Partial<Profile> }> = ({ patch }) => {
 const SyncProfileInput: FC<{
     patch: Partial<Profile>
     onProfile: (profile: Profile) => void
-}> = ({ patch, onProfile }) => (
-    <ButtonGroup>
-        <SyncFromProfileInput onProfile={onProfile} />
-        <SyncToProfileInput patch={patch} />
-    </ButtonGroup>
-)
+}> = ({ patch, onProfile }) => {
+    const { phrase } = useContext(PhraseContext)
+
+    return (
+        <ButtonGroup>
+            <SyncFromProfileInput
+                label={phrase(
+                    'ADVERT_BUTTON_SYNCH_FROM_PROFILE',
+                    'Hämta från min profil'
+                )}
+                onProfile={onProfile}
+            />
+            <SyncToProfileInput
+                label={phrase(
+                    'ADVERT_BUTTON_SYNCH_TO_PROFILE',
+                    'Uppdatera min profil'
+                )}
+                patch={patch}
+            />
+        </ButtonGroup>
+    )
+}
 
 const nextKey = (baseName: string): (() => string) => {
     let index = 0
