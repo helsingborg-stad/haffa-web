@@ -17,7 +17,7 @@ import { MultiOptionSelect } from './components/MultiOptionSelect'
 import { ImageBrowseButton } from './components/ImageBrowseButton'
 import { ImageThumbnail } from './components/ImageThumbnail'
 
-const MAX_FILE_SIZE = 1024 * 1024
+const MAX_FILE_SIZE = 2 * 1024 * 1024
 
 interface PropertyEditorProps {
     module: ContentModule

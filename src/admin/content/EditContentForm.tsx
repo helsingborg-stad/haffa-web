@@ -143,7 +143,7 @@ export const EditContentForm = (props: {
                     <ButtonGroup
                         orientation="vertical"
                         size="small"
-                        variant="text"
+                        variant="contained"
                     >
                         <Button
                             startIcon={<MoveUpIcon />}
