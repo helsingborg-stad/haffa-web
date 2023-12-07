@@ -38,6 +38,8 @@ import { PreviewAlert } from './preview/Alert'
 import { PreviewTextField } from './preview/TextField'
 import { PreviewSelect } from './preview/Select'
 
+const MAX_FILE_SIZE = 1024 * 1024
+
 const arrayWithNumbers = (max: number) => Array.from(Array(max).keys())
 
 const AlertColumn: AlertProps[] = [
@@ -480,6 +482,7 @@ export const EditThemeForm: FC<{
                                     sx={{ p: 2 }}
                                 />
                                 <ImageBrowseButton
+                                    maxSize={MAX_FILE_SIZE}
                                     onUpdate={(e) =>
                                         apply('custom.image.logotype', e)
                                     }

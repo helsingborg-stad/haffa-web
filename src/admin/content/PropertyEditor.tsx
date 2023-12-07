@@ -17,6 +17,8 @@ import { MultiOptionSelect } from './components/MultiOptionSelect'
 import { ImageBrowseButton } from './components/ImageBrowseButton'
 import { ImageThumbnail } from './components/ImageThumbnail'
 
+const MAX_FILE_SIZE = 1024 * 1024
+
 interface PropertyEditorProps {
     module: ContentModule
     terms: Terms
@@ -101,6 +103,7 @@ export const PropertyEditor = (props: PropertyEditorProps) => {
                                             />
                                         )}
                                         <ImageBrowseButton
+                                            maxSize={MAX_FILE_SIZE}
                                             onUpdate={(e) => patch(v, e)}
                                         />
                                     </Fragment>

@@ -22,7 +22,7 @@ export const ContentCard = (
                     />
                 )}
                 {isString(module.title) && (
-                    <Typography variant="h4" gutterBottom>
+                    <Typography variant="subtitle2" gutterBottom>
                         {module.title}
                     </Typography>
                 )}
