@@ -138,7 +138,7 @@ export const EditContentForm = (props: {
 
     const renderCardActions = ({ row, col }: Cell, max: Cell) => (
         <>
-            {col === 0 && (
+            {col === max.col - 1 && (
                 <Box sx={{ position: 'absolute', top: 5, right: 5 }}>
                     <ButtonGroup
                         orientation="vertical"
