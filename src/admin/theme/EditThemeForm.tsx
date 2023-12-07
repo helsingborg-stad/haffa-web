@@ -474,6 +474,7 @@ export const EditThemeForm: FC<{
                             <Box>
                                 <Box
                                     component="img"
+                                    height={96}
                                     border="1px dotted black"
                                     src={model['custom.image.logotype']}
                                     sx={{ p: 2 }}
