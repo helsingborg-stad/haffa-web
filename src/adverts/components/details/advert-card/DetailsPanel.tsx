@@ -12,6 +12,7 @@ export const DetailsPanel = (props: GridProps & { advert: Advert }) => {
         height,
         width,
         weight,
+        size,
         material,
         usage,
         reference,
@@ -19,6 +20,7 @@ export const DetailsPanel = (props: GridProps & { advert: Advert }) => {
     } = props.advert
 
     const fields = [
+        [size, phrase('ADVERT_FIELD_SIZE', 'Storlek')],
         [height, phrase('ADVERT_FIELD_HEIGHT', 'Höjd')],
         [width, phrase('ADVERT_FIELD_WIDTH', 'Bredd')],
         [depth, phrase('ADVERT_FIELD_DEPTH', 'Djup')],

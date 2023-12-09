@@ -37,6 +37,7 @@ const advertProps = /* GraphQL */ `
 	width
 	depth
 	weight
+	size
 	material
 	condition
 	usage

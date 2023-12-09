@@ -142,6 +142,7 @@ Definitioner för web-analys
     ADVERT_FIELD_HEIGHT: 'Höjd',
     ADVERT_FIELD_DEPTH: 'Djup',
     ADVERT_FIELD_WEIGHT: 'Vikt',
+    ADVERT_FIELD_SIZE: 'Storlek',
     ADVERT_FIELD_MATERIAL: 'Material',
     ADVERT_FIELD_CONDITION: 'Skick',
     ADVERT_FIELD_USAGE: 'Användningsområde',

@@ -10,6 +10,7 @@ export interface AdvertUserFields {
     height: string
     depth: string
     weight: string
+    size: string
     material: string
     condition: string
     usage: string
@@ -95,6 +96,7 @@ export interface AdvertInput {
     height: string
     depth: string
     weight: string
+    size: string
     material: string
     condition: string
     usage: string

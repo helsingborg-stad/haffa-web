@@ -310,6 +310,14 @@ export const AdvertForm: FC<{
                     [
                         () =>
                             textField(
+                                'size',
+                                phrase('ADVERT_FIELD_SIZE', 'Storlek'),
+                                {
+                                    fullWidth: true,
+                                }
+                            ),
+                        () =>
+                            textField(
                                 'width',
                                 phrase('ADVERT_FIELD_WIDTH', 'Bredd'),
                                 {
