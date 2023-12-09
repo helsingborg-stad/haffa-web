@@ -64,6 +64,11 @@ export const EditContentForm = (props: {
     const [cache, setCache] = useState<ContentModuleWithPosition | undefined>()
     const [rows, setRows] = useState(page.rows)
 
+    const saveComposition = async () => {
+        await update({
+            rows,
+        }).then((page) => setRows(page.rows))
+    }
     // Column actions
     const insertCell = useCallback(
         ({ row, col }: Cell) => {
@@ -199,11 +204,7 @@ export const EditContentForm = (props: {
             </Button>
             <Button
                 startIcon={<SaveOutlinedIcon />}
-                onClick={() =>
-                    update({
-                        rows,
-                    })
-                }
+                onClick={() => saveComposition()}
             >
                 Spara
             </Button>
