@@ -12,11 +12,11 @@ import { ContentCard } from 'content/components/ContentCard'
 import DeleteIcon from '@mui/icons-material/Delete'
 import AddIcon from '@mui/icons-material/Add'
 import EditIcon from '@mui/icons-material/Edit'
-import SaveOutlinedIcon from '@mui/icons-material/SaveOutlined'
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft'
 import ChevronRightIcon from '@mui/icons-material/ChevronRight'
 import MoveUpIcon from '@mui/icons-material/MoveUp'
 import MoveDownIcon from '@mui/icons-material/MoveDown'
+import { AdminActionPanel } from 'components/AdminActionPanel'
 import { PropertyEditor } from './PropertyEditor'
 
 type Cell = {
@@ -63,12 +63,18 @@ export const EditContentForm = (props: {
 
     const [cache, setCache] = useState<ContentModuleWithPosition | undefined>()
     const [rows, setRows] = useState(page.rows)
+    const [canSave, setCanSave] = useState(true)
 
-    const saveComposition = async () => {
-        await update({
+    const saveComposition = useCallback(() => {
+        setCanSave(false)
+        update({
             rows,
-        }).then((page) => setRows(page.rows))
-    }
+        }).then((page) => {
+            setRows(page.rows)
+            setCanSave(true)
+        })
+    }, [rows])
+
     // Column actions
     const insertCell = useCallback(
         ({ row, col }: Cell) => {
@@ -111,10 +117,10 @@ export const EditContentForm = (props: {
         ...rows[row].columns[col].module,
     })
     const cacheModule = useCallback(
-        ({ row, col }: Cell) =>
+        (position: Cell) =>
             setCache({
-                position: { row, col },
-                module: copyModule({ row, col }),
+                position,
+                module: copyModule(position),
             }),
         [rows]
     )
@@ -196,18 +202,17 @@ export const EditContentForm = (props: {
 
     return (
         <>
-            <Button
-                startIcon={<AddIcon />}
-                onClick={() => setRows([createRow(), ...rows])}
+            <AdminActionPanel
+                disabled={!canSave}
+                onSave={() => saveComposition()}
             >
-                Ny rad
-            </Button>
-            <Button
-                startIcon={<SaveOutlinedIcon />}
-                onClick={() => saveComposition()}
-            >
-                Spara
-            </Button>
+                <Button
+                    startIcon={<AddIcon />}
+                    onClick={() => setRows([createRow(), ...rows])}
+                >
+                    Ny rad
+                </Button>
+            </AdminActionPanel>
             {rows.map((row, rowIndex) => (
                 <Grid
                     key={rowIndex}

@@ -1,16 +1,9 @@
-import {
-    Box,
-    Button,
-    Card,
-    CardActions,
-    CardContent,
-    Grid,
-    TextField,
-} from '@mui/material'
+import { Card, CardContent, Grid, TextField } from '@mui/material'
 import { PhraseContext } from 'phrases'
 import { FC, useContext, useState } from 'react'
 import { Terms } from 'terms/types'
 import { Editorial } from 'editorials'
+import { AdminActionPanel } from 'components/AdminActionPanel'
 
 export const EditTermsForm: FC<{
     terms: Terms
@@ -95,24 +88,18 @@ export const EditTermsForm: FC<{
                     ))}
                 </Grid>
             </CardContent>
-            <CardActions>
-                <Box flex={1} />
-                <Button
-                    variant="contained"
-                    onClick={() =>
-                        onUpdate({
-                            organization: organization.split('\n'),
-                            unit: unit.split('\n'),
-                            material: material.split('\n'),
-                            condition: condition.split('\n'),
-                            usage: usage.split('\n'),
-                            tags: tags.split('\n'),
-                        })
-                    }
-                >
-                    Spara
-                </Button>
-            </CardActions>
+            <AdminActionPanel
+                onSave={() =>
+                    onUpdate({
+                        organization: organization.split('\n'),
+                        unit: unit.split('\n'),
+                        material: material.split('\n'),
+                        condition: condition.split('\n'),
+                        usage: usage.split('\n'),
+                        tags: tags.split('\n'),
+                    })
+                }
+            />
         </Card>
     )
 }

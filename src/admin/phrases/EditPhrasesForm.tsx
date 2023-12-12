@@ -1,10 +1,7 @@
 import { FC, useCallback, useContext, useState } from 'react'
 import {
-    Button,
     Card,
-    CardActions,
     CardContent,
-    Grid,
     Table,
     TableBody,
     TableCell,
@@ -16,6 +13,7 @@ import {
 import { PhraseContext } from 'phrases'
 import { toMap } from 'lib/to-map'
 import { PhraseDefinition } from 'phrases/types'
+import { AdminActionPanel } from 'components/AdminActionPanel'
 import type { Option } from '../../options/types'
 
 export const EditPhrasesForm: FC<{
@@ -82,32 +80,19 @@ export const EditPhrasesForm: FC<{
         },
         [model, setModel]
     )
-    const renderButtons = () => (
-        <Grid container>
-            <Grid item flex={1} />
-            <Grid item>
-                <Button
-                    variant="contained"
-                    onClick={() =>
-                        onUpdate(
-                            model.phrases
-                                .map(({ key, actual }) => ({
-                                    key,
-                                    value: actual.trim(),
-                                }))
-                                .filter(({ value }) => value)
-                        )
-                    }
-                >
-                    Spara
-                </Button>
-            </Grid>
-        </Grid>
-    )
+    const update = () =>
+        onUpdate(
+            model.phrases
+                .map(({ key, actual }) => ({
+                    key,
+                    value: actual.trim(),
+                }))
+                .filter(({ value }) => value)
+        )
 
     return (
         <Card>
-            <CardActions>{renderButtons()}</CardActions>
+            <AdminActionPanel onSave={update} />
             <CardContent>
                 <TableContainer>
                     <Table>
@@ -180,7 +165,7 @@ export const EditPhrasesForm: FC<{
                     </Table>
                 </TableContainer>
             </CardContent>
-            <CardActions>{renderButtons()}</CardActions>
+            <AdminActionPanel onSave={update} />
         </Card>
     )
 }

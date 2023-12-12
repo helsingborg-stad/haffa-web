@@ -1,8 +1,5 @@
 import {
-    Box,
-    Button,
     Card,
-    CardActions,
     CardContent,
     FormControl,
     InputLabel,
@@ -12,10 +9,10 @@ import {
 } from '@mui/material'
 import { FC, useContext, useState } from 'react'
 import { Editorial } from 'editorials'
-import SaveIcon from '@mui/icons-material/Save'
 import { PhraseContext } from 'phrases'
 import { getOption } from 'options'
 import { AnalyticsOptions } from 'analytics/types'
+import { AdminActionPanel } from 'components/AdminActionPanel'
 import type { Option } from '../../options/types'
 
 const NS = 'ANALYTICS'
@@ -71,29 +68,20 @@ export const EditAnalyticsForm: FC<{
                     />
                 </FormControl>
             </CardContent>
-            <CardActions>
-                <Box flex={1} />
-                <Button
-                    id={`${NS}_ACTION_SAVE`}
-                    type="submit"
-                    variant="contained"
-                    startIcon={<SaveIcon />}
-                    onClick={() =>
-                        onUpdate([
-                            {
-                                key: 'config',
-                                value: config,
-                            },
-                            {
-                                key: 'provider',
-                                value: provider,
-                            },
-                        ])
-                    }
-                >
-                    {phrase(`${NS}_ACTION_SAVE`, 'Spara')}
-                </Button>
-            </CardActions>
+            <AdminActionPanel
+                onSave={() =>
+                    onUpdate([
+                        {
+                            key: 'config',
+                            value: config,
+                        },
+                        {
+                            key: 'provider',
+                            value: provider,
+                        },
+                    ])
+                }
+            />
         </Card>
     )
 }

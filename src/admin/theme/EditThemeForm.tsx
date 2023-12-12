@@ -5,10 +5,8 @@ import {
     Avatar,
     AvatarProps,
     Box,
-    Button,
     ButtonProps,
     Card,
-    CardActions,
     CardContent,
     CssBaseline,
     Grid,
@@ -25,11 +23,10 @@ import {
     createThemeOptions,
     defaultThemeModel,
 } from 'branding/theme-factory'
-import { FC, useCallback, useContext, useState } from 'react'
-import SaveIcon from '@mui/icons-material/Save'
-import { PhraseContext } from 'phrases'
+import { FC, useState } from 'react'
 import { ThemeModel } from 'branding/types'
 import { ImageBrowseButton } from 'admin/content/components/ImageBrowseButton'
+import { AdminActionPanel } from 'components/AdminActionPanel'
 import type { Option } from '../../options/types'
 import { ColorSelect } from './components/ColorSelect'
 import { CreateMenuItems, RegularSelect } from './components/RegularSelect'
@@ -95,7 +92,6 @@ export const EditThemeForm: FC<{
     options: Option[]
     onUpdate: (options: Option[]) => void
 }> = ({ options, onUpdate }) => {
-    const { phrase } = useContext(PhraseContext)
     const [model, setModel] = useState<ThemeModel>(createThemeModel(options))
 
     const apply = (name: keyof ThemeModel, value: string) =>
@@ -103,38 +99,13 @@ export const EditThemeForm: FC<{
             ...model,
             [name]: value,
         })
-
-    const renderCardActions = useCallback(
-        () => (
-            <CardActions>
-                <Button
-                    onClick={() => {
-                        setModel({ ...defaultThemeModel })
-                    }}
-                    id="THEME_ACTION_RESTORE"
-                >
-                    {phrase('THEME_ACTION_RESTORE', 'Återställ')}
-                </Button>
-                <Box flex={1} />
-                <Button
-                    type="submit"
-                    id="THEME_ACTION_SAVE"
-                    variant="contained"
-                    startIcon={<SaveIcon />}
-                    onClick={() => {
-                        onUpdate(createThemeOptions(model))
-                    }}
-                >
-                    {phrase('THEME_ACTION_SAVE', 'Spara')}
-                </Button>
-            </CardActions>
-        ),
-        [model, phrase, onUpdate, createThemeOptions]
-    )
-
     return (
         <Card>
-            {renderCardActions()}
+            <AdminActionPanel
+                disabled={false}
+                onSave={() => onUpdate(createThemeOptions(model))}
+                onRestore={() => setModel({ ...defaultThemeModel })}
+            />
             <CardContent>
                 <ThemeProvider theme={createCustomTheme(model)}>
                     <CssBaseline />
@@ -661,7 +632,11 @@ export const EditThemeForm: FC<{
                     </Grid>
                 </ThemeProvider>
             </CardContent>
-            {renderCardActions()}
+            <AdminActionPanel
+                disabled={false}
+                onSave={() => onUpdate(createThemeOptions(model))}
+                onRestore={() => setModel({ ...defaultThemeModel })}
+            />
         </Card>
     )
 }

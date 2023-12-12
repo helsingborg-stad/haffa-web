@@ -1,8 +1,6 @@
 import {
-    Box,
     Button,
     Card,
-    CardActions,
     CardContent,
     CardHeader,
     FormControl,
@@ -18,10 +16,10 @@ import {
 import { PhraseContext } from 'phrases/PhraseContext'
 import { FC, useCallback, useContext, useState } from 'react'
 import AddIcon from '@mui/icons-material/Add'
-import SaveIcon from '@mui/icons-material/Save'
 import { nanoid } from 'nanoid'
 import { ApiKey } from 'api-keys/types'
 import { Editorial } from 'editorials'
+import { AdminActionPanel } from 'components/AdminActionPanel'
 
 export const ApiKeysForm: FC<{
     title?: string
@@ -168,7 +166,17 @@ Givet api nyckel i autkoriseringsheader körs ett anrop som användaren angivet 
                     </Table>
                 </TableContainer>
             </CardContent>
-            <CardActions>
+            <AdminActionPanel
+                onSave={() =>
+                    onSave(
+                        model.map(({ email, secret, expires }) => ({
+                            email,
+                            secret,
+                            expires,
+                        }))
+                    )
+                }
+            >
                 <Button
                     variant="contained"
                     startIcon={<AddIcon />}
@@ -184,23 +192,7 @@ Givet api nyckel i autkoriseringsheader körs ett anrop som användaren angivet 
                 >
                     {phrase('APIKEYS_ADD', 'Lägg till nyckel')}
                 </Button>
-                <Box flex={1} />
-                <Button
-                    variant="contained"
-                    startIcon={<SaveIcon />}
-                    onClick={() =>
-                        onSave(
-                            model.map(({ email, secret, expires }) => ({
-                                email,
-                                secret,
-                                expires,
-                            }))
-                        )
-                    }
-                >
-                    {phrase('APIKEYS_SAVE', 'Spara')}
-                </Button>
-            </CardActions>
+            </AdminActionPanel>
         </Card>
     )
 }

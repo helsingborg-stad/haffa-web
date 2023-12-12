@@ -1,8 +1,6 @@
 import {
-    Box,
     Button,
     Card,
-    CardActions,
     CardContent,
     CardHeader,
     Checkbox,
@@ -19,12 +17,12 @@ import {
 import { PhraseContext } from 'phrases/PhraseContext'
 import { FC, useCallback, useContext, useState } from 'react'
 import AddIcon from '@mui/icons-material/Add'
-import SaveIcon from '@mui/icons-material/Save'
 import { nanoid } from 'nanoid'
 import { Editorial } from 'editorials'
 import { LoginPolicy } from 'login-policies/types'
 import { rolesArrayToRoles, rolesToRolesArray } from 'auth/mappers'
 import { HaffaUserRoles } from 'auth'
+import { AdminActionPanel } from 'components/AdminActionPanel'
 import { SelectUserRoles } from './SelectUserRoles'
 import { EffectivePermissionsPanel } from './EffectivePermissionsPanel'
 
@@ -167,7 +165,17 @@ export const LoginPoliciesForm: FC<{
                         </Table>
                     </TableContainer>
                 </CardContent>
-                <CardActions>
+                <AdminActionPanel
+                    onSave={() =>
+                        onSave(
+                            policies.map(({ email, roles, deny }) => ({
+                                emailPattern: email,
+                                roles: rolesToRolesArray(roles),
+                                deny,
+                            }))
+                        )
+                    }
+                >
                     <Button
                         variant="contained"
                         startIcon={<AddIcon />}
@@ -190,23 +198,7 @@ export const LoginPoliciesForm: FC<{
                     >
                         {phrase('LOGINS_ADD_RULE', 'Lägg till regel')}
                     </Button>
-                    <Box flex={1} />
-                    <Button
-                        variant="contained"
-                        startIcon={<SaveIcon />}
-                        onClick={() =>
-                            onSave(
-                                policies.map(({ email, roles, deny }) => ({
-                                    emailPattern: email,
-                                    roles: rolesToRolesArray(roles),
-                                    deny,
-                                }))
-                            )
-                        }
-                    >
-                        {phrase('LOGINS_SAVE', 'Spara')}
-                    </Button>
-                </CardActions>
+                </AdminActionPanel>
             </Card>
             <Card sx={{ mt: 2 }}>
                 <CardHeader
