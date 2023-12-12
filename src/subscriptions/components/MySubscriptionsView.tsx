@@ -21,6 +21,7 @@ import { AdvertSubscription } from 'subscriptions/types'
 import { UrlParamsContext } from 'url-params'
 import SubscriptionsIcon from '@mui/icons-material/Subscriptions'
 import RemoveCircleOutlineIcon from '@mui/icons-material/RemoveCircleOutline'
+import { Editorial } from 'editorials'
 
 interface SubscriptionModel extends AdvertSubscription {
     categories: SubscriptionCategoryModel[]
@@ -56,7 +57,6 @@ export const SubscriptionsListing: FC<{
 }> = ({ subscriptions, onRemove }) => {
     const { phrase } = useContext(PhraseContext)
     const { makeAdvertSubscriptionUrl } = useContext(UrlParamsContext)
-    console.log(flattenCategories(subscriptions[0].categories))
     return (
         <>
             <Typography variant="h5" gutterBottom>
@@ -146,6 +146,11 @@ export const SubscriptionsListing: FC<{
                     </Grid>
                 ))}
             </Grid>
+            {subscriptions.length === 0 && (
+                <Box sx={{ pt: 2 }}>
+                    <Editorial phraseKey="SUBSCRIPTIONS_NO_CONTENT" />
+                </Box>
+            )}
         </>
     )
 }

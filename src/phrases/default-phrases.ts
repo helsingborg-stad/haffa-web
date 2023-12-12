@@ -42,6 +42,7 @@ export const defaultPhrases: Omit<
     SUBSCRIPTIONS_HEADING: 'Bevakningar',
     SUNSCRIPTIONS_EDITORIAL:
         'Du kan skapa en bevakning på en filtrering eller sökning. Du får ett mail när något nytt, som matchar din bevakning har dykt upp i Haffa.',
+    SUBSCRIPTIONS_NO_CONTENT: 'Du har inte skapat några bevakningar än.',
     NOTIFICATIONS_ADVERT_WAS_CREATED: 'Annonsen har skapats',
     NOTIFICATIONS_ADVERT_WAS_UPDATED: 'Annonsen har uppdaterats',
     NOTIFICATIONS_ADVERT_WAS_REMOVED: 'Annonsen har tagits bort',
