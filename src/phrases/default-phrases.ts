@@ -37,6 +37,11 @@ export const defaultPhrases: Omit<
     ADVERT_ARCHIVE: 'Arkivera',
     SCAN_QR_CODE: 'Skanna',
     SUBSCRIPTIONS_SUBSCRIBE_TO_SEARCH: 'Bevaka denna sökning',
+    SUBSCRIPTIONS_UNSUBSCRIBE_TO_SEARCH: 'Ta bort bevakning',
+    SUBSCRIPTIONS_NAVIGATE_TO_SEARCH: 'Visa',
+    SUBSCRIPTIONS_HEADING: 'Bevakningar',
+    SUNSCRIPTIONS_EDITORIAL:
+        'Du kan skapa en bevakning på en filtrering eller sökning. Du får ett mail när något nytt, som matchar din bevakning har dykt upp i Haffa.',
     NOTIFICATIONS_ADVERT_WAS_CREATED: 'Annonsen har skapats',
     NOTIFICATIONS_ADVERT_WAS_UPDATED: 'Annonsen har uppdaterats',
     NOTIFICATIONS_ADVERT_WAS_REMOVED: 'Annonsen har tagits bort',
