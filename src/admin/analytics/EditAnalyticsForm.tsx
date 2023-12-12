@@ -1,74 +1,73 @@
 import {
     Card,
     CardContent,
-    FormControl,
-    InputLabel,
     MenuItem,
-    Select,
     TextField,
+    Typography,
 } from '@mui/material'
-import { FC, useContext, useState } from 'react'
-import { Editorial } from 'editorials'
-import { PhraseContext } from 'phrases'
+import { FC, useState } from 'react'
 import { getOption } from 'options'
 import { AnalyticsOptions } from 'analytics/types'
 import { AdminActionPanel } from 'components/AdminActionPanel'
+import { isValidUrl } from 'lib/string-utils'
 import type { Option } from '../../options/types'
-
-const NS = 'ANALYTICS'
 
 export const EditAnalyticsForm: FC<{
     options: Option<AnalyticsOptions>[]
-    onUpdate: (options: Option<AnalyticsOptions>[]) => void
+    onUpdate: (
+        options: Option<AnalyticsOptions>[]
+    ) => Promise<Option<AnalyticsOptions>[]>
 }> = ({ options, onUpdate }) => {
-    const { phrase } = useContext(PhraseContext)
-
     const [provider, setProvider] = useState(
         getOption('provider', options) ?? 'none'
     )
     const [config, setConfig] = useState(getOption('config', options) ?? '')
 
+    const isValidForm = () =>
+        (provider !== 'none' && isValidUrl(config)) ||
+        (provider === 'none' && config === '')
+
     return (
         <Card>
-            <Editorial phraseKey="ANALYTICS_SECTION_EDITORIAL">
-                Definitioner för web-analys
-            </Editorial>
             <CardContent>
-                <FormControl fullWidth>
-                    <InputLabel id="analytics-provider-label">
-                        {phrase(`${NS}_FIELD_PROVIDER`, 'Leverantör')}
-                    </InputLabel>
-                    <Select
-                        labelId="analytics-provider-label"
-                        value={provider}
-                        label={phrase(`${NS}_FIELD_PROVIDER`, 'Leverantör')}
-                        onChange={(event) => {
-                            setProvider(event?.target.value)
-                        }}
-                    >
-                        <MenuItem value="none">
-                            {phrase(`${NS}_PROVIDER_OPTION_NONE`, 'Ej aktiv')}
-                        </MenuItem>
-                        <MenuItem value="matomo">
-                            {phrase(`${NS}_PROVIDER_OPTION_MATOMO`, 'Matomo')}
-                        </MenuItem>
-                        <MenuItem value="google">
-                            {phrase(`${NS}_PROVIDER_OPTION_GOOGLE`, 'Google')}
-                        </MenuItem>
-                    </Select>
-                    <TextField
-                        fullWidth
-                        sx={{ marginTop: 4 }}
-                        label={phrase(`${NS}_FIELD_CONFIG`, 'Konfiguration')}
-                        value={config}
-                        disabled={provider === 'none'}
-                        onChange={(event) => {
-                            setConfig(event?.target.value)
-                        }}
-                    />
-                </FormControl>
+                <Typography variant="h5" gutterBottom>
+                    Inställningar för webbanalys
+                </Typography>
+                <Typography paragraph>
+                    Om du vill följa upp besökarstatistik för Haffa och har en
+                    behållare i en tagghanterare så kan du aktivera den här.
+                </Typography>
+
+                <TextField
+                    select
+                    fullWidth
+                    sx={{ mt: 2 }}
+                    value={provider}
+                    label="Leverantör"
+                    onChange={({ target: { value } }) => {
+                        setProvider(value)
+                        if (value === 'none') {
+                            setConfig('')
+                        }
+                    }}
+                >
+                    <MenuItem value="none">Inaktiv</MenuItem>
+                    <MenuItem value="matomo">Matomo</MenuItem>
+                    <MenuItem value="google">Google</MenuItem>
+                </TextField>
+                <TextField
+                    fullWidth
+                    sx={{ my: 2 }}
+                    label="Webbaddress till behållaren"
+                    value={config}
+                    error={!isValidForm()}
+                    required={provider !== 'none'}
+                    disabled={provider === 'none'}
+                    onChange={({ target: { value } }) => setConfig(value)}
+                />
             </CardContent>
             <AdminActionPanel
+                disabled={!isValidForm()}
                 onSave={() =>
                     onUpdate([
                         {

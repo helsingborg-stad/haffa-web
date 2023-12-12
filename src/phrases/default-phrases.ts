@@ -91,11 +91,6 @@ export const defaultPhrases: Omit<
     THEME_FIELD_WARNING_COLOR: 'Varning',
     THEME_SECTION_COLORS: 'Färger',
     ANALYTICS_TITLE: 'Webanalys',
-    ANALYTICS_FIELD_CONFIG: 'Konfiguration',
-    ANALYTICS_FIELD_PROVIDER: 'Leverantör',
-    ANALYTICS_PROVIDER_OPTION_GOOGLE: 'Google',
-    ANALYTICS_PROVIDER_OPTION_MATOMO: 'Matomo',
-    ANALYTICS_PROVIDER_OPTION_NONE: 'Ej aktiv',
     ANALYTICS_SECTION_EDITORIAL: `
 Definitioner för web-analys
 `,
@@ -151,6 +146,9 @@ Definitioner för web-analys
     ADVERT_FIELD_MATERIAL: 'Material',
     ADVERT_FIELD_CONDITION: 'Skick',
     ADVERT_FIELD_USAGE: 'Användningsområde',
+    ADVERT_FIELD_TAGS_LABEL:
+        'Tagga din annons för att göra det lättare att hitta den',
+    ADVERT_FIELD_TAGS_PLACEHOLDER: 'Klicka för att lägga till',
     ADVERT_FIELD_CONTACT_TITLE: 'Kontakt',
     ADVERT_FIELD_ADDRESS_TITLE: 'Adress för avhämtning',
     ADVERT_TYPE_RECYCLE: 'Återbruk',

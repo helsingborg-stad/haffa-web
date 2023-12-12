@@ -8,9 +8,6 @@ export const createEmptyModule = (): ContentModule => ({
     tags: '',
 })
 
-export const isString = (value: any) =>
-    typeof value === 'string' && value !== ''
-
 export const normalizeComposition = (
     composition?: ViewComposition
 ): ViewComposition => ({

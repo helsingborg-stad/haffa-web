@@ -8,7 +8,7 @@ import {
 import { AdvertsListGeneric } from 'adverts/components/listings/AdvertsListGeneric'
 import { Markdown } from 'components/Markdown'
 import { PropsWithChildren } from 'react'
-import { isString } from 'content/mappers'
+import { isString } from 'lib/string-utils'
 import { ContentModule } from '../types'
 
 export const ContentCard = (
