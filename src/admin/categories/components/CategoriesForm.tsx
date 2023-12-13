@@ -19,6 +19,7 @@ import { nanoid } from 'nanoid'
 import { PhraseContext } from 'phrases/PhraseContext'
 import { Action2 } from 'lib/types'
 import { treeFind } from 'lib/tree-lookup'
+import { AdminEditorialPanel } from 'components/AdminEditorialPanel'
 import { TreeHookViewState, useTree } from './use-tree'
 
 const ROOT_CATEGORY_ID = 'root'
@@ -232,18 +233,25 @@ export const CategoriesForm: FC<{
         )
     }
     return (
-        <Card>
-            <CardContent>
-                <Grid container>
-                    <Grid item sm={12} md={6}>
-                        {categoryTree()}
+        <>
+            <AdminEditorialPanel
+                headline="ADMIN_CATEGORIES_HEADLINE"
+                body="ADMIN_CATEGORIES_BODY"
+            />
+
+            <Card>
+                <CardContent>
+                    <Grid container>
+                        <Grid item sm={12} md={6}>
+                            {categoryTree()}
+                        </Grid>
+                        <Grid item sm={12} md={6}>
+                            {categoryEditor()}
+                        </Grid>
                     </Grid>
-                    <Grid item sm={12} md={6}>
-                        {categoryEditor()}
-                    </Grid>
-                </Grid>
-            </CardContent>
-            <CardActions>{categoryActions()}</CardActions>
-        </Card>
+                </CardContent>
+                <CardActions>{categoryActions()}</CardActions>
+            </Card>
+        </>
     )
 }

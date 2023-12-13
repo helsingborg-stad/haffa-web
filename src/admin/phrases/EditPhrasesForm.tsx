@@ -14,6 +14,7 @@ import { PhraseContext } from 'phrases'
 import { toMap } from 'lib/to-map'
 import { PhraseDefinition } from 'phrases/types'
 import { AdminActionPanel } from 'components/AdminActionPanel'
+import { AdminEditorialPanel } from 'components/AdminEditorialPanel'
 import type { Option } from '../../options/types'
 
 export const EditPhrasesForm: FC<{
@@ -91,81 +92,92 @@ export const EditPhrasesForm: FC<{
         )
 
     return (
-        <Card>
-            <AdminActionPanel onSave={update} />
-            <CardContent>
-                <TableContainer>
-                    <Table>
-                        <TableHead>
-                            <TableRow>
-                                <TableCell sx={{ width: '100%' }}>
-                                    {phrase('PHRASES_FIELD_VALUE', 'Värde')}
-                                </TableCell>
-                                <TableCell>
-                                    {phrase(
-                                        'PHRASES_FIELD_DEFAULT',
-                                        'Fabriksinställning'
-                                    )}
-                                </TableCell>
-                                <TableCell>
-                                    {phrase('PHRASES_FIELD_KEY', 'ID')}
-                                </TableCell>
-                            </TableRow>
-                            <TableRow>
-                                <TableCell colSpan={3}>
-                                    <TextField
-                                        fullWidth
-                                        value={model.search}
-                                        onChange={(e) =>
-                                            updateSearch(e.target.value)
-                                        }
-                                        label={phrase(
-                                            'APP_GENERIC_SEARCH',
-                                            'Sök...'
+        <>
+            <AdminEditorialPanel
+                headline="ADMIN_PHRASES_HEADLINE"
+                body="ADMIN_PHRASES_BODY"
+            />
+            <Card>
+                <AdminActionPanel onSave={update} />
+                <CardContent>
+                    <TableContainer>
+                        <Table>
+                            <TableHead>
+                                <TableRow>
+                                    <TableCell sx={{ width: '100%' }}>
+                                        {phrase('PHRASES_FIELD_VALUE', 'Värde')}
+                                    </TableCell>
+                                    <TableCell>
+                                        {phrase(
+                                            'PHRASES_FIELD_DEFAULT',
+                                            'Fabriksinställning'
                                         )}
-                                        placeholder={phrase(
-                                            'APP_GENERIC_SEARCH',
-                                            'Sök...'
-                                        )}
-                                    />
-                                </TableCell>
-                            </TableRow>
-                        </TableHead>
-                        <TableBody>
-                            {model.phrases.map(
-                                (m) =>
-                                    m.visible && (
-                                        <TableRow key={m.key}>
-                                            <TableCell>
-                                                <TextField
-                                                    fullWidth
-                                                    value={m.actual}
-                                                    placeholder={m.template}
-                                                    onChange={(e) =>
-                                                        mutatePhrase(m, {
-                                                            actual: e.target
-                                                                .value,
-                                                        })
-                                                    }
-                                                    {...(m.multiline
-                                                        ? {
-                                                              multiline: true,
-                                                              rows: 4,
-                                                          }
-                                                        : {})}
-                                                    sx={{ minWidth: '20em' }}
-                                                />
-                                            </TableCell>
-                                            <TableCell>{m.template}</TableCell>
-                                            <TableCell>{m.key}</TableCell>
-                                        </TableRow>
-                                    )
-                            )}
-                        </TableBody>
-                    </Table>
-                </TableContainer>
-            </CardContent>
-            <AdminActionPanel onSave={update} />
-        </Card>
+                                    </TableCell>
+                                    <TableCell>
+                                        {phrase('PHRASES_FIELD_KEY', 'ID')}
+                                    </TableCell>
+                                </TableRow>
+                                <TableRow>
+                                    <TableCell colSpan={3}>
+                                        <TextField
+                                            fullWidth
+                                            value={model.search}
+                                            onChange={(e) =>
+                                                updateSearch(e.target.value)
+                                            }
+                                            label={phrase(
+                                                'APP_GENERIC_SEARCH',
+                                                'Sök...'
+                                            )}
+                                            placeholder={phrase(
+                                                'APP_GENERIC_SEARCH',
+                                                'Sök...'
+                                            )}
+                                        />
+                                    </TableCell>
+                                </TableRow>
+                            </TableHead>
+                            <TableBody>
+                                {model.phrases.map(
+                                    (m) =>
+                                        m.visible && (
+                                            <TableRow key={m.key}>
+                                                <TableCell>
+                                                    <TextField
+                                                        fullWidth
+                                                        value={m.actual}
+                                                        placeholder={m.template}
+                                                        onChange={(e) =>
+                                                            mutatePhrase(m, {
+                                                                actual: e.target
+                                                                    .value,
+                                                            })
+                                                        }
+                                                        {...(m.multiline
+                                                            ? {
+                                                                  multiline:
+                                                                      true,
+                                                                  rows: 4,
+                                                              }
+                                                            : {})}
+                                                        sx={{
+                                                            minWidth: '20em',
+                                                        }}
+                                                    />
+                                                </TableCell>
+                                                <TableCell>
+                                                    {m.template}
+                                                </TableCell>
+                                                <TableCell>{m.key}</TableCell>
+                                            </TableRow>
+                                        )
+                                )}
+                            </TableBody>
+                        </Table>
+                    </TableContainer>
+                </CardContent>
+                <AdminActionPanel onSave={update} />
+            </Card>
+        </>
     )
 }

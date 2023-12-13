@@ -17,6 +17,7 @@ import ChevronRightIcon from '@mui/icons-material/ChevronRight'
 import MoveUpIcon from '@mui/icons-material/MoveUp'
 import MoveDownIcon from '@mui/icons-material/MoveDown'
 import { AdminActionPanel } from 'components/AdminActionPanel'
+import { AdminEditorialPanel } from 'components/AdminEditorialPanel'
 import { PropertyEditor } from './PropertyEditor'
 
 type Cell = {
@@ -202,6 +203,11 @@ export const EditContentForm = (props: {
 
     return (
         <>
+            <AdminEditorialPanel
+                headline="ADMIN_CONTENT_HEADLINE"
+                body="ADMIN_CONTENT_BODY"
+                useDivider
+            />
             <AdminActionPanel
                 disabled={!canSave}
                 onSave={() => saveComposition()}

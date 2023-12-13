@@ -23,6 +23,7 @@ import { LoginPolicy } from 'login-policies/types'
 import { rolesArrayToRoles, rolesToRolesArray } from 'auth/mappers'
 import { HaffaUserRoles } from 'auth'
 import { AdminActionPanel } from 'components/AdminActionPanel'
+import { AdminEditorialPanel } from 'components/AdminEditorialPanel'
 import { SelectUserRoles } from './SelectUserRoles'
 import { EffectivePermissionsPanel } from './EffectivePermissionsPanel'
 
@@ -67,6 +68,11 @@ export const LoginPoliciesForm: FC<{
 
     return (
         <>
+            <AdminEditorialPanel
+                headline="ADMIN_LOGINS_HEADLINE"
+                body="ADMIN_LOGINS_BODY"
+            />
+
             <Card>
                 {title && <CardHeader title={title} />}
                 <CardContent>
@@ -86,7 +92,7 @@ export const LoginPoliciesForm: FC<{
                     <TableContainer component={Paper}>
                         <Table
                             aria-label={phrase(
-                                'LOGINS_TITLE',
+                                'ADMIN_LOGINS_TITLE',
                                 'Användare & behörigheter'
                             )}
                         >

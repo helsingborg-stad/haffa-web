@@ -14,7 +14,7 @@ export const AdminActionPanel = (
     const { phrase } = useContext(PhraseContext)
 
     return (
-        <CardActions>
+        <CardActions sx={{ py: 2 }}>
             {children}
             <Box flex={1} />
             <Button
