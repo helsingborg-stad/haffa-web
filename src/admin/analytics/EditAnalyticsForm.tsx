@@ -28,6 +28,25 @@ export const EditAnalyticsForm: FC<{
                 headline="ADMIN_ANALYTICS_HEADLINE"
                 body="ADMIN_ANALYTICS_BODY"
             />
+            <AdminActionPanel
+                disabled={!isValidForm()}
+                onSave={() =>
+                    onUpdate([
+                        {
+                            key: 'config',
+                            value: config,
+                        },
+                        {
+                            key: 'provider',
+                            value: provider,
+                        },
+                    ])
+                }
+                onRestore={() => {
+                    setProvider('none')
+                    setConfig('')
+                }}
+            />
             <Card>
                 <CardContent>
                     <TextField
@@ -58,21 +77,6 @@ export const EditAnalyticsForm: FC<{
                         onChange={({ target: { value } }) => setConfig(value)}
                     />
                 </CardContent>
-                <AdminActionPanel
-                    disabled={!isValidForm()}
-                    onSave={() =>
-                        onUpdate([
-                            {
-                                key: 'config',
-                                value: config,
-                            },
-                            {
-                                key: 'provider',
-                                value: provider,
-                            },
-                        ])
-                    }
-                />
             </Card>
         </>
     )

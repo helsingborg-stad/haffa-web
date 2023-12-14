@@ -106,13 +106,13 @@ export const EditThemeForm: FC<{
                 headline="ADMIN_THEME_HEADLINE"
                 body="ADMIN_THEME_BODY"
             />
+            <AdminActionPanel
+                disabled={false}
+                onSave={() => onUpdate(createThemeOptions(model))}
+                onRestore={() => setModel({ ...defaultThemeModel })}
+            />
             <Card>
                 <CardContent>
-                    <AdminActionPanel
-                        disabled={false}
-                        onSave={() => onUpdate(createThemeOptions(model))}
-                        onRestore={() => setModel({ ...defaultThemeModel })}
-                    />
                     <ThemeProvider theme={createCustomTheme(model)}>
                         <CssBaseline />
                         <Typography variant="h6" py={2}>
@@ -650,12 +650,12 @@ export const EditThemeForm: FC<{
                         </Grid>
                     </ThemeProvider>
                 </CardContent>
-                <AdminActionPanel
-                    disabled={false}
-                    onSave={() => onUpdate(createThemeOptions(model))}
-                    onRestore={() => setModel({ ...defaultThemeModel })}
-                />
             </Card>
+            <AdminActionPanel
+                disabled={false}
+                onSave={() => onUpdate(createThemeOptions(model))}
+                onRestore={() => setModel({ ...defaultThemeModel })}
+            />
         </>
     )
 }

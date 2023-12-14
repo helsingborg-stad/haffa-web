@@ -187,6 +187,8 @@ Regler utan email tas automatiskt bort.`,
     ADMIN_THEME_HEADLINE: 'Ge Haffa din egen stil',
     ADMIN_THEME_BODY:
         'Ändra färger och utseende så att Haffa passar just din organistion',
+    ADMIN_THEME_EMPTY:
+        'Din startsida är tom! Klicka på knappen Ny Rad för att skapa nytt innehåll',
     ADMIN_TERMS_TITLE: 'Definitioner',
     ADMIN_TERMS_HEADLINE: 'Konfigurera termer och definitioner',
     ADMIN_TERMS_BODY:

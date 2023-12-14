@@ -11,7 +11,7 @@ export const AdminEditorialPanel = (props: {
     const { phrase } = useContext(PhraseContext)
 
     return (
-        <Box py={2}>
+        <Box>
             <Typography variant="h5" align="center" gutterBottom>
                 {phrase(headline, headline)}
             </Typography>

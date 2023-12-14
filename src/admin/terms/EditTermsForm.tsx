@@ -65,6 +65,20 @@ export const EditTermsForm: FC<{
                 headline="ADMIN_TERMS_HEADLINE"
                 body="ADMIN_TERMS_BODY"
             />
+            <AdminActionPanel
+                onSave={() =>
+                    onUpdate({
+                        organization: organization.split('\n'),
+                        unit: unit.split('\n'),
+                        material: material.split('\n'),
+                        condition: condition.split('\n'),
+                        usage: usage.split('\n'),
+                        tags: tags.split('\n'),
+                    })
+                }
+                onRestore={() => bindings.forEach((v) => v.setValue(''))}
+            />
+
             <Card>
                 <CardContent>
                     <Grid container direction="row">
@@ -85,19 +99,20 @@ export const EditTermsForm: FC<{
                         ))}
                     </Grid>
                 </CardContent>
-                <AdminActionPanel
-                    onSave={() =>
-                        onUpdate({
-                            organization: organization.split('\n'),
-                            unit: unit.split('\n'),
-                            material: material.split('\n'),
-                            condition: condition.split('\n'),
-                            usage: usage.split('\n'),
-                            tags: tags.split('\n'),
-                        })
-                    }
-                />
             </Card>
+            <AdminActionPanel
+                onSave={() =>
+                    onUpdate({
+                        organization: organization.split('\n'),
+                        unit: unit.split('\n'),
+                        material: material.split('\n'),
+                        condition: condition.split('\n'),
+                        usage: usage.split('\n'),
+                        tags: tags.split('\n'),
+                    })
+                }
+                onRestore={() => bindings.forEach((v) => v.setValue(''))}
+            />
         </>
     )
 }

@@ -18,6 +18,7 @@ import MoveUpIcon from '@mui/icons-material/MoveUp'
 import MoveDownIcon from '@mui/icons-material/MoveDown'
 import { AdminActionPanel } from 'components/AdminActionPanel'
 import { AdminEditorialPanel } from 'components/AdminEditorialPanel'
+import { Editorial } from 'editorials'
 import { PropertyEditor } from './PropertyEditor'
 
 type Cell = {
@@ -248,6 +249,7 @@ export const EditContentForm = (props: {
                     ))}
                 </Grid>
             ))}
+            {rows.length === 0 && <Editorial phraseKey="ADMIN_THEME_EMPTY" />}
             {cache && (
                 <PropertyEditor
                     module={cache.module}

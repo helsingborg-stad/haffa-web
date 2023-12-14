@@ -91,14 +91,24 @@ export const EditPhrasesForm: FC<{
                 .filter(({ value }) => value)
         )
 
+    const restore = () => {
+        setModel({
+            ...model,
+            phrases: model.phrases.map((p) => ({
+                ...p,
+                actual: '',
+            })),
+        })
+    }
+
     return (
         <>
             <AdminEditorialPanel
                 headline="ADMIN_PHRASES_HEADLINE"
                 body="ADMIN_PHRASES_BODY"
             />
+            <AdminActionPanel onSave={update} onRestore={restore} />
             <Card>
-                <AdminActionPanel onSave={update} />
                 <CardContent>
                     <TableContainer>
                         <Table>
@@ -176,8 +186,8 @@ export const EditPhrasesForm: FC<{
                         </Table>
                     </TableContainer>
                 </CardContent>
-                <AdminActionPanel onSave={update} />
             </Card>
+            <AdminActionPanel onSave={update} onRestore={restore} />
         </>
     )
 }
