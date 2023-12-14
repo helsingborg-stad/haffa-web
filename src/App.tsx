@@ -46,6 +46,11 @@ import {
 import { createNotifyingContentRepository } from 'content/notifying-content-repository'
 import { createContentRepository } from 'content/content-repository'
 import { ContentProvider } from 'content/ContentContext'
+import {
+    AdvertFieldProvider,
+    createAdvertFieldRepository,
+    createNotifyingAdvertFieldRepository,
+} from 'advert-field-config'
 import { AdvertsProvider } from './adverts/AdvertsContext'
 import { createAdvertsRepository } from './adverts/repository/adverts-repository'
 import { AppRouter } from './routes/AppRouter'
@@ -150,6 +155,15 @@ const Main: FC = () => {
             ),
         [notifications, phrase, token, fetch]
     )
+    const fieldConfig = useMemo(
+        () =>
+            createNotifyingAdvertFieldRepository(
+                notifications,
+                phrase,
+                createAdvertFieldRepository(token, fetch)
+            ),
+        [notifications, phrase, token, fetch]
+    )
 
     return isAuthenticated ? (
         <OptionsProvider repository={options}>
@@ -166,7 +180,11 @@ const Main: FC = () => {
                                             <ContentProvider
                                                 repository={content}
                                             >
-                                                <AppRouter />
+                                                <AdvertFieldProvider
+                                                    repository={fieldConfig}
+                                                >
+                                                    <AppRouter />
+                                                </AdvertFieldProvider>
                                             </ContentProvider>
                                         </ProfileProvider>
                                     </AdvertsProvider>

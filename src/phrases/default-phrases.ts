@@ -63,6 +63,8 @@ export const defaultPhrases: Omit<
     NOTIFICATIONS_TERMS_WAS_UPDATED: 'Definitionerna är uppdaterade',
     NOTIFICATIONS_PROFILE_WAS_REMOVED: 'Din profil är borttagen',
     NOTIFICATIONS_CONTENT_WAS_UPDATED: 'Innehållet är uppdaterat',
+    NOTIFICATIONS_ADVERT_FIELD_CONFIG_WAS_UPDATED:
+        'Definitionerna är uppdaterade',
     SORT_OPTION_TITLE_ASC: 'A-Ö',
     SORT_OPTION_TITLE_DESC: 'Ö-A',
     SORT_OPTION_CREATEDAT_ASC: 'Äldst',
@@ -134,6 +136,7 @@ export const defaultPhrases: Omit<
     ADVERT_FIELD_MATERIAL: 'Material',
     ADVERT_FIELD_CONDITION: 'Skick',
     ADVERT_FIELD_USAGE: 'Användningsområde',
+    ADVERT_FIELD_TAGS: 'Taggar',
     ADVERT_FIELD_TAGS_LABEL:
         'Tagga din annons för att göra det lättare att hitta den',
     ADVERT_FIELD_TAGS_PLACEHOLDER: 'Klicka för att lägga till',
@@ -201,6 +204,11 @@ Regler utan email tas automatiskt bort.`,
     ADMIN_LOGINS_HEADLINE: 'Användarhantering',
     ADMIN_LOGINS_BODY:
         'Se till att kunderna får tillgång till Haffa och att dina medarbetara kan arbeta effektivt',
+
+    ADMIN_ADVERTS_TITLE: 'Annonser',
+    ADMIN_ADVERTS_HEADLINE: 'Skräddarsy dina annonser',
+    ADMIN_ADVERTS_BODY:
+        'Här kan du ändra konfigurera vilka fält som används och om de skall vara obligatoriska eller ej',
 
     ADMIN_EVENTLOG_TITLE: 'Statistikunderlag',
     ADMIN_EVENTLOG_HEADLINE: 'Uppföljning och statistik',

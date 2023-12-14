@@ -10,6 +10,7 @@ import { EditAnalyticsView } from './analytics'
 import { EditTermsView } from './terms'
 import { EventLogView } from './events/EventLogView'
 import { EditContentView } from './content'
+import { ConfigureAdvertsView } from './adverts/ConfigureAdvertsView'
 
 const tab = (
     enabled: boolean | undefined,
@@ -47,6 +48,11 @@ export const createAdminTabs = (
             roles.canEditTerms,
             phrase('ADMIN_PHRASES_TITLE', 'Fraser'),
             <EditPhrasesView />
+        ),
+        tab(
+            roles.canManageAllAdverts,
+            phrase('ADMIN_ADVERTS_TITLE', 'Annonser'),
+            <ConfigureAdvertsView />
         ),
         tab(
             roles.canEditSystemCategories,
