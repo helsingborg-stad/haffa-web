@@ -211,6 +211,7 @@ export const EditContentForm = (props: {
             <AdminActionPanel
                 disabled={!canSave}
                 onSave={() => saveComposition()}
+                onRestore={() => setRows([])}
             >
                 <Button
                     startIcon={<AddIcon />}
