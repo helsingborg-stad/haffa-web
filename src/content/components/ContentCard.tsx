@@ -1,4 +1,5 @@
 import {
+    Box,
     Card,
     CardActions,
     CardContent,
@@ -29,12 +30,22 @@ export const ContentCard = (
                         </Typography>
                     )}
                     {isString(module.body) && (
-                        <Markdown markdown={module.body} />
+                        <Box
+                            component="div"
+                            sx={{
+                                whiteSpace: 'pre-line',
+                            }}
+                        >
+                            <Markdown markdown={module.body} />
+                        </Box>
                     )}
 
                     {(isString(module.categories) || isString(module.tags)) && (
                         <AdvertsListGeneric
                             defaultSearchParams={{
+                                restrictions: {
+                                    canBeReserved: true,
+                                },
                                 fields: {
                                     category: isString(module.categories)
                                         ? {
