@@ -75,7 +75,7 @@ export const defaultPhrases: Omit<
     CATEGORIES_REMOVE: 'Ta bort kategori',
     CATEGORIES_SAVE: 'Spara',
     CATEGORIES_FIELD_C02: 'CO₂ besparing',
-
+    CATEGORIES_FIELD_VALUE: 'Kostnadsvärdering',
     CATEGORIES_FIELD_LABEL: 'Benämning',
     CATEGORIES_INFO_CONECTED_ADVERTS:
         'Denna kategori har {count} kopplade annonser',

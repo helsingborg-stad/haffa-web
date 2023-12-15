@@ -1,5 +1,4 @@
 import {
-    Box,
     Card,
     CardActions,
     CardContent,
@@ -30,14 +29,7 @@ export const ContentCard = (
                         </Typography>
                     )}
                     {isString(module.body) && (
-                        <Box
-                            component="div"
-                            sx={{
-                                whiteSpace: 'pre-line',
-                            }}
-                        >
-                            <Markdown markdown={module.body} />
-                        </Box>
+                        <Markdown markdown={module.body} />
                     )}
 
                     {(isString(module.categories) || isString(module.tags)) && (
