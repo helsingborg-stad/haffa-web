@@ -121,6 +121,9 @@ export const useFormControls = <TModel,>(
                 placeholder={props?.placeholder}
                 onChange={(e) => patchModel(setter(e.target.value as string))}
             >
+                <MenuItem key="clear" value="">
+                    <em>Inget val</em>
+                </MenuItem>
                 {options.map(({ label, value }) => (
                     <MenuItem key={value} value={value}>
                         {label}
