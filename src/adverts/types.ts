@@ -144,6 +144,7 @@ export enum AdvertType {
 }
 
 export interface AdvertLocation {
+    name: string
     adress: string
     zipCode: string
     city: string

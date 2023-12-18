@@ -24,6 +24,7 @@ export const ConfigurableFields: Array<Fields> = [
     'reference',
     'tags',
     'organization',
+    'name',
     'adress',
     'zipCode',
     'city',

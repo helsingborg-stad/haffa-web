@@ -1,4 +1,5 @@
 import {
+    Autocomplete,
     Button,
     ButtonGroup,
     Card,
@@ -8,6 +9,7 @@ import {
     Container,
     Grid,
     GridProps,
+    TextField,
 } from '@mui/material'
 import { FC, PropsWithChildren, useCallback, useContext, useMemo } from 'react'
 import SaveIcon from '@mui/icons-material/Save'
@@ -126,6 +128,7 @@ export const AdvertForm: FC<{
     terms: Terms
     categories: Category[]
     fields: AdvertFieldConfig
+    locations: AdvertLocation[]
     advert: AdvertInput
     disabled: boolean
     onSave: (advert: AdvertInput) => void
@@ -138,6 +141,7 @@ export const AdvertForm: FC<{
     disabled,
     categories,
     fields,
+    locations,
 }) => {
     const { ERROR_UNKNOWN } = useContext(PhraseContext)
     const navigate = useNavigate()
@@ -506,6 +510,56 @@ export const AdvertForm: FC<{
                         'Var finns prylen?'
                     ),
                     rows: [
+                        [
+                            createComplexField('name', (required) => (
+                                <Autocomplete
+                                    freeSolo
+                                    selectOnFocus
+                                    handleHomeEndKeys
+                                    clearOnBlur
+                                    value={model.location.name}
+                                    onChange={(_, v, reason) => {
+                                        if (
+                                            v &&
+                                            reason === 'selectOption' &&
+                                            typeof v !== 'string' &&
+                                            v.key !== undefined
+                                        ) {
+                                            patchModel({
+                                                ...model,
+                                                location: {
+                                                    ...locations[v.key],
+                                                },
+                                            })
+                                        }
+                                    }}
+                                    renderInput={(params) => (
+                                        <TextField
+                                            {...params}
+                                            label={phrase(
+                                                'ADVERT_FIELD_LOCATION_NAME',
+                                                'Namn'
+                                            )}
+                                            variant="outlined"
+                                            required={required}
+                                            onChange={(e) =>
+                                                patchModel({
+                                                    ...model,
+                                                    location: {
+                                                        ...model.location,
+                                                        name: e.target.value,
+                                                    },
+                                                })
+                                            }
+                                        />
+                                    )}
+                                    options={locations.map((m, key) => ({
+                                        key,
+                                        label: m.name,
+                                    }))}
+                                />
+                            )),
+                        ],
                         [
                             createComplexField('adress', (required) =>
                                 factory.textField(

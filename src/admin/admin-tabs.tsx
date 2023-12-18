@@ -11,6 +11,7 @@ import { EditTermsView } from './terms'
 import { EventLogView } from './events/EventLogView'
 import { EditContentView } from './content'
 import { ConfigureAdvertsView } from './adverts/ConfigureAdvertsView'
+import { EditLocationsView } from './locations/EditLocationsView'
 
 const tab = (
     enabled: boolean | undefined,
@@ -63,6 +64,11 @@ export const createAdminTabs = (
             roles.canEditSystemLoginPolicies,
             phrase('ADMIN_LOGINS_TITLE', 'Användare & behörigheter'),
             <EditLoginPoliciesView />
+        ),
+        tab(
+            roles.canEditTerms,
+            phrase('ADMIN_LOCATIONS_TITLE', 'Adressregister'),
+            <EditLocationsView />
         ),
         tab(
             roles.canSeeSystemStatistics,

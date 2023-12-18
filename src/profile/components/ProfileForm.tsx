@@ -33,6 +33,13 @@ export const ProfileForm: FC<{
         () => [
             [
                 () =>
+                    textField('name', 'Namn', {
+                        disabled,
+                        fullWidth: true,
+                    }),
+            ],
+            [
+                () =>
                     textField('phone', 'Telefon', {
                         disabled,
                         fullWidth: true,

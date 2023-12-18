@@ -42,6 +42,8 @@ import { ContentRepository } from 'content/types'
 import { HomeView } from 'home'
 import { AdvertFieldRepository } from 'advert-field-config/types'
 import { AdvertFieldsContext } from 'advert-field-config'
+import { LocationContext } from 'locations'
+import { LocationRepository } from 'locations/types'
 import { ErrorRouteView } from './ErrorRouteView'
 
 const UnpackLoaderData: FC<{ render: (loaderData: any) => JSX.Element }> = ({
@@ -71,7 +73,8 @@ const createRouter = (
     { getProfile }: ProfileRepository,
     { getCategories }: CategoriesRepository,
     { getComposition }: ContentRepository,
-    { getFieldConfig }: AdvertFieldRepository
+    { getFieldConfig }: AdvertFieldRepository,
+    { getLocations }: LocationRepository
 ) => {
     // So many of the routes relies on
     // - an async fetch of some data
@@ -139,22 +142,25 @@ const createRouter = (
                 getTerms(),
                 getCategories(),
                 getFieldConfig(),
-            ]).then(([profile, terms, categories, fields]) => ({
+                getLocations(),
+            ]).then(([profile, terms, categories, fields, locations]) => ({
                 profile,
                 terms,
                 categories,
                 fields,
+                locations,
             })),
         element: (
             <UnpackLoaderData
                 key="create-advert"
-                render={({ profile, terms, categories, fields }) => (
+                render={({ profile, terms, categories, fields, locations }) => (
                     <Layout>
                         <CreateAdvertView
                             profile={profile}
                             terms={terms}
                             categories={categories}
                             fields={fields}
+                            locations={locations}
                         />
                     </Layout>
                 )}
@@ -172,22 +178,25 @@ const createRouter = (
                 getTerms(),
                 getCategories(),
                 getFieldConfig(),
-            ]).then(([advert, terms, categories, fields]) => ({
+                getLocations(),
+            ]).then(([advert, terms, categories, fields, locations]) => ({
                 advert,
                 terms,
                 categories,
                 fields,
+                locations,
             })),
         element: (
             <UnpackLoaderData
                 key="edit-advert"
-                render={({ advert, terms, categories, fields }) => (
+                render={({ advert, terms, categories, fields, locations }) => (
                     <Layout>
                         <EditAdvertView
                             advert={advert}
                             terms={terms}
                             categories={categories}
                             fields={fields}
+                            locations={locations}
                         />
                     </Layout>
                 )}
@@ -396,8 +405,17 @@ export const AppRouter: FC = () => {
     const categories = useContext(CategoriesContext)
     const content = useContext(ContentContext)
     const fields = useContext(AdvertFieldsContext)
+    const locations = useContext(LocationContext)
     const [router] = useState(
-        createRouter(terms, adverts, profiles, categories, content, fields)
+        createRouter(
+            terms,
+            adverts,
+            profiles,
+            categories,
+            content,
+            fields,
+            locations
+        )
     )
     return <RouterProvider router={router} />
 }

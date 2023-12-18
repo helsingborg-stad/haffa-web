@@ -34,6 +34,7 @@ const getLabel = (key: string): string =>
         reference: 'ADVERT_FIELD_REFERENCE',
         organization: 'ADVERT_FIELD_ORGANIZATION',
         tags: 'ADVERT_FIELD_TAGS',
+        name: 'ADVERT_FIELD_LOCATION_NAME',
         adress: 'ADVERT_FIELD_LOCATION_ADRESS',
         zipCode: 'ADVERT_FIELD_LOCATION_ZIPCODE',
         city: 'ADVERT_FIELD_LOCATION_CITY',

@@ -24,6 +24,7 @@ export const createEmptyAdvertInput = (): AdvertInput => ({
 })
 
 export const createEmptyAdvertLocation = (): AdvertLocation => ({
+    name: '',
     adress: '',
     zipCode: '',
     city: '',
@@ -82,6 +83,7 @@ export const sanitizeAdvertInput = (
 
 export const sanitizeAdvertLocation = (
     {
+        name,
         adress,
         zipCode,
         city,
@@ -89,6 +91,7 @@ export const sanitizeAdvertLocation = (
     }: AdvertLocation = createEmptyAdvertLocation()
 ): AdvertLocation => ({
     ...createEmptyAdvertLocation(),
+    name,
     adress,
     zipCode,
     city,

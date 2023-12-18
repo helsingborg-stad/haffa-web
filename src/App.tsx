@@ -51,6 +51,11 @@ import {
     createAdvertFieldRepository,
     createNotifyingAdvertFieldRepository,
 } from 'advert-field-config'
+import {
+    LocationProvider,
+    createLocationRepository,
+    createNotifyingLocationRepository,
+} from 'locations'
 import { AdvertsProvider } from './adverts/AdvertsContext'
 import { createAdvertsRepository } from './adverts/repository/adverts-repository'
 import { AppRouter } from './routes/AppRouter'
@@ -165,6 +170,16 @@ const Main: FC = () => {
         [notifications, phrase, token, fetch]
     )
 
+    const locationConfig = useMemo(
+        () =>
+            createNotifyingLocationRepository(
+                notifications,
+                phrase,
+                createLocationRepository(token, fetch)
+            ),
+        [notifications, phrase, token, fetch]
+    )
+
     return isAuthenticated ? (
         <OptionsProvider repository={options}>
             <ApiKeysProvider repository={apiKeys}>
@@ -183,7 +198,13 @@ const Main: FC = () => {
                                                 <AdvertFieldProvider
                                                     repository={fieldConfig}
                                                 >
-                                                    <AppRouter />
+                                                    <LocationProvider
+                                                        repository={
+                                                            locationConfig
+                                                        }
+                                                    >
+                                                        <AppRouter />
+                                                    </LocationProvider>
                                                 </AdvertFieldProvider>
                                             </ContentProvider>
                                         </ProfileProvider>

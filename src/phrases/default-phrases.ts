@@ -59,6 +59,7 @@ export const defaultPhrases: Omit<
     NOTIFICATIONS_CATEGORIES_WAS_UPDATED: 'Inställningarna är sparade',
     NOTIFICATIONS_LOGINS_WAS_UPDATED: 'Inställningarna är sparade',
     NOTIFICATIONS_OPTIONS_WAS_UPDATED: 'Dina ändringar är sparade',
+    NOTIFICATIONS_LOCATION_WAS_UPDATED: 'Adressregistret uppdaterades',
     NOTIFICATIONS_PROFILE_WAS_UPDATED: 'Din profil är uppdaterad',
     NOTIFICATIONS_TERMS_WAS_UPDATED: 'Definitionerna är uppdaterade',
     NOTIFICATIONS_PROFILE_WAS_REMOVED: 'Din profil är borttagen',
@@ -119,6 +120,7 @@ export const defaultPhrases: Omit<
     ADVERT_FIELD_QUANTITY: 'Antal',
     ADVERT_FIELD_CATEGORY: 'Kategori',
     ADVERT_FIELD_REFERENCE: 'Egen referens',
+    ADVERT_FIELD_LOCATION_NAME: 'Namn',
     ADVERT_FIELD_LOCATION_ADRESS: 'Adress',
     ADVERT_FIELD_LOCATION_ZIPCODE: 'Postnummer',
     ADVERT_FIELD_LOCATION_CITY: 'Stad',
@@ -206,6 +208,13 @@ Regler utan email tas automatiskt bort.`,
     ADMIN_LOGINS_HEADLINE: 'Användarhantering',
     ADMIN_LOGINS_BODY:
         'Se till att kunderna får tillgång till Haffa och att dina medarbetara kan arbeta effektivt',
+
+    ADMIN_LOCATIONS_TITLE: 'Adressregister',
+    ADMIN_LOCATIONS_HEADLINE: 'Adressregistret',
+    ADMIN_LOCATIONS_BODY:
+        'Här kan du ange utlämningsadresser som sedan blir valbara när du skapar annonser.',
+    ADMIN_LOCATIONS_EMPTY:
+        'Du har inte lagt in några adresser i registret än! Klicka på knappen Ny Adress för att skapa en ny post',
 
     ADMIN_ADVERTS_TITLE: 'Annonser',
     ADMIN_ADVERTS_HEADLINE: 'Skräddarsy dina annonser',

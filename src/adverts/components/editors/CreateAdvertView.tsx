@@ -2,7 +2,7 @@ import { FC, useCallback, useContext } from 'react'
 import { Profile } from 'profile'
 import { Terms } from 'terms/types'
 import { AdvertFieldConfig } from 'advert-field-config/types'
-import { AdvertInput } from '../../types'
+import { AdvertInput, AdvertLocation } from '../../types'
 import { AdvertsContext } from '../../AdvertsContext'
 import { PhraseContext } from '../../../phrases/PhraseContext'
 import {
@@ -18,7 +18,8 @@ export const CreateAdvertView: FC<{
     profile: Profile
     categories: Category[]
     fields: AdvertFieldConfig
-}> = ({ terms, profile, categories, fields }) => {
+    locations: AdvertLocation[]
+}> = ({ terms, profile, categories, fields, locations }) => {
     const { createAdvert } = useContext(AdvertsContext)
     const { ADVERT_CREATE: CREATE_ADVERT } = useContext(PhraseContext)
 
@@ -39,6 +40,7 @@ export const CreateAdvertView: FC<{
             terms={terms}
             categories={categories}
             fields={fields}
+            locations={locations}
             onUpdate={onCreate}
         />
     )

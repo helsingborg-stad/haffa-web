@@ -46,6 +46,7 @@ const advertProps = /* GraphQL */ `
 	tags
 
 	location {
+		name
 		adress
 		zipCode
 		city
