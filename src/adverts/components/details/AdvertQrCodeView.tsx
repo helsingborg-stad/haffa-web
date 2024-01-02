@@ -37,7 +37,7 @@ export const AdvertQrCodeView: FC<{ advert: Advert }> = ({ advert }) => {
         }
     )
     const [state, setState] = useState<State>(initialState)
-    console.log(link)
+
     return (
         <div
             style={{
@@ -62,7 +62,7 @@ export const AdvertQrCodeView: FC<{ advert: Advert }> = ({ advert }) => {
                     },
                     '@media screen': {
                         '#container': {
-                            'border-top': '1px dotted black',
+                            borderTop: '1px dotted black',
                         },
                     },
                 }}
@@ -120,8 +120,11 @@ export const AdvertQrCodeView: FC<{ advert: Advert }> = ({ advert }) => {
                             />
                         </Grid>
                         <Grid item>
-                            <IconButton aria-label="skriv ut">
-                                <PrintIcon onClick={() => window.print()} />
+                            <IconButton
+                                onClick={() => window.print()}
+                                aria-label="skriv ut"
+                            >
+                                <PrintIcon />
                             </IconButton>
                         </Grid>
                     </Grid>
