@@ -37,6 +37,7 @@ const advertProps = /* GraphQL */ `
 	width
 	depth
 	weight
+	size
 	material
 	condition
 	usage
@@ -45,6 +46,7 @@ const advertProps = /* GraphQL */ `
 	tags
 
 	location {
+		name
 		adress
 		zipCode
 		city

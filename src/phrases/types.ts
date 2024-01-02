@@ -12,6 +12,8 @@ export interface PhraseContextType {
     ERROR_UNKNOWN: string
     SIGNOUT: string
     NAV_HOME: string
+    NAV_BROWSE: string
+    NAV_CREATE: string
     NAV_MY_ADVERTS: string
     NAV_MY_RESERVATIONS: string
     NAV_PROFILE: string

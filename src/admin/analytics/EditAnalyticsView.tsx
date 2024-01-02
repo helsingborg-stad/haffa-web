@@ -12,10 +12,10 @@ export const EditAnalyticsView: FC = () => {
     return inspect({
         rejected: (error) => <ErrorView error={error} />,
         pending: () => <span />,
-        resolved: (options, _, update) => (
+        resolved: (options) => (
             <EditAnalyticsForm
                 options={options}
-                onUpdate={(options) => update(updateAnalyticsOptions(options))}
+                onUpdate={updateAnalyticsOptions}
             />
         ),
     })

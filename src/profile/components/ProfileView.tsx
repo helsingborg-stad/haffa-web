@@ -54,6 +54,7 @@ export const ProfileView: FC<{ profile: Profile }> = ({ profile }) => {
                 </PropBox>
                 <PropBox icon={<AdressIcon />}>
                     {[
+                        profile.name,
                         profile.adress,
                         profile.zipCode,
                         profile.city,

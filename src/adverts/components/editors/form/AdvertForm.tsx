@@ -1,4 +1,5 @@
 import {
+    Autocomplete,
     Button,
     ButtonGroup,
     Card,
@@ -8,6 +9,7 @@ import {
     Container,
     Grid,
     GridProps,
+    TextField,
 } from '@mui/material'
 import { FC, PropsWithChildren, useCallback, useContext, useMemo } from 'react'
 import SaveIcon from '@mui/icons-material/Save'
@@ -19,7 +21,8 @@ import { Terms } from 'terms/types'
 import { Profile, ProfileContext } from 'profile'
 import useAbortController from 'hooks/use-abort-controller'
 import { Editorial } from 'editorials'
-import { AdvertInput } from '../../../types'
+import { AdvertFieldConfig } from 'advert-field-config/types'
+import { AdvertContact, AdvertInput, AdvertLocation } from '../../../types'
 import {
     SelectOption,
     useFormControls,
@@ -48,9 +51,10 @@ const Cell: FC<PropsWithChildren & GridProps> = (props) => (
     </Grid>
 )
 
-const SyncFromProfileInput: FC<{ onProfile: (profile: Profile) => void }> = ({
-    onProfile,
-}) => {
+const SyncFromProfileInput: FC<{
+    onProfile: (profile: Profile) => void
+    label: string
+}> = ({ onProfile, label }) => {
     const { signal } = useAbortController()
     const { getProfile } = useContext(ProfileContext)
     return (
@@ -58,12 +62,15 @@ const SyncFromProfileInput: FC<{ onProfile: (profile: Profile) => void }> = ({
             onClick={() => getProfile({ signal }).then(onProfile)}
             startIcon={<RefreshIcon />}
         >
-            Hämta från min profil
+            {label}
         </Button>
     )
 }
 
-const SyncToProfileInput: FC<{ patch: Partial<Profile> }> = ({ patch }) => {
+const SyncToProfileInput: FC<{ patch: Partial<Profile>; label: string }> = ({
+    patch,
+    label,
+}) => {
     const { signal } = useAbortController()
     const { getProfile, updateProfile } = useContext(ProfileContext)
     return (
@@ -78,7 +85,7 @@ const SyncToProfileInput: FC<{ patch: Partial<Profile> }> = ({ patch }) => {
             }
             startIcon={<CloudUploadIcon />}
         >
-            Uppdatera min profil
+            {label}
         </Button>
     )
 }
@@ -86,12 +93,28 @@ const SyncToProfileInput: FC<{ patch: Partial<Profile> }> = ({ patch }) => {
 const SyncProfileInput: FC<{
     patch: Partial<Profile>
     onProfile: (profile: Profile) => void
-}> = ({ patch, onProfile }) => (
-    <ButtonGroup>
-        <SyncFromProfileInput onProfile={onProfile} />
-        <SyncToProfileInput patch={patch} />
-    </ButtonGroup>
-)
+}> = ({ patch, onProfile }) => {
+    const { phrase } = useContext(PhraseContext)
+
+    return (
+        <ButtonGroup>
+            <SyncFromProfileInput
+                label={phrase(
+                    'ADVERT_BUTTON_SYNCH_FROM_PROFILE',
+                    'Hämta från min profil'
+                )}
+                onProfile={onProfile}
+            />
+            <SyncToProfileInput
+                label={phrase(
+                    'ADVERT_BUTTON_SYNCH_TO_PROFILE',
+                    'Uppdatera min profil'
+                )}
+                patch={patch}
+            />
+        </ButtonGroup>
+    )
+}
 
 const nextKey = (baseName: string): (() => string) => {
     let index = 0
@@ -104,10 +127,22 @@ export const AdvertForm: FC<{
     error: boolean
     terms: Terms
     categories: Category[]
+    fields: AdvertFieldConfig
+    locations: AdvertLocation[]
     advert: AdvertInput
     disabled: boolean
     onSave: (advert: AdvertInput) => void
-}> = ({ title, advert, terms, error, onSave, disabled, categories }) => {
+}> = ({
+    title,
+    advert,
+    terms,
+    error,
+    onSave,
+    disabled,
+    categories,
+    fields,
+    locations,
+}) => {
     const { ERROR_UNKNOWN } = useContext(PhraseContext)
     const navigate = useNavigate()
     const {
@@ -170,398 +205,549 @@ export const AdvertForm: FC<{
         return [...output, { label, value: category.id }, ...childOutput]
     }
 
+    const getFieldConfig = (name: string) => {
+        const { visible = true, mandatory = false } =
+            fields.find((f) => f.name === name) || {}
+        return [visible, mandatory]
+    }
+
+    const createSimplifiedField = (
+        field: keyof AdvertInput,
+        factory: (field: keyof AdvertInput, required: boolean) => JSX.Element
+    ) => {
+        const [visible, mandatory] = getFieldConfig(field)
+        return visible ? () => factory(field, mandatory) : null
+    }
+
+    const createComplexField = (
+        field: keyof (AdvertContact & AdvertLocation),
+        factory: (required: boolean) => JSX.Element
+    ) => {
+        const [visible, mandatory] = getFieldConfig(field)
+        return visible ? () => factory(mandatory) : null
+    }
+
     interface ControlGroup {
         label: string
-        rows: (() => JSX.Element | null)[][]
+        rows: ((() => JSX.Element) | null)[][]
     }
 
     const layout = useMemo<ControlGroup[]>(
-        () => [
-            {
-                label: phrase(
-                    'ADVERT_EDITOR_SECTION_DESCRIPTION',
-                    'Beskriv din annons så att den blir sökbar och ser fin ut i listningen.'
-                ),
-                rows: [
-                    [
-                        () =>
-                            textField(
-                                'title',
-                                phrase('ADVERT_FIELD_TITLE', 'Titel'),
-                                {
-                                    required: true,
-                                    disabled,
-                                    fullWidth: true,
-                                }
+        () =>
+            [
+                {
+                    label: phrase(
+                        'ADVERT_EDITOR_SECTION_DESCRIPTION',
+                        'Beskriv din annons så att den blir sökbar och ser fin ut i listningen.'
+                    ),
+                    rows: [
+                        [
+                            createSimplifiedField('title', (field, required) =>
+                                textField(
+                                    field,
+                                    phrase('ADVERT_FIELD_TITLE', 'Titel'),
+                                    {
+                                        required,
+                                        disabled,
+                                        fullWidth: true,
+                                    }
+                                )
                             ),
-                    ],
-                    [
-                        () =>
-                            textField(
+                        ].filter((v) => v),
+                        [
+                            createSimplifiedField(
                                 'description',
-                                phrase(
-                                    'ADVERT_FIELD_DESCRIPTION',
-                                    'Beskrivning'
-                                ),
-                                {
-                                    required: true,
-                                    multiline: true,
-                                    minRows: 4,
-                                    disabled,
-                                    fullWidth: true,
-                                }
+                                (field, required) =>
+                                    textField(
+                                        field,
+                                        phrase(
+                                            'ADVERT_FIELD_DESCRIPTION',
+                                            'Beskrivning'
+                                        ),
+                                        {
+                                            required,
+                                            disabled,
+                                            multiline: true,
+                                            minRows: 4,
+                                            fullWidth: true,
+                                        }
+                                    )
                             ),
-                    ],
-                    [
-                        () =>
-                            textField(
+                        ].filter((v) => v),
+                        [
+                            createSimplifiedField(
                                 'quantity',
-                                phrase('ADVERT_FIELD_QUANTITY', 'Antal'),
-                                {
-                                    fullWidth: true,
-                                    required: true,
-                                    type: 'number',
-                                    inputProps: { min: 1 },
-                                    disabled,
-                                }
+                                (field, required) =>
+                                    textField(
+                                        field,
+                                        phrase(
+                                            'ADVERT_FIELD_QUANTITY',
+                                            'Antal'
+                                        ),
+                                        {
+                                            required,
+                                            disabled,
+                                            fullWidth: true,
+                                            type: 'number',
+                                            inputProps: { min: 1 },
+                                        }
+                                    )
                             ),
-                        () =>
-                            select(
-                                'unit',
-                                phrase('ADVERT_FIELD_UNIT', 'Enhet'),
-                                makeOptions(terms.unit),
-                                {
-                                    fullWidth: true,
-                                }
+                            createSimplifiedField('unit', (field, required) =>
+                                select(
+                                    field,
+                                    phrase('ADVERT_FIELD_UNIT', 'Enhet'),
+                                    makeOptions(terms.unit),
+                                    {
+                                        required,
+                                        disabled,
+                                        fullWidth: true,
+                                    }
+                                )
                             ),
-                        () =>
-                            select(
+                            createSimplifiedField(
                                 'category',
-                                phrase('ADVERT_FIELD_CATEGORY', 'Kategori'),
-                                categories
-                                    .map((c) => categoryToOptions(c))
-                                    .flat(),
-                                { fullWidth: true }
+                                (field, required) =>
+                                    select(
+                                        field,
+                                        phrase(
+                                            'ADVERT_FIELD_CATEGORY',
+                                            'Kategori'
+                                        ),
+                                        categories
+                                            .map((c) => categoryToOptions(c))
+                                            .flat(),
+                                        { required, disabled, fullWidth: true }
+                                    )
                             ),
-                    ],
-                ],
-            },
-            {
-                label: phrase(
-                    'ADVERT_EDITOR_SECTION_IMAGES',
-                    'En bild säger mer än tusen ord!'
-                ),
-                rows: [
-                    [
-                        () => (
-                            <ImageContainer>
-                                {model.images.map(({ url }, index) => (
-                                    <ImageInput
-                                        key={url}
-                                        url={url}
-                                        onRemove={removeImage(index)}
-                                        onMoveup={moveImageUp(index)}
-                                        onMovedown={moveImageDown(index)}
-                                    />
-                                ))}
-                            </ImageContainer>
-                        ),
-                    ],
-                    [
-                        // append image
-                        () =>
-                            factory.imagePicker(
-                                (url) => ({
-                                    images: [...model.images, { url }],
-                                }),
-                                {
-                                    fullWidth: true,
-                                }
+                        ].filter((v) => v),
+                    ].filter((v) => v.length > 0),
+                },
+                {
+                    label: phrase(
+                        'ADVERT_EDITOR_SECTION_IMAGES',
+                        'En bild säger mer än tusen ord!'
+                    ),
+                    rows: [
+                        [
+                            () => (
+                                <ImageContainer>
+                                    {model.images.map(({ url }, index) => (
+                                        <ImageInput
+                                            key={url}
+                                            url={url}
+                                            onRemove={removeImage(index)}
+                                            onMoveup={moveImageUp(index)}
+                                            onMovedown={moveImageDown(index)}
+                                        />
+                                    ))}
+                                </ImageContainer>
                             ),
-                    ],
-                ],
-            },
-            {
-                label: phrase(
-                    'ADVERT_EDITOR_SECTION_ADDITIONAL',
-                    'Om det är viktigt, kan du ange ytterligare detaljer här.'
-                ),
-                rows: [
-                    [
-                        () =>
-                            textField(
-                                'width',
-                                phrase('ADVERT_FIELD_WIDTH', 'Bredd'),
-                                {
-                                    fullWidth: true,
-                                }
+                        ].filter((v) => v),
+                        [
+                            // append image
+                            () =>
+                                factory.imagePicker(
+                                    (url) => ({
+                                        images: [...model.images, { url }],
+                                    }),
+                                    {
+                                        fullWidth: true,
+                                    }
+                                ),
+                        ].filter((v) => v),
+                    ].filter((v) => v.length > 0),
+                },
+                {
+                    label: phrase(
+                        'ADVERT_EDITOR_SECTION_ADDITIONAL',
+                        'Om det är viktigt, kan du ange ytterligare detaljer här.'
+                    ),
+                    rows: [
+                        [
+                            createSimplifiedField('size', (field, required) =>
+                                textField(
+                                    field,
+                                    phrase('ADVERT_FIELD_SIZE', 'Storlek'),
+                                    {
+                                        required,
+                                        disabled,
+                                        fullWidth: true,
+                                    }
+                                )
                             ),
-                        () =>
-                            textField(
-                                'height',
-                                phrase('ADVERT_FIELD_HEIGHT', 'Höjd'),
-                                {
-                                    fullWidth: true,
-                                }
+                            createSimplifiedField('width', (field, required) =>
+                                textField(
+                                    field,
+                                    phrase('ADVERT_FIELD_WIDTH', 'Bredd'),
+                                    {
+                                        required,
+                                        disabled,
+                                        fullWidth: true,
+                                    }
+                                )
                             ),
-                        () =>
-                            textField(
-                                'depth',
-                                phrase('ADVERT_FIELD_DEPTH', 'Djup'),
-                                {
-                                    fullWidth: true,
-                                }
+                            createSimplifiedField('height', (field, required) =>
+                                textField(
+                                    field,
+                                    phrase('ADVERT_FIELD_HEIGHT', 'Höjd'),
+                                    {
+                                        required,
+                                        disabled,
+                                        fullWidth: true,
+                                    }
+                                )
                             ),
-                        () =>
-                            textField(
-                                'weight',
-                                phrase('ADVERT_FIELD_WEIGHT', 'Vikt'),
-                                {
-                                    fullWidth: true,
-                                }
+                            createSimplifiedField('depth', (field, required) =>
+                                textField(
+                                    field,
+                                    phrase('ADVERT_FIELD_DEPTH', 'Djup'),
+                                    {
+                                        required,
+                                        disabled,
+                                        fullWidth: true,
+                                    }
+                                )
                             ),
-                    ],
-                    [
-                        () =>
-                            select(
+                            createSimplifiedField('weight', (field, required) =>
+                                textField(
+                                    field,
+                                    phrase('ADVERT_FIELD_WEIGHT', 'Vikt'),
+                                    {
+                                        required,
+                                        disabled,
+                                        fullWidth: true,
+                                    }
+                                )
+                            ),
+                        ].filter((v) => v),
+                        [
+                            createSimplifiedField(
                                 'material',
-                                phrase('ADVERT_FIELD_MATERIAL', 'Material'),
-                                makeOptions(terms.material),
-                                {
-                                    fullWidth: true,
-                                }
+                                (field, required) =>
+                                    select(
+                                        field,
+                                        phrase(
+                                            'ADVERT_FIELD_MATERIAL',
+                                            'Material'
+                                        ),
+                                        makeOptions(terms.material),
+                                        {
+                                            required,
+                                            disabled,
+                                            fullWidth: true,
+                                        }
+                                    )
                             ),
-                        () =>
-                            select(
+                            createSimplifiedField(
                                 'condition',
-                                phrase('ADVERT_FIELD_CONDITION', 'Skick'),
-                                makeOptions(terms.condition),
-                                {
-                                    fullWidth: true,
-                                }
+                                (field, required) =>
+                                    select(
+                                        field,
+                                        phrase(
+                                            'ADVERT_FIELD_CONDITION',
+                                            'Skick'
+                                        ),
+                                        makeOptions(terms.condition),
+                                        {
+                                            required,
+                                            disabled,
+                                            fullWidth: true,
+                                        }
+                                    )
                             ),
-                        () =>
-                            select(
-                                'usage',
-                                phrase(
-                                    'ADVERT_FIELD_USAGE',
-                                    'Användningsområde'
-                                ),
-                                makeOptions(terms.usage),
-                                {
-                                    fullWidth: true,
-                                }
+                            createSimplifiedField('usage', (field, required) =>
+                                select(
+                                    field,
+                                    phrase(
+                                        'ADVERT_FIELD_USAGE',
+                                        'Användningsområde'
+                                    ),
+                                    makeOptions(terms.usage),
+                                    {
+                                        required,
+                                        disabled,
+                                        fullWidth: true,
+                                    }
+                                )
                             ),
-                        () =>
-                            textField(
+                            createSimplifiedField(
                                 'reference',
-                                phrase(
-                                    'ADVERT_FIELD_REFERENCE',
-                                    'Egen referens'
-                                ),
-                                {
-                                    disabled,
-                                    fullWidth: true,
-                                }
+                                (field, required) =>
+                                    textField(
+                                        field,
+                                        phrase(
+                                            'ADVERT_FIELD_REFERENCE',
+                                            'Egen referens'
+                                        ),
+                                        {
+                                            required,
+                                            disabled,
+                                            fullWidth: true,
+                                        }
+                                    )
                             ),
-                    ],
-                    [
-                        () => (
-                            <TagEditor
-                                options={terms.tags}
-                                tags={model.tags}
-                                onUpdateTags={(tags) => patchModel({ tags })}
-                                sx={{
-                                    pt: 1,
-                                }}
-                            />
-                        ),
-                    ],
-                ],
-            },
-            {
-                label: phrase(
-                    'ADVERT_EDITOR_SECTION_LOCATION',
-                    'Var finns prylen?'
-                ),
-                rows: [
-                    [
-                        () =>
-                            factory.textField(
-                                (input) => input.location.adress,
-                                (v) => ({
-                                    ...model,
-                                    location: {
-                                        ...model.location,
-                                        adress: v,
-                                    },
-                                }),
-                                {
-                                    fullWidth: true,
-                                    label: phrase(
-                                        'ADVERT_FIELD_LOCATION_ADRESS',
-                                        'Adress'
-                                    ),
-                                    placeholder: phrase(
-                                        'ADVERT_FIELD_LOCATION_ADRESS',
-                                        'Adress'
-                                    ),
-                                }
+                        ].filter((v) => v),
+                        [
+                            createSimplifiedField('tags', () => (
+                                <TagEditor
+                                    options={terms.tags}
+                                    tags={model.tags}
+                                    onUpdateTags={(tags) =>
+                                        patchModel({ tags })
+                                    }
+                                    sx={{
+                                        pt: 1,
+                                    }}
+                                />
+                            )),
+                        ].filter((v) => v),
+                    ].filter((v) => v.length > 0),
+                },
+                {
+                    label: phrase(
+                        'ADVERT_EDITOR_SECTION_LOCATION',
+                        'Var finns prylen?'
+                    ),
+                    rows: [
+                        [
+                            createComplexField('name', (required) => (
+                                <Autocomplete
+                                    freeSolo
+                                    selectOnFocus
+                                    handleHomeEndKeys
+                                    clearOnBlur
+                                    value={model.location.name}
+                                    onChange={(_, v, reason) => {
+                                        if (
+                                            v &&
+                                            reason === 'selectOption' &&
+                                            typeof v !== 'string' &&
+                                            v.key !== undefined
+                                        ) {
+                                            patchModel({
+                                                ...model,
+                                                location: {
+                                                    ...locations[v.key],
+                                                },
+                                            })
+                                        }
+                                    }}
+                                    renderInput={(params) => (
+                                        <TextField
+                                            {...params}
+                                            label={phrase(
+                                                'ADVERT_FIELD_LOCATION_NAME',
+                                                'Namn'
+                                            )}
+                                            variant="outlined"
+                                            required={required}
+                                            onChange={(e) =>
+                                                patchModel({
+                                                    ...model,
+                                                    location: {
+                                                        ...model.location,
+                                                        name: e.target.value,
+                                                    },
+                                                })
+                                            }
+                                        />
+                                    )}
+                                    options={locations.map((m, key) => ({
+                                        key,
+                                        label: m.name,
+                                    }))}
+                                />
+                            )),
+                        ],
+                        [
+                            createComplexField('adress', (required) =>
+                                factory.textField(
+                                    (input) => input.location.adress,
+                                    (v) => ({
+                                        ...model,
+                                        location: {
+                                            ...model.location,
+                                            adress: v,
+                                        },
+                                    }),
+                                    {
+                                        required,
+                                        fullWidth: true,
+                                        label: phrase(
+                                            'ADVERT_FIELD_LOCATION_ADRESS',
+                                            'Adress'
+                                        ),
+                                        placeholder: phrase(
+                                            'ADVERT_FIELD_LOCATION_ADRESS',
+                                            'Adress'
+                                        ),
+                                    }
+                                )
                             ),
-                        () =>
-                            factory.textField(
-                                (input) => input.location.zipCode,
-                                (v) => ({
-                                    ...model,
-                                    location: {
-                                        ...model.location,
-                                        zipCode: v,
-                                    },
-                                }),
-                                {
-                                    fullWidth: true,
-                                    label: phrase(
-                                        'ADVERT_FIELD_LOCATION_ZIPCODE',
-                                        'Postnummer'
-                                    ),
-                                    placeholder: phrase(
-                                        'ADVERT_FIELD_LOCATION_ZIPCODE',
-                                        'Postnummer'
-                                    ),
-                                }
+                            createComplexField('zipCode', (required) =>
+                                factory.textField(
+                                    (input) => input.location.zipCode,
+                                    (v) => ({
+                                        ...model,
+                                        location: {
+                                            ...model.location,
+                                            zipCode: v,
+                                        },
+                                    }),
+                                    {
+                                        required,
+                                        fullWidth: true,
+                                        label: phrase(
+                                            'ADVERT_FIELD_LOCATION_ZIPCODE',
+                                            'Postnummer'
+                                        ),
+                                        placeholder: phrase(
+                                            'ADVERT_FIELD_LOCATION_ZIPCODE',
+                                            'Postnummer'
+                                        ),
+                                    }
+                                )
                             ),
-                        () =>
-                            factory.textField(
-                                (input) => input.location.city,
-                                (v) => ({
-                                    ...model,
-                                    location: {
-                                        ...model.location,
-                                        city: v,
-                                    },
-                                }),
-                                {
-                                    fullWidth: true,
-                                    label: phrase(
-                                        'ADVERT_FIELD_LOCATION_CITY',
-                                        'Stad'
-                                    ),
-                                    placeholder: phrase(
-                                        'ADVERT_FIELD_LOCATION_CITY',
-                                        'Stad'
-                                    ),
-                                }
+                            createComplexField('city', (required) =>
+                                factory.textField(
+                                    (input) => input.location.city,
+                                    (v) => ({
+                                        ...model,
+                                        location: {
+                                            ...model.location,
+                                            city: v,
+                                        },
+                                    }),
+                                    {
+                                        required,
+                                        fullWidth: true,
+                                        label: phrase(
+                                            'ADVERT_FIELD_LOCATION_CITY',
+                                            'Stad'
+                                        ),
+                                        placeholder: phrase(
+                                            'ADVERT_FIELD_LOCATION_CITY',
+                                            'Stad'
+                                        ),
+                                    }
+                                )
                             ),
-                    ],
-                    [
-                        () => (
-                            <SyncProfileInput
-                                patch={model.location}
-                                onProfile={(p) =>
-                                    patchModel({
-                                        location: p,
-                                    })
-                                }
-                            />
-                        ),
-                    ],
-                ],
-            },
-            {
-                label: phrase(
-                    'ADVERT_EDITOR_SECTION_CONTACT',
-                    'Vem kan man kontakta angående haffningar?'
-                ),
-                rows: [
-                    [
-                        () =>
-                            factory.textField(
-                                (input) => input.contact.email,
-                                (v) => ({
-                                    ...model,
-                                    contact: {
-                                        ...model.contact,
-                                        email: v,
-                                    },
-                                }),
-                                {
-                                    fullWidth: true,
-                                    label: phrase(
-                                        'ADVERT_FIELD_CONTACT_EMAIL',
-                                        'Email'
-                                    ),
-                                    placeholder: phrase(
-                                        'ADVERT_FIELD_CONTACT_EMAIL',
-                                        'Email'
-                                    ),
-                                    type: 'email',
-                                }
+                        ].filter((v) => v),
+                        [
+                            () => (
+                                <SyncProfileInput
+                                    patch={model.location}
+                                    onProfile={(p) =>
+                                        patchModel({
+                                            location: p,
+                                        })
+                                    }
+                                />
                             ),
-                        () =>
-                            factory.textField(
-                                (input) => input.contact.phone,
-                                (v) => ({
-                                    ...model,
-                                    contact: {
-                                        ...model.contact,
-                                        phone: v,
-                                    },
-                                }),
-                                {
-                                    fullWidth: true,
-                                    label: phrase(
-                                        'ADVERT_FIELD_CONTACT_PHONE',
-                                        'Telefon'
-                                    ),
-                                    placeholder: phrase(
-                                        'ADVERT_FIELD_CONTACT_PHONE',
-                                        'Telefon'
-                                    ),
-                                    type: 'phone',
-                                }
+                        ].filter((v) => v),
+                    ].filter((v) => v.length > 0),
+                },
+                {
+                    label: phrase(
+                        'ADVERT_EDITOR_SECTION_CONTACT',
+                        'Vem kan man kontakta angående haffningar?'
+                    ),
+                    rows: [
+                        [
+                            createComplexField('email', (required) =>
+                                factory.textField(
+                                    (input) => input.contact.email,
+                                    (v) => ({
+                                        ...model,
+                                        contact: {
+                                            ...model.contact,
+                                            email: v,
+                                        },
+                                    }),
+                                    {
+                                        required,
+                                        fullWidth: true,
+                                        label: phrase(
+                                            'ADVERT_FIELD_CONTACT_EMAIL',
+                                            'Email'
+                                        ),
+                                        placeholder: phrase(
+                                            'ADVERT_FIELD_CONTACT_EMAIL',
+                                            'Email'
+                                        ),
+                                        type: 'email',
+                                    }
+                                )
                             ),
-                        () =>
-                            factory.select(
-                                (input) => input.contact.organization,
-                                (v) => ({
-                                    ...model,
-                                    contact: {
-                                        ...model.contact,
-                                        organization: v,
-                                    },
-                                }),
-                                makeOptions(terms.organization),
-                                {
-                                    fullWidth: true,
-                                    label: phrase(
-                                        'ADVERT_FIELD_ORGANIZATION',
-                                        'Organisation'
-                                    ),
-                                    placeholder: phrase(
-                                        'ADVERT_FIELD_ORGANIZATION',
-                                        'Organisation'
-                                    ),
-                                }
+                            createComplexField('phone', (required) =>
+                                factory.textField(
+                                    (input) => input.contact.phone,
+                                    (v) => ({
+                                        ...model,
+                                        contact: {
+                                            ...model.contact,
+                                            phone: v,
+                                        },
+                                    }),
+                                    {
+                                        required,
+                                        fullWidth: true,
+                                        label: phrase(
+                                            'ADVERT_FIELD_CONTACT_PHONE',
+                                            'Telefon'
+                                        ),
+                                        placeholder: phrase(
+                                            'ADVERT_FIELD_CONTACT_PHONE',
+                                            'Telefon'
+                                        ),
+                                        type: 'phone',
+                                    }
+                                )
                             ),
-                    ],
-                    [
-                        () => (
-                            <SyncProfileInput
-                                patch={model.contact}
-                                onProfile={(p) =>
-                                    patchModel({
-                                        contact: p,
-                                    })
-                                }
-                            />
-                        ),
-                    ],
-                ],
-            },
-        ],
+                            createComplexField('organization', (required) =>
+                                factory.select(
+                                    (input) => input.contact.organization,
+                                    (v) => ({
+                                        ...model,
+                                        contact: {
+                                            ...model.contact,
+                                            organization: v,
+                                        },
+                                    }),
+                                    makeOptions(terms.organization),
+                                    {
+                                        required,
+                                        fullWidth: true,
+                                        label: phrase(
+                                            'ADVERT_FIELD_ORGANIZATION',
+                                            'Organisation'
+                                        ),
+                                        placeholder: phrase(
+                                            'ADVERT_FIELD_ORGANIZATION',
+                                            'Organisation'
+                                        ),
+                                    }
+                                )
+                            ),
+                        ].filter((v) => v),
+                        [
+                            () => (
+                                <SyncProfileInput
+                                    patch={model.contact}
+                                    onProfile={(p) =>
+                                        patchModel({
+                                            contact: p,
+                                        })
+                                    }
+                                />
+                            ),
+                        ].filter((v) => v),
+                    ].filter((v) => v.length > 0),
+                },
+            ].filter((v) => v.rows.length > 0),
         [model]
     )
-
     const nextLayoutKey = nextKey('l')
 
     return (
@@ -594,7 +780,7 @@ export const AdvertForm: FC<{
                             <Row key={rowIndex}>
                                 {row.map((cell, cellIndex) => (
                                     <Cell xs key={cellIndex}>
-                                        {cell()}
+                                        {cell?.()}
                                     </Cell>
                                 ))}
                             </Row>

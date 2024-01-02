@@ -6,4 +6,5 @@ export const convertAdvertFilterToSubscriptionFilter = (
 ): AdvertSubscriptionFilter => ({
     search: filter.search,
     categories: filter.fields?.category?.in || [],
+    tags: filter.fields?.tags?.in || [],
 })

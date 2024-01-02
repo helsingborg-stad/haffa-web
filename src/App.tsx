@@ -43,6 +43,19 @@ import {
     createNotifyingSubscriptionsRepository,
     createSubscriptionsRepository,
 } from 'subscriptions'
+import { createNotifyingContentRepository } from 'content/notifying-content-repository'
+import { createContentRepository } from 'content/content-repository'
+import { ContentProvider } from 'content/ContentContext'
+import {
+    AdvertFieldProvider,
+    createAdvertFieldRepository,
+    createNotifyingAdvertFieldRepository,
+} from 'advert-field-config'
+import {
+    LocationProvider,
+    createLocationRepository,
+    createNotifyingLocationRepository,
+} from 'locations'
 import { AdvertsProvider } from './adverts/AdvertsContext'
 import { createAdvertsRepository } from './adverts/repository/adverts-repository'
 import { AppRouter } from './routes/AppRouter'
@@ -138,6 +151,34 @@ const Main: FC = () => {
             ),
         [notifications, phrase, token, fetch]
     )
+    const content = useMemo(
+        () =>
+            createNotifyingContentRepository(
+                notifications,
+                phrase,
+                createContentRepository(token, fetch)
+            ),
+        [notifications, phrase, token, fetch]
+    )
+    const fieldConfig = useMemo(
+        () =>
+            createNotifyingAdvertFieldRepository(
+                notifications,
+                phrase,
+                createAdvertFieldRepository(token, fetch)
+            ),
+        [notifications, phrase, token, fetch]
+    )
+
+    const locationConfig = useMemo(
+        () =>
+            createNotifyingLocationRepository(
+                notifications,
+                phrase,
+                createLocationRepository(token, fetch)
+            ),
+        [notifications, phrase, token, fetch]
+    )
 
     return isAuthenticated ? (
         <OptionsProvider repository={options}>
@@ -151,7 +192,21 @@ const Main: FC = () => {
                                 >
                                     <AdvertsProvider repository={adverts}>
                                         <ProfileProvider repository={profiles}>
-                                            <AppRouter />
+                                            <ContentProvider
+                                                repository={content}
+                                            >
+                                                <AdvertFieldProvider
+                                                    repository={fieldConfig}
+                                                >
+                                                    <LocationProvider
+                                                        repository={
+                                                            locationConfig
+                                                        }
+                                                    >
+                                                        <AppRouter />
+                                                    </LocationProvider>
+                                                </AdvertFieldProvider>
+                                            </ContentProvider>
                                         </ProfileProvider>
                                     </AdvertsProvider>
                                 </SubscriptionsProvider>

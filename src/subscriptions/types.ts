@@ -1,6 +1,7 @@
 export interface AdvertSubscriptionFilter {
     search?: string
     categories?: string[]
+    tags?: string[]
 }
 
 export interface AdvertSubscription {

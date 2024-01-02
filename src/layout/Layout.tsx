@@ -19,6 +19,7 @@ import {
     Divider,
     Drawer,
     Grid,
+    Link,
     List,
     ListItem,
     ListItemButton,
@@ -156,7 +157,6 @@ export const Layout: FC<
                 ? []
                 : createNavLinks({
                       mobile: !isDesktop,
-                      desktop: isDesktop,
                       guest: isGuest,
                       roles,
                       phrases,
@@ -176,7 +176,7 @@ export const Layout: FC<
             <AppBar key="ab">
                 <Container disableGutters>
                     <Toolbar>
-                        <Button
+                        <Link
                             color="inherit"
                             component="a"
                             href="/"
@@ -184,12 +184,13 @@ export const Layout: FC<
                                 textTransform: 'none',
                             }}
                         >
-                            {theme.logotype ? (
-                                <img src={theme.logotype} alt={APP_TITLE} />
-                            ) : (
-                                APP_TITLE
-                            )}
-                        </Button>
+                            <Box
+                                component="img"
+                                height={32}
+                                src={theme.logotype}
+                                alt={APP_TITLE}
+                            />
+                        </Link>
                         <Box flex={1} />
                         {insideToolbarLinks}
                         {isGuest && (

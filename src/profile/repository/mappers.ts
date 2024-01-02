@@ -1,6 +1,7 @@
 import { ProfileInput } from 'profile/types'
 
 export const sanitizeProfileInput = ({
+    name,
     phone,
     adress,
     zipCode,
@@ -8,6 +9,7 @@ export const sanitizeProfileInput = ({
     country,
     organization,
 }: ProfileInput): ProfileInput => ({
+    name,
     phone,
     adress,
     zipCode,

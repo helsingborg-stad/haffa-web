@@ -1,7 +1,7 @@
 import { Tree } from 'antd'
 import { DataNode } from 'antd/es/tree'
 import React, { FC, useCallback, useContext, useState } from 'react'
-import { Box } from '@mui/material'
+import { Box, Typography } from '@mui/material'
 import { Category } from '../../../../categories/types'
 import useAsync from '../../../../hooks/use-async'
 import { encodeCategoryTree } from '../../../../categories/mappers'
@@ -122,18 +122,26 @@ export const CategoriesFilter: FC<CategoriesFilterProps> = ({
         resolved: (categories) => {
             cacheCategories(categories)
             return (
-                <Box>
-                    <Tree
-                        checkable
-                        checkStrictly
-                        defaultExpandAll
-                        autoExpandParent
-                        defaultExpandParent
-                        onCheck={onCheck}
-                        checkedKeys={selected}
-                        treeData={buildTreeFromCategories(categories, selected)}
-                    />
-                </Box>
+                <>
+                    <Typography variant="subtitle1" gutterBottom>
+                        Kategorier
+                    </Typography>
+                    <Box>
+                        <Tree
+                            checkable
+                            checkStrictly
+                            defaultExpandAll
+                            autoExpandParent
+                            defaultExpandParent
+                            onCheck={onCheck}
+                            checkedKeys={selected}
+                            treeData={buildTreeFromCategories(
+                                categories,
+                                selected
+                            )}
+                        />
+                    </Box>
+                </>
             )
         },
     })

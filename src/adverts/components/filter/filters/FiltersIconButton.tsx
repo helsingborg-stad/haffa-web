@@ -4,14 +4,16 @@ import { FC } from 'react'
 import FilterListOutlinedIcon from '@mui/icons-material/FilterListOutlined'
 import { AdvertFilterInput } from 'adverts'
 
+const countSelectedItems = (searchParams: AdvertFilterInput) =>
+    Object.values(searchParams.fields ?? {})
+        .filter((f) => f?.in)
+        .reduce((p, { in: c }) => p + (c?.length ?? 0), 0)
+
 export const FiltersIconButton: FC<{
     searchParams: AdvertFilterInput
     onClick: (anchor: HTMLElement) => void
 }> = ({ searchParams, onClick }) => (
-    <Badge
-        badgeContent={searchParams.fields?.category?.in?.length}
-        color="secondary"
-    >
+    <Badge badgeContent={countSelectedItems(searchParams)} color="secondary">
         <Button color="inherit" onClick={(e) => onClick(e.currentTarget)}>
             <Stack
                 direction="column"

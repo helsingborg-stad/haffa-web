@@ -1,26 +1,27 @@
 import {
+    Avatar,
+    Box,
     Button,
-    ButtonGroup,
     Card,
     CardActions,
     CardContent,
-    Checkbox,
-    FormControlLabel,
+    CardHeader,
     Grid,
-    Stack,
-    TextField,
+    IconButton,
+    Typography,
 } from '@mui/material'
 import { CategoriesContext } from 'categories'
 import { Category } from 'categories/types'
 import { ErrorView } from 'errors'
 import useAsync from 'hooks/use-async'
 import { PhraseContext } from 'phrases'
-import { FC, Fragment, useCallback, useContext } from 'react'
+import { FC, useCallback, useContext } from 'react'
 import { SubscriptionsContext } from 'subscriptions'
 import { AdvertSubscription } from 'subscriptions/types'
-import DeleteForeverIcon from '@mui/icons-material/DeleteForever'
-import LinkIcon from '@mui/icons-material/Link'
 import { UrlParamsContext } from 'url-params'
+import SubscriptionsIcon from '@mui/icons-material/Subscriptions'
+import RemoveCircleOutlineIcon from '@mui/icons-material/RemoveCircleOutline'
+import { Editorial } from 'editorials'
 
 interface SubscriptionModel extends AdvertSubscription {
     categories: SubscriptionCategoryModel[]
@@ -43,39 +44,12 @@ const pruneCategoryTreeSelectedTree = (
         }))
         .filter((c) => c.selected || c.categories.length > 0)
 
-const SubscriptionCategoryPreview: FC<{
-    category: SubscriptionCategoryModel
-}> = ({ category }) => (
-    <Fragment key={`preview-${category.id}`}>
-        <FormControlLabel
-            key={`selected-${category.id}`}
-            control={<Checkbox checked={category.selected} disabled />}
-            label={category.label}
-        />
-        <SubscriptionCategoriesPreview
-            key={`categories-${category.id}`}
-            categories={category.categories}
-        />
-    </Fragment>
-)
-
-const SubscriptionCategoriesPreview: FC<{
-    categories: SubscriptionCategoryModel[]
-}> = ({ categories }) =>
-    categories.length === 0 ? null : (
-        <Stack
-            key={`s-${categories[0].id}`}
-            direction="column"
-            sx={{ ml: 2, alignItems: 'stretch' }}
-        >
-            {categories.map((category) => (
-                <SubscriptionCategoryPreview
-                    key={category.id}
-                    category={category}
-                />
-            ))}
-        </Stack>
-    )
+const flattenCategories = (categories: SubscriptionCategoryModel[]): string =>
+    categories
+        .map((c) =>
+            c.categories.length > 0 ? flattenCategories(c.categories) : c.label
+        )
+        .join(', ')
 
 export const SubscriptionsListing: FC<{
     subscriptions: SubscriptionModel[]
@@ -84,66 +58,100 @@ export const SubscriptionsListing: FC<{
     const { phrase } = useContext(PhraseContext)
     const { makeAdvertSubscriptionUrl } = useContext(UrlParamsContext)
     return (
-        <Grid container spacing={2} key="p">
-            {subscriptions.map((subscription) => (
-                <Grid item key={subscription.subscriptionId} xs={12} sm={4}>
-                    <Card
-                        sx={{
-                            height: '100%',
-                            display: 'flex',
-                            flexDirection: 'column',
-                        }}
-                    >
-                        <CardContent key="c">
-                            <TextField
-                                key="s"
-                                value={subscription.filter.search}
-                                disabled
-                            />
-                            <SubscriptionCategoriesPreview
-                                key="p"
-                                categories={subscription.categories}
-                            />
-                        </CardContent>
-                        <CardActions
-                            key="a"
-                            disableSpacing
-                            sx={{ mt: 'auto', width: '100%' }}
+        <>
+            <Typography variant="h5" gutterBottom>
+                {phrase('SUBSCRIPTIONS_HEADING', '')}
+            </Typography>
+            <Typography paragraph>
+                {phrase('SUNSCRIPTIONS_EDITORIAL', '')}
+            </Typography>
+            <Grid container spacing={2} key="p">
+                {subscriptions.map((subscription) => (
+                    <Grid item key={subscription.subscriptionId} xs={12} sm={4}>
+                        <Card
+                            sx={{
+                                height: '100%',
+                                display: 'flex',
+                                flexDirection: 'column',
+                            }}
                         >
-                            <ButtonGroup orientation="vertical" fullWidth>
+                            <CardHeader
+                                avatar={
+                                    <Avatar>
+                                        <SubscriptionsIcon />
+                                    </Avatar>
+                                }
+                                title="Bevakning"
+                                action={
+                                    <IconButton
+                                        onClick={() => onRemove(subscription)}
+                                    >
+                                        <RemoveCircleOutlineIcon />
+                                    </IconButton>
+                                }
+                            />
+                            <CardContent key="c" sx={{ pt: 0, px: 4 }}>
+                                {subscription.filter.search && (
+                                    <Box py={1}>
+                                        <Typography>Sökord </Typography>
+                                        <Typography variant="subtitle2">
+                                            {subscription.filter.search}
+                                        </Typography>
+                                    </Box>
+                                )}
+
+                                {subscription.categories.length > 0 && (
+                                    <Box py={1}>
+                                        <Typography>Kategorier</Typography>
+                                        <Typography variant="subtitle2">
+                                            {flattenCategories(
+                                                subscription.categories
+                                            )}
+                                        </Typography>
+                                    </Box>
+                                )}
+                                {(subscription.filter.tags?.length ?? 0) >
+                                    0 && (
+                                    <Box py={1}>
+                                        <Typography>Taggar</Typography>
+                                        <Typography variant="subtitle2">
+                                            {subscription.filter.tags?.join(
+                                                ', '
+                                            ) ?? ''}
+                                        </Typography>
+                                    </Box>
+                                )}
+                            </CardContent>
+                            <CardActions
+                                key="a"
+                                disableSpacing
+                                sx={{ mt: 'auto', width: '100%' }}
+                            >
                                 <Button
+                                    variant="text"
+                                    color="primary"
                                     fullWidth
-                                    variant="contained"
-                                    startIcon={<LinkIcon />}
                                     href={makeAdvertSubscriptionUrl(
                                         '/subscription',
                                         subscription.filter
                                     )}
-                                    sx={{ mb: 1 }}
                                 >
                                     {phrase(
-                                        'SUBSCRIPTIONS_UNSUBSCRIBE_TO_SEARCH',
-                                        'Visa bevakning'
+                                        'SUBSCRIPTIONS_NAVIGATE_TO_SEARCH',
+                                        'Visa'
                                     )}
                                 </Button>
-                                <Button
-                                    fullWidth
-                                    variant="contained"
-                                    color="warning"
-                                    onClick={() => onRemove(subscription)}
-                                    startIcon={<DeleteForeverIcon />}
-                                >
-                                    {phrase(
-                                        'SUBSCRIPTIONS_UNSUBSCRIBE_TO_SEARCH',
-                                        'Ta bort bevakning'
-                                    )}
-                                </Button>
-                            </ButtonGroup>
-                        </CardActions>
-                    </Card>
-                </Grid>
-            ))}
-        </Grid>
+                            </CardActions>
+                        </Card>
+                    </Grid>
+                ))}
+            </Grid>
+            {subscriptions.length === 0 && (
+                <Box sx={{ pt: 2 }}>
+                    <Editorial phraseKey="SUBSCRIPTIONS_NO_CONTENT" />
+                </Box>
+            )}
+        </>
     )
 }
 

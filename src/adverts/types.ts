@@ -10,6 +10,7 @@ export interface AdvertUserFields {
     height: string
     depth: string
     weight: string
+    size: string
     material: string
     condition: string
     usage: string
@@ -44,14 +45,15 @@ export type FilterInput<T> = {
     in?: T[]
 } & (T extends string ? { contains?: string } : Record<string, never>)
 
+type Flatten<Type> = Type extends Array<infer Item> ? Item : Type
+
 export type AdvertFieldsFilterInput = {
     id?: FilterInput<string>
 } & {
     [Property in keyof Omit<AdvertUserFields, 'images'>]?: FilterInput<
-        AdvertUserFields[Property]
+        Flatten<AdvertUserFields[Property]>
     >
 }
-
 export interface AdvertRestrictionsFilterInput {
     canBeReserved?: boolean
     reservedByMe?: boolean
@@ -94,6 +96,7 @@ export interface AdvertInput {
     height: string
     depth: string
     weight: string
+    size: string
     material: string
     condition: string
     usage: string
@@ -141,6 +144,7 @@ export enum AdvertType {
 }
 
 export interface AdvertLocation {
+    name: string
     adress: string
     zipCode: string
     city: string

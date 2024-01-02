@@ -12,12 +12,15 @@ export const DetailsPanel = (props: GridProps & { advert: Advert }) => {
         height,
         width,
         weight,
+        size,
         material,
         usage,
+        reference,
         createdAt,
     } = props.advert
 
     const fields = [
+        [size, phrase('ADVERT_FIELD_SIZE', 'Storlek')],
         [height, phrase('ADVERT_FIELD_HEIGHT', 'Höjd')],
         [width, phrase('ADVERT_FIELD_WIDTH', 'Bredd')],
         [depth, phrase('ADVERT_FIELD_DEPTH', 'Djup')],
@@ -25,6 +28,7 @@ export const DetailsPanel = (props: GridProps & { advert: Advert }) => {
         [material, phrase('ADVERT_FIELD_MATERIAL', 'Material')],
         [condition, phrase('ADVERT_FIELD_CONDITION', 'Skick')],
         [usage, phrase('ADVERT_FIELD_USAGE', 'Användning')],
+        [reference, phrase('ADVERT_FIELD_REFERENCE', 'Egen referens')],
         [fromNow(createdAt), phrase('ADVERT_FIELD_CREATED', 'Publicerades')],
     ].filter(([item]) => item)
 

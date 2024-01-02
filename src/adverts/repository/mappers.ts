@@ -12,6 +12,7 @@ export const createEmptyAdvertInput = (): AdvertInput => ({
     height: '',
     depth: '',
     weight: '',
+    size: '',
     material: '',
     condition: '',
     usage: '',
@@ -23,6 +24,7 @@ export const createEmptyAdvertInput = (): AdvertInput => ({
 })
 
 export const createEmptyAdvertLocation = (): AdvertLocation => ({
+    name: '',
     adress: '',
     zipCode: '',
     city: '',
@@ -47,6 +49,7 @@ export const sanitizeAdvertInput = (
         height,
         depth,
         weight,
+        size,
         material,
         condition,
         usage,
@@ -67,6 +70,7 @@ export const sanitizeAdvertInput = (
     height,
     depth,
     weight,
+    size,
     material,
     condition,
     usage,
@@ -79,6 +83,7 @@ export const sanitizeAdvertInput = (
 
 export const sanitizeAdvertLocation = (
     {
+        name,
         adress,
         zipCode,
         city,
@@ -86,6 +91,7 @@ export const sanitizeAdvertLocation = (
     }: AdvertLocation = createEmptyAdvertLocation()
 ): AdvertLocation => ({
     ...createEmptyAdvertLocation(),
+    name,
     adress,
     zipCode,
     city,

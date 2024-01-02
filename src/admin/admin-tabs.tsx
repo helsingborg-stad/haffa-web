@@ -9,6 +9,9 @@ import { EditApiKeysView } from './api-keys'
 import { EditAnalyticsView } from './analytics'
 import { EditTermsView } from './terms'
 import { EventLogView } from './events/EventLogView'
+import { EditContentView } from './content'
+import { ConfigureAdvertsView } from './adverts/ConfigureAdvertsView'
+import { EditLocationsView } from './locations/EditLocationsView'
 
 const tab = (
     enabled: boolean | undefined,
@@ -28,44 +31,59 @@ export const createAdminTabs = (
 ) =>
     [
         tab(
+            roles.canManageContent,
+            phrase('ADMIN_CONTENT_TITLE', 'Redaktionellt'),
+            <EditContentView />
+        ),
+        tab(
             roles.canEditTerms,
-            phrase('THEME_TITLE', 'Tema'),
+            phrase('ADMIN_THEME_TITLE', 'Tema'),
             <EditThemeView />
         ),
         tab(
             roles.canEditTerms,
-            phrase('TERMS_TITLE', 'Definitioner'),
+            phrase('ADMIN_TERMS_TITLE', 'Definitioner'),
             <EditTermsView />
         ),
         tab(
             roles.canEditTerms,
-            phrase('PHRASES_TITLE', 'Fraser'),
+            phrase('ADMIN_PHRASES_TITLE', 'Fraser'),
             <EditPhrasesView />
         ),
         tab(
+            roles.canManageAllAdverts,
+            phrase('ADMIN_ADVERTS_TITLE', 'Annonser'),
+            <ConfigureAdvertsView />
+        ),
+        tab(
             roles.canEditSystemCategories,
-            phrase('CATEGORIES_TITLE', 'Kategorier'),
+            phrase('ADMIN_CATEGORIES_TITLE', 'Kategorier'),
             <EditCategoriesView />
         ),
         tab(
-            roles.canEditTerms,
-            phrase('ANALYTICS_TITLE', 'Webanalys'),
-            <EditAnalyticsView />
-        ),
-        tab(
             roles.canEditSystemLoginPolicies,
-            phrase('LOGINS_TITLE', 'Användare & behörigheter'),
+            phrase('ADMIN_LOGINS_TITLE', 'Användare & behörigheter'),
             <EditLoginPoliciesView />
         ),
         tab(
-            roles.canEditApiKeys,
-            phrase('APIKEYS_TITLE', 'API nycklar'),
-            <EditApiKeysView />
+            roles.canEditTerms,
+            phrase('ADMIN_LOCATIONS_TITLE', 'Adressregister'),
+            <EditLocationsView />
         ),
         tab(
             roles.canSeeSystemStatistics,
-            phrase('EVENTLOG_TITLE', 'Statistikunderlag'),
+            phrase('ADMIN_EVENTLOG_TITLE', 'Statistikunderlag'),
             <EventLogView />
+        ),
+        tab(
+            roles.canEditTerms,
+            phrase('ADMIN_ANALYTICS_TITLE', 'Webanalys'),
+            <EditAnalyticsView />
+        ),
+        tab(
+            roles.canEditApiKeys,
+            phrase('ADMIN_APIKEYS_TITLE', 'API nycklar'),
+            <EditApiKeysView />
         ),
     ]
         .filter((t) => t)

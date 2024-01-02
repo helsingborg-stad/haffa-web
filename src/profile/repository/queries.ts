@@ -1,4 +1,5 @@
 const profileProps = `
+	name
 	email
 	phone
 	adress

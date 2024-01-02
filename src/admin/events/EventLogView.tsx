@@ -22,6 +22,7 @@ import { ServerSideLogEvent } from 'statistics/types'
 import { PhraseContext } from 'phrases'
 import * as xlsx from 'xlsx'
 import * as fileSaver from 'file-saver'
+import { AdminEditorialPanel } from 'components/AdminEditorialPanel'
 
 interface EventsSearchParams {
     from: string
@@ -262,22 +263,29 @@ export const EventLogView: FC = () => {
     return view({
         pending: () => <LinearProgress />,
         resolved: ({ p, events }, enqueue) => (
-            <Card>
-                <CardContent>
-                    <SearchHeader
-                        searchParams={p}
-                        setSearchParams={(p) => enqueue(() => search(p))}
-                    />
-                </CardContent>
-                <CardContent>
-                    <DownloadHeader
-                        onExport={(name) => exportExcel(name, events)}
-                    />
-                </CardContent>
-                <CardContent>
-                    <EventsTable events={events} labels={eventLabels} />
-                </CardContent>
-            </Card>
+            <>
+                <AdminEditorialPanel
+                    headline="ADMIN_EVENTLOG_HEADLINE"
+                    body="ADMIN_EVENTLOG_BODY"
+                />
+
+                <Card>
+                    <CardContent>
+                        <SearchHeader
+                            searchParams={p}
+                            setSearchParams={(p) => enqueue(() => search(p))}
+                        />
+                    </CardContent>
+                    <CardContent>
+                        <DownloadHeader
+                            onExport={(name) => exportExcel(name, events)}
+                        />
+                    </CardContent>
+                    <CardContent>
+                        <EventsTable events={events} labels={eventLabels} />
+                    </CardContent>
+                </Card>
+            </>
         ),
         rejected: (e) => <ErrorView error={e} />,
     })

@@ -8,6 +8,7 @@
 
 require('dotenv').config()
 const Koa = require('koa')
+const compress = require('koa-compress')
 const Router = require('@koa/router')
 const send = require('koa-send')
 const serve = require('koa-static')
@@ -18,6 +19,27 @@ const PORT = process.env.PORT ?? 3000
 const backendUrl = process.env.HAFFA_BACKEND_URL
 const app = new Koa()
 const router = new Router()
+
+/************************************************************
+ *
+ * Compress large files
+ *
+ ***********************************************************/
+app.use(
+    compress({
+        filter(content_type) {
+            return /text|json|javascript|css|xml/i.test(content_type)
+        },
+        threshold: 2048,
+        gzip: {
+            flush: require('zlib').constants.Z_SYNC_FLUSH,
+        },
+        deflate: {
+            flush: require('zlib').constants.Z_SYNC_FLUSH,
+        },
+        br: false,
+    })
+)
 
 /************************************************************
  *

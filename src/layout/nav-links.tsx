@@ -19,12 +19,6 @@ export interface HaffaLink {
     type: 'button' | 'link' | 'menuitem'
 }
 
-const button = (label: string, href: string, icon: ReactNode): HaffaLink => ({
-    label,
-    href,
-    icon,
-    type: 'button',
-})
 const link = (label: string, href: string, icon: ReactNode): HaffaLink => ({
     label,
     href,
@@ -41,7 +35,6 @@ const menuitem = (label: string, href: string, icon: ReactNode): HaffaLink => ({
 export const createNavLinks: Func1<
     {
         mobile: boolean
-        desktop: boolean
         guest: boolean
         roles: HaffaUserRoles
         phrases: PhraseContextType
@@ -49,13 +42,12 @@ export const createNavLinks: Func1<
     HaffaLink[]
 > = ({
     mobile,
-    desktop,
     guest,
     roles,
     phrases: {
         phrase,
-        ADVERT_CREATE,
-        NAV_HOME,
+        NAV_CREATE,
+        NAV_BROWSE,
         NAV_MY_ADVERTS,
         NAV_MY_RESERVATIONS,
         NAV_PROFILE,
@@ -64,18 +56,10 @@ export const createNavLinks: Func1<
     },
 }) =>
     guest
-        ? [
-              // button('Logga in', '/login', <LoginIcon />),
-              link(SCAN_QR_CODE, '/scan', <QrCodeScannerIcon />),
-          ]
+        ? [link(SCAN_QR_CODE, '/scan', <QrCodeScannerIcon />)]
         : [
-              false &&
-                  desktop &&
-                  button(ADVERT_CREATE, '/advert/create', <AddIcon />),
-              false && link(NAV_HOME, '/', <SearchIcon />),
-              // mobile && link(ADVERT_CREATE, '/advert/create', <AddIcon />),
-
-              link(ADVERT_CREATE, '/advert/create', <AddIcon />),
+              link(NAV_BROWSE, '/browse', <SearchIcon />),
+              link(NAV_CREATE, '/advert/create', <AddIcon />),
               link(SCAN_QR_CODE, '/scan', <QrCodeScannerIcon />),
               (mobile ? menuitem : link)(
                   'Bevakningar',

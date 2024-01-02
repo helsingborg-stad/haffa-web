@@ -113,6 +113,7 @@ export const useFormControls = <TModel,>(
         <FormControl variant="outlined" sx={{ minWidth: 120 }} {...props}>
             <InputLabel id={props?.id || ''}>{props?.label}</InputLabel>
             <Select
+                required={props?.required}
                 fullWidth={props?.fullWidth}
                 labelId={props?.id || ''}
                 value={getter(model) || ''}
@@ -120,6 +121,9 @@ export const useFormControls = <TModel,>(
                 placeholder={props?.placeholder}
                 onChange={(e) => patchModel(setter(e.target.value as string))}
             >
+                <MenuItem key="clear" value="">
+                    <em>Inget val</em>
+                </MenuItem>
                 {options.map(({ label, value }) => (
                     <MenuItem key={value} value={value}>
                         {label}

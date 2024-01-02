@@ -1,99 +1,83 @@
-import {
-    Box,
-    Button,
-    Card,
-    CardActions,
-    CardContent,
-    FormControl,
-    InputLabel,
-    MenuItem,
-    Select,
-    TextField,
-} from '@mui/material'
-import { FC, useContext, useState } from 'react'
-import { Editorial } from 'editorials'
-import SaveIcon from '@mui/icons-material/Save'
-import { PhraseContext } from 'phrases'
+import { Card, CardContent, MenuItem, TextField } from '@mui/material'
+import { FC, useState } from 'react'
 import { getOption } from 'options'
 import { AnalyticsOptions } from 'analytics/types'
+import { AdminActionPanel } from 'components/AdminActionPanel'
+import { isValidUrl } from 'lib/string-utils'
+import { AdminEditorialPanel } from 'components/AdminEditorialPanel'
 import type { Option } from '../../options/types'
-
-const NS = 'ANALYTICS'
 
 export const EditAnalyticsForm: FC<{
     options: Option<AnalyticsOptions>[]
-    onUpdate: (options: Option<AnalyticsOptions>[]) => void
+    onUpdate: (
+        options: Option<AnalyticsOptions>[]
+    ) => Promise<Option<AnalyticsOptions>[]>
 }> = ({ options, onUpdate }) => {
-    const { phrase } = useContext(PhraseContext)
-
     const [provider, setProvider] = useState(
         getOption('provider', options) ?? 'none'
     )
     const [config, setConfig] = useState(getOption('config', options) ?? '')
 
+    const isValidForm = () =>
+        (provider !== 'none' && isValidUrl(config)) ||
+        (provider === 'none' && config === '')
+
     return (
-        <Card>
-            <Editorial phraseKey="ANALYTICS_SECTION_EDITORIAL">
-                Definitioner för web-analys
-            </Editorial>
-            <CardContent>
-                <FormControl fullWidth>
-                    <InputLabel id="analytics-provider-label">
-                        {phrase(`${NS}_FIELD_PROVIDER`, 'Leverantör')}
-                    </InputLabel>
-                    <Select
-                        labelId="analytics-provider-label"
+        <>
+            <AdminEditorialPanel
+                headline="ADMIN_ANALYTICS_HEADLINE"
+                body="ADMIN_ANALYTICS_BODY"
+            />
+            <AdminActionPanel
+                disabled={!isValidForm()}
+                onSave={() =>
+                    onUpdate([
+                        {
+                            key: 'config',
+                            value: config,
+                        },
+                        {
+                            key: 'provider',
+                            value: provider,
+                        },
+                    ])
+                }
+                onRestore={() => {
+                    setProvider('none')
+                    setConfig('')
+                }}
+            />
+            <Card>
+                <CardContent>
+                    <TextField
+                        select
+                        fullWidth
+                        sx={{ mt: 2 }}
                         value={provider}
-                        label={phrase(`${NS}_FIELD_PROVIDER`, 'Leverantör')}
-                        onChange={(event) => {
-                            setProvider(event?.target.value)
+                        label="Leverantör"
+                        onChange={({ target: { value } }) => {
+                            setProvider(value)
+                            if (value === 'none') {
+                                setConfig('')
+                            }
                         }}
                     >
-                        <MenuItem value="none">
-                            {phrase(`${NS}_PROVIDER_OPTION_NONE`, 'Ej aktiv')}
-                        </MenuItem>
-                        <MenuItem value="matomo">
-                            {phrase(`${NS}_PROVIDER_OPTION_MATOMO`, 'Matomo')}
-                        </MenuItem>
-                        <MenuItem value="google">
-                            {phrase(`${NS}_PROVIDER_OPTION_GOOGLE`, 'Google')}
-                        </MenuItem>
-                    </Select>
+                        <MenuItem value="none">Inaktiv</MenuItem>
+                        <MenuItem value="matomo">Matomo</MenuItem>
+                        <MenuItem value="google">Google</MenuItem>
+                    </TextField>
                     <TextField
                         fullWidth
-                        sx={{ marginTop: 4 }}
-                        label={phrase(`${NS}_FIELD_CONFIG`, 'Konfiguration')}
+                        sx={{ my: 2 }}
+                        label="Webbaddress till behållaren"
                         value={config}
+                        error={!isValidForm()}
+                        required={provider !== 'none'}
                         disabled={provider === 'none'}
-                        onChange={(event) => {
-                            setConfig(event?.target.value)
-                        }}
+                        onChange={({ target: { value } }) => setConfig(value)}
                     />
-                </FormControl>
-            </CardContent>
-            <CardActions>
-                <Box flex={1} />
-                <Button
-                    id={`${NS}_ACTION_SAVE`}
-                    type="submit"
-                    variant="contained"
-                    startIcon={<SaveIcon />}
-                    onClick={() =>
-                        onUpdate([
-                            {
-                                key: 'config',
-                                value: config,
-                            },
-                            {
-                                key: 'provider',
-                                value: provider,
-                            },
-                        ])
-                    }
-                >
-                    {phrase(`${NS}_ACTION_SAVE`, 'Spara')}
-                </Button>
-            </CardActions>
-        </Card>
+                </CardContent>
+            </Card>
+        </>
     )
 }

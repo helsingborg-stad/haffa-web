@@ -178,4 +178,9 @@ export const createDefaultRoleInputBindings = (
                 ),
                 true
             )
+            .define(
+                'canManageContent',
+                phrase('ROLES_CAN_MANAGE_CONTENT', 'Managera innehåll (admin)'),
+                true
+            )
     )

@@ -13,6 +13,7 @@ export interface HaffaUserRoles {
     canEditTerms?: boolean
     canRunSystemJobs?: boolean
     canSeeSystemStatistics?: boolean
+    canManageContent?: boolean
 }
 
 export interface Authentication {

@@ -1,7 +1,8 @@
 import { FC, useCallback, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { Terms } from 'terms/types'
-import { AdvertInput, AdvertMutationResult } from '../../types'
+import { AdvertFieldConfig } from 'advert-field-config/types'
+import { AdvertInput, AdvertLocation, AdvertMutationResult } from '../../types'
 import { sanitizeAdvertInput } from '../../repository/mappers'
 import { AdvertForm } from './form'
 import { Category } from '../../../categories/types'
@@ -12,7 +13,17 @@ export const AdvertEditor: FC<{
     advert: AdvertInput
     terms: Terms
     categories: Category[]
-}> = ({ title, onUpdate, advert: inputAdvert, terms, categories }) => {
+    fields: AdvertFieldConfig
+    locations: AdvertLocation[]
+}> = ({
+    title,
+    onUpdate,
+    advert: inputAdvert,
+    terms,
+    categories,
+    fields,
+    locations,
+}) => {
     const [advert, setAdvert] = useState<AdvertInput>(
         sanitizeAdvertInput(inputAdvert)
     )
@@ -48,6 +59,8 @@ export const AdvertEditor: FC<{
             advert={advert}
             terms={terms}
             categories={categories}
+            fields={fields}
+            locations={locations}
             disabled={saving}
             onSave={save}
         />

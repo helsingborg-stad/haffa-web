@@ -18,6 +18,8 @@ export const defaultPhrases: Omit<
     ERROR_UNKNOWN: 'Något gick fel. Försök igen.\n',
     SIGNOUT: 'Logga ut',
     NAV_HOME: 'Hem',
+    NAV_BROWSE: 'Annonser',
+    NAV_CREATE: 'Skapa',
     NAV_MY_ADVERTS: 'Mina annonser',
     NAV_MY_RESERVATIONS: 'Haffat!',
     NAV_PROFILE: 'Min profil',
@@ -35,6 +37,12 @@ export const defaultPhrases: Omit<
     ADVERT_ARCHIVE: 'Arkivera',
     SCAN_QR_CODE: 'Skanna',
     SUBSCRIPTIONS_SUBSCRIBE_TO_SEARCH: 'Bevaka denna sökning',
+    SUBSCRIPTIONS_UNSUBSCRIBE_TO_SEARCH: 'Ta bort bevakning',
+    SUBSCRIPTIONS_NAVIGATE_TO_SEARCH: 'Visa',
+    SUBSCRIPTIONS_HEADING: 'Bevakningar',
+    SUNSCRIPTIONS_EDITORIAL:
+        'Du kan skapa en bevakning på en filtrering eller sökning. Du får ett mail när något nytt, som matchar din bevakning har dykt upp i Haffa.',
+    SUBSCRIPTIONS_NO_CONTENT: 'Du har inte skapat några bevakningar än.',
     NOTIFICATIONS_ADVERT_WAS_CREATED: 'Annonsen har skapats',
     NOTIFICATIONS_ADVERT_WAS_UPDATED: 'Annonsen har uppdaterats',
     NOTIFICATIONS_ADVERT_WAS_REMOVED: 'Annonsen har tagits bort',
@@ -51,9 +59,13 @@ export const defaultPhrases: Omit<
     NOTIFICATIONS_CATEGORIES_WAS_UPDATED: 'Inställningarna är sparade',
     NOTIFICATIONS_LOGINS_WAS_UPDATED: 'Inställningarna är sparade',
     NOTIFICATIONS_OPTIONS_WAS_UPDATED: 'Dina ändringar är sparade',
+    NOTIFICATIONS_LOCATION_WAS_UPDATED: 'Adressregistret uppdaterades',
     NOTIFICATIONS_PROFILE_WAS_UPDATED: 'Din profil är uppdaterad',
     NOTIFICATIONS_TERMS_WAS_UPDATED: 'Definitionerna är uppdaterade',
     NOTIFICATIONS_PROFILE_WAS_REMOVED: 'Din profil är borttagen',
+    NOTIFICATIONS_CONTENT_WAS_UPDATED: 'Innehållet är uppdaterat',
+    NOTIFICATIONS_ADVERT_FIELD_CONFIG_WAS_UPDATED:
+        'Definitionerna är uppdaterade',
     SORT_OPTION_TITLE_ASC: 'A-Ö',
     SORT_OPTION_TITLE_DESC: 'Ö-A',
     SORT_OPTION_CREATEDAT_ASC: 'Äldst',
@@ -63,33 +75,15 @@ export const defaultPhrases: Omit<
     CATEGORIES_ADD: 'Lägg till ny kategori',
     CATEGORIES_REMOVE: 'Ta bort kategori',
     CATEGORIES_SAVE: 'Spara',
-    CATEGORIES_TITLE: 'Kategorier',
     CATEGORIES_FIELD_C02: 'CO₂ besparing',
-
+    CATEGORIES_FIELD_VALUE: 'Kostnadsvärdering',
     CATEGORIES_FIELD_LABEL: 'Benämning',
     CATEGORIES_INFO_CONECTED_ADVERTS:
         'Denna kategori har {count} kopplade annonser',
-    APIKEYS_TITLE: 'API nycklar',
-    THEME_TITLE: 'Tema',
-    THEME_ACTION_RESTORE: 'Återställ',
-    THEME_ACTION_SAVE: 'Spara',
-    THEME_FIELD_ERROR_COLOR: 'Fel',
-    THEME_FIELD_INFO_COLOR: 'Information',
-    THEME_FIELD_PRIMARY_COLOR: 'Primär färg',
-    THEME_FIELD_SECONDARY_COLOR: 'Sekundär färg',
-    THEME_FIELD_SUCCESS_COLOR: 'Genomfört',
-    THEME_FIELD_WARNING_COLOR: 'Varning',
-    THEME_SECTION_COLORS: 'Färger',
-    ANALYTICS_TITLE: 'Webanalys',
-    ANALYTICS_ACTION_SAVE: 'Spara',
-    ANALYTICS_FIELD_CONFIG: 'Konfiguration',
-    ANALYTICS_FIELD_PROVIDER: 'Leverantör',
-    ANALYTICS_PROVIDER_OPTION_GOOGLE: 'Google',
-    ANALYTICS_PROVIDER_OPTION_MATOMO: 'Matomo',
-    ANALYTICS_PROVIDER_OPTION_NONE: 'Ej aktiv',
-    ANALYTICS_SECTION_EDITORIAL: `
-Definitioner för web-analys
-`,
+
+    // ***********************************************
+    // Roles used by the system
+    // ***********************************************
     ROLES_CAN_EDIT_OWN_ADVERTS: 'Skapa annonser',
     ROLES_CAN_ARCHIVE_OWN_ADVERTS: 'Arkivera egna annonser',
     ROLES_CAN_REMOVE_OWN_ADVERTS: 'Ta bort egna annonser',
@@ -105,12 +99,12 @@ Definitioner för web-analys
     ROLES_CAN_RUN_SYSTEM_JOBS: 'Agent som får köra jobb (admin)',
     ROLES_CAN_SUBSCRIBE: 'Bevaka annonser',
     ROLES_CAN_SEE_SYSTEM_STATISTICS: 'Se statistikunderlag',
+    ROLES_CAN_MANAGE_CONTENT: 'Managera innehåll (admin)"',
     ROLES_SELECT_LABEL: 'Behörigheter',
     APIKEYS_FIELD_EMAIL: 'Email',
     APIKEYS_FIELD_KEY: 'Nyckel',
     APIKEYS_FIELD_EXPIRES: 'Giltig till',
     APIKEYS_ADD: 'Lägg till nyckel',
-    APIKEYS_SAVE: 'Spara',
     PHRASES_FIELD_VALUE: 'Värde',
     PHRASES_FIELD_DEFAULT: 'Fabriksinställning',
     PHRASES_FIELD_KEY: 'ID',
@@ -126,6 +120,7 @@ Definitioner för web-analys
     ADVERT_FIELD_QUANTITY: 'Antal',
     ADVERT_FIELD_CATEGORY: 'Kategori',
     ADVERT_FIELD_REFERENCE: 'Egen referens',
+    ADVERT_FIELD_LOCATION_NAME: 'Namn',
     ADVERT_FIELD_LOCATION_ADRESS: 'Adress',
     ADVERT_FIELD_LOCATION_ZIPCODE: 'Postnummer',
     ADVERT_FIELD_LOCATION_CITY: 'Stad',
@@ -139,13 +134,20 @@ Definitioner för web-analys
     ADVERT_FIELD_HEIGHT: 'Höjd',
     ADVERT_FIELD_DEPTH: 'Djup',
     ADVERT_FIELD_WEIGHT: 'Vikt',
+    ADVERT_FIELD_SIZE: 'Storlek',
     ADVERT_FIELD_MATERIAL: 'Material',
     ADVERT_FIELD_CONDITION: 'Skick',
     ADVERT_FIELD_USAGE: 'Användningsområde',
+    ADVERT_FIELD_TAGS: 'Taggar',
+    ADVERT_FIELD_TAGS_LABEL:
+        'Tagga din annons för att göra det lättare att hitta den',
+    ADVERT_FIELD_TAGS_PLACEHOLDER: 'Klicka för att lägga till',
     ADVERT_FIELD_CONTACT_TITLE: 'Kontakt',
     ADVERT_FIELD_ADDRESS_TITLE: 'Adress för avhämtning',
     ADVERT_TYPE_RECYCLE: 'Återbruk',
     ADVERT_UPLOAD_IMAGE: 'Välj en fin bild',
+    ADVERT_BUTTON_SYNCH_FROM_PROFILE: 'Hämta från min profil',
+    ADVERT_BUTTON_SYNCH_TO_PROFILE: 'Uppdatera min profil',
     MYADVERTS_ACTIVE: 'Aktiva',
     MYADVERTS_RESERVED: 'Reserverade',
     MYADVERTS_COLLECTED: 'Uthämtade',
@@ -161,7 +163,6 @@ Definitioner för web-analys
     ADVERT_CLAIM_IS_RESERVED: '{by} reserverade {quantity} {unit} {at}',
     ADVERT_CLAIMS_CANCEL_RESERVATION: 'Ångra reservation',
     ADVERT_CLAIMS_COLLECT_MANUALLY: 'Lämna ut manuellt',
-    LOGINS_TITLE: 'Användare & behörigheter',
     LOGINS_EFECTIVE_PERMISSIONS: 'Effektiva behörigheter',
     LOGINS_EDITORIAL: `
 Här anges vilka användare som ges eller nekas tillträde till sajten.
@@ -176,8 +177,68 @@ Regler utan email tas automatiskt bort.`,
     LOGINS_DENY: 'Neka',
     LOGINS_FIELD_EMAIL: 'Email',
     LOGINS_ADD_RULE: 'Lägg till regel',
-    LOGINS_SAVE: 'Spara',
-    EVENTLOG_TITLE: 'Statistikunderlag',
+
+    // ***********************************************
+    // Admin pages editorials
+    // ***********************************************
+    ADMIN_CONTENT_TITLE: 'Redaktionellt',
+    ADMIN_CONTENT_HEADLINE: 'Skapa ditt eget innehåll',
+    ADMIN_CONTENT_BODY:
+        'Här kan du skapa och ändra innehåll som visas på startsidan.',
+    ADMIN_THEME_TITLE: 'Tema',
+    ADMIN_THEME_HEADLINE: 'Ge Haffa din egen stil',
+    ADMIN_THEME_BODY:
+        'Ändra färger och utseende så att Haffa passar just din organistion',
+    ADMIN_THEME_EMPTY:
+        'Din startsida är tom! Klicka på knappen Ny Rad för att skapa nytt innehåll',
+    ADMIN_TERMS_TITLE: 'Definitioner',
+    ADMIN_TERMS_HEADLINE: 'Konfigurera termer och definitioner',
+    ADMIN_TERMS_BODY:
+        'Definitioner editeras som textblock där varje rad utgör ett valbart värde i profil och annonseditor. Ändringar i definitioner uppdaterar inte existerande profiler och annonser och kan påverka statistiken negativt.',
+    ADMIN_PHRASES_TITLE: 'Fraser',
+    ADMIN_PHRASES_HEADLINE: 'Vill du ändra en text?',
+    ADMIN_PHRASES_BODY:
+        'Här finns de flesta texter som visas på element och knappar i Haffa.',
+    ADMIN_CATEGORIES_TITLE: 'Kategorier',
+    ADMIN_CATEGORIES_HEADLINE: 'Ordning och reda!',
+    ADMIN_CATEGORIES_BODY:
+        'Skapa kategorier för dina annonser så att användare kan filtrera på det de letar efter',
+
+    ADMIN_LOGINS_TITLE: 'Användare & behörigheter',
+    ADMIN_LOGINS_HEADLINE: 'Användarhantering',
+    ADMIN_LOGINS_BODY:
+        'Se till att kunderna får tillgång till Haffa och att dina medarbetara kan arbeta effektivt',
+
+    ADMIN_LOCATIONS_TITLE: 'Adressregister',
+    ADMIN_LOCATIONS_HEADLINE: 'Adressregistret',
+    ADMIN_LOCATIONS_BODY:
+        'Här kan du ange utlämningsadresser som sedan blir valbara när du skapar annonser.',
+    ADMIN_LOCATIONS_EMPTY:
+        'Du har inte lagt in några adresser i registret än! Klicka på knappen Ny Adress för att skapa en ny post',
+
+    ADMIN_ADVERTS_TITLE: 'Annonser',
+    ADMIN_ADVERTS_HEADLINE: 'Skräddarsy dina annonser',
+    ADMIN_ADVERTS_BODY:
+        'Här kan du ändra konfigurera vilka fält som används och om de skall vara obligatoriska eller ej',
+
+    ADMIN_EVENTLOG_TITLE: 'Statistikunderlag',
+    ADMIN_EVENTLOG_HEADLINE: 'Uppföljning och statistik',
+    ADMIN_EVENTLOG_BODY:
+        'Hur vet jag hur Haffa gör skillnad? Här finns statistik för analys och uppföljning',
+
+    ADMIN_ANALYTICS_TITLE: 'Webanalys',
+    ADMIN_ANALYTICS_HEADLINE: 'Inställningar för webbanalys',
+    ADMIN_ANALYTICS_BODY:
+        'Om du vill följa upp besökarstatistik för Haffa och har en behållare i en tagghanterare så kan du aktivera den här.',
+
+    ADMIN_APIKEYS_TITLE: 'API nycklar',
+    ADMIN_APIKEYS_HEADLINE: 'Automatisera mera',
+    ADMIN_APIKEYS_BODY:
+        'För att köra schemalagda jobb behöver du en API nyckel',
+
+    ADMIN_ACTION_SAVE: 'Spara',
+    ADMIN_ACTION_RESTORE: 'Återställ',
+
     EVENTLOG_FIELD_EVENT: 'Händelse',
     EVENTLOG_FIELD_DAY: 'Dag',
     EVENTLOG_FIELD_USER: 'Användare',
@@ -186,7 +247,6 @@ Regler utan email tas automatiskt bort.`,
     DIALOG_FILTER_TITLE: 'Filter',
     DIALOG_FILTER_SAVE: 'Spara',
     DIALOG_FILTER_CLEAR: 'Rensa',
-    PHRASES_TITLE: 'Fraser',
     APP_GENERIC_SEARCH: 'Sök...',
     APIKEYS_EDITORIAL: `
 API nycklar används för icke-interaktiva integrationer och möjliggör externa tjänster att autentisera (via nyckel) och auktorisera (via email) gentemot tjänster i Haffa.

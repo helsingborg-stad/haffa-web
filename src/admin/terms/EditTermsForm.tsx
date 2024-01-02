@@ -1,16 +1,9 @@
-import {
-    Box,
-    Button,
-    Card,
-    CardActions,
-    CardContent,
-    Grid,
-    TextField,
-} from '@mui/material'
+import { Card, CardContent, Grid, TextField } from '@mui/material'
 import { PhraseContext } from 'phrases'
 import { FC, useContext, useState } from 'react'
 import { Terms } from 'terms/types'
-import { Editorial } from 'editorials'
+import { AdminActionPanel } from 'components/AdminActionPanel'
+import { AdminEditorialPanel } from 'components/AdminEditorialPanel'
 
 export const EditTermsForm: FC<{
     terms: Terms
@@ -67,52 +60,59 @@ export const EditTermsForm: FC<{
     ]
 
     return (
-        <Card>
-            <CardContent>
-                <Editorial phraseKey="TERMS_EDITORIAL">
-                    Definitioner editeras som textblock där varje rad utgör ett
-                    valbart värde i profil och annonseditor. Ändringar i
-                    definitioner uppdaterar inte existerande profiler och
-                    annonser och kan påverka statistiken negativt.
-                </Editorial>
-            </CardContent>
-            <CardContent>
-                <Grid container direction="row">
-                    {bindings.map(({ label, value, setValue }) => (
-                        <Grid key={label} item xs={12} sm={4} sx={{ p: 1 }}>
-                            <TextField
-                                label={label}
-                                placeholder={label}
-                                fullWidth
-                                rows={10}
-                                multiline
-                                value={value}
-                                onChange={(e) =>
-                                    setValue(e.currentTarget.value)
-                                }
-                            />
-                        </Grid>
-                    ))}
-                </Grid>
-            </CardContent>
-            <CardActions>
-                <Box flex={1} />
-                <Button
-                    variant="contained"
-                    onClick={() =>
-                        onUpdate({
-                            organization: organization.split('\n'),
-                            unit: unit.split('\n'),
-                            material: material.split('\n'),
-                            condition: condition.split('\n'),
-                            usage: usage.split('\n'),
-                            tags: tags.split('\n'),
-                        })
-                    }
-                >
-                    Spara
-                </Button>
-            </CardActions>
-        </Card>
+        <>
+            <AdminEditorialPanel
+                headline="ADMIN_TERMS_HEADLINE"
+                body="ADMIN_TERMS_BODY"
+            />
+            <AdminActionPanel
+                onSave={() =>
+                    onUpdate({
+                        organization: organization.split('\n'),
+                        unit: unit.split('\n'),
+                        material: material.split('\n'),
+                        condition: condition.split('\n'),
+                        usage: usage.split('\n'),
+                        tags: tags.split('\n'),
+                    })
+                }
+                onRestore={() => bindings.forEach((v) => v.setValue(''))}
+            />
+
+            <Card>
+                <CardContent>
+                    <Grid container direction="row">
+                        {bindings.map(({ label, value, setValue }) => (
+                            <Grid key={label} item xs={12} sm={4} sx={{ p: 1 }}>
+                                <TextField
+                                    label={label}
+                                    placeholder={label}
+                                    fullWidth
+                                    rows={10}
+                                    multiline
+                                    value={value}
+                                    onChange={(e) =>
+                                        setValue(e.currentTarget.value)
+                                    }
+                                />
+                            </Grid>
+                        ))}
+                    </Grid>
+                </CardContent>
+            </Card>
+            <AdminActionPanel
+                onSave={() =>
+                    onUpdate({
+                        organization: organization.split('\n'),
+                        unit: unit.split('\n'),
+                        material: material.split('\n'),
+                        condition: condition.split('\n'),
+                        usage: usage.split('\n'),
+                        tags: tags.split('\n'),
+                    })
+                }
+                onRestore={() => bindings.forEach((v) => v.setValue(''))}
+            />
+        </>
     )
 }

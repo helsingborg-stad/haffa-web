@@ -20,6 +20,7 @@
         "file-saver": "^2.0.5",
         "jwt-decode": "^3.1.2",
         "koa": "^2.14.2",
+        "koa-compress": "^5.1.1",
         "koa-proxies": "^0.12.3",
         "koa-send": "^5.0.1",
         "koa-static": "^5.0.0",
