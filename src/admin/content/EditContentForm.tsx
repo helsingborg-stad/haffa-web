@@ -133,7 +133,7 @@ export const EditContentForm = (props: {
                       ...cache,
                       module,
                   })
-                : void 0
+                : undefined
         },
         [cache, setCache]
     )

@@ -247,6 +247,7 @@ export const AdvertForm: FC<{
                                     field,
                                     phrase('ADVERT_FIELD_TITLE', 'Titel'),
                                     {
+                                        autoFocus: true,
                                         required,
                                         disabled,
                                         fullWidth: true,

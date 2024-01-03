@@ -1,8 +1,7 @@
 import {
     Avatar,
+    Box,
     Button,
-    Card,
-    CardContent,
     IconButton,
     List,
     ListItem,
@@ -50,7 +49,7 @@ export const EditLocationsForm = (props: {
                       ...cache,
                       module,
                   })
-                : void 0
+                : undefined
         },
         [cache, setCache]
     )
@@ -90,62 +89,65 @@ export const EditLocationsForm = (props: {
                     Ny Adress
                 </Button>
             </AdminActionPanel>
-            <Card>
-                <CardContent>
-                    {cache && (
-                        <LocationEditor
-                            onUpdate={(e) => cacheUpdate(e)}
-                            onClose={() => setCache(undefined)}
-                            onApply={applyFromCache}
-                            module={cache.module}
-                        />
-                    )}
-                    {list.length > 0 && (
-                        <List>
-                            {list.map((e, i) => (
-                                <ListItem
-                                    divider
-                                    key={i}
-                                    disablePadding
-                                    secondaryAction={
-                                        <IconButton
-                                            disabled={disabled}
-                                            edge="end"
-                                            aria-label="comment"
-                                            onClick={() => deleteRow(i)}
-                                        >
-                                            <Delete />
-                                        </IconButton>
+            <Box
+                sx={{
+                    width: '100%',
+                    bgcolor: 'background.paper',
+                }}
+            >
+                {cache && (
+                    <LocationEditor
+                        onUpdate={(e) => cacheUpdate(e)}
+                        onClose={() => setCache(undefined)}
+                        onApply={applyFromCache}
+                        module={cache.module}
+                    />
+                )}
+                {list.length > 0 && (
+                    <List>
+                        {list.map((e, i) => (
+                            <ListItem
+                                divider={i < list.length - 1}
+                                key={i}
+                                disablePadding
+                                secondaryAction={
+                                    <IconButton
+                                        disabled={disabled}
+                                        edge="end"
+                                        aria-label="comment"
+                                        onClick={() => deleteRow(i)}
+                                    >
+                                        <Delete />
+                                    </IconButton>
+                                }
+                            >
+                                <ListItemButton
+                                    disabled={disabled}
+                                    onClick={() =>
+                                        setCache({
+                                            position: i,
+                                            module: { ...e },
+                                        })
                                     }
                                 >
-                                    <ListItemButton
-                                        disabled={disabled}
-                                        onClick={() =>
-                                            setCache({
-                                                position: i,
-                                                module: { ...e },
-                                            })
-                                        }
-                                    >
-                                        <ListItemAvatar>
-                                            <Avatar>
-                                                <PlaceIcon />
-                                            </Avatar>
-                                        </ListItemAvatar>
-                                        <ListItemText
-                                            primary={e.name}
-                                            secondary={`${e.adress}, ${e.zipCode} ${e.city}`}
-                                        />
-                                    </ListItemButton>
-                                </ListItem>
-                            ))}
-                        </List>
-                    )}
-                    {list.length === 0 && (
-                        <Editorial phraseKey="ADMIN_LOCATIONS_EMPTY" />
-                    )}
-                </CardContent>
-            </Card>
+                                    <ListItemAvatar>
+                                        <Avatar>
+                                            <PlaceIcon />
+                                        </Avatar>
+                                    </ListItemAvatar>
+                                    <ListItemText
+                                        primary={e.name}
+                                        secondary={`${e.adress}, ${e.zipCode} ${e.city}`}
+                                    />
+                                </ListItemButton>
+                            </ListItem>
+                        ))}
+                    </List>
+                )}
+                {list.length === 0 && (
+                    <Editorial phraseKey="ADMIN_LOCATIONS_EMPTY" />
+                )}
+            </Box>
         </>
     )
 }

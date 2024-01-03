@@ -3,12 +3,15 @@ import {
     ConfigurableFields,
     FieldConfig,
 } from 'advert-field-config/types'
+import { AdvertContact, AdvertInput, AdvertLocation } from 'adverts'
+import { isString } from 'lib/string-utils'
 
 export const createEmptyConfiguration = (): AdvertFieldConfig =>
     ConfigurableFields.map((name) => ({
         name,
         visible: true,
         mandatory: false,
+        initial: '',
     }))
 
 export const normalizeFieldConfig = (fieldConfig: AdvertFieldConfig | null) => {
@@ -30,4 +33,46 @@ export const normalizeFieldConfig = (fieldConfig: AdvertFieldConfig | null) => {
         })
     })
     return Array.from(mapper.values())
+}
+
+export const setAdvertDefaults = (
+    advert: AdvertInput,
+    fieldConfig: AdvertFieldConfig
+) => {
+    const contact: Partial<AdvertContact> = { ...advert.contact }
+    const location: Partial<AdvertLocation> = { ...advert.location }
+    const base: Partial<AdvertInput> = { ...advert }
+
+    fieldConfig.forEach((field) => {
+        if (isString(field.initial)) {
+            switch (field.name) {
+                case 'name':
+                case 'adress':
+                case 'zipCode':
+                case 'city':
+                case 'country':
+                    location[field.name] = field.initial
+                    break
+                case 'phone':
+                case 'email':
+                case 'organization':
+                    contact[field.name] = field.initial
+                    break
+                case 'tags':
+                    base[field.name] = field.initial.split(',')
+                    break
+                case 'quantity':
+                    base[field.name] = Number(field.initial)
+                    break
+                default:
+                    base[field.name] = field.initial
+                    break
+            }
+        }
+    })
+    return {
+        ...base,
+        location,
+        contact,
+    } as AdvertInput
 }

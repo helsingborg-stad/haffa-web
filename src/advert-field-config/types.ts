@@ -36,6 +36,7 @@ export interface FieldConfig {
     name: Fields
     visible: boolean
     mandatory: boolean
+    initial: string
 }
 export type AdvertFieldConfig = FieldConfig[]
 

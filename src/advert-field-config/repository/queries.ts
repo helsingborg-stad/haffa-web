@@ -4,6 +4,7 @@ export const getFieldsQuery = /* GraphQL */ `
             name
             visible
             mandatory
+            initial
         }
     }
 `
@@ -14,6 +15,7 @@ export const updateFieldsMutation = /* GraphQL */ `
             name
             visible
             mandatory
+            initial
         }
     }
 `

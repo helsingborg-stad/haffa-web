@@ -8,6 +8,7 @@ import {
     TableContainer,
     TableHead,
     TableRow,
+    TextField,
 } from '@mui/material'
 
 import { PhraseContext } from 'phrases'
@@ -68,6 +69,7 @@ export const ConfigureAdvertsForm: FC<{
                             <TableCell>Fält</TableCell>
                             <TableCell>Synligt</TableCell>
                             <TableCell>Obligatoriskt</TableCell>
+                            <TableCell>Standardvärde</TableCell>
                         </TableRow>
                     </TableHead>
                     <TableBody>
@@ -110,6 +112,23 @@ export const ConfigureAdvertsForm: FC<{
                                                         ...f,
                                                         mandatory:
                                                             e.target.checked,
+                                                    },
+                                                ],
+                                                ...state.slice(key + 1),
+                                            ])
+                                        }
+                                    />
+                                </TableCell>
+                                <TableCell>
+                                    <TextField
+                                        value={f.initial}
+                                        onChange={(e) =>
+                                            setState([
+                                                ...state.slice(0, key),
+                                                ...[
+                                                    {
+                                                        ...f,
+                                                        initial: e.target.value,
                                                     },
                                                 ],
                                                 ...state.slice(key + 1),

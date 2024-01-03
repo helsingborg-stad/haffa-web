@@ -2,6 +2,7 @@ import { FC, useCallback, useContext } from 'react'
 import { Profile } from 'profile'
 import { Terms } from 'terms/types'
 import { AdvertFieldConfig } from 'advert-field-config/types'
+import { setAdvertDefaults } from 'advert-field-config/repository/mappers'
 import { AdvertInput, AdvertLocation } from '../../types'
 import { AdvertsContext } from '../../AdvertsContext'
 import { PhraseContext } from '../../../phrases/PhraseContext'
@@ -27,16 +28,15 @@ export const CreateAdvertView: FC<{
         async (a: AdvertInput) => createAdvert(a),
         [createAdvert]
     )
-
+    const advert = {
+        ...createEmptyAdvertInput(),
+        location: sanitizeAdvertLocation(profile),
+        contact: sanitizeAdvertContact(profile),
+    }
     return (
         <AdvertEditor
             title={CREATE_ADVERT}
-            advert={{
-                ...createEmptyAdvertInput(),
-                unit: terms.unit[0] || '',
-                location: sanitizeAdvertLocation(profile),
-                contact: sanitizeAdvertContact(profile),
-            }}
+            advert={setAdvertDefaults(advert, fields)}
             terms={terms}
             categories={categories}
             fields={fields}
