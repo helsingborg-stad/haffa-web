@@ -100,6 +100,7 @@ export const defaultPhrases: Omit<
     ROLES_CAN_SUBSCRIBE: 'Bevaka annonser',
     ROLES_CAN_SEE_SYSTEM_STATISTICS: 'Se statistikunderlag',
     ROLES_CAN_MANAGE_CONTENT: 'Managera innehåll (admin)',
+    ROLES_CAN_MANAGE_LOCATIONS: 'Managera adressregistret (admin)',
     ROLES_SELECT_LABEL: 'Behörigheter',
     APIKEYS_FIELD_EMAIL: 'Email',
     APIKEYS_FIELD_KEY: 'Nyckel',

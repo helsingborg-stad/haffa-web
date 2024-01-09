@@ -183,4 +183,12 @@ export const createDefaultRoleInputBindings = (
                 phrase('ROLES_CAN_MANAGE_CONTENT', 'Managera innehåll (admin)'),
                 true
             )
+            .define(
+                'canManageLocations',
+                phrase(
+                    'ROLES_CAN_MANAGE_LOCATIONS',
+                    'Managera adressregistret (admin)'
+                ),
+                true
+            )
     )
