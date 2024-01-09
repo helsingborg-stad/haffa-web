@@ -367,9 +367,10 @@ export const AdvertForm: FC<{
                     rows: [
                         [
                             createSimplifiedField('size', (field, required) =>
-                                textField(
+                                select(
                                     field,
                                     phrase('ADVERT_FIELD_SIZE', 'Storlek'),
+                                    makeOptions(terms.sizes),
                                     {
                                         required,
                                         disabled,

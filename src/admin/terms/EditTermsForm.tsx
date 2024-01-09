@@ -19,6 +19,7 @@ export const EditTermsForm: FC<{
     const [condition, setCondition] = useState(terms.condition.join('\n'))
     const [usage, setUsage] = useState(terms.usage.join('\n'))
     const [tags, setTags] = useState(terms.tags.join('\n'))
+    const [sizes, setSizes] = useState(terms.sizes.join('\n'))
 
     interface TermBinding {
         label: string
@@ -57,6 +58,11 @@ export const EditTermsForm: FC<{
             value: tags,
             setValue: setTags,
         },
+        {
+            label: phrase('TERMS_FIELD_SIZES', 'Storlekar'),
+            value: sizes,
+            setValue: setSizes,
+        },
     ]
 
     return (
@@ -74,6 +80,7 @@ export const EditTermsForm: FC<{
                         condition: condition.split('\n'),
                         usage: usage.split('\n'),
                         tags: tags.split('\n'),
+                        sizes: sizes.split('\n'),
                     })
                 }
                 onRestore={() => bindings.forEach((v) => v.setValue(''))}
@@ -109,6 +116,7 @@ export const EditTermsForm: FC<{
                         condition: condition.split('\n'),
                         usage: usage.split('\n'),
                         tags: tags.split('\n'),
+                        sizes: sizes.split('\n'),
                     })
                 }
                 onRestore={() => bindings.forEach((v) => v.setValue(''))}

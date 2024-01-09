@@ -7,6 +7,7 @@ export const getTermsQuery = /* GraphQL */ `
             condition
             usage
             tags
+            sizes
         }
     }
 `
@@ -20,6 +21,7 @@ export const updateTermsMutation = /* GraphQL */ `
             condition
             usage
             tags
+            sizes
         }
     }
 `
