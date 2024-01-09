@@ -345,7 +345,10 @@ const createRouter = (
                         r.canEditSystemCategories ||
                         r.canEditSystemLoginPolicies ||
                         r.canEditTerms ||
-                        r.canRunSystemJobs
+                        r.canRunSystemJobs ||
+                        r.canManageContent ||
+                        r.canManageLocations ||
+                        r.canSeeSystemStatistics
                     )
                 }
             >

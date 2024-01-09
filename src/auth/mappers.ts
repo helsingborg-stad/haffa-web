@@ -9,7 +9,8 @@ export const hasSomeAdminRoles = (r: HaffaUserRoles): boolean =>
         r.canEditTerms ||
         r.canRunSystemJobs ||
         r.canSeeSystemStatistics ||
-        r.canManageContent
+        r.canManageContent ||
+        r.canManageLocations
     )
 
 export const rolesToRolesArray = (roles?: HaffaUserRoles) =>
@@ -46,4 +47,5 @@ export const normalizeRoles = (
     canRunSystemJobs: !!roles?.canRunSystemJobs,
     canSeeSystemStatistics: !!roles?.canSeeSystemStatistics,
     canManageContent: !!roles?.canManageContent,
+    canManageLocations: !!roles?.canManageLocations,
 })

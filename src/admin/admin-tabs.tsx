@@ -66,7 +66,7 @@ export const createAdminTabs = (
             <EditLoginPoliciesView />
         ),
         tab(
-            roles.canEditTerms,
+            roles.canManageLocations,
             phrase('ADMIN_LOCATIONS_TITLE', 'Adressregister'),
             <EditLocationsView />
         ),
