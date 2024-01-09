@@ -95,16 +95,20 @@ export const FilterDialog: FC<{
                         selected={categories}
                         onCategoriesChanged={setCategories}
                     />
-                    <TagsFilter
-                        terms={terms}
-                        selected={tags}
-                        onTagsChanged={setTags}
-                    />
-                    <SizeFilter
-                        terms={terms}
-                        selected={size}
-                        onSizeChanged={setSize}
-                    />
+                    {terms.tags.length > 0 && (
+                        <TagsFilter
+                            terms={terms}
+                            selected={tags}
+                            onTagsChanged={setTags}
+                        />
+                    )}
+                    {terms.sizes.length > 0 && (
+                        <SizeFilter
+                            terms={terms}
+                            selected={size}
+                            onSizeChanged={setSize}
+                        />
+                    )}
                 </DialogContent>
                 <DialogActions>
                     <Button variant="contained" onClick={onSave} autoFocus>
