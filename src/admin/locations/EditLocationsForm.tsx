@@ -17,6 +17,7 @@ import { useCallback, useState } from 'react'
 import { AdvertLocation } from 'adverts'
 import PlaceIcon from '@mui/icons-material/Place'
 import Delete from '@mui/icons-material/Delete'
+import AddIcon from '@mui/icons-material/Add'
 import { Editorial } from 'editorials'
 import { LocationEditor } from './LocationEditor'
 
@@ -78,6 +79,7 @@ export const EditLocationsForm = (props: {
             />
             <AdminActionPanel onSave={saveLocations} disabled={disabled}>
                 <Button
+                    startIcon={<AddIcon />}
                     disabled={disabled}
                     onClick={() =>
                         setCache({

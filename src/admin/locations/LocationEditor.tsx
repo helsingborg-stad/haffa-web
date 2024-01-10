@@ -87,7 +87,11 @@ export const LocationEditor = (props: LocationEditorProps) => {
                     </Stack>
                 </DialogContent>
                 <DialogActions>
-                    <Button disabled={!isValid()} onClick={validate}>
+                    <Button
+                        type="submit"
+                        disabled={!isValid()}
+                        onClick={validate}
+                    >
                         Uppdatera
                     </Button>
                     <Button onClick={onClose}>Stäng</Button>
