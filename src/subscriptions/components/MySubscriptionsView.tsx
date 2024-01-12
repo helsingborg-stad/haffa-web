@@ -121,6 +121,17 @@ export const SubscriptionsListing: FC<{
                                         </Typography>
                                     </Box>
                                 )}
+                                {(subscription.filter.size?.length ?? 0) >
+                                    0 && (
+                                    <Box py={1}>
+                                        <Typography>Storlek</Typography>
+                                        <Typography variant="subtitle2">
+                                            {subscription.filter.size?.join(
+                                                ', '
+                                            ) ?? ''}
+                                        </Typography>
+                                    </Box>
+                                )}
                             </CardContent>
                             <CardActions
                                 key="a"

@@ -8,9 +8,12 @@ import {
 import { SubscriptionsContext } from './SubscriptionsContext'
 
 const isSubscribeableFilter = (filter: AdvertSubscriptionFilter): boolean =>
-    [filter.search, ...(filter.categories || []), ...(filter.tags || [])].some(
-        (v) => v?.trim()
-    )
+    [
+        filter.search,
+        ...(filter.categories || []),
+        ...(filter.tags || []),
+        ...(filter.size || []),
+    ].some((v) => v?.trim())
 
 export const SubscriptionsProvider: FC<
     { repository: SubscriptionsRepository } & PropsWithChildren

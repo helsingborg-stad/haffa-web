@@ -22,6 +22,7 @@ import { SizeFilter } from './SizeFilter'
 export interface SelectedFilters {
     categories: string[]
     tags: string[]
+    size: string[]
 }
 
 export const FilterDialog: FC<{
@@ -40,8 +41,8 @@ export const FilterDialog: FC<{
     const [tags, setTags] = useState<string[]>(
         searchParams.fields?.tags?.in ?? []
     )
-    const [size, setSize] = useState<string>(
-        searchParams.fields?.size?.eq ?? ''
+    const [sizes, setSizes] = useState<string[]>(
+        searchParams.fields?.size?.in ?? []
     )
 
     const { getTerms } = useContext(TermsContext)
@@ -55,7 +56,7 @@ export const FilterDialog: FC<{
                 tags: tags.length > 0 ? { in: tags } : undefined,
                 category:
                     categories.length > 0 ? { in: categories } : undefined,
-                size: size.length > 0 ? { in: [size] } : undefined,
+                size: sizes.length > 0 ? { in: sizes } : undefined,
             },
         })
         onClose()
@@ -105,8 +106,8 @@ export const FilterDialog: FC<{
                     {terms.sizes.length > 0 && (
                         <SizeFilter
                             terms={terms}
-                            selected={size}
-                            onSizeChanged={setSize}
+                            selected={sizes}
+                            onSizeChanged={setSizes}
                         />
                     )}
                 </DialogContent>
@@ -120,7 +121,7 @@ export const FilterDialog: FC<{
                         onClick={() => {
                             setCategories([])
                             setTags([])
-                            setSize('')
+                            setSizes([])
                         }}
                     >
                         {phrase('DIALOG_FILTER_CLEAR', 'Rensa')}

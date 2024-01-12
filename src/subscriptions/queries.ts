@@ -6,6 +6,7 @@ const advertSubscriptionFields = `
 		search
 		categories
 		tags
+		size
 	}
 `
 

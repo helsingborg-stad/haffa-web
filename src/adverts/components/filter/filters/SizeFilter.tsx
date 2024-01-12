@@ -3,8 +3,8 @@ import { FC } from 'react'
 import { Terms } from 'terms/types'
 
 export interface SizeFilterProps {
-    selected: string
-    onSizeChanged: (newSize: string) => void
+    selected: string[]
+    onSizeChanged: (newSizes: string[]) => void
     terms: Terms
 }
 
@@ -17,8 +17,15 @@ export const SizeFilter: FC<SizeFilterProps> = ({
         <Typography variant="subtitle1">Storlek</Typography>
         <FormGroup sx={{ pl: 2 }}>
             <Select
+                multiple
                 value={selected}
-                onChange={({ target: { value } }) => onSizeChanged(value)}
+                onChange={({ target: { value } }) => {
+                    const result: string[] = (
+                        typeof value === 'string' ? value.split(',') : value
+                    ).filter((v) => v !== '')
+
+                    onSizeChanged(result)
+                }}
             >
                 {terms.sizes.map((size, i) => (
                     <MenuItem key={i} value={size}>

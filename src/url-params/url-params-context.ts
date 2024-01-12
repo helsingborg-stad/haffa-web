@@ -14,7 +14,11 @@ const createUrlParamsContext = (
             .split(',')
             .map((s) => s.trim())
             .filter((v) => v)
-        const tags = (params.t || '')
+        const tags = (params.tags || '')
+            .split(',')
+            .map((s) => s.trim())
+            .filter((v) => v)
+        const size = (params.size || '')
             .split(',')
             .map((s) => s.trim())
             .filter((v) => v)
@@ -27,6 +31,7 @@ const createUrlParamsContext = (
                 ...filter.fields,
                 category: categories.length ? { in: categories } : undefined,
                 tags: tags.length ? { in: tags } : undefined,
+                size: size.length ? { in: size } : undefined,
             },
             sorting:
                 sortableFields.find((sf) => sf.key === sorting)?.sorting ||
@@ -43,7 +48,8 @@ const createUrlParamsContext = (
                     sorting.ascending === filter.sorting?.ascending
             )?.key,
             c: filter.fields?.category?.in?.join(','),
-            t: filter.fields?.tags?.in?.join(','),
+            tags: filter.fields?.tags?.in?.join(','),
+            size: filter.fields?.size?.in?.join(','),
             p: filter.paging?.pageIndex,
         })
     },
@@ -51,7 +57,8 @@ const createUrlParamsContext = (
         `${basePath}#${adapter.makeUrlParams('', {
             s: filter.search,
             c: filter.categories?.join(','),
-            t: filter.tags?.join(','),
+            tags: filter.tags?.join(','),
+            size: filter.size?.join(','),
         })}`,
 })
 
