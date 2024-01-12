@@ -1,4 +1,9 @@
-import { FormGroup, MenuItem, Select, Typography } from '@mui/material'
+import {
+    Checkbox,
+    FormControlLabel,
+    FormGroup,
+    Typography,
+} from '@mui/material'
 import { FC } from 'react'
 import { Terms } from 'terms/types'
 
@@ -12,27 +17,36 @@ export const SizeFilter: FC<SizeFilterProps> = ({
     selected,
     onSizeChanged,
     terms,
-}) => (
-    <>
-        <Typography variant="subtitle1">Storlek</Typography>
-        <FormGroup sx={{ pl: 2 }}>
-            <Select
-                multiple
-                value={selected}
-                onChange={({ target: { value } }) => {
-                    const result: string[] = (
-                        typeof value === 'string' ? value.split(',') : value
-                    ).filter((v) => v !== '')
+}) => {
+    const isChecked = (size: string) =>
+        selected.some((v) => size.localeCompare(v) === 0)
 
-                    onSizeChanged(result)
-                }}
-            >
-                {terms.sizes.map((size, i) => (
-                    <MenuItem key={i} value={size}>
-                        {size}
-                    </MenuItem>
+    const onChange = (size: string, checked: boolean) => {
+        const newSize = checked
+            ? [...selected, size]
+            : selected.filter((i) => size.localeCompare(i) !== 0)
+        onSizeChanged(newSize)
+    }
+
+    return (
+        <>
+            <Typography variant="subtitle1">Storlek</Typography>
+            <FormGroup sx={{ pl: 2 }}>
+                {terms.sizes.map((t, key) => (
+                    <FormControlLabel
+                        label={t}
+                        key={key}
+                        control={
+                            <Checkbox
+                                checked={isChecked(t)}
+                                onChange={({ target: { checked } }) =>
+                                    onChange(t, checked)
+                                }
+                            />
+                        }
+                    />
                 ))}
-            </Select>
-        </FormGroup>
-    </>
-)
+            </FormGroup>
+        </>
+    )
+}
