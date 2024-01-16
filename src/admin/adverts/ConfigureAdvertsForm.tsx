@@ -37,7 +37,7 @@ export const ConfigureAdvertsForm: FC<{
                 <Table>
                     <TableHead>
                         <TableRow>
-                            <TableCell>Fält</TableCell>
+                            <TableCell>Benämning</TableCell>
                             <TableCell>Synligt</TableCell>
                             <TableCell>Obligatoriskt</TableCell>
                             <TableCell>Standardvärde</TableCell>
@@ -47,7 +47,23 @@ export const ConfigureAdvertsForm: FC<{
                     <TableBody>
                         {state.map((f, key) => (
                             <TableRow key={key}>
-                                <TableCell>{f.label}</TableCell>
+                                <TableCell>
+                                    <TextField
+                                        value={f.label}
+                                        onChange={(e) =>
+                                            setState([
+                                                ...state.slice(0, key),
+                                                ...[
+                                                    {
+                                                        ...f,
+                                                        label: e.target.value,
+                                                    },
+                                                ],
+                                                ...state.slice(key + 1),
+                                            ])
+                                        }
+                                    />
+                                </TableCell>
                                 <TableCell>
                                     <Checkbox
                                         checked={f.visible}

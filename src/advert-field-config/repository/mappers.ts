@@ -8,15 +8,17 @@ import {
 import { AdvertContact, AdvertInput, AdvertLocation } from 'adverts'
 import { isString } from 'lib/string-utils'
 
+export const getFieldConfig = (name: FieldName) => ({
+    name,
+    label: FieldLabels[name] ?? name,
+    visible: true,
+    mandatory: false,
+    initial: '',
+    adornment: '',
+})
+
 export const createEmptyConfiguration = (): AdvertFieldConfig =>
-    ConfigurableFields.map((name) => ({
-        name,
-        label: FieldLabels[name],
-        visible: true,
-        mandatory: false,
-        initial: '',
-        adornment: '',
-    }))
+    ConfigurableFields.map((name) => getFieldConfig(name))
 
 export const normalizeFieldConfig = (fieldConfig: AdvertFieldConfig | null) => {
     const fieldList = [...createEmptyConfiguration(), ...(fieldConfig || [])]
