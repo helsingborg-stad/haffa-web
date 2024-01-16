@@ -17,7 +17,7 @@ export interface SelectOption {
     value: string
 }
 
-type SelectProps = FormControlProps & { label?: string }
+type SelectProps = FormControlProps & TextFieldProps & { label?: string }
 
 interface Getter<TModel, TValue> {
     (model: TModel): TValue
