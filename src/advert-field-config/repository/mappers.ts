@@ -2,17 +2,23 @@ import {
     AdvertFieldConfig,
     ConfigurableFields,
     FieldConfig,
+    FieldLabels,
+    FieldName,
 } from 'advert-field-config/types'
 import { AdvertContact, AdvertInput, AdvertLocation } from 'adverts'
 import { isString } from 'lib/string-utils'
 
+export const getFieldConfig = (name: FieldName) => ({
+    name,
+    label: FieldLabels[name] ?? name,
+    visible: true,
+    mandatory: false,
+    initial: '',
+    adornment: '',
+})
+
 export const createEmptyConfiguration = (): AdvertFieldConfig =>
-    ConfigurableFields.map((name) => ({
-        name,
-        visible: true,
-        mandatory: false,
-        initial: '',
-    }))
+    ConfigurableFields.map((name) => getFieldConfig(name))
 
 export const normalizeFieldConfig = (fieldConfig: AdvertFieldConfig | null) => {
     const fieldList = [...createEmptyConfiguration(), ...(fieldConfig || [])]
@@ -34,6 +40,19 @@ export const normalizeFieldConfig = (fieldConfig: AdvertFieldConfig | null) => {
     })
     return Array.from(mapper.values())
 }
+
+export const getField = (
+    fieldConfig: AdvertFieldConfig,
+    name: FieldName
+): FieldConfig => ({
+    name,
+    label: name,
+    visible: true,
+    initial: '',
+    mandatory: false,
+    adornment: '',
+    ...(fieldConfig.find((f) => f.name === name) || {}),
+})
 
 export const setAdvertDefaults = (
     advert: AdvertInput,

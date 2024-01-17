@@ -9,6 +9,7 @@ import {
     Container,
     Grid,
     GridProps,
+    InputAdornment,
     TextField,
 } from '@mui/material'
 import { FC, PropsWithChildren, useCallback, useContext, useMemo } from 'react'
@@ -21,8 +22,10 @@ import { Terms } from 'terms/types'
 import { Profile, ProfileContext } from 'profile'
 import useAbortController from 'hooks/use-abort-controller'
 import { Editorial } from 'editorials'
-import { AdvertFieldConfig } from 'advert-field-config/types'
-import { AdvertContact, AdvertInput, AdvertLocation } from '../../../types'
+import { AdvertFieldConfig, FieldName } from 'advert-field-config/types'
+import { getField } from 'advert-field-config/repository/mappers'
+import { isString } from 'lib/string-utils'
+import { AdvertInput, AdvertLocation } from '../../../types'
 import {
     SelectOption,
     useFormControls,
@@ -205,28 +208,43 @@ export const AdvertForm: FC<{
         return [...output, { label, value: category.id }, ...childOutput]
     }
 
-    const getFieldConfig = (name: string) => {
-        const { visible = true, mandatory = false } =
-            fields.find((f) => f.name === name) || {}
-        return [visible, mandatory]
-    }
-
     const createSimplifiedField = (
-        field: keyof AdvertInput,
-        factory: (field: keyof AdvertInput, required: boolean) => JSX.Element
+        field: FieldName,
+        factory: (
+            field: keyof AdvertInput,
+            label: string,
+            required: boolean,
+            adornment: string
+        ) => JSX.Element
     ) => {
-        const [visible, mandatory] = getFieldConfig(field)
-        return visible ? () => factory(field, mandatory) : null
+        const { label, visible, mandatory, adornment } = getField(fields, field)
+        return visible
+            ? () =>
+                  factory(
+                      field as keyof AdvertInput,
+                      label,
+                      mandatory,
+                      adornment
+                  )
+            : null
     }
 
     const createComplexField = (
-        field: keyof (AdvertContact & AdvertLocation),
-        factory: (required: boolean) => JSX.Element
+        field: FieldName,
+        factory: (
+            label: string,
+            required: boolean,
+            adornment: string
+        ) => JSX.Element
     ) => {
-        const [visible, mandatory] = getFieldConfig(field)
-        return visible ? () => factory(mandatory) : null
+        const { label, visible, mandatory, adornment } = getField(fields, field)
+        return visible ? () => factory(label, mandatory, adornment) : null
     }
 
+    const createAdornment = (value: string) =>
+        isString(value) ? (
+            <InputAdornment position="end">{value}</InputAdornment>
+        ) : undefined
     interface ControlGroup {
         label: string
         rows: ((() => JSX.Element) | null)[][]
@@ -242,83 +260,90 @@ export const AdvertForm: FC<{
                     ),
                     rows: [
                         [
-                            createSimplifiedField('title', (field, required) =>
-                                textField(
-                                    field,
-                                    phrase('ADVERT_FIELD_TITLE', 'Titel'),
-                                    {
+                            createSimplifiedField(
+                                'title',
+                                (field, label, required, adornment) =>
+                                    textField(field, label, {
                                         autoFocus: true,
                                         required,
                                         disabled,
                                         fullWidth: true,
-                                    }
-                                )
+                                        InputProps: {
+                                            endAdornment:
+                                                createAdornment(adornment),
+                                        },
+                                    })
                             ),
                         ].filter((v) => v),
                         [
                             createSimplifiedField(
                                 'description',
-                                (field, required) =>
-                                    textField(
-                                        field,
-                                        phrase(
-                                            'ADVERT_FIELD_DESCRIPTION',
-                                            'Beskrivning'
-                                        ),
-                                        {
-                                            required,
-                                            disabled,
-                                            multiline: true,
-                                            minRows: 4,
-                                            fullWidth: true,
-                                        }
-                                    )
+                                (field, label, required, adornment) =>
+                                    textField(field, label, {
+                                        required,
+                                        disabled,
+                                        multiline: true,
+                                        minRows: 4,
+                                        fullWidth: true,
+                                        InputProps: {
+                                            endAdornment:
+                                                createAdornment(adornment),
+                                        },
+                                    })
                             ),
                         ].filter((v) => v),
                         [
                             createSimplifiedField(
                                 'quantity',
-                                (field, required) =>
-                                    textField(
+                                (field, label, required, adornment) =>
+                                    textField(field, label, {
+                                        required,
+                                        disabled,
+                                        fullWidth: true,
+                                        type: 'number',
+                                        inputProps: {
+                                            min: 1,
+                                            endAdornment:
+                                                createAdornment(adornment),
+                                        },
+                                    })
+                            ),
+                            createSimplifiedField(
+                                'unit',
+                                (field, label, required, adornment) =>
+                                    select(
                                         field,
-                                        phrase(
-                                            'ADVERT_FIELD_QUANTITY',
-                                            'Antal'
-                                        ),
+                                        label,
+                                        makeOptions(terms.unit),
                                         {
                                             required,
                                             disabled,
                                             fullWidth: true,
-                                            type: 'number',
-                                            inputProps: { min: 1 },
+                                            InputProps: {
+                                                endAdornment:
+                                                    createAdornment(adornment),
+                                            },
                                         }
                                     )
                             ),
-                            createSimplifiedField('unit', (field, required) =>
-                                select(
-                                    field,
-                                    phrase('ADVERT_FIELD_UNIT', 'Enhet'),
-                                    makeOptions(terms.unit),
-                                    {
-                                        required,
-                                        disabled,
-                                        fullWidth: true,
-                                    }
-                                )
-                            ),
                             createSimplifiedField(
                                 'category',
-                                (field, required) =>
+                                (field, label, required, adornment) =>
                                     select(
                                         field,
-                                        phrase(
-                                            'ADVERT_FIELD_CATEGORY',
-                                            'Kategori'
-                                        ),
+                                        label,
                                         categories
                                             .map((c) => categoryToOptions(c))
                                             .flat(),
-                                        { required, disabled, fullWidth: true }
+                                        {
+                                            required,
+                                            disabled,
+                                            fullWidth: true,
+                                            InputProps: {
+                                                endAdornment:
+                                                    createAdornment(adornment),
+                                            },
+                                        }
                                     )
                             ),
                         ].filter((v) => v),
@@ -366,128 +391,144 @@ export const AdvertForm: FC<{
                     ),
                     rows: [
                         [
-                            createSimplifiedField('size', (field, required) =>
-                                select(
-                                    field,
-                                    phrase('ADVERT_FIELD_SIZE', 'Storlek'),
-                                    makeOptions(terms.sizes),
-                                    {
-                                        required,
-                                        disabled,
-                                        fullWidth: true,
-                                    }
-                                )
+                            createSimplifiedField(
+                                'size',
+                                (field, label, required, adornment) =>
+                                    select(
+                                        field,
+                                        label,
+                                        makeOptions(terms.sizes),
+                                        {
+                                            required,
+                                            disabled,
+                                            fullWidth: true,
+                                            InputProps: {
+                                                endAdornment:
+                                                    createAdornment(adornment),
+                                            },
+                                        }
+                                    )
                             ),
-                            createSimplifiedField('width', (field, required) =>
-                                textField(
-                                    field,
-                                    phrase('ADVERT_FIELD_WIDTH', 'Bredd'),
-                                    {
+                            createSimplifiedField(
+                                'width',
+                                (field, label, required, adornment) =>
+                                    textField(field, label, {
                                         required,
                                         disabled,
                                         fullWidth: true,
-                                    }
-                                )
+                                        InputProps: {
+                                            endAdornment:
+                                                createAdornment(adornment),
+                                        },
+                                    })
                             ),
-                            createSimplifiedField('height', (field, required) =>
-                                textField(
-                                    field,
-                                    phrase('ADVERT_FIELD_HEIGHT', 'Höjd'),
-                                    {
+                            createSimplifiedField(
+                                'height',
+                                (field, label, required, adornment) =>
+                                    textField(field, label, {
                                         required,
                                         disabled,
                                         fullWidth: true,
-                                    }
-                                )
+                                        InputProps: {
+                                            endAdornment:
+                                                createAdornment(adornment),
+                                        },
+                                    })
                             ),
-                            createSimplifiedField('depth', (field, required) =>
-                                textField(
-                                    field,
-                                    phrase('ADVERT_FIELD_DEPTH', 'Djup'),
-                                    {
+                            createSimplifiedField(
+                                'depth',
+                                (field, label, required, adornment) =>
+                                    textField(field, label, {
                                         required,
                                         disabled,
                                         fullWidth: true,
-                                    }
-                                )
+                                        InputProps: {
+                                            endAdornment:
+                                                createAdornment(adornment),
+                                        },
+                                    })
                             ),
-                            createSimplifiedField('weight', (field, required) =>
-                                textField(
-                                    field,
-                                    phrase('ADVERT_FIELD_WEIGHT', 'Vikt'),
-                                    {
+                            createSimplifiedField(
+                                'weight',
+                                (field, label, required, adornment) =>
+                                    textField(field, label, {
                                         required,
                                         disabled,
                                         fullWidth: true,
-                                    }
-                                )
+                                        InputProps: {
+                                            endAdornment:
+                                                createAdornment(adornment),
+                                        },
+                                    })
                             ),
                         ].filter((v) => v),
                         [
                             createSimplifiedField(
                                 'material',
-                                (field, required) =>
+                                (field, label, required, adornment) =>
                                     select(
                                         field,
-                                        phrase(
-                                            'ADVERT_FIELD_MATERIAL',
-                                            'Material'
-                                        ),
+                                        label,
                                         makeOptions(terms.material),
                                         {
                                             required,
                                             disabled,
                                             fullWidth: true,
+                                            InputProps: {
+                                                endAdornment:
+                                                    createAdornment(adornment),
+                                            },
                                         }
                                     )
                             ),
                             createSimplifiedField(
                                 'condition',
-                                (field, required) =>
+                                (field, label, required, adornment) =>
                                     select(
                                         field,
-                                        phrase(
-                                            'ADVERT_FIELD_CONDITION',
-                                            'Skick'
-                                        ),
+                                        label,
                                         makeOptions(terms.condition),
                                         {
                                             required,
                                             disabled,
                                             fullWidth: true,
+                                            InputProps: {
+                                                endAdornment:
+                                                    createAdornment(adornment),
+                                            },
                                         }
                                     )
                             ),
-                            createSimplifiedField('usage', (field, required) =>
-                                select(
-                                    field,
-                                    phrase(
-                                        'ADVERT_FIELD_USAGE',
-                                        'Användningsområde'
-                                    ),
-                                    makeOptions(terms.usage),
-                                    {
-                                        required,
-                                        disabled,
-                                        fullWidth: true,
-                                    }
-                                )
-                            ),
                             createSimplifiedField(
-                                'reference',
-                                (field, required) =>
-                                    textField(
+                                'usage',
+                                (field, label, required, adornment) =>
+                                    select(
                                         field,
-                                        phrase(
-                                            'ADVERT_FIELD_REFERENCE',
-                                            'Egen referens'
-                                        ),
+                                        label,
+                                        makeOptions(terms.usage),
                                         {
                                             required,
                                             disabled,
                                             fullWidth: true,
+                                            InputProps: {
+                                                endAdornment:
+                                                    createAdornment(adornment),
+                                            },
                                         }
                                     )
+                            ),
+                            createSimplifiedField(
+                                'reference',
+                                (field, label, required, adornment) =>
+                                    textField(field, label, {
+                                        required,
+                                        disabled,
+                                        fullWidth: true,
+                                        InputProps: {
+                                            endAdornment:
+                                                createAdornment(adornment),
+                                        },
+                                    })
                             ),
                         ].filter((v) => v),
                         [
@@ -513,7 +554,7 @@ export const AdvertForm: FC<{
                     ),
                     rows: [
                         [
-                            createComplexField('name', (required) => (
+                            createComplexField('name', (label, required) => (
                                 <Autocomplete
                                     freeSolo
                                     selectOnFocus
@@ -538,10 +579,7 @@ export const AdvertForm: FC<{
                                     renderInput={(params) => (
                                         <TextField
                                             {...params}
-                                            label={phrase(
-                                                'ADVERT_FIELD_LOCATION_NAME',
-                                                'Namn'
-                                            )}
+                                            label={label}
                                             variant="outlined"
                                             required={required}
                                             onChange={(e) =>
@@ -563,77 +601,77 @@ export const AdvertForm: FC<{
                             )),
                         ],
                         [
-                            createComplexField('adress', (required) =>
-                                factory.textField(
-                                    (input) => input.location.adress,
-                                    (v) => ({
-                                        ...model,
-                                        location: {
-                                            ...model.location,
-                                            adress: v,
-                                        },
-                                    }),
-                                    {
-                                        required,
-                                        fullWidth: true,
-                                        label: phrase(
-                                            'ADVERT_FIELD_LOCATION_ADRESS',
-                                            'Adress'
-                                        ),
-                                        placeholder: phrase(
-                                            'ADVERT_FIELD_LOCATION_ADRESS',
-                                            'Adress'
-                                        ),
-                                    }
-                                )
+                            createComplexField(
+                                'adress',
+                                (label, required, adornment) =>
+                                    factory.textField(
+                                        (input) => input.location.adress,
+                                        (v) => ({
+                                            ...model,
+                                            location: {
+                                                ...model.location,
+                                                adress: v,
+                                            },
+                                        }),
+                                        {
+                                            required,
+                                            fullWidth: true,
+                                            label,
+                                            placeholder: label,
+                                            InputProps: {
+                                                endAdornment:
+                                                    createAdornment(adornment),
+                                            },
+                                        }
+                                    )
                             ),
-                            createComplexField('zipCode', (required) =>
-                                factory.textField(
-                                    (input) => input.location.zipCode,
-                                    (v) => ({
-                                        ...model,
-                                        location: {
-                                            ...model.location,
-                                            zipCode: v,
-                                        },
-                                    }),
-                                    {
-                                        required,
-                                        fullWidth: true,
-                                        label: phrase(
-                                            'ADVERT_FIELD_LOCATION_ZIPCODE',
-                                            'Postnummer'
-                                        ),
-                                        placeholder: phrase(
-                                            'ADVERT_FIELD_LOCATION_ZIPCODE',
-                                            'Postnummer'
-                                        ),
-                                    }
-                                )
+                            createComplexField(
+                                'zipCode',
+                                (label, required, adornment) =>
+                                    factory.textField(
+                                        (input) => input.location.zipCode,
+                                        (v) => ({
+                                            ...model,
+                                            location: {
+                                                ...model.location,
+                                                zipCode: v,
+                                            },
+                                        }),
+                                        {
+                                            required,
+                                            fullWidth: true,
+                                            label,
+                                            placeholder: label,
+                                            InputProps: {
+                                                endAdornment:
+                                                    createAdornment(adornment),
+                                            },
+                                        }
+                                    )
                             ),
-                            createComplexField('city', (required) =>
-                                factory.textField(
-                                    (input) => input.location.city,
-                                    (v) => ({
-                                        ...model,
-                                        location: {
-                                            ...model.location,
-                                            city: v,
-                                        },
-                                    }),
-                                    {
-                                        required,
-                                        fullWidth: true,
-                                        label: phrase(
-                                            'ADVERT_FIELD_LOCATION_CITY',
-                                            'Stad'
-                                        ),
-                                        placeholder: phrase(
-                                            'ADVERT_FIELD_LOCATION_CITY',
-                                            'Stad'
-                                        ),
-                                    }
-                                )
+                            createComplexField(
+                                'city',
+                                (label, required, adornment) =>
+                                    factory.textField(
+                                        (input) => input.location.city,
+                                        (v) => ({
+                                            ...model,
+                                            location: {
+                                                ...model.location,
+                                                city: v,
+                                            },
+                                        }),
+                                        {
+                                            required,
+                                            fullWidth: true,
+                                            label,
+                                            placeholder: label,
+                                            InputProps: {
+                                                endAdornment:
+                                                    createAdornment(adornment),
+                                            },
+                                        }
+                                    )
                             ),
                         ].filter((v) => v),
                         [
@@ -657,80 +695,80 @@ export const AdvertForm: FC<{
                     ),
                     rows: [
                         [
-                            createComplexField('email', (required) =>
-                                factory.textField(
-                                    (input) => input.contact.email,
-                                    (v) => ({
-                                        ...model,
-                                        contact: {
-                                            ...model.contact,
-                                            email: v,
-                                        },
-                                    }),
-                                    {
-                                        required,
-                                        fullWidth: true,
-                                        label: phrase(
-                                            'ADVERT_FIELD_CONTACT_EMAIL',
-                                            'Email'
-                                        ),
-                                        placeholder: phrase(
-                                            'ADVERT_FIELD_CONTACT_EMAIL',
-                                            'Email'
-                                        ),
-                                        type: 'email',
-                                    }
-                                )
+                            createComplexField(
+                                'email',
+                                (label, required, adornment) =>
+                                    factory.textField(
+                                        (input) => input.contact.email,
+                                        (v) => ({
+                                            ...model,
+                                            contact: {
+                                                ...model.contact,
+                                                email: v,
+                                            },
+                                        }),
+                                        {
+                                            required,
+                                            fullWidth: true,
+                                            label,
+                                            placeholder: label,
+                                            type: 'email',
+                                            InputProps: {
+                                                endAdornment:
+                                                    createAdornment(adornment),
+                                            },
+                                        }
+                                    )
                             ),
-                            createComplexField('phone', (required) =>
-                                factory.textField(
-                                    (input) => input.contact.phone,
-                                    (v) => ({
-                                        ...model,
-                                        contact: {
-                                            ...model.contact,
-                                            phone: v,
-                                        },
-                                    }),
-                                    {
-                                        required,
-                                        fullWidth: true,
-                                        label: phrase(
-                                            'ADVERT_FIELD_CONTACT_PHONE',
-                                            'Telefon'
-                                        ),
-                                        placeholder: phrase(
-                                            'ADVERT_FIELD_CONTACT_PHONE',
-                                            'Telefon'
-                                        ),
-                                        type: 'phone',
-                                    }
-                                )
+                            createComplexField(
+                                'phone',
+                                (label, required, adornment) =>
+                                    factory.textField(
+                                        (input) => input.contact.phone,
+                                        (v) => ({
+                                            ...model,
+                                            contact: {
+                                                ...model.contact,
+                                                phone: v,
+                                            },
+                                        }),
+                                        {
+                                            required,
+                                            fullWidth: true,
+                                            label,
+                                            placeholder: label,
+                                            type: 'phone',
+                                            InputProps: {
+                                                endAdornment:
+                                                    createAdornment(adornment),
+                                            },
+                                        }
+                                    )
                             ),
-                            createComplexField('organization', (required) =>
-                                factory.select(
-                                    (input) => input.contact.organization,
-                                    (v) => ({
-                                        ...model,
-                                        contact: {
-                                            ...model.contact,
-                                            organization: v,
-                                        },
-                                    }),
-                                    makeOptions(terms.organization),
-                                    {
-                                        required,
-                                        fullWidth: true,
-                                        label: phrase(
-                                            'ADVERT_FIELD_ORGANIZATION',
-                                            'Organisation'
-                                        ),
-                                        placeholder: phrase(
-                                            'ADVERT_FIELD_ORGANIZATION',
-                                            'Organisation'
-                                        ),
-                                    }
-                                )
+                            createComplexField(
+                                'organization',
+                                (label, required, adornment) =>
+                                    factory.select(
+                                        (input) => input.contact.organization,
+                                        (v) => ({
+                                            ...model,
+                                            contact: {
+                                                ...model.contact,
+                                                organization: v,
+                                            },
+                                        }),
+                                        makeOptions(terms.organization),
+                                        {
+                                            required,
+                                            fullWidth: true,
+                                            label,
+                                            placeholder: label,
+                                            InputProps: {
+                                                endAdornment:
+                                                    createAdornment(adornment),
+                                            },
+                                        }
+                                    )
                             ),
                         ].filter((v) => v),
                         [
