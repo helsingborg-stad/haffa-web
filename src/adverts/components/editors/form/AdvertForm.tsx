@@ -301,16 +301,18 @@ export const AdvertForm: FC<{
                                         disabled,
                                         fullWidth: true,
                                         type: 'number',
-                                        inputProps: {
-                                            min: 1,
+                                        InputProps: {
                                             endAdornment:
                                                 createAdornment(adornment),
+                                        },
+                                        inputProps: {
+                                            min: 1,
                                         },
                                     })
                             ),
                             createSimplifiedField(
                                 'unit',
-                                (field, label, required, adornment) =>
+                                (field, label, required) =>
                                     select(
                                         field,
                                         label,
@@ -319,16 +321,29 @@ export const AdvertForm: FC<{
                                             required,
                                             disabled,
                                             fullWidth: true,
-                                            InputProps: {
-                                                endAdornment:
-                                                    createAdornment(adornment),
-                                            },
                                         }
                                     )
                             ),
                             createSimplifiedField(
-                                'category',
+                                'lendingPeriod',
                                 (field, label, required, adornment) =>
+                                    textField(field, label, {
+                                        required,
+                                        disabled,
+                                        fullWidth: true,
+                                        type: 'number',
+                                        InputProps: {
+                                            endAdornment:
+                                                createAdornment(adornment),
+                                        },
+                                        inputProps: {
+                                            min: 0,
+                                        },
+                                    })
+                            ),
+                            createSimplifiedField(
+                                'category',
+                                (field, label, required) =>
                                     select(
                                         field,
                                         label,
@@ -339,10 +354,6 @@ export const AdvertForm: FC<{
                                             required,
                                             disabled,
                                             fullWidth: true,
-                                            InputProps: {
-                                                endAdornment:
-                                                    createAdornment(adornment),
-                                            },
                                         }
                                     )
                             ),
@@ -393,7 +404,7 @@ export const AdvertForm: FC<{
                         [
                             createSimplifiedField(
                                 'size',
-                                (field, label, required, adornment) =>
+                                (field, label, required) =>
                                     select(
                                         field,
                                         label,
@@ -402,10 +413,6 @@ export const AdvertForm: FC<{
                                             required,
                                             disabled,
                                             fullWidth: true,
-                                            InputProps: {
-                                                endAdornment:
-                                                    createAdornment(adornment),
-                                            },
                                         }
                                     )
                             ),
@@ -465,7 +472,7 @@ export const AdvertForm: FC<{
                         [
                             createSimplifiedField(
                                 'material',
-                                (field, label, required, adornment) =>
+                                (field, label, required) =>
                                     select(
                                         field,
                                         label,
@@ -474,16 +481,12 @@ export const AdvertForm: FC<{
                                             required,
                                             disabled,
                                             fullWidth: true,
-                                            InputProps: {
-                                                endAdornment:
-                                                    createAdornment(adornment),
-                                            },
                                         }
                                     )
                             ),
                             createSimplifiedField(
                                 'condition',
-                                (field, label, required, adornment) =>
+                                (field, label, required) =>
                                     select(
                                         field,
                                         label,
@@ -492,16 +495,12 @@ export const AdvertForm: FC<{
                                             required,
                                             disabled,
                                             fullWidth: true,
-                                            InputProps: {
-                                                endAdornment:
-                                                    createAdornment(adornment),
-                                            },
                                         }
                                     )
                             ),
                             createSimplifiedField(
                                 'usage',
-                                (field, label, required, adornment) =>
+                                (field, label, required) =>
                                     select(
                                         field,
                                         label,
@@ -510,10 +509,6 @@ export const AdvertForm: FC<{
                                             required,
                                             disabled,
                                             fullWidth: true,
-                                            InputProps: {
-                                                endAdornment:
-                                                    createAdornment(adornment),
-                                            },
                                         }
                                     )
                             ),
@@ -747,7 +742,7 @@ export const AdvertForm: FC<{
                             ),
                             createComplexField(
                                 'organization',
-                                (label, required, adornment) =>
+                                (label, required) =>
                                     factory.select(
                                         (input) => input.contact.organization,
                                         (v) => ({
@@ -763,10 +758,6 @@ export const AdvertForm: FC<{
                                             fullWidth: true,
                                             label,
                                             placeholder: label,
-                                            InputProps: {
-                                                endAdornment:
-                                                    createAdornment(adornment),
-                                            },
                                         }
                                     )
                             ),

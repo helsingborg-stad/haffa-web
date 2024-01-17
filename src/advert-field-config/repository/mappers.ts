@@ -81,6 +81,7 @@ export const setAdvertDefaults = (
                     base[field.name] = field.initial.split(',')
                     break
                 case 'quantity':
+                case 'lendingPeriod':
                     base[field.name] = Number(field.initial)
                     break
                 default:

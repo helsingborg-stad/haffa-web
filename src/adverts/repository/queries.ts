@@ -5,6 +5,7 @@ const advertProps = /* GraphQL */ `
 	title
 	description
 	quantity
+	lendingPeriod
 	meta {
 		reservableQuantity
 		collectableQuantity
