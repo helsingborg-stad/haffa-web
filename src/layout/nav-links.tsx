@@ -56,7 +56,10 @@ export const createNavLinks: Func1<
     },
 }) =>
     guest
-        ? [link(SCAN_QR_CODE, '/scan', <QrCodeScannerIcon />)]
+        ? [
+              link(NAV_BROWSE, '/browse', <SearchIcon />),
+              link(SCAN_QR_CODE, '/scan', <QrCodeScannerIcon />),
+          ]
         : [
               link(NAV_BROWSE, '/browse', <SearchIcon />),
               link(NAV_CREATE, '/advert/create', <AddIcon />),

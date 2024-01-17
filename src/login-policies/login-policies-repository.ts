@@ -1,7 +1,16 @@
 import { gqlClient } from 'graphql'
 
-import { getLoginPoliciesQuery, setLoginPoliciesMutation } from './queries'
-import { LoginPolicy, LoginPoliciesRepository } from './types'
+import {
+    getLoginPoliciesQuery,
+    getUsermappingConfigurationQuery,
+    setLoginPoliciesMutation,
+    setUserMappingConfigurationMutation,
+} from './queries'
+import {
+    LoginPolicy,
+    LoginPoliciesRepository,
+    UserMappingConfiguration,
+} from './types'
 
 const gql = (token: string, f?: typeof fetch, init?: RequestInit) =>
     gqlClient()
@@ -22,4 +31,13 @@ export const createLoginPoliciesRepository = (
             .query(setLoginPoliciesMutation)
             .variables({ input: policies })
             .map<LoginPolicy[]>('updateLoginPolicies'),
+    getUserMappingConfiguration: async () =>
+        gql(token, f)
+            .query(getUsermappingConfigurationQuery)
+            .map<UserMappingConfiguration>('userMappingConfiguration'),
+    updateUserMappingConfiguration: async (c) =>
+        gql(token, f)
+            .query(setUserMappingConfigurationMutation)
+            .variables({ input: c })
+            .map<UserMappingConfiguration>('updateUserMappingConfiguration'),
 })

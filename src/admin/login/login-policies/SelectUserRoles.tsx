@@ -11,7 +11,7 @@ import {
 import { PhraseContext } from 'phrases/PhraseContext'
 import AdminIcon from '@mui/icons-material/Lock'
 import { HaffaUserRoles } from 'auth'
-import { createDefaultRoleInputBindings } from './create-role-input-bindings'
+import { createDefaultRoleInputBindings } from '../create-role-input-bindings'
 
 export const SelectUserRoles: FC<{
     userRoles: HaffaUserRoles

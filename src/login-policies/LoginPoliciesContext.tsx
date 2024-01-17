@@ -8,6 +8,10 @@ const notImplemented = (name: string) => (): never => {
 export const LoginPoliciesContext = createContext<LoginPoliciesRepository>({
     getLoginPolicies: notImplemented('getLoginPolicies'),
     updateLoginPolicies: notImplemented('updateLoginPolicies'),
+    getUserMappingConfiguration: notImplemented('getUserMappingConfiguration'),
+    updateUserMappingConfiguration: notImplemented(
+        'updateUserMappingConfiguration'
+    ),
 })
 
 export const LoginPoliciesProvider: FC<

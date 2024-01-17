@@ -4,7 +4,7 @@ import { ReactNode } from 'react'
 import { EditPhrasesView } from './phrases/EditPhrasesView'
 import { EditThemeView } from './theme/EditThemeView'
 import { EditCategoriesView } from './categories'
-import { EditLoginPoliciesView } from './login'
+import { EditLoginSettingsView } from './login'
 import { EditApiKeysView } from './api-keys'
 import { EditAnalyticsView } from './analytics'
 import { EditTermsView } from './terms'
@@ -63,7 +63,7 @@ export const createAdminTabs = (
         tab(
             roles.canEditSystemLoginPolicies,
             phrase('ADMIN_LOGINS_TITLE', 'Användare & behörigheter'),
-            <EditLoginPoliciesView />
+            <EditLoginSettingsView />
         ),
         tab(
             roles.canManageLocations,

@@ -17,3 +17,19 @@ export const setLoginPoliciesMutation = /* GraphQL */ `
         }
     }
 `
+
+export const getUsermappingConfigurationQuery = /* GraphQL */ `
+    query Query {
+        userMappingConfiguration {
+            allowGuestUsers
+        }
+    }
+`
+
+export const setUserMappingConfigurationMutation = /* GraphQL */ `
+    mutation Mutation($input: UserMappingConfigurationInput!) {
+        updateUserMappingConfiguration(input: $input) {
+            allowGuestUsers
+        }
+    }
+`

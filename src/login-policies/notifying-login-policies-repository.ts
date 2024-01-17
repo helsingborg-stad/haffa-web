@@ -18,4 +18,15 @@ export const createNotifyingLoginPoliciesRepository = (
             })
             return result
         }),
+    getUserMappingConfiguration: () => inner.getUserMappingConfiguration(),
+    updateUserMappingConfiguration: (...args) =>
+        inner.updateUserMappingConfiguration(...args).then((result) => {
+            notifications.info({
+                message: phrase(
+                    'NOTIFICATIONS_LOGINS_WAS_UPDATED',
+                    'Inställningarna är sparade'
+                ),
+            })
+            return result
+        }),
 })

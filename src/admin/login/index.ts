@@ -1,3 +1,3 @@
-import { EditLoginPoliciesView } from './EditLoginPoliciesView'
+import { EditLoginSettingsView } from './EditLoginSettingsView'
 
-export { EditLoginPoliciesView }
+export { EditLoginSettingsView }
