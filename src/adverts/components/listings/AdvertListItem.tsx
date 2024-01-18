@@ -1,5 +1,6 @@
 import { FC, useContext } from 'react'
 import {
+    Box,
     Card,
     CardActionArea,
     CardMedia,
@@ -57,7 +58,7 @@ export const AdvertListItem: FC<{
                             }}
                         />
                     </Grid>
-                    <Grid item sx={{ flex: 1, m: 2, display: 'grid' }}>
+                    <Grid item sx={{ flex: 1, m: 2 }}>
                         <Typography
                             variant="subtitle2"
                             color="text.secondary"
@@ -65,9 +66,11 @@ export const AdvertListItem: FC<{
                         >
                             {categoryLabel || 'Övrigt'}
                         </Typography>
-                        <Typography variant="h5" component="div" noWrap>
-                            {title}
-                        </Typography>
+                        <Box sx={{ display: 'grid' }}>
+                            <Typography variant="h5" component="div" noWrap>
+                                {title}
+                            </Typography>
+                        </Box>
                     </Grid>
                     <Grid item sx={{ mx: 2, mb: 2 }}>
                         <Typography
