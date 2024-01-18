@@ -57,7 +57,7 @@ export const AdvertListItem: FC<{
                             }}
                         />
                     </Grid>
-                    <Grid item sx={{ flex: 1, m: 2 }}>
+                    <Grid item sx={{ flex: 1, m: 2, display: 'grid' }}>
                         <Typography
                             variant="subtitle2"
                             color="text.secondary"
@@ -65,7 +65,7 @@ export const AdvertListItem: FC<{
                         >
                             {categoryLabel || 'Övrigt'}
                         </Typography>
-                        <Typography variant="h5" component="div">
+                        <Typography variant="h5" component="div" noWrap>
                             {title}
                         </Typography>
                     </Grid>
