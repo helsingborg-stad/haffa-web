@@ -17,6 +17,7 @@ export interface LoginPolicy {
 export interface UserMappingConfiguration {
     allowGuestUsers: boolean
     phone: {
+        allowPhoneUsers: boolean
         sender: string
         country: string
         roles: string[]

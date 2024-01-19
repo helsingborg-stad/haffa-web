@@ -1,4 +1,12 @@
-import { Card, CardContent, Stack, TextField } from '@mui/material'
+import {
+    Card,
+    CardContent,
+    FormControlLabel,
+    FormGroup,
+    Stack,
+    Switch,
+    TextField,
+} from '@mui/material'
 import { rolesArrayToRoles, rolesToRolesArray } from 'auth'
 import { AdminActionPanel } from 'components/AdminActionPanel'
 import { ErrorView } from 'errors'
@@ -14,6 +22,9 @@ const EditPhoneAccessForm: FC<{
     onSave: (c: Partial<UserMappingConfiguration>) => void
 }> = ({ userMappingConfiguration, onSave }) => {
     const { phrase } = useContext(PhraseContext)
+    const [allowPhoneUsers, setAllowPhoneUsers] = useState(
+        userMappingConfiguration.phone.allowPhoneUsers
+    )
     const [sender, setSender] = useState(userMappingConfiguration.phone.sender)
     const [country, setCountry] = useState(
         userMappingConfiguration.phone.country
@@ -30,6 +41,7 @@ const EditPhoneAccessForm: FC<{
                 e.preventDefault()
                 onSave({
                     phone: {
+                        allowPhoneUsers,
                         sender,
                         country,
                         roles: rolesToRolesArray(roles),
@@ -41,6 +53,22 @@ const EditPhoneAccessForm: FC<{
             <Card>
                 <CardContent>
                     <Stack direction="column" spacing={2}>
+                        <FormGroup>
+                            <FormControlLabel
+                                control={
+                                    <Switch
+                                        checked={allowPhoneUsers}
+                                        onChange={(e) =>
+                                            setAllowPhoneUsers(e.target.checked)
+                                        }
+                                    />
+                                }
+                                label={phrase(
+                                    'PHONE_ACCESS_ALLOW',
+                                    'Tillåt inloggning med telefon/SMS'
+                                )}
+                            />
+                        </FormGroup>
                         <TextField
                             fullWidth
                             value={sender}

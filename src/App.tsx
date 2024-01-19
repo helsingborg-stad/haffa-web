@@ -56,6 +56,7 @@ import {
     createLocationRepository,
     createNotifyingLocationRepository,
 } from 'locations'
+import { SystemSettingsProvider } from 'system-settings'
 import { AdvertsProvider } from './adverts/AdvertsContext'
 import { createAdvertsRepository } from './adverts/repository/adverts-repository'
 import { AppRouter } from './routes/AppRouter'
@@ -229,15 +230,17 @@ const App: FC = () => {
     }, [])
 
     return (
-        <BrandingProvider>
-            <NotificationsProvider>
-                <FetchContextProvider>
-                    <AuthContextProvider authProvider={authProvider}>
-                        <Main />
-                    </AuthContextProvider>
-                </FetchContextProvider>
-            </NotificationsProvider>
-        </BrandingProvider>
+        <SystemSettingsProvider>
+            <BrandingProvider>
+                <NotificationsProvider>
+                    <FetchContextProvider>
+                        <AuthContextProvider authProvider={authProvider}>
+                            <Main />
+                        </AuthContextProvider>
+                    </FetchContextProvider>
+                </NotificationsProvider>
+            </BrandingProvider>
+        </SystemSettingsProvider>
     )
 }
 

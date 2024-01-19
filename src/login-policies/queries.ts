@@ -23,6 +23,7 @@ export const getUsermappingConfigurationQuery = /* GraphQL */ `
         userMappingConfiguration {
             allowGuestUsers
             phone {
+                allowPhoneUsers
                 sender
                 country
                 roles
@@ -36,6 +37,7 @@ export const setUserMappingConfigurationMutation = /* GraphQL */ `
         updateUserMappingConfiguration(input: $input) {
             allowGuestUsers
             phone {
+                allowPhoneUsers
                 sender
                 country
                 roles
