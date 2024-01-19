@@ -5,7 +5,7 @@ import { ErrorView } from 'errors'
 import useAsync from 'hooks/use-async'
 import { LoginPoliciesContext } from 'login-policies'
 import { UserMappingConfiguration } from 'login-policies/types'
-import { FC, useContext, useState } from 'react'
+import { FC, useContext, useRef, useState } from 'react'
 import { PhraseContext } from 'phrases'
 import { SelectUserRoles } from '../login-policies/SelectUserRoles'
 
@@ -21,54 +21,64 @@ const EditPhoneAccessForm: FC<{
     const [roles, setRoles] = useState(
         rolesArrayToRoles(userMappingConfiguration.phone.roles)
     )
+    const formRef = useRef<HTMLFormElement | null>(null)
+
     return (
-        <Card>
-            <CardContent>
-                <Stack direction="column" spacing={2}>
-                    <TextField
-                        fullWidth
-                        value={sender}
-                        onChange={(e) => setSender(e.target.value)}
-                        label={phrase(
-                            'LOGINS_FIELD_PHONE_SENDER',
-                            'Sändarnamn'
-                        )}
-                        placeholder={phrase(
-                            'LOGINS_FIELD_PHONE_SENDER',
-                            'Sändarnamn'
-                        )}
+        <form
+            ref={formRef}
+            onSubmit={(e) => {
+                e.preventDefault()
+                onSave({
+                    phone: {
+                        sender,
+                        country,
+                        roles: rolesToRolesArray(roles),
+                    },
+                })
+                return false
+            }}
+        >
+            <Card>
+                <CardContent>
+                    <Stack direction="column" spacing={2}>
+                        <TextField
+                            fullWidth
+                            value={sender}
+                            onChange={(e) => setSender(e.target.value)}
+                            inputProps={{ minlength: 5, maxlength: 11 }}
+                            label={phrase(
+                                'LOGINS_FIELD_PHONE_SENDER',
+                                'Sändarnamn'
+                            )}
+                            placeholder={phrase(
+                                'LOGINS_FIELD_PHONE_SENDER',
+                                'Sändarnamn'
+                            )}
+                        />
+                        <TextField
+                            fullWidth
+                            value={country}
+                            onChange={(e) => setCountry(e.target.value)}
+                            label={phrase(
+                                'LOGINS_FIELD_PHONE_VALIDATION_COUNTRY',
+                                'Landskod för validering av telefonnummer'
+                            )}
+                            placeholder={phrase(
+                                'LOGINS_FIELD_PHONE_VALIDATION_COUNTRY',
+                                'Landskod för validering av telefonnummer'
+                            )}
+                        />
+                        <SelectUserRoles
+                            userRoles={roles}
+                            onChange={(roles) => setRoles(roles)}
+                        />
+                    </Stack>
+                    <AdminActionPanel
+                        onSave={() => formRef.current?.submit()}
                     />
-                    <TextField
-                        fullWidth
-                        value={country}
-                        onChange={(e) => setCountry(e.target.value)}
-                        label={phrase(
-                            'LOGINS_FIELD_PHONE_VALIDATION_COUNTRY',
-                            'Landskod för validering av telefonnummer'
-                        )}
-                        placeholder={phrase(
-                            'LOGINS_FIELD_PHONE_VALIDATION_COUNTRY',
-                            'Landskod för validering av telefonnummer'
-                        )}
-                    />
-                    <SelectUserRoles
-                        userRoles={roles}
-                        onChange={(roles) => setRoles(roles)}
-                    />
-                </Stack>
-                <AdminActionPanel
-                    onSave={() =>
-                        onSave({
-                            phone: {
-                                sender,
-                                country,
-                                roles: rolesToRolesArray(roles),
-                            },
-                        })
-                    }
-                />
-            </CardContent>
-        </Card>
+                </CardContent>
+            </Card>
+        </form>
     )
 }
 
