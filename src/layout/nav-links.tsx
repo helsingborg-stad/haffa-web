@@ -65,12 +65,13 @@ export const createNavLinks: Func1<
               roles.canEditOwnAdverts &&
                   link(NAV_CREATE, '/advert/create', <AddIcon />),
               link(SCAN_QR_CODE, '/scan', <QrCodeScannerIcon />),
-              (mobile ? menuitem : link)(
-                  'Bevakningar',
-                  '/my-subscriptions',
-                  <StarBorderIcon />
-              ),
               roles.canSubscribe &&
+                  (mobile ? menuitem : link)(
+                      'Bevakningar',
+                      '/my-subscriptions',
+                      <StarBorderIcon />
+                  ),
+              roles.canReserveAdverts &&
                   (mobile ? menuitem : link)(
                       NAV_MY_RESERVATIONS,
                       '/my-reservations',
