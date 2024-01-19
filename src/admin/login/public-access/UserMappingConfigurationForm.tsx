@@ -13,7 +13,7 @@ import { FC, useContext, useState } from 'react'
 
 export const UserMappingConfigurationForm: FC<{
     userMappingConfiguration: UserMappingConfiguration
-    onSave: (c: UserMappingConfiguration) => void
+    onSave: (c: Partial<UserMappingConfiguration>) => void
 }> = ({ userMappingConfiguration, onSave }) => {
     const [enabled, setEnabled] = useState(
         userMappingConfiguration.allowGuestUsers

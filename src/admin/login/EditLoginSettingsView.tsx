@@ -5,6 +5,7 @@ import { AdminEditorialPanel } from 'components/AdminEditorialPanel'
 import { PhraseContext } from 'phrases'
 import { EditLoginPoliciesView } from './login-policies'
 import { EditPublicAccessView } from './public-access'
+import { EditPhoneAccessView } from './phone'
 
 export const EditLoginSettingsView: FC = () => {
     const { phrase } = useContext(PhraseContext)
@@ -20,6 +21,11 @@ export const EditLoginSettingsView: FC = () => {
                     true,
                     phrase('LOGINS_FIELD_PERMISSIONS', 'Email & behörigheter'),
                     <EditLoginPoliciesView />
+                ),
+                makeSimpleTab(
+                    true,
+                    phrase('PHONE_ACCESS_TITLE', 'Telefon & behörigheter'),
+                    <EditPhoneAccessView />
                 ),
                 makeSimpleTab(
                     true,

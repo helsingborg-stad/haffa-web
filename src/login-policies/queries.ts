@@ -22,6 +22,11 @@ export const getUsermappingConfigurationQuery = /* GraphQL */ `
     query Query {
         userMappingConfiguration {
             allowGuestUsers
+            phone {
+                sender
+                country
+                roles
+            }
         }
     }
 `
@@ -30,6 +35,11 @@ export const setUserMappingConfigurationMutation = /* GraphQL */ `
     mutation Mutation($input: UserMappingConfigurationInput!) {
         updateUserMappingConfiguration(input: $input) {
             allowGuestUsers
+            phone {
+                sender
+                country
+                roles
+            }
         }
     }
 `

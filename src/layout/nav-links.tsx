@@ -62,23 +62,26 @@ export const createNavLinks: Func1<
           ]
         : [
               link(NAV_BROWSE, '/browse', <SearchIcon />),
-              link(NAV_CREATE, '/advert/create', <AddIcon />),
+              roles.canEditOwnAdverts &&
+                  link(NAV_CREATE, '/advert/create', <AddIcon />),
               link(SCAN_QR_CODE, '/scan', <QrCodeScannerIcon />),
               (mobile ? menuitem : link)(
                   'Bevakningar',
                   '/my-subscriptions',
                   <StarBorderIcon />
               ),
-              (mobile ? menuitem : link)(
-                  NAV_MY_RESERVATIONS,
-                  '/my-reservations',
-                  <CheckIcon />
-              ),
-              (mobile ? menuitem : link)(
-                  NAV_MY_ADVERTS,
-                  '/my-adverts',
-                  <BookmarkBorderIcon />
-              ),
+              roles.canSubscribe &&
+                  (mobile ? menuitem : link)(
+                      NAV_MY_RESERVATIONS,
+                      '/my-reservations',
+                      <CheckIcon />
+                  ),
+              roles.canEditOwnAdverts &&
+                  (mobile ? menuitem : link)(
+                      NAV_MY_ADVERTS,
+                      '/my-adverts',
+                      <BookmarkBorderIcon />
+                  ),
               (mobile ? menuitem : link)(
                   NAV_PROFILE,
                   '/profile',

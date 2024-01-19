@@ -4,7 +4,7 @@ export interface LoginPoliciesRepository {
 
     getUserMappingConfiguration: () => Promise<UserMappingConfiguration>
     updateUserMappingConfiguration: (
-        c: UserMappingConfiguration
+        patch: Partial<UserMappingConfiguration>
     ) => Promise<UserMappingConfiguration>
 }
 
@@ -16,4 +16,9 @@ export interface LoginPolicy {
 
 export interface UserMappingConfiguration {
     allowGuestUsers: boolean
+    phone: {
+        sender: string
+        country: string
+        roles: string[]
+    }
 }
