@@ -1,9 +1,14 @@
 import { Grid, GridProps, Typography } from '@mui/material'
+import { getField } from 'advert-field-config/repository/mappers'
+import { AdvertFieldConfig, FieldConfig } from 'advert-field-config/types'
 import { Advert } from 'adverts'
+import { isString } from 'lib/string-utils'
 import { PhraseContext } from 'phrases'
 import { Fragment, useContext } from 'react'
 
-export const DetailsPanel = (props: GridProps & { advert: Advert }) => {
+export const DetailsPanel = (
+    props: GridProps & { advert: Advert; fields: AdvertFieldConfig }
+) => {
     const { phrase, fromNow } = useContext(PhraseContext)
 
     const {
@@ -19,35 +24,48 @@ export const DetailsPanel = (props: GridProps & { advert: Advert }) => {
         createdAt,
     } = props.advert
 
-    const fields = [
-        [size, phrase('ADVERT_FIELD_SIZE', 'Storlek')],
-        [height, phrase('ADVERT_FIELD_HEIGHT', 'Höjd')],
-        [width, phrase('ADVERT_FIELD_WIDTH', 'Bredd')],
-        [depth, phrase('ADVERT_FIELD_DEPTH', 'Djup')],
-        [weight, phrase('ADVERT_FIELD_WEIGHT', 'Vikt')],
-        [material, phrase('ADVERT_FIELD_MATERIAL', 'Material')],
-        [condition, phrase('ADVERT_FIELD_CONDITION', 'Skick')],
-        [usage, phrase('ADVERT_FIELD_USAGE', 'Användning')],
-        [reference, phrase('ADVERT_FIELD_REFERENCE', 'Egen referens')],
-        [fromNow(createdAt), phrase('ADVERT_FIELD_CREATED', 'Publicerades')],
-    ].filter(([item]) => item)
+    type FieldData = {
+        field: FieldConfig
+        value: string
+    }
+    const mapper = [
+        { field: getField(props.fields, 'size'), value: size },
+        { field: getField(props.fields, 'height'), value: height },
+        { field: getField(props.fields, 'width'), value: width },
+        { field: getField(props.fields, 'depth'), value: depth },
+        { field: getField(props.fields, 'weight'), value: weight },
+        { field: getField(props.fields, 'material'), value: material },
+        { field: getField(props.fields, 'condition'), value: condition },
+        { field: getField(props.fields, 'usage'), value: usage },
+        { field: getField(props.fields, 'reference'), value: reference },
+    ].filter((a) => isString(a.value) && a.field.visible)
 
+    const format = (field: FieldData) =>
+        `${field.value} ${field.field.adornment}`.trim()
     return (
         <>
             <Typography gutterBottom variant="h6">
                 {phrase('ADVERT_FIELD_HEADING', 'Produktinformation')}
             </Typography>
             <Grid container columns={2} pb={2}>
-                {fields.map(([value, label], key) => (
+                {mapper.map((v, key) => (
                     <Fragment key={key}>
                         <Grid item xs={1}>
-                            {label}
+                            {v.field.label}
                         </Grid>
                         <Grid item xs={1} textAlign="right">
-                            {value}
+                            {format(v)}
                         </Grid>
                     </Fragment>
                 ))}
+                <Fragment key="ADVERT_FIELD_CREATED">
+                    <Grid item xs={1}>
+                        {phrase('ADVERT_FIELD_CREATED', 'Publicerades')}
+                    </Grid>
+                    <Grid item xs={1} textAlign="right">
+                        {fromNow(createdAt)}
+                    </Grid>
+                </Fragment>
             </Grid>
         </>
     )

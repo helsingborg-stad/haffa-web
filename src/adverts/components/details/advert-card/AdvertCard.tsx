@@ -3,6 +3,7 @@ import { Card, CardContent, Grid, Stack } from '@mui/material'
 import { Editorial } from 'editorials'
 import { TreeAdapter } from 'lib/types'
 import { Category } from 'categories/types'
+import { AdvertFieldConfig } from 'advert-field-config/types'
 import { Advert, AdvertMutationResult } from '../../../types'
 import { InfoPanel } from './InfoPanel'
 import { ActionsPanel } from './ActionsPanel'
@@ -17,9 +18,10 @@ import { DetailsPanel } from './DetailsPanel'
 export const AdvertCard: FC<{
     advert: Advert
     categories: TreeAdapter<Category>
+    fields: AdvertFieldConfig
     error?: string
     onUpdate: (p: Promise<AdvertMutationResult>) => void
-}> = ({ advert, categories, error, onUpdate }) => {
+}> = ({ advert, categories, fields, error, onUpdate }) => {
     const { meta } = advert
 
     // show a disclaimer if we are administering someone eleses advert
@@ -60,7 +62,7 @@ export const AdvertCard: FC<{
                                 />
                             </Grid>
                             <Grid item>
-                                <DetailsPanel advert={advert} />
+                                <DetailsPanel fields={fields} advert={advert} />
                             </Grid>
                             <Grid item>
                                 <AddressCard advert={advert} />
@@ -105,7 +107,10 @@ export const AdvertCard: FC<{
                                     />
                                 </Grid>
                                 <Grid item>
-                                    <DetailsPanel advert={advert} />
+                                    <DetailsPanel
+                                        fields={fields}
+                                        advert={advert}
+                                    />
                                 </Grid>
                                 <Grid item>
                                     <AddressCard advert={advert} />
