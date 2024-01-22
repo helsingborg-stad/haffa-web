@@ -300,13 +300,13 @@ export const AdvertForm: FC<{
                                         required,
                                         disabled,
                                         fullWidth: true,
-                                        type: 'number',
                                         InputProps: {
                                             endAdornment:
                                                 createAdornment(adornment),
                                         },
                                         inputProps: {
-                                            min: 1,
+                                            inputMode: 'numeric',
+                                            pattern: '[1-9][0-9]*',
                                         },
                                     })
                             ),
@@ -331,13 +331,13 @@ export const AdvertForm: FC<{
                                         required,
                                         disabled,
                                         fullWidth: true,
-                                        type: 'number',
                                         InputProps: {
                                             endAdornment:
                                                 createAdornment(adornment),
                                         },
                                         inputProps: {
-                                            min: 0,
+                                            inputMode: 'numeric',
+                                            pattern: '[0-9]*',
                                         },
                                     })
                             ),
