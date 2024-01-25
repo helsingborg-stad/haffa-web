@@ -57,6 +57,11 @@ import {
     createNotifyingLocationRepository,
 } from 'locations'
 import { SystemSettingsProvider } from 'system-settings'
+import {
+    SmsTemplateProvider,
+    createNotifyingSmsTemplateRepository,
+    createSmsTemplateRepository,
+} from 'sms-templates'
 import { AdvertsProvider } from './adverts/AdvertsContext'
 import { createAdvertsRepository } from './adverts/repository/adverts-repository'
 import { AppRouter } from './routes/AppRouter'
@@ -181,42 +186,56 @@ const Main: FC = () => {
         [notifications, phrase, token, fetch]
     )
 
+    const smsTemplates = useMemo(
+        () =>
+            createNotifyingSmsTemplateRepository(
+                notifications,
+                phrase,
+                createSmsTemplateRepository(token, fetch)
+            ),
+        [notifications, phrase, token, fetch]
+    )
+
     return isAuthenticated ? (
-        <OptionsProvider repository={options}>
-            <ApiKeysProvider repository={apiKeys}>
-                <LoginPoliciesProvider repository={loginPolicies}>
-                    <CategoriesProvider repository={categories}>
-                        <TermsProvider repository={terms}>
-                            <StatisticsProvider provider={statistics}>
-                                <SubscriptionsProvider
-                                    repository={subscriptions}
-                                >
-                                    <AdvertsProvider repository={adverts}>
-                                        <ProfileProvider repository={profiles}>
-                                            <ContentProvider
-                                                repository={content}
+        <SmsTemplateProvider repository={smsTemplates}>
+            <OptionsProvider repository={options}>
+                <ApiKeysProvider repository={apiKeys}>
+                    <LoginPoliciesProvider repository={loginPolicies}>
+                        <CategoriesProvider repository={categories}>
+                            <TermsProvider repository={terms}>
+                                <StatisticsProvider provider={statistics}>
+                                    <SubscriptionsProvider
+                                        repository={subscriptions}
+                                    >
+                                        <AdvertsProvider repository={adverts}>
+                                            <ProfileProvider
+                                                repository={profiles}
                                             >
-                                                <AdvertFieldProvider
-                                                    repository={fieldConfig}
+                                                <ContentProvider
+                                                    repository={content}
                                                 >
-                                                    <LocationProvider
-                                                        repository={
-                                                            locationConfig
-                                                        }
+                                                    <AdvertFieldProvider
+                                                        repository={fieldConfig}
                                                     >
-                                                        <AppRouter />
-                                                    </LocationProvider>
-                                                </AdvertFieldProvider>
-                                            </ContentProvider>
-                                        </ProfileProvider>
-                                    </AdvertsProvider>
-                                </SubscriptionsProvider>
-                            </StatisticsProvider>
-                        </TermsProvider>
-                    </CategoriesProvider>
-                </LoginPoliciesProvider>
-            </ApiKeysProvider>
-        </OptionsProvider>
+                                                        <LocationProvider
+                                                            repository={
+                                                                locationConfig
+                                                            }
+                                                        >
+                                                            <AppRouter />
+                                                        </LocationProvider>
+                                                    </AdvertFieldProvider>
+                                                </ContentProvider>
+                                            </ProfileProvider>
+                                        </AdvertsProvider>
+                                    </SubscriptionsProvider>
+                                </StatisticsProvider>
+                            </TermsProvider>
+                        </CategoriesProvider>
+                    </LoginPoliciesProvider>
+                </ApiKeysProvider>
+            </OptionsProvider>
+        </SmsTemplateProvider>
     ) : (
         <AuthenticateView />
     )

@@ -191,4 +191,12 @@ export const createDefaultRoleInputBindings = (
                 ),
                 true
             )
+            .define(
+                'canManageNotifications',
+                phrase(
+                    'ROLES_CAN_MANAGE_NOTIFICATIONS',
+                    'Managera notifikationer (admin)'
+                ),
+                true
+            )
     )

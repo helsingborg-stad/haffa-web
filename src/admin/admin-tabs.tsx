@@ -12,6 +12,7 @@ import { EventLogView } from './events/EventLogView'
 import { EditContentView } from './content'
 import { ConfigureAdvertsView } from './adverts/ConfigureAdvertsView'
 import { EditLocationsView } from './locations/EditLocationsView'
+import { EditSmsTemplatesView } from './sms-templates/EditSmsTemplatesView'
 
 const tab = (
     enabled: boolean | undefined,
@@ -79,6 +80,11 @@ export const createAdminTabs = (
             roles.canEditTerms,
             phrase('ADMIN_ANALYTICS_TITLE', 'Webanalys'),
             <EditAnalyticsView />
+        ),
+        tab(
+            roles.canManageNotifications,
+            phrase('ADMIN_SMS_TEMPLATES_TITLE', 'SMS Mallar'),
+            <EditSmsTemplatesView />
         ),
         tab(
             roles.canEditApiKeys,

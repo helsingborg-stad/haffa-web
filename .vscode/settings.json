@@ -6,10 +6,10 @@
         "activityBar.inactiveForeground": "#ffffff88"
     },
     "editor.codeActionsOnSave": {
-        "source.fixAll.eslint": true
+        "source.fixAll.eslint": "explicit"
     },
     "editor.defaultFormatter": "esbenp.prettier-vscode",
     "editor.insertSpaces": false,
     "eslint.validate": ["typescript"],
     "editor.formatOnSave": true
-  }
+}
