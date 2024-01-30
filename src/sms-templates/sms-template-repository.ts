@@ -1,6 +1,10 @@
 import { gqlClient } from 'graphql'
-import { SmsTemplate, SmsTemplateRepository } from './types'
-import { getSmsTemplatesQuery, updateSmsTemplatesMutation } from './queries'
+import { SmsTemplate, SmsTemplatePreview, SmsTemplateRepository } from './types'
+import {
+    getSmsTemplatesQuery,
+    previewSmsTemplatesMutation,
+    updateSmsTemplatesMutation,
+} from './queries'
 
 const gql = (token: string, f?: typeof fetch, init?: RequestInit) =>
     gqlClient()
@@ -16,6 +20,11 @@ export const createSmsTemplateRepository = (
         gql(token, f)
             .query(getSmsTemplatesQuery)
             .map<SmsTemplate[]>('smsTemplates'),
+    previewSmsTemplates: async (input, data) =>
+        gql(token, f)
+            .query(previewSmsTemplatesMutation)
+            .variables({ input, jsonEncodedData: JSON.stringify(data) })
+            .map<SmsTemplatePreview[]>('previewSmsTemplates'),
     updateSmsTemplates: async (input) =>
         gql(token, f)
             .query(updateSmsTemplatesMutation)

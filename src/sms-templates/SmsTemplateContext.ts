@@ -7,5 +7,6 @@ const notProvided = (method: string) => () => {
 
 export const SmsTemplateContext = createContext<SmsTemplateRepository>({
     getSmsTemplates: notProvided('getSmsTemplates'),
+    previewSmsTemplates: notProvided('previewSmsTemplates'),
     updateSmsTemplates: notProvided('updateSmsTemplates'),
 })
