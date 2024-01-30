@@ -1,11 +1,18 @@
-import { Autocomplete, TextField, Typography, debounce } from '@mui/material'
+import {
+    Autocomplete,
+    TextField,
+    TextFieldProps,
+    Typography,
+    debounce,
+} from '@mui/material'
 import { Advert, AdvertsContext } from 'adverts'
 import { FC, useContext, useMemo, useState } from 'react'
 
-export const SelectSampleAdvert: FC<{
-    label: string
-    onChange: (advert: Advert | null) => void
-}> = ({ label, onChange }) => {
+export const SelectSampleAdvert: FC<
+    TextFieldProps & {
+        onAdvertSelected: (advert: Advert | null) => void
+    }
+> = ({ onAdvertSelected, ...props }) => {
     const { listAdverts } = useContext(AdvertsContext)
     const [adverts, setAdverts] = useState<Advert[]>([])
     const searchAdverts = useMemo(
@@ -28,13 +35,13 @@ export const SelectSampleAdvert: FC<{
                 </Typography>
             )}
             onInputChange={(_, search) => searchAdverts(search)}
-            onChange={(_, value) => onChange(value)}
+            onChange={(_, value) => onAdvertSelected(value)}
             getOptionLabel={(advert) => advert.title}
             isOptionEqualToValue={(a, b) => a.id === b.id}
             renderInput={(params) => (
                 <TextField
+                    {...props}
                     {...params}
-                    label={label}
                     InputProps={{
                         ...params.InputProps,
                         type: 'search',

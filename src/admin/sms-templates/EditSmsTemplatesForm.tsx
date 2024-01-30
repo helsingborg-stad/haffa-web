@@ -1,4 +1,5 @@
 import {
+    Chip,
     FormControlLabel,
     FormGroup,
     Paper,
@@ -95,7 +96,7 @@ export const EditSmsTemplatesForm: FC<{
                         </TableCell>
                         <TableCell>
                             <SelectSampleAdvert
-                                onChange={updatePreviewAdvert}
+                                onAdvertSelected={updatePreviewAdvert}
                                 label={phrase(
                                     'SMS_TEMPLATE_PREVIEW_WITH_ADVERT',
                                     'Förhandsgranska med annons'
@@ -162,7 +163,12 @@ export const EditSmsTemplatesForm: FC<{
                             </TableCell>
 
                             <TableCell>
-                                {preview[t.templateId]?.preview}
+                                {preview[t.templateId]?.preview && (
+                                    <Chip
+                                        color="primary"
+                                        label={preview[t.templateId]?.preview}
+                                    />
+                                )}
                             </TableCell>
                         </TableRow>
                     ))}
