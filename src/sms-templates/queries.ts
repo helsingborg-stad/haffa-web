@@ -7,6 +7,16 @@ export const getSmsTemplatesQuery = /* GraphQL */ `
         }
     }
 `
+
+export const previewSmsTemplatesMutation = /* GraphQL */ `
+    mutation Mutation($input: [SmsTemplateInput]!, $jsonEncodedData: String!) {
+        previewSmsTemplates(input: $input, jsonEncodedData: $jsonEncodedData) {
+            templateId
+            template
+            preview
+        }
+    }
+`
 export const updateSmsTemplatesMutation = /* GraphQL */ `
     mutation Mutation($input: [SmsTemplateInput]!) {
         updateSmsTemplates(input: $input) {

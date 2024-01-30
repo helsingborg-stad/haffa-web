@@ -8,6 +8,7 @@ export const createNotifyingSmsTemplateRepository = (
     inner: SmsTemplateRepository
 ): SmsTemplateRepository => ({
     getSmsTemplates: async () => inner.getSmsTemplates(),
+    previewSmsTemplates: (...args) => inner.previewSmsTemplates(...args),
     updateSmsTemplates: async (...args) =>
         notifyInvocation(() => inner.updateSmsTemplates(...args), {
             message: phrase(

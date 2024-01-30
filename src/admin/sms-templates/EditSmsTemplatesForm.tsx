@@ -1,4 +1,5 @@
 import {
+    Chip,
     FormControlLabel,
     FormGroup,
     Paper,
@@ -12,16 +13,22 @@ import {
     TableRow,
     TextField,
     Typography,
+    debounce,
 } from '@mui/material'
+import { Advert } from 'adverts'
 import { AdminActionPanel } from 'components/AdminActionPanel'
+import { toMap } from 'lib/to-map'
 import { PhraseContext } from 'phrases'
-import { FC, useCallback, useContext, useState } from 'react'
-import { SmsTemplate } from 'sms-templates'
+import { FC, useCallback, useContext, useMemo, useState } from 'react'
+import { SmsTemplate, SmsTemplateContext } from 'sms-templates'
+import { SmsTemplatePreview } from 'sms-templates/types'
+import { SelectSampleAdvert } from './SelectSampleAdvert'
 
 export const EditSmsTemplatesForm: FC<{
     templates: SmsTemplate[]
     onUpdate: (templates: SmsTemplate[]) => void
 }> = ({ templates, onUpdate }) => {
+    const { previewSmsTemplates } = useContext(SmsTemplateContext)
     const { phrase } = useContext(PhraseContext)
     const [memo, setMemo] = useState<SmsTemplate[]>(
         templates.map(({ templateId, template, enabled }) => ({
@@ -30,17 +37,51 @@ export const EditSmsTemplatesForm: FC<{
             enabled,
         }))
     )
-    const mutateTemplate = useCallback(
-        (t: SmsTemplate, patch: Partial<SmsTemplate>) =>
-            setMemo(
-                memo.map((existing) =>
-                    existing === t ? { ...existing, ...patch } : existing
-                )
-            ),
-        [memo, setMemo]
-    )
-    const saveTemplates = useCallback(() => onUpdate(memo), [onUpdate, memo])
 
+    const [preview, setPreview] = useState<Record<string, SmsTemplatePreview>>(
+        {}
+    )
+    const fetchPreview = useMemo(
+        () =>
+            debounce(
+                (templates: SmsTemplate[], advert: Advert | null) =>
+                    advert &&
+                    previewSmsTemplates(templates, { advert }).then(
+                        (previews) =>
+                            setPreview(
+                                toMap(
+                                    previews,
+                                    ({ templateId }) => templateId,
+                                    (t) => t
+                                )
+                            )
+                    ),
+                300
+            ),
+        [previewSmsTemplates, setPreview]
+    )
+
+    const [previewAdvert, setPreviewAdvert] = useState<Advert | null>(null)
+
+    const updatePreviewAdvert = useCallback(
+        (advert: Advert | null) => {
+            setPreviewAdvert(advert)
+            fetchPreview(memo, advert)
+        },
+        [setPreviewAdvert, fetchPreview]
+    )
+    const mutateTemplate = useCallback(
+        (t: SmsTemplate, patch: Partial<SmsTemplate>) => {
+            const newMemo = memo.map((existing) =>
+                existing === t ? { ...existing, ...patch } : existing
+            )
+            setMemo(newMemo)
+            fetchPreview(newMemo, previewAdvert)
+        },
+        [memo, setMemo, fetchPreview]
+    )
+
+    const saveTemplates = useCallback(() => onUpdate(memo), [onUpdate, memo])
     return (
         <TableContainer component={Paper}>
             <Table>
@@ -53,6 +94,15 @@ export const EditSmsTemplatesForm: FC<{
                         <TableCell>
                             {phrase('SMS_TEMPLATE_FIELD_TEMPLATE', 'Mall')}
                         </TableCell>
+                        <TableCell>
+                            <SelectSampleAdvert
+                                onAdvertSelected={updatePreviewAdvert}
+                                label={phrase(
+                                    'SMS_TEMPLATE_PREVIEW_WITH_ADVERT',
+                                    'Förhandsgranska med annons'
+                                )}
+                            />
+                        </TableCell>
                     </TableRow>
                 </TableHead>
                 <TableFooter>
@@ -64,7 +114,7 @@ export const EditSmsTemplatesForm: FC<{
                 </TableFooter>
                 <TableBody>
                     {memo.map((t) => (
-                        <TableRow>
+                        <TableRow key={t.templateId}>
                             <TableCell>
                                 <Typography style={{ whiteSpace: 'nowrap' }}>
                                     {t.templateId}
@@ -110,6 +160,15 @@ export const EditSmsTemplatesForm: FC<{
                                         })
                                     }
                                 />
+                            </TableCell>
+
+                            <TableCell>
+                                {preview[t.templateId]?.preview && (
+                                    <Chip
+                                        color="primary"
+                                        label={preview[t.templateId]?.preview}
+                                    />
+                                )}
                             </TableCell>
                         </TableRow>
                     ))}
