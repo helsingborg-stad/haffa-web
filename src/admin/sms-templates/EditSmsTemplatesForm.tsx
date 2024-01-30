@@ -1,5 +1,4 @@
 import {
-    Autocomplete,
     FormControlLabel,
     FormGroup,
     Paper,
@@ -13,120 +12,22 @@ import {
     TableRow,
     TextField,
     Typography,
+    debounce,
 } from '@mui/material'
-import { Advert, AdvertList, AdvertsContext } from 'adverts'
+import { Advert } from 'adverts'
 import { AdminActionPanel } from 'components/AdminActionPanel'
+import { toMap } from 'lib/to-map'
 import { PhraseContext } from 'phrases'
-import { FC, useCallback, useContext, useEffect, useState } from 'react'
-import { SmsTemplate } from 'sms-templates'
-
-interface UseDebounceState<T> {
-    pending: boolean
-    value: T
-    enqueue: (key: any, next: () => Promise<T>) => void
-}
-const useDebounce = <T,>(
-    initialKey: any,
-    initial: T,
-    initialFetch: () => Promise<T>
-): UseDebounceState<T> => {
-    interface State {
-        key: any
-        value: T
-        current: Promise<any> | null
-        next: (() => Promise<T>) | null
-    }
-    const [state, setState] = useState<State>({
-        key: initialKey,
-        value: initial,
-        current: null,
-        next: initialFetch,
-    })
-
-    useEffect(() => {
-        const { current, next } = state
-        if (current) {
-            return
-        }
-        if (next) {
-            setState({
-                ...state,
-                next: null,
-                current: next().then((v) =>
-                    setState({
-                        ...state,
-                        value: v,
-                        current: null,
-                    })
-                ),
-            })
-        }
-    })
-
-    return {
-        pending: state.current != null,
-        value: state.value,
-        enqueue: (key) => {
-            if (key !== state.key) {
-                // console.log({ key, s: state.key })
-                console.log(key)
-                setState({
-                    ...state,
-                    key,
-                })
-            }
-            /* key !== state.key &&
-                setState({
-                    ...state,
-                    key,
-                    next,
-                }) */
-        },
-    }
-}
-
-const SelectSampleAdvert: FC<{ onChange: (advert: Advert | null) => void }> = ({
-    onChange,
-}) => {
-    const { listAdverts } = useContext(AdvertsContext)
-    const { value: adverts, enqueue } = useDebounce<AdvertList | null>(
-        null,
-        null,
-        () => listAdverts({ search: '' })
-    )
-
-    return (
-        <Autocomplete
-            options={adverts?.adverts || []}
-            renderOption={(props, advert) => (
-                <Typography key={advert.id} {...props}>
-                    {advert.title}
-                </Typography>
-            )}
-            onInputChange={(_, search) =>
-                enqueue(search, () => listAdverts({ search }))
-            }
-            onChange={(_, value) => onChange(value)}
-            getOptionLabel={(advert) => advert.title}
-            isOptionEqualToValue={(a, b) => a.id === b.id}
-            renderInput={(params) => (
-                <TextField
-                    {...params}
-                    label="Sök annons"
-                    InputProps={{
-                        ...params.InputProps,
-                        type: 'search',
-                    }}
-                />
-            )}
-        />
-    )
-}
+import { FC, useCallback, useContext, useMemo, useState } from 'react'
+import { SmsTemplate, SmsTemplateContext } from 'sms-templates'
+import { SmsTemplatePreview } from 'sms-templates/types'
+import { SelectSampleAdvert } from './SelectSampleAdvert'
 
 export const EditSmsTemplatesForm: FC<{
     templates: SmsTemplate[]
     onUpdate: (templates: SmsTemplate[]) => void
 }> = ({ templates, onUpdate }) => {
+    const { previewSmsTemplates } = useContext(SmsTemplateContext)
     const { phrase } = useContext(PhraseContext)
     const [memo, setMemo] = useState<SmsTemplate[]>(
         templates.map(({ templateId, template, enabled }) => ({
@@ -136,47 +37,50 @@ export const EditSmsTemplatesForm: FC<{
         }))
     )
 
+    const [preview, setPreview] = useState<Record<string, SmsTemplatePreview>>(
+        {}
+    )
+    const fetchPreview = useMemo(
+        () =>
+            debounce(
+                (templates: SmsTemplate[], advert: Advert | null) =>
+                    advert &&
+                    previewSmsTemplates(templates, { advert }).then(
+                        (previews) =>
+                            setPreview(
+                                toMap(
+                                    previews,
+                                    ({ templateId }) => templateId,
+                                    (t) => t
+                                )
+                            )
+                    ),
+                300
+            ),
+        [previewSmsTemplates, setPreview]
+    )
+
     const [previewAdvert, setPreviewAdvert] = useState<Advert | null>(null)
 
     const updatePreviewAdvert = useCallback(
         (advert: Advert | null) => {
             setPreviewAdvert(advert)
+            fetchPreview(memo, advert)
         },
-        [setPreviewAdvert]
+        [setPreviewAdvert, fetchPreview]
     )
     const mutateTemplate = useCallback(
         (t: SmsTemplate, patch: Partial<SmsTemplate>) => {
-            setMemo(
-                memo.map((existing) =>
-                    existing === t ? { ...existing, ...patch } : existing
-                )
+            const newMemo = memo.map((existing) =>
+                existing === t ? { ...existing, ...patch } : existing
             )
+            setMemo(newMemo)
+            fetchPreview(newMemo, previewAdvert)
         },
-        [memo, setMemo]
+        [memo, setMemo, fetchPreview]
     )
 
     const saveTemplates = useCallback(() => onUpdate(memo), [onUpdate, memo])
-    /*
-    useEffect(() => {
-        if (previewAdvert) {
-            preview.enqueue(
-                [
-                    previewAdvert.id,
-                    ...memo.map(({ templateId }) => templateId),
-                    ...memo.map(({ template }) => template),
-                ].join('@'),
-                () =>
-                    previewSmsTemplates(memo, previewAdvert).then((p) =>
-                        toMap(
-                            p,
-                            ({ templateId }) => templateId,
-                            (t) => t
-                        )
-                    )
-            )
-        }
-    })
-*/
     return (
         <TableContainer component={Paper}>
             <Table>
@@ -192,8 +96,11 @@ export const EditSmsTemplatesForm: FC<{
                         <TableCell>
                             <SelectSampleAdvert
                                 onChange={updatePreviewAdvert}
+                                label={phrase(
+                                    'SMS_TEMPLATE_PREVIEW_WITH_ADVERT',
+                                    'Förhandsgranska med annons'
+                                )}
                             />
-                            [{previewAdvert?.id}]
                         </TableCell>
                     </TableRow>
                 </TableHead>
@@ -253,7 +160,10 @@ export const EditSmsTemplatesForm: FC<{
                                     }
                                 />
                             </TableCell>
-                            <TableCell />
+
+                            <TableCell>
+                                {preview[t.templateId]?.preview}
+                            </TableCell>
                         </TableRow>
                     ))}
                 </TableBody>
