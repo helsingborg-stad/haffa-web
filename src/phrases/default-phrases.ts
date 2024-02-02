@@ -32,6 +32,7 @@ export const defaultPhrases: Omit<
     ADVERT_REMOVE: 'Ta bort annonsen',
     ADVERT_COLLECT: 'Hämta pryl',
     ADVERT_RESERVE: 'Reservera',
+    ADVERT_RETURN: 'Återlämna',
     ADVERT_CANCEL_RESERVATION: 'Ångra mina reservationer',
     ADVERT_PRINT_QRCODE: 'Skriv ut QR',
     ADVERT_ARCHIVE: 'Arkivera',

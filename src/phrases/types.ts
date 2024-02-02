@@ -24,6 +24,7 @@ export interface PhraseContextType {
     ADVERT_EDIT_CANCEL: string
     ADVERT_REMOVE: string
     ADVERT_COLLECT: string
+    ADVERT_RETURN: string
     PROFILE_EDIT: string
     PROFILE_SAVE: string
     SCAN_QR_CODE: string

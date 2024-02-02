@@ -135,6 +135,7 @@ export interface AdvertMeta {
     canCancelReservation: boolean
     canCollect: boolean
     canManageClaims: boolean
+    canReturn: boolean
     reservedyMe: number
     collectedByMe: number
     claims: AdvertClaim[]
@@ -234,4 +235,5 @@ export interface AdvertsRepository {
         claim: AdvertClaim,
         newType: AdvertClaimType
     ) => Promise<AdvertMutationResult>
+    returnAdvert: (id: string) => Promise<AdvertMutationResult>
 }

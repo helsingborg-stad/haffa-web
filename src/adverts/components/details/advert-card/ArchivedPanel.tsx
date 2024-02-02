@@ -1,5 +1,6 @@
-import { Alert, AlertTitle, Button } from '@mui/material'
+import { Button, Card, CardContent } from '@mui/material'
 import { Advert, AdvertMutationResult, AdvertsContext } from 'adverts'
+import { Editorial } from 'editorials'
 import { PhraseContext } from 'phrases/PhraseContext'
 import { FC, useContext } from 'react'
 
@@ -9,24 +10,32 @@ export const ArchivedPanel: FC<{
 }> = ({ advert, onUpdate }) => {
     const { phrase } = useContext(PhraseContext)
     const { unarchiveAdvert } = useContext(AdvertsContext)
-    return advert.meta.canUnarchive ? (
-        <Alert sx={{ mb: 2 }}>
-            <AlertTitle>
-                {' '}
-                {phrase(
-                    'USER_INFO_ADVERT_IS_ARCHIVED',
-                    'Annonsen är arkiverad och syns inte i annonsflödet'
-                )}
-            </AlertTitle>
-            <Button
-                fullWidth
-                variant="contained"
-                sx={{ ml: 'auto' }}
-                color="primary"
-                onClick={async () => onUpdate(unarchiveAdvert(advert.id))}
-            >
-                {phrase('USER_ACTION_UNARCHIVE_ADVERT', 'Återställ')}
-            </Button>
-        </Alert>
-    ) : null
+    const {
+        meta: { canUnarchive },
+    } = advert
+    return (
+        canUnarchive && (
+            <Card>
+                <CardContent>
+                    <Editorial
+                        phraseKey="USER_INFO_ADVERT_IS_ARCHIVED"
+                        severity="info"
+                    >
+                        Annonsen är arkiverad och syns inte i annonsflödet.
+                    </Editorial>
+                    <Button
+                        fullWidth
+                        variant="contained"
+                        sx={{ ml: 'auto' }}
+                        color="primary"
+                        onClick={async () =>
+                            onUpdate(unarchiveAdvert(advert.id))
+                        }
+                    >
+                        {phrase('USER_ACTION_UNARCHIVE_ADVERT', 'Återställ')}
+                    </Button>
+                </CardContent>
+            </Card>
+        )
+    )
 }

@@ -283,7 +283,7 @@ export const ClaimsPanel: FC<{
     onUpdate: (p: Promise<AdvertMutationResult>) => void
 }> = ({ advert, onUpdate }) => {
     const {
-        meta: { claims },
+        meta: { claims, canManageClaims },
     } = advert
     interface ClaimModel {
         claim: AdvertClaim
@@ -299,15 +299,17 @@ export const ClaimsPanel: FC<{
     )
 
     return (
-        <>
-            {claimsModel.map(({ key, claim }) => (
-                <ClaimCard
-                    key={key}
-                    advert={advert}
-                    claim={claim}
-                    onUpdate={onUpdate}
-                />
-            ))}
-        </>
+        canManageClaims && (
+            <>
+                {claimsModel.map(({ key, claim }) => (
+                    <ClaimCard
+                        key={key}
+                        advert={advert}
+                        claim={claim}
+                        onUpdate={onUpdate}
+                    />
+                ))}
+            </>
+        )
     )
 }

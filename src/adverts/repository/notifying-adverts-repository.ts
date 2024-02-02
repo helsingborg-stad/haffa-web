@@ -110,5 +110,14 @@ export const createNotifyingAdvertsRepository = (
                         'Markeringen har ändrats'
                     )
                 ),
+        returnAdvert: (...args) =>
+            inner
+                .returnAdvert(...args)
+                .then(
+                    info(
+                        'NOTIFICATIONS_ADVERT_WAS_RETURNED',
+                        'Artikeln har återlämnats'
+                    )
+                ),
     }
 }

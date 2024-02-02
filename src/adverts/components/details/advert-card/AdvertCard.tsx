@@ -14,6 +14,7 @@ import { EditorButtonsPanel } from './EditorButtonsPanel'
 import { AddressCard } from './AddressCard'
 import { ContactCard } from './ContactCard'
 import { DetailsPanel } from './DetailsPanel'
+import { ReturnPanel } from './ReturnPanel'
 
 export const AdvertCard: FC<{
     advert: Advert
@@ -30,7 +31,6 @@ export const AdvertCard: FC<{
 
     return (
         <Stack spacing={2}>
-            <ArchivedPanel advert={advert} onUpdate={onUpdate} />
             <Card>
                 <CardContent key="mobile" sx={{ display: { sm: 'none' } }}>
                     <CardContent>
@@ -124,9 +124,12 @@ export const AdvertCard: FC<{
                 </CardContent>
             </Card>
 
-            {meta.canManageClaims && (
-                <ClaimsPanel advert={advert} onUpdate={onUpdate} />
-            )}
+            <ArchivedPanel advert={advert} onUpdate={onUpdate} />
+
+            <ReturnPanel advert={advert} onUpdate={onUpdate} />
+
+            <ClaimsPanel advert={advert} onUpdate={onUpdate} />
+
             {showRightsDisclaimer && (
                 <Editorial
                     phraseKey="ADVERT_IMPERSONATION_EDITORIAL"

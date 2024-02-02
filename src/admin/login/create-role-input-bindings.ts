@@ -137,6 +137,14 @@ export const createDefaultRoleInputBindings = (
                 true
             )
             .define(
+                'canManageReturns',
+                phrase(
+                    'ROLES_CAN_MANAGE_RETURNS',
+                    'Hantera återlämningar (admin)'
+                ),
+                true
+            )
+            .define(
                 'canEditTerms',
                 phrase('ROLES_CAN_EDIT_TERMS', 'Hantera definitioner (admin)'),
                 true

@@ -19,6 +19,7 @@ const advertProps = /* GraphQL */ `
 		canCancelReservation
 		canCollect
 		canManageClaims
+		canReturn
     reservedyMe
     collectedByMe
 		claims {
@@ -212,6 +213,16 @@ mutation Mutation(
 	$newType: AdvertClaimType!
 ) {
 	convertAdvertClaim(id: $id, by: $by, type: $type, newType: $newType) {
+		${mutationProps}
+	}
+}
+`
+
+export const returnAdvertMutation = /* GraphQL */ `
+mutation Mutation(
+	$id: ID!,
+) {
+	returnAdvert(id: $id) {
 		${mutationProps}
 	}
 }
