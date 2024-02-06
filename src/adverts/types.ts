@@ -17,6 +17,7 @@ export interface AdvertUserFields {
     usage: string
     category: string
     reference: string
+    notes: string
     tags: string[]
 
     location: AdvertLocation
@@ -104,6 +105,7 @@ export interface AdvertInput {
     usage: string
     category: string
     reference: string
+    notes: string
     tags: string[]
     location: AdvertLocation
     contact: AdvertContact

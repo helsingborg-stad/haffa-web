@@ -110,6 +110,8 @@ export const defaultPhrases: Omit<
     PHRASES_FIELD_VALUE: 'Värde',
     PHRASES_FIELD_DEFAULT: 'Fabriksinställning',
     PHRASES_FIELD_KEY: 'ID',
+    ADVERT_EDITOR_SECTION_NOTES:
+        'Era egna privata noteringar angående denna annons',
     ADVERT_EDITOR_SECTION_DESCRIPTION:
         'Beskriv din annons så att den blir sökbar och ser fin ut i listningen.',
     ADVERT_EDITOR_SECTION_IMAGES: 'En bild säger mer än tusen ord!',
