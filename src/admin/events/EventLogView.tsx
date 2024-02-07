@@ -29,9 +29,9 @@ interface EventsSearchParams {
     to: string
 }
 
-type ServerSideLogEventLabels = {
+type ServerSideLogEventLabels = Required<{
     [Property in keyof ServerSideLogEvent]: string
-}
+}>
 
 export const EventsTable: FC<{
     events: ServerSideLogEvent[]
@@ -45,6 +45,7 @@ export const EventsTable: FC<{
                     <TableCell>{labels.at}</TableCell>
                     <TableCell>{labels.category}</TableCell>
                     <TableCell>{labels.organization}</TableCell>
+                    <TableCell>{labels.byOrganization}</TableCell>
                     <TableCell>{labels.co2kg}</TableCell>
                     <TableCell>{labels.valueByUnit}</TableCell>
                 </TableRow>
@@ -56,6 +57,7 @@ export const EventsTable: FC<{
                         at,
                         category,
                         organization,
+                        byOrganization,
                         co2kg,
                         valueByUnit,
                     }) => (
@@ -66,6 +68,7 @@ export const EventsTable: FC<{
                             </TableCell>
                             <TableCell>{category}</TableCell>
                             <TableCell>{organization}</TableCell>
+                            <TableCell>{byOrganization}</TableCell>
                             <TableCell>{co2kg}</TableCell>
                             <TableCell>{valueByUnit}</TableCell>
                         </TableRow>
@@ -188,7 +191,8 @@ export const EventLogView: FC = () => {
         (p: EventsSearchParams) =>
             getServerSideEventLog(
                 p.from ? new Date(p.from) : null,
-                p.to ? new Date(p.to) : null
+                // p.to ? new Date(p.to) : null
+                p.to ? dayjs(p.to).startOf('day').add(1, 'day').toDate() : null
             ).then((events) => ({
                 events,
                 p,
@@ -210,8 +214,13 @@ export const EventLogView: FC = () => {
             by: phrase('EVENTLOG_FIELD_USER', 'Användare'),
             category: phrase('ADVERT_FIELD_CATEGORY', 'Kategori'),
             organization: phrase('ADVERT_FIELD_ORGANIZATION', 'Organisation'),
+            byOrganization: phrase(
+                'EVENTLOG_FIELD_BYORGANIZATION',
+                'Användarens organisation'
+            ),
             co2kg: phrase('CATEGORIES_FIELD_C02', 'CO₂ besparing'),
             valueByUnit: phrase('CATEGORIES_FIELD_VALUE', 'Kostnadsvärdering'),
+            quantity: phrase('ADVERT_FIELD_QUANTITY', 'Antal'),
         }),
         [phrase]
     )
@@ -223,6 +232,7 @@ export const EventLogView: FC = () => {
                 eventLabels.at,
                 eventLabels.quantity,
                 eventLabels.organization,
+                eventLabels.byOrganization,
                 eventLabels.category,
                 eventLabels.co2kg,
                 eventLabels.valueByUnit,
@@ -233,6 +243,7 @@ export const EventLogView: FC = () => {
                     at,
                     quantity,
                     organization,
+                    byOrganization,
                     category,
                     co2kg,
                     valueByUnit,
@@ -241,6 +252,7 @@ export const EventLogView: FC = () => {
                     at,
                     quantity,
                     organization,
+                    byOrganization,
                     category,
                     co2kg,
                     valueByUnit,

@@ -9,6 +9,7 @@ export interface ServerSideLogEvent {
     event: string
     at: string
     by: string
+    byOrganization?: string
     quantity?: number
     organization?: string
     category?: string

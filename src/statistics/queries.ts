@@ -5,6 +5,7 @@ export const getEventsQuery = /* GraphQL */ `
             at
             quantity
             organization
+            byOrganization
             category
             co2kg
             valueByUnit
