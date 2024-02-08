@@ -2,13 +2,17 @@ import { PhraseContextType } from 'phrases'
 
 import profile from './defaults/profile'
 import terms from './defaults/terms'
+import auth from './defaults/auth'
+import sms from './defaults/sms'
 
 export const defaultPhrases: Omit<
     PhraseContextType,
     'phrase' | 'fromNow' | 'getConfig'
 > &
     Record<string, string> = {
+    ...auth,
     ...profile,
+    ...sms,
     ...terms,
 
     APP_TITLE: 'Haffa!',
@@ -102,6 +106,8 @@ export const defaultPhrases: Omit<
     ROLES_CAN_SEE_SYSTEM_STATISTICS: 'Se statistikunderlag',
     ROLES_CAN_MANAGE_CONTENT: 'Managera innehåll (admin)',
     ROLES_CAN_MANAGE_LOCATIONS: 'Managera adressregistret (admin)',
+    ROLES_CAN_MANAGE_RETURNS: 'Hantera återlämningar (admin)',
+    ROLES_CAN_MANAGE_NOTIFICATIONS: 'Managera notifikationer (admin)',
     ROLES_SELECT_LABEL: 'Behörigheter',
     APIKEYS_FIELD_EMAIL: 'Email',
     APIKEYS_FIELD_KEY: 'Nyckel',
@@ -129,6 +135,7 @@ export const defaultPhrases: Omit<
     ADVERT_FIELD_TAGS_PLACEHOLDER: 'Klicka för att lägga till',
     ADVERT_FIELD_CONTACT_TITLE: 'Kontakt',
     ADVERT_FIELD_ADDRESS_TITLE: 'Adress för avhämtning',
+    ADVERT_FIELD_QUANTITY: 'Antal',
     ADVERT_TYPE_RECYCLE: 'Återbruk',
     ADVERT_UPLOAD_IMAGE: 'Välj en fin bild',
     ADVERT_BUTTON_SYNCH_FROM_PROFILE: 'Hämta från min profil',
@@ -162,7 +169,12 @@ Regler utan email tas automatiskt bort.`,
     LOGINS_DENY: 'Neka',
     LOGINS_FIELD_EMAIL: 'Email',
     LOGINS_ADD_RULE: 'Lägg till regel',
-
+    PHONE_ACCESS_TITLE: 'Telefon & behörigheter',
+    PUBLIC_ACCESS_TITLE: 'Publik åtkomst',
+    PHONE_ACCESS_ALLOW: 'Tillåt inloggning med telefon/SMS',
+    LOGINS_FIELD_PHONE_SENDER: 'Sändarnamn',
+    LOGINS_FIELD_PHONE_VALIDATION_COUNTRY:
+        'Landskod för validering av telefonnummer',
     // ***********************************************
     // Admin pages editorials
     // ***********************************************
