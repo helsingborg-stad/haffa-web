@@ -66,7 +66,8 @@ export interface AdvertRestrictionsFilterInput {
 }
 
 export interface AdvertSorting {
-    field?: 'title' | 'createdAt'
+    // field?: 'title' | 'createdAt'
+    field?: keyof Advert
     ascending?: boolean
 }
 
