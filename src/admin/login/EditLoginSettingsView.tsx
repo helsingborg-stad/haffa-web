@@ -20,17 +20,17 @@ export const EditLoginSettingsView: FC = () => {
                 makeSimpleTab(
                     true,
                     phrase('LOGINS_FIELD_PERMISSIONS', 'Email & behörigheter'),
-                    <EditLoginPoliciesView />
+                    () => <EditLoginPoliciesView />
                 ),
                 makeSimpleTab(
                     true,
                     phrase('PHONE_ACCESS_TITLE', 'Telefon & behörigheter'),
-                    <EditPhoneAccessView />
+                    () => <EditPhoneAccessView />
                 ),
                 makeSimpleTab(
                     true,
                     phrase('PUBLIC_ACCESS_TITLE', 'Publik åtkomst'),
-                    <EditPublicAccessView />
+                    () => <EditPublicAccessView />
                 ),
             ]
                 .filter((v) => v)

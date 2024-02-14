@@ -3,13 +3,13 @@ import { FC, PropsWithChildren, ReactNode } from 'react'
 
 export interface SimpleTab {
     label: string
-    component: ReactNode
+    component: () => ReactNode
 }
 
 export const makeSimpleTab = (
     enabled: boolean | undefined,
     label: string,
-    component: ReactNode
+    component: () => ReactNode
 ): SimpleTab | null =>
     enabled
         ? {
@@ -49,7 +49,7 @@ export const SimpleTabs: FC<{
         </Tabs>
         {tabs.map(({ component }, index) => (
             <CustomTabPanel key={index} index={index} value={value}>
-                {component}
+                {component()}
             </CustomTabPanel>
         ))}
     </>
