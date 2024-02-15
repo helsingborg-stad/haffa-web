@@ -14,7 +14,7 @@ import {
 import { AdvertFilterInput, AdvertList } from 'adverts'
 import { FC, useMemo, useState } from 'react'
 import SearchIcon from '@mui/icons-material/Search'
-import { NavLink } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 import { createAdvertTableColumns, createAdvertTableHost } from './tabular'
 
 export const PAGE_SIZE = 25
@@ -36,6 +36,7 @@ export const AdvertsTable: FC<{
     filter: AdvertFilterInput
     setFilter: (f: AdvertFilterInput) => void
 }> = ({ list: { adverts }, filter, setFilter }) => {
+    const navigate = useNavigate()
     const columns = useMemo(
         () =>
             createAdvertTableColumns(
@@ -73,23 +74,21 @@ export const AdvertsTable: FC<{
                 <Table>
                     <TableHead>
                         <TableRow>
-                            <TableCell />
+                            <TableCell key="[]" />
                             {columns.map((c) => (
-                                <TableCell>{c.headerComponent?.()}</TableCell>
+                                <TableCell key={c.key}>
+                                    {c.headerComponent?.()}
+                                </TableCell>
                             ))}
                             <TableCell />
                         </TableRow>
                     </TableHead>
                     <TableBody>
                         {adverts.map((advert) => (
-                            <TableRow
-                                hover
-                                component={NavLink}
-                                to={`/advert/${advert.id}`}
-                                sx={{ textDecoration: 'none' }}
-                            >
-                                <TableCell>
+                            <TableRow hover key={advert.id}>
+                                <TableCell key="[]">
                                     <Checkbox
+                                        className="no-follow"
                                         checked={selectedIds.has(advert.id)}
                                         onChange={(e) => {
                                             setSelectedIds(
@@ -99,13 +98,17 @@ export const AdvertsTable: FC<{
                                                     e.target.checked
                                                 )
                                             )
-                                            e.preventDefault()
-                                            e.stopPropagation()
                                         }}
                                     />
                                 </TableCell>
                                 {columns.map((c) => (
-                                    <TableCell>
+                                    <TableCell
+                                        key={c.key}
+                                        sx={{ cursor: 'pointer' }}
+                                        onClick={() =>
+                                            navigate(`/advert/${advert.id}`)
+                                        }
+                                    >
                                         {c.cellComponent?.(advert)}
                                     </TableCell>
                                 ))}
