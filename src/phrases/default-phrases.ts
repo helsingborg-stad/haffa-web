@@ -233,6 +233,10 @@ Regler utan email tas automatiskt bort.`,
     ADMIN_APIKEYS_BODY:
         'För att köra schemalagda jobb behöver du en API nyckel',
 
+    ADMIN_SYSLOG_TITLE: 'Systemlog',
+    ADMIN_SYSLOG_HEADLINE: 'Kör dina schemalagda jobb?',
+    ADMIN_SYSLOG_BODY: 'Här kan du se så alla viktiga händelser i systemet.',
+
     ADMIN_ACTION_SAVE: 'Spara',
     ADMIN_ACTION_RESTORE: 'Återställ',
 
