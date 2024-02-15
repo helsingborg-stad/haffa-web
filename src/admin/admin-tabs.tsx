@@ -13,6 +13,7 @@ import { EditContentView } from './content'
 import { ConfigureAdvertsView } from './adverts/ConfigureAdvertsView'
 import { EditLocationsView } from './locations/EditLocationsView'
 import { EditSmsTemplatesView } from './sms-templates/EditSmsTemplatesView'
+import { SyslogView } from './syslog/SyslogView'
 
 const tab = (
     enabled: boolean | undefined,
@@ -90,6 +91,11 @@ export const createAdminTabs = (
             roles.canEditApiKeys,
             phrase('ADMIN_APIKEYS_TITLE', 'API nycklar'),
             <EditApiKeysView />
+        ),
+        tab(
+            roles.canEditApiKeys,
+            phrase('ADMIN_SYSLOG_TITLE', 'Systemlog'),
+            <SyslogView />
         ),
     ]
         .filter((t) => t)

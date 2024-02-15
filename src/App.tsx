@@ -62,6 +62,7 @@ import {
     createNotifyingSmsTemplateRepository,
     createSmsTemplateRepository,
 } from 'sms-templates'
+import { SyslogProvider, createSyslogProvider } from 'syslog'
 import { AdvertsProvider } from './adverts/AdvertsContext'
 import { createAdvertsRepository } from './adverts/repository/adverts-repository'
 import { AppRouter } from './routes/AppRouter'
@@ -148,6 +149,11 @@ const Main: FC = () => {
         [token, fetch]
     )
 
+    const syslog = useMemo(
+        () => createSyslogProvider(token, fetch),
+        [token, fetch]
+    )
+
     const subscriptions = useMemo(
         () =>
             createNotifyingSubscriptionsRepository(
@@ -204,31 +210,37 @@ const Main: FC = () => {
                         <CategoriesProvider repository={categories}>
                             <TermsProvider repository={terms}>
                                 <StatisticsProvider provider={statistics}>
-                                    <SubscriptionsProvider
-                                        repository={subscriptions}
-                                    >
-                                        <AdvertsProvider repository={adverts}>
-                                            <ProfileProvider
-                                                repository={profiles}
+                                    <SyslogProvider provider={syslog}>
+                                        <SubscriptionsProvider
+                                            repository={subscriptions}
+                                        >
+                                            <AdvertsProvider
+                                                repository={adverts}
                                             >
-                                                <ContentProvider
-                                                    repository={content}
+                                                <ProfileProvider
+                                                    repository={profiles}
                                                 >
-                                                    <AdvertFieldProvider
-                                                        repository={fieldConfig}
+                                                    <ContentProvider
+                                                        repository={content}
                                                     >
-                                                        <LocationProvider
+                                                        <AdvertFieldProvider
                                                             repository={
-                                                                locationConfig
+                                                                fieldConfig
                                                             }
                                                         >
-                                                            <AppRouter />
-                                                        </LocationProvider>
-                                                    </AdvertFieldProvider>
-                                                </ContentProvider>
-                                            </ProfileProvider>
-                                        </AdvertsProvider>
-                                    </SubscriptionsProvider>
+                                                            <LocationProvider
+                                                                repository={
+                                                                    locationConfig
+                                                                }
+                                                            >
+                                                                <AppRouter />
+                                                            </LocationProvider>
+                                                        </AdvertFieldProvider>
+                                                    </ContentProvider>
+                                                </ProfileProvider>
+                                            </AdvertsProvider>
+                                        </SubscriptionsProvider>
+                                    </SyslogProvider>
                                 </StatisticsProvider>
                             </TermsProvider>
                         </CategoriesProvider>
