@@ -27,6 +27,10 @@ const advertProps = /* GraphQL */ `
 			at
 			quantity
 			type
+			events {
+				at
+				type
+			}
 			canCancel
 			canConvert
 		}

@@ -151,6 +151,8 @@ export const defaultPhrases: Omit<
     ADVERT_CLAIMS_MANAGE_TITLE: 'Välj hantering',
     ADVERT_CLAIMS_CANCEL_COLLECT: 'Ångra hämtning',
     ADVERT_CLAIMS_CHANGE_TO_RESERVED: 'Ändra till reservation',
+    ADVERT_CLAIM_COLLECT_REMINDER: 'Påminnelse för återlämning har skickats',
+    ADVERT_CLAIM_RESERVE_REMINDER: 'Påminnelse för uthämtning har skickats',
     ADVERT_IS_RESERVED_BY_YOU: 'Du har reserverat {count} {unit}',
     ADVERT_CLAIM_IS_RESERVED: '{by} reserverade {quantity} {unit} {at}',
     ADVERT_CLAIMS_CANCEL_RESERVATION: 'Ångra reservation',

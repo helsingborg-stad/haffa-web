@@ -116,11 +116,20 @@ export enum AdvertClaimType {
     collected = 'collected',
 }
 
+export enum AdvertClaimEventType {
+    reminder = 'reminder',
+}
+export interface AdvertClaimEvent {
+    type: AdvertClaimEventType
+    at: string
+}
+
 export interface AdvertClaim {
     quantity: number
     by: string
     at: string
     type: AdvertClaimType
+    events: AdvertClaimEvent[]
     canCancel: boolean
     canConvert: boolean
 }
