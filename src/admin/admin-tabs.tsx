@@ -93,7 +93,7 @@ export const createAdminTabs = (
             <EditApiKeysView />
         ),
         tab(
-            roles.canEditApiKeys,
+            roles.canSeeSystemStatistics,
             phrase('ADMIN_SYSLOG_TITLE', 'Systemlog'),
             <SyslogView />
         ),
