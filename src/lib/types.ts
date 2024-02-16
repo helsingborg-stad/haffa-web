@@ -23,6 +23,8 @@ export interface Func1<T, R> {
 }
 
 export interface TreeAdapter<T> {
+    rootNodes: T[]
+    allNodes: T[]
     findById: (id: string) => T | null
     pathById: (id: string) => T[]
 }

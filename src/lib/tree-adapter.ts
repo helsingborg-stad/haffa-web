@@ -10,6 +10,8 @@ export const createTreeAdapter = <T>(
     const byId = treeLookup(nodes, key, children)
 
     return {
+        rootNodes: nodes,
+        allNodes: Object.values(byId),
         findById: (id) => byId[id] || null,
         pathById: (id) => {
             let c = byId[id]

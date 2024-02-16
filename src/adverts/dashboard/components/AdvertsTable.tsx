@@ -10,8 +10,8 @@ import {
     TableRow,
     TextField,
 } from '@mui/material'
-import { Advert, AdvertFilterInput, AdvertList } from 'adverts'
-import { FC, ReactNode, useMemo, useState } from 'react'
+import { Advert, AdvertFilterInput, AdvertInput, AdvertList } from 'adverts'
+import { FC, ReactNode, useCallback, useMemo, useState } from 'react'
 import SearchIcon from '@mui/icons-material/Search'
 import { NavLink } from 'react-router-dom'
 import EditIcon from '@mui/icons-material/Edit'
@@ -21,6 +21,8 @@ import { Column, ColumnComponentFactory } from './types'
 import { createAdvertTableComponentFactory } from '.'
 import { MultiselectCheckbox } from './MultiselectCheckbox'
 import { SingleselectCheckbox } from './SingleselectCheckbox'
+import { BulkChangeCategory } from './BulkChangeCategory'
+import { BulkChangeNotes } from './BulkChangeNotes'
 
 export const PAGE_SIZE = 25
 const PAGE_SIZES = [10, 25, 50, 100]
@@ -35,7 +37,12 @@ export const AdvertsTable: FC<{
     list: AdvertList
     filter: AdvertFilterInput
     setFilter: (f: AdvertFilterInput) => void
-}> = ({ list: { adverts, categories }, filter, setFilter }) => {
+    bulkUpdate: (
+        filter: AdvertFilterInput,
+        advertIds: string[],
+        patch: Partial<AdvertInput>
+    ) => void
+}> = ({ list: { adverts, categories }, filter, setFilter, bulkUpdate }) => {
     const categoryTree = useMemo(
         () =>
             createTreeAdapter(
@@ -114,7 +121,22 @@ export const AdvertsTable: FC<{
 
     const [selected, setSelected] = useState(new Set<string>())
 
+    const selectedAdverts = useMemo(
+        () => adverts.filter(({ id }) => selected.has(id)),
+        [selected, adverts]
+    )
+
     const [search, setSearch] = useState(filter.search || '')
+
+    const bulk = useCallback(
+        (patch: Partial<AdvertInput>) =>
+            bulkUpdate(
+                filter,
+                selectedAdverts.map(({ id }) => id),
+                patch
+            ),
+        [selectedAdverts, bulkUpdate]
+    )
 
     return (
         <Stack direction="column" spacing={2}>
@@ -201,6 +223,15 @@ export const AdvertsTable: FC<{
                         },
                     })
                 }
+            />
+            <BulkChangeCategory
+                categoryTree={categoryTree}
+                disabled={selectedAdverts.length === 0}
+                onBulkUpdate={bulk}
+            />
+            <BulkChangeNotes
+                disabled={selectedAdverts.length === 0}
+                onBulkUpdate={bulk}
             />
         </Stack>
     )

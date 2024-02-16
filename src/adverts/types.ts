@@ -218,6 +218,10 @@ export interface AdvertsRepository {
         id: string,
         input: AdvertInput
     ) => Promise<AdvertMutationResult>
+    patchAdvert: (
+        id: string,
+        input: Partial<AdvertInput>
+    ) => Promise<AdvertMutationResult>
     removeAdvert: (id: string) => Promise<AdvertMutationResult>
     archiveAdvert: (id: string) => Promise<AdvertMutationResult>
     unarchiveAdvert: (id: string) => Promise<AdvertMutationResult>

@@ -38,6 +38,7 @@ export const createNotifyingAdvertsRepository = (
                         'Annonsen har uppdaterats'
                     )
                 ),
+        patchAdvert: (...args) => inner.patchAdvert(...args),
         removeAdvert: (...args) =>
             inner
                 .removeAdvert(...args)

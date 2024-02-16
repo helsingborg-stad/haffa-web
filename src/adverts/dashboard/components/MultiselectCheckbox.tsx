@@ -7,7 +7,7 @@ export const MultiselectCheckbox: FC<{
     onChange: (selected: Set<string>) => void
 }> = ({ selected, viable, onChange }) => (
     <Checkbox
-        checked={viable.every((v) => selected.has(v))}
+        checked={selected.size > 0 && viable.every((v) => selected.has(v))}
         indeterminate={
             selected.size > 0 && viable.some((v) => !selected.has(v))
         }

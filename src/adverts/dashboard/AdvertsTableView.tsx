@@ -1,6 +1,7 @@
 import { LinearProgress } from '@mui/material'
 import {
     AdvertFilterInput,
+    AdvertInput,
     AdvertList,
     AdvertRestrictionsFilterInput,
     AdvertsContext,
@@ -18,7 +19,7 @@ export const AdvertsTableView: FC<{
 
     const { signal } = useAbortController()
 
-    const { listAdverts } = useContext(AdvertsContext)
+    const { listAdverts, patchAdvert } = useContext(AdvertsContext)
 
     const list = useCallback(
         (filter: AdvertFilterInput) =>
@@ -27,6 +28,20 @@ export const AdvertsTableView: FC<{
                 filter,
             })),
         [listAdverts]
+    )
+
+    const bulkUpdate = useCallback(
+        (
+            filter: AdvertFilterInput,
+            advertIds: string[],
+            patch: Partial<AdvertInput>
+        ) =>
+            enqueue(() =>
+                Promise.all(advertIds.map((id) => patchAdvert(id, patch))).then(
+                    () => list(filter)
+                )
+            ),
+        [patchAdvert]
     )
     const [data, error, enqueue] = useFetchQueue<Data | null>(
         null,
@@ -51,6 +66,7 @@ export const AdvertsTableView: FC<{
                     list={data}
                     filter={data.filter}
                     setFilter={(f) => enqueue(() => list(f))}
+                    bulkUpdate={bulkUpdate}
                 />
             )}
             {data === null && <LinearProgress key="pending" />}
