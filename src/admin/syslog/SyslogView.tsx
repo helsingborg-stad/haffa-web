@@ -16,20 +16,21 @@ import { SyslogContext } from 'syslog'
 import useAsync from 'hooks/use-async'
 import { Severity } from 'syslog/types'
 import { AdminEditorialPanel } from 'components/AdminEditorialPanel'
+import CheckCircleIcon from '@mui/icons-material/CheckCircle'
+import WarningIcon from '@mui/icons-material/Warning'
+import ErrorIcon from '@mui/icons-material/Error'
 
 const toDateTimeString = (date: Date) =>
     `${date.toLocaleDateString()} ${date.toLocaleTimeString()}`
 
-const toSeverityString = (severity: Severity) => {
+const GetSeverityIcon = (severity: Severity) => {
     switch (severity) {
         case Severity.error:
-            return 'FEL'
+            return <ErrorIcon color="error" />
         case Severity.warning:
-            return 'VARNING'
-        case Severity.info:
-            return 'INFO'
+            return <WarningIcon color="warning" />
         default:
-            return '-'
+            return <CheckCircleIcon color="info" />
     }
 }
 export const SyslogView: FC = () => {
@@ -83,8 +84,8 @@ export const SyslogView: FC = () => {
                                                 )}
                                             </TableCell>
                                             <TableCell>{row.type}</TableCell>
-                                            <TableCell>
-                                                {toSeverityString(row.severity)}
+                                            <TableCell align="center">
+                                                {GetSeverityIcon(row.severity)}
                                             </TableCell>
                                             <TableCell>{row.by}</TableCell>
                                             <TableCell>{row.message}</TableCell>
