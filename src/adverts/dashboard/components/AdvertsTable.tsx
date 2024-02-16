@@ -1,5 +1,4 @@
 import {
-    Checkbox,
     InputAdornment,
     Stack,
     Table,
@@ -20,20 +19,11 @@ import OpenInBrowserIcon from '@mui/icons-material/OpenInBrowser'
 import { createTreeAdapter } from 'lib/tree-adapter'
 import { Column, ColumnComponentFactory } from './types'
 import { createAdvertTableComponentFactory } from '.'
+import { MultiselectCheckbox } from './MultiselectCheckbox'
+import { SingleselectCheckbox } from './SingleselectCheckbox'
 
 export const PAGE_SIZE = 25
 const PAGE_SIZES = [10, 25, 50, 100]
-
-const toggleSelected = <T,>(set: Set<T>, value: T, include: boolean) => {
-    const has = set.has(value)
-    if (include && !has) {
-        return new Set<T>([value, ...set])
-    }
-    if (!include && has) {
-        return new Set<T>([...set].filter((v) => v !== value))
-    }
-    return set
-}
 
 const createLink = (to: string, icon: ReactNode) => (
     <NavLink to={to} style={{ color: 'inherit', textDecoration: 'none' }}>
@@ -122,7 +112,7 @@ export const AdvertsTable: FC<{
         [filter, setFilter, cols]
     )
 
-    const [selectedIds, setSelectedIds] = useState(new Set<String>())
+    const [selected, setSelected] = useState(new Set<string>())
 
     const [search, setSearch] = useState(filter.search || '')
 
@@ -151,7 +141,13 @@ export const AdvertsTable: FC<{
                 <Table>
                     <TableHead>
                         <TableRow>
-                            <TableCell key="[]" />
+                            <TableCell key="[]">
+                                <MultiselectCheckbox
+                                    selected={selected}
+                                    viable={adverts.map(({ id }) => id)}
+                                    onChange={setSelected}
+                                />
+                            </TableCell>
                             {columns.map((c) => (
                                 <TableCell key={c.key}>{c.header()}</TableCell>
                             ))}
@@ -163,17 +159,10 @@ export const AdvertsTable: FC<{
                         {adverts.map((advert) => (
                             <TableRow hover key={advert.id}>
                                 <TableCell key="[]">
-                                    <Checkbox
-                                        checked={selectedIds.has(advert.id)}
-                                        onChange={(e) => {
-                                            setSelectedIds(
-                                                toggleSelected(
-                                                    selectedIds,
-                                                    advert.id,
-                                                    e.target.checked
-                                                )
-                                            )
-                                        }}
+                                    <SingleselectCheckbox
+                                        id={advert.id}
+                                        selected={selected}
+                                        onChange={setSelected}
                                     />
                                 </TableCell>
                                 {columns.map((c) => (
