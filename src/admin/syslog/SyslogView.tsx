@@ -58,8 +58,8 @@ export const SyslogView: FC = () => {
                                     <TableRow>
                                         <TableCell>Datum</TableCell>
                                         <TableCell>Typ</TableCell>
-                                        <TableCell align="right">
-                                            Allvarlighet
+                                        <TableCell align="center">
+                                            Status
                                         </TableCell>
                                         <TableCell>Utförare</TableCell>
                                         <TableCell>Information</TableCell>
