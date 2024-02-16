@@ -29,6 +29,7 @@ const advertProps = /* GraphQL */ `
 			type
 			canCancel
 			canConvert
+			isOverdue
 		}
 	}
 	images {

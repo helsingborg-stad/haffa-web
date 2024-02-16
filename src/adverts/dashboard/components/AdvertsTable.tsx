@@ -11,11 +11,15 @@ import {
     TableRow,
     TextField,
 } from '@mui/material'
-import { AdvertFilterInput, AdvertList } from 'adverts'
-import { FC, useMemo, useState } from 'react'
+import { Advert, AdvertFilterInput, AdvertList } from 'adverts'
+import { FC, ReactNode, useMemo, useState } from 'react'
 import SearchIcon from '@mui/icons-material/Search'
-import { useNavigate } from 'react-router-dom'
-import { createAdvertTableColumns, createAdvertTableHost } from './tabular'
+import { NavLink } from 'react-router-dom'
+import EditIcon from '@mui/icons-material/Edit'
+import OpenInBrowserIcon from '@mui/icons-material/OpenInBrowser'
+import { createTreeAdapter } from 'lib/tree-adapter'
+import { Column, ColumnComponentFactory } from './types'
+import { createAdvertTableComponentFactory } from '.'
 
 export const PAGE_SIZE = 25
 const PAGE_SIZES = [10, 25, 50, 100]
@@ -31,18 +35,91 @@ const toggleSelected = <T,>(set: Set<T>, value: T, include: boolean) => {
     return set
 }
 
+const createLink = (to: string, icon: ReactNode) => (
+    <NavLink to={to} style={{ color: 'inherit', textDecoration: 'none' }}>
+        {icon}
+    </NavLink>
+)
+
 export const AdvertsTable: FC<{
     list: AdvertList
     filter: AdvertFilterInput
     setFilter: (f: AdvertFilterInput) => void
-}> = ({ list: { adverts }, filter, setFilter }) => {
-    const navigate = useNavigate()
-    const columns = useMemo(
+}> = ({ list: { adverts, categories }, filter, setFilter }) => {
+    const categoryTree = useMemo(
         () =>
-            createAdvertTableColumns(
-                createAdvertTableHost({ filter, setFilter })
+            createTreeAdapter(
+                categories,
+                (c) => c.id,
+                (c) => c.parentId,
+                (c) => c.categories
             ),
-        [filter, setFilter]
+        [categories]
+    )
+
+    const cols = useMemo<Column<Advert>[]>(
+        () => [
+            {
+                key: 'title',
+                label: 'Titel',
+                sortField: 'title',
+                getter: ({ title }) => title,
+            },
+            {
+                key: 'category',
+                label: 'Kategori',
+                getter: ({ category }) =>
+                    categoryTree
+                        .pathById(category)
+                        .map(({ label }) => label)
+                        .join(' - '),
+            },
+            {
+                key: 'reference',
+                label: 'Egen referens',
+                sortField: 'reference',
+                getter: ({ reference }) => reference,
+            },
+            {
+                key: 'notes',
+                label: 'Egna noteringar',
+                sortField: 'notes',
+                getter: ({ notes }) => notes,
+            },
+            {
+                key: 'isOverdue',
+                label: 'Försenad',
+                getter: ({ meta }) =>
+                    meta.claims.some(({ isOverdue }) => isOverdue),
+            },
+            {
+                key: 'visit-link',
+                label: '',
+                getter: ({ id }) => `/advert/${id}`,
+                header: () => null,
+                cell: ({ id }) =>
+                    createLink(`/advert/${id}`, <OpenInBrowserIcon />),
+            },
+            {
+                key: 'edit-link',
+                label: '',
+                getter: ({ id }) => `/advert/edit/${id}`,
+                header: () => null,
+                cell: ({ id }) =>
+                    createLink(`/advert/edit/${id}`, <EditIcon />),
+            },
+        ],
+        [categoryTree]
+    )
+
+    const columns = useMemo<ColumnComponentFactory<Advert>[]>(
+        () => [
+            ...createAdvertTableComponentFactory({
+                filter,
+                setFilter,
+            }).mapColumns(cols),
+        ],
+        [filter, setFilter, cols]
     )
 
     const [selectedIds, setSelectedIds] = useState(new Set<String>())
@@ -76,10 +153,9 @@ export const AdvertsTable: FC<{
                         <TableRow>
                             <TableCell key="[]" />
                             {columns.map((c) => (
-                                <TableCell key={c.key}>
-                                    {c.headerComponent?.()}
-                                </TableCell>
+                                <TableCell key={c.key}>{c.header()}</TableCell>
                             ))}
+                            <TableCell />
                             <TableCell />
                         </TableRow>
                     </TableHead>
@@ -88,7 +164,6 @@ export const AdvertsTable: FC<{
                             <TableRow hover key={advert.id}>
                                 <TableCell key="[]">
                                     <Checkbox
-                                        className="no-follow"
                                         checked={selectedIds.has(advert.id)}
                                         onChange={(e) => {
                                             setSelectedIds(
@@ -102,14 +177,8 @@ export const AdvertsTable: FC<{
                                     />
                                 </TableCell>
                                 {columns.map((c) => (
-                                    <TableCell
-                                        key={c.key}
-                                        sx={{ cursor: 'pointer' }}
-                                        onClick={() =>
-                                            navigate(`/advert/${advert.id}`)
-                                        }
-                                    >
-                                        {c.cellComponent?.(advert)}
+                                    <TableCell key={c.key}>
+                                        {c.cell(advert)}
                                     </TableCell>
                                 ))}
                             </TableRow>

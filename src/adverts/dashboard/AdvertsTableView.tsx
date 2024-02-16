@@ -9,7 +9,7 @@ import { ErrorView } from 'errors'
 import { FC, useCallback, useContext } from 'react'
 import useAbortController from 'hooks/use-abort-controller'
 import { useFetchQueue } from 'hooks/use-fetch-queue'
-import { PAGE_SIZE, AdvertsTable } from './AdvertsTable'
+import { PAGE_SIZE, AdvertsTable } from './components/AdvertsTable'
 
 export const AdvertsTableView: FC<{
     restrictions: AdvertRestrictionsFilterInput

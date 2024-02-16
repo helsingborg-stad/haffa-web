@@ -29,6 +29,7 @@ export const decodeCategoryTree = (categories: CategoryFlat[]): Category[] => {
         (byParentId[pid] || [])
             .map((c) => ({
                 id: c.id,
+                parentId: pid,
                 label: c.label,
                 co2kg: c.co2kg,
                 valueByUnit: c.valueByUnit,

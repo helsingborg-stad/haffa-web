@@ -24,5 +24,5 @@ export interface Func1<T, R> {
 
 export interface TreeAdapter<T> {
     findById: (id: string) => T | null
-    // pathById: (id: string) => T[]
+    pathById: (id: string) => T[]
 }

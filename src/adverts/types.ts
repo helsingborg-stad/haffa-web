@@ -124,6 +124,7 @@ export interface AdvertClaim {
     type: AdvertClaimType
     canCancel: boolean
     canConvert: boolean
+    isOverdue: Boolean
 }
 export interface AdvertMeta {
     reservableQuantity: number

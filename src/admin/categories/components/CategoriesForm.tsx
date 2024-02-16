@@ -26,6 +26,7 @@ const ROOT_CATEGORY_ID = 'root'
 
 const cat = (c: Partial<Category>): Category => ({
     id: nanoid(),
+    parentId: '',
     label: '',
     co2kg: 0,
     valueByUnit: 0,
