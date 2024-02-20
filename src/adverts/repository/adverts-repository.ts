@@ -69,6 +69,12 @@ export const createAdvertsRepository = (
             .variables({ id, input: sanitizeAdvertInput(advert) })
             .map<AdvertMutationResult>('updateAdvert')
             .then(expectAdvert),
+    patchAdvert: async (id, patch) =>
+        gql(token, f)
+            .query(updateAdvertMutation)
+            .variables({ id, input: patch })
+            .map<AdvertMutationResult>('updateAdvert')
+            .then(expectAdvert),
     removeAdvert: async (id) =>
         gql(token, f)
             .query(removeAdvertMutation)

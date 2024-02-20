@@ -66,7 +66,8 @@ export interface AdvertRestrictionsFilterInput {
 }
 
 export interface AdvertSorting {
-    field?: 'title' | 'createdAt'
+    // field?: 'title' | 'createdAt'
+    field?: keyof Advert
     ascending?: boolean
 }
 
@@ -132,6 +133,7 @@ export interface AdvertClaim {
     events: AdvertClaimEvent[]
     canCancel: boolean
     canConvert: boolean
+    isOverdue: Boolean
 }
 export interface AdvertMeta {
     reservableQuantity: number
@@ -224,6 +226,10 @@ export interface AdvertsRepository {
     updateAdvert: (
         id: string,
         input: AdvertInput
+    ) => Promise<AdvertMutationResult>
+    patchAdvert: (
+        id: string,
+        input: Partial<AdvertInput>
     ) => Promise<AdvertMutationResult>
     removeAdvert: (id: string) => Promise<AdvertMutationResult>
     archiveAdvert: (id: string) => Promise<AdvertMutationResult>

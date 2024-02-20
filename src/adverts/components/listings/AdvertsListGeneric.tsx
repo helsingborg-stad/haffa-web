@@ -60,6 +60,7 @@ export const AdvertsListGeneric: FC<
                         categories={createTreeAdapter(
                             state.adverts.categories || [],
                             (c) => c.id,
+                            (c) => c.parentId,
                             (c) => c.categories
                         )}
                     />

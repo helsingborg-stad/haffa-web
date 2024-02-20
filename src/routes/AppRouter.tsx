@@ -15,7 +15,6 @@ import {
     EditAdvertView,
     AdvertsView,
     AdvertDetailsView,
-    MyAdvertsView,
     MyReservationsView,
 } from 'adverts'
 import {
@@ -44,6 +43,7 @@ import { AdvertFieldRepository } from 'advert-field-config/types'
 import { AdvertFieldsContext } from 'advert-field-config'
 import { LocationContext } from 'locations'
 import { LocationRepository } from 'locations/types'
+import { AdvertsDashboardView } from 'adverts/dashboard/AdvertsDashboardView'
 import { ErrorRouteView } from './ErrorRouteView'
 
 const UnpackLoaderData: FC<{ render: (loaderData: any) => JSX.Element }> = ({
@@ -118,7 +118,7 @@ const createRouter = (
     const createMyAdvertsProps = (): AsyncRouteConfig => ({
         element: (
             <Layout key="my-adverts">
-                <MyAdvertsView />
+                <AdvertsDashboardView />
             </Layout>
         ),
     })

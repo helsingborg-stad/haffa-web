@@ -204,6 +204,7 @@ export const AdvertsListWithSearch: FC<
                     categories={createTreeAdapter(
                         adverts?.categories || [],
                         (c) => c.id,
+                        (c) => c.parentId,
                         (c) => c.categories
                     )}
                 />

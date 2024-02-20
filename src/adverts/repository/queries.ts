@@ -33,6 +33,7 @@ const advertProps = /* GraphQL */ `
 			}
 			canCancel
 			canConvert
+			isOverdue
 		}
 	}
 	images {
