@@ -1,3 +1,3 @@
-import { createAdvertTableComponentFactory } from '../AdvertsTable/advert-table-component-factory'
+import { createAdvertTableComponentFactory } from './advert-table-component-factory'
 
 export { createAdvertTableComponentFactory }
