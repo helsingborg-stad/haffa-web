@@ -2,7 +2,7 @@ import { Advert, AdvertFilterInput } from 'adverts'
 import { Func1 } from 'lib/types'
 import { ReactNode } from 'react'
 import { Column, TableComponentFactory } from './types'
-import { SortableHeader } from './SortableHeader'
+import { SortableHeader } from '../components/SortableHeader'
 
 export const createAdvertTableComponentFactory: Func1<
     { filter: AdvertFilterInput; setFilter: (f: AdvertFilterInput) => void },

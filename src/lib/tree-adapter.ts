@@ -1,6 +1,13 @@
 import { treeLookup } from './tree-lookup'
 import { Func1, TreeAdapter } from './types'
 
+export const createNullTreeAdapter = <T>(): TreeAdapter<T> => ({
+    rootNodes: [],
+    allNodes: [],
+    findById: () => null,
+    pathById: () => [],
+})
+
 export const createTreeAdapter = <T>(
     nodes: T[],
     key: Func1<T, string>,

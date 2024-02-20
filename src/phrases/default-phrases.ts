@@ -4,6 +4,7 @@ import profile from './defaults/profile'
 import terms from './defaults/terms'
 import auth from './defaults/auth'
 import sms from './defaults/sms'
+import bulkActions from './defaults/bulk-actions'
 
 export const defaultPhrases: Omit<
     PhraseContextType,
@@ -14,6 +15,7 @@ export const defaultPhrases: Omit<
     ...profile,
     ...sms,
     ...terms,
+    ...bulkActions,
 
     APP_TITLE: 'Haffa!',
     INFO_SLOW_CONNECTION: '... väntar på innehåll från servern ...',

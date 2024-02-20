@@ -13,6 +13,7 @@ export const BulkChangeNotes: FC<{
                 <TextField
                     multiline
                     fullWidth
+                    rows={3}
                     label="Ändra notering på markerade annonser"
                     placeholder="Ändra notering på markerade annonser"
                     value={value}
