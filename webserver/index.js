@@ -15,6 +15,7 @@ const serve = require('koa-static')
 const proxy = require('koa-proxies')
 const { join } = require('path')
 const { readFile } = require('fs/promises')
+const { getIndexHtml } = require('./html')
 const PORT = process.env.PORT ?? 3000
 const backendUrl = process.env.HAFFA_BACKEND_URL
 const app = new Koa()
@@ -77,6 +78,13 @@ app.use(async (ctx, next) => {
     return next()
 })
 
+app.use(async (ctx, next) => {
+    if (/\/index.html/.test(ctx.path) || ctx.path === '/') {
+        ctx.body = await getIndexHtml()
+    } else {
+        return next()
+    }
+})
 /************************************************************
  *
  * Serve React app as static files
@@ -90,7 +98,9 @@ app.use(serve('./build'))
  * see https://stackoverflow.com/questions/27928372/react-router-urls-dont-work-when-refreshing-or-writing-manually
  *
  ***********************************************************/
-router.get('/:path*', (ctx) => send(ctx, join('.', 'build', 'index.html')))
+router.get('/:path*', async (ctx) => {
+    ctx.body = await getIndexHtml()
+})
 
 /************************************************************
  *

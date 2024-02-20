@@ -22,6 +22,6 @@ COPY --from=optimizer /work/public ./public
 COPY --from=optimizer /work/node_modules ./node_modules
 COPY --from=optimizer /work/package.json ./
 COPY --from=compiler /work/build ./build
-COPY --from=compiler /work/index.js ./
+COPY --from=compiler /work/webserver ./webserver
 
-CMD ["index.js"]
+CMD ["webserver/index.js"]

@@ -3,6 +3,7 @@ module.exports = {
         browser: true,
         es2021: true,
     },
+    ignorePatterns: ['**/webserver/*', '.eslintrc.js'],
     extends: [
         'plugin:react/recommended',
         'plugin:react-hooks/recommended',
