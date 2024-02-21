@@ -22,6 +22,8 @@ import { createTreeAdapter } from 'lib/tree-adapter'
 import { AuthContext } from 'auth'
 import { PhraseContext } from 'phrases'
 import { Func1 } from 'lib/types'
+import { AdvertFieldsContext } from 'advert-field-config'
+import { toMap } from 'lib/to-map'
 import { AdvertsTable, AdvertsTableContext, PAGE_SIZE } from './AdvertsTable'
 import { createColumns } from './createColumns'
 import { AdvertsTableContextType } from './AdvertsTable/types'
@@ -32,6 +34,8 @@ export const AdvertsTableView: FC<{
     restrictions: AdvertRestrictionsFilterInput
 }> = ({ restrictions }) => {
     type Data = AdvertList & { filter: AdvertFilterInput } & {
+        visibleFields: Partial<Record<keyof Advert, boolean>>
+    } & {
         loading?: boolean
     }
     const { signal } = useAbortController()
@@ -41,14 +45,31 @@ export const AdvertsTableView: FC<{
 
     const { phrase } = useContext(PhraseContext)
 
+    const { getFieldConfig } = useContext(AdvertFieldsContext)
+
+    const visibleFieldsPromise = useMemo(async () => {
+        const fc = await getFieldConfig()
+        return toMap(
+            fc,
+            (r) => r.name,
+            (r) => r.visible
+        )
+    }, [getFieldConfig])
+
     const [selected, setSelected] = useState(new Set<string>())
 
     // Given a search filter, perform actual search
     const list = useCallback(
         (filter: AdvertFilterInput) =>
-            listAdverts(filter, { signal }).then((list) => ({
-                ...list,
-                filter,
+            Promise.all([
+                listAdverts(filter, { signal }).then((list) => ({
+                    ...list,
+                    filter,
+                })),
+                visibleFieldsPromise,
+            ]).then(([data, visibleFields]) => ({
+                ...data,
+                visibleFields,
             })),
         [listAdverts]
     )
@@ -57,6 +78,7 @@ export const AdvertsTableView: FC<{
     const [data, error, enqueue] = useFetchQueue<Data>(
         {
             loading: true,
+            visibleFields: {},
             adverts: [],
             categories: [],
             filter: { restrictions },
@@ -117,6 +139,7 @@ export const AdvertsTableView: FC<{
             ),
             filter: data?.filter,
             selected,
+            visibleFields: data.visibleFields,
             setSelected,
             setFilter: (f) => enqueue(() => list(f)),
             selectionMatches: (p) =>

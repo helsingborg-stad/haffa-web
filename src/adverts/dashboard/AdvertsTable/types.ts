@@ -9,6 +9,7 @@ export interface AdvertsTableContextType {
     categoryTree: TreeAdapter<Category>
     filter: AdvertFilterInput
     selected: Set<string>
+    visibleFields: Partial<Record<keyof Advert, boolean>>
     setSelected: (selected: Set<string>) => void
     selectionMatches: (test: (a: Advert) => boolean) => boolean
     selectionCommonValue: <T>(getter: Func1<Advert, T>, defaultValue: T) => T

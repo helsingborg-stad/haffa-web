@@ -26,6 +26,7 @@ const makeAction = (
 export const createBulkActions = ({
     phrase,
     roles,
+    visibleFields,
     selectionMatches,
     archiveAdverts,
     unarchiveAdverts,
@@ -50,7 +51,7 @@ export const createBulkActions = ({
                 selectionMatches(({ meta: { canUnarchive } }) => canUnarchive),
             action: unarchiveAdverts,
         }),
-        makeAction(roles.canEditOwnAdverts, {
+        makeAction(roles.canEditOwnAdverts && visibleFields.notes, {
             key: 'notes',
             icon: <TextSnippetIcon />,
             label: phrase('BULKADVERTACTION_EDIT_NOTES', 'Sätt notiser'),
@@ -58,7 +59,7 @@ export const createBulkActions = ({
             action: () => undefined,
             dialogAction: (params) => <PatchNotesDialog {...params} />,
         }),
-        makeAction(roles.canEditOwnAdverts, {
+        makeAction(roles.canEditOwnAdverts && visibleFields.category, {
             key: 'category',
             icon: <CategoryIcon />,
             label: phrase(
