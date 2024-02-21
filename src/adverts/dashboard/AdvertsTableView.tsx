@@ -36,7 +36,7 @@ export const AdvertsTableView: FC<{
     type Data = AdvertList & { filter: AdvertFilterInput } & {
         visibleFields: Partial<Record<keyof Advert, boolean>>
     } & {
-        loading?: boolean
+        loading: boolean
     }
     const { signal } = useAbortController()
     const { roles } = useContext(AuthContext)
@@ -47,6 +47,8 @@ export const AdvertsTableView: FC<{
 
     const { getFieldConfig } = useContext(AdvertFieldsContext)
 
+    // We kind of preftech visible fields config once and return thsi async result
+    // in subsequent searches
     const visibleFieldsPromise = useMemo(async () => {
         const fc = await getFieldConfig()
         return toMap(
@@ -56,23 +58,25 @@ export const AdvertsTableView: FC<{
         )
     }, [getFieldConfig])
 
-    const [selected, setSelected] = useState(new Set<string>())
-
     // Given a search filter, perform actual search
-    const list = useCallback(
-        (filter: AdvertFilterInput) =>
+    const list = useCallback<Func1<AdvertFilterInput, Promise<Data>>>(
+        (filter) =>
             Promise.all([
                 listAdverts(filter, { signal }).then((list) => ({
                     ...list,
                     filter,
                 })),
-                visibleFieldsPromise,
+                visibleFieldsPromise, // <== called once
             ]).then(([data, visibleFields]) => ({
+                loading: false,
                 ...data,
                 visibleFields,
             })),
-        [listAdverts]
+        [listAdverts, visibleFieldsPromise]
     )
+
+    // ids of checkbox selected adverts
+    const [selected, setSelected] = useState(new Set<string>())
 
     // Async driver for initial and repeated updates of data via server side search
     const [data, error, enqueue] = useFetchQueue<Data>(
