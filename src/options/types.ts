@@ -19,3 +19,4 @@ export interface HtmlOptions {
 }
 
 export type HtmlOptionKeys = keyof HtmlOptions
+export type AnalyticsOptionKeys = 'provider' | 'config'

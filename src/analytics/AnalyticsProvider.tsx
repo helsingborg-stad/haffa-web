@@ -1,10 +1,9 @@
-import { getOption } from 'options'
+import { getOption } from 'options/mappers'
 import { GoogleAdapter } from './adapters/google'
 import { MatomoAdapter } from './adapters/matomo'
-import type { Option } from '../options/types'
-import { AnalyticsOptions } from './types'
+import type { AnalyticsOptionKeys, Option } from '../options/types'
 
-const injectTagmanager = (options: Option<AnalyticsOptions>[]) => {
+const injectTagmanager = (options: Option<AnalyticsOptionKeys>[]) => {
     switch (getOption('provider', options)) {
         case 'matomo':
             MatomoAdapter(getOption('config', options) ?? '')

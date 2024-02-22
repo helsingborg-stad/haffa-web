@@ -203,7 +203,7 @@ Regler utan email tas automatiskt bort.`,
     ADMIN_HTML_TITLE: 'HTML',
     ADMIN_HTML_HEADLINE: 'Texter och inställningar för HTML',
     ADMIN_HTML_BODY:
-        'Här anger du information som visas som visas när du delar en sida i appen',
+        'Här anger du information som visas när du delar en sida i appen',
     ADMIN_CATEGORIES_TITLE: 'Kategorier',
     ADMIN_CATEGORIES_HEADLINE: 'Ordning och reda!',
     ADMIN_CATEGORIES_BODY:

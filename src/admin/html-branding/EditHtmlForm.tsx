@@ -98,7 +98,10 @@ export const EditHtmlForm: FC<{
                     </>
                     <>
                         <Typography sx={{ my: 2 }}>
-                            Bild som visas i webbläsarens flikrad
+                            Bild som visas i webbläsarens flikrad. Bilden skall
+                            vara i formatet .png och ha dimensionerna 16x16
+                            eller 32x32 för bästa resultat. Den maximala
+                            filstorleken är 16kb
                         </Typography>
                         {state.favicon !== '' && (
                             <ImageThumbnail
@@ -112,8 +115,9 @@ export const EditHtmlForm: FC<{
                             />
                         )}
                         <ImageBrowseButton
-                            maxSize={1024 * 1024 * 200}
+                            maxSize={16 * 1024}
                             onUpdate={(favicon) => patch({ favicon })}
+                            filter="png"
                         />
                     </>
                 </CardContent>
