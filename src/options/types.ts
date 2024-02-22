@@ -9,3 +9,13 @@ export interface OptionsRepository {
         options: Option<T>[]
     ) => Promise<Option<T>[]>
 }
+
+export interface HtmlOptions {
+    title: string
+    description: string
+    image: string
+    url: string
+    favicon: string
+}
+
+export type HtmlOptionKeys = keyof HtmlOptions

@@ -1,6 +1,6 @@
 import { FC, PropsWithChildren, createContext } from 'react'
 import { AnalyticsOptions } from 'analytics/types'
-import { Option, OptionsRepository } from './types'
+import { HtmlOptionKeys, Option, OptionsRepository } from './types'
 
 const notImplemented = (name: string) => (): never => {
     throw new Error(`OptionsContext::${name} is not implemented`)
@@ -20,6 +20,12 @@ export interface OptionsContextType {
     // Phrases settings
     getPhraseOptions: () => Promise<Option[]>
     updatePhraseOptions: (options: Option[]) => Promise<Option[]>
+
+    // Html settings
+    getHtmlOptions: () => Promise<Option<HtmlOptionKeys>[]>
+    updateHtmlOptions: (
+        options: Option<HtmlOptionKeys>[]
+    ) => Promise<Option<HtmlOptionKeys>[]>
 }
 
 export const OptionsContext = createContext<OptionsContextType>({
@@ -29,6 +35,8 @@ export const OptionsContext = createContext<OptionsContextType>({
     updateAnalyticsOptions: notImplemented('updateAnalyticsOptions'),
     getPhraseOptions: notImplemented('getPhraseOptions'),
     updatePhraseOptions: notImplemented('updatePhraseOptions'),
+    getHtmlOptions: notImplemented('getHtmlOptions'),
+    updateHtmlOptions: notImplemented('updateHtmlOptions'),
 })
 
 export const OptionsProvider: FC<
@@ -48,6 +56,9 @@ export const OptionsProvider: FC<
                     repository.getOptions('analytics-tagmanager'),
                 updateAnalyticsOptions: (options) =>
                     repository.updateOptions('analytics-tagmanager', options),
+                getHtmlOptions: () => repository.getOptions('branding-html'),
+                updateHtmlOptions: (options) =>
+                    repository.updateOptions('branding-html', options),
             } as OptionsContextType
         }
     >

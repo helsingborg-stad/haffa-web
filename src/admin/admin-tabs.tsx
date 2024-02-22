@@ -14,6 +14,7 @@ import { ConfigureAdvertsView } from './adverts/ConfigureAdvertsView'
 import { EditLocationsView } from './locations/EditLocationsView'
 import { EditSmsTemplatesView } from './sms-templates/EditSmsTemplatesView'
 import { SyslogView } from './syslog/SyslogView'
+import { EditHtmlView } from './html-branding'
 
 const tab = (
     enabled: boolean | undefined,
@@ -51,6 +52,11 @@ export const createAdminTabs = (
             roles.canEditTerms,
             phrase('ADMIN_PHRASES_TITLE', 'Fraser'),
             <EditPhrasesView />
+        ),
+        tab(
+            roles.canEditTerms,
+            phrase('ADMIN_HTML_TITLE', 'Html'),
+            <EditHtmlView />
         ),
         tab(
             roles.canManageAllAdverts,
