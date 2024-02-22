@@ -71,7 +71,7 @@ export const EditHtmlForm: FC<{
                         sx={{ mt: 2 }}
                         value={state.url}
                         label="Url"
-                        helperText="URL som visas om du delar länken till appen med någon annan"
+                        helperText="URL som visas om du delar länken till appen med någon annan."
                         onChange={({ target: { value: url } }) =>
                             patch({ url })
                         }
@@ -79,7 +79,7 @@ export const EditHtmlForm: FC<{
                     <>
                         <Typography sx={{ my: 2 }}>
                             Bild som visas när du delar länken till appen med
-                            någon annan
+                            någon annan. Den maximala filstorleken är 32kb
                         </Typography>
                         {state.image !== '' && (
                             <ImageThumbnail
@@ -92,7 +92,7 @@ export const EditHtmlForm: FC<{
                             />
                         )}
                         <ImageBrowseButton
-                            maxSize={1024 * 1024 * 200}
+                            maxSize={32 * 1024}
                             onUpdate={(image) => patch({ image })}
                         />
                     </>
