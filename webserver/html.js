@@ -14,38 +14,34 @@ const readTemplate = async () =>
         encoding: 'utf8',
     }).catch(() => '<html />')
 
-const compileTemplate = (content, data) => ({
-    html: handlebars.compile(content)(data),
-    data,
-})
+const compileTemplate = async (content, data) =>
+    handlebars.compile(content)(data)
 
-const transformHtmlOptions = (options) => {
-    const defaultOptions = {
-        title: 'Haffa',
-        description: 'Haffa - appen för återbruk',
-        image: '/logo512.png',
-        url: 'https://haffa.helsingborg.se',
-        favicon: '/favicon.ico',
-    }
-    return options.reduce(
+const transformHtmlOptions = (options) =>
+    options.reduce(
         (p, c) => ({
             ...p,
             [c.key]: c.value,
         }),
-        defaultOptions
+        {
+            title: 'Haffa',
+            description: 'Haffa - appen för återbruk',
+            image: '/logo512.png',
+            url: 'https://haffa.helsingborg.se',
+            favicon: '/favicon.ico',
+        }
     )
-}
 
 // Data handling
-const getHtmlOptions = async () =>
-    (await fetch(backendUrl, {
+const fetchHtmlOptions = async () =>
+    fetch(backendUrl, {
         method: 'POST',
         headers: {
             Accept: 'application/json',
         },
     })
         .then((response) => response.json())
-        .catch(() => null)) ?? []
+        .catch(() => [])
 
 // Converts a datastring to binary object
 const convertBase64toBinary = async (base64) =>
@@ -62,12 +58,16 @@ const convertBase64toBinary = async (base64) =>
 exports.getIndexHtml = async () => {
     if (!page.isValid()) {
         const file = await readTemplate()
-        await getHtmlOptions()
+        await fetchHtmlOptions()
             .then((options) => transformHtmlOptions(options))
-            .then((data) => compileTemplate(file, data))
-            .then((content) => {
-                page.set(content)
-            })
+            .then((data) =>
+                compileTemplate(file, data).then((html) => {
+                    page.set({
+                        html,
+                        data,
+                    })
+                })
+            )
     }
     return page.get()
 }
