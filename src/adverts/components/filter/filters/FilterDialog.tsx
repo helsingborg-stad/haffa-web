@@ -8,6 +8,7 @@ import {
     useTheme,
     IconButton,
     Box,
+    Stack,
 } from '@mui/material'
 import { FC, useContext, useState } from 'react'
 import { AdvertFilterInput } from 'adverts'
@@ -16,8 +17,7 @@ import CloseIcon from '@mui/icons-material/Close'
 import { TermsContext } from 'terms'
 import useAsync from 'hooks/use-async'
 import { CategoriesFilter } from './CategoriesFilter'
-import { TagsFilter } from './TagsFilter'
-import { SizeFilter } from './SizeFilter'
+import { StringArrayFilter } from './StringArrayFilter'
 
 export interface SelectedFilters {
     categories: string[]
@@ -92,24 +92,28 @@ export const FilterDialog: FC<{
                     <CloseIcon />
                 </IconButton>
                 <DialogContent dividers>
-                    <CategoriesFilter
-                        selected={categories}
-                        onCategoriesChanged={setCategories}
-                    />
-                    {terms.tags.length > 0 && (
-                        <TagsFilter
-                            terms={terms}
-                            selected={tags}
-                            onTagsChanged={setTags}
+                    <Stack direction="column" spacing={2}>
+                        <CategoriesFilter
+                            selected={categories}
+                            onCategoriesChanged={setCategories}
                         />
-                    )}
-                    {terms.sizes.length > 0 && (
-                        <SizeFilter
-                            terms={terms}
-                            selected={sizes}
-                            onSizeChanged={setSizes}
-                        />
-                    )}
+                        {terms.tags.length > 0 && (
+                            <StringArrayFilter
+                                label={phrase('TERMS_FIELD_TAGS', 'Taggar')}
+                                values={terms.tags}
+                                selected={tags}
+                                onChange={setTags}
+                            />
+                        )}
+                        {terms.sizes.length > 0 && (
+                            <StringArrayFilter
+                                label={phrase('TERMS_FIELD_SIZES', 'Storlekar')}
+                                values={terms.sizes}
+                                selected={sizes}
+                                onChange={setSizes}
+                            />
+                        )}
+                    </Stack>
                 </DialogContent>
                 <DialogActions>
                     <Button variant="contained" onClick={onSave} autoFocus>
