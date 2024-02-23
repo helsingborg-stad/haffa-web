@@ -3,4 +3,4 @@ export const toMap = <T, V>(
     keyFn: (item: T) => string,
     valueFn: (item: T) => V
 ): Record<string, V> =>
-    Object.fromEntries(list.map((item) => [keyFn(item), valueFn(item)]))
+    Object.fromEntries<V>(list.map((item) => [keyFn(item), valueFn(item)]))
