@@ -47,6 +47,17 @@ const getHtmlOptions = async () =>
         .then((response) => response.json())
         .catch(() => null)) ?? []
 
+// Converts a datastring to binary object
+const convertBase64toBinary = async (base64) =>
+    fetch(base64).then(async (response) =>
+        response.blob().then((blob) =>
+            blob
+                .arrayBuffer()
+                .then((data) => Buffer.from(data))
+                .then((buffer) => [blob.type, buffer])
+        )
+    )
+
 // Exports
 exports.getIndexHtml = async () => {
     if (!page.isValid()) {
@@ -64,12 +75,9 @@ exports.getIndexHtml = async () => {
 exports.sendBinaryImage = async (ctx, next) => {
     const cache = await this.getIndexHtml()
     if (/data:image/.test(cache.data.image)) {
-        await fetch(cache.data.image).then(async (response) =>
-            response.blob().then(async (blob) => {
-                ctx.set('Content-Type', blob.type)
-                ctx.body = Buffer.from(await blob.arrayBuffer())
-            })
-        )
+        const [type, buffer] = await convertBase64toBinary(cache.data.image)
+        ctx.set('Content-Type', type)
+        ctx.body = buffer
     } else {
         return next()
     }
