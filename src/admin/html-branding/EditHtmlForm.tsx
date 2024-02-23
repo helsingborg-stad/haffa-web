@@ -52,6 +52,9 @@ export const EditHtmlForm: FC<{
                         value={state.title}
                         label="Titel"
                         helperText="Detta är texten som visas i webbläsarens flikrad"
+                        inputProps={{
+                            maxLength: 32,
+                        }}
                         onChange={({ target: { value: title } }) =>
                             patch({ title })
                         }
@@ -62,6 +65,9 @@ export const EditHtmlForm: FC<{
                         value={state.description}
                         label="Beskrivning"
                         helperText="Beskrivningstext som visas om du delar länken till appen med någon annan"
+                        inputProps={{
+                            maxLength: 128,
+                        }}
                         onChange={({ target: { value: description } }) =>
                             patch({ description })
                         }
@@ -71,7 +77,7 @@ export const EditHtmlForm: FC<{
                         sx={{ mt: 2 }}
                         value={state.url}
                         label="Url"
-                        helperText="URL som visas om du delar länken till appen med någon annan"
+                        helperText="URL som visas om du delar länken till appen med någon annan."
                         onChange={({ target: { value: url } }) =>
                             patch({ url })
                         }
@@ -79,7 +85,7 @@ export const EditHtmlForm: FC<{
                     <>
                         <Typography sx={{ my: 2 }}>
                             Bild som visas när du delar länken till appen med
-                            någon annan
+                            någon annan. Den maximala filstorleken är 32kb
                         </Typography>
                         {state.image !== '' && (
                             <ImageThumbnail
@@ -92,13 +98,16 @@ export const EditHtmlForm: FC<{
                             />
                         )}
                         <ImageBrowseButton
-                            maxSize={1024 * 1024 * 200}
+                            maxSize={32 * 1024}
                             onUpdate={(image) => patch({ image })}
                         />
                     </>
                     <>
                         <Typography sx={{ my: 2 }}>
-                            Bild som visas i webbläsarens flikrad
+                            Bild som visas i webbläsarens flikrad. Bilden skall
+                            vara i formatet .png och ha dimensionerna 16x16
+                            eller 32x32 för bästa resultat. Den maximala
+                            filstorleken är 16kb
                         </Typography>
                         {state.favicon !== '' && (
                             <ImageThumbnail
@@ -112,8 +121,9 @@ export const EditHtmlForm: FC<{
                             />
                         )}
                         <ImageBrowseButton
-                            maxSize={1024 * 1024 * 200}
+                            maxSize={16 * 1024}
                             onUpdate={(favicon) => patch({ favicon })}
+                            filter="png"
                         />
                     </>
                 </CardContent>

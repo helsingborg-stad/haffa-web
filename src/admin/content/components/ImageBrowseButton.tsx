@@ -4,6 +4,7 @@ import { useState } from 'react'
 export const ImageBrowseButton = (props: {
     maxSize: number
     onUpdate: (result: string) => void
+    filter?: string
 }) => {
     const [hasError, setHasError] = useState(false)
 
@@ -13,7 +14,7 @@ export const ImageBrowseButton = (props: {
                 <input
                     style={{ display: 'none' }}
                     type="file"
-                    accept="image/*"
+                    accept={`image/${props.filter ?? '*'}`}
                     onChange={(e) => {
                         const file = e.target.files?.[0] as File
                         if (file.size > props.maxSize) {

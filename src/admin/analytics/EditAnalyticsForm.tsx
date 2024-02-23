@@ -1,17 +1,16 @@
 import { Card, CardContent, MenuItem, TextField } from '@mui/material'
 import { FC, useState } from 'react'
-import { getOption } from 'options'
-import { AnalyticsOptions } from 'analytics/types'
 import { AdminActionPanel } from 'components/AdminActionPanel'
 import { isValidUrl } from 'lib/string-utils'
 import { AdminEditorialPanel } from 'components/AdminEditorialPanel'
-import type { Option } from '../../options/types'
+import { getOption } from 'options/mappers'
+import type { AnalyticsOptionKeys, Option } from '../../options/types'
 
 export const EditAnalyticsForm: FC<{
-    options: Option<AnalyticsOptions>[]
+    options: Option<AnalyticsOptionKeys>[]
     onUpdate: (
-        options: Option<AnalyticsOptions>[]
-    ) => Promise<Option<AnalyticsOptions>[]>
+        options: Option<AnalyticsOptionKeys>[]
+    ) => Promise<Option<AnalyticsOptionKeys>[]>
 }> = ({ options, onUpdate }) => {
     const [provider, setProvider] = useState(
         getOption('provider', options) ?? 'none'

@@ -1,6 +1,10 @@
 import { FC, PropsWithChildren, createContext } from 'react'
-import { AnalyticsOptions } from 'analytics/types'
-import { HtmlOptionKeys, Option, OptionsRepository } from './types'
+import {
+    AnalyticsOptionKeys,
+    HtmlOptionKeys,
+    Option,
+    OptionsRepository,
+} from './types'
 
 const notImplemented = (name: string) => (): never => {
     throw new Error(`OptionsContext::${name} is not implemented`)
@@ -12,10 +16,10 @@ export interface OptionsContextType {
     updateThemeOptions: (options: Option[]) => Promise<Option[]>
 
     // Analytics settings
-    getAnalyticsOptions: () => Promise<Option<AnalyticsOptions>[]>
+    getAnalyticsOptions: () => Promise<Option<AnalyticsOptionKeys>[]>
     updateAnalyticsOptions: (
-        options: Option<AnalyticsOptions>[]
-    ) => Promise<Option<AnalyticsOptions>[]>
+        options: Option<AnalyticsOptionKeys>[]
+    ) => Promise<Option<AnalyticsOptionKeys>[]>
 
     // Phrases settings
     getPhraseOptions: () => Promise<Option[]>

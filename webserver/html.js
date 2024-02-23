@@ -14,7 +14,10 @@ const readTemplate = async () =>
         encoding: 'utf8',
     }).catch(() => '<html />')
 
-const compileTemplate = (content, data) => handlebars.compile(content)(data)
+const compileTemplate = (content, data) => ({
+    html: handlebars.compile(content)(data),
+    data,
+})
 
 const transformHtmlOptions = (options) => {
     const defaultOptions = {
@@ -56,4 +59,18 @@ exports.getIndexHtml = async () => {
             })
     }
     return page.get()
+}
+
+exports.sendBinaryImage = async (ctx, next) => {
+    const cache = await this.getIndexHtml()
+    if (/data:image/.test(cache.data.image)) {
+        await fetch(cache.data.image).then(async (response) =>
+            response.blob().then(async (blob) => {
+                ctx.set('Content-Type', blob.type)
+                ctx.body = Buffer.from(await blob.arrayBuffer())
+            })
+        )
+    } else {
+        return next()
+    }
 }

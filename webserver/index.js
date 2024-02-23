@@ -15,7 +15,7 @@ const serve = require('koa-static')
 const proxy = require('koa-proxies')
 const { join } = require('path')
 const { readFile } = require('fs/promises')
-const { getIndexHtml } = require('./html')
+const { getIndexHtml, sendBinaryImage } = require('./html')
 const PORT = process.env.PORT ?? 3000
 const backendUrl = process.env.HAFFA_BACKEND_URL
 const app = new Koa()
@@ -80,11 +80,20 @@ app.use(async (ctx, next) => {
 
 app.use(async (ctx, next) => {
     if (/\/index.html/.test(ctx.path) || ctx.path === '/') {
-        ctx.body = await getIndexHtml()
+        ctx.body = (await getIndexHtml()).html
     } else {
         return next()
     }
 })
+
+app.use(async (ctx, next) => {
+    if (/\/logo192.png/.test(ctx.path)) {
+        return await sendBinaryImage(ctx, next)
+    } else {
+        return next()
+    }
+})
+
 /************************************************************
  *
  * Serve React app as static files
@@ -99,7 +108,7 @@ app.use(serve('./build'))
  *
  ***********************************************************/
 router.get('/:path*', async (ctx) => {
-    ctx.body = await getIndexHtml()
+    ctx.body = (await getIndexHtml()).html
 })
 
 /************************************************************

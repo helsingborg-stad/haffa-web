@@ -1,5 +1,10 @@
 import type { Option } from './types'
 
+export const getOption = <T = string>(
+    key: T,
+    options: Option[]
+): string | undefined => options.find((option) => option.key === key)?.value
+
 export const objectToOptions = <T extends string>(
     obj: Record<T, string>
 ): Option<T>[] =>
