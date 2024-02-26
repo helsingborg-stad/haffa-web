@@ -5,10 +5,14 @@ import TextSnippetIcon from '@mui/icons-material/TextSnippet'
 import { PhraseContextType } from 'phrases'
 import CategoryIcon from '@mui/icons-material/Category'
 import { uniqueBy } from 'lib/unique-by'
-import { PatchNotesDialog } from './bulk-actions'
+import DateRangeIcon from '@mui/icons-material/DateRange'
 import { BulkAction } from './bulk-actions/types'
 import { AdvertsTableContextType } from './AdvertsTable/types'
-import { PatchCategoryDialog } from './bulk-actions/PatchCategoryDialog'
+import {
+    PatchCategoryDialog,
+    PatchNumberFieldDialog,
+    PatchTextFieldDialog,
+} from './bulk-actions'
 
 const makeAction = (
     enabled: boolean | undefined,
@@ -26,7 +30,7 @@ const makeAction = (
 export const createBulkActions = ({
     phrase,
     roles,
-    visibleFields,
+    fields,
     selectionMatches,
     archiveAdverts,
     unarchiveAdverts,
@@ -51,15 +55,23 @@ export const createBulkActions = ({
                 selectionMatches(({ meta: { canUnarchive } }) => canUnarchive),
             action: unarchiveAdverts,
         }),
-        makeAction(roles.canEditOwnAdverts && visibleFields.notes, {
+        makeAction(roles.canEditOwnAdverts && fields.notes?.visible, {
             key: 'notes',
             icon: <TextSnippetIcon />,
-            label: phrase('BULKADVERTACTION_EDIT_NOTES', 'Sätt notiser'),
+            label: `Sätt ${fields.notes?.label || 'egna noteringar'}`,
             enabled: () => selectionMatches(({ meta: { canEdit } }) => canEdit),
             action: () => undefined,
-            dialogAction: (params) => <PatchNotesDialog {...params} />,
+            dialogAction: (params) => (
+                <PatchTextFieldDialog
+                    {...params}
+                    inputProps={{ multiline: true, rows: 3 }}
+                    label={fields.notes?.label || 'notiser'}
+                    getValue={({ notes }) => notes}
+                    makePatch={(notes) => ({ notes })}
+                />
+            ),
         }),
-        makeAction(roles.canEditOwnAdverts && visibleFields.category, {
+        makeAction(roles.canEditOwnAdverts && fields.category?.visible, {
             key: 'category',
             icon: <CategoryIcon />,
             label: phrase(
@@ -69,6 +81,22 @@ export const createBulkActions = ({
             enabled: () => selectionMatches(({ meta: { canEdit } }) => canEdit),
             action: () => undefined,
             dialogAction: (params) => <PatchCategoryDialog {...params} />,
+        }),
+        makeAction(roles.canEditOwnAdverts && fields.lendingPeriod?.visible, {
+            key: 'lending-period',
+            icon: <DateRangeIcon />,
+            label: `Sätt ${fields.lendingPeriod?.label || 'utlåningsperiod'}`,
+            enabled: () => selectionMatches(({ meta: { canEdit } }) => canEdit),
+            action: () => undefined,
+            dialogAction: (params) => (
+                <PatchNumberFieldDialog
+                    {...params}
+                    inputProps={{ inputProps: { min: 0 } }}
+                    label={fields.lendingPeriod?.label || ''}
+                    getValue={(a) => a.lendingPeriod}
+                    makePatch={(lendingPeriod) => ({ lendingPeriod })}
+                />
+            ),
         }),
     ]
         .filter(({ key }) => key)

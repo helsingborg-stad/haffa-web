@@ -34,7 +34,7 @@ export const AdvertsTableView: FC<{
     restrictions: AdvertRestrictionsFilterInput
 }> = ({ restrictions }) => {
     type Data = AdvertList & { filter: AdvertFilterInput } & {
-        visibleFields: Partial<Record<keyof Advert, boolean>>
+        fields: AdvertsTableContextType['fields']
     } & {
         loading: boolean
     }
@@ -47,14 +47,17 @@ export const AdvertsTableView: FC<{
 
     const { getFieldConfig } = useContext(AdvertFieldsContext)
 
-    // We kind of preftech visible fields config once and return thsi async result
+    // We kind of preftech visible fields config once and return this async result
     // in subsequent searches
-    const visibleFieldsPromise = useMemo(async () => {
+    const fieldsPromise = useMemo(async () => {
         const fc = await getFieldConfig()
         return toMap(
             fc,
             (r) => r.name,
-            (r) => r.visible
+            (r) => ({
+                label: r.label,
+                visible: r.visible,
+            })
         )
     }, [getFieldConfig])
 
@@ -66,13 +69,13 @@ export const AdvertsTableView: FC<{
                     ...list,
                     filter,
                 })),
-                visibleFieldsPromise, // <== called once
-            ]).then(([data, visibleFields]) => ({
+                fieldsPromise, // <== called once
+            ]).then(([data, fields]) => ({
                 loading: false,
                 ...data,
-                visibleFields,
+                fields,
             })),
-        [listAdverts, visibleFieldsPromise]
+        [listAdverts, fieldsPromise]
     )
 
     // ids of checkbox selected adverts
@@ -82,7 +85,7 @@ export const AdvertsTableView: FC<{
     const [data, error, enqueue] = useFetchQueue<Data>(
         {
             loading: true,
-            visibleFields: {},
+            fields: {},
             adverts: [],
             categories: [],
             filter: { restrictions },
@@ -143,18 +146,26 @@ export const AdvertsTableView: FC<{
             ),
             filter: data?.filter,
             selected,
-            visibleFields: data.visibleFields,
+            fields: data.fields,
             setSelected,
             setFilter: (f) => enqueue(() => list(f)),
             selectionMatches: (p) =>
                 selected.size > 0 && selectedAdverts.every(p),
-            selectionCommonValue: <T,>(getter: Func1<Advert, T>, def: T): T => {
+            selectionCommonValue: <T,>(
+                getter: Func1<Advert, T>,
+                def: T
+            ): { value: T; conflict: boolean } => {
                 const values = new Set<T>(
                     data.adverts
                         .filter(({ id }) => selected.has(id))
                         .map(getter)
                 )
-                return values.size === 1 ? [...values][0] : def
+                return values.size === 1
+                    ? {
+                          value: [...values][0],
+                          conflict: false,
+                      }
+                    : { value: def, conflict: true }
             },
             patchAdverts: (patch) =>
                 bulkUpdateAdverts((id) => patchAdvert(id, patch)),

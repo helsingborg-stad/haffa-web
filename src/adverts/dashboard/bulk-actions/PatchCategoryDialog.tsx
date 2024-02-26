@@ -1,4 +1,5 @@
 import {
+    Alert,
     Button,
     Dialog,
     DialogActions,
@@ -37,6 +38,16 @@ export const PatchCategoryDialog: FC<BulkActionDialogParams> = ({
                 {phrase('BULKADVERTACTION_EDIT_CATEGORIES', 'Sätt kategorier')}
             </DialogTitle>
             <DialogContent>
+                {selected.conflict && (
+                    <Alert severity="warning">
+                        {phrase(
+                            'BULKAKTION_WARNING_VALUE_CONFLICT',
+                            'Markeringen innehåller olika värden'
+                        )}
+                    </Alert>
+                )}
+            </DialogContent>
+            <DialogContent>
                 <FormControl fullWidth sx={{ my: 2 }}>
                     <InputLabel>
                         {phrase(
@@ -46,9 +57,11 @@ export const PatchCategoryDialog: FC<BulkActionDialogParams> = ({
                     </InputLabel>
                     <Select
                         fullWidth
-                        value={selected}
+                        value={selected.value}
                         label="Kategori"
-                        onChange={(e) => setSelected(e.target.value)}
+                        onChange={(e) =>
+                            setSelected({ ...selected, value: e.target.value })
+                        }
                     >
                         {[
                             { id: '', label: '(Ingen kategori)' },
@@ -81,7 +94,7 @@ export const PatchCategoryDialog: FC<BulkActionDialogParams> = ({
                     color="primary"
                     onClick={() => {
                         closeDialog()
-                        patchAdverts({ category: selected })
+                        patchAdverts({ category: selected.value })
                     }}
                     startIcon={<SaveAltIcon />}
                 >

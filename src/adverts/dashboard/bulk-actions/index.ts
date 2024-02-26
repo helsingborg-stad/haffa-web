@@ -1,4 +1,11 @@
 import { BulkActions } from './BulkActions'
-import { PatchNotesDialog } from './PatchNotesDialog'
+import { PatchCategoryDialog } from './PatchCategoryDialog'
+import { PatchNumberFieldDialog } from './PatchNumberFieldDialog'
+import { PatchTextFieldDialog } from './PatchTextFieldDialog'
 
-export { BulkActions, PatchNotesDialog }
+export {
+    BulkActions,
+    PatchCategoryDialog,
+    PatchNumberFieldDialog,
+    PatchTextFieldDialog,
+}

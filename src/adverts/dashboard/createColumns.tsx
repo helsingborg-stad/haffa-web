@@ -21,37 +21,43 @@ const makeColumn = (
 })
 export const createColumns = ({
     categoryTree,
-    visibleFields,
+    fields,
 }: AdvertsTableContextType): Column<Advert>[] =>
     [
-        makeColumn(visibleFields.title, {
+        makeColumn(fields.title?.visible, {
             key: 'title',
-            label: 'Titel',
+            label: fields.title?.label || '',
             sortField: 'title',
             getter: ({ title }) => title,
         }),
-        makeColumn(visibleFields.category, {
+        makeColumn(fields.category?.visible, {
             key: 'category',
-            label: 'Kategori',
+            label: fields.category?.label || '',
             getter: ({ category }) =>
                 categoryTree
                     .pathById(category)
                     .map(({ label }) => label)
                     .join(' - '),
         }),
-        makeColumn(visibleFields.reference, {
+        makeColumn(fields.reference?.visible, {
             key: 'reference',
-            label: 'Egen referens',
+            label: fields.reference?.label || '',
             sortField: 'reference',
             getter: ({ reference }) => reference,
         }),
-        makeColumn(visibleFields.notes, {
+        makeColumn(fields.notes?.visible, {
             key: 'notes',
-            label: 'Egna noteringar',
+            label: fields.notes?.label || '',
             sortField: 'notes',
             getter: ({ notes }) => notes,
         }),
-        makeColumn(visibleFields.lendingPeriod, {
+        makeColumn(fields.lendingPeriod?.visible, {
+            key: 'lendingPeriod',
+            label: fields.lendingPeriod?.label || '',
+            sortField: 'lendingPeriod',
+            getter: ({ lendingPeriod }) => lendingPeriod.toString(),
+        }),
+        makeColumn(fields.lendingPeriod?.visible, {
             key: 'isOverdue',
             label: 'Försenad?',
             getter: ({ meta }) =>

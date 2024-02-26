@@ -1,4 +1,6 @@
 import {
+    Alert,
+    BaseTextFieldProps,
     Button,
     Dialog,
     DialogActions,
@@ -10,30 +12,49 @@ import { FC, useContext, useState } from 'react'
 import { PhraseContext } from 'phrases'
 import CancelIcon from '@mui/icons-material/Cancel'
 import SaveAltIcon from '@mui/icons-material/SaveAlt'
+import { Func1 } from 'lib/types'
+import { Advert, AdvertInput } from 'adverts'
 import { AdvertsTableContext } from '../AdvertsTable'
 import { BulkActionDialogParams } from './types'
 
-export const PatchNotesDialog: FC<BulkActionDialogParams> = ({
-    open,
-    closeDialog,
-}) => {
+export const PatchTextFieldDialog: FC<
+    BulkActionDialogParams & {
+        label: string
+        getValue: Func1<Advert, string>
+        makePatch: Func1<string, Partial<AdvertInput>>
+        inputProps?: BaseTextFieldProps
+    }
+> = ({ open, closeDialog, label, getValue, makePatch, inputProps }) => {
     const { patchAdverts, selectionCommonValue } =
         useContext(AdvertsTableContext)
     const { phrase } = useContext(PhraseContext)
-    const [value, setValue] = useState(selectionCommonValue((a) => a.notes, ''))
+    const [value, setValue] = useState(selectionCommonValue(getValue, ''))
 
     return (
         <Dialog onClose={() => closeDialog()} open={open} fullWidth>
-            <DialogTitle>
-                {phrase('BULKACTION_EDIT_NOTES', 'Sätt notiser')}
-            </DialogTitle>
+            <DialogTitle>{label}</DialogTitle>
+            <DialogContent>
+                {value.conflict && (
+                    <Alert severity="warning">
+                        {phrase(
+                            'BULKAKTION_WARNING_VALUE_CONFLICT',
+                            'Markeringen innehåller olika värden'
+                        )}
+                    </Alert>
+                )}
+            </DialogContent>
             <DialogContent>
                 <TextField
-                    multiline
+                    type="text"
                     fullWidth
-                    rows={3}
-                    value={value}
-                    onChange={(e) => setValue(e.target.value)}
+                    {...inputProps}
+                    value={value.value}
+                    onChange={(e) =>
+                        setValue({
+                            ...value,
+                            value: e.target.value,
+                        })
+                    }
                 />
             </DialogContent>
             <DialogActions>
@@ -47,7 +68,7 @@ export const PatchNotesDialog: FC<BulkActionDialogParams> = ({
                     color="primary"
                     onClick={() => {
                         closeDialog()
-                        patchAdverts({ notes: value })
+                        patchAdverts(makePatch(value.value))
                     }}
                     startIcon={<SaveAltIcon />}
                 >
