@@ -252,5 +252,9 @@ export interface AdvertsRepository {
         claim: AdvertClaim,
         newType: AdvertClaimType
     ) => Promise<AdvertMutationResult>
+    renewAdvertClaim: (
+        id: string,
+        claim: AdvertClaim
+    ) => Promise<AdvertMutationResult>
     returnAdvert: (id: string) => Promise<AdvertMutationResult>
 }

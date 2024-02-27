@@ -26,6 +26,7 @@ import { AdvertsContext } from 'adverts'
 import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown'
 import CancelIcon from '@mui/icons-material/Cancel'
 import ConvertIcon from '@mui/icons-material/ChangeCircle'
+import EventRepeatIcon from '@mui/icons-material/EventRepeat'
 import {
     Advert,
     AdvertClaim,
@@ -39,7 +40,8 @@ const ActionsButton: FC<{
     claim: AdvertClaim
     onUpdate: (p: Promise<AdvertMutationResult>) => void
 }> = ({ advert, claim, onUpdate }) => {
-    const { cancelAdvertClaim, convertAdvertClaim } = useContext(AdvertsContext)
+    const { cancelAdvertClaim, convertAdvertClaim, renewAdvertClaim } =
+        useContext(AdvertsContext)
     const { phrase } = useContext(PhraseContext)
 
     const anchorRef = useRef<HTMLDivElement>(null)
@@ -122,6 +124,31 @@ const ActionsButton: FC<{
                                       AdvertClaimType.reserved
                                   )
                               ),
+                      })
+                    : null,
+
+                claim.canConvert && claim.type === AdvertClaimType.reserved
+                    ? makeOption({
+                          label: phrase(
+                              'ADVERT_CLAIMS_EXTEND_RESERVATION',
+                              'Förnya reservation'
+                          ),
+                          icon: <EventRepeatIcon color="primary" />,
+                          action: () =>
+                              onUpdate(renewAdvertClaim(advert.id, claim)),
+                      })
+                    : null,
+                claim.canConvert &&
+                claim.type === AdvertClaimType.collected &&
+                advert.lendingPeriod > 0
+                    ? makeOption({
+                          label: phrase(
+                              'ADVERT_CLAIMS_EXTEND_COLLECT',
+                              'Förnya utlåning'
+                          ),
+                          icon: <EventRepeatIcon color="primary" />,
+                          action: () =>
+                              onUpdate(renewAdvertClaim(advert.id, claim)),
                       })
                     : null,
             ]

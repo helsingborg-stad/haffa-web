@@ -224,6 +224,18 @@ mutation Mutation(
 }
 `
 
+export const renewAdvertClaimMutation = /* GraphQL */ `
+mutation Mutation(
+	$id: ID!,
+	$by: String!,
+	$type: AdvertClaimType!
+) {
+	renewAdvertClaim(id: $id, by: $by, type: $type) {
+		${mutationProps}
+	}
+}
+`
+
 export const returnAdvertMutation = /* GraphQL */ `
 mutation Mutation(
 	$id: ID!,

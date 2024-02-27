@@ -19,6 +19,7 @@ export const AdvertsContext = createContext<AdvertsRepository>({
     collectAdvert: notProvided('collectAdvert'),
     cancelAdvertClaim: notProvided('cancelAdvertClaim'),
     convertAdvertClaim: notProvided('convertAdvertClaim'),
+    renewAdvertClaim: notProvided('renewAdvertClaim'),
     returnAdvert: notProvided('returnAdvert'),
 })
 

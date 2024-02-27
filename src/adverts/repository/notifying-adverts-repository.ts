@@ -111,6 +111,15 @@ export const createNotifyingAdvertsRepository = (
                         'Markeringen har ändrats'
                     )
                 ),
+        renewAdvertClaim: (...args) =>
+            inner
+                .renewAdvertClaim(...args)
+                .then(
+                    info(
+                        'NOTIFICATIONS_ADVERT_CLAIM_WAS_CHANGED',
+                        'Markeringen har ändrats'
+                    )
+                ),
         returnAdvert: (...args) =>
             inner
                 .returnAdvert(...args)

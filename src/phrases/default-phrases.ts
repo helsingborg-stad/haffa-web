@@ -153,12 +153,16 @@ export const defaultPhrases: Omit<
     ADVERT_CLAIMS_MANAGE_TITLE: 'Välj hantering',
     ADVERT_CLAIMS_CANCEL_COLLECT: 'Ångra hämtning',
     ADVERT_CLAIMS_CHANGE_TO_RESERVED: 'Ändra till reservation',
+    ADVERT_CLAIMS_EXTEND_RESERVATION: 'Förnya reservation',
+    ADVERT_CLAIMS_EXTEND_COLLECT: 'Förnya utlåning',
     ADVERT_CLAIM_COLLECT_REMINDER: 'Påminnelse för återlämning har skickats',
     ADVERT_CLAIM_RESERVE_REMINDER: 'Påminnelse för uthämtning har skickats',
     ADVERT_IS_RESERVED_BY_YOU: 'Du har reserverat {count} {unit}',
     ADVERT_CLAIM_IS_RESERVED: '{by} reserverade {quantity} {unit} {at}',
     ADVERT_CLAIMS_CANCEL_RESERVATION: 'Ångra reservation',
     ADVERT_CLAIMS_COLLECT_MANUALLY: 'Lämna ut manuellt',
+    ADVERT_RETURN_EDITORIAL:
+        'Artikeln är utlånad och kan efter mottagningskontroll återföras till lagret.',
     LOGINS_EFECTIVE_PERMISSIONS: 'Effektiva behörigheter',
     LOGINS_EDITORIAL: `
 Här anges vilka användare som ges eller nekas tillträde till sajten.
