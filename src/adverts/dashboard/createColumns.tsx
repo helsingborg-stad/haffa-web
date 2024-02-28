@@ -1,15 +1,24 @@
-import { Advert } from 'adverts'
+import { Advert, AdvertImage } from 'adverts'
 import EventBusyIcon from '@mui/icons-material/EventBusy'
 import EditIcon from '@mui/icons-material/Edit'
 import OpenInBrowserIcon from '@mui/icons-material/OpenInBrowser'
 import { NavLink } from 'react-router-dom'
 import { ReactNode } from 'react'
+import { Box } from '@mui/material'
 import { AdvertsTableContextType, Column } from './AdvertsTable/types'
 
 export const createLink = (to: string, icon: ReactNode) => (
     <NavLink to={to} style={{ color: 'inherit', textDecoration: 'none' }}>
         {icon}
     </NavLink>
+)
+
+export const createAdvertImage = ([image]: AdvertImage[]) => (
+    <Box
+        component="img"
+        src={image?.url ?? '/empty-advert.svg'}
+        sx={{ height: 48 }}
+    />
 )
 
 const makeColumn = (
@@ -24,6 +33,12 @@ export const createColumns = ({
     fields,
 }: AdvertsTableContextType): Column<Advert>[] =>
     [
+        makeColumn(true, {
+            key: 'image',
+            label: fields.images?.label || '',
+            getter: ({ images }) => images[0]?.url ?? '',
+            cell: ({ images }) => createAdvertImage(images),
+        }),
         makeColumn(fields.title?.visible, {
             key: 'title',
             label: fields.title?.label || '',
