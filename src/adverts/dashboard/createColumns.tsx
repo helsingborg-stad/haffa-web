@@ -17,7 +17,11 @@ export const createAdvertImage = ([image]: AdvertImage[]) => (
     <Box
         component="img"
         src={image?.url ?? '/empty-advert.svg'}
-        sx={{ height: 48 }}
+        sx={{
+            height: 48,
+            width: 48,
+            objectFit: 'cover',
+        }}
     />
 )
 
@@ -36,7 +40,7 @@ export const createColumns = ({
         makeColumn(true, {
             key: 'image',
             label: fields.images?.label || '',
-            getter: ({ images }) => images[0]?.url ?? '',
+            getter: () => '',
             cell: ({ images }) => createAdvertImage(images),
         }),
         makeColumn(fields.title?.visible, {
