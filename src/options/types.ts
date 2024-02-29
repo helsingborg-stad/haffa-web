@@ -13,9 +13,10 @@ export interface OptionsRepository {
 export interface HtmlOptions {
     title: string
     description: string
-    image: string
     url: string
-    favicon: string
+    imageFavicon: string
+    imageLogo192: string
+    imageLogo512: string
 }
 
 export type HtmlOptionKeys = keyof HtmlOptions

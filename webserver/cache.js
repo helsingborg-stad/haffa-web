@@ -17,6 +17,6 @@ exports.createMemoryCache = (refresh = 30 /* Seconds */) => {
                 }
             }
         },
-        get: () => ({ html: mem.html, data: mem.data }),
+        get: () => ({ ...mem }),
     }
 }

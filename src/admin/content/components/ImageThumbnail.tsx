@@ -3,10 +3,11 @@ import DeleteIcon from '@mui/icons-material/Delete'
 
 export const ImageThumbnail = (props: {
     url: string
+    height?: number
     onDelete: () => void
 }) => (
     <Box component="div" sx={{ position: 'relative' }}>
-        <Box component="img" src={props.url} height={128} />
+        <Box component="img" src={props.url} height={props.height ?? 128} />
         <IconButton
             color="warning"
             size="small"

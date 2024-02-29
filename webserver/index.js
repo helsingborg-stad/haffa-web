@@ -14,11 +14,27 @@ const serve = require('koa-static')
 const proxy = require('koa-proxies')
 const { join } = require('path')
 const { readFile } = require('fs/promises')
-const { getIndexHtml, sendBinaryImage } = require('./html')
+const { generateHtml, fetchBinaryImage } = require('./html')
+const { readFileSync } = require('fs')
 const PORT = process.env.PORT ?? 3000
 const backendUrl = process.env.HAFFA_BACKEND_URL
 const app = new Koa()
 const router = new Router()
+
+const PATTERN_INDEX = /\/index.html$|\/$/
+const PATTERN_IMAGE = /\/(image-\w+).png$/
+
+/************************************************************
+ *
+ * Load html source into context
+ *
+ ***********************************************************/
+app.context.htmlSource = readFileSync(
+    join(process.cwd(), '/build/index.html'),
+    {
+        encoding: 'utf8',
+    }
+)
 
 /************************************************************
  *
@@ -77,17 +93,23 @@ app.use(async (ctx, next) => {
     return next()
 })
 
+// Generate index.html
 app.use(async (ctx, next) => {
-    if (/\/index.html/.test(ctx.path) || ctx.path === '/') {
-        ctx.body = (await getIndexHtml()).html
+    if (PATTERN_INDEX.test(ctx.path)) {
+        await generateHtml(ctx.htmlSource).then((cache) => {
+            ctx.body = cache.html
+        })
     } else {
         return next()
     }
 })
 
+// Generate binary images
 app.use(async (ctx, next) => {
-    if (/\/logo192.png/.test(ctx.path)) {
-        return await sendBinaryImage(ctx, next)
+    const match = ctx.path.match(PATTERN_IMAGE)
+
+    if (match) {
+        return await fetchBinaryImage(ctx, match, next)
     } else {
         return next()
     }
@@ -107,7 +129,9 @@ app.use(serve('./build'))
  *
  ***********************************************************/
 router.get('/:path*', async (ctx) => {
-    ctx.body = (await getIndexHtml()).html
+    await generateHtml(ctx.htmlSource).then((cache) => {
+        ctx.body = cache.html
+    })
 })
 
 /************************************************************

@@ -1,20 +1,14 @@
-const { readFile } = require('fs/promises')
-const { join } = require('path')
 const handlebars = require('handlebars')
 const { createMemoryCache } = require('./cache')
 
+const PATTERN_BASE64 = /data:image/
 const backendUrl = `${process.env.HAFFA_BACKEND_URL}/api/v1/haffa/options/branding-html`
 
 // Page cache
 const page = createMemoryCache()
 
 // Template handling
-const readTemplate = async () =>
-    await readFile(join(process.cwd(), '/build/index.html'), {
-        encoding: 'utf8',
-    }).catch(() => '<html />')
-
-const compileTemplate = async (content, data) =>
+const compileTemplate = async (content, data = {}) =>
     handlebars.compile(content)(data)
 
 const transformHtmlOptions = (options) =>
@@ -24,11 +18,13 @@ const transformHtmlOptions = (options) =>
             [c.key]: c.value,
         }),
         {
+            // Default value
             title: 'Haffa',
             description: 'Haffa - appen för återbruk',
-            image: '/logo512.png',
             url: 'https://haffa.helsingborg.se',
-            favicon: '/favicon.ico',
+            imageLogo192: '/image-logo192.png',
+            imageLogo512: '/image-logo512.png',
+            imageFavicon: '/image-favicon.png',
         }
     )
 
@@ -43,7 +39,7 @@ const fetchHtmlOptions = async () =>
         .then((response) => response.json())
         .catch(() => [])
 
-// Converts a datastring to binary object
+// Converts a datastring to a binary object
 const convertBase64toBinary = async (base64) =>
     fetch(base64).then(async (response) =>
         response.blob().then((blob) =>
@@ -55,13 +51,12 @@ const convertBase64toBinary = async (base64) =>
     )
 
 // Exports
-exports.getIndexHtml = async () => {
+exports.generateHtml = async (source) => {
     if (!page.isValid()) {
-        const file = await readTemplate()
         await fetchHtmlOptions()
             .then((options) => transformHtmlOptions(options))
             .then((data) =>
-                compileTemplate(file, data).then((html) => {
+                compileTemplate(source, data).then((html) => {
                     page.set({
                         html,
                         data,
@@ -72,13 +67,30 @@ exports.getIndexHtml = async () => {
     return page.get()
 }
 
-exports.sendBinaryImage = async (ctx, next) => {
-    const cache = await this.getIndexHtml()
-    if (/data:image/.test(cache.data.image)) {
-        const [type, buffer] = await convertBase64toBinary(cache.data.image)
+exports.fetchBinaryImage = async (ctx, [, match], next) => {
+    const cache = await this.generateHtml(ctx.htmlSource)
+
+    let image
+    // Get cached image data
+    switch (match) {
+        case 'image-favicon':
+            image = cache.data.imageFavicon
+            break
+        case 'image-logo192':
+            image = cache.data.imageLogo192
+            break
+        case 'image-logo512':
+            image = cache.data.imageLogo512
+            break
+    }
+    // Image cached as base64 string
+    if (PATTERN_BASE64.test(image)) {
+        const [type, buffer] = await convertBase64toBinary(image)
+
         ctx.set('Content-Type', type)
         ctx.body = buffer
-    } else {
-        return next()
+        return
     }
+    // Image cached as relative url (Try load image from filesystem)
+    return next()
 }
