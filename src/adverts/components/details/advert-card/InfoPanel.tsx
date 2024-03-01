@@ -1,4 +1,4 @@
-import { Alert, Box, Stack, Typography } from '@mui/material'
+import { Alert, Box, Typography } from '@mui/material'
 import { Advert } from 'adverts'
 import { Category } from 'categories/types'
 import { Markdown } from 'components/Markdown'
@@ -39,29 +39,16 @@ export const InfoPanel: FC<{
                         <Box
                             sx={{
                                 mb: 2,
-                                backgroundColor: '#D8F7BD',
+                                p: 1,
                                 borderRadius: '20px',
                                 background:
                                     'linear-gradient(90deg, rgba(210,231,195,1) 0%, rgba(239,242,234,1) 35%, rgba(255,255,255,1) 100%)',
                             }}
                         >
-                            <Stack direction="row" spacing={1} padding={1}>
-                                <Typography>
-                                    <Box
-                                        component="img"
-                                        src="/leaves.svg"
-                                        sx={{
-                                            verticalAlign: 'middle',
-                                            width: '24px',
-                                            height: '24px',
-                                        }}
-                                    />
-                                </Typography>
-                                <Typography>
-                                    Denna vara sparar <b>{category.co2kg} kg</b>{' '}
-                                    CO₂e
-                                </Typography>
-                            </Stack>
+                            <Typography>
+                                🌱 Denna vara sparar <b>{category.co2kg} kg</b>{' '}
+                                CO₂e
+                            </Typography>
                         </Box>
                     )}
 
