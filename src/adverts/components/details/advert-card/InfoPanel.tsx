@@ -33,25 +33,24 @@ export const InfoPanel: FC<{
                 </Typography>
             )}
             {!hideDescription && <Markdown markdown={advert.description} />}
+            {!hideDescription && category && category.co2kg > 0 && (
+                <Box
+                    sx={{
+                        mb: 2,
+                        p: 1,
+                        borderRadius: '20px',
+                        background:
+                            'linear-gradient(90deg, rgba(210,231,195,1) 0%, rgba(239,242,234,1) 35%, rgba(255,255,255,1) 100%)',
+                    }}
+                >
+                    <Typography>
+                        🌱 Denna vara sparar <b>{category.co2kg} kg</b> CO₂e
+                    </Typography>
+                </Box>
+            )}
+
             {!hideDescription && (
                 <Typography gutterBottom>
-                    {category && category.co2kg > 0 && (
-                        <Box
-                            sx={{
-                                mb: 2,
-                                p: 1,
-                                borderRadius: '20px',
-                                background:
-                                    'linear-gradient(90deg, rgba(210,231,195,1) 0%, rgba(239,242,234,1) 35%, rgba(255,255,255,1) 100%)',
-                            }}
-                        >
-                            <Typography>
-                                🌱 Denna vara sparar <b>{category.co2kg} kg</b>{' '}
-                                CO₂e
-                            </Typography>
-                        </Box>
-                    )}
-
                     {category && (
                         <>
                             {category.label}
