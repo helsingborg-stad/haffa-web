@@ -255,31 +255,6 @@ export const AdvertForm: FC<{
             [
                 {
                     label: phrase(
-                        'ADVERT_EDITOR_SECTION_NOTES',
-                        'Era egna privata noteringar angående denna annons'
-                    ),
-                    rows: [
-                        [
-                            createSimplifiedField(
-                                'notes',
-                                (field, label, required, adornment) =>
-                                    textField(field, label, {
-                                        required,
-                                        disabled,
-                                        multiline: true,
-                                        minRows: 4,
-                                        fullWidth: true,
-                                        InputProps: {
-                                            endAdornment:
-                                                createAdornment(adornment),
-                                        },
-                                    })
-                            ),
-                        ],
-                    ],
-                },
-                {
-                    label: phrase(
                         'ADVERT_EDITOR_SECTION_DESCRIPTION',
                         'Beskriv din annons så att den blir sökbar och ser fin ut i listningen.'
                     ),
@@ -797,6 +772,31 @@ export const AdvertForm: FC<{
                                         })
                                     }
                                 />
+                            ),
+                        ].filter((v) => v),
+                    ].filter((v) => v.length > 0),
+                },
+                {
+                    label: phrase(
+                        'ADVERT_EDITOR_SECTION_NOTES',
+                        'Era egna privata noteringar angående denna annons'
+                    ),
+                    rows: [
+                        [
+                            createSimplifiedField(
+                                'notes',
+                                (field, label, required, adornment) =>
+                                    textField(field, label, {
+                                        required,
+                                        disabled,
+                                        multiline: true,
+                                        minRows: 4,
+                                        fullWidth: true,
+                                        InputProps: {
+                                            endAdornment:
+                                                createAdornment(adornment),
+                                        },
+                                    })
                             ),
                         ].filter((v) => v),
                     ].filter((v) => v.length > 0),
