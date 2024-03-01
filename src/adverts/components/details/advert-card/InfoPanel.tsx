@@ -35,7 +35,7 @@ export const InfoPanel: FC<{
             {!hideDescription && <Markdown markdown={advert.description} />}
             {!hideDescription && (
                 <Typography gutterBottom>
-                    {category && (
+                    {category && category.co2kg > 0 && (
                         <Box
                             sx={{
                                 mb: 2,
