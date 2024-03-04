@@ -25,17 +25,13 @@ type Cell = {
     row: number
     col: number
 }
-export interface ContentModuleWithPosition {
-    position: Cell
-    module: ContentModule
-}
-
 export const createModule = (): ContentModule => ({
     title: 'Titel',
     body: 'Lorum Ipsum',
     image: '',
     categories: '',
     tags: '',
+    imageRef: '',
 })
 
 const createRow = (): ViewRow => ({
@@ -63,7 +59,7 @@ export const EditContentForm = (props: {
 }) => {
     const { update, page, categories, terms } = props
 
-    const [cache, setCache] = useState<ContentModuleWithPosition | undefined>()
+    const [selectedModule, setSelectedModule] = useState<Cell | undefined>()
     const [rows, setRows] = useState(page.rows)
     const [canSave, setCanSave] = useState(true)
 
@@ -115,39 +111,20 @@ export const EditContentForm = (props: {
         [rows]
     )
     // Content actions
-    const copyModule = ({ row, col }: Cell) => ({
-        ...rows[row].columns[col].module,
-    })
-    const cacheModule = useCallback(
-        (position: Cell) =>
-            setCache({
-                position,
-                module: copyModule(position),
-            }),
-        [rows]
-    )
-    const cacheUpdate = useCallback(
+    const updateSelectedModule = useCallback(
         (module: ContentModule) => {
-            cache
-                ? setCache({
-                      ...cache,
-                      module,
-                  })
-                : undefined
-        },
-        [cache, setCache]
-    )
-    const applyFromCache = useCallback(() => {
-        if (cache) {
-            const copy = [...rows]
-            const { row, col } = cache.position
-            copy[row].columns[col].module = {
-                ...cache.module,
+            if (selectedModule) {
+                const copy = [...rows]
+                const { row, col } = selectedModule
+                copy[row].columns[col].module = {
+                    ...module,
+                }
+                setSelectedModule(undefined)
+                setRows(copy)
             }
-            setCache(undefined)
-            setRows(copy)
-        }
-    }, [cache])
+        },
+        [selectedModule]
+    )
 
     const renderCardActions = ({ row, col }: Cell, max: Cell) => (
         <>
@@ -186,7 +163,7 @@ export const EditContentForm = (props: {
                     />
                     <Button
                         startIcon={<EditIcon />}
-                        onClick={() => cacheModule({ row, col })}
+                        onClick={() => setSelectedModule({ row, col })}
                     />
                     <Button
                         startIcon={<DeleteIcon />}
@@ -250,14 +227,16 @@ export const EditContentForm = (props: {
                 </Grid>
             ))}
             {rows.length === 0 && <Editorial phraseKey="ADMIN_THEME_EMPTY" />}
-            {cache && (
+            {selectedModule && (
                 <PropertyEditor
-                    module={cache.module}
+                    module={
+                        rows[selectedModule.row].columns[selectedModule.col]
+                            .module
+                    }
                     terms={terms}
                     categories={categories}
-                    onUpdate={cacheUpdate}
-                    onApply={applyFromCache}
-                    onClose={() => setCache(undefined)}
+                    onUpdate={updateSelectedModule}
+                    onClose={() => setSelectedModule(undefined)}
                 />
             )}
         </>

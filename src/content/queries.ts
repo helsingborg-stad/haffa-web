@@ -8,6 +8,7 @@ export const getCompositionQuery = /* GraphQL */ `
                         categories
                         title
                         image
+                        imageRef
                         tags
                     }
                 }
@@ -25,6 +26,7 @@ export const updateCompositionMutation = /* GraphQL */ `
                         body
                         categories
                         image
+                        imageRef
                         tags
                         title
                     }

@@ -11,7 +11,9 @@ import {
 import { ContentModule } from 'content/types'
 import { Terms } from 'terms/types'
 import { Category } from 'categories/types'
-import { Fragment } from 'react'
+import { Fragment, useState } from 'react'
+import { isValidUrl } from 'lib/string-utils'
+import { createEmptyModule } from 'content/mappers'
 import { Option } from '../../options/types'
 import { MultiOptionSelect } from './components/MultiOptionSelect'
 import { ImageBrowseButton } from './components/ImageBrowseButton'
@@ -24,7 +26,6 @@ interface PropertyEditorProps {
     terms: Terms
     categories: Category[]
     onUpdate: (module: ContentModule) => void
-    onApply: () => void
     onClose: () => void
 }
 
@@ -35,6 +36,7 @@ const getLabel = (key: keyof ContentModule): string =>
         image: 'Bild',
         categories: 'Kategorier',
         tags: 'Taggar',
+        imageRef: 'Extern bild',
     }[key] ?? key)
 
 const categoryToOptions = (
@@ -51,13 +53,34 @@ const categoryToOptions = (
 }
 
 export const PropertyEditor = (props: PropertyEditorProps) => {
-    const { module, terms, categories, onUpdate, onApply, onClose } = props
+    const { module, terms, categories, onUpdate, onClose } = props
 
+    // Save state
+    const [canSave, setCanSave] = useState(true)
+
+    // Validate fields
+    const isValid = (key: string, value: string) => {
+        switch (key) {
+            case 'imageRef':
+                return isValidUrl(value) || value === ''
+            default:
+                return true
+        }
+    }
+
+    // Starting values
+    const [content, setContent] = useState<ContentModule>({
+        ...createEmptyModule(),
+        ...module,
+    })
+
+    // Update values
     const patch = (key: string, value: string) => {
-        onUpdate({
-            ...module,
+        setContent({
+            ...content,
             [key]: value,
         })
+        setCanSave(isValid(key, value))
     }
 
     return (
@@ -65,7 +88,7 @@ export const PropertyEditor = (props: PropertyEditorProps) => {
             <DialogTitle>Redigera modul</DialogTitle>
             <DialogContent dividers>
                 <Stack spacing={2}>
-                    {Object.keys(module).map((v, i) => {
+                    {Object.keys(content).map((v, i) => {
                         switch (v) {
                             case 'title':
                                 return (
@@ -74,7 +97,8 @@ export const PropertyEditor = (props: PropertyEditorProps) => {
                                         autoFocus
                                         key={i}
                                         label={getLabel(v)}
-                                        value={module[v]}
+                                        value={content[v]}
+                                        error={!isValid(v, content[v])}
                                         onChange={(c) =>
                                             patch(v, c.target.value)
                                         }
@@ -87,7 +111,8 @@ export const PropertyEditor = (props: PropertyEditorProps) => {
                                         multiline
                                         key={i}
                                         label={getLabel(v)}
-                                        value={module[v]}
+                                        value={content[v]}
+                                        error={!isValid(v, content[v])}
                                         onChange={(c) =>
                                             patch(v, c.target.value)
                                         }
@@ -96,9 +121,9 @@ export const PropertyEditor = (props: PropertyEditorProps) => {
                             case 'image':
                                 return (
                                     <Fragment key={i}>
-                                        {module[v] !== '' && (
+                                        {content[v] !== '' && (
                                             <ImageThumbnail
-                                                url={module[v]}
+                                                url={content[v]}
                                                 onDelete={() => patch(v, '')}
                                             />
                                         )}
@@ -108,6 +133,19 @@ export const PropertyEditor = (props: PropertyEditorProps) => {
                                         />
                                     </Fragment>
                                 )
+                            case 'imageRef':
+                                return (
+                                    <TextField
+                                        fullWidth
+                                        key={i}
+                                        label={getLabel(v)}
+                                        value={content[v]}
+                                        error={!isValid(v, content[v])}
+                                        onChange={(c) =>
+                                            patch(v, c.target.value)
+                                        }
+                                    />
+                                )
                             case 'categories':
                                 return (
                                     <MultiOptionSelect
@@ -115,7 +153,7 @@ export const PropertyEditor = (props: PropertyEditorProps) => {
                                         key={i}
                                         label={getLabel(v)}
                                         onUpdate={(c) => patch(v, c)}
-                                        selected={module[v].split(',')}
+                                        selected={content[v].split(',')}
                                         options={categories
                                             .map((c) => categoryToOptions(c))
                                             .flat()}
@@ -128,7 +166,7 @@ export const PropertyEditor = (props: PropertyEditorProps) => {
                                         key={i}
                                         label={getLabel(v)}
                                         onUpdate={(c) => patch(v, c)}
-                                        selected={module[v].split(',')}
+                                        selected={content[v].split(',')}
                                         options={terms.tags.map((t) => ({
                                             key: t,
                                             value: t,
@@ -142,7 +180,7 @@ export const PropertyEditor = (props: PropertyEditorProps) => {
                                         key={i}
                                         label={v}
                                         value={
-                                            (module as Record<string, string>)[
+                                            (content as Record<string, string>)[
                                                 v
                                             ]
                                         }
@@ -156,7 +194,9 @@ export const PropertyEditor = (props: PropertyEditorProps) => {
                 </Stack>
             </DialogContent>
             <DialogActions>
-                <Button onClick={onApply}>Spara</Button>
+                <Button disabled={!canSave} onClick={() => onUpdate(content)}>
+                    Spara
+                </Button>
                 <Button onClick={onClose}>Stäng</Button>
             </DialogActions>
         </Dialog>

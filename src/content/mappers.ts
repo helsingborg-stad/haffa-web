@@ -4,6 +4,7 @@ export const createEmptyModule = (): ContentModule => ({
     title: '',
     body: '',
     image: '',
+    imageRef: '',
     categories: '',
     tags: '',
 })

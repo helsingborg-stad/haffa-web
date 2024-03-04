@@ -17,4 +17,5 @@ export type ContentModule = {
     image: string
     categories: string
     tags: string
+    imageRef: string
 }
