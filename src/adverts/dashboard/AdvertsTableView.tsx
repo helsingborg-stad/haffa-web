@@ -137,6 +137,7 @@ export const AdvertsTableView: FC<{
     const context = useMemo<AdvertsTableContextType>(
         () => ({
             adverts: data.adverts,
+            paging: data.paging,
             categories: data.categories,
             categoryTree: createTreeAdapter(
                 data.categories,

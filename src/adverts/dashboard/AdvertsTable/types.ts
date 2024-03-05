@@ -1,10 +1,16 @@
-import { Advert, AdvertFilterInput, AdvertInput } from 'adverts'
+import {
+    Advert,
+    AdvertFilterInput,
+    AdvertInput,
+    AdvertListPaging,
+} from 'adverts'
 import { Category } from 'categories/types'
 import { Func1, TreeAdapter } from 'lib/types'
 import { ReactNode } from 'react'
 
 export interface AdvertsTableContextType {
     adverts: Advert[]
+    paging: AdvertListPaging
     categories: Category[]
     categoryTree: TreeAdapter<Category>
     filter: AdvertFilterInput

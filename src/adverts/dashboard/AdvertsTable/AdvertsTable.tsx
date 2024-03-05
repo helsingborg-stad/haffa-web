@@ -25,7 +25,7 @@ const PAGE_SIZES = [10, 25, 50, 100]
 export const AdvertsTable: FC<{
     columns: Column<Advert>[]
 }> = ({ columns }) => {
-    const { selected, setSelected, filter, setFilter, adverts } =
+    const { selected, setSelected, filter, setFilter, adverts, paging } =
         useContext(AdvertsTableContext)
     const cols = useMemo<ColumnComponentFactory<Advert>[]>(
         () => [
@@ -101,9 +101,9 @@ export const AdvertsTable: FC<{
             <TablePagination
                 rowsPerPageOptions={PAGE_SIZES}
                 component="div"
-                count={adverts.length}
-                rowsPerPage={filter.paging?.pageSize || PAGE_SIZE}
-                page={filter.paging?.pageIndex || 0}
+                count={paging.totalCount}
+                rowsPerPage={paging.pageSize}
+                page={paging.pageIndex || 0}
                 onPageChange={(_, p) =>
                     setFilter({
                         ...filter,

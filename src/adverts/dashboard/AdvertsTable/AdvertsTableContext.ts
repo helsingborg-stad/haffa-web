@@ -8,6 +8,12 @@ const missing = (key: string) => (): never => {
 
 export const AdvertsTableContext = createContext<AdvertsTableContextType>({
     adverts: [],
+    paging: {
+        totalCount: 0,
+        pageIndex: 0,
+        pageSize: 0,
+        pageCount: 0,
+    },
     categories: [],
     categoryTree: createNullTreeAdapter(),
     filter: {},
