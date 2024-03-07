@@ -21,5 +21,4 @@ const renderIndexHtml = cached(async () => {
 export const serveIndexHtml: Koa.Middleware = async (ctx) => {
     ctx.type = 'text/html'
     ctx.body = await renderIndexHtml()
-    console.log(ctx.body)
 }
