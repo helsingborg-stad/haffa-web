@@ -26,6 +26,7 @@
         "koa-send": "^5.0.1",
         "koa-static": "^5.0.0",
         "nanoid": "^4.0.2",
+        "path-to-regexp": "^6.2.1",
         "react": "^18.2.0",
         "react-color": "^2.19.3",
         "react-dom": "^18.2.0",
@@ -41,7 +42,8 @@
     },
     "scripts": {
         "start": "react-scripts start",
-        "build": "react-scripts build",
+        "backend": "tsc -p ./webserver/tsconfig.json && node ./webserver/build/index.js",
+        "build": "react-scripts build && tsc -p ./webserver/tsconfig.json",
         "test": "react-scripts test",
         "eject": "react-scripts eject"
     },
@@ -60,6 +62,9 @@
     "devDependencies": {
         "@types/file-saver": "^2.0.6",
         "@types/jest": "^27.5.2",
+        "@types/koa-compress": "^4.0.6",
+        "@types/koa-proxies": "^0.11.0",
+        "@types/koa-static": "^4.0.4",
         "@types/node": "^16.18.36",
         "@types/react": "^18.2.13",
         "@types/react-color": "^3.0.7",

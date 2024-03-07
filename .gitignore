@@ -12,6 +12,7 @@
 
 # production
 /build
+/webserver/build
 
 # misc
 .DS_Store
