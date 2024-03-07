@@ -1,7 +1,7 @@
-import { cached, cast } from '../../utils'
-import { getConfig } from '../../config'
-import { HtmlOptions } from './types'
-import { CACHE_TTL_MS } from './constants'
+import { cached, cast } from '../../../utils'
+import { getConfig } from '../../../config'
+import { HtmlOptions } from '../types'
+import { CACHE_TTL_MS } from '../constants'
 
 export const getHtmlOptions = cached(
     async (): Promise<HtmlOptions> =>

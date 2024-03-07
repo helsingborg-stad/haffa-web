@@ -1,6 +1,6 @@
 import Koa from 'koa'
 import { splitBase64DataUri } from './split-base64-data-uri'
-import { HtmlOptions } from './types'
+import { HtmlOptions } from '../types'
 import { getHtmlOptions } from './get-html-options'
 
 export const tryServeImageFromHtmlOptions = (

@@ -1,5 +1,6 @@
 import compress from 'koa-compress'
 import { ApplicationModule } from '../types'
+
 export const compressModule: ApplicationModule = ({ app }) =>
     app.use(
         compress({

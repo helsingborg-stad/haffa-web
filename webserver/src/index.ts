@@ -1,21 +1,21 @@
 require('dotenv').config()
 
 import { getConfig } from './config'
-import { compressModule } from './modules/compress-module'
-import { backendProxyModule } from './modules/backend-proxy-module'
-import {
-    indexImagesModule,
-    indexModule,
-    reactCatchAllModule,
-} from './modules/index.html/index-module'
-import { staticFilesModule } from './modules/static-files-module'
 import { createApplication } from './micro-web-framework/application'
+import {
+    backendProxyModule,
+    compressModule,
+    reactCatchAllModule,
+    serveApplicationImagesModule,
+    serveIndexHtmlModule,
+    staticFilesModule,
+} from './modules'
 
 createApplication()
     .use(compressModule)
     .use(backendProxyModule)
-    .use(indexImagesModule)
-    .use(indexModule)
+    .use(serveApplicationImagesModule)
+    .use(serveIndexHtmlModule)
     .use(staticFilesModule)
     .use(reactCatchAllModule)
     .listen(getConfig().port)

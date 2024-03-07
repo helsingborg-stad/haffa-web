@@ -1,9 +1,9 @@
 import Koa from 'koa'
-import { cached, once } from '../../utils'
+import { cached, once } from '../../../utils'
 import { readFile } from 'fs/promises'
 import { join } from 'path'
 import handlebars from 'handlebars'
-import { CACHE_TTL_MS } from './constants'
+import { CACHE_TTL_MS } from '../constants'
 import { getHtmlOptions } from './get-html-options'
 
 const getTemplate = once(() =>
