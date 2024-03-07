@@ -3,6 +3,9 @@ import { getConfig } from '../../../config'
 import { HtmlOptions } from '../types'
 import { CACHE_TTL_MS } from '../constants'
 
+const isNonEmptyString = (v: any): boolean =>
+    typeof v === 'string' && v.length > 0
+
 export const getHtmlOptions = cached(
     async (): Promise<HtmlOptions> =>
         fetch(
@@ -17,9 +20,10 @@ export const getHtmlOptions = cached(
             .then((response) => response.json())
             .then((options) =>
                 Object.fromEntries(
-                    cast<{ key: string; value: string }[]>(options).map(
-                        ({ key, value }) => [key, value]
-                    )
+                    cast<{ key: string; value: string }[]>(options)
+                        .filter(({ key }) => isNonEmptyString(key))
+                        .filter(({ value }) => isNonEmptyString(value))
+                        .map(({ key, value }) => [key, value])
                 )
             )
             .catch(() => ({}))
