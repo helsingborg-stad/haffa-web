@@ -1,4 +1,13 @@
-import { Card, CardContent, TextField, Typography } from '@mui/material'
+import {
+    Card,
+    CardContent,
+    Checkbox,
+    FormControlLabel,
+    FormGroup,
+    FormHelperText,
+    TextField,
+    Typography,
+} from '@mui/material'
 import { FC, useCallback, useState } from 'react'
 import { AdminActionPanel } from 'components/AdminActionPanel'
 import { AdminEditorialPanel } from 'components/AdminEditorialPanel'
@@ -46,6 +55,29 @@ export const EditHtmlForm: FC<{
             />
             <Card>
                 <CardContent>
+                    <FormGroup>
+                        <FormControlLabel
+                            control={
+                                <Checkbox
+                                    checked={!!state.allowSocialMediaPreview}
+                                    onChange={(e) =>
+                                        patch({
+                                            allowSocialMediaPreview: e.target
+                                                .checked
+                                                ? 'allow'
+                                                : '',
+                                        })
+                                    }
+                                />
+                            }
+                            label="Tillåt förhandsgranskning av innehåll i sociala medier"
+                        />
+                        <FormHelperText>
+                            Förhandsgranskning avslöjar bild, titel och
+                            beskrivning av annonser även för användare som inte
+                            normalt sett har behörighet att hantera annonsen.
+                        </FormHelperText>
+                    </FormGroup>
                     <TextField
                         fullWidth
                         sx={{ mt: 2 }}

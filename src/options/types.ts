@@ -11,6 +11,7 @@ export interface OptionsRepository {
 }
 
 export interface HtmlOptions {
+    allowSocialMediaPreview: string
     title: string
     description: string
     url: string

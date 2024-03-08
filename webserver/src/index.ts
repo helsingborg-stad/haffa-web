@@ -10,11 +10,13 @@ import {
     serveIndexHtmlModule,
     staticFilesModule,
 } from './modules'
+import { socialPreviewModule } from './modules/index.html/social-preview-module'
 
 createApplication()
     .use(compressModule)
     .use(backendProxyModule)
     .use(serveApplicationImagesModule)
+    .use(socialPreviewModule)
     .use(serveIndexHtmlModule)
     .use(staticFilesModule)
     .use(reactCatchAllModule)

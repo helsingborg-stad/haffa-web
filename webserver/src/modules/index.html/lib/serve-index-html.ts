@@ -5,6 +5,7 @@ import { join } from 'path'
 import handlebars from 'handlebars'
 import { CACHE_TTL_MS } from '../constants'
 import { getHtmlOptions } from './get-html-options'
+import { HtmlOptions } from '../types'
 
 const getTemplate = once(() =>
     readFile(join(process.cwd(), '/build/index.html'), {
@@ -17,6 +18,12 @@ const renderIndexHtml = cached(async () => {
     const options = await getHtmlOptions()
     return template(options)
 }, CACHE_TTL_MS)
+
+export const renderIndexHtmlWithOptions = async (o: Partial<HtmlOptions>) => {
+    const template = await getTemplate()
+    const options = await getHtmlOptions()
+    return template({ ...options, ...o })
+}
 
 export const serveIndexHtml: Koa.Middleware = async (ctx) => {
     ctx.type = 'text/html'

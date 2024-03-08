@@ -30,6 +30,7 @@ export const getHtmlOptions = cached(
             .then((options) => ({
                 title: 'Haffa',
                 description: 'Haffa - appen för återbruk',
+                imageUrl: '/image-logo192.png',
                 url: 'https://haffa.helsingborg.se',
                 imageLogo192: '/image-logo192.png',
                 imageLogo512: '/image-logo512.png',
