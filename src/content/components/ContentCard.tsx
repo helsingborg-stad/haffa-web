@@ -65,7 +65,7 @@ export const ContentCard = (
                         }}
                     />
                 )}
-                <CardContent>
+                <CardContent sx={{ width: '100%' }}>
                     {isString(module.title) && (
                         <Typography
                             variant={module.size as Variant}
