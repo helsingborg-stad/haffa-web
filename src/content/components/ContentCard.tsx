@@ -103,8 +103,8 @@ export const ContentCard = (
                         />
                     )}
                 </CardContent>
-                {props.children && <CardActions>{props.children}</CardActions>}
             </Stack>
+            {props.children && <CardActions>{props.children}</CardActions>}
         </Card>
     )
 }

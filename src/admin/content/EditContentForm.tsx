@@ -200,9 +200,9 @@ export const EditContentForm = (props: {
                 <Grid
                     key={rowIndex}
                     container
-                    rowSpacing={2}
-                    columnSpacing={2}
-                    pb={2}
+                    rowSpacing={5}
+                    columnSpacing={5}
+                    pb={5}
                 >
                     {row.columns.map((column, colIndex) => (
                         <Grid

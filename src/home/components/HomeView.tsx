@@ -4,7 +4,7 @@ import { ContentCard } from 'content/components/ContentCard'
 import { Fragment } from 'react'
 
 export const HomeView = (props: { composition: ViewComposition }) => (
-    <Grid container rowSpacing={2} columnSpacing={2}>
+    <Grid container rowSpacing={5} columnSpacing={5}>
         {props.composition.rows.map((row, index) => (
             <Fragment key={index}>
                 {row.columns.map((column, index) => (
