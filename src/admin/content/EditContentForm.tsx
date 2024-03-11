@@ -26,9 +26,12 @@ type Cell = {
     col: number
 }
 export const createModule = (): ContentModule => ({
-    title: 'Titel',
-    body: 'Lorum Ipsum',
+    title: '<Titel>',
+    body: '<Lorum Ipsum Lorum Ipsum Lorum Ipsum Lorum Ipsum>',
+    border: 'true',
     image: '',
+    position: 'top',
+    width: '100%',
     categories: '',
     tags: '',
     imageRef: '',

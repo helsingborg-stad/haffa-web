@@ -4,6 +4,7 @@ import {
     DialogActions,
     DialogContent,
     DialogTitle,
+    MenuItem,
     Stack,
     TextField,
 } from '@mui/material'
@@ -33,7 +34,10 @@ const getLabel = (key: keyof ContentModule): string =>
     ({
         title: 'Titel',
         body: 'Brödtext',
+        border: 'Ram',
         image: 'Bild',
+        position: 'Bildposition',
+        width: 'Bildbredd',
         categories: 'Kategorier',
         tags: 'Taggar',
         imageRef: 'Extern bild',
@@ -118,6 +122,24 @@ export const PropertyEditor = (props: PropertyEditorProps) => {
                                         }
                                     />
                                 )
+                            case 'border':
+                                return (
+                                    <TextField
+                                        fullWidth
+                                        select
+                                        key={i}
+                                        label={getLabel(v)}
+                                        value={content[v]}
+                                        error={!isValid(v, content[v])}
+                                        onChange={(c) =>
+                                            patch(v, c.target.value)
+                                        }
+                                    >
+                                        <MenuItem value="true">Ja</MenuItem>
+                                        <MenuItem value="false">Nej</MenuItem>
+                                    </TextField>
+                                )
+
                             case 'image':
                                 return (
                                     <Fragment key={i}>
@@ -132,6 +154,53 @@ export const PropertyEditor = (props: PropertyEditorProps) => {
                                             onUpdate={(e) => patch(v, e)}
                                         />
                                     </Fragment>
+                                )
+                            case 'position':
+                                return (
+                                    <TextField
+                                        fullWidth
+                                        select
+                                        key={i}
+                                        label={getLabel(v)}
+                                        value={content[v]}
+                                        error={!isValid(v, content[v])}
+                                        onChange={(c) =>
+                                            patch(v, c.target.value)
+                                        }
+                                    >
+                                        <MenuItem value="top">Över</MenuItem>
+                                        <MenuItem value="bottom">
+                                            Under
+                                        </MenuItem>
+                                        <MenuItem value="left">
+                                            Vänster
+                                        </MenuItem>
+                                        <MenuItem value="right">Höger</MenuItem>
+                                    </TextField>
+                                )
+                            case 'width':
+                                return (
+                                    <TextField
+                                        fullWidth
+                                        select
+                                        key={i}
+                                        label={getLabel(v)}
+                                        value={content[v]}
+                                        error={!isValid(v, content[v])}
+                                        onChange={(c) =>
+                                            patch(v, c.target.value)
+                                        }
+                                    >
+                                        {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map(
+                                            (val) => (
+                                                <MenuItem
+                                                    value={`${val * 10}%`}
+                                                >
+                                                    {`${val * 10}%`}
+                                                </MenuItem>
+                                            )
+                                        )}
+                                    </TextField>
                                 )
                             case 'imageRef':
                                 return (

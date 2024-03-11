@@ -4,10 +4,13 @@ export const getCompositionQuery = /* GraphQL */ `
             rows {
                 columns {
                     module {
-                        body
-                        categories
                         title
+                        body
+                        border
+                        categories
                         image
+                        position
+                        width
                         imageRef
                         tags
                     }
@@ -23,12 +26,15 @@ export const updateCompositionMutation = /* GraphQL */ `
             rows {
                 columns {
                     module {
+                        title
                         body
+                        border
                         categories
                         image
+                        position
+                        width
                         imageRef
                         tags
-                        title
                     }
                 }
             }

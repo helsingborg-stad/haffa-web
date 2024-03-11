@@ -4,6 +4,7 @@ import {
     CardActions,
     CardContent,
     CardMedia,
+    Stack,
     Typography,
 } from '@mui/material'
 import { AdvertsListGeneric } from 'adverts/components/listings/AdvertsListGeneric'
@@ -17,13 +18,53 @@ export const ContentCard = (
 ) => {
     const { module } = props
 
+    const borderLess =
+        module.border === 'false'
+            ? {
+                  border: 0,
+              }
+            : {}
+    let direction = {}
+
+    switch (module.position) {
+        case 'bottom':
+            direction = 'column-reverse'
+            break
+        case 'left':
+            direction = { xs: 'column', sm: 'row' }
+            break
+        case 'right':
+            direction = {
+                xs: 'column-reverse',
+                sm: 'row-reverse',
+            }
+            break
+        default:
+            direction = 'column'
+            break
+    }
+
     return (
-        <Card sx={{ height: '100%', position: 'relative' }}>
-            <>
+        <Card
+            sx={{
+                height: '100%',
+                position: 'relative',
+                ...borderLess,
+            }}
+        >
+            <Stack direction={direction}>
                 {isString(module.image) && (
-                    <CardMedia component="img" image={module.image} />
+                    <CardMedia
+                        component="img"
+                        image={module.image}
+                        sx={{
+                            width: {
+                                sm: module.width,
+                            },
+                        }}
+                    />
                 )}
-                <CardContent>
+                <CardContent sx={{ alignSelf: 'center' }}>
                     {isString(module.title) && (
                         <Typography variant="subtitle2" gutterBottom>
                             {module.title}
@@ -59,7 +100,7 @@ export const ContentCard = (
                     )}
                 </CardContent>
                 {props.children && <CardActions>{props.children}</CardActions>}
-            </>
+            </Stack>
         </Card>
     )
 }

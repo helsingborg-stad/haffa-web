@@ -14,7 +14,10 @@ export interface ViewColumn {
 export type ContentModule = {
     title: string
     body: string
+    border: 'true' | 'false'
     image: string
+    position: 'top' | 'bottom' | 'left' | 'right'
+    width: string
     categories: string
     tags: string
     imageRef: string
