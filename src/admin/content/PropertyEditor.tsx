@@ -36,6 +36,7 @@ const getLabel = (key: keyof ContentModule): string =>
         size: 'Storlek',
         body: 'Brödtext',
         border: 'Ram',
+        background: 'Bakgrundsfärg',
         image: 'Bild',
         position: 'Bildposition',
         width: 'Bildbredd',
@@ -162,7 +163,19 @@ export const PropertyEditor = (props: PropertyEditorProps) => {
                                         <MenuItem value="false">Nej</MenuItem>
                                     </TextField>
                                 )
-
+                            case 'background':
+                                return (
+                                    <TextField
+                                        fullWidth
+                                        key={i}
+                                        label={getLabel(v)}
+                                        value={content[v]}
+                                        error={!isValid(v, content[v])}
+                                        onChange={(c) =>
+                                            patch(v, c.target.value)
+                                        }
+                                    />
+                                )
                             case 'image':
                                 return (
                                     <Fragment key={i}>

@@ -44,12 +44,17 @@ export const ContentCard = (
             direction = 'column'
             break
     }
-
+    const background = isString(module.background)
+        ? {
+              backgroundColor: module.background,
+          }
+        : {}
     return (
         <Card
             sx={{
                 height: '100%',
                 position: 'relative',
+                ...background,
                 ...borderLess,
             }}
         >
