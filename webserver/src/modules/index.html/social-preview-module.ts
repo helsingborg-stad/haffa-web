@@ -1,9 +1,9 @@
 import { getConfig } from '../../config'
 import { ApplicationModule } from '../../types'
 import { renderIndexHtmlWithOptions } from './lib/serve-index-html'
-import { HtmlOptions } from './types'
+import { HtmlOptions, HtmlPreviewOptions } from './types'
 
-const previewKeys = new Set<keyof HtmlOptions>([
+const previewKeys = new Set<keyof HtmlPreviewOptions>([
     'title',
     'description',
     'imageUrl',
@@ -33,17 +33,19 @@ export const socialPreviewModule: ApplicationModule = ({ get }) =>
                     ? (Object.fromEntries(
                           Object.entries(o).filter(
                               ([key, v]) =>
-                                  previewKeys.has(key as keyof HtmlOptions) &&
+                                  previewKeys.has(
+                                      key as keyof HtmlPreviewOptions
+                                  ) &&
                                   typeof v === 'string' &&
                                   v.trim().length > 0
                           )
-                      ) as unknown as HtmlOptions)
-                    : null
+                      ) as unknown as HtmlPreviewOptions)
+                    : undefined
             )
         if (preview) {
             ctx.type = 'text/html'
             ctx.body = await renderIndexHtmlWithOptions({
-                ...preview,
+                preview,
                 url: `/advert/${advertId}`,
             })
             return

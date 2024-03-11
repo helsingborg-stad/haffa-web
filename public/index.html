@@ -12,11 +12,12 @@
             content="black-translucent"
         />
         <meta name="description" content="{{description}}" />
-        <meta property="og:image" content="{{imageUrl}}" />
-        <meta property="og:description" content="{{description}}" />
-        <meta property="og:title" content="{{title}}" />
+        {{#if preview}}
+        <meta property="og:image" content="{{preview.imageUrl}}" />
+        <meta property="og:description" content="{{preview.description}}" />
+        <meta property="og:title" content="{{preview.title}}" />
         <meta property="og:url" content="{{url}}" />
-
+        {{/if}}
         <link rel="apple-touch-icon" href="/image-logo192.png" />
 
         <!--
