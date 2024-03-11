@@ -5,6 +5,7 @@ export const getCompositionQuery = /* GraphQL */ `
                 columns {
                     module {
                         title
+                        size
                         body
                         border
                         categories
@@ -27,6 +28,7 @@ export const updateCompositionMutation = /* GraphQL */ `
                 columns {
                     module {
                         title
+                        size
                         body
                         border
                         categories

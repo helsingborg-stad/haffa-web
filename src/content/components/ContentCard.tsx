@@ -11,6 +11,7 @@ import { AdvertsListGeneric } from 'adverts/components/listings/AdvertsListGener
 import { Markdown } from 'components/Markdown'
 import { PropsWithChildren } from 'react'
 import { isString } from 'lib/string-utils'
+import { Variant } from '@mui/material/styles/createTypography'
 import { ContentModule } from '../types'
 
 export const ContentCard = (
@@ -64,9 +65,12 @@ export const ContentCard = (
                         }}
                     />
                 )}
-                <CardContent sx={{ alignSelf: 'center' }}>
+                <CardContent>
                     {isString(module.title) && (
-                        <Typography variant="subtitle2" gutterBottom>
+                        <Typography
+                            variant={module.size as Variant}
+                            gutterBottom
+                        >
                             {module.title}
                         </Typography>
                     )}

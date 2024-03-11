@@ -19,6 +19,7 @@ import MoveDownIcon from '@mui/icons-material/MoveDown'
 import { AdminActionPanel } from 'components/AdminActionPanel'
 import { AdminEditorialPanel } from 'components/AdminEditorialPanel'
 import { Editorial } from 'editorials'
+import { createEmptyModule } from 'content/mappers'
 import { PropertyEditor } from './PropertyEditor'
 
 type Cell = {
@@ -26,15 +27,9 @@ type Cell = {
     col: number
 }
 export const createModule = (): ContentModule => ({
+    ...createEmptyModule(),
     title: '<Titel>',
     body: '<Lorum Ipsum Lorum Ipsum Lorum Ipsum Lorum Ipsum>',
-    border: 'true',
-    image: '',
-    position: 'top',
-    width: '100%',
-    categories: '',
-    tags: '',
-    imageRef: '',
 })
 
 const createRow = (): ViewRow => ({

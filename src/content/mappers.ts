@@ -2,6 +2,7 @@ import { ContentModule, ViewComposition } from './types'
 
 export const createEmptyModule = (): ContentModule => ({
     title: '',
+    size: 'h6',
     body: '',
     border: 'true',
     image: '',

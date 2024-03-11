@@ -33,6 +33,7 @@ interface PropertyEditorProps {
 const getLabel = (key: keyof ContentModule): string =>
     ({
         title: 'Titel',
+        size: 'Storlek',
         body: 'Brödtext',
         border: 'Ram',
         image: 'Bild',
@@ -108,6 +109,28 @@ export const PropertyEditor = (props: PropertyEditorProps) => {
                                         }
                                     />
                                 )
+                            case 'size':
+                                return (
+                                    <TextField
+                                        fullWidth
+                                        select
+                                        key={i}
+                                        label={getLabel(v)}
+                                        value={content[v]}
+                                        error={!isValid(v, content[v])}
+                                        onChange={(c) =>
+                                            patch(v, c.target.value)
+                                        }
+                                    >
+                                        <MenuItem value="h1">h1</MenuItem>
+                                        <MenuItem value="h2">h2</MenuItem>
+                                        <MenuItem value="h3">h3</MenuItem>
+                                        <MenuItem value="h4">h4</MenuItem>
+                                        <MenuItem value="h5">h5</MenuItem>
+                                        <MenuItem value="h6">h6</MenuItem>
+                                    </TextField>
+                                )
+
                             case 'body':
                                 return (
                                     <TextField
