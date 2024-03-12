@@ -35,6 +35,7 @@ const getLabel = (key: keyof ContentModule): string =>
         title: 'Titel',
         size: 'Storlek',
         body: 'Brödtext',
+        align: 'Textjustering',
         border: 'Ram',
         background: 'Bakgrundsfärg',
         image: 'Bild',
@@ -146,6 +147,29 @@ export const PropertyEditor = (props: PropertyEditorProps) => {
                                         }
                                     />
                                 )
+                            case 'align':
+                                return (
+                                    <TextField
+                                        fullWidth
+                                        select
+                                        key={i}
+                                        label={getLabel(v)}
+                                        value={content[v]}
+                                        error={!isValid(v, content[v])}
+                                        onChange={(c) =>
+                                            patch(v, c.target.value)
+                                        }
+                                    >
+                                        <MenuItem value="left">
+                                            Vänster
+                                        </MenuItem>
+                                        <MenuItem value="right">Höger</MenuItem>
+                                        <MenuItem value="center">
+                                            Centrerad
+                                        </MenuItem>
+                                    </TextField>
+                                )
+
                             case 'border':
                                 return (
                                     <TextField

@@ -59,10 +59,11 @@ export const ContentCard = (
                             width: {
                                 sm: module.width,
                             },
+                            alignSelf: 'center',
                         }}
                     />
                 )}
-                <CardContent sx={{ width: '100%' }}>
+                <CardContent sx={{ width: '100%', textAlign: module.align }}>
                     {isString(module.title) && (
                         <Typography
                             variant={module.size as Variant}

@@ -7,6 +7,7 @@ export const getCompositionQuery = /* GraphQL */ `
                         title
                         size
                         body
+                        align
                         border
                         background
                         categories
@@ -31,6 +32,7 @@ export const updateCompositionMutation = /* GraphQL */ `
                         title
                         size
                         body
+                        align
                         border
                         background
                         categories
