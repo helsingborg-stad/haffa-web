@@ -31,7 +31,7 @@ interface PropertyEditorProps {
     onClose: () => void
 }
 
-const getLabel = (key: keyof ContentModule): string =>
+const labelFrom = (key: keyof ContentModule): string =>
     ({
         title: 'Titel',
         size: 'Storlek på titel',
@@ -96,7 +96,7 @@ export const PropertyEditor = (props: PropertyEditorProps) => {
                                         fullWidth
                                         autoFocus
                                         key={i}
-                                        label={getLabel(v)}
+                                        label={labelFrom(v)}
                                         value={content[v]}
                                         error={!isValid(v, content[v])}
                                         onChange={(c) =>
@@ -110,7 +110,7 @@ export const PropertyEditor = (props: PropertyEditorProps) => {
                                         fullWidth
                                         select
                                         key={i}
-                                        label={getLabel(v)}
+                                        label={labelFrom(v)}
                                         value={content[v]}
                                         error={!isValid(v, content[v])}
                                         onChange={(c) =>
@@ -118,7 +118,10 @@ export const PropertyEditor = (props: PropertyEditorProps) => {
                                         }
                                     >
                                         {[1, 2, 3, 4, 5, 6].map((val) => (
-                                            <MenuItem value={`h${val}`}>
+                                            <MenuItem
+                                                key={val}
+                                                value={`h${val}`}
+                                            >
                                                 {`h${val}`}
                                             </MenuItem>
                                         ))}
@@ -131,7 +134,7 @@ export const PropertyEditor = (props: PropertyEditorProps) => {
                                         fullWidth
                                         multiline
                                         key={i}
-                                        label={getLabel(v)}
+                                        label={labelFrom(v)}
                                         value={content[v]}
                                         error={!isValid(v, content[v])}
                                         onChange={(c) =>
@@ -145,7 +148,7 @@ export const PropertyEditor = (props: PropertyEditorProps) => {
                                         fullWidth
                                         select
                                         key={i}
-                                        label={getLabel(v)}
+                                        label={labelFrom(v)}
                                         value={content[v]}
                                         error={!isValid(v, content[v])}
                                         onChange={(c) =>
@@ -168,7 +171,7 @@ export const PropertyEditor = (props: PropertyEditorProps) => {
                                         fullWidth
                                         select
                                         key={i}
-                                        label={getLabel(v)}
+                                        label={labelFrom(v)}
                                         value={content[v]}
                                         error={!isValid(v, content[v])}
                                         onChange={(c) =>
@@ -184,7 +187,7 @@ export const PropertyEditor = (props: PropertyEditorProps) => {
                                     <TextField
                                         fullWidth
                                         key={i}
-                                        label={getLabel(v)}
+                                        label={labelFrom(v)}
                                         value={content[v]}
                                         error={!isValid(v, content[v])}
                                         onChange={(c) =>
@@ -224,7 +227,7 @@ export const PropertyEditor = (props: PropertyEditorProps) => {
                                         fullWidth
                                         select
                                         key={i}
-                                        label={getLabel(v)}
+                                        label={labelFrom(v)}
                                         value={content[v]}
                                         error={!isValid(v, content[v])}
                                         onChange={(c) =>
@@ -247,7 +250,7 @@ export const PropertyEditor = (props: PropertyEditorProps) => {
                                         fullWidth
                                         select
                                         key={i}
-                                        label={getLabel(v)}
+                                        label={labelFrom(v)}
                                         value={content[v]}
                                         error={!isValid(v, content[v])}
                                         onChange={(c) =>
@@ -257,6 +260,7 @@ export const PropertyEditor = (props: PropertyEditorProps) => {
                                         {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map(
                                             (val) => (
                                                 <MenuItem
+                                                    key={val}
                                                     value={`${val * 10}%`}
                                                 >
                                                     {`${val * 10}%`}
@@ -270,7 +274,7 @@ export const PropertyEditor = (props: PropertyEditorProps) => {
                                     <MultiOptionSelect
                                         fullWidth
                                         key={i}
-                                        label={getLabel(v)}
+                                        label={labelFrom(v)}
                                         onUpdate={(c) => patch(v, c)}
                                         selected={content[v].split(',')}
                                         options={categories
@@ -283,7 +287,7 @@ export const PropertyEditor = (props: PropertyEditorProps) => {
                                     <MultiOptionSelect
                                         fullWidth
                                         key={i}
-                                        label={getLabel(v)}
+                                        label={labelFrom(v)}
                                         onUpdate={(c) => patch(v, c)}
                                         selected={content[v].split(',')}
                                         options={terms.tags.map((t) => ({
