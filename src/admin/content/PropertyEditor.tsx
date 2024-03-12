@@ -44,7 +44,6 @@ const getLabel = (key: keyof ContentModule): string =>
         width: 'Bildbredd',
         categories: 'Kategorier',
         tags: 'Taggar',
-        imageRef: 'Extern bild',
     }[key] ?? key)
 
 const categoryToOptions = (
@@ -67,14 +66,7 @@ export const PropertyEditor = (props: PropertyEditorProps) => {
     const [canSave, setCanSave] = useState(true)
 
     // Validate fields
-    const isValid = (key: string, value: string) => {
-        switch (key) {
-            case 'imageRef':
-                return isValidUrl(value) || value === ''
-            default:
-                return true
-        }
-    }
+    const isValid = (_key: string, _value: string) => true
 
     // Starting values
     const [content, setContent] = useState<ContentModule>({
@@ -272,19 +264,6 @@ export const PropertyEditor = (props: PropertyEditorProps) => {
                                             )
                                         )}
                                     </TextField>
-                                )
-                            case 'imageRef':
-                                return (
-                                    <TextField
-                                        fullWidth
-                                        key={i}
-                                        label={getLabel(v)}
-                                        value={content[v]}
-                                        error={!isValid(v, content[v])}
-                                        onChange={(c) =>
-                                            patch(v, c.target.value)
-                                        }
-                                    />
                                 )
                             case 'categories':
                                 return (
