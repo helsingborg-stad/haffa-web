@@ -19,6 +19,7 @@ import { Option } from '../../options/types'
 import { MultiOptionSelect } from './components/MultiOptionSelect'
 import { ImageBrowseButton } from './components/ImageBrowseButton'
 import { ImageThumbnail } from './components/ImageThumbnail'
+import { CollectStringButton } from './components/CollectStringButton'
 
 const MAX_FILE_SIZE = 2 * 1024 * 1024
 
@@ -33,7 +34,7 @@ interface PropertyEditorProps {
 const getLabel = (key: keyof ContentModule): string =>
     ({
         title: 'Titel',
-        size: 'Storlek',
+        size: 'Storlek på titel',
         body: 'Brödtext',
         align: 'Textjustering',
         border: 'Ram',
@@ -124,12 +125,11 @@ export const PropertyEditor = (props: PropertyEditorProps) => {
                                             patch(v, c.target.value)
                                         }
                                     >
-                                        <MenuItem value="h1">h1</MenuItem>
-                                        <MenuItem value="h2">h2</MenuItem>
-                                        <MenuItem value="h3">h3</MenuItem>
-                                        <MenuItem value="h4">h4</MenuItem>
-                                        <MenuItem value="h5">h5</MenuItem>
-                                        <MenuItem value="h6">h6</MenuItem>
+                                        {[1, 2, 3, 4, 5, 6].map((val) => (
+                                            <MenuItem value={`h${val}`}>
+                                                {`h${val}`}
+                                            </MenuItem>
+                                        ))}
                                     </TextField>
                                 )
 
@@ -213,6 +213,17 @@ export const PropertyEditor = (props: PropertyEditorProps) => {
                                             maxSize={MAX_FILE_SIZE}
                                             onUpdate={(e) => patch(v, e)}
                                         />
+                                        <CollectStringButton
+                                            title="Extern bild-URL"
+                                            label="URL"
+                                            initial={content[v]}
+                                            validate={(e) =>
+                                                isValidUrl(e) || e === ''
+                                            }
+                                            onUpdate={(e) => patch(v, e)}
+                                        >
+                                            Extern bildlänk
+                                        </CollectStringButton>
                                     </Fragment>
                                 )
                             case 'position':

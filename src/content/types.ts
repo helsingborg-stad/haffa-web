@@ -23,5 +23,4 @@ export type ContentModule = {
     width: string
     categories: string
     tags: string
-    imageRef: string
 }

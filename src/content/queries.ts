@@ -14,7 +14,6 @@ export const getCompositionQuery = /* GraphQL */ `
                         image
                         position
                         width
-                        imageRef
                         tags
                     }
                 }
@@ -39,7 +38,6 @@ export const updateCompositionMutation = /* GraphQL */ `
                         image
                         position
                         width
-                        imageRef
                         tags
                     }
                 }

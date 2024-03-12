@@ -75,9 +75,6 @@ export const ContentCard = (
                     {isString(module.body) && (
                         <Markdown markdown={module.body} />
                     )}
-                    {isString(module.imageRef) && (
-                        <Box component="img" src={module.imageRef} />
-                    )}
 
                     {(isString(module.categories) || isString(module.tags)) && (
                         <AdvertsListGeneric

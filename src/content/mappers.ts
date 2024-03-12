@@ -10,7 +10,6 @@ export const createEmptyModule = (): ContentModule => ({
     image: '',
     position: 'top',
     width: '100%',
-    imageRef: '',
     categories: '',
     tags: '',
 })
