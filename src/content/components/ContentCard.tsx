@@ -14,6 +14,17 @@ import { isString } from 'lib/string-utils'
 import { Variant } from '@mui/material/styles/createTypography'
 import { ContentModule } from '../types'
 
+const getStackDirection = (position: ContentModule['position']): any =>
+    ({
+        bottom: 'column-reverse',
+        left: { xs: 'column', sm: 'row' },
+        right: {
+            xs: 'column',
+            sm: 'row-reverse',
+        },
+        top: 'column',
+    }[position] ?? 'column')
+
 export const ContentCard = (
     props: PropsWithChildren & { module: ContentModule }
 ) => {
@@ -25,25 +36,6 @@ export const ContentCard = (
                   border: 0,
               }
             : {}
-    let direction = {}
-
-    switch (module.position) {
-        case 'bottom':
-            direction = 'column-reverse'
-            break
-        case 'left':
-            direction = { xs: 'column', sm: 'row' }
-            break
-        case 'right':
-            direction = {
-                xs: 'column-reverse',
-                sm: 'row-reverse',
-            }
-            break
-        default:
-            direction = 'column'
-            break
-    }
     const background = isString(module.background)
         ? {
               backgroundColor: module.background,
@@ -58,7 +50,7 @@ export const ContentCard = (
                 ...borderLess,
             }}
         >
-            <Stack direction={direction}>
+            <Stack direction={getStackDirection(module.position)}>
                 {isString(module.image) && (
                     <CardMedia
                         component="img"
