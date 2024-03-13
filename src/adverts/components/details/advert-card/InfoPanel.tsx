@@ -5,6 +5,7 @@ import { Markdown } from 'components/Markdown'
 import { TreeAdapter } from 'lib/types'
 import { PhraseContext } from 'phrases/PhraseContext'
 import { FC, useContext } from 'react'
+import { lightGreen } from '@mui/material/colors'
 
 export const InfoPanel: FC<{
     advert: Advert
@@ -42,7 +43,7 @@ export const InfoPanel: FC<{
                         mb: 2,
                         p: 1,
                         borderRadius: '20px',
-                        background: `linear-gradient(90deg, #E9F9EA 20%, ${palette.background.paper} 80%)`,
+                        background: `linear-gradient(90deg, ${lightGreen[100]} 20%, ${palette.background.paper} 80%)`,
                     }}
                 >
                     <Typography>
