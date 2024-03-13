@@ -12,10 +12,22 @@ export const AdvertsDashboardView: FC = () => {
             [
                 makeSimpleTab(
                     true,
-                    phrase('MYADVERTS_ACTIVE', 'Aktiva'),
+                    phrase('MYADVERTS_NOT_ARCHIVED', 'Alla'),
                     () => (
                         <AdvertsTableView
                             restrictions={{ createdByMe: true }}
+                        />
+                    )
+                ),
+                makeSimpleTab(
+                    true,
+                    phrase('MYADVERTS_ACTIVE', 'Aktiva'),
+                    () => (
+                        <AdvertsTableView
+                            restrictions={{
+                                createdByMe: true,
+                                canBeReserved: true,
+                            }}
                         />
                     )
                 ),
