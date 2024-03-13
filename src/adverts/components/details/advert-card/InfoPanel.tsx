@@ -1,4 +1,4 @@
-import { Alert, Box, Typography } from '@mui/material'
+import { Alert, Box, Typography, useTheme } from '@mui/material'
 import { Advert } from 'adverts'
 import { Category } from 'categories/types'
 import { Markdown } from 'components/Markdown'
@@ -23,6 +23,9 @@ export const InfoPanel: FC<{
 }) => {
     const { phrase } = useContext(PhraseContext)
     const category = categories.findById(advert.category)
+
+    const { palette } = useTheme()
+
     return (
         <>
             {error && <Alert severity="error">{error}</Alert>}
@@ -39,8 +42,7 @@ export const InfoPanel: FC<{
                         mb: 2,
                         p: 1,
                         borderRadius: '20px',
-                        background:
-                            'linear-gradient(90deg, rgba(210,231,195,1) 0%, rgba(239,242,234,1) 35%, rgba(255,255,255,1) 100%)',
+                        background: `linear-gradient(90deg, #E9F9EA 20%, ${palette.background.paper} 80%)`,
                     }}
                 >
                     <Typography>
