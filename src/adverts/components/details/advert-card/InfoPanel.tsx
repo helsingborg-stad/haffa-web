@@ -43,7 +43,7 @@ export const InfoPanel: FC<{
                         mb: 2,
                         p: 1,
                         borderRadius: '20px',
-                        background: `linear-gradient(90deg, ${lightGreen[100]} 20%, ${palette.background.paper} 80%)`,
+                        background: `linear-gradient(90deg, ${lightGreen[50]} 20%, ${palette.background.paper} 80%)`,
                     }}
                 >
                     <Typography>
