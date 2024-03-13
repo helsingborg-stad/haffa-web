@@ -142,6 +142,7 @@ export const defaultPhrases: Omit<
     ADVERT_UPLOAD_IMAGE: 'Välj en fin bild',
     ADVERT_BUTTON_SYNCH_FROM_PROFILE: 'Hämta från min profil',
     ADVERT_BUTTON_SYNCH_TO_PROFILE: 'Uppdatera min profil',
+    MYADVERTS_NOT_ARCHIVED: 'Alla',
     MYADVERTS_ACTIVE: 'Aktiva',
     MYADVERTS_RESERVED: 'Reserverade',
     MYADVERTS_COLLECTED: 'Uthämtade',
