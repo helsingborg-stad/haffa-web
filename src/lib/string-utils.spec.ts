@@ -37,7 +37,7 @@ describe('isValidString', () => {
         list.forEach((u) => expect(isValidString(u)).toBe(true))
     })
     it('should deny invalid strings', () => {
-        const list = [undefined, null, '']
+        const list = [undefined, null, '', ' ']
         list.forEach((u) => expect(isValidString(u)).toBe(false))
     })
 })

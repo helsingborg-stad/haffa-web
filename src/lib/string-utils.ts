@@ -7,7 +7,7 @@ export const isValidUrl = (urlString: string) => {
 }
 
 export const isValidString = (value: any): boolean =>
-    typeof value === 'string' && value.length > 0
+    typeof value === 'string' && value.trim().length > 0
 
 export const isValidStringOr = (value: any, fallback: string): string =>
     isValidString(value) ? value : fallback
