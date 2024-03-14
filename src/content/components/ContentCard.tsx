@@ -9,7 +9,7 @@ import {
 import { AdvertsListGeneric } from 'adverts/components/listings/AdvertsListGeneric'
 import { Markdown } from 'components/Markdown'
 import { PropsWithChildren } from 'react'
-import { isString } from 'lib/string-utils'
+import { isValidString } from 'lib/string-utils'
 import { Variant } from '@mui/material/styles/createTypography'
 import { ContentModule } from '../types'
 
@@ -35,7 +35,7 @@ export const ContentCard = (
                   border: 0,
               }
             : {}
-    const background = isString(module.background)
+    const background = isValidString(module.background)
         ? {
               backgroundColor: module.background,
           }
@@ -50,7 +50,7 @@ export const ContentCard = (
             }}
         >
             <Stack direction={getStackDirection(module.position)}>
-                {isString(module.image) && (
+                {isValidString(module.image) && (
                     <CardMedia
                         component="img"
                         image={module.image}
@@ -63,7 +63,7 @@ export const ContentCard = (
                     />
                 )}
                 <CardContent sx={{ width: '100%', textAlign: module.align }}>
-                    {isString(module.title) && (
+                    {isValidString(module.title) && (
                         <Typography
                             variant={module.size as Variant}
                             gutterBottom
@@ -71,23 +71,24 @@ export const ContentCard = (
                             {module.title}
                         </Typography>
                     )}
-                    {isString(module.body) && (
+                    {isValidString(module.body) && (
                         <Markdown markdown={module.body} />
                     )}
 
-                    {(isString(module.categories) || isString(module.tags)) && (
+                    {(isValidString(module.categories) ||
+                        isValidString(module.tags)) && (
                         <AdvertsListGeneric
                             defaultSearchParams={{
                                 restrictions: {
                                     canBeReserved: true,
                                 },
                                 fields: {
-                                    category: isString(module.categories)
+                                    category: isValidString(module.categories)
                                         ? {
                                               in: module.categories.split(','),
                                           }
                                         : undefined,
-                                    tags: isString(module.tags)
+                                    tags: isValidString(module.tags)
                                         ? {
                                               in: module.tags.split(','),
                                           }

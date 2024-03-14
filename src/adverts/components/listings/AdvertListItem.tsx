@@ -15,7 +15,7 @@ import { TreeAdapter } from 'lib/types'
 import { PhraseContext } from 'phrases'
 import RecyclingIcon from '@mui/icons-material/Recycling'
 import { BrandingContext } from 'branding'
-import { isString } from 'lib/string-utils'
+import { isValidString } from 'lib/string-utils'
 import { Advert } from '../../types'
 
 const join = (sep: string, ...parts: (string | number | undefined)[]) =>
@@ -82,7 +82,7 @@ export const AdvertListItem: FC<{
                             {join(
                                 ' - ',
                                 join(' ', reservableQuantity, unit),
-                                isString(advert.size)
+                                isValidString(advert.size)
                                     ? join(' ', 'stl', advert.size)
                                     : ''
                             )}

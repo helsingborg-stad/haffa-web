@@ -10,7 +10,7 @@ import {
 } from '@mui/material'
 
 import { AdvertLocation } from 'adverts'
-import { isString } from 'lib/string-utils'
+import { isValidString } from 'lib/string-utils'
 
 interface LocationEditorProps {
     module: AdvertLocation
@@ -30,10 +30,10 @@ export const LocationEditor = (props: LocationEditorProps) => {
     }
 
     const isValid = () =>
-        isString(module.adress) &&
-        isString(module.city) &&
-        isString(module.name) &&
-        isString(module.zipCode)
+        isValidString(module.adress) &&
+        isValidString(module.city) &&
+        isValidString(module.name) &&
+        isValidString(module.zipCode)
 
     const validate = () => isValid() && onApply()
 
@@ -47,7 +47,7 @@ export const LocationEditor = (props: LocationEditorProps) => {
                             key={0}
                             fullWidth
                             label="Namn"
-                            error={!isString(module.name)}
+                            error={!isValidString(module.name)}
                             value={module.name}
                             onChange={(e) => patch('name', e.target.value)}
                             autoComplete="name"
@@ -58,7 +58,7 @@ export const LocationEditor = (props: LocationEditorProps) => {
                             key={1}
                             fullWidth
                             label="Address"
-                            error={!isString(module.adress)}
+                            error={!isValidString(module.adress)}
                             value={module.adress}
                             onChange={(e) => patch('adress', e.target.value)}
                             autoComplete="street-address"
@@ -68,7 +68,7 @@ export const LocationEditor = (props: LocationEditorProps) => {
                             key={2}
                             fullWidth
                             label="Postnummer"
-                            error={!isString(module.zipCode)}
+                            error={!isValidString(module.zipCode)}
                             value={module.zipCode}
                             onChange={(e) => patch('zipCode', e.target.value)}
                             autoComplete="postal-code"
@@ -78,7 +78,7 @@ export const LocationEditor = (props: LocationEditorProps) => {
                             key={3}
                             fullWidth
                             label="Stad"
-                            error={!isString(module.city)}
+                            error={!isValidString(module.city)}
                             value={module.city}
                             onChange={(e) => patch('city', e.target.value)}
                             autoComplete="address-level2"

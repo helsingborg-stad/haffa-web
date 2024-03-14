@@ -2,7 +2,7 @@ import { Grid, GridProps, Typography } from '@mui/material'
 import { getField } from 'advert-field-config/repository/mappers'
 import { AdvertFieldConfig, FieldConfig } from 'advert-field-config/types'
 import { Advert } from 'adverts'
-import { isString } from 'lib/string-utils'
+import { isValidString } from 'lib/string-utils'
 import { PhraseContext } from 'phrases'
 import { Fragment, useContext } from 'react'
 
@@ -38,7 +38,7 @@ export const DetailsPanel = (
         { field: getField(props.fields, 'condition'), value: condition },
         { field: getField(props.fields, 'usage'), value: usage },
         { field: getField(props.fields, 'reference'), value: reference },
-    ].filter((a) => isString(a.value) && a.field.visible)
+    ].filter((a) => isValidString(a.value) && a.field.visible)
 
     const format = (field: FieldData) =>
         `${field.value} ${field.field.adornment}`.trim()

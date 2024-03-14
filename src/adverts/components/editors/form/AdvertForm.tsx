@@ -24,7 +24,7 @@ import useAbortController from 'hooks/use-abort-controller'
 import { Editorial } from 'editorials'
 import { AdvertFieldConfig, FieldName } from 'advert-field-config/types'
 import { getField } from 'advert-field-config/repository/mappers'
-import { isString } from 'lib/string-utils'
+import { isValidString } from 'lib/string-utils'
 import { AdvertInput, AdvertLocation } from '../../../types'
 import {
     SelectOption,
@@ -242,7 +242,7 @@ export const AdvertForm: FC<{
     }
 
     const createAdornment = (value: string) =>
-        isString(value) ? (
+        isValidString(value) ? (
             <InputAdornment position="end">{value}</InputAdornment>
         ) : undefined
     interface ControlGroup {

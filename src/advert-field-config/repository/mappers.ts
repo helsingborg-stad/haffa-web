@@ -6,7 +6,7 @@ import {
     FieldName,
 } from 'advert-field-config/types'
 import { AdvertContact, AdvertInput, AdvertLocation } from 'adverts'
-import { isString } from 'lib/string-utils'
+import { isValidString } from 'lib/string-utils'
 
 export const getFieldConfig = (name: FieldName) => ({
     name,
@@ -63,7 +63,7 @@ export const setAdvertDefaults = (
     const base: Partial<AdvertInput> = { ...advert }
 
     fieldConfig.forEach((field) => {
-        if (isString(field.initial)) {
+        if (isValidString(field.initial)) {
             switch (field.name) {
                 case 'name':
                 case 'adress':

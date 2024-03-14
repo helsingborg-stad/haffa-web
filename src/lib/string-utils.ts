@@ -6,5 +6,5 @@ export const isValidUrl = (urlString: string) => {
     }
 }
 
-export const isString = (value: any) =>
-    typeof value === 'string' && value !== ''
+export const isValidString = (value: any) =>
+    typeof value === 'string' && value.length > 0
