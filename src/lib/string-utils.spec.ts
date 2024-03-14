@@ -1,4 +1,9 @@
-import { isValidStringOr, isValidString, isValidUrl } from './string-utils'
+import {
+    isValidStringOr,
+    isValidString,
+    isValidUrl,
+    isValidColor,
+} from './string-utils'
 
 describe('isValidUrl', () => {
     it('should accept common url-patterns', () => {
@@ -47,5 +52,32 @@ describe('isValidStringOr', () => {
         list.forEach((u) =>
             expect(isValidStringOr(u, 'DEFAULT')).toBe('DEFAULT')
         )
+    })
+})
+
+describe('isValidColor', () => {
+    it('should accept valid strings', () => {
+        const list = [
+            // Capital and small letters
+            '#aA18ef',
+            // Shorthand syntax
+            '#999',
+            '#abc',
+        ]
+        list.forEach((u) => expect(isValidColor(u)).toBe(true))
+    })
+    it('should deny invalid strings', () => {
+        const list = [
+            undefined,
+            null,
+            '',
+            // Letters not hex
+            '#aA99BG',
+            // Missing #
+            'aabbcc',
+            // Invalid shorthand syntax
+            '#4565',
+        ]
+        list.forEach((u) => expect(isValidColor(u)).toBe(false))
     })
 })

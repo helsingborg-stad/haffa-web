@@ -11,3 +11,9 @@ export const isValidString = (value: any): boolean =>
 
 export const isValidStringOr = (value: any, fallback: string): string =>
     isValidString(value) ? value : fallback
+
+export const isValidColor = (value: any): boolean =>
+    isValidString(value) && /^#([a-fA-F0-9]{6}|[a-fA-F0-9]{3})$/.test(value)
+
+export const isValidColorOr = (value: any, fallback: string): boolean =>
+    isValidColor(value) ? value : fallback

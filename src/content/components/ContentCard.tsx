@@ -9,7 +9,7 @@ import {
 import { AdvertsListGeneric } from 'adverts/components/listings/AdvertsListGeneric'
 import { Markdown } from 'components/Markdown'
 import { PropsWithChildren } from 'react'
-import { isValidString } from 'lib/string-utils'
+import { isValidColor, isValidString } from 'lib/string-utils'
 import { Variant } from '@mui/material/styles/createTypography'
 import { ContentModule } from '../types'
 
@@ -35,7 +35,7 @@ export const ContentCard = (
                   border: 0,
               }
             : {}
-    const background = isValidString(module.background)
+    const background = isValidColor(module.background)
         ? {
               backgroundColor: module.background,
           }
