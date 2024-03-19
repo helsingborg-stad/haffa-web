@@ -36,6 +36,14 @@ export const getHtmlOptions = cached(
                 imageLogo512: '/image-logo512.png',
                 imageFavicon: '/image-favicon.png',
                 ...options,
+            }))
+            .then((options) => ({
+                ...options,
+                preview: {
+                    title: options.title,
+                    description: options.description,
+                    imageUrl: '/image-logo192.png',
+                },
             })),
     CACHE_TTL_MS
 )
