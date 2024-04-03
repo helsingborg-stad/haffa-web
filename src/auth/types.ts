@@ -6,6 +6,7 @@ export interface HaffaUserRoles {
     canCollectAdverts?: boolean
     canManageOwnAdvertsHistory?: boolean
     canSubscribe?: boolean
+    canJoinWaitlist?: boolean
     canManageAllAdverts?: boolean
     canEditSystemCategories?: boolean
     canEditSystemLoginPolicies?: boolean

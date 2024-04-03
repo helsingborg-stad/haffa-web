@@ -122,6 +122,10 @@ export const createDefaultRoleInputBindings = (
                 phrase('ROLES_CAN_SUBSCRIBE', 'Bevaka annonser')
             )
             .define(
+                'canJoinWaitlist',
+                phrase('ROLES_CAN_JOIN_WAITLIST', 'Vänta på annons')
+            )
+            .define(
                 'canManageOwnAdvertsHistory',
                 phrase(
                     'ROLES_CAN_MANAGE_OWN_ADVERTS_HISTORY',

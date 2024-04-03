@@ -21,6 +21,8 @@ export const AdvertsContext = createContext<AdvertsRepository>({
     convertAdvertClaim: notProvided('convertAdvertClaim'),
     renewAdvertClaim: notProvided('renewAdvertClaim'),
     returnAdvert: notProvided('returnAdvert'),
+    joinAdvertWaitlist: notProvided('joinAdvertWaitlist'),
+    leaveAdvertWaitlist: notProvided('leaveAdvertWaitlist'),
 })
 
 export const AdvertsProvider: FC<

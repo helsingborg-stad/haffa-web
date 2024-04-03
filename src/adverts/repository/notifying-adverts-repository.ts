@@ -129,5 +129,23 @@ export const createNotifyingAdvertsRepository = (
                         'Artikeln har återlämnats'
                     )
                 ),
+        joinAdvertWaitlist: (...args) =>
+            inner
+                .joinAdvertWaitlist(...args)
+                .then(
+                    info(
+                        'NOTIFICATIONS_ADVERT_JOIN_WAITLIST',
+                        'Du bevakar nu annonsen'
+                    )
+                ),
+        leaveAdvertWaitlist: (...args) =>
+            inner
+                .leaveAdvertWaitlist(...args)
+                .then(
+                    info(
+                        'NOTIFICATIONS_ADVERT_LEAVE_WAITLIST',
+                        'Bevakningen är borttagen'
+                    )
+                ),
     }
 }

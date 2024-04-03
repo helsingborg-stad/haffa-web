@@ -147,6 +147,8 @@ export interface AdvertMeta {
     canReserve: boolean
     canCancelReservation: boolean
     canCollect: boolean
+    canJoinWaitList: boolean
+    canLeaveWaitList: boolean
     canManageClaims: boolean
     canReturn: boolean
     reservedyMe: number
@@ -257,4 +259,6 @@ export interface AdvertsRepository {
         claim: AdvertClaim
     ) => Promise<AdvertMutationResult>
     returnAdvert: (id: string) => Promise<AdvertMutationResult>
+    joinAdvertWaitlist: (id: string) => Promise<AdvertMutationResult>
+    leaveAdvertWaitlist: (id: string) => Promise<AdvertMutationResult>
 }

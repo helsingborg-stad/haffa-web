@@ -40,6 +40,7 @@ export const normalizeRoles = (
     canCollectAdverts: !!roles?.canCollectAdverts,
     canManageOwnAdvertsHistory: !!roles?.canManageOwnAdvertsHistory,
     canSubscribe: !!roles?.canSubscribe,
+    canJoinWaitlist: !!roles?.canJoinWaitlist,
     canManageAllAdverts: !!roles?.canManageAllAdverts,
     canEditSystemCategories: !!roles?.canEditSystemCategories,
     canEditSystemLoginPolicies: !!roles?.canEditSystemLoginPolicies,

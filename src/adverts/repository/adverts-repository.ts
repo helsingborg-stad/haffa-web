@@ -13,6 +13,8 @@ import {
     convertAdvertClaimMutation,
     createAdvertMutation,
     getAdvertQuery,
+    joinAdvertWaitlistMutation,
+    leaveAdvertWaitlistMutation,
     listAdvertsQuery,
     removeAdvertMutation,
     renewAdvertClaimMutation,
@@ -135,5 +137,17 @@ export const createAdvertsRepository = (
             .query(returnAdvertMutation)
             .variables({ id })
             .map<AdvertMutationResult>('returnAdvert')
+            .then(expectAdvert),
+    joinAdvertWaitlist: async (id) =>
+        gql(token, f)
+            .query(joinAdvertWaitlistMutation)
+            .variables({ id })
+            .map<AdvertMutationResult>('joinAdvertWaitlist')
+            .then(expectAdvert),
+    leaveAdvertWaitlist: async (id) =>
+        gql(token, f)
+            .query(leaveAdvertWaitlistMutation)
+            .variables({ id })
+            .map<AdvertMutationResult>('leaveAdvertWaitlist')
             .then(expectAdvert),
 })

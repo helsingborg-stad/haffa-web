@@ -18,6 +18,8 @@ const advertProps = /* GraphQL */ `
 		canReserve
 		canCancelReservation
 		canCollect
+		canJoinWaitList
+    	canLeaveWaitList
 		canManageClaims
 		canReturn
     reservedyMe
@@ -241,6 +243,26 @@ mutation Mutation(
 	$id: ID!,
 ) {
 	returnAdvert(id: $id) {
+		${mutationProps}
+	}
+}
+`
+
+export const joinAdvertWaitlistMutation = /* GraphQL */ `
+mutation Mutation(
+	$id: ID!,
+) {
+	joinAdvertWaitlist(id: $id) {
+		${mutationProps}
+	}
+}
+`
+
+export const leaveAdvertWaitlistMutation = /* GraphQL */ `
+mutation Mutation(
+	$id: ID!,
+) {
+	leaveAdvertWaitlist(id: $id) {
 		${mutationProps}
 	}
 }
