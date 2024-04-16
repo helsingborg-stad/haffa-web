@@ -14,6 +14,7 @@ import { Category } from 'categories/types'
 import { TreeAdapter } from 'lib/types'
 import { PhraseContext } from 'phrases'
 import RecyclingIcon from '@mui/icons-material/Recycling'
+import SwapHorizIcon from '@mui/icons-material/SwapHoriz'
 import { BrandingContext } from 'branding'
 import { isValidString } from 'lib/string-utils'
 import { Advert } from '../../types'
@@ -33,12 +34,34 @@ export const AdvertListItem: FC<{
     const {
         title,
         unit,
-        meta: { reservableQuantity },
+        meta: {
+            reservableQuantity,
+            canBook,
+            returnInfo,
+            isLendingAdvert,
+            isReservedBySome,
+            isCollectedBySome,
+        },
     } = advert
-    const categoryLabel = categories.findById(advert.category)?.label
 
+    let aggregatedStatusText = ''
+    if (isCollectedBySome) {
+        aggregatedStatusText = phrase('ADVERT_CLAIMS_HAS_COLLECTS', 'Utlånad')
+    } else if (isReservedBySome) {
+        aggregatedStatusText = phrase(
+            'ADVERT_CLAIMS_HAS_RESERVATIONS',
+            'Reserverad'
+        )
+    }
+    const categoryLabel = categories.findById(advert.category)?.label
     return (
-        <Card sx={{ ...sx, display: 'flex', justifyContent: 'stretch' }}>
+        <Card
+            sx={{
+                ...sx,
+                display: 'flex',
+                justifyContent: 'stretch',
+            }}
+        >
             <CardActionArea component={Link} to={`/advert/${advert.id}`}>
                 <Grid container direction="column" sx={{ height: '100%' }}>
                     <Grid
@@ -48,6 +71,22 @@ export const AdvertListItem: FC<{
                             aspectRatio: advertImageAspectRatio,
                         }}
                     >
+                        {isLendingAdvert && !canBook && (
+                            <Typography
+                                variant="subtitle2"
+                                color="white"
+                                component="div"
+                                sx={{
+                                    position: 'absolute',
+                                    width: '45%',
+                                    padding: '4px 0px 4px 12px',
+                                    backgroundColor: '#1D924E',
+                                    borderBottomRightRadius: '12px',
+                                }}
+                            >
+                                {aggregatedStatusText}
+                            </Typography>
+                        )}
                         <CardMedia
                             component="img"
                             src={imageUrl}
@@ -87,23 +126,43 @@ export const AdvertListItem: FC<{
                                     : ''
                             )}
                         </Typography>
-                        <Typography
-                            variant="caption"
-                            color="text.disabled"
-                            component="div"
-                        >
-                            {phrase(
-                                `ADVERT_TYPE_${advert.type.toUpperCase()}`,
-                                'Återbruk'
-                            )}
-                            <RecyclingIcon
-                                sx={{
-                                    pl: 0.5,
-                                    fontSize: 18,
-                                    verticalAlign: 'middle',
-                                }}
-                            />
-                        </Typography>
+                        {returnInfo.map((info) => (
+                            <Typography
+                                color="text.secondary"
+                                component="div"
+                                noWrap
+                                sx={{ fontWeight: 'bolder' }}
+                            >
+                                Återlämnas:{' '}
+                                {new Date(info.at).toLocaleDateString()}
+                                <SwapHorizIcon
+                                    sx={{
+                                        pl: 0.5,
+                                        fontSize: 22,
+                                        verticalAlign: 'middle',
+                                    }}
+                                />
+                            </Typography>
+                        ))}
+                        {returnInfo.length === 0 && (
+                            <Typography
+                                variant="caption"
+                                color="text.disabled"
+                                component="div"
+                            >
+                                {phrase(
+                                    `ADVERT_TYPE_${advert.type.toUpperCase()}`,
+                                    'Återbruk'
+                                )}
+                                <RecyclingIcon
+                                    sx={{
+                                        pl: 0.5,
+                                        fontSize: 18,
+                                        verticalAlign: 'middle',
+                                    }}
+                                />
+                            </Typography>
+                        )}
                     </Grid>
                 </Grid>
             </CardActionArea>

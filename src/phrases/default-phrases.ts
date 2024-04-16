@@ -168,6 +168,8 @@ export const defaultPhrases: Omit<
     ADVERT_CLAIM_IS_RESERVED: '{by} reserverade {quantity} {unit} {at}',
     ADVERT_CLAIMS_CANCEL_RESERVATION: 'Ångra reservation',
     ADVERT_CLAIMS_COLLECT_MANUALLY: 'Lämna ut manuellt',
+    ADVERT_CLAIMS_HAS_RESERVATIONS: 'Reserverad',
+    ADVERT_CLAIMS_HAS_COLLECTS: 'Utlånad',
     ADVERT_RETURN_EDITORIAL:
         'Artikeln är utlånad och kan efter mottagningskontroll återföras till lagret.',
     LOGINS_EFECTIVE_PERMISSIONS: 'Effektiva behörigheter',

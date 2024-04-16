@@ -135,6 +135,11 @@ export interface AdvertClaim {
     canConvert: boolean
     isOverdue: Boolean
 }
+export interface AdvertReturnInfo {
+    at: string
+    quantity: number
+}
+
 export interface AdvertMeta {
     reservableQuantity: number
     collectableQuantity: number
@@ -153,6 +158,10 @@ export interface AdvertMeta {
     canReturn: boolean
     reservedyMe: number
     collectedByMe: number
+    isLendingAdvert: boolean
+    isReservedBySome: boolean
+    isCollectedBySome: boolean
+    returnInfo: AdvertReturnInfo[]
     claims: AdvertClaim[]
 }
 
