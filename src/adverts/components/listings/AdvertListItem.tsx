@@ -45,9 +45,11 @@ export const AdvertListItem: FC<{
     } = advert
 
     let aggregatedStatusText = ''
+    let backgroundColor = 'success.main'
     if (isCollectedBySome) {
         aggregatedStatusText = phrase('ADVERT_CLAIMS_HAS_COLLECTS', 'Utlånad')
     } else if (isReservedBySome) {
+        backgroundColor = 'warning.main'
         aggregatedStatusText = phrase(
             'ADVERT_CLAIMS_HAS_RESERVATIONS',
             'Reserverad'
@@ -80,7 +82,7 @@ export const AdvertListItem: FC<{
                                     position: 'absolute',
                                     width: '45%',
                                     padding: '4px 0px 4px 12px',
-                                    backgroundColor: '#1D924E',
+                                    backgroundColor,
                                     borderBottomRightRadius: '12px',
                                 }}
                             >
@@ -126,24 +128,25 @@ export const AdvertListItem: FC<{
                                     : ''
                             )}
                         </Typography>
-                        {returnInfo.map((info) => (
-                            <Typography
-                                color="text.secondary"
-                                component="div"
-                                noWrap
-                                sx={{ fontWeight: 'bolder' }}
-                            >
-                                Återlämnas:{' '}
-                                {new Date(info.at).toLocaleDateString()}
-                                <SwapHorizIcon
-                                    sx={{
-                                        pl: 0.5,
-                                        fontSize: 22,
-                                        verticalAlign: 'middle',
-                                    }}
-                                />
-                            </Typography>
-                        ))}
+                        {!canBook &&
+                            returnInfo.map((info) => (
+                                <Typography
+                                    color="text.secondary"
+                                    component="div"
+                                    noWrap
+                                    sx={{ fontWeight: 'bolder' }}
+                                >
+                                    Återlämnas:{' '}
+                                    {new Date(info.at).toLocaleDateString()}
+                                    <SwapHorizIcon
+                                        sx={{
+                                            pl: 0.5,
+                                            fontSize: 22,
+                                            verticalAlign: 'middle',
+                                        }}
+                                    />
+                                </Typography>
+                            ))}
                         {returnInfo.length === 0 && (
                             <Typography
                                 variant="caption"
