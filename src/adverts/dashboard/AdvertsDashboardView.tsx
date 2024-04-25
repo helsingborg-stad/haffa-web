@@ -1,12 +1,12 @@
 import { SimpleTab, SimpleTabs, makeSimpleTab } from 'components/SimpleTabs'
 import { PhraseContext } from 'phrases'
-import { FC, useContext, useMemo, useState } from 'react'
+import { FC, useContext, useMemo } from 'react'
+import { useUrlParams } from 'url-params'
 import { AdvertsTableView } from './AdvertsTableView'
 
 export const AdvertsDashboardView: FC = () => {
     const { phrase } = useContext(PhraseContext)
 
-    const [tabIndex, setTabIndex] = useState(0)
     const tabs = useMemo<SimpleTab[]>(
         () =>
             [
@@ -15,6 +15,7 @@ export const AdvertsDashboardView: FC = () => {
                     phrase('MYADVERTS_NOT_ARCHIVED', 'Alla'),
                     () => (
                         <AdvertsTableView
+                            prefix="d"
                             restrictions={{ createdByMe: true }}
                         />
                     )
@@ -24,6 +25,7 @@ export const AdvertsDashboardView: FC = () => {
                     phrase('MYADVERTS_ACTIVE', 'Aktiva'),
                     () => (
                         <AdvertsTableView
+                            prefix="a"
                             restrictions={{
                                 createdByMe: true,
                                 canBeReserved: true,
@@ -36,6 +38,7 @@ export const AdvertsDashboardView: FC = () => {
                     phrase('MYADVERTS_RESERVED', 'Reserverade'),
                     () => (
                         <AdvertsTableView
+                            prefix="r"
                             restrictions={{
                                 createdByMe: true,
                                 hasReservations: true,
@@ -48,6 +51,7 @@ export const AdvertsDashboardView: FC = () => {
                     phrase('MYADVERTS_COLLECTED', 'Uthämtade'),
                     () => (
                         <AdvertsTableView
+                            prefix="c"
                             restrictions={{
                                 createdByMe: true,
                                 hasCollects: true,
@@ -60,6 +64,7 @@ export const AdvertsDashboardView: FC = () => {
                     phrase('MYADVERTS_ARCHIVED', 'Arkiverade'),
                     () => (
                         <AdvertsTableView
+                            prefix="a"
                             restrictions={{
                                 createdByMe: true,
                                 isArchived: true,
@@ -71,6 +76,14 @@ export const AdvertsDashboardView: FC = () => {
                 .filter((v) => v)
                 .map((v) => v!),
         [phrase]
+    )
+    const [tabIndex, setTabIndex] = useUrlParams<number>(
+        '',
+        ({ t }) => {
+            const n = parseInt(t, 10)
+            return n >= 0 && n < tabs.length ? n : 0
+        },
+        (t) => (t > 0 ? { t } : { t: '' })
     )
 
     return <SimpleTabs tabs={tabs} value={tabIndex} onChange={setTabIndex} />

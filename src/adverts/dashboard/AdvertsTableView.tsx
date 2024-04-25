@@ -24,15 +24,18 @@ import { PhraseContext } from 'phrases'
 import { Func1 } from 'lib/types'
 import { AdvertFieldsContext } from 'advert-field-config'
 import { toMap } from 'lib/to-map'
+import { UrlParamsContext } from 'url-params'
 import { AdvertsTable, AdvertsTableContext, PAGE_SIZE } from './AdvertsTable'
 import { createColumns } from './createColumns'
+import { createSortableFields } from './createSortableFields'
 import { AdvertsTableContextType } from './AdvertsTable/types'
 import { createBulkActions } from './createBulkActions'
 import { BulkActions } from './bulk-actions'
 
 export const AdvertsTableView: FC<{
+    prefix: string
     restrictions: AdvertRestrictionsFilterInput
-}> = ({ restrictions }) => {
+}> = ({ prefix, restrictions }) => {
     type Data = AdvertList & { filter: AdvertFilterInput } & {
         fields: AdvertsTableContextType['fields']
     } & {
@@ -46,6 +49,10 @@ export const AdvertsTableView: FC<{
     const { phrase } = useContext(PhraseContext)
 
     const { getFieldConfig } = useContext(AdvertFieldsContext)
+
+    const sortableFields = useMemo(() => createSortableFields(), [])
+    const { updateUrlFromAdvertFilterInput, patchAdvertFilterInputFromUrl } =
+        useContext(UrlParamsContext)
 
     // We kind of preftech visible fields config once and return this async result
     // in subsequent searches
@@ -63,8 +70,9 @@ export const AdvertsTableView: FC<{
 
     // Given a search filter, perform actual search
     const list = useCallback<Func1<AdvertFilterInput, Promise<Data>>>(
-        (filter) =>
-            Promise.all([
+        (filter) => {
+            updateUrlFromAdvertFilterInput(prefix, filter, { sortableFields })
+            return Promise.all([
                 listAdverts(filter, { signal }).then((list) => ({
                     ...list,
                     filter,
@@ -74,7 +82,8 @@ export const AdvertsTableView: FC<{
                 loading: false,
                 ...data,
                 fields,
-            })),
+            }))
+        },
         [listAdverts, fieldsPromise]
     )
 
@@ -88,7 +97,11 @@ export const AdvertsTableView: FC<{
             fields: {},
             adverts: [],
             categories: [],
-            filter: { restrictions },
+            filter: patchAdvertFilterInputFromUrl(
+                prefix,
+                { restrictions },
+                { sortableFields }
+            ),
             paging: {
                 pageIndex: 0,
                 pageSize: PAGE_SIZE,
@@ -97,14 +110,20 @@ export const AdvertsTableView: FC<{
             },
         },
         () =>
-            list({
-                paging: { pageIndex: 0, pageSize: PAGE_SIZE },
-                sorting: {
-                    field: undefined,
-                    ascending: true,
-                },
-                restrictions,
-            }),
+            list(
+                patchAdvertFilterInputFromUrl(
+                    prefix,
+                    {
+                        paging: { pageIndex: 0, pageSize: PAGE_SIZE },
+                        sorting: {
+                            field: undefined,
+                            ascending: true,
+                        },
+                        restrictions,
+                    },
+                    { sortableFields }
+                )
+            ),
         100
     )
 
