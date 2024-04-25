@@ -58,6 +58,11 @@ export const createColumns = ({
                     .map(({ label }) => label)
                     .join(' - '),
         }),
+        makeColumn(fields.tags?.visible, {
+            key: 'tags',
+            label: fields.tags?.label || '',
+            getter: ({ tags }) => tags.join(','),
+        }),
         makeColumn(fields.reference?.visible, {
             key: 'reference',
             label: fields.reference?.label || '',
