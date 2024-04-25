@@ -1,4 +1,5 @@
 import {
+    Grid,
     InputAdornment,
     Stack,
     Table,
@@ -10,9 +11,13 @@ import {
     TableRow,
     TextField,
 } from '@mui/material'
-import { Advert } from 'adverts'
-import { FC, useContext, useMemo, useState } from 'react'
+import { Advert, AdvertFilterInput } from 'adverts'
+import { FC, PropsWithChildren, useContext, useMemo, useState } from 'react'
 import SearchIcon from '@mui/icons-material/Search'
+import {
+    FilterDialog,
+    FiltersIconButton,
+} from 'adverts/components/filter/filters'
 import { Column, ColumnComponentFactory } from './types'
 import { createAdvertTableComponentFactory } from '../components'
 import { MultiselectCheckbox } from '../components/MultiselectCheckbox'
@@ -21,6 +26,54 @@ import { AdvertsTableContext } from './AdvertsTableContext'
 
 export const PAGE_SIZE = 25
 const PAGE_SIZES = [10, 25, 50, 100]
+
+const FilterPanel: FC<
+    {
+        filter: AdvertFilterInput
+        setFilter: (p: AdvertFilterInput) => void
+    } & PropsWithChildren
+> = ({ filter, setFilter }) => {
+    const [showFilter, setShowFilter] = useState(false)
+    const [search, setSearch] = useState(filter.search || '')
+
+    return (
+        <Grid container>
+            <Grid item sx={{ flex: 1 }}>
+                <TextField
+                    fullWidth
+                    type="search"
+                    value={search}
+                    InputProps={{
+                        startAdornment: (
+                            <InputAdornment position="start">
+                                <SearchIcon />
+                            </InputAdornment>
+                        ),
+                    }}
+                    onChange={({ target: { value } }) => {
+                        setSearch(value)
+                        setFilter({
+                            ...filter,
+                            search: value,
+                        })
+                    }}
+                />
+            </Grid>
+            <Grid item>
+                <FiltersIconButton
+                    searchParams={filter}
+                    onClick={() => setShowFilter(true)}
+                />
+                <FilterDialog
+                    open={showFilter}
+                    onClose={() => setShowFilter(false)}
+                    searchParams={filter}
+                    setSearchParams={setFilter}
+                />
+            </Grid>
+        </Grid>
+    )
+}
 
 export const AdvertsTable: FC<{
     columns: Column<Advert>[]
@@ -37,29 +90,9 @@ export const AdvertsTable: FC<{
         [filter, setFilter, columns]
     )
 
-    const [search, setSearch] = useState(filter.search || '')
-
     return (
         <Stack direction="column" spacing={2}>
-            <TextField
-                fullWidth
-                type="search"
-                value={search}
-                InputProps={{
-                    startAdornment: (
-                        <InputAdornment position="start">
-                            <SearchIcon />
-                        </InputAdornment>
-                    ),
-                }}
-                onChange={({ target: { value } }) => {
-                    setSearch(value)
-                    setFilter({
-                        ...filter,
-                        search: value,
-                    })
-                }}
-            />
+            <FilterPanel filter={filter} setFilter={setFilter} />
             <TableContainer>
                 <Table>
                     <TableHead>
