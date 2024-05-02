@@ -130,31 +130,29 @@ export const AdvertQrCodeView: FC<{ advert: Advert }> = ({ advert }) => {
                     </Grid>
                 </Box>
             </NonPrintableComponent>
-            {[1, 2, 3].map(() => (
+            <div
+                id="container"
+                style={{
+                    textAlign: 'center',
+                    breakAfter: 'always',
+                    width: '100%',
+                    paddingTop: state.margin,
+                }}
+            >
+                <QRCode size={state.size} value={link} />
                 <div
-                    id="container"
                     style={{
-                        textAlign: 'center',
-                        breakAfter: 'always',
-                        width: '100%',
-                        paddingTop: state.margin,
+                        fontSize: state.size / 5,
+                        fontFamily: 'Arial, Helvetica, sans-serif',
+                        breakInside: 'avoid',
                     }}
                 >
-                    <QRCode size={state.size} value={link} />
-                    <div
-                        style={{
-                            fontSize: state.size / 5,
-                            fontFamily: 'Arial, Helvetica, sans-serif',
-                            breakInside: 'avoid',
-                        }}
-                    >
-                        {[advert.reference, advert.title]
-                            .map((s) => (s || '').trim())
-                            .filter((v) => v)
-                            .join(' - ')}
-                    </div>
+                    {[advert.reference, advert.title]
+                        .map((s) => (s || '').trim())
+                        .filter((v) => v)
+                        .join(' - ')}
                 </div>
-            ))}
+            </div>
         </div>
     )
 }
