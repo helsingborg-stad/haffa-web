@@ -130,7 +130,7 @@ export const AdvertQrCodeView: FC<{ advert: Advert }> = ({ advert }) => {
                     </Grid>
                 </Box>
             </NonPrintableComponent>
-            {[1, 2, 3].map((a) => (
+            {[1, 2, 3].map(() => (
                 <div
                     id="container"
                     style={{
