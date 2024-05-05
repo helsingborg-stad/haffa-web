@@ -46,14 +46,7 @@ const firstElement = <T,>(value: T | T[]): T =>
 export const AdvertQrCodeView: FC<{ advert: Advert }> = ({ advert }) => {
     const { getAdvertLinkForQrCode } = useContext(DeepLinkContext)
     const link = getAdvertLinkForQrCode(advert)
-    /*    const [initialState] = useLocalStorage<QRCodeLabel>('haffa-qr-code-view', {
-        labelWidth: 25,
-        labelHeight: 25,
-        labelHeadline: '',
-        labelMargin: 1,
-        measurementUnit: 'mm',
-        size: 40,
-    }) */
+
     const [state, setState] = useLocalStorage<QRCodeLabel>(
         'haffa-qr-code-view-v2',
         {
