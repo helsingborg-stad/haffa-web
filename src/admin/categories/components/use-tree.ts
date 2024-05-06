@@ -1,7 +1,10 @@
 import { TreeProps } from 'antd'
 import { DataNode } from 'antd/es/tree'
+import { createTreeAdapter } from 'lib/tree-adapter'
 import { treeDetach, treeFind, treeFindReplace } from 'lib/tree-lookup'
+import { getTreeNodeActions } from 'lib/tree-node-actions'
 import { Action1, Action2, Action3, Func1 } from 'lib/types'
+import { uniqueBy } from 'lib/unique-by'
 import { useCallback, useEffect, useReducer } from 'react'
 
 export interface TreeHookData<T> {
@@ -113,6 +116,7 @@ const buildModel = <T>(
     keyFn: Func1<T, string>,
     titleFn: Func1<T, DataNode['title']>,
     childrenFn: Func1<T, T[]>,
+    recalculateTree: Func1<T[], T[]>,
     selectedKey: Key | null,
     expandedKeys: Key[],
     dispatch: Action1<Func1<Model<T>, Partial<Model<T>>>>
@@ -180,7 +184,7 @@ const buildModel = <T>(
                                 pc?.splice(index + 1, 0, node)
                             }
                             return {
-                                nodes: [...nodes],
+                                nodes: recalculateTree(nodes),
                             }
                         }
                         return {}
@@ -196,8 +200,10 @@ const buildModel = <T>(
 export const useTree = <T>(
     initialNodes: T[],
     keyFn: Func1<T, string>,
+    parentKeyFn: Func1<T, string>,
     titleFn: Func1<T, DataNode['title']>,
     childrenFn: Func1<T, T[]>,
+    recalculateTree: Func1<T[], T[]>,
     viewState?: TreeHookViewState
 ): TreeHookData<T> => {
     const [model, dispatch] = useReducer(
@@ -211,8 +217,22 @@ export const useTree = <T>(
                 keyFn,
                 titleFn,
                 childrenFn,
+                recalculateTree,
                 patch.selectedNode ? keyFn(patch.selectedNode) : null,
-                patch.expandedKeys,
+                patch.selectedNode
+                    ? [
+                          ...patch.expandedKeys,
+                          ...createTreeAdapter(
+                              patch.nodes,
+                              keyFn,
+                              parentKeyFn,
+                              childrenFn
+                          )
+                              .pathById(keyFn(patch.selectedNode))
+                              .map((n) => keyFn(n)),
+                          keyFn(patch.selectedNode),
+                      ].filter(uniqueBy((k) => k))
+                    : patch.expandedKeys,
                 patch.dispatch
             )
             return x
@@ -317,99 +337,42 @@ export const useTree = <T>(
                 }
             }),
         getNodeActions: (node) => {
-            const m = treeFind(model.nodes, childrenFn, (n) => n === node)
-            if (!m) {
-                return {}
+            const createAction = (
+                getAction: (
+                    from: ReturnType<typeof getTreeNodeActions<T>>
+                ) => undefined | (() => any)
+            ) => {
+                const indicative = getAction(
+                    getTreeNodeActions(
+                        model.nodes,
+                        childrenFn,
+                        (n) => n === node
+                    )
+                )
+                if (!indicative) {
+                    // action is initially not available
+                    return undefined
+                }
+                return () =>
+                    dispatch(({ nodes }) => {
+                        // perform same action in reducer context
+                        const action = getAction(
+                            getTreeNodeActions(
+                                nodes,
+                                childrenFn,
+                                (n) => n === node
+                            )
+                        )
+                        action?.()
+                        return { nodes: recalculateTree(nodes) }
+                    })
             }
-            const index = m.index || 0
-            const { parent } = m
-            const siblings = parent ? childrenFn(parent) : []
 
             return {
-                moveNodePrev:
-                    index > 0
-                        ? () =>
-                              dispatch(() => {
-                                  const m = treeFind(
-                                      model.nodes,
-                                      childrenFn,
-                                      (n) => n === node
-                                  )
-                                  if (m) {
-                                      const pc = m.parent
-                                          ? childrenFn(m.parent)
-                                          : []
-                                      pc.splice(m.index, 1)
-                                      pc.splice(m.index - 1, 0, m.node)
-                                  }
-                                  return {}
-                              })
-                        : undefined,
-                moveNodeNext:
-                    index < siblings.length - 1
-                        ? () =>
-                              dispatch(() => {
-                                  const m = treeFind(
-                                      model.nodes,
-                                      childrenFn,
-                                      (n) => n === node
-                                  )
-                                  if (m) {
-                                      const pc = m.parent
-                                          ? childrenFn(m.parent)
-                                          : []
-                                      pc.splice(m.index, 1)
-                                      pc.splice(m.index + 1, 0, m.node)
-                                  }
-                                  return {}
-                              })
-                        : undefined,
-                promoteNode: parent
-                    ? () =>
-                          dispatch(() => {
-                              const m = treeFind(
-                                  model.nodes,
-                                  childrenFn,
-                                  (n) => n === node
-                              )
-                              const pm = treeFind(
-                                  model.nodes,
-                                  childrenFn,
-                                  (n) => n === m?.parent
-                              )
-                              if (pm && m) {
-                                  const pc = m.parent
-                                      ? childrenFn(m.parent)
-                                      : []
-                                  const ppc = pm.parent
-                                      ? childrenFn(pm.parent)
-                                      : []
-                                  pc.splice(m.index, 1)
-                                  ppc.splice(ppc.length, 0, m.node)
-                              }
-                              return {}
-                          })
-                    : undefined,
-                demoteNode:
-                    index > 0
-                        ? () =>
-                              dispatch(() => {
-                                  const m = treeFind(
-                                      model.nodes,
-                                      childrenFn,
-                                      (n) => n === node
-                                  )
-                                  if (m) {
-                                      const pc = m.parent
-                                          ? childrenFn(m.parent)
-                                          : []
-                                      pc.splice(m.index, 1)
-                                      const c = childrenFn(pc[index - 1])
-                                      c.splice(c.length, 0, m.node)
-                                  }
-                                  return {}
-                              })
-                        : undefined,
+                moveNodePrev: createAction(({ moveNodePrev }) => moveNodePrev),
+                moveNodeNext: createAction(({ moveNodeNext }) => moveNodeNext),
+                promoteNode: createAction(({ promoteNode }) => promoteNode),
+                demoteNode: createAction(({ demoteNode }) => demoteNode),
             }
         },
     }

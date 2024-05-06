@@ -35,6 +35,13 @@ const cat = (c: Partial<Category>): Category => ({
     ...c,
 })
 
+const recalculateTree = (nodes: Category[], parentId = ''): Category[] =>
+    nodes.map((node) => ({
+        ...node,
+        parentId,
+        categories: recalculateTree(node.categories, node.id),
+    }))
+
 export const CategoriesForm: FC<{
     categories: Category[]
     viewState?: TreeHookViewState
@@ -86,8 +93,10 @@ export const CategoriesForm: FC<{
     } = useTree(
         [rootCategory],
         (c) => c.id,
+        (c) => c.parentId,
         (c) => categoryTitle(c),
         (c) => c.categories,
+        (nodes) => recalculateTree(nodes),
         initialViewState || {
             selectedKey: ROOT_CATEGORY_ID,
             expandedKeys: [ROOT_CATEGORY_ID],
