@@ -29,7 +29,6 @@ export const AdvertDetailsView: FC<{
                 categories={createTreeAdapter(
                     categories,
                     (c) => c.id,
-                    (c) => c.parentId,
                     (c) => c.categories
                 )}
                 fields={fields}

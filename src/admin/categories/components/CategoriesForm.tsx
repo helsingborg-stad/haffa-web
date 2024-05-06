@@ -26,7 +26,6 @@ const ROOT_CATEGORY_ID = 'root'
 
 const cat = (c: Partial<Category>): Category => ({
     id: nanoid(),
-    parentId: '',
     label: '',
     co2kg: 0,
     valueByUnit: 0,
@@ -34,13 +33,6 @@ const cat = (c: Partial<Category>): Category => ({
     advertCount: 0,
     ...c,
 })
-
-const recalculateTree = (nodes: Category[], parentId = ''): Category[] =>
-    nodes.map((node) => ({
-        ...node,
-        parentId,
-        categories: recalculateTree(node.categories, node.id),
-    }))
 
 export const CategoriesForm: FC<{
     categories: Category[]
@@ -93,10 +85,8 @@ export const CategoriesForm: FC<{
     } = useTree(
         [rootCategory],
         (c) => c.id,
-        (c) => c.parentId,
         (c) => categoryTitle(c),
         (c) => c.categories,
-        (nodes) => recalculateTree(nodes),
         initialViewState || {
             selectedKey: ROOT_CATEGORY_ID,
             expandedKeys: [ROOT_CATEGORY_ID],

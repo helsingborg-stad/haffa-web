@@ -116,7 +116,6 @@ const buildModel = <T>(
     keyFn: Func1<T, string>,
     titleFn: Func1<T, DataNode['title']>,
     childrenFn: Func1<T, T[]>,
-    recalculateTree: Func1<T[], T[]>,
     selectedKey: Key | null,
     expandedKeys: Key[],
     dispatch: Action1<Func1<Model<T>, Partial<Model<T>>>>
@@ -184,7 +183,7 @@ const buildModel = <T>(
                                 pc?.splice(index + 1, 0, node)
                             }
                             return {
-                                nodes: recalculateTree(nodes),
+                                nodes: [...nodes],
                             }
                         }
                         return {}
@@ -200,10 +199,8 @@ const buildModel = <T>(
 export const useTree = <T>(
     initialNodes: T[],
     keyFn: Func1<T, string>,
-    parentKeyFn: Func1<T, string>,
     titleFn: Func1<T, DataNode['title']>,
     childrenFn: Func1<T, T[]>,
-    recalculateTree: Func1<T[], T[]>,
     viewState?: TreeHookViewState
 ): TreeHookData<T> => {
     const [model, dispatch] = useReducer(
@@ -217,17 +214,11 @@ export const useTree = <T>(
                 keyFn,
                 titleFn,
                 childrenFn,
-                recalculateTree,
                 patch.selectedNode ? keyFn(patch.selectedNode) : null,
                 patch.selectedNode
                     ? [
                           ...patch.expandedKeys,
-                          ...createTreeAdapter(
-                              patch.nodes,
-                              keyFn,
-                              parentKeyFn,
-                              childrenFn
-                          )
+                          ...createTreeAdapter(patch.nodes, keyFn, childrenFn)
                               .pathById(keyFn(patch.selectedNode))
                               .map((n) => keyFn(n)),
                           keyFn(patch.selectedNode),
@@ -364,7 +355,7 @@ export const useTree = <T>(
                             )
                         )
                         action?.()
-                        return { nodes: recalculateTree(nodes) }
+                        return { nodes: [...nodes] }
                     })
             }
 

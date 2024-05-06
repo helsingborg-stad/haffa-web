@@ -161,7 +161,6 @@ export const AdvertsTableView: FC<{
             categoryTree: createTreeAdapter(
                 data.categories,
                 (c) => c.id,
-                (c) => c.parentId,
                 (c) => c.categories
             ),
             filter: data?.filter,
