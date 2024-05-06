@@ -89,7 +89,7 @@ export const AdvertQrCodeView: FC<{ advert: Advert }> = ({ advert }) => {
                 styles={{
                     '@media print': {
                         '@page': {
-                            margin: toUnits(state.labelMargin),
+                            margin: '0 !important',
                             size: `${toUnits(state.labelWidth)} ${toUnits(
                                 state.labelHeight
                             )}`,
@@ -240,7 +240,7 @@ export const AdvertQrCodeView: FC<{ advert: Advert }> = ({ advert }) => {
                             />
                         </Stack>
                         <FormControl component="fieldset" variant="standard">
-                            <FormLabel component="legend">Footer</FormLabel>
+                            <FormLabel component="legend">Sidfot</FormLabel>
                             <FormGroup>
                                 <FormControlLabel
                                     control={
@@ -253,7 +253,7 @@ export const AdvertQrCodeView: FC<{ advert: Advert }> = ({ advert }) => {
                                                     showReference: checked,
                                                 })
                                             }
-                                            name="reference"
+                                            name="Visa referens"
                                         />
                                     }
                                     label="Visa referens"
@@ -265,7 +265,7 @@ export const AdvertQrCodeView: FC<{ advert: Advert }> = ({ advert }) => {
                                             onChange={({
                                                 target: { checked },
                                             }) => patch({ showTitle: checked })}
-                                            name="title"
+                                            name="Visa annonstitel"
                                         />
                                     }
                                     label="Visa annonstitel"
@@ -302,7 +302,6 @@ export const AdvertQrCodeView: FC<{ advert: Advert }> = ({ advert }) => {
                         maxWidth: toUnits(state.labelWidth),
                         minHeight: toUnits(state.labelHeight),
                         maxHeight: toUnits(state.labelHeight),
-                        padding: toUnits(state.labelMargin),
                         overflow: 'clip',
                         position: 'relative',
                         boxSizing: 'border-box',
@@ -313,7 +312,6 @@ export const AdvertQrCodeView: FC<{ advert: Advert }> = ({ advert }) => {
                             style={{
                                 fontSize: toUnits(state.textSize),
                                 fontFamily: 'Arial, Helvetica, sans-serif',
-                                breakInside: 'avoid',
                                 overflow: 'clip',
                                 whiteSpace: 'nowrap',
                                 lineHeight: toUnits(state.textSize),
@@ -332,7 +330,6 @@ export const AdvertQrCodeView: FC<{ advert: Advert }> = ({ advert }) => {
                             value={link}
                             viewBox={`0 0 ${state.qrCodeSize} ${state.qrCodeSize}`}
                             style={{
-                                breakInside: 'avoid',
                                 height: toUnits(state.qrCodeSize),
                                 maxHeight: toUnits(state.qrCodeSize),
                                 maxWidth: toUnits(state.qrCodeSize),
@@ -352,7 +349,6 @@ export const AdvertQrCodeView: FC<{ advert: Advert }> = ({ advert }) => {
                             style={{
                                 fontSize: toUnits(state.textSize),
                                 fontFamily: 'Arial, Helvetica, sans-serif',
-                                breakInside: 'avoid',
                                 overflow: 'clip',
                                 whiteSpace: 'nowrap',
                                 lineHeight: toUnits(state.textSize),
