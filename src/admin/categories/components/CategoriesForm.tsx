@@ -82,6 +82,7 @@ export const CategoriesForm: FC<{
         addNode,
         updateNode,
         removeNode,
+        getNodeActions,
     } = useTree(
         [rootCategory],
         (c) => c.id,
@@ -97,6 +98,23 @@ export const CategoriesForm: FC<{
     )
     const categoryEditor = () => {
         const advertCount = selectedNode ? countAdverts(selectedNode) : 0
+        const {
+            moveNodePrev,
+            moveNodeNext,
+            promoteNode: promoteNodeRaw,
+            demoteNode,
+        } = selectedNode
+            ? getNodeActions(selectedNode)
+            : {
+                  moveNodePrev: undefined,
+                  moveNodeNext: undefined,
+                  promoteNode: undefined,
+                  demoteNode: undefined,
+              }
+        const promoteNode =
+            selectedNode && rootCategory.categories.includes(selectedNode)
+                ? undefined
+                : promoteNodeRaw
         return (
             selectedNode &&
             selectedNode.id !== ROOT_CATEGORY_ID && (
@@ -179,6 +197,31 @@ export const CategoriesForm: FC<{
                                 }))
                             }
                         />
+                    </FormControl>
+                    <FormControl fullWidth>
+                        <ButtonGroup>
+                            <Button
+                                disabled={!moveNodePrev}
+                                onClick={moveNodePrev}
+                            >
+                                Flytta upp
+                            </Button>
+                            <Button
+                                disabled={!moveNodeNext}
+                                onClick={moveNodeNext}
+                            >
+                                Flytta ned
+                            </Button>
+                            <Button
+                                disabled={!promoteNode}
+                                onClick={promoteNode}
+                            >
+                                Gör överordnad
+                            </Button>
+                            <Button disabled={!demoteNode} onClick={demoteNode}>
+                                Gör underordnad
+                            </Button>
+                        </ButtonGroup>
                     </FormControl>
                     {advertCount > 0 && (
                         <Alert>

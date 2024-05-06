@@ -11,8 +11,16 @@ export interface TreeHookData<T> {
     addNode: Action1<T>
     updateNode: Action2<T, Func1<T, Partial<T>>>
     removeNode: Action1<T>
+    getNodeActions: Func1<T, TreeHookNodeActions>
     viewState?: TreeHookViewState
 }
+
+export type TreeHookNodeActions = Partial<{
+    moveNodePrev: () => any
+    moveNodeNext: () => any
+    promoteNode: () => any
+    demoteNode: () => any
+}>
 
 export interface TreeHookViewState {
     selectedKey: Key
@@ -308,5 +316,101 @@ export const useTree = <T>(
                     nodes: [...nodes],
                 }
             }),
+        getNodeActions: (node) => {
+            const m = treeFind(model.nodes, childrenFn, (n) => n === node)
+            if (!m) {
+                return {}
+            }
+            const index = m.index || 0
+            const { parent } = m
+            const siblings = parent ? childrenFn(parent) : []
+
+            return {
+                moveNodePrev:
+                    index > 0
+                        ? () =>
+                              dispatch(() => {
+                                  const m = treeFind(
+                                      model.nodes,
+                                      childrenFn,
+                                      (n) => n === node
+                                  )
+                                  if (m) {
+                                      const pc = m.parent
+                                          ? childrenFn(m.parent)
+                                          : []
+                                      pc.splice(m.index, 1)
+                                      pc.splice(m.index - 1, 0, m.node)
+                                  }
+                                  return {}
+                              })
+                        : undefined,
+                moveNodeNext:
+                    index < siblings.length - 1
+                        ? () =>
+                              dispatch(() => {
+                                  const m = treeFind(
+                                      model.nodes,
+                                      childrenFn,
+                                      (n) => n === node
+                                  )
+                                  if (m) {
+                                      const pc = m.parent
+                                          ? childrenFn(m.parent)
+                                          : []
+                                      pc.splice(m.index, 1)
+                                      pc.splice(m.index + 1, 0, m.node)
+                                  }
+                                  return {}
+                              })
+                        : undefined,
+                promoteNode: parent
+                    ? () =>
+                          dispatch(() => {
+                              const m = treeFind(
+                                  model.nodes,
+                                  childrenFn,
+                                  (n) => n === node
+                              )
+                              const pm = treeFind(
+                                  model.nodes,
+                                  childrenFn,
+                                  (n) => n === m?.parent
+                              )
+                              if (pm && m) {
+                                  const pc = m.parent
+                                      ? childrenFn(m.parent)
+                                      : []
+                                  const ppc = pm.parent
+                                      ? childrenFn(pm.parent)
+                                      : []
+                                  pc.splice(m.index, 1)
+                                  ppc.splice(ppc.length, 0, m.node)
+                              }
+                              return {}
+                          })
+                    : undefined,
+                demoteNode:
+                    index > 0
+                        ? () =>
+                              dispatch(() => {
+                                  const m = treeFind(
+                                      model.nodes,
+                                      childrenFn,
+                                      (n) => n === node
+                                  )
+                                  if (m) {
+                                      const pc = m.parent
+                                          ? childrenFn(m.parent)
+                                          : []
+                                      pc.splice(m.index, 1)
+                                      const c = childrenFn(pc[index - 1])
+                                      c.splice(c.length, 0, m.node)
+                                  }
+                                  return {}
+                              })
+                        : undefined,
+            }
+        },
     }
 }
