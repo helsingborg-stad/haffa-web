@@ -258,6 +258,11 @@ Regler utan email tas automatiskt bort.`,
     ADMIN_SYSLOG_HEADLINE: 'Kör dina schemalagda jobb?',
     ADMIN_SYSLOG_BODY: 'Här kan du se så alla viktiga händelser i systemet.',
 
+    ADMIN_TAG_DESCRIPTIONS_TITLE: 'Taggbeskrivningar',
+    ADMIN_TAG_DESCRIPTIONS_HEADLINE: 'Visa innehåll baserat på annonstaggar',
+    ADMIN_TAG_DESCRIPTIONS_BODY:
+        'Taggade annonser kommer att visas med associerad text (markdown) som redigeras på denna sida.',
+
     ADMIN_ACTION_SAVE: 'Spara',
     ADMIN_ACTION_RESTORE: 'Återställ',
 

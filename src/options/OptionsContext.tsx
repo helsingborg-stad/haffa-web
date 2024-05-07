@@ -30,6 +30,9 @@ export interface OptionsContextType {
     updateHtmlOptions: (
         options: Option<HtmlOptionKeys>[]
     ) => Promise<Option<HtmlOptionKeys>[]>
+
+    getTagDescriptionOptions: () => Promise<Option[]>
+    updateTagDescriptionOptions: (options: Option[]) => Promise<Option[]>
 }
 
 export const OptionsContext = createContext<OptionsContextType>({
@@ -41,6 +44,8 @@ export const OptionsContext = createContext<OptionsContextType>({
     updatePhraseOptions: notImplemented('updatePhraseOptions'),
     getHtmlOptions: notImplemented('getHtmlOptions'),
     updateHtmlOptions: notImplemented('updateHtmlOptions'),
+    getTagDescriptionOptions: notImplemented('getTagDescriptionOptions'),
+    updateTagDescriptionOptions: notImplemented('updateTagDescriptionOptions'),
 })
 
 export const OptionsProvider: FC<
@@ -63,6 +68,10 @@ export const OptionsProvider: FC<
                 getHtmlOptions: () => repository.getOptions('branding-html'),
                 updateHtmlOptions: (options) =>
                     repository.updateOptions('branding-html', options),
+                getTagDescriptionOptions: () =>
+                    repository.getOptions('tag-descriptions'),
+                updateTagDescriptionOptions: (options) =>
+                    repository.updateOptions('tag-descriptions', options),
             } as OptionsContextType
         }
     >

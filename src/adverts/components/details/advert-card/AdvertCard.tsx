@@ -15,6 +15,7 @@ import { AddressCard } from './AddressCard'
 import { ContactCard } from './ContactCard'
 import { DetailsPanel } from './DetailsPanel'
 import { ReturnPanel } from './ReturnPanel'
+import { TagDescriptionsPanel } from './TagDescriptionsPanel'
 
 export const AdvertCard: FC<{
     advert: Advert
@@ -54,6 +55,9 @@ export const AdvertCard: FC<{
                                     error={error}
                                     hideTitle
                                 />
+                            </Grid>
+                            <Grid item>
+                                <TagDescriptionsPanel advert={advert} />
                             </Grid>
                             <Grid item>
                                 <ActionsPanel
@@ -99,6 +103,9 @@ export const AdvertCard: FC<{
                                         error={error}
                                         hideTitle
                                     />
+                                </Grid>
+                                <Grid item>
+                                    <TagDescriptionsPanel advert={advert} />
                                 </Grid>
                                 <Grid item>
                                     <ActionsPanel

@@ -15,6 +15,7 @@ import { EditLocationsView } from './locations/EditLocationsView'
 import { EditSmsTemplatesView } from './sms-templates/EditSmsTemplatesView'
 import { SyslogView } from './syslog/SyslogView'
 import { EditHtmlView } from './html-branding'
+import { EditTagDescriptionsView } from './tag-descriptions/EditTagDescriptionsView'
 
 const tab = (
     enabled: boolean | undefined,
@@ -67,6 +68,11 @@ export const createAdminTabs = (
             roles.canEditSystemCategories,
             phrase('ADMIN_CATEGORIES_TITLE', 'Kategorier'),
             <EditCategoriesView />
+        ),
+        tab(
+            roles.canEditTerms,
+            phrase('ADMIN_TAG_DESCRIPTIONS_TITLE', 'Taggbeskrivningar'),
+            <EditTagDescriptionsView />
         ),
         tab(
             roles.canEditSystemLoginPolicies,
