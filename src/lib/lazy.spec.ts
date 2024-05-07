@@ -9,7 +9,7 @@ describe('lazy(factory) => getter', () => {
         // factory should not be called yet
         expect(factoryCalls).toBe(0)
 
-        expect(v()).toBe(1 /* === factiryCalls */)
-        expect(v()).toBe(1 /* === factiryCalls */)
+        expect(v()).toBe(1 /* === factoryCalls */)
+        expect(v()).toBe(1 /* === factoryCalls */)
     })
 })
