@@ -4,7 +4,8 @@ import EditIcon from '@mui/icons-material/Edit'
 import OpenInBrowserIcon from '@mui/icons-material/OpenInBrowser'
 import { NavLink } from 'react-router-dom'
 import { ReactNode } from 'react'
-import { Box } from '@mui/material'
+import { Box, Stack, Typography } from '@mui/material'
+import { sortBy } from 'lib/sort-by'
 import { AdvertsTableContextType, Column } from './AdvertsTable/types'
 
 export const createLink = (to: string, icon: ReactNode) => (
@@ -23,6 +24,16 @@ export const createAdvertImage = ([image]: AdvertImage[]) => (
             objectFit: 'cover',
         }}
     />
+)
+
+const createTagList = (tags: string[]) => (
+    <Stack direction="column">
+        {tags.sort(sortBy((tag) => tag.toLowerCase())).map((tag) => (
+            <Box>
+                <Typography style={{ whiteSpace: 'nowrap' }}>{tag}</Typography>
+            </Box>
+        ))}
+    </Stack>
 )
 
 const makeColumn = (
@@ -61,7 +72,8 @@ export const createColumns = ({
         makeColumn(fields.tags?.visible, {
             key: 'tags',
             label: fields.tags?.label || '',
-            getter: ({ tags }) => tags.join(','),
+            getter: () => undefined,
+            cell: ({ tags }) => createTagList(tags),
         }),
         makeColumn(fields.reference?.visible, {
             key: 'reference',
