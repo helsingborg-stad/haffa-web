@@ -22,3 +22,10 @@ export interface HtmlOptions {
 
 export type HtmlOptionKeys = keyof HtmlOptions
 export type AnalyticsOptionKeys = 'provider' | 'config'
+
+export interface LabelOptions {
+    headline: string
+    displayReference: string
+    displayTitle: string
+}
+export type LabelOptionsKeys = keyof LabelOptions

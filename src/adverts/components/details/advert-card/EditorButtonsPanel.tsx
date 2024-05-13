@@ -51,7 +51,7 @@ export const EditorButtonsPanel: FC<{
                     {...{ props }}
                     color="primary"
                     component={NavLink}
-                    to={`/advert/qrcode/${advert.id}`}
+                    to={`/api/v1/labels/${advert.id}`}
                     target="blank"
                     startIcon={<QrCodeIcon />}
                 >

@@ -16,6 +16,7 @@ import { EditSmsTemplatesView } from './sms-templates/EditSmsTemplatesView'
 import { SyslogView } from './syslog/SyslogView'
 import { EditHtmlView } from './html-branding'
 import { EditTagDescriptionsView } from './tag-descriptions/EditTagDescriptionsView'
+import { EditLabelsView } from './labels'
 
 const tab = (
     enabled: boolean | undefined,
@@ -83,6 +84,11 @@ export const createAdminTabs = (
             roles.canManageLocations,
             phrase('ADMIN_LOCATIONS_TITLE', 'Adressregister'),
             <EditLocationsView />
+        ),
+        tab(
+            roles.canEditTerms,
+            phrase('ADMIN_LABELS_TITLE', 'Etiketter'),
+            <EditLabelsView />
         ),
         tab(
             roles.canSeeSystemStatistics,

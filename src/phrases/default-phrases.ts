@@ -263,6 +263,11 @@ Regler utan email tas automatiskt bort.`,
     ADMIN_TAG_DESCRIPTIONS_BODY:
         'Taggade annonser kommer att visas med associerad text (markdown) som redigeras på denna sida.',
 
+    ADMIN_LABELS_TITLE: 'Etiketter',
+    ADMIN_LABELS_HEADLINE: 'Etiketter',
+    ADMIN_LABELS_BODY:
+        'Här kan du utforma hur dina utskrivningsbara etiketter skall se ut.',
+
     ADMIN_ACTION_SAVE: 'Spara',
     ADMIN_ACTION_RESTORE: 'Återställ',
 

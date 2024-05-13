@@ -2,6 +2,7 @@ import { FC, PropsWithChildren, createContext } from 'react'
 import {
     AnalyticsOptionKeys,
     HtmlOptionKeys,
+    LabelOptionsKeys,
     Option,
     OptionsRepository,
 } from './types'
@@ -33,6 +34,12 @@ export interface OptionsContextType {
 
     getTagDescriptionOptions: () => Promise<Option[]>
     updateTagDescriptionOptions: (options: Option[]) => Promise<Option[]>
+
+    // Labels
+    getLabelOptions: () => Promise<Option<LabelOptionsKeys>[]>
+    updateLabelOptions: (
+        options: Option<LabelOptionsKeys>[]
+    ) => Promise<Option<LabelOptionsKeys>[]>
 }
 
 export const OptionsContext = createContext<OptionsContextType>({
@@ -46,6 +53,8 @@ export const OptionsContext = createContext<OptionsContextType>({
     updateHtmlOptions: notImplemented('updateHtmlOptions'),
     getTagDescriptionOptions: notImplemented('getTagDescriptionOptions'),
     updateTagDescriptionOptions: notImplemented('updateTagDescriptionOptions'),
+    getLabelOptions: notImplemented('getLabelOptions'),
+    updateLabelOptions: notImplemented('updateLabelOptions'),
 })
 
 export const OptionsProvider: FC<
@@ -72,6 +81,9 @@ export const OptionsProvider: FC<
                     repository.getOptions('tag-descriptions'),
                 updateTagDescriptionOptions: (options) =>
                     repository.updateOptions('tag-descriptions', options),
+                getLabelOptions: () => repository.getOptions('label'),
+                updateLabelOptions: (options) =>
+                    repository.updateOptions('label', options),
             } as OptionsContextType
         }
     >
