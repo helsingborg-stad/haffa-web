@@ -2,6 +2,7 @@ import { HaffaUserRoles } from 'auth'
 import ArchiveIcon from '@mui/icons-material/Archive'
 import UnarchiveIcon from '@mui/icons-material/Unarchive'
 import TextSnippetIcon from '@mui/icons-material/TextSnippet'
+import PrintIcon from '@mui/icons-material/Print'
 import { PhraseContextType } from 'phrases'
 import CategoryIcon from '@mui/icons-material/Category'
 import { uniqueBy } from 'lib/unique-by'
@@ -101,7 +102,7 @@ export const createBulkActions = ({
         }),
         makeAction(roles.canEditOwnAdverts, {
             key: 'create-label',
-            icon: <DateRangeIcon />,
+            icon: <PrintIcon />,
             label: `Skapa etiketter`,
             enabled: () => selectionMatches(({ meta: { canEdit } }) => canEdit),
             action: createAdvertLabels,
