@@ -191,6 +191,11 @@ export const AdvertsTableView: FC<{
             archiveAdverts: () => bulkUpdateAdverts((id) => archiveAdvert(id)),
             unarchiveAdverts: () =>
                 bulkUpdateAdverts((id) => unarchiveAdvert(id)),
+            createAdvertLabels: () =>
+                window.open(
+                    `/api/v1/labels/${Array.from(selected.keys()).toString()}`,
+                    'Etiketter'
+                ),
         }),
         [
             data,

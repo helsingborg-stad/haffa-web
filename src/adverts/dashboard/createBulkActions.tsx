@@ -34,6 +34,7 @@ export const createBulkActions = ({
     selectionMatches,
     archiveAdverts,
     unarchiveAdverts,
+    createAdvertLabels,
 }: AdvertsTableContextType & { roles: HaffaUserRoles } & Pick<
         PhraseContextType,
         'phrase'
@@ -97,6 +98,13 @@ export const createBulkActions = ({
                     makePatch={(lendingPeriod) => ({ lendingPeriod })}
                 />
             ),
+        }),
+        makeAction(roles.canEditOwnAdverts, {
+            key: 'create-label',
+            icon: <DateRangeIcon />,
+            label: `Skapa etiketter`,
+            enabled: () => selectionMatches(({ meta: { canEdit } }) => canEdit),
+            action: createAdvertLabels,
         }),
     ]
         .filter(({ key }) => key)

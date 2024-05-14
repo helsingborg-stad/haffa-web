@@ -26,6 +26,7 @@ export interface AdvertsTableContextType {
     patchAdverts: (patch: Partial<AdvertInput>) => any
     archiveAdverts: () => any
     unarchiveAdverts: () => any
+    createAdvertLabels: () => any
 }
 
 export interface Column<T> {
