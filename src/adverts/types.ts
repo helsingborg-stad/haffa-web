@@ -60,6 +60,7 @@ export interface AdvertRestrictionsFilterInput {
     canBeReserved?: boolean
     reservedByMe?: boolean
     createdByMe?: boolean
+    editableByMe?: boolean
     isArchived?: boolean
     hasReservations?: boolean
     hasCollects?: boolean

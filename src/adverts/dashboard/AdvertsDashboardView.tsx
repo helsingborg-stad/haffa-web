@@ -16,7 +16,7 @@ export const AdvertsDashboardView: FC = () => {
                     () => (
                         <AdvertsTableView
                             prefix="d"
-                            restrictions={{ createdByMe: true }}
+                            restrictions={{ editableByMe: true }}
                         />
                     )
                 ),
@@ -27,7 +27,7 @@ export const AdvertsDashboardView: FC = () => {
                         <AdvertsTableView
                             prefix="a"
                             restrictions={{
-                                createdByMe: true,
+                                editableByMe: true,
                                 canBeReserved: true,
                             }}
                         />
@@ -40,7 +40,7 @@ export const AdvertsDashboardView: FC = () => {
                         <AdvertsTableView
                             prefix="r"
                             restrictions={{
-                                createdByMe: true,
+                                editableByMe: true,
                                 hasReservations: true,
                             }}
                         />
@@ -53,7 +53,7 @@ export const AdvertsDashboardView: FC = () => {
                         <AdvertsTableView
                             prefix="c"
                             restrictions={{
-                                createdByMe: true,
+                                editableByMe: true,
                                 hasCollects: true,
                             }}
                         />
@@ -66,7 +66,7 @@ export const AdvertsDashboardView: FC = () => {
                         <AdvertsTableView
                             prefix="a"
                             restrictions={{
-                                createdByMe: true,
+                                editableByMe: true,
                                 isArchived: true,
                             }}
                         />
