@@ -19,6 +19,7 @@ export interface AdvertUserFields {
     reference: string
     notes: string
     tags: string[]
+    markedAsReadyForPickup: boolean
 
     location: AdvertLocation
     contact: AdvertContact
@@ -109,6 +110,7 @@ export interface AdvertInput {
     reference: string
     notes: string
     tags: string[]
+    markedAsReadyForPickup: boolean
     location: AdvertLocation
     contact: AdvertContact
 }

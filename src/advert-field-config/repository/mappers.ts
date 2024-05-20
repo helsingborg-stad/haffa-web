@@ -84,6 +84,9 @@ export const setAdvertDefaults = (
                 case 'lendingPeriod':
                     base[field.name] = Number(field.initial)
                     break
+                case 'markedAsReadyForPickup':
+                    base[field.name] = Boolean(field.initial)
+                    break
                 default:
                     base[field.name] = field.initial
                     break

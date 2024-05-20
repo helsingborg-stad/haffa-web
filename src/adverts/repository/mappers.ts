@@ -21,6 +21,7 @@ export const createEmptyAdvertInput = (): AdvertInput => ({
     reference: '',
     notes: '',
     tags: [],
+    markedAsReadyForPickup: false,
     location: createEmptyAdvertLocation(),
     contact: createEmptyAdvertContact(),
 })
@@ -60,6 +61,7 @@ export const sanitizeAdvertInput = (
         reference,
         notes,
         tags,
+        markedAsReadyForPickup,
         location,
         contact,
     }: AdvertInput = createEmptyAdvertInput()
@@ -83,6 +85,7 @@ export const sanitizeAdvertInput = (
     reference,
     notes,
     tags,
+    markedAsReadyForPickup,
     location: sanitizeAdvertLocation(location),
     contact: sanitizeAdvertContact(contact),
 })
