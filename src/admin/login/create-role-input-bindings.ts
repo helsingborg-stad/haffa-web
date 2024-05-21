@@ -149,6 +149,11 @@ export const createDefaultRoleInputBindings = (
                 true
             )
             .define(
+                'canManagePicked',
+                phrase('ROLES_CAN_MANAGE_PICKED', 'Hantera plockning (admin)'),
+                true
+            )
+            .define(
                 'canEditTerms',
                 phrase('ROLES_CAN_EDIT_TERMS', 'Hantera definitioner (admin)'),
                 true

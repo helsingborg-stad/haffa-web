@@ -157,6 +157,8 @@ export interface AdvertMeta {
     canLeaveWaitList: boolean
     canManageClaims: boolean
     canReturn: boolean
+    canPick: boolean
+    canUnpick: boolean
     reservedyMe: number
     collectedByMe: number
     isLendingAdvert: boolean

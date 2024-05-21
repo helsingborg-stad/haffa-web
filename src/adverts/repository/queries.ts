@@ -22,6 +22,8 @@ const advertProps = /* GraphQL */ `
     	canLeaveWaitList
 		canManageClaims
 		canReturn
+		canPick
+		canUnpick
 		reservedyMe
 		collectedByMe
 		isLendingAdvert

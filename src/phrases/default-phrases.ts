@@ -115,6 +115,7 @@ export const defaultPhrases: Omit<
     ROLES_CAN_MANAGE_CONTENT: 'Managera innehåll (admin)',
     ROLES_CAN_MANAGE_LOCATIONS: 'Managera adressregistret (admin)',
     ROLES_CAN_MANAGE_RETURNS: 'Hantera återlämningar (admin)',
+    ROLES_CAN_MANAGE_PICKED: 'Hantera plockning (admin)',
     ROLES_CAN_MANAGE_NOTIFICATIONS: 'Managera notifikationer (admin)',
     ROLES_SELECT_LABEL: 'Behörigheter',
     APIKEYS_FIELD_EMAIL: 'Email',

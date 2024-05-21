@@ -18,6 +18,7 @@ export interface HaffaUserRoles {
     canManageLocations?: boolean
     canManageNotifications?: boolean
     canManageReturns?: boolean
+    canManagePicked?: boolean
 }
 
 export interface Authentication {
