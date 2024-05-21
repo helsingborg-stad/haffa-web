@@ -16,6 +16,8 @@ import {
     joinAdvertWaitlistMutation,
     leaveAdvertWaitlistMutation,
     listAdvertsQuery,
+    markAdvertAsPickedMutation,
+    markAdvertAsUnpickedMutation,
     removeAdvertMutation,
     renewAdvertClaimMutation,
     reserveAdvertMutation,
@@ -149,5 +151,17 @@ export const createAdvertsRepository = (
             .query(leaveAdvertWaitlistMutation)
             .variables({ id })
             .map<AdvertMutationResult>('leaveAdvertWaitlist')
+            .then(expectAdvert),
+    markAdvertAsPicked: async (id) =>
+        gql(token, f)
+            .query(markAdvertAsPickedMutation)
+            .variables({ id })
+            .map<AdvertMutationResult>('markAdvertAsPicked')
+            .then(expectAdvert),
+    markAdvertAsUnpicked: async (id) =>
+        gql(token, f)
+            .query(markAdvertAsUnpickedMutation)
+            .variables({ id })
+            .map<AdvertMutationResult>('markAdvertAsUnpicked')
             .then(expectAdvert),
 })

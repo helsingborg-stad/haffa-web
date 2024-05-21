@@ -1,6 +1,7 @@
 import EventBusyIcon from '@mui/icons-material/EventBusy'
 import EditIcon from '@mui/icons-material/Edit'
 import OpenInBrowserIcon from '@mui/icons-material/OpenInBrowser'
+import CheckIcon from '@mui/icons-material/Check'
 import { NavLink } from 'react-router-dom'
 import { ReactNode } from 'react'
 import { Box, Stack, Typography } from '@mui/material'
@@ -89,6 +90,13 @@ export const createColumns = ({
             headerName: 'Försenad?', // eslint-disable-next-line react/no-unstable-nested-components
             renderCell: ({ value }: GridRenderCellParams<any, boolean>) =>
                 value && <EventBusyIcon />,
+        },
+        {
+            field: 'isPicked',
+            sortable: false,
+            headerName: 'Plockad?', // eslint-disable-next-line react/no-unstable-nested-components
+            renderCell: ({ value }: GridRenderCellParams<any, boolean>) =>
+                value && <CheckIcon />,
         },
         {
             field: 'visitLink',

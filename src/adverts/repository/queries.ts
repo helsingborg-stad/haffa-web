@@ -29,6 +29,7 @@ const advertProps = /* GraphQL */ `
 		isLendingAdvert
 		isReservedBySome
 		isCollectedBySome
+		isPicked
 		returnInfo {
 			at
 			quantity
@@ -272,6 +273,26 @@ mutation Mutation(
 	$id: ID!,
 ) {
 	leaveAdvertWaitlist(id: $id) {
+		${mutationProps}
+	}
+}
+`
+
+export const markAdvertAsPickedMutation = /* GraphQL */ `
+mutation Mutation(
+	$id: ID!,
+) {
+	markAdvertAsPicked(id: $id) {
+		${mutationProps}
+	}
+}
+`
+
+export const markAdvertAsUnpickedMutation = /* GraphQL */ `
+mutation Mutation(
+	$id: ID!,
+) {
+	markAdvertAsUnpicked(id: $id) {
 		${mutationProps}
 	}
 }

@@ -67,6 +67,8 @@ export const defaultPhrases: Omit<
     NOTIFICATIONS_ADVERT_WAS_RETURNED: 'Artikeln har återlämnats',
     NOTIFICATIONS_ADVERT_JOIN_WAITLIST: 'Du bevakar nu annonsen',
     NOTIFICATIONS_ADVERT_LEAVE_WAITLIST: 'Bevakningen är borttagen',
+    NOTIFICATIONS_ADVERT_PICKED: 'Annonsen är markerad som plockad',
+    NOTIFICATIONS_ADVERT_UNPICKED: 'Annonsen är markerad som oplockad',
     NOTIFICATIONS_APIKEYS_WAS_UPDATED: 'API nycklar är uppdaterade',
     NOTIFICATIONS_CATEGORIES_WAS_UPDATED: 'Inställningarna är sparade',
     NOTIFICATIONS_LOGINS_WAS_UPDATED: 'Inställningarna är sparade',

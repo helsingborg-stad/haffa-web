@@ -26,5 +26,7 @@ export interface AdvertsTableContextType {
     patchAdverts: (patch: Partial<AdvertInput>) => any
     archiveAdverts: () => any
     unarchiveAdverts: () => any
+    markAdvertsAsPicked: () => any
+    markAdvertsAsUnpicked: () => any
     createAdvertLabels: () => any
 }

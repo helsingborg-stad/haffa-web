@@ -11,6 +11,7 @@ export const createRows = (adverts: Advert[]) =>
         notes: advert.notes,
         lendingPeriod: advert.lendingPeriod,
         isOverdue: advert.meta.claims.some(({ isOverdue }) => isOverdue),
+        isPicked: advert.meta.isPicked,
         visitLink: `/advert/${advert.id}`,
         editLink: `/advert/edit/${advert.id}`,
     }))
