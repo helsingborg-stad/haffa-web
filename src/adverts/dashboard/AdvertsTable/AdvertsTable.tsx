@@ -87,23 +87,19 @@ export const AdvertsTable: FC<{
 
     // Transform sort model to serverside model
     const onSortModelChange = useCallback(
-        ([model]: GridSortModel) => {
-            console.log(filter)
-            return (
-                model &&
-                setFilter({
-                    ...filter,
-                    sorting: {
-                        ascending: model?.sort === 'asc',
-                        field: model?.field as keyof Advert,
-                    },
-                    paging: {
-                        pageSize: filter.paging?.pageSize ?? PAGE_SIZE,
-                        pageIndex: 0,
-                    },
-                })
-            )
-        },
+        ([model]: GridSortModel) =>
+            model &&
+            setFilter({
+                ...filter,
+                sorting: {
+                    ascending: model?.sort === 'asc',
+                    field: model?.field as keyof Advert,
+                },
+                paging: {
+                    pageSize: filter.paging?.pageSize ?? PAGE_SIZE,
+                    pageIndex: 0,
+                },
+            }),
         [setFilter]
     )
     // Transform pagination model to serverside model
