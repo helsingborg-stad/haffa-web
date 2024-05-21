@@ -1,11 +1,5 @@
 import { LinearProgress } from '@mui/material'
-import {
-    Advert,
-    AdvertFilterInput,
-    AdvertList,
-    AdvertRestrictionsFilterInput,
-    AdvertsContext,
-} from 'adverts'
+import { Advert, AdvertFilterInput, AdvertList, AdvertsContext } from 'adverts'
 import { ErrorView } from 'errors'
 import {
     FC,
@@ -22,9 +16,9 @@ import { createTreeAdapter } from 'lib/tree-adapter'
 import { AuthContext } from 'auth'
 import { PhraseContext } from 'phrases'
 import { Func1 } from 'lib/types'
-import { AdvertFieldsContext } from 'advert-field-config'
-import { toMap } from 'lib/to-map'
 import { UrlParamsContext } from 'url-params'
+import { AdvertFieldConfig } from 'advert-field-config/types'
+import { toMap } from 'lib/to-map'
 import { AdvertsTable, AdvertsTableContext, PAGE_SIZE } from './AdvertsTable'
 import { createColumns } from './createColumns'
 import { createSortableFields } from './createSortableFields'
@@ -34,8 +28,9 @@ import { BulkActions } from './bulk-actions'
 
 export const AdvertsTableView: FC<{
     prefix: string
-    restrictions: AdvertRestrictionsFilterInput
-}> = ({ prefix, restrictions }) => {
+    fieldConfig: AdvertFieldConfig
+    advertFilter: Pick<AdvertFilterInput, 'restrictions' | 'fields'>
+}> = ({ prefix, fieldConfig: fields, advertFilter }) => {
     type Data = AdvertList & { filter: AdvertFilterInput } & {
         fields: AdvertsTableContextType['fields']
     } & {
@@ -48,43 +43,33 @@ export const AdvertsTableView: FC<{
 
     const { phrase } = useContext(PhraseContext)
 
-    const { getFieldConfig } = useContext(AdvertFieldsContext)
-
     const sortableFields = useMemo(() => createSortableFields(), [])
     const { updateUrlFromAdvertFilterInput, patchAdvertFilterInputFromUrl } =
         useContext(UrlParamsContext)
-
-    // We kind of preftech visible fields config once and return this async result
-    // in subsequent searches
-    const fieldsPromise = useMemo(async () => {
-        const fc = await getFieldConfig()
-        return toMap(
-            fc,
-            (r) => r.name,
-            (r) => ({
-                label: r.label,
-                visible: r.visible,
-            })
-        )
-    }, [getFieldConfig])
 
     // Given a search filter, perform actual search
     const list = useCallback<Func1<AdvertFilterInput, Promise<Data>>>(
         (filter) => {
             updateUrlFromAdvertFilterInput(prefix, filter, { sortableFields })
-            return Promise.all([
-                listAdverts(filter, { signal }).then((list) => ({
+            return listAdverts(filter, { signal })
+                .then((list) => ({
                     ...list,
                     filter,
-                })),
-                fieldsPromise, // <== called once
-            ]).then(([data, fields]) => ({
-                loading: false,
-                ...data,
-                fields,
-            }))
+                }))
+                .then((data) => ({
+                    loading: false,
+                    ...data,
+                    fields: toMap(
+                        fields,
+                        (r) => r.name,
+                        (r) => ({
+                            label: r.label,
+                            visible: r.visible,
+                        })
+                    ),
+                }))
         },
-        [listAdverts, fieldsPromise]
+        [listAdverts]
     )
 
     // ids of checkbox selected adverts
@@ -99,7 +84,7 @@ export const AdvertsTableView: FC<{
             categories: [],
             filter: patchAdvertFilterInputFromUrl(
                 prefix,
-                { restrictions },
+                { ...advertFilter },
                 { sortableFields }
             ),
             paging: {
@@ -119,7 +104,7 @@ export const AdvertsTableView: FC<{
                             field: undefined,
                             ascending: true,
                         },
-                        restrictions,
+                        ...advertFilter,
                     },
                     { sortableFields }
                 )

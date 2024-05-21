@@ -1,22 +1,41 @@
 import { SimpleTab, SimpleTabs, makeSimpleTab } from 'components/SimpleTabs'
 import { PhraseContext } from 'phrases'
-import { FC, useContext, useMemo } from 'react'
+import { FC, useCallback, useContext, useMemo } from 'react'
 import { useUrlParams } from 'url-params'
+import { AdvertFieldsContext } from 'advert-field-config'
+import { AdvertFieldConfig } from 'advert-field-config/types'
+import useAsync from 'hooks/use-async'
+import { ErrorView } from 'errors'
 import { AdvertsTableView } from './AdvertsTableView'
 
 export const AdvertsDashboardView: FC = () => {
     const { phrase } = useContext(PhraseContext)
 
-    const tabs = useMemo<SimpleTab[]>(
-        () =>
-            [
+    const { getFieldConfig } = useContext(AdvertFieldsContext)
+
+    interface DashboardModel {
+        fields: AdvertFieldConfig
+        tabs: SimpleTab[]
+    }
+
+    const createTabs = useCallback(
+        (fields: AdvertFieldConfig) => {
+            const usePickup =
+                !!fields.find(
+                    ({ label, visible }) =>
+                        label === 'markedAsReadyForPickup' && visible
+                ) || true
+            return [
                 makeSimpleTab(
                     true,
                     phrase('MYADVERTS_NOT_ARCHIVED', 'Alla'),
                     () => (
                         <AdvertsTableView
                             prefix="d"
-                            restrictions={{ editableByMe: true }}
+                            fieldConfig={fields}
+                            advertFilter={{
+                                restrictions: { editableByMe: true },
+                            }}
                         />
                     )
                 ),
@@ -26,35 +45,77 @@ export const AdvertsDashboardView: FC = () => {
                     () => (
                         <AdvertsTableView
                             prefix="a"
-                            restrictions={{
-                                editableByMe: true,
-                                canBeReserved: true,
+                            fieldConfig={fields}
+                            advertFilter={{
+                                restrictions: {
+                                    editableByMe: true,
+                                    canBeReserved: true,
+                                },
                             }}
                         />
                     )
                 ),
-                makeSimpleTab(
-                    true,
-                    phrase('MYADVERTS_RESERVED', 'Reserverade'),
-                    () => (
+                !usePickup &&
+                    makeSimpleTab(
+                        true,
+                        phrase('MYADVERTS_RESERVED', 'Reserverade'),
+                        () => (
+                            <AdvertsTableView
+                                prefix="r"
+                                fieldConfig={fields}
+                                advertFilter={{
+                                    restrictions: {
+                                        editableByMe: true,
+                                        hasReservations: true,
+                                    },
+                                }}
+                            />
+                        )
+                    ),
+                usePickup &&
+                    makeSimpleTab(true, 'reserverade ej plockade', () => (
                         <AdvertsTableView
                             prefix="r"
-                            restrictions={{
-                                editableByMe: true,
-                                hasReservations: true,
+                            fieldConfig={fields}
+                            advertFilter={{
+                                fields: {
+                                    markedAsReadyForPickup: { ne: true },
+                                },
+                                restrictions: {
+                                    editableByMe: true,
+                                    hasReservations: true,
+                                },
                             }}
                         />
-                    )
-                ),
+                    )),
+                usePickup &&
+                    makeSimpleTab(true, 'reserverade och plockade', () => (
+                        <AdvertsTableView
+                            prefix="r"
+                            fieldConfig={fields}
+                            advertFilter={{
+                                fields: {
+                                    markedAsReadyForPickup: { eq: true },
+                                },
+                                restrictions: {
+                                    editableByMe: true,
+                                    hasReservations: true,
+                                },
+                            }}
+                        />
+                    )),
                 makeSimpleTab(
                     true,
                     phrase('MYADVERTS_COLLECTED', 'Uthämtade'),
                     () => (
                         <AdvertsTableView
                             prefix="c"
-                            restrictions={{
-                                editableByMe: true,
-                                hasCollects: true,
+                            fieldConfig={fields}
+                            advertFilter={{
+                                restrictions: {
+                                    editableByMe: true,
+                                    hasCollects: true,
+                                },
                             }}
                         />
                     )
@@ -65,26 +126,48 @@ export const AdvertsDashboardView: FC = () => {
                     () => (
                         <AdvertsTableView
                             prefix="a"
-                            restrictions={{
-                                editableByMe: true,
-                                isArchived: true,
+                            fieldConfig={fields}
+                            advertFilter={{
+                                restrictions: {
+                                    editableByMe: true,
+                                    isArchived: true,
+                                },
                             }}
                         />
                     )
                 ),
             ]
                 .filter((v) => v)
-                .map((v) => v!),
+                .map((v) => v! as SimpleTab)
+        },
         [phrase]
     )
+
+    const modelPromise = useMemo<Promise<DashboardModel>>(
+        async () =>
+            getFieldConfig().then((fields) => ({
+                fields,
+                tabs: createTabs(fields),
+            })),
+        [getFieldConfig]
+    )
+
+    const view = useAsync<DashboardModel>(() => modelPromise, {
+        fields: [],
+        tabs: [],
+    })
+
     const [tabIndex, setTabIndex] = useUrlParams<number>(
         '',
-        ({ t }) => {
-            const n = parseInt(t, 10)
-            return n >= 0 && n < tabs.length ? n : 0
-        },
+        ({ t }) => parseInt(t, 10),
         (t) => (t > 0 ? { t } : { t: '' })
     )
 
-    return <SimpleTabs tabs={tabs} value={tabIndex} onChange={setTabIndex} />
+    return view({
+        pending: () => null,
+        rejected: (e) => <ErrorView error={e} />,
+        resolved: ({ tabs }) => (
+            <SimpleTabs tabs={tabs} value={tabIndex} onChange={setTabIndex} />
+        ),
+    })
 }

@@ -33,24 +33,31 @@ export const SimpleTabs: FC<{
     tabs: SimpleTab[]
     value: number
     onChange: (index: number) => any
-}> = ({ tabs, value, onChange }) => (
-    <>
-        <Tabs
-            variant="scrollable"
-            scrollButtons="auto"
-            allowScrollButtonsMobile
-            value={value}
-            onChange={(_, newTabIndex) => onChange(newTabIndex)}
-            sx={{ pb: 2 }}
-        >
-            {tabs.map(({ label }, index) => (
-                <Tab key={index} label={label} />
+}> = ({ tabs, value, onChange }) => {
+    const effectiveValue = value >= 0 && value < tabs.length ? value : 0
+    return (
+        <>
+            <Tabs
+                variant="scrollable"
+                scrollButtons="auto"
+                allowScrollButtonsMobile
+                value={effectiveValue}
+                onChange={(_, newTabIndex) => onChange(newTabIndex)}
+                sx={{ pb: 2 }}
+            >
+                {tabs.map(({ label }, index) => (
+                    <Tab key={index} label={label} />
+                ))}
+            </Tabs>
+            {tabs.map(({ component }, index) => (
+                <CustomTabPanel
+                    key={index}
+                    index={index}
+                    value={effectiveValue}
+                >
+                    {component()}
+                </CustomTabPanel>
             ))}
-        </Tabs>
-        {tabs.map(({ component }, index) => (
-            <CustomTabPanel key={index} index={index} value={value}>
-                {component()}
-            </CustomTabPanel>
-        ))}
-    </>
-)
+        </>
+    )
+}

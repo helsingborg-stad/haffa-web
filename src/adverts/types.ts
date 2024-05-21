@@ -38,6 +38,7 @@ export interface StringFilterInput {
     lte?: string
     contains?: string
 }
+/*
 export type FilterInput<T> = {
     ne?: T
     eq?: T
@@ -47,6 +48,25 @@ export type FilterInput<T> = {
     lte?: T
     in?: T[]
 } & (T extends string ? { contains?: string } : Record<string, never>)
+*/
+export type FilterInput<T> = T extends string
+    ? {
+          ne?: T
+          eq?: T
+          gt?: T
+          gte?: T
+          lt?: T
+          lte?: T
+          in?: T[]
+          contains?: string
+      }
+    : T extends boolean
+    ? {
+          ne?: T
+          eq?: T
+          in?: T[]
+      }
+    : Record<string, never>
 
 type Flatten<Type> = Type extends Array<infer Item> ? Item : Type
 
