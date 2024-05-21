@@ -17,7 +17,7 @@ export const AdvertsTableContext = createContext<AdvertsTableContextType>({
     categories: [],
     categoryTree: createNullTreeAdapter(),
     filter: {},
-    selected: new Set<string>(),
+    selected: [],
     fields: {},
     setSelected: missing('setSelected'),
     selectionMatches: missing('selectionMatches'),

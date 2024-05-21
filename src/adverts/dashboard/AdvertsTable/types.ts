@@ -1,3 +1,4 @@
+import { GridRowSelectionModel } from '@mui/x-data-grid'
 import {
     Advert,
     AdvertFilterInput,
@@ -6,7 +7,6 @@ import {
 } from 'adverts'
 import { Category } from 'categories/types'
 import { Func1, TreeAdapter } from 'lib/types'
-import { ReactNode } from 'react'
 
 export interface AdvertsTableContextType {
     adverts: Advert[]
@@ -14,9 +14,9 @@ export interface AdvertsTableContextType {
     categories: Category[]
     categoryTree: TreeAdapter<Category>
     filter: AdvertFilterInput
-    selected: Set<string>
+    selected: GridRowSelectionModel
     fields: Partial<Record<keyof Advert, { visible: boolean; label: string }>>
-    setSelected: (selected: Set<string>) => void
+    setSelected: (selected: GridRowSelectionModel) => void
     selectionMatches: (test: (a: Advert) => boolean) => boolean
     selectionCommonValue: <T>(
         getter: Func1<Advert, T>,
@@ -27,23 +27,4 @@ export interface AdvertsTableContextType {
     archiveAdverts: () => any
     unarchiveAdverts: () => any
     createAdvertLabels: () => any
-}
-
-export interface Column<T> {
-    key: string
-    label: string
-    sortField?: keyof T
-    getter: (item: T) => string | boolean | undefined
-    header?: () => ReactNode
-    cell?: (item: T) => ReactNode
-}
-
-export interface ColumnComponentFactory<T> {
-    key: string
-    header: () => ReactNode
-    cell: (item: T) => ReactNode
-}
-
-export interface TableComponentFactory<T> {
-    mapColumns: (columns: Column<T>[]) => ColumnComponentFactory<T>[]
 }

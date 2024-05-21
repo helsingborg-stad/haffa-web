@@ -7,14 +7,7 @@ import {
     AdvertsContext,
 } from 'adverts'
 import { ErrorView } from 'errors'
-import {
-    FC,
-    useCallback,
-    useContext,
-    useEffect,
-    useMemo,
-    useState,
-} from 'react'
+import { FC, useCallback, useContext, useMemo, useState } from 'react'
 import useAbortController from 'hooks/use-abort-controller'
 import { useFetchQueue } from 'hooks/use-fetch-queue'
 import { createTreeAdapter } from 'lib/tree-adapter'
@@ -25,6 +18,7 @@ import { Func1 } from 'lib/types'
 import { AdvertFieldsContext } from 'advert-field-config'
 import { toMap } from 'lib/to-map'
 import { UrlParamsContext } from 'url-params'
+import { GridRowId, GridRowSelectionModel } from '@mui/x-data-grid'
 import { AdvertsTable, AdvertsTableContext, PAGE_SIZE } from './AdvertsTable'
 import { createColumns } from './createColumns'
 import { createSortableFields } from './createSortableFields'
@@ -88,7 +82,7 @@ export const AdvertsTableView: FC<{
     )
 
     // ids of checkbox selected adverts
-    const [selected, setSelected] = useState(new Set<string>())
+    const [selected, setSelected] = useState<GridRowSelectionModel>([])
 
     // Async driver for initial and repeated updates of data via server side search
     const [data, error, enqueue] = useFetchQueue<Data>(
@@ -126,25 +120,9 @@ export const AdvertsTableView: FC<{
             ),
         100
     )
-
-    const selectedAdverts = useMemo(
-        () => data.adverts.filter(({ id }) => selected.has(id)),
-        [selected, data]
-    )
-
-    // Fixup selection to match current result
-    useEffect(() => {
-        const validSelections = new Set<string>(
-            data.adverts.map(({ id }) => id)
-        )
-        if ([...selected].some((id) => !validSelections.has(id))) {
-            setSelected(new Set<string>())
-        }
-    }, [data, selected, setSelected])
-
     // Perform a forech update and the list fresh from server
     const bulkUpdateAdverts = useCallback(
-        (update: (id: string) => Promise<any>) =>
+        (update: (id: GridRowId) => Promise<any>) =>
             enqueue(() =>
                 Promise.all([...selected].map(update)).then(() =>
                     list(data.filter)
@@ -169,14 +147,15 @@ export const AdvertsTableView: FC<{
             setSelected,
             setFilter: (f) => enqueue(() => list(f)),
             selectionMatches: (p) =>
-                selected.size > 0 && selectedAdverts.every(p),
+                selected.length > 0 &&
+                data.adverts.filter(({ id }) => selected.includes(id)).every(p),
             selectionCommonValue: <T,>(
                 getter: Func1<Advert, T>,
                 def: T
             ): { value: T; conflict: boolean } => {
                 const values = new Set<T>(
                     data.adverts
-                        .filter(({ id }) => selected.has(id))
+                        .filter(({ id }) => selected.includes(id))
                         .map(getter)
                 )
                 return values.size === 1
@@ -187,13 +166,14 @@ export const AdvertsTableView: FC<{
                     : { value: def, conflict: true }
             },
             patchAdverts: (patch) =>
-                bulkUpdateAdverts((id) => patchAdvert(id, patch)),
-            archiveAdverts: () => bulkUpdateAdverts((id) => archiveAdvert(id)),
+                bulkUpdateAdverts((id) => patchAdvert(String(id), patch)),
+            archiveAdverts: () =>
+                bulkUpdateAdverts((id) => archiveAdvert(String(id))),
             unarchiveAdverts: () =>
-                bulkUpdateAdverts((id) => unarchiveAdvert(id)),
+                bulkUpdateAdverts((id) => unarchiveAdvert(String(id))),
             createAdvertLabels: () =>
                 window.open(
-                    `/api/v1/labels/${Array.from(selected.keys()).toString()}`,
+                    `/api/v1/labels/${selected.toString()}`,
                     'Etiketter'
                 ),
         }),

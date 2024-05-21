@@ -1,6 +1,7 @@
 import { Theme, createTheme } from '@mui/material/styles'
 import { toMap } from 'lib/to-map'
 import { svSE } from '@mui/material/locale'
+import { svSE as svSE_DataGrid } from '@mui/x-data-grid/locales'
 import { ThemeModel } from './types'
 import type { Option } from '../options/types'
 
@@ -186,6 +187,7 @@ export const createCustomTheme = (model: ThemeModel): Theme => {
                 },
             },
         },
-        svSE
+        svSE,
+        svSE_DataGrid
     )
 }

@@ -1,28 +1,24 @@
+import { Grid, InputAdornment, Stack, TextField } from '@mui/material'
 import {
-    Grid,
-    InputAdornment,
-    Stack,
-    Table,
-    TableBody,
-    TableCell,
-    TableContainer,
-    TableHead,
-    TablePagination,
-    TableRow,
-    TextField,
-} from '@mui/material'
+    DataGrid,
+    GridColDef,
+    GridColumnVisibilityModel,
+    GridPaginationModel,
+    GridSortModel,
+    GridToolbar,
+} from '@mui/x-data-grid'
+
 import { Advert, AdvertFilterInput } from 'adverts'
-import { FC, PropsWithChildren, useContext, useMemo, useState } from 'react'
+import { FC, PropsWithChildren, useCallback, useContext, useState } from 'react'
 import SearchIcon from '@mui/icons-material/Search'
 import {
     FilterDialog,
     FiltersIconButton,
 } from 'adverts/components/filter/filters'
-import { Column, ColumnComponentFactory } from './types'
-import { createAdvertTableComponentFactory } from '../components'
-import { MultiselectCheckbox } from '../components/MultiselectCheckbox'
-import { SingleselectCheckbox } from '../components/SingleselectCheckbox'
+
+import useLocalStorage from 'hooks/use-local-storage'
 import { AdvertsTableContext } from './AdvertsTableContext'
+import { createRows } from '../createRows'
 
 export const PAGE_SIZE = 25
 const PAGE_SIZES = [10, 25, 50, 100]
@@ -76,87 +72,94 @@ const FilterPanel: FC<
 }
 
 export const AdvertsTable: FC<{
-    columns: Column<Advert>[]
+    columns: GridColDef[]
 }> = ({ columns }) => {
+    const context = useContext(AdvertsTableContext)
     const { selected, setSelected, filter, setFilter, adverts, paging } =
-        useContext(AdvertsTableContext)
-    const cols = useMemo<ColumnComponentFactory<Advert>[]>(
-        () => [
-            ...createAdvertTableComponentFactory({
-                filter,
-                setFilter,
-            }).mapColumns(columns),
-        ],
-        [filter, setFilter, columns]
-    )
+        context
 
+    // Save/Load visibility model to localstorage
+    const [visibilityModel, onColumnVisibilityModelChange] =
+        useLocalStorage<GridColumnVisibilityModel>(
+            'haffa-my-adverts-v2-visibility-model',
+            columns.reduce((p, c) => ({ ...p, [c.field]: true }), {})
+        )
+
+    // Transform sort model to serverside model
+    const onSortModelChange = useCallback(
+        ([model]: GridSortModel) => {
+            console.log(filter)
+            return (
+                model &&
+                setFilter({
+                    ...filter,
+                    sorting: {
+                        ascending: model?.sort === 'asc',
+                        field: model?.field as keyof Advert,
+                    },
+                    paging: {
+                        pageSize: filter.paging?.pageSize ?? PAGE_SIZE,
+                        pageIndex: 0,
+                    },
+                })
+            )
+        },
+        [setFilter]
+    )
+    // Transform pagination model to serverside model
+    const onPaginationModelChange = useCallback(
+        (model: GridPaginationModel) => {
+            setFilter({
+                ...filter,
+                paging: {
+                    pageSize: model.pageSize,
+                    pageIndex: model.page,
+                },
+            })
+        },
+        [setFilter]
+    )
     return (
         <Stack direction="column" spacing={2}>
             <FilterPanel filter={filter} setFilter={setFilter} />
-            <TableContainer>
-                <Table>
-                    <TableHead>
-                        <TableRow>
-                            <TableCell key="[]">
-                                <MultiselectCheckbox
-                                    selected={selected}
-                                    viable={adverts.map(({ id }) => id)}
-                                    onChange={setSelected}
-                                />
-                            </TableCell>
-                            {cols.map((c) => (
-                                <TableCell key={c.key}>{c.header()}</TableCell>
-                            ))}
-                            <TableCell />
-                            <TableCell />
-                        </TableRow>
-                    </TableHead>
-                    <TableBody>
-                        {adverts.map((advert) => (
-                            <TableRow hover key={advert.id}>
-                                <TableCell key="[]">
-                                    <SingleselectCheckbox
-                                        id={advert.id}
-                                        selected={selected}
-                                        onChange={setSelected}
-                                    />
-                                </TableCell>
-                                {cols.map((c) => (
-                                    <TableCell key={c.key}>
-                                        {c.cell(advert)}
-                                    </TableCell>
-                                ))}
-                            </TableRow>
-                        ))}
-                    </TableBody>
-                </Table>
-            </TableContainer>
-            <TablePagination
-                rowsPerPageOptions={PAGE_SIZES}
-                component="div"
-                count={paging.totalCount}
-                rowsPerPage={paging.pageSize}
-                page={paging.pageIndex || 0}
-                onPageChange={(_, p) =>
-                    setFilter({
-                        ...filter,
-                        paging: {
+            <DataGrid
+                autoHeight
+                getRowHeight={() => 'auto'}
+                slots={{ toolbar: GridToolbar }}
+                disableColumnFilter
+                sortingMode="server"
+                onSortModelChange={onSortModelChange}
+                sortingOrder={['asc', 'desc']}
+                sortModel={[
+                    {
+                        sort: filter.sorting?.ascending ? 'asc' : 'desc',
+                        field: (filter.sorting?.field as keyof Advert) ?? '',
+                    },
+                ]}
+                paginationMode="server"
+                rowCount={paging.totalCount}
+                onPaginationModelChange={onPaginationModelChange}
+                paginationModel={{
+                    page: paging.pageIndex,
+                    pageSize: paging.pageSize,
+                }}
+                onRowSelectionModelChange={setSelected}
+                rowSelectionModel={selected}
+                columnVisibilityModel={visibilityModel}
+                onColumnVisibilityModelChange={onColumnVisibilityModelChange}
+                rows={createRows(adverts)}
+                columns={columns}
+                initialState={{
+                    pagination: {
+                        rowCount: paging.totalCount,
+                        paginationModel: {
                             pageSize: PAGE_SIZE,
-                            ...filter.paging,
-                            pageIndex: p,
+                            page: 0,
                         },
-                    })
-                }
-                onRowsPerPageChange={(e) =>
-                    setFilter({
-                        ...filter,
-                        paging: {
-                            pageIndex: 0,
-                            ...filter.paging,
-                            pageSize: +e.target.value,
-                        },
-                    })
-                }
+                    },
+                }}
+                pageSizeOptions={PAGE_SIZES}
+                checkboxSelection
             />
         </Stack>
     )

@@ -28,7 +28,6 @@ const createUrlParamsContext = (
             .map((s) => s.trim())
             .map((s) => decodeURIComponent(s))
             .filter((v) => v)
-        console.log(params.size)
         const sorting = params.sf || ''
         const page = parseInt(params.p, 10) || 0
         return {
