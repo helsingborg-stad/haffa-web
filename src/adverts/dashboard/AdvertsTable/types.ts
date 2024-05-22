@@ -6,6 +6,7 @@ import {
 } from 'adverts'
 import { Category } from 'categories/types'
 import { Func1, TreeAdapter } from 'lib/types'
+import { ReactElement } from 'react'
 
 export interface AdvertsTableContextType {
     adverts: Advert[]
@@ -29,7 +30,6 @@ export interface AdvertsTableContextType {
     markAdvertsAsUnpicked: () => any
     createAdvertLabels: () => any
 }
-
 export interface AdvertTableRow {
     id: string
     image: string
@@ -40,6 +40,21 @@ export interface AdvertTableRow {
     notes: string
     lendingPeriod: number
     isOverdue: boolean
+    isPicked: boolean
     visitLink: string
     editLink: string
+}
+export interface AdvertTableColumn {
+    field: keyof AdvertTableRow
+    align?: 'left' | 'right' | 'center'
+    headerAlign?: 'left' | 'right' | 'center'
+    type?: 'number' | 'string' | 'boolean'
+    sortable?: boolean
+    headerName?: string
+    renderCell?: (value: any) => ReactElement
+    valueGetter?: (value: any) => any
+    width?: number
+    height?: number
+    minWidth?: number
+    maxWidth?: number
 }

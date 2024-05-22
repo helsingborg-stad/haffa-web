@@ -1,7 +1,6 @@
 import { Grid, InputAdornment, Stack, TextField } from '@mui/material'
 import {
     DataGrid,
-    GridColDef,
     GridColumnVisibilityModel,
     GridPaginationModel,
     GridSortModel,
@@ -19,6 +18,7 @@ import {
 import useLocalStorage from 'hooks/use-local-storage'
 import { AdvertsTableContext } from './AdvertsTableContext'
 import { createRows } from '../createRows'
+import { AdvertTableColumn } from './types'
 
 export const PAGE_SIZE = 25
 const PAGE_SIZES = [10, 25, 50, 100]
@@ -72,7 +72,7 @@ const FilterPanel: FC<
 }
 
 export const AdvertsTable: FC<{
-    columns: GridColDef[]
+    columns: AdvertTableColumn[]
 }> = ({ columns }) => {
     const context = useContext(AdvertsTableContext)
     const { selected, setSelected, filter, setFilter, adverts, paging } =

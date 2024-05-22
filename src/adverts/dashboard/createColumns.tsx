@@ -7,12 +7,9 @@ import { ReactNode } from 'react'
 import { Box, Stack, Typography } from '@mui/material'
 import { sortBy } from 'lib/sort-by'
 import {
-    GridAlignment,
-    GridColDef,
-    GridColType,
-    GridRenderCellParams,
-} from '@mui/x-data-grid'
-import { AdvertTableRow, AdvertsTableContextType } from './AdvertsTable/types'
+    AdvertTableColumn,
+    AdvertsTableContextType,
+} from './AdvertsTable/types'
 
 export const createLink = (to: string | undefined, icon: ReactNode) => (
     <NavLink to={to ?? ''} style={{ color: 'inherit', textDecoration: 'none' }}>
@@ -45,91 +42,83 @@ const createTagList = (tags?: string[]) => (
 export const createColumns = ({
     categoryTree,
     fields,
-}: AdvertsTableContextType): GridColDef<AdvertTableRow>[] =>
-    [
-        {
-            field: 'image',
-            headerAlign: 'center' as GridAlignment,
-            sortable: false,
-            headerName: 'Bild',
-            renderCell: ({ value }: GridRenderCellParams<any, string>) =>
-                createAdvertImage(value),
-            minWidth: 68,
-            maxWidth: 68,
-        },
-        {
-            field: 'title',
-            headerName: fields.title?.label || '',
-            width: 250,
-        },
-        {
-            field: 'category',
-            sortable: false,
-            headerName: fields.category?.label || '',
-            valueGetter: (value: string) =>
-                categoryTree
-                    .pathById(value)
-                    .map(({ label }) => label)
-                    .join(' - '),
-        },
-        {
-            field: 'tags',
-            sortable: false,
-            headerName: fields.tags?.label || '',
-            renderCell: ({ value }: GridRenderCellParams<any, string[]>) =>
-                createTagList(value),
-        },
-        {
-            field: 'reference',
-            headerName: fields.reference?.label || '',
-            headerAlign: 'right' as GridAlignment,
-            align: 'right' as GridAlignment,
-        },
-        {
-            field: 'notes',
-            headerName: fields.notes?.label || '',
-        },
-        {
-            field: 'lendingPeriod',
-            type: 'number' as GridColType,
-            headerName: fields.lendingPeriod?.label || '',
-            valueGetter: (value: string) => Number(value),
-        },
-        {
-            field: 'isOverdue',
-            minWidth: 48,
-            maxWidth: 48,
-            align: 'center' as GridAlignment,
-            sortable: false,
-            headerName: 'Försenad?', // eslint-disable-next-line react/no-unstable-nested-components
-            renderCell: ({ value }: GridRenderCellParams<any, boolean>) =>
-                value && <EventBusyIcon />,
-        },
-        {
-            field: 'isPicked',
-            sortable: false,
-            headerName: 'Plockad?', // eslint-disable-next-line react/no-unstable-nested-components
-            renderCell: ({ value }: GridRenderCellParams<any, boolean>) =>
-                value && <CheckIcon />,
-        },
-        {
-            field: 'visitLink',
-            minWidth: 48,
-            maxWidth: 48,
-            align: 'center' as GridAlignment,
-            sortable: false,
-            headerName: 'Gå till',
-            renderCell: ({ value }: GridRenderCellParams<any, string>) =>
-                createLink(value, <OpenInBrowserIcon />),
-        },
-        {
-            field: 'editLink',
-            minWidth: 48,
-            maxWidth: 48,
-            align: 'center' as GridAlignment,
-            sortable: false,
-            headerName: 'Redigera',
-            renderCell: ({ value }: GridRenderCellParams<any, string>) =>
-                createLink(value, <EditIcon />),
-        },
-    ].filter(({ field }) => field)
+}: AdvertsTableContextType): AdvertTableColumn[] => [
+    {
+        field: 'image',
+        headerAlign: 'center',
+        sortable: false,
+        headerName: 'Bild',
+        renderCell: ({ value }) => createAdvertImage(value),
+        minWidth: 68,
+        maxWidth: 68,
+    },
+    {
+        field: 'title',
+        headerName: fields.title?.label || '',
+        width: 200,
+    },
+    {
+        field: 'category',
+        sortable: false,
+        headerName: fields.category?.label || '',
+        valueGetter: (value) =>
+            categoryTree
+                .pathById(value)
+                .map(({ label }) => label)
+                .join(' - '),
+    },
+    {
+        field: 'tags',
+        sortable: false,
+        headerName: fields.tags?.label || '',
+        renderCell: ({ value }) => createTagList(value),
+    },
+    {
+        field: 'reference',
+        headerName: fields.reference?.label || '',
+        headerAlign: 'right',
+        align: 'right',
+    },
+    {
+        field: 'notes',
+        headerName: fields.notes?.label || '',
+    },
+    {
+        field: 'lendingPeriod',
+        type: 'number',
+        headerName: fields.lendingPeriod?.label || '',
+    },
+    {
+        field: 'isOverdue',
+        minWidth: 48,
+        maxWidth: 48,
+        align: 'center',
+        sortable: false,
+        headerName: 'Försenad?',
+        renderCell: ({ value }) => value && <EventBusyIcon />,
+    },
+    {
+        field: 'isPicked',
+        sortable: false,
+        headerName: 'Plockad?',
+        renderCell: ({ value }) => value && <CheckIcon />,
+    },
+    {
+        field: 'visitLink',
+        minWidth: 48,
+        maxWidth: 48,
+        align: 'center',
+        sortable: false,
+        headerName: 'Gå till',
+        renderCell: ({ value }) => createLink(value, <OpenInBrowserIcon />),
+    },
+    {
+        field: 'editLink',
+        minWidth: 48,
+        maxWidth: 48,
+        align: 'center',
+        sortable: false,
+        headerName: 'Redigera',
+        renderCell: ({ value }) => createLink(value, <EditIcon />),
+    },
+]
