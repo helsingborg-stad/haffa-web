@@ -1,4 +1,3 @@
-import { GridRowSelectionModel } from '@mui/x-data-grid'
 import {
     Advert,
     AdvertFilterInput,
@@ -14,9 +13,9 @@ export interface AdvertsTableContextType {
     categories: Category[]
     categoryTree: TreeAdapter<Category>
     filter: AdvertFilterInput
-    selected: GridRowSelectionModel
+    selected: Array<string | number>
     fields: Partial<Record<keyof Advert, { visible: boolean; label: string }>>
-    setSelected: (selected: GridRowSelectionModel) => void
+    setSelected: (selected: Array<string | number>) => void
     selectionMatches: (test: (a: Advert) => boolean) => boolean
     selectionCommonValue: <T>(
         getter: Func1<Advert, T>,
@@ -27,4 +26,18 @@ export interface AdvertsTableContextType {
     archiveAdverts: () => any
     unarchiveAdverts: () => any
     createAdvertLabels: () => any
+}
+
+export interface AdvertTableRow {
+    id: string
+    image: string
+    title: string
+    category: string
+    tags: string[]
+    reference: string
+    notes: string
+    lendingPeriod: number
+    isOverdue: boolean
+    visitLink: string
+    editLink: string
 }

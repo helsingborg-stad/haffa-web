@@ -5,8 +5,13 @@ import { NavLink } from 'react-router-dom'
 import { ReactNode } from 'react'
 import { Box, Stack, Typography } from '@mui/material'
 import { sortBy } from 'lib/sort-by'
-import { GridColDef, GridColType, GridRenderCellParams } from '@mui/x-data-grid'
-import { AdvertsTableContextType } from './AdvertsTable/types'
+import {
+    GridAlignment,
+    GridColDef,
+    GridColType,
+    GridRenderCellParams,
+} from '@mui/x-data-grid'
+import { AdvertTableRow, AdvertsTableContextType } from './AdvertsTable/types'
 
 export const createLink = (to: string | undefined, icon: ReactNode) => (
     <NavLink to={to ?? ''} style={{ color: 'inherit', textDecoration: 'none' }}>
@@ -39,18 +44,22 @@ const createTagList = (tags?: string[]) => (
 export const createColumns = ({
     categoryTree,
     fields,
-}: AdvertsTableContextType): GridColDef[] =>
+}: AdvertsTableContextType): GridColDef<AdvertTableRow>[] =>
     [
         {
             field: 'image',
+            headerAlign: 'center' as GridAlignment,
             sortable: false,
-            headerName: fields.images?.label || '',
+            headerName: 'Bild',
             renderCell: ({ value }: GridRenderCellParams<any, string>) =>
                 createAdvertImage(value),
+            minWidth: 68,
+            maxWidth: 68,
         },
         {
             field: 'title',
             headerName: fields.title?.label || '',
+            width: 250,
         },
         {
             field: 'category',
@@ -72,6 +81,8 @@ export const createColumns = ({
         {
             field: 'reference',
             headerName: fields.reference?.label || '',
+            headerAlign: 'right' as GridAlignment,
+            align: 'right' as GridAlignment,
         },
         {
             field: 'notes',
@@ -85,6 +96,9 @@ export const createColumns = ({
         },
         {
             field: 'isOverdue',
+            minWidth: 48,
+            maxWidth: 48,
+            align: 'center' as GridAlignment,
             sortable: false,
             headerName: 'Försenad?', // eslint-disable-next-line react/no-unstable-nested-components
             renderCell: ({ value }: GridRenderCellParams<any, boolean>) =>
@@ -92,6 +106,9 @@ export const createColumns = ({
         },
         {
             field: 'visitLink',
+            minWidth: 48,
+            maxWidth: 48,
+            align: 'center' as GridAlignment,
             sortable: false,
             headerName: 'Gå till',
             renderCell: ({ value }: GridRenderCellParams<any, string>) =>
@@ -99,6 +116,9 @@ export const createColumns = ({
         },
         {
             field: 'editLink',
+            minWidth: 48,
+            maxWidth: 48,
+            align: 'center' as GridAlignment,
             sortable: false,
             headerName: 'Redigera',
             renderCell: ({ value }: GridRenderCellParams<any, string>) =>

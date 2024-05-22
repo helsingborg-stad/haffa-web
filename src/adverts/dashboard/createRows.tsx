@@ -1,6 +1,7 @@
 import { Advert } from 'adverts/types'
+import { AdvertTableRow } from './AdvertsTable/types'
 
-export const createRows = (adverts: Advert[]) =>
+export const createRows = (adverts: Advert[]): AdvertTableRow[] =>
     adverts.map((advert) => ({
         id: advert.id,
         image: advert.images[0]?.url,
