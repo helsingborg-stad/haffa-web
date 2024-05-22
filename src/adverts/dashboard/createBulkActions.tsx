@@ -7,6 +7,8 @@ import { PhraseContextType } from 'phrases'
 import CategoryIcon from '@mui/icons-material/Category'
 import { uniqueBy } from 'lib/unique-by'
 import DateRangeIcon from '@mui/icons-material/DateRange'
+import StorefrontIcon from '@mui/icons-material/Storefront'
+import WarehouseIcon from '@mui/icons-material/Warehouse'
 import { BulkAction } from './bulk-actions/types'
 import { AdvertsTableContextType } from './AdvertsTable/types'
 import {
@@ -27,7 +29,6 @@ const makeAction = (
               enabled: () => false,
               action: () => undefined,
           }
-
 export const createBulkActions = ({
     phrase,
     roles,
@@ -35,12 +36,35 @@ export const createBulkActions = ({
     selectionMatches,
     archiveAdverts,
     unarchiveAdverts,
+    markAdvertsAsPicked,
+    markAdvertsAsUnpicked,
     createAdvertLabels,
 }: AdvertsTableContextType & { roles: HaffaUserRoles } & Pick<
         PhraseContextType,
         'phrase'
     >): BulkAction[] =>
     [
+        makeAction(roles.canManagePicked, {
+            key: 'markAdvertsAsPicked',
+            label: phrase(
+                'BULKADVERTACTION_MARK_AS_PICKED',
+                'Markera som plockad'
+            ),
+            icon: <StorefrontIcon />,
+            enabled: () => selectionMatches(({ meta: { canPick } }) => canPick),
+            action: markAdvertsAsPicked,
+        }),
+        makeAction(roles.canManagePicked, {
+            key: 'markAdvertsAsUnpicked',
+            label: phrase(
+                'BULKADVERTACTION_MARK_AS_UNPICKED',
+                'Markera som oplockad'
+            ),
+            icon: <WarehouseIcon />,
+            enabled: () =>
+                selectionMatches(({ meta: { canUnpick } }) => canUnpick),
+            action: markAdvertsAsUnpicked,
+        }),
         makeAction(roles.canArchiveOwnAdverts, {
             key: 'archive',
             icon: <ArchiveIcon />,

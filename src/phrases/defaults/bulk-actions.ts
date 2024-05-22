@@ -3,4 +3,6 @@ export default {
     BULKADVERTACTION_ARCHIVE: 'Arkivera',
     BULKADVERTACTION_UNARCHIVE: 'Återställ arkiverade',
     BULKADVERTACTION_EDIT_CATEGORIES: 'Sätt kategorier',
+    BULKADVERTACTION_MARK_AS_PICKED: 'Markera som plockad',
+    BULKADVERTACTION_MARK_AS_UNPICKED: 'Markera som oplockad',
 }

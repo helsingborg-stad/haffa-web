@@ -157,11 +157,14 @@ export interface AdvertMeta {
     canLeaveWaitList: boolean
     canManageClaims: boolean
     canReturn: boolean
+    canPick: boolean
+    canUnpick: boolean
     reservedyMe: number
     collectedByMe: number
     isLendingAdvert: boolean
     isReservedBySome: boolean
     isCollectedBySome: boolean
+    isPicked: boolean
     returnInfo: AdvertReturnInfo[]
     claims: AdvertClaim[]
 }
@@ -271,4 +274,6 @@ export interface AdvertsRepository {
     returnAdvert: (id: string) => Promise<AdvertMutationResult>
     joinAdvertWaitlist: (id: string) => Promise<AdvertMutationResult>
     leaveAdvertWaitlist: (id: string) => Promise<AdvertMutationResult>
+    markAdvertAsPicked: (id: string) => Promise<AdvertMutationResult>
+    markAdvertAsUnpicked: (id: string) => Promise<AdvertMutationResult>
 }

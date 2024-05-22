@@ -23,6 +23,8 @@ export const AdvertsContext = createContext<AdvertsRepository>({
     returnAdvert: notProvided('returnAdvert'),
     joinAdvertWaitlist: notProvided('joinAdvertWaitlist'),
     leaveAdvertWaitlist: notProvided('leaveAdvertWaitlist'),
+    markAdvertAsPicked: notProvided('markAdvertAsPicked'),
+    markAdvertAsUnpicked: notProvided('markAdvertAsUnpicked'),
 })
 
 export const AdvertsProvider: FC<

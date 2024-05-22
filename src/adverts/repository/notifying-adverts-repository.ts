@@ -147,5 +147,23 @@ export const createNotifyingAdvertsRepository = (
                         'Bevakningen är borttagen'
                     )
                 ),
+        markAdvertAsPicked: (...args) =>
+            inner
+                .markAdvertAsPicked(...args)
+                .then(
+                    info(
+                        'NOTIFICATIONS_ADVERT_PICKED',
+                        'Annonsen är markerad som plockad'
+                    )
+                ),
+        markAdvertAsUnpicked: (...args) =>
+            inner
+                .markAdvertAsUnpicked(...args)
+                .then(
+                    info(
+                        'NOTIFICATIONS_ADVERT_UNPICKED',
+                        'Annonsen är markerad som oplockad'
+                    )
+                ),
     }
 }

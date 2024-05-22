@@ -9,7 +9,9 @@ export type FieldName = keyof (Omit<
     'images' | 'externalId' | 'location' | 'contact'
 > &
     AdvertContact &
-    AdvertLocation)
+    AdvertLocation & {
+        picked: boolean
+    })
 
 export const ConfigurableFields: Array<FieldName> = [
     'title',
@@ -65,6 +67,7 @@ export const FieldLabels: Record<FieldName, string> = {
     email: 'Email',
     phone: 'Telefon',
     country: 'Land',
+    picked: 'Plockad',
 }
 
 export interface FieldConfig {

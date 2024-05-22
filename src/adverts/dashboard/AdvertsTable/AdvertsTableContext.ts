@@ -26,5 +26,7 @@ export const AdvertsTableContext = createContext<AdvertsTableContextType>({
     patchAdverts: missing('patchAdverts'),
     archiveAdverts: missing('archiveAdverts'),
     unarchiveAdverts: missing('unarchiveAdverts'),
+    markAdvertsAsPicked: missing('markAdvertsAsPicked'),
+    markAdvertsAsUnpicked: missing('markAdvertsAsUnpicked'),
     createAdvertLabels: missing('createAdvertLabels'),
 })

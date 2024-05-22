@@ -36,8 +36,14 @@ export const AdvertsTableView: FC<{
     }
     const { signal } = useAbortController()
     const { roles } = useContext(AuthContext)
-    const { listAdverts, patchAdvert, archiveAdvert, unarchiveAdvert } =
-        useContext(AdvertsContext)
+    const {
+        listAdverts,
+        patchAdvert,
+        archiveAdvert,
+        unarchiveAdvert,
+        markAdvertAsPicked,
+        markAdvertAsUnpicked,
+    } = useContext(AdvertsContext)
 
     const { phrase } = useContext(PhraseContext)
 
@@ -170,6 +176,10 @@ export const AdvertsTableView: FC<{
                 bulkUpdateAdverts((id) => archiveAdvert(String(id))),
             unarchiveAdverts: () =>
                 bulkUpdateAdverts((id) => unarchiveAdvert(String(id))),
+            markAdvertsAsPicked: () =>
+                bulkUpdateAdverts((id) => markAdvertAsPicked(String(id))),
+            markAdvertsAsUnpicked: () =>
+                bulkUpdateAdverts((id) => markAdvertAsUnpicked(String(id))),
             createAdvertLabels: () =>
                 window.open(
                     `/api/v1/labels/${selected.toString()}`,

@@ -84,6 +84,8 @@ export const setAdvertDefaults = (
                 case 'lendingPeriod':
                     base[field.name] = Number(field.initial)
                     break
+                case 'picked':
+                    break
                 default:
                     base[field.name] = field.initial
                     break
