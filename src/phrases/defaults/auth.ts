@@ -13,4 +13,6 @@ export default {
     AUTH_LABEL_ENTER_PINCODE: 'Ange engångskoden från mailet',
     AUTH_LABEL_EMAIL: 'Email',
     AUTH_LABEL_LOGIN: 'Logga in',
+    AUTH_LABEL_ACCEPT_TERMS:
+        'Jag godkänner att mina personuppgifter hanteras för kunna tillhandahålla tjänsten. Läs mer om vår personuppgiftshantering **[här](http://haffa.helsingborg.se)**.',
 }

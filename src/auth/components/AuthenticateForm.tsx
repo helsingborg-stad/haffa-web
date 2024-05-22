@@ -3,14 +3,19 @@ import {
     Alert,
     Box,
     Button,
+    Checkbox,
     CircularProgress,
+    FormControlLabel,
+    FormGroup,
     InputAdornment,
     Step,
     StepContent,
     StepLabel,
     Stepper,
     TextField,
+    Typography,
 } from '@mui/material'
+import { Markdown } from 'components/Markdown'
 import { AuthContext } from '../AuthContext'
 import { PhraseContext } from '../../phrases/PhraseContext'
 import { Phrase } from '../../phrases/Phrase'
@@ -30,13 +35,15 @@ export const AuthenticateForm: FC<{
     const [state, setState] = useState<{
         loading: boolean
         step: number
+        termsAccepted: boolean
         errorMessage?: string
     }>({
         loading: false,
         step: 0,
+        termsAccepted: false,
     })
 
-    const { step, loading, errorMessage } = state
+    const { step, loading, errorMessage, termsAccepted } = state
 
     const config =
         type === 'email'
@@ -199,12 +206,37 @@ export const AuthenticateForm: FC<{
                                 onChange={(e) => setIdentity(e.target.value)}
                                 disabled={loading}
                             />
+                            <FormGroup>
+                                <FormControlLabel
+                                    control={
+                                        <Checkbox
+                                            checked={termsAccepted}
+                                            onChange={(_, checked) =>
+                                                setState({
+                                                    ...state,
+                                                    termsAccepted: checked,
+                                                })
+                                            }
+                                        />
+                                    }
+                                    label={
+                                        <Markdown
+                                            markdown={phrase(
+                                                'AUTH_LABEL_ACCEPT_TERMS',
+                                                ''
+                                            )}
+                                        />
+                                    }
+                                />
+                            </FormGroup>
+
+                            <Typography />
                             <Button
                                 type="submit"
                                 fullWidth
                                 variant="contained"
                                 sx={{ mt: 3, mb: 2 }}
-                                disabled={loading}
+                                disabled={loading || !termsAccepted}
                             >
                                 {config.labels.send}
                             </Button>
@@ -279,6 +311,7 @@ export const AuthenticateForm: FC<{
                                         setState({
                                             loading: false,
                                             step: 0,
+                                            termsAccepted: false,
                                             errorMessage: undefined,
                                         })
                                     }}
