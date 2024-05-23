@@ -16,6 +16,7 @@ import { ContactCard } from './ContactCard'
 import { DetailsPanel } from './DetailsPanel'
 import { ReturnPanel } from './ReturnPanel'
 import { TagDescriptionsPanel } from './TagDescriptionsPanel'
+import { PickPanel } from './PickPanel'
 
 export const AdvertCard: FC<{
     advert: Advert
@@ -132,6 +133,8 @@ export const AdvertCard: FC<{
             </Card>
 
             <ArchivedPanel advert={advert} onUpdate={onUpdate} />
+
+            <PickPanel advert={advert} onUpdate={onUpdate} />
 
             <ReturnPanel advert={advert} onUpdate={onUpdate} />
 

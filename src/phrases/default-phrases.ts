@@ -44,6 +44,8 @@ export const defaultPhrases: Omit<
     ADVERT_ARCHIVE: 'Arkivera',
     ADVERT_JOIN_WAITLIST: 'Bevaka denna annons',
     ADVERT_LEAVE_WAITLIST: 'Sluta bevaka denna annons',
+    ADVERT_MARK_AS_UNPICKED: 'Markera som oplockad',
+    ADVERT_MARK_AS_PICKED: 'Markera som plockad',
     SCAN_QR_CODE: 'Skanna',
     SUBSCRIPTIONS_SUBSCRIBE_TO_SEARCH: 'Bevaka denna sökning',
     SUBSCRIPTIONS_UNSUBSCRIBE_TO_SEARCH: 'Ta bort bevakning',
@@ -173,8 +175,12 @@ export const defaultPhrases: Omit<
     ADVERT_CLAIMS_COLLECT_MANUALLY: 'Lämna ut manuellt',
     ADVERT_CLAIMS_HAS_RESERVATIONS: 'Reserverad',
     ADVERT_CLAIMS_HAS_COLLECTS: 'Utlånad',
+    ADVERT_IMPERSONATION_EDITORIAL:
+        'Du har givits rättigheter att adminstrera denna annons trots att den tillhör någon annan.',
     ADVERT_RETURN_EDITORIAL:
         'Artikeln är utlånad och kan efter mottagningskontroll återföras till lagret.',
+    ADVERT_MARK_AS_PICKED_EDITORIAL: `Markera annonsen som plockad om du vill notifiera reservatörer om att varan kan hämtas.`,
+    ADVERT_MARK_AS_UNPICKED_EDITORIAL: `Markera annonsen som oplockad om den återförs till lagret och inte kan hämtas ut direkt.`,
     LOGINS_EFECTIVE_PERMISSIONS: 'Effektiva behörigheter',
     LOGINS_EDITORIAL: `
 Här anges vilka användare som ges eller nekas tillträde till sajten.
