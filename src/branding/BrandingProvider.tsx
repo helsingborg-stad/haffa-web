@@ -6,7 +6,8 @@ import { createPhraseContext } from 'phrases/create-phrase-context'
 import { toMap } from 'lib/to-map'
 import type { Option } from '../options/types'
 import { createCustomTheme, createThemeModel } from './theme-factory'
-import { BrandingContext } from './BrandingContext'
+import { AdvertImageSettingsContext } from './AdvertImageSettingsContext'
+import { TagDescriptionsContext } from './TagDescriptionsContext'
 
 const parseAspectRatio = (ar: string): number | null => {
     const [w, h] = ar.split(':').map((v) => parseInt(v, 10))
@@ -15,6 +16,13 @@ const parseAspectRatio = (ar: string): number | null => {
     }
     return null
 }
+
+const createTagDescriptionsByTag = (options: Option[]) =>
+    toMap(
+        options.filter((o) => o.value.trim()),
+        (o) => o.key,
+        (o) => o.value
+    )
 
 const BrandedView: FC<
     PropsWithChildren & {
@@ -42,9 +50,11 @@ const BrandedView: FC<
                     )
                 )}
             >
-                <BrandingContext.Provider value={{ advertImageAspectRatio }}>
+                <AdvertImageSettingsContext.Provider
+                    value={{ advertImageAspectRatio }}
+                >
                     {children}
-                </BrandingContext.Provider>
+                </AdvertImageSettingsContext.Provider>
             </PhraseContext.Provider>
         </ThemeProvider>
     )
@@ -66,15 +76,23 @@ export const BrandingProvider: FC<PropsWithChildren> = ({ children }) => {
         Promise.all([
             fetchOptions('branding-theme'),
             fetchOptions('branding-phrases'),
+            fetchOptions('tag-descriptions'),
         ])
     )
 
     return inspect({
         pending: () => <div />,
-        resolved: ([theme, phrases]) => (
+        resolved: ([theme, phrases, tagDescriptions]) => (
             <BrandedView themeOptions={theme} phraseOptions={phrases}>
                 <CssBaseline />
-                {children}
+                <TagDescriptionsContext.Provider
+                    value={{
+                        tagDescriptionByTag:
+                            createTagDescriptionsByTag(tagDescriptions),
+                    }}
+                >
+                    {children}
+                </TagDescriptionsContext.Provider>
             </BrandedView>
         ),
         rejected: () => (

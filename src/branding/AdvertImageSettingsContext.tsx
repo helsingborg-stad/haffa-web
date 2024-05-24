@@ -1,5 +1,5 @@
 import { createContext } from 'react'
 
-export const BrandingContext = createContext({
+export const AdvertImageSettingsContext = createContext({
     advertImageAspectRatio: 4 / 3,
 })

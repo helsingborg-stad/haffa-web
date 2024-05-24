@@ -15,8 +15,8 @@ import { TreeAdapter } from 'lib/types'
 import { PhraseContext } from 'phrases'
 import RecyclingIcon from '@mui/icons-material/Recycling'
 import SwapHorizIcon from '@mui/icons-material/SwapHoriz'
-import { BrandingContext } from 'branding'
 import { isValidString } from 'lib/string-utils'
+import { AdvertImageSettingsContext } from 'branding'
 import { Advert } from '../../types'
 
 const join = (sep: string, ...parts: (string | number | undefined)[]) =>
@@ -27,7 +27,7 @@ export const AdvertListItem: FC<{
     categories: TreeAdapter<Category>
     sx?: SxProps<Theme>
 }> = ({ advert, categories, sx }) => {
-    const { advertImageAspectRatio } = useContext(BrandingContext)
+    const { advertImageAspectRatio } = useContext(AdvertImageSettingsContext)
     const { phrase } = useContext(PhraseContext)
     const imageUrl = advert.images[0]?.url || '/empty-advert.svg'
 
