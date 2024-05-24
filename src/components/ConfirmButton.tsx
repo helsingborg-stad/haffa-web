@@ -34,12 +34,14 @@ export const ConfirmButton: FC<ButtonProps> = ({
                 <DialogActions>
                     <Stack spacing={2} direction="row" sx={{ width: '100%' }}>
                         <Button
+                            fullWidth
                             onClick={() => setDialog(false)}
                             variant="outlined"
                         >
                             {phrase('CONFIRM_DIALOG_CANCEL', 'Nej, avbryt')}
                         </Button>
                         <Button
+                            fullWidth
                             color="primary"
                             variant="contained"
                             {...props}
