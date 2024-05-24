@@ -7,15 +7,18 @@ import {
 import { Category } from 'categories/types'
 import { Func1, TreeAdapter } from 'lib/types'
 import { ReactElement } from 'react'
+import { Terms } from 'terms/types'
 
 export interface AdvertsTableContextType {
     adverts: Advert[]
+    selectedAdverts: Advert[]
     paging: AdvertListPaging
     categories: Category[]
     categoryTree: TreeAdapter<Category>
     filter: AdvertFilterInput
     selected: Array<string | number>
     fields: Partial<Record<keyof Advert, { visible: boolean; label: string }>>
+    terms: Terms
     setSelected: (selected: Array<string | number>) => void
     selectionMatches: (test: (a: Advert) => boolean) => boolean
     selectionCommonValue: <T>(
@@ -24,6 +27,7 @@ export interface AdvertsTableContextType {
     ) => { value: T; conflict: boolean }
     setFilter: (filter: AdvertFilterInput) => any
     patchAdverts: (patch: Partial<AdvertInput>) => any
+    updateAdverts: (updater: (id: string) => Promise<any>) => any
     archiveAdverts: () => any
     unarchiveAdverts: () => any
     markAdvertsAsPicked: () => any

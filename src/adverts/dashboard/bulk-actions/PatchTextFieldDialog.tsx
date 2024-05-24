@@ -37,7 +37,7 @@ export const PatchTextFieldDialog: FC<
                 {value.conflict && (
                     <Alert severity="warning">
                         {phrase(
-                            'BULKAKTION_WARNING_VALUE_CONFLICT',
+                            'BULKACTION_WARNING_VALUE_CONFLICT',
                             'Markeringen innehåller olika värden'
                         )}
                     </Alert>

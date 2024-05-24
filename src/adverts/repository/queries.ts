@@ -297,3 +297,14 @@ mutation Mutation(
 	}
 }
 `
+export const patchAdvertTagsMutation = /* GraphQL */ `
+mutation Mutation(
+	$id: ID!,
+	$add: [String]!,
+    $remove: [String]!
+) {
+	patchAdvertTags(id: $id, add: $add, remove: $remove) {
+		${mutationProps}
+	}
+}
+`

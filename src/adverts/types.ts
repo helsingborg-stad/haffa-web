@@ -276,4 +276,8 @@ export interface AdvertsRepository {
     leaveAdvertWaitlist: (id: string) => Promise<AdvertMutationResult>
     markAdvertAsPicked: (id: string) => Promise<AdvertMutationResult>
     markAdvertAsUnpicked: (id: string) => Promise<AdvertMutationResult>
+    patchAdvertTags: (
+        id: string,
+        patch: { add: string[]; remove: string[] }
+    ) => Promise<AdvertMutationResult>
 }

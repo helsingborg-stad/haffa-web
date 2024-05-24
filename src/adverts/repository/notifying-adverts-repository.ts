@@ -165,5 +165,6 @@ export const createNotifyingAdvertsRepository = (
                         'Annonsen är markerad som oplockad'
                     )
                 ),
+        patchAdvertTags: (...args) => inner.patchAdvertTags(...args),
     }
 }

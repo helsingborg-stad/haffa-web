@@ -18,6 +18,7 @@ import {
     listAdvertsQuery,
     markAdvertAsPickedMutation,
     markAdvertAsUnpickedMutation,
+    patchAdvertTagsMutation,
     removeAdvertMutation,
     renewAdvertClaimMutation,
     reserveAdvertMutation,
@@ -163,5 +164,11 @@ export const createAdvertsRepository = (
             .query(markAdvertAsUnpickedMutation)
             .variables({ id })
             .map<AdvertMutationResult>('markAdvertAsUnpicked')
+            .then(expectAdvert),
+    patchAdvertTags: async (id, { add, remove }) =>
+        gql(token, f)
+            .query(patchAdvertTagsMutation)
+            .variables({ id, add, remove })
+            .map<AdvertMutationResult>('patchAdvertTags')
             .then(expectAdvert),
 })

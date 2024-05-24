@@ -9,6 +9,7 @@ import { uniqueBy } from 'lib/unique-by'
 import DateRangeIcon from '@mui/icons-material/DateRange'
 import StorefrontIcon from '@mui/icons-material/Storefront'
 import WarehouseIcon from '@mui/icons-material/Warehouse'
+import LabelIcon from '@mui/icons-material/Label'
 import { BulkAction } from './bulk-actions/types'
 import { AdvertsTableContextType } from './AdvertsTable/types'
 import {
@@ -16,6 +17,7 @@ import {
     PatchNumberFieldDialog,
     PatchTextFieldDialog,
 } from './bulk-actions'
+import { PatchTagsDialog } from './bulk-actions/PatchTagsDialog'
 
 const makeAction = (
     enabled: boolean | undefined,
@@ -64,6 +66,16 @@ export const createBulkActions = ({
             enabled: () =>
                 selectionMatches(({ meta: { canUnpick } }) => canUnpick),
             action: markAdvertsAsUnpicked,
+        }),
+        makeAction(roles.canEditOwnAdverts, {
+            key: 'tags',
+            label: 'Hantera taggar',
+            icon: <LabelIcon />,
+            enabled: () => selectionMatches(({ meta: { canEdit } }) => canEdit),
+            action: () => undefined,
+            dialogAction: (params) => (
+                <PatchTagsDialog label="Hantera taggar" {...params} />
+            ),
         }),
         makeAction(roles.canArchiveOwnAdverts, {
             key: 'archive',

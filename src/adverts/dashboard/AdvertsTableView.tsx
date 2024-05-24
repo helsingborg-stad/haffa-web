@@ -18,6 +18,8 @@ import { Func1 } from 'lib/types'
 import { AdvertFieldsContext } from 'advert-field-config'
 import { toMap } from 'lib/to-map'
 import { UrlParamsContext } from 'url-params'
+import { Terms } from 'terms/types'
+import { TermsContext, createEmptyTerms } from 'terms'
 import { AdvertsTable, AdvertsTableContext, PAGE_SIZE } from './AdvertsTable'
 import { createColumns } from './createColumns'
 import { createSortableFields } from './createSortableFields'
@@ -31,6 +33,8 @@ export const AdvertsTableView: FC<{
 }> = ({ prefix, restrictions }) => {
     type Data = AdvertList & { filter: AdvertFilterInput } & {
         fields: AdvertsTableContextType['fields']
+    } & {
+        terms: Terms
     } & {
         loading: boolean
     }
@@ -48,6 +52,7 @@ export const AdvertsTableView: FC<{
     const { phrase } = useContext(PhraseContext)
 
     const { getFieldConfig } = useContext(AdvertFieldsContext)
+    const { getTerms } = useContext(TermsContext)
 
     const sortableFields = useMemo(() => createSortableFields(), [])
     const { updateUrlFromAdvertFilterInput, patchAdvertFilterInputFromUrl } =
@@ -66,6 +71,7 @@ export const AdvertsTableView: FC<{
             })
         )
     }, [getFieldConfig])
+    const termsPromise = useMemo(async () => getTerms(), [getTerms])
 
     // Given a search filter, perform actual search
     const list = useCallback<Func1<AdvertFilterInput, Promise<Data>>>(
@@ -77,10 +83,12 @@ export const AdvertsTableView: FC<{
                     filter,
                 })),
                 fieldsPromise, // <== called once
-            ]).then(([data, fields]) => ({
+                termsPromise, // <== called once
+            ]).then(([data, fields, terms]) => ({
                 loading: false,
                 ...data,
                 fields,
+                terms,
             }))
         },
         [listAdverts, fieldsPromise]
@@ -94,6 +102,7 @@ export const AdvertsTableView: FC<{
         {
             loading: true,
             fields: {},
+            terms: createEmptyTerms(),
             adverts: [],
             categories: [],
             filter: patchAdvertFilterInputFromUrl(
@@ -139,6 +148,9 @@ export const AdvertsTableView: FC<{
     const context = useMemo<AdvertsTableContextType>(
         () => ({
             adverts: data.adverts,
+            selectedAdverts: data.adverts.filter(({ id }) =>
+                selected.includes(id)
+            ),
             paging: data.paging,
             categories: data.categories,
             categoryTree: createTreeAdapter(
@@ -149,6 +161,7 @@ export const AdvertsTableView: FC<{
             filter: data?.filter,
             selected,
             fields: data.fields,
+            terms: data.terms,
             setSelected,
             setFilter: (f) => enqueue(() => list(f)),
             selectionMatches: (p) =>
@@ -172,6 +185,8 @@ export const AdvertsTableView: FC<{
             },
             patchAdverts: (patch) =>
                 bulkUpdateAdverts((id) => patchAdvert(String(id), patch)),
+            updateAdverts: (update) =>
+                bulkUpdateAdverts((id) => update(String(id))),
             archiveAdverts: () =>
                 bulkUpdateAdverts((id) => archiveAdvert(String(id))),
             unarchiveAdverts: () =>

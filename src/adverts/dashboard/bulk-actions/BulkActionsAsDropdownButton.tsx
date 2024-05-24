@@ -118,6 +118,12 @@ export const BulkActionsAsDropdownButton: FC<{ bulkActions: BulkAction[] }> = ({
                                                     onClick={() => {
                                                         setOpen(false)
                                                         setSelectedIndex(index)
+                                                        // immediate trigger dialog action
+                                                        setDialogAction(
+                                                            action.dialogAction
+                                                                ? action
+                                                                : null
+                                                        )
                                                     }}
                                                 >
                                                     <ListItemIcon>

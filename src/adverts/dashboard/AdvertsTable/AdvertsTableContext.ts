@@ -1,5 +1,6 @@
 import { createNullTreeAdapter } from 'lib/tree-adapter'
 import { createContext } from 'react'
+import { createEmptyTerms } from 'terms'
 import { AdvertsTableContextType } from './types'
 
 const missing = (key: string) => (): never => {
@@ -8,6 +9,7 @@ const missing = (key: string) => (): never => {
 
 export const AdvertsTableContext = createContext<AdvertsTableContextType>({
     adverts: [],
+    selectedAdverts: [],
     paging: {
         totalCount: 0,
         pageIndex: 0,
@@ -19,11 +21,13 @@ export const AdvertsTableContext = createContext<AdvertsTableContextType>({
     filter: {},
     selected: [],
     fields: {},
+    terms: createEmptyTerms(),
     setSelected: missing('setSelected'),
     selectionMatches: missing('selectionMatches'),
     selectionCommonValue: missing('selectionCommonValue'),
     setFilter: missing('setFilter'),
     patchAdverts: missing('patchAdverts'),
+    updateAdverts: missing('updateAdverts'),
     archiveAdverts: missing('archiveAdverts'),
     unarchiveAdverts: missing('unarchiveAdverts'),
     markAdvertsAsPicked: missing('markAdvertsAsPicked'),
