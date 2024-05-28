@@ -122,6 +122,7 @@ export const AdvertsTable: FC<{
                 autoHeight
                 getRowHeight={() => 'auto'}
                 slots={{ toolbar: GridToolbar }}
+                disableDensitySelector
                 disableColumnFilter
                 sortingMode="server"
                 onSortModelChange={onSortModelChange}
