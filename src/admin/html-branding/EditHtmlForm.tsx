@@ -119,7 +119,7 @@ export const EditHtmlForm: FC<{
                             Liten bild som visas när du delar länken till appen
                             med någon annan. Bilden skall vara i formatet .png
                             och ha dimensionen 192x192 för bästa resultat. Den
-                            maximala filstorleken är 32kb
+                            maximala filstorleken är 192kb
                         </Typography>
                         {state.imageLogo192 !== '' && (
                             <ImageThumbnail
@@ -135,7 +135,7 @@ export const EditHtmlForm: FC<{
                             />
                         )}
                         <ImageBrowseButton
-                            maxSize={32 * 1024}
+                            maxSize={192 * 1024}
                             onUpdate={(imageLogo192) => patch({ imageLogo192 })}
                             filter="png"
                         />
@@ -145,7 +145,7 @@ export const EditHtmlForm: FC<{
                             Stor bild som visas när du delar länken till appen
                             med någon annan. Bilden skall vara i formatet .png
                             och ha dimensionen 512x512 för bästa resultat. Den
-                            maximala filstorleken är 32kb
+                            maximala filstorleken är 512kb
                         </Typography>
                         {state.imageLogo512 !== '' && (
                             <ImageThumbnail
@@ -161,7 +161,7 @@ export const EditHtmlForm: FC<{
                             />
                         )}
                         <ImageBrowseButton
-                            maxSize={32 * 1024}
+                            maxSize={512 * 1024}
                             onUpdate={(imageLogo512) => patch({ imageLogo512 })}
                             filter="png"
                         />
@@ -171,7 +171,7 @@ export const EditHtmlForm: FC<{
                             Bild som visas i webbläsarens flikrad. Bilden skall
                             vara i formatet .png och ha dimensionerna 16x16
                             eller 32x32 för bästa resultat. Den maximala
-                            filstorleken är 16kb
+                            filstorleken är 32kb
                         </Typography>
                         {state.imageFavicon !== '' && (
                             <ImageThumbnail
@@ -187,7 +187,7 @@ export const EditHtmlForm: FC<{
                             />
                         )}
                         <ImageBrowseButton
-                            maxSize={16 * 1024}
+                            maxSize={32 * 1024}
                             onUpdate={(imageFavicon) => patch({ imageFavicon })}
                             filter="png"
                         />
