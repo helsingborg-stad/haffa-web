@@ -90,8 +90,6 @@ export const createColumns = ({
     },
     {
         field: 'isOverdue',
-        minWidth: 48,
-        maxWidth: 48,
         align: 'center',
         sortable: false,
         headerName: 'Försenad?',
@@ -99,14 +97,13 @@ export const createColumns = ({
     },
     {
         field: 'isPicked',
+        align: 'center',
         sortable: false,
         headerName: 'Plockad?',
         renderCell: ({ value }) => value && <CheckIcon />,
     },
     {
         field: 'visitLink',
-        minWidth: 48,
-        maxWidth: 48,
         align: 'center',
         sortable: false,
         headerName: 'Gå till',
@@ -114,8 +111,6 @@ export const createColumns = ({
     },
     {
         field: 'editLink',
-        minWidth: 48,
-        maxWidth: 48,
         align: 'center',
         sortable: false,
         headerName: 'Redigera',
