@@ -20,7 +20,7 @@ import { AdvertsTableContext } from './AdvertsTableContext'
 import { createRows } from '../createRows'
 import { AdvertTableColumn } from './types'
 
-export const PAGE_SIZE = 25
+export const PAGE_SIZE = 10
 const PAGE_SIZES = [10, 25, 50, 100]
 
 const FilterPanel: FC<
