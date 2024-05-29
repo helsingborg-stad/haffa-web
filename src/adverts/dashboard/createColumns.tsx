@@ -49,13 +49,10 @@ export const createColumns = ({
         sortable: false,
         headerName: 'Bild',
         renderCell: ({ value }) => createAdvertImage(value),
-        minWidth: 68,
-        maxWidth: 68,
     },
     {
         field: 'title',
         headerName: fields.title?.label || '',
-        width: 200,
     },
     {
         field: 'category',
