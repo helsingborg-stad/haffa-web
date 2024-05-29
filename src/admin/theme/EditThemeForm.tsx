@@ -533,38 +533,43 @@ export const EditThemeForm: FC<{
                         <Typography variant="h6" py={2}>
                             Notiser
                         </Typography>
-                        <Grid container rowSpacing={4}>
-                            <Grid item xs={12} sm={4} pr={1}>
-                                <Typography>Outlined</Typography>
-                                {AlertColumn.map((props, key) =>
-                                    PreviewAlert({
-                                        ...props,
-                                        key,
-                                        variant: 'outlined',
-                                    })
-                                )}
-                            </Grid>
-                            <Grid item xs={12} sm={4} pr={1}>
-                                <Typography>Filled</Typography>
-                                {AlertColumn.map((props, key) =>
-                                    PreviewAlert({
-                                        ...props,
-                                        key,
-                                        variant: 'filled',
-                                    })
-                                )}
-                            </Grid>
-                            <Grid item xs={12} sm={4} pr={1}>
-                                <Typography>Standard</Typography>
-                                {AlertColumn.map((props, key) =>
-                                    PreviewAlert({
-                                        ...props,
-                                        key,
-                                        variant: 'standard',
-                                    })
-                                )}
-                            </Grid>
-                        </Grid>
+                        <FormControl>
+                            <FormLabel id="radio-buttons-alert-variant">
+                                Typ
+                            </FormLabel>
+                            <RadioGroup
+                                row
+                                aria-labelledby="radio-buttons-alert-variant"
+                                name="radio-buttons-group"
+                                value={model['component.alert.variant']}
+                                onChange={({ target: { value } }) =>
+                                    apply('component.alert.variant', value)
+                                }
+                            >
+                                <FormControlLabel
+                                    value="outlined"
+                                    control={<Radio />}
+                                    label="Kontur"
+                                />
+                                <FormControlLabel
+                                    value="filled"
+                                    control={<Radio />}
+                                    label="Fylld"
+                                />
+                                <FormControlLabel
+                                    value="standard"
+                                    control={<Radio />}
+                                    label="Standard"
+                                />
+                            </RadioGroup>
+                        </FormControl>
+                        {AlertColumn.map((props, key) =>
+                            PreviewAlert({
+                                ...props,
+                                key,
+                                variant: model['component.alert.variant'],
+                            })
+                        )}
                         <Typography variant="h6" py={2}>
                             Textfält
                         </Typography>

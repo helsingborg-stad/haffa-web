@@ -29,6 +29,7 @@ export const defaultThemeModel: ThemeModel = {
     'component.avatar.variant': 'circular',
     'component.cardheader.variant': 'body1',
     'component.textfield.variant': 'outlined',
+    'component.alert.variant': 'standard',
     'typography.body1.fontsize': '0.875',
     'shape.radius': '14',
     'custom.image.logotype':
@@ -59,6 +60,7 @@ const ThemModelKeys = new Set<keyof ThemeModel>([
     'component.avatar.variant',
     'component.cardheader.variant',
     'component.textfield.variant',
+    'component.alert.variant',
     'typography.body1.fontsize',
     'custom.image.logotype',
     'shape.radius',
@@ -195,6 +197,11 @@ export const createCustomTheme = (model: ThemeModel): Theme => {
                 MuiSelect: {
                     defaultProps: {
                         variant: options['component.textfield.variant'],
+                    },
+                },
+                MuiAlert: {
+                    defaultProps: {
+                        variant: options['component.alert.variant'],
                     },
                 },
             },

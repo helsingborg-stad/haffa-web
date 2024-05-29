@@ -1,4 +1,5 @@
 import {
+    AlertProps,
     AppBarProps,
     AvatarProps,
     PaperProps,
@@ -40,6 +41,7 @@ export interface ThemeModel {
     'component.avatar.color': string
     'component.avatar.variant': AvatarProps['variant']
     'component.textfield.variant': TextFieldProps['variant']
+    'component.alert.variant': AlertProps['variant']
     'typography.body1.fontsize': string
     'custom.image.logotype': string
     'shape.radius': string
