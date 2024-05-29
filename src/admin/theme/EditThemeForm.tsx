@@ -9,10 +9,14 @@ import {
     Card,
     CardContent,
     CssBaseline,
+    FormControl,
+    FormControlLabel,
+    FormLabel,
     Grid,
     MenuItem,
     PaperProps,
-    SelectProps,
+    Radio,
+    RadioGroup,
     TextFieldProps,
     ThemeProvider,
     Typography,
@@ -34,7 +38,6 @@ import { CreateMenuItems, RegularSelect } from './components/RegularSelect'
 import { PreviewButton } from './preview/Button'
 import { PreviewAlert } from './preview/Alert'
 import { PreviewTextField } from './preview/TextField'
-import { PreviewSelect } from './preview/Select'
 
 const MAX_FILE_SIZE = 1024 * 1024
 
@@ -59,22 +62,6 @@ const ButtonColumn: ButtonProps[] = [
     },
 ]
 const TextFieldColumn: Array<TextFieldProps> = [
-    {
-        color: 'primary',
-        helperText: 'Some helpertext',
-    },
-    {
-        color: 'secondary',
-    },
-    {
-        disabled: true,
-    },
-    {
-        error: true,
-        helperText: 'Some helpertext',
-    },
-]
-const SelectColumn: Array<SelectProps> = [
     {
         color: 'primary',
     },
@@ -581,73 +568,46 @@ export const EditThemeForm: FC<{
                         <Typography variant="h6" py={2}>
                             Textfält
                         </Typography>
-                        <Grid container rowSpacing={4}>
-                            <Grid item xs={12} sm={4} pr={1}>
-                                <Typography>Outlined</Typography>
-                                {TextFieldColumn.map((props, key) =>
-                                    PreviewTextField({
-                                        ...props,
-                                        key,
-                                        variant: 'outlined',
-                                    })
-                                )}
-                            </Grid>
-                            <Grid item xs={12} sm={4} pr={1}>
-                                <Typography>Filled</Typography>
-                                {TextFieldColumn.map((props, key) =>
-                                    PreviewTextField({
-                                        ...props,
-                                        key,
-                                        variant: 'filled',
-                                    })
-                                )}
-                            </Grid>
-                            <Grid item xs={12} sm={4} pr={1}>
-                                <Typography>Standard</Typography>
-                                {TextFieldColumn.map((props, key) =>
-                                    PreviewTextField({
-                                        ...props,
-                                        key,
-                                        variant: 'standard',
-                                    })
-                                )}
-                            </Grid>
-                        </Grid>
-                        <Typography variant="h6" py={2}>
-                            Nedrullningsbar listruta
-                        </Typography>
-                        <Grid container rowSpacing={4}>
-                            <Grid item xs={12} sm={4} pr={1}>
-                                <Typography>Outlined</Typography>
-                                {SelectColumn.map((props, key) =>
-                                    PreviewSelect({
-                                        ...props,
-                                        key,
-                                        variant: 'outlined',
-                                    })
-                                )}
-                            </Grid>
-                            <Grid item xs={12} sm={4} pr={1}>
-                                <Typography>Filled</Typography>
-                                {SelectColumn.map((props, key) =>
-                                    PreviewSelect({
-                                        ...props,
-                                        key,
-                                        variant: 'filled',
-                                    })
-                                )}
-                            </Grid>
-                            <Grid item xs={12} sm={4} pr={1}>
-                                <Typography>Standard</Typography>
-                                {SelectColumn.map((props, key) =>
-                                    PreviewSelect({
-                                        ...props,
-                                        key,
-                                        variant: 'standard',
-                                    })
-                                )}
-                            </Grid>
-                        </Grid>
+                        <FormControl>
+                            <FormLabel id="radio-buttons-textfield-variant">
+                                Typ
+                            </FormLabel>
+                            <RadioGroup
+                                row
+                                aria-labelledby="radio-buttons-textfield-variant"
+                                name="radio-buttons-group"
+                                value={model['component.textfield.variant']}
+                                onChange={({ target: { value } }) =>
+                                    apply('component.textfield.variant', value)
+                                }
+                            >
+                                <FormControlLabel
+                                    value="outlined"
+                                    control={<Radio />}
+                                    label="Kontur"
+                                />
+                                <FormControlLabel
+                                    value="filled"
+                                    control={<Radio />}
+                                    label="Fylld"
+                                />
+                                <FormControlLabel
+                                    value="standard"
+                                    control={<Radio />}
+                                    label="Standard"
+                                />
+                            </RadioGroup>
+                        </FormControl>
+                        {TextFieldColumn.map((props, key) =>
+                            PreviewTextField({
+                                ...{
+                                    ...props,
+                                    helperText: 'En hjälptext',
+                                },
+                                key,
+                                variant: model['component.textfield.variant'],
+                            })
+                        )}
                     </ThemeProvider>
                 </CardContent>
             </Card>

@@ -575,7 +575,6 @@ export const AdvertForm: FC<{
                                         <TextField
                                             {...params}
                                             label={label}
-                                            variant="outlined"
                                             required={required}
                                             onChange={(e) =>
                                                 patchModel({

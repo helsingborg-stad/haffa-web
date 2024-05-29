@@ -28,6 +28,7 @@ export const defaultThemeModel: ThemeModel = {
     'component.avatar.color': '#000000',
     'component.avatar.variant': 'circular',
     'component.cardheader.variant': 'body1',
+    'component.textfield.variant': 'outlined',
     'typography.body1.fontsize': '0.875',
     'shape.radius': '14',
     'custom.image.logotype':
@@ -57,6 +58,7 @@ const ThemModelKeys = new Set<keyof ThemeModel>([
     'component.avatar.color',
     'component.avatar.variant',
     'component.cardheader.variant',
+    'component.textfield.variant',
     'typography.body1.fontsize',
     'custom.image.logotype',
     'shape.radius',
@@ -183,6 +185,16 @@ export const createCustomTheme = (model: ThemeModel): Theme => {
                             backgroundColor:
                                 options['component.avatar.bgcolor'],
                         },
+                    },
+                },
+                MuiTextField: {
+                    defaultProps: {
+                        variant: options['component.textfield.variant'],
+                    },
+                },
+                MuiSelect: {
+                    defaultProps: {
+                        variant: options['component.textfield.variant'],
                     },
                 },
             },

@@ -2,6 +2,7 @@ import {
     AppBarProps,
     AvatarProps,
     PaperProps,
+    TextFieldProps,
     TypographyOwnProps,
 } from '@mui/material'
 
@@ -38,6 +39,7 @@ export interface ThemeModel {
     'component.avatar.bgcolor': string
     'component.avatar.color': string
     'component.avatar.variant': AvatarProps['variant']
+    'component.textfield.variant': TextFieldProps['variant']
     'typography.body1.fontsize': string
     'custom.image.logotype': string
     'shape.radius': string
