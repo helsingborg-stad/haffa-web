@@ -4,4 +4,5 @@ export const getDefaultLabelOptions = (): LabelOptions => ({
     headline: '',
     displayReference: 'true',
     displayTitle: 'true',
+    errorCorrectionLevel: 'low',
 })

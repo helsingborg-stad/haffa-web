@@ -3,6 +3,7 @@ import {
     CardContent,
     FormControlLabel,
     FormGroup,
+    MenuItem,
     Switch,
     TextField,
 } from '@mui/material'
@@ -59,6 +60,21 @@ export const EditLabelsForm: FC<{
                             patch({ headline: value })
                         }}
                     />
+                    <TextField
+                        fullWidth
+                        select
+                        sx={{ mt: 2 }}
+                        value={state.errorCorrectionLevel}
+                        label="Felkorrigeringsnivå"
+                        onChange={({ target: { value } }) => {
+                            patch({ errorCorrectionLevel: value })
+                        }}
+                    >
+                        <MenuItem value="low">Låg</MenuItem>
+                        <MenuItem value="medium">Mellan</MenuItem>
+                        <MenuItem value="high">Hög</MenuItem>
+                        <MenuItem value="quartile">Kvartil</MenuItem>
+                    </TextField>
                     <FormGroup>
                         <FormControlLabel
                             control={
