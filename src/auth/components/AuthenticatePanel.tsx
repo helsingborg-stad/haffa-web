@@ -5,6 +5,7 @@ import useAsync from 'hooks/use-async'
 import { ErrorView } from 'errors'
 import { SystemSettingsContext } from 'system-settings'
 import { SystemSettings } from 'system-settings/types'
+import { PhraseContext } from 'phrases'
 import { AuthenticateForm } from './AuthenticateForm'
 
 interface Provider {
@@ -62,6 +63,8 @@ export const AuthenticatePanel: FC<{ onAuthenticated: () => void }> = ({
     onAuthenticated,
 }) => {
     const { getSystemSettings } = useContext(SystemSettingsContext)
+    const { phrase } = useContext(PhraseContext)
+
     const view = useAsync(getSystemSettings)
 
     const getProviders = ({ allowPhoneUsers }: SystemSettings): Provider[] => [
@@ -69,14 +72,17 @@ export const AuthenticatePanel: FC<{ onAuthenticated: () => void }> = ({
             ? [
                   makeProvider({
                       type: 'phone',
-                      label: 'Logga in med SMS',
+                      label: phrase(
+                          'AUTH_LABEL_PHONE_HEADING',
+                          'Logga in med SMS'
+                      ),
                   }),
               ]
             : []),
         ...[
             makeProvider({
                 type: 'email',
-                label: 'Logga in med email',
+                label: phrase('AUTH_LABEL_EMAIL_HEADING', 'Logga in med email'),
             }),
         ],
     ]
