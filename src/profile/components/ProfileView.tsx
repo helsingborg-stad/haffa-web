@@ -18,6 +18,7 @@ import { NavLink, useNavigate } from 'react-router-dom'
 import { PhraseContext } from 'phrases/PhraseContext'
 import { AuthContext } from 'auth'
 import { Editorial } from 'editorials'
+import { ResponsiveButtonGroup } from 'components/ResponsiveButtonGroup'
 
 const PropBox: FC<PropsWithChildren & { icon: React.JSX.Element }> = ({
     children,
@@ -75,30 +76,38 @@ export const ProfileView: FC<{ profile: Profile }> = ({ profile }) => {
                 </PropBox>
             </CardContent>
             <CardActions>
-                <Button color="primary" component={NavLink} to="/profile/edit">
-                    <EditIcon />
-                    {PROFILE_EDIT}
-                </Button>
-                <Button
-                    color="primary"
-                    component={NavLink}
-                    to="/profile/remove"
-                >
-                    <DeleteForeverIcon />
-                    {phrase('PROFILE_REMOVE', 'Ta bort min profil')}
-                </Button>
-                <Button
-                    color="primary"
-                    variant="contained"
-                    sx={{ marginLeft: 'auto' }}
-                    onClick={() => {
-                        navigate('/')
-                        signout()
-                    }}
-                >
-                    <LogoutIcon />
-                    {SIGNOUT}
-                </Button>
+                <ResponsiveButtonGroup>
+                    <Button
+                        color="primary"
+                        component={NavLink}
+                        to="/profile/edit"
+                    >
+                        <EditIcon />
+                        {PROFILE_EDIT}
+                    </Button>
+                    <Button
+                        color="primary"
+                        component={NavLink}
+                        to="/profile/remove"
+                    >
+                        <DeleteForeverIcon />
+                        {phrase('PROFILE_REMOVE', 'Ta bort min profil')}
+                    </Button>
+                    <Button
+                        color="primary"
+                        variant="contained"
+                        sx={{ marginLeft: 'auto' }}
+                        component={NavLink}
+                        to="/"
+                        onClick={() => {
+                            navigate('/')
+                            signout()
+                        }}
+                    >
+                        <LogoutIcon />
+                        {SIGNOUT}
+                    </Button>
+                </ResponsiveButtonGroup>
             </CardActions>
         </Card>
     )
