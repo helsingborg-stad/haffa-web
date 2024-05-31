@@ -11,7 +11,7 @@ import {
     SxProps,
     Theme,
 } from '@mui/material'
-import { QrReader } from 'react-qr-reader'
+import { Scanner } from '@yudiel/react-qr-scanner'
 import { DeepLinkContext } from 'deep-links/DeepLinkContext'
 
 interface QrCodeScanEvents {
@@ -72,11 +72,19 @@ export const QrCodeButton: FC<
                 </IconButton>
                 <DialogContent>
                     {scanning && (
-                        <QrReader
-                            constraints={{ facingMode: 'environment' }}
-                            containerStyle={{ width: '100%', height: '100%' }}
-                            onResult={(result) =>
-                                actOnLink<any>(result?.getText(), {
+                        <Scanner
+                            constraints={{
+                                facingMode: 'environment',
+                            }}
+                            formats={['qr_code']}
+                            styles={{
+                                finderBorder: 75,
+                            }}
+                            components={{
+                                audio: false,
+                            }}
+                            onScan={(result) =>
+                                actOnLink<any>(result?.[0].rawValue, {
                                     sameDomain: (url) =>
                                         onSameDomain(url, () =>
                                             setScanning(false)

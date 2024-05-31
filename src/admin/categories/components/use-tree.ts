@@ -39,7 +39,7 @@ interface Model<T> {
     dispatch: React.Dispatch<Func1<Model<T>, Partial<Model<T>>>>
 }
 
-type Key = string | number
+type Key = string | number | bigint
 
 const createTreeHandlerProps = <T>({
     tree,

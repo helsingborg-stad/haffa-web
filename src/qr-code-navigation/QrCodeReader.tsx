@@ -1,6 +1,6 @@
 import { DeepLinkContext } from 'deep-links/DeepLinkContext'
 import { FC, useContext } from 'react'
-import { QrReader } from 'react-qr-reader'
+import { Scanner } from '@yudiel/react-qr-scanner'
 
 export const QrCodeReader: FC<{
     onSameDomain: (url: URL) => any
@@ -9,13 +9,22 @@ export const QrCodeReader: FC<{
     onError: (error: any) => any
 }> = ({ onSameDomain, onOtherDomain, onNothing, onError }) => {
     const { actOnLink } = useContext(DeepLinkContext)
-
     return (
-        <QrReader
-            constraints={{ facingMode: 'environment' }}
-            containerStyle={{ width: '100%', height: '100%' }}
-            onResult={(result) =>
-                actOnLink<any>(result?.getText(), {
+        <Scanner
+            scanDelay={5000}
+            allowMultiple
+            constraints={{
+                facingMode: 'environment',
+            }}
+            formats={['qr_code']}
+            styles={{
+                finderBorder: 75,
+            }}
+            components={{
+                audio: false,
+            }}
+            onScan={(result) =>
+                actOnLink<any>(result?.[0].rawValue, {
                     sameDomain: onSameDomain,
                     otherDomain: onOtherDomain,
                     none: onNothing,
