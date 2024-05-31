@@ -83,8 +83,14 @@ const NavIconLink: FC<{
     label: string
     icon: ReactNode
     to: string
-}> = ({ label, icon, to }) => (
-    <Button color="inherit" component={NavLinkCustom} to={to}>
+    onClick?: () => any
+}> = ({ label, icon, to, onClick }) => (
+    <Button
+        color="inherit"
+        component={NavLinkCustom}
+        to={to}
+        {...(onClick ? { onClick: () => onClick() } : {})}
+    >
         <Stack
             direction="column"
             sx={{
@@ -105,7 +111,7 @@ const insideToolbarLinkFactory: Record<
     HaffaLink['type'],
     (link: HaffaLink) => JSX.Element | null
 > = {
-    button: ({ label, href, icon }) => (
+    button: ({ label, href, icon, onClick }) => (
         <Button
             key={href}
             color="primary"
@@ -113,12 +119,19 @@ const insideToolbarLinkFactory: Record<
             startIcon={icon}
             to={href}
             component={NavLinkCustom}
+            {...(onClick ? { onClick: () => onClick() } : {})}
         >
             {label}
         </Button>
     ),
-    link: ({ label, href, icon }) => (
-        <NavIconLink key={href} label={label} icon={icon} to={href} />
+    link: ({ label, href, icon, onClick }) => (
+        <NavIconLink
+            key={href}
+            label={label}
+            icon={icon}
+            to={href}
+            onClick={onClick}
+        />
     ),
     menuitem: () => null,
 }
@@ -129,9 +142,13 @@ const insideDrawerLinkFactory: Record<
 > = {
     button: () => null,
     link: () => null,
-    menuitem: ({ label, href, icon }) => (
+    menuitem: ({ label, href, icon, onClick }) => (
         <ListItem key={href} disablePadding>
-            <ListItemButton to={href} component={NavLinkCustom}>
+            <ListItemButton
+                {...(onClick ? { onClick: () => onClick() } : {})}
+                to={href}
+                component={NavLinkCustom}
+            >
                 <ListItemIcon>{icon}</ListItemIcon>
                 <ListItemText primary={label} />
             </ListItemButton>
@@ -147,7 +164,7 @@ export const Layout: FC<
     const theme = useTheme()
     const isDesktop = useMediaQuery(theme.breakpoints.up('md'))
     const phrases = useContext(PhraseContext)
-    const { isGuest, roles } = useContext(AuthContext)
+    const { isGuest, roles, signout } = useContext(AuthContext)
     const { APP_TITLE } = phrases
     const [drawer, setDrawer] = useState(false)
     const [authenticateDialog, setAuthenticateDialog] = useState(false)
@@ -160,6 +177,8 @@ export const Layout: FC<
                       guest: isGuest,
                       roles,
                       phrases,
+                      signout: () =>
+                          signout().then(() => window.location.assign('/')),
                   }),
         [isDesktop, isGuest, roles, phrases, hideNavigation]
     )

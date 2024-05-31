@@ -8,6 +8,7 @@ import InfoOutlinedIcon from '@mui/icons-material/InfoOutlined'
 import BookmarkBorderIcon from '@mui/icons-material/BookmarkBorder'
 import PersonIcon from '@mui/icons-material/Person'
 import SettingsIcon from '@mui/icons-material/Settings'
+import LogoutIcon from '@mui/icons-material/Logout'
 import { HaffaUserRoles, hasSomeAdminRoles } from 'auth'
 import { PhraseContextType } from 'phrases'
 import { Func1 } from 'lib/types'
@@ -16,19 +17,32 @@ export interface HaffaLink {
     label: string
     href: string
     icon: ReactNode
+    onClick?: () => any
     type: 'button' | 'link' | 'menuitem'
 }
 
-const link = (label: string, href: string, icon: ReactNode): HaffaLink => ({
+const link = (
+    label: string,
+    href: string,
+    icon: ReactNode,
+    onClick?: () => any
+): HaffaLink => ({
     label,
     href,
     icon,
+    onClick,
     type: 'link',
 })
-const menuitem = (label: string, href: string, icon: ReactNode): HaffaLink => ({
+const menuitem = (
+    label: string,
+    href: string,
+    icon: ReactNode,
+    onClick?: () => any
+): HaffaLink => ({
     label,
     href,
     icon,
+    onClick,
     type: 'menuitem',
 })
 
@@ -38,10 +52,10 @@ export const createNavLinks: Func1<
         guest: boolean
         roles: HaffaUserRoles
         phrases: PhraseContextType
+        signout: () => any
     },
     HaffaLink[]
 > = ({
-    mobile,
     guest,
     roles,
     phrases: {
@@ -53,7 +67,9 @@ export const createNavLinks: Func1<
         NAV_PROFILE,
         SCAN_QR_CODE,
         NAV_ABOUT_HAFFA,
+        SIGNOUT,
     },
+    signout,
 }) =>
     guest
         ? [
@@ -62,43 +78,36 @@ export const createNavLinks: Func1<
           ]
         : [
               link(NAV_BROWSE, '/browse', <SearchIcon />),
-              roles.canEditOwnAdverts &&
-                  link(NAV_CREATE, '/advert/create', <AddIcon />),
               link(SCAN_QR_CODE, '/scan', <QrCodeScannerIcon />),
+              roles.canEditOwnAdverts &&
+                  menuitem(NAV_CREATE, '/advert/create', <AddIcon />),
               roles.canSubscribe &&
-                  (mobile ? menuitem : link)(
+                  menuitem(
                       'Bevakningar',
                       '/my-subscriptions',
                       <StarBorderIcon />
                   ),
               roles.canReserveAdverts &&
-                  (mobile ? menuitem : link)(
+                  menuitem(
                       NAV_MY_RESERVATIONS,
                       '/my-reservations',
                       <CheckIcon />
                   ),
               roles.canEditOwnAdverts &&
-                  (mobile ? menuitem : link)(
+                  menuitem(
                       NAV_MY_ADVERTS,
                       '/my-adverts',
                       <BookmarkBorderIcon />
                   ),
-              (mobile ? menuitem : link)(
-                  NAV_PROFILE,
-                  '/profile',
-                  <PersonIcon />
-              ),
-              (mobile ? menuitem : link)(
-                  NAV_ABOUT_HAFFA,
-                  '/about',
-                  <InfoOutlinedIcon />
-              ),
+              menuitem(NAV_ABOUT_HAFFA, '/about', <InfoOutlinedIcon />),
               hasSomeAdminRoles(roles) &&
-                  (mobile ? menuitem : link)(
+                  menuitem(
                       phrase('NAV_ADMIN', 'Administration'),
                       '/admin',
                       <SettingsIcon />
                   ),
+              menuitem(NAV_PROFILE, '/profile', <PersonIcon />),
+              menuitem(SIGNOUT, '', <LogoutIcon />, signout),
           ]
               .filter((v) => v)
               .map((v) => v as HaffaLink)
