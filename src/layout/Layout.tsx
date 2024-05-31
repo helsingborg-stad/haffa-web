@@ -180,7 +180,7 @@ export const Layout: FC<
                       signout: () =>
                           signout().then(() => window.location.assign('/')),
                   }),
-        [isDesktop, isGuest, roles, phrases, hideNavigation]
+        [isDesktop, isGuest, roles, phrases, hideNavigation, signout]
     )
 
     const insideToolbarLinks = links

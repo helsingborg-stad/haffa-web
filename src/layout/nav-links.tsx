@@ -106,7 +106,8 @@ export const createNavLinks: Func1<
                       '/admin',
                       <SettingsIcon />
                   ),
-              menuitem(NAV_PROFILE, '/profile', <PersonIcon />),
+              roles.canEditOwnAdverts &&
+                  menuitem(NAV_PROFILE, '/profile', <PersonIcon />),
               menuitem(SIGNOUT, '', <LogoutIcon />, signout),
           ]
               .filter((v) => v)
