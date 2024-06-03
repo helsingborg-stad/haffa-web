@@ -21,26 +21,36 @@ const categoryToTreeNode = (
     category: Category,
     disabled: boolean,
     checkedKeys: string[]
-): DataNode => ({
-    title: category.label,
-    key: category.id,
-    disabled,
-    children: category.categories.map((subCategory) =>
-        categoryToTreeNode(
-            subCategory,
-            checkedKeys.includes(category.id),
-            checkedKeys
-        )
-    ),
-})
+): DataNode | null => {
+    const n = {
+        title: category.label,
+        key: category.id,
+        disabled,
+        children: category.categories
+            .map((subCategory) =>
+                categoryToTreeNode(
+                    subCategory,
+                    checkedKeys.includes(category.id),
+                    checkedKeys
+                )
+            )
+            .filter((n) => n)
+            .map((n) => n!),
+    }
+    if (n.children.length || (category.advertCount || 0) > 0) {
+        return n
+    }
+    return null
+}
 
 const buildTreeFromCategories = (
     categories: Category[],
     checkedKeys: string[]
 ): DataNode[] =>
-    categories.map((category) =>
-        categoryToTreeNode(category, false, checkedKeys)
-    )
+    categories
+        .map((category) => categoryToTreeNode(category, false, checkedKeys))
+        .filter((n) => n)
+        .map((n) => n!)
 
 const findCategory = (
     allCategories: Category[],
