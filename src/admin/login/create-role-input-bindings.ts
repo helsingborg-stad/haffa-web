@@ -133,6 +133,11 @@ export const createDefaultRoleInputBindings = (
                 )
             )
             .define(
+                'canManageProfile',
+                phrase('ROLES_CAN_MANAGE_PROFILE', 'Hantera egen profil'),
+                false
+            )
+            .define(
                 'canManageAllAdverts',
                 phrase(
                     'ROLES_CAN_MANAGE_ALL_ADVERTS',

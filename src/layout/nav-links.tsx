@@ -106,9 +106,9 @@ export const createNavLinks: Func1<
                       '/admin',
                       <SettingsIcon />
                   ),
-              roles.canEditOwnAdverts &&
+              roles.canManageProfile &&
                   menuitem(NAV_PROFILE, '/profile', <PersonIcon />),
-              menuitem(SIGNOUT, '', <LogoutIcon />, signout),
+              menuitem(SIGNOUT, '/logout', <LogoutIcon />, signout),
           ]
               .filter((v) => v)
               .map((v) => v as HaffaLink)

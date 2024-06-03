@@ -245,9 +245,11 @@ const createRouter = (
             <UnpackLoaderData
                 key="edit-profile"
                 render={({ profile, terms }) => (
-                    <Layout>
+                    <RouteLayout
+                        ifRoles={({ canManageProfile }) => !!canManageProfile}
+                    >
                         <EditProfileView profile={profile} terms={terms} />
-                    </Layout>
+                    </RouteLayout>
                 )}
             />
         ),
@@ -263,9 +265,11 @@ const createRouter = (
             <UnpackLoaderData
                 key="remove-profile"
                 render={({ profile }) => (
-                    <Layout>
+                    <RouteLayout
+                        ifRoles={({ canManageProfile }) => !!canManageProfile}
+                    >
                         <RemoveProfileView profile={profile} />
-                    </Layout>
+                    </RouteLayout>
                 )}
             />
         ),
@@ -280,9 +284,11 @@ const createRouter = (
             <UnpackLoaderData
                 key="view-profile"
                 render={({ profile }) => (
-                    <Layout>
+                    <RouteLayout
+                        ifRoles={({ canManageProfile }) => !!canManageProfile}
+                    >
                         <ProfileView profile={profile} />
-                    </Layout>
+                    </RouteLayout>
                 )}
             />
         ),
