@@ -93,6 +93,14 @@ export const FilterDialog: FC<{
                 </IconButton>
                 <DialogContent dividers>
                     <Stack direction="column" spacing={2}>
+                        {terms.sizes.length > 0 && (
+                            <StringArrayFilter
+                                label={phrase('TERMS_FIELD_SIZES', 'Storlekar')}
+                                values={terms.sizes}
+                                selected={sizes}
+                                onChange={setSizes}
+                            />
+                        )}
                         <CategoriesFilter
                             selected={categories}
                             onCategoriesChanged={setCategories}
@@ -103,14 +111,6 @@ export const FilterDialog: FC<{
                                 values={terms.tags}
                                 selected={tags}
                                 onChange={setTags}
-                            />
-                        )}
-                        {terms.sizes.length > 0 && (
-                            <StringArrayFilter
-                                label={phrase('TERMS_FIELD_SIZES', 'Storlekar')}
-                                values={terms.sizes}
-                                selected={sizes}
-                                onChange={setSizes}
                             />
                         )}
                     </Stack>
