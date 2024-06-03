@@ -316,7 +316,10 @@ export const AuthenticateForm: FC<{
                                         })
                                     }}
                                 >
-                                    {phrase('', 'Börja om från början')}
+                                    {phrase(
+                                        'AUTH_LABEL_RESTART',
+                                        'Börja om från början'
+                                    )}
                                 </Button>
                             </Box>
                         )}
