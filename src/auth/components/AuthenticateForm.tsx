@@ -16,6 +16,7 @@ import {
     Typography,
 } from '@mui/material'
 import { Markdown } from 'components/Markdown'
+import { Editorial } from 'editorials'
 import { AuthContext } from '../AuthContext'
 import { PhraseContext } from '../../phrases/PhraseContext'
 import { Phrase } from '../../phrases/Phrase'
@@ -48,6 +49,7 @@ export const AuthenticateForm: FC<{
     const config =
         type === 'email'
             ? {
+                  editorialPhraseKey: 'AUTH_EDITORIAL_EMAIL',
                   labels: {
                       identify: phrase(
                           'AUTH_LABEL_ENTER_EMAIL',
@@ -78,6 +80,7 @@ export const AuthenticateForm: FC<{
                   },
               }
             : {
+                  editorialPhraseKey: 'AUTH_EDITORIAL_PHONE',
                   labels: {
                       identify: phrase(
                           'AUTH_LABEL_ENTER_PHONE',
@@ -184,6 +187,9 @@ export const AuthenticateForm: FC<{
                 <Alert sx={{ py: 2 }} severity="error">
                     {errorMessage}
                 </Alert>
+            )}
+            {config.editorialPhraseKey && (
+                <Editorial phraseKey={config.editorialPhraseKey} />
             )}
             <Stepper activeStep={step} orientation="vertical">
                 <Step key={0}>

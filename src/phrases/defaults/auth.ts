@@ -1,4 +1,14 @@
 export default {
+    AUTH_EDITORIAL_EMAIL: `
+Genom att logga in godkänner jag att mina inloggningsuppgifter 
+- sparas i samband med reservation, utlåning m.m.
+- används för kommunikation med mig
+`,
+    AUTH_EDITORIAL_PHONE: `
+Genom att logga in godkänner jag att mina inloggningsuppgifter 
+- sparas i samband med reservation, utlåning m.m.
+- används för kommunikation med mig
+`,
     AUTH_LABEL_ENTER_PHONE: 'Ange ditt telefonnummer',
     AUTH_LABEL_SEND_SMS: 'Skicka mig ett SMS med engångskod',
     AUTH_LABEL_SENDING_SMS: 'Vi skickar ett SMS till dig med en engångskod',
