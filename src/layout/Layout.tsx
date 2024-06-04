@@ -165,7 +165,7 @@ export const Layout: FC<
     const isDesktop = useMediaQuery(theme.breakpoints.up('md'))
     const phrases = useContext(PhraseContext)
     const { isGuest, roles, signout } = useContext(AuthContext)
-    const { APP_TITLE } = phrases
+    const { APP_TITLE, phrase } = phrases
     const [drawer, setDrawer] = useState(false)
     const [authenticateDialog, setAuthenticateDialog] = useState(false)
     const links = useMemo(
@@ -212,7 +212,7 @@ export const Layout: FC<
                         </Link>
                         <Box flex={1} />
                         {insideToolbarLinks}
-                        {isGuest && (
+                        {isGuest && false && (
                             <NavIconButton
                                 label="Logga in"
                                 icon={<LoginIcon />}
@@ -231,6 +231,28 @@ export const Layout: FC<
                     </Toolbar>
                 </Container>
             </AppBar>
+
+            {isGuest && (
+                <AppBar
+                    position="fixed"
+                    color="primary"
+                    sx={{ top: 'auto', bottom: 0 }}
+                >
+                    <Container>
+                        <Toolbar>
+                            {phrase('AUTH_NAVBAR_INSPIRATION', '')}
+                            <Box flex={1} />
+                            <NavIconButton
+                                label="Logga in"
+                                icon={<LoginIcon />}
+                                color="primary"
+                                variant="contained"
+                                onClick={() => setAuthenticateDialog(true)}
+                            />
+                        </Toolbar>
+                    </Container>
+                </AppBar>
+            )}
 
             <Drawer
                 anchor="right"
@@ -251,7 +273,7 @@ export const Layout: FC<
 
             <Toolbar /* for pushing down content */ />
             <Grid key="c" item xs={12} md={8} sx={{}}>
-                <Container key="c" sx={{ position: 'relative', mt: 4, mb: 8 }}>
+                <Container key="c" sx={{ position: 'relative', mt: 4, mb: 16 }}>
                     <SlowFetchWarning key="sf" sx={{ mb: 2 }} />
                     {children}
                 </Container>

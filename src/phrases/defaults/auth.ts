@@ -18,4 +18,6 @@ export default {
     AUTH_LABEL_EMAIL_HEADING: 'Logga in med email',
     AUTH_LABEL_PHONE_HEADING: 'Logga in med SMS',
     AUTH_LABEL_RESTART: 'Börja om från början',
+    AUTH_NAVBAR_INSPIRATION:
+        'Logga in om du vill låna eller reservera prylar ♥️',
 }
