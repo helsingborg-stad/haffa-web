@@ -17,4 +17,5 @@ export default {
         'Jag godkänner att mina personuppgifter hanteras för kunna tillhandahålla tjänsten. Läs mer om vår personuppgiftshantering **[här](http://haffa.helsingborg.se)**.',
     AUTH_LABEL_EMAIL_HEADING: 'Logga in med email',
     AUTH_LABEL_PHONE_HEADING: 'Logga in med SMS',
+    AUTH_LABEL_RESTART: 'Börja om från början',
 }
