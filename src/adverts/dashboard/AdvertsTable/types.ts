@@ -43,6 +43,7 @@ export interface AdvertTableRow {
     reference: string
     notes: string
     lendingPeriod: number
+    expectedReturnDate: string
     isOverdue: boolean
     isPicked: boolean
     visitLink: string

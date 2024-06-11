@@ -86,6 +86,11 @@ export const createColumns = ({
         headerName: fields.lendingPeriod?.label || '',
     },
     {
+        field: 'expectedReturnDate',
+        type: 'string',
+        headerName: 'Återlämnas',
+    },
+    {
         field: 'isOverdue',
         align: 'center',
         sortable: false,
