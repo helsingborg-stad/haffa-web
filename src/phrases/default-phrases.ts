@@ -8,7 +8,7 @@ import bulkActions from './defaults/bulk-actions'
 
 export const defaultPhrases: Omit<
     PhraseContextType,
-    'phrase' | 'fromNow' | 'getConfig'
+    'phrase' | 'fromNow' | 'getConfig' | 'prettyDate'
 > &
     Record<string, string> = {
     ...auth,
@@ -162,6 +162,7 @@ export const defaultPhrases: Omit<
     MYRESERVATIONS_RESERVED: 'Reserverade',
     MYRESERVATIONS_COLLECTED: 'Uthämtat',
     ADVERT_IS_COLLECTED_BY_YOU: 'Du har hämtat {count} {unit}',
+    ADVERT_IS_BORROWED_BY_YOU: 'Du har lånat {count} {unit} till och med {at}',
     ADVERT_CLAIM_IS_COLLECTED: '{by} hämtade {quantity} {unit} {at}',
     ADVERT_CLAIMS_MANAGE_TITLE: 'Välj hantering',
     ADVERT_CLAIMS_CANCEL_COLLECT: 'Ångra hämtning',
@@ -171,6 +172,7 @@ export const defaultPhrases: Omit<
     ADVERT_CLAIM_COLLECT_REMINDER: 'Påminnelse för återlämning har skickats',
     ADVERT_CLAIM_RESERVE_REMINDER: 'Påminnelse för uthämtning har skickats',
     ADVERT_IS_RESERVED_BY_YOU: 'Du har reserverat {count} {unit}',
+    ADVERT_WILL_BE_RETURNED: 'Åter {at}',
     ADVERT_CLAIM_IS_RESERVED: '{by} reserverade {quantity} {unit} {at}',
     ADVERT_CLAIMS_CANCEL_RESERVATION: 'Ångra reservation',
     ADVERT_CLAIMS_COLLECT_MANUALLY: 'Lämna ut manuellt',

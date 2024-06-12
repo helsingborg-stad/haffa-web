@@ -139,6 +139,7 @@ export interface AdvertClaim {
 export interface AdvertReturnInfo {
     at: string
     quantity: number
+    isMine: boolean
 }
 
 export interface AdvertMeta {

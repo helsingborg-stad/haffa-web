@@ -88,6 +88,7 @@ export const createColumns = ({
     {
         field: 'expectedReturnDate',
         type: 'string',
+        sortable: false,
         headerName: 'Återlämnas',
     },
     {

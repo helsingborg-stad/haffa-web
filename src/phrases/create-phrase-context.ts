@@ -3,6 +3,11 @@ import dayjs from 'dayjs'
 import { PhraseContextType } from './types'
 import { defaultPhrases } from './default-phrases'
 
+const prettyDate = (date: string): string => {
+    const d = new Date(date)
+    return Number.isNaN(d) ? date : d.toLocaleDateString()
+}
+
 export const createProductionPhraseContext = (
     phrases: Record<string, string>
 ): PhraseContextType => {
@@ -33,6 +38,7 @@ export const createProductionPhraseContext = (
         }),
         phrase,
         fromNow: (date) => dayjs(date).fromNow(),
+        prettyDate,
         getConfig: () =>
             Object.entries(defaultPhrases).map(([key, template]) => ({
                 key,
@@ -98,6 +104,7 @@ export const createDevelopmentPhraseContext = (
         }),
         phrase,
         fromNow: (date) => dayjs(date).fromNow(),
+        prettyDate,
         getConfig: () =>
             Object.entries(defaultPhrases).map(([key, template]) => ({
                 key,

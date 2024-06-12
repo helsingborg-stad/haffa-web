@@ -33,6 +33,7 @@ const advertProps = /* GraphQL */ `
 		returnInfo {
 			at
 			quantity
+			isMine
 		}
 		claims {
 			by

@@ -28,7 +28,7 @@ export const AdvertListItem: FC<{
     sx?: SxProps<Theme>
 }> = ({ advert, categories, sx }) => {
     const { advertImageAspectRatio } = useContext(AdvertImageSettingsContext)
-    const { phrase } = useContext(PhraseContext)
+    const { phrase, prettyDate } = useContext(PhraseContext)
     const imageUrl = advert.images[0]?.url || '/empty-advert.svg'
 
     const {
@@ -136,8 +136,11 @@ export const AdvertListItem: FC<{
                                     noWrap
                                     sx={{ fontWeight: 'bolder' }}
                                 >
-                                    Återlämnas:{' '}
-                                    {new Date(info.at).toLocaleDateString()}
+                                    {phrase(
+                                        'ADVERT_WILL_BE_RETURNED',
+                                        'Åter {at}',
+                                        { at: prettyDate(info.at) }
+                                    )}
                                     <SwapHorizIcon
                                         sx={{
                                             pl: 0.5,

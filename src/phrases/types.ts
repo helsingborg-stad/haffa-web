@@ -34,5 +34,6 @@ export interface PhraseContextType {
         templateVariables?: Record<string, string | number>
     ) => string
     fromNow: (date: string) => string
+    prettyDate: (date: string) => string
     getConfig: () => PhraseDefinition[]
 }
