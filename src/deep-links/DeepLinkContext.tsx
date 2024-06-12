@@ -1,6 +1,11 @@
 import { createContext } from 'react'
 import { DeepLinkService } from './types'
 
+const getAdvertLink: DeepLinkService['getAdvertLink'] = ({ id }) => {
+    const url = new URL(`/advert/${id}`, window.location.href)
+    return url.toString()
+}
+
 const getAdvertLinkForQrCode: DeepLinkService['getAdvertLinkForQrCode'] = ({
     id,
 }) => {
@@ -35,6 +40,7 @@ const actOnLink: DeepLinkService['actOnLink'] = (url, actions) => {
 }
 
 export const DeepLinkContext = createContext<DeepLinkService>({
+    getAdvertLink,
     getAdvertLinkForQrCode,
     isCurrentLinkFromQrCode,
     actOnLink,

@@ -7,6 +7,7 @@ export interface LinkActions<T = any> {
     error: (e: Error | any) => T
 }
 export interface DeepLinkService {
+    getAdvertLink: (advert: Advert) => string
     getAdvertLinkForQrCode: (advert: Advert) => string
     isCurrentLinkFromQrCode: (advert: Advert) => boolean
     actOnLink: <T = any>(link: string | undefined, actions: LinkActions<T>) => T

@@ -17,6 +17,7 @@ import { SyslogView } from './syslog/SyslogView'
 import { EditHtmlView } from './html-branding'
 import { EditTagDescriptionsView } from './tag-descriptions/EditTagDescriptionsView'
 import { EditLabelsView } from './labels'
+import { ExportAdvertsView } from './export/ExportAdvertsView'
 
 const tab = (
     enabled: boolean | undefined,
@@ -115,6 +116,7 @@ export const createAdminTabs = (
             phrase('ADMIN_SYSLOG_TITLE', 'Systemlog'),
             <SyslogView />
         ),
+        tab(roles.canManageAllAdverts, 'Exportera', <ExportAdvertsView />),
     ]
         .filter((t) => t)
         .map((t) => t!)
