@@ -17,6 +17,7 @@ import { DetailsPanel } from './DetailsPanel'
 import { ReturnPanel } from './ReturnPanel'
 import { TagDescriptionsPanel } from './TagDescriptionsPanel'
 import { PickPanel } from './PickPanel'
+import { QRCodePanel } from './QRCodePanel'
 
 export const AdvertCard: FC<{
     advert: Advert
@@ -149,6 +150,7 @@ export const AdvertCard: FC<{
                     att den tillhör någon annan.
                 </Editorial>
             )}
+            {meta.canEdit && <QRCodePanel advert={advert} />}
             <EditorButtonsPanel advert={advert} onUpdate={onUpdate} />
         </Stack>
     )
