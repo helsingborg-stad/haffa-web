@@ -467,8 +467,40 @@ export const EditThemeForm: FC<{
                             Knappar
                         </Typography>
                         <Grid container rowSpacing={4}>
+                            <Grid item xs={12} sm={6} pr={1}>
+                                <RegularSelect
+                                    label="Skuggning"
+                                    value={model['component.button.elevation']}
+                                    onChange={({ target: { value } }) =>
+                                        apply(
+                                            'component.button.elevation',
+                                            value
+                                        )
+                                    }
+                                >
+                                    {CreateMenuItems([
+                                        ['Nej', 'true'],
+                                        ['Ja', 'false'],
+                                    ])}
+                                </RegularSelect>
+                            </Grid>
+                            <Grid item xs={12} sm={6} pr={1}>
+                                <RegularSelect
+                                    label="Radie"
+                                    value={model['component.button.radius']}
+                                    onChange={({ target: { value } }) =>
+                                        apply('component.button.radius', value)
+                                    }
+                                >
+                                    {arrayWithNumbers(25).map((i) => (
+                                        <MenuItem key={i} value={i}>
+                                            {i}
+                                        </MenuItem>
+                                    ))}
+                                </RegularSelect>
+                            </Grid>
                             <Grid item xs={12} sm={4} pr={1}>
-                                <Typography>Outlined</Typography>
+                                <Typography>Kontur</Typography>
                                 {ButtonColumn.map((props, key) =>
                                     PreviewButton({
                                         ...props,
@@ -478,7 +510,7 @@ export const EditThemeForm: FC<{
                                 )}
                             </Grid>
                             <Grid item xs={12} sm={4} pr={1}>
-                                <Typography>Contained</Typography>
+                                <Typography>Fylld</Typography>
                                 {ButtonColumn.map((props, key) =>
                                     PreviewButton({
                                         ...props,
@@ -496,38 +528,6 @@ export const EditThemeForm: FC<{
                                         variant: 'text',
                                     })
                                 )}
-                            </Grid>
-                            <Grid item xs={12} sm={2} pr={1}>
-                                <RegularSelect
-                                    label="Skuggning"
-                                    value={model['component.button.elevation']}
-                                    onChange={({ target: { value } }) =>
-                                        apply(
-                                            'component.button.elevation',
-                                            value
-                                        )
-                                    }
-                                >
-                                    {CreateMenuItems([
-                                        ['Nej', 'true'],
-                                        ['Ja', 'false'],
-                                    ])}
-                                </RegularSelect>
-                            </Grid>
-                            <Grid item xs={12} sm={2} pr={1}>
-                                <RegularSelect
-                                    label="Radie"
-                                    value={model['component.button.radius']}
-                                    onChange={({ target: { value } }) =>
-                                        apply('component.button.radius', value)
-                                    }
-                                >
-                                    {arrayWithNumbers(25).map((i) => (
-                                        <MenuItem key={i} value={i}>
-                                            {i}
-                                        </MenuItem>
-                                    ))}
-                                </RegularSelect>
                             </Grid>
                         </Grid>
                         <Typography variant="h6" py={2}>

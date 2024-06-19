@@ -1,24 +1,29 @@
 import { TextField, TextFieldProps } from '@mui/material'
 
+const phrases: Record<string, [string, string]> = {
+    primary: ['Primär', 'Detta är en ett textfält med primär färg'],
+    secondary: ['Sekundär', 'Detta är ett textfält med sekundär färg'],
+}
+
 export const PreviewTextField = (props: TextFieldProps) => {
-    let text = 'N/A'
-    if (props.color) {
-        text =
-            {
-                info: 'Information',
-                primary: 'Primärt fält',
-                secondary: 'Sekundärt fält',
-                success: 'Lyckades',
-                error: 'Fel',
-                warning: 'Varning',
-            }[props.color] ?? 'N/A'
-    } else if (props.disabled) {
-        text = 'Inaktivt fält'
-    } else if (props.error) {
-        text = 'Felaktig data'
+    const { color = 'primary' } = props
+    const [title = 'N/A', body = 'N/A'] = phrases[color]
+
+    let text = body
+    if (props.disabled) {
+        text = 'Detta är ett inaktivt textfält'
+    }
+    if (props.error) {
+        text = 'Detta är ett textfält med felaktig data'
     }
     const mt = props.variant === 'standard' ? 3 : 2
     return (
-        <TextField {...props} fullWidth sx={{ mt }} label={text} value={text} />
+        <TextField
+            {...props}
+            fullWidth
+            sx={{ mt }}
+            label={title}
+            value={text}
+        />
     )
 }
