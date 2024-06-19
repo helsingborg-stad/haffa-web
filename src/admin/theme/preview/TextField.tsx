@@ -20,6 +20,7 @@ export const PreviewTextField = (props: TextFieldProps) => {
     return (
         <TextField
             {...props}
+            key={props.key}
             fullWidth
             sx={{ mt }}
             label={title}

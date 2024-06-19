@@ -13,7 +13,7 @@ const phrases = {
 export const PreviewButton = (props: ButtonProps) => {
     const { color = 'primary' } = props
     return (
-        <Button {...props} fullWidth sx={{ mt: 1 }}>
+        <Button {...props} key={props.key} fullWidth sx={{ mt: 1 }}>
             {props.disabled ? 'Inaktiverad' : phrases[color]}
         </Button>
     )

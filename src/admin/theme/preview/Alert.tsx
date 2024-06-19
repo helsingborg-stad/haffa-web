@@ -12,7 +12,7 @@ export const PreviewAlert = (props: AlertProps) => {
     const [title, body] = phrases[severity]
 
     return (
-        <Alert {...props} sx={{ mt: 1 }}>
+        <Alert {...props} key={props.key} sx={{ mt: 1 }}>
             <AlertTitle>{title}</AlertTitle>
             {body}
         </Alert>
