@@ -1,4 +1,13 @@
-import { Grid, InputAdornment, Stack, TextField } from '@mui/material'
+import {
+    Button,
+    ButtonGroup,
+    Grid,
+    InputAdornment,
+    Stack,
+    TextField,
+    useMediaQuery,
+    useTheme,
+} from '@mui/material'
 import {
     DataGrid,
     GridColumnVisibilityModel,
@@ -16,6 +25,9 @@ import {
 } from 'adverts/components/filter/filters'
 
 import useLocalStorage from 'hooks/use-local-storage'
+import { PhraseContext } from 'phrases'
+import AddIcon from '@mui/icons-material/Add'
+import RemoveIcon from '@mui/icons-material/Remove'
 import { AdvertsTableContext } from './AdvertsTableContext'
 import { createRows } from '../createRows'
 import { AdvertTableColumn } from './types'
@@ -71,6 +83,113 @@ const FilterPanel: FC<
     )
 }
 
+const RestrictionButton: FC<{
+    label: string
+    value: boolean | undefined
+    setValue: (checked: boolean | undefined) => void
+}> = ({ label, value, setValue }) => {
+    const mapValue = <T,>(truthy: T, falsy: T, undefinedly: T) =>
+        // eslint-disable-next-line no-nested-ternary
+        value === true ? truthy : value === false ? falsy : undefinedly
+
+    return (
+        <Button
+            startIcon={mapValue(<AddIcon />, <RemoveIcon />, <AddIcon />)}
+            variant={mapValue('contained', 'contained', 'outlined')}
+            color={mapValue('primary', 'primary', 'secondary')}
+            onClick={() => setValue(mapValue(false, undefined, true))}
+        >
+            {label}
+        </Button>
+    )
+}
+
+const RestrictionsPanel: FC<
+    {
+        filter: AdvertFilterInput
+        setFilter: (p: AdvertFilterInput) => void
+    } & PropsWithChildren
+> = ({ filter, setFilter }) => {
+    const theme = useTheme()
+    const horizontalGroup = useMediaQuery(theme.breakpoints.up('md'))
+    const { phrase } = useContext(PhraseContext)
+    return (
+        <ButtonGroup
+            orientation={horizontalGroup ? 'horizontal' : 'vertical'}
+            fullWidth
+        >
+            <RestrictionButton
+                label={phrase('MYADVERTS_ACTIVE', 'Aktiva')}
+                value={filter.restrictions?.canBeReserved}
+                setValue={(c) =>
+                    setFilter({
+                        ...filter,
+                        restrictions: {
+                            ...filter.restrictions,
+                            canBeReserved: c,
+                        },
+                    })
+                }
+            />
+
+            <RestrictionButton
+                label={phrase('MYADVERTS_RESERVED', 'Reserverade')}
+                value={filter.restrictions?.hasReservations}
+                setValue={(c) =>
+                    setFilter({
+                        ...filter,
+                        restrictions: {
+                            ...filter.restrictions,
+                            hasReservations: c,
+                        },
+                    })
+                }
+            />
+
+            <RestrictionButton
+                label={phrase('MYADVERTS_COLLECTED', 'Uthämtade')}
+                value={filter.restrictions?.hasCollects}
+                setValue={(c) =>
+                    setFilter({
+                        ...filter,
+                        restrictions: {
+                            ...filter.restrictions,
+                            hasCollects: c,
+                        },
+                    })
+                }
+            />
+            <RestrictionButton
+                label={phrase('MYADVERTS_PICKED', 'Plockade')}
+                value={filter.restrictions?.isPicked}
+                setValue={(c) =>
+                    setFilter({
+                        ...filter,
+                        restrictions: {
+                            ...filter.restrictions,
+                            isPicked: c,
+                        },
+                    })
+                }
+            />
+
+            <RestrictionButton
+                label={phrase('MYADVERTS_ARCHIVED', 'Arkiverade')}
+                value={filter.restrictions?.isArchived}
+                setValue={(c) =>
+                    setFilter({
+                        ...filter,
+                        restrictions: {
+                            ...filter.restrictions,
+                            isArchived: c,
+                        },
+                    })
+                }
+            />
+        </ButtonGroup>
+    )
+}
+
 export const AdvertsTable: FC<{
     columns: AdvertTableColumn[]
 }> = ({ columns }) => {
@@ -118,6 +237,7 @@ export const AdvertsTable: FC<{
     return (
         <Stack direction="column" spacing={2}>
             <FilterPanel filter={filter} setFilter={setFilter} />
+            <RestrictionsPanel filter={filter} setFilter={setFilter} />
             <DataGrid
                 autoHeight
                 getRowHeight={() => 'auto'}

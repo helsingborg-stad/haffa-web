@@ -64,6 +64,7 @@ export interface AdvertRestrictionsFilterInput {
     isArchived?: boolean
     hasReservations?: boolean
     hasCollects?: boolean
+    isPicked?: boolean
 }
 
 export interface AdvertSorting {
