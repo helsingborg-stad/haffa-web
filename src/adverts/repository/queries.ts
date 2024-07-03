@@ -30,6 +30,7 @@ const advertProps = /* GraphQL */ `
 		isReservedBySome
 		isCollectedBySome
 		isPicked
+		waitlistCount
 		returnInfo {
 			at
 			quantity

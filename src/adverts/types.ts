@@ -19,7 +19,6 @@ export interface AdvertUserFields {
     reference: string
     notes: string
     tags: string[]
-
     location: AdvertLocation
     contact: AdvertContact
 }
@@ -167,6 +166,7 @@ export interface AdvertMeta {
     isReservedBySome: boolean
     isCollectedBySome: boolean
     isPicked: boolean
+    waitlistCount: number
     returnInfo: AdvertReturnInfo[]
     claims: AdvertClaim[]
 }

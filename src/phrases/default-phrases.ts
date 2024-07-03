@@ -182,7 +182,7 @@ export const defaultPhrases: Omit<
     ADVERT_IMPERSONATION_EDITORIAL:
         'Du har givits rättigheter att adminstrera denna annons trots att den tillhör någon annan.',
     ADVERT_RETURN_EDITORIAL:
-        'Artikeln är utlånad och kan efter mottagningskontroll återföras till lagret.',
+        'Artikeln är utlånad till och med {returnDate} och har {waitlistCount}st bevakning(ar). Den kan efter mottagningskontroll återföras till lagret.',
     ADVERT_MARK_AS_PICKED_EDITORIAL: `Markera annonsen som plockad om du vill notifiera reservatörer om att varan kan hämtas.`,
     ADVERT_MARK_AS_UNPICKED_EDITORIAL: `Markera annonsen som oplockad om den återförs till lagret och inte kan hämtas ut direkt.`,
     LOGINS_EFECTIVE_PERMISSIONS: 'Effektiva behörigheter',
