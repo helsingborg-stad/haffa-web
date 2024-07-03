@@ -12,6 +12,13 @@ const createUrlParamsContext = (
     ...adapter,
     patchAdvertFilterInputFromUrl: (prefix, filter, { sortableFields }) => {
         const params = adapter.parseUrlParams(prefix)
+        const parseRestriction = (name: string): boolean | undefined =>
+            // eslint-disable-next-line no-nested-ternary
+            params[name] === '1'
+                ? true
+                : params[name] === '0'
+                ? false
+                : undefined
         const search = params.s || ''
         const categories = (params.c || '')
             .split(',')
@@ -42,10 +49,21 @@ const createUrlParamsContext = (
             sorting:
                 sortableFields.find((sf) => sf.key === sorting)?.sorting ||
                 filter.sorting,
+            restrictions: {
+                ...filter.restrictions,
+                isArchived: parseRestriction('archived'),
+                isPicked: parseRestriction('picked'),
+                hasCollects: parseRestriction('collects'),
+                hasReservations: parseRestriction('reservations'),
+                canBeReserved: parseRestriction('reserveable'),
+            },
             paging: { pageSize: 25, ...filter.paging, pageIndex: page },
         }
     },
     updateUrlFromAdvertFilterInput: (prefix, filter, { sortableFields }) => {
+        const mapRestriction = (r?: boolean) =>
+            // eslint-disable-next-line no-nested-ternary
+            r === true ? '1' : r === false ? '0' : undefined
         adapter.updateLocationWithUrlParams(prefix, {
             s: filter.search,
             sf: sortableFields.find(
@@ -57,6 +75,11 @@ const createUrlParamsContext = (
             tags: encode(filter.fields?.tags?.in)?.join(','),
             size: encode(filter.fields?.size?.in)?.join(','),
             p: filter.paging?.pageIndex,
+            archived: mapRestriction(filter.restrictions?.isArchived),
+            picked: mapRestriction(filter.restrictions?.isPicked),
+            collects: mapRestriction(filter.restrictions?.hasCollects),
+            reservations: mapRestriction(filter.restrictions?.hasReservations),
+            reserveable: mapRestriction(filter.restrictions?.canBeReserved),
         })
     },
     makeAdvertSubscriptionUrl: (basePath, filter) =>

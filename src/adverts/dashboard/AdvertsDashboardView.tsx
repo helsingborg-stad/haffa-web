@@ -3,7 +3,7 @@ import { AdvertsTableView } from './AdvertsTableView'
 
 export const AdvertsDashboardView: FC = () => (
     <AdvertsTableView
-        prefix="a"
+        prefix=""
         restrictions={{
             editableByMe: true,
             canBeReserved: true,
