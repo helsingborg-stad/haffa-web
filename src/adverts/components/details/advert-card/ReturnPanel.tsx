@@ -24,7 +24,7 @@ export const ReturnPanel: FC<{
                     templateVariables={{
                         waitlistCount: advert.meta.waitlistCount,
                         returnDate: prettyDate(
-                            advert.meta.returnInfo[0].at ?? ''
+                            advert.meta.returnInfo?.[0]?.at ?? ''
                         ),
                     }}
                     severity="info"
