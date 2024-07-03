@@ -5,7 +5,7 @@ import { defaultPhrases } from './default-phrases'
 
 const prettyDate = (date: string): string => {
     const d = new Date(date)
-    return Number.isNaN(d) ? date : d.toLocaleDateString()
+    return Number.isNaN(d.getDate()) ? date : d.toLocaleDateString()
 }
 
 export const createProductionPhraseContext = (
