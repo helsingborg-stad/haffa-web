@@ -13,8 +13,9 @@ export const ReturnPanel: FC<{
     const { returnAdvert } = useContext(AdvertsContext)
     const { prettyDate } = useContext(PhraseContext)
     const {
-        meta: { canReturn },
+        meta: { canReturn, waitlistCount, returnInfo },
     } = advert
+    const [date = { at: 'Okänt datum' }] = returnInfo
 
     return canReturn ? (
         <Card>
@@ -22,10 +23,8 @@ export const ReturnPanel: FC<{
                 <Editorial
                     phraseKey="ADVERT_RETURN_EDITORIAL"
                     templateVariables={{
-                        waitlistCount: advert.meta.waitlistCount,
-                        returnDate: prettyDate(
-                            advert.meta.returnInfo?.[0]?.at ?? ''
-                        ),
+                        waitlistCount,
+                        returnDate: prettyDate(date.at),
                     }}
                     severity="info"
                 >
