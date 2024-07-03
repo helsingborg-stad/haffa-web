@@ -96,7 +96,7 @@ export const createNavLinks: Func1<
               roles.canEditOwnAdverts &&
                   menuitem(
                       NAV_MY_ADVERTS,
-                      '/my-adverts',
+                      '/my-adverts#reserveable=1&archived=0',
                       <BookmarkBorderIcon />
                   ),
               menuitem(NAV_ABOUT_HAFFA, '/about', <InfoOutlinedIcon />),
