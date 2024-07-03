@@ -161,6 +161,7 @@ export const defaultPhrases: Omit<
     MYADVERTS_ARCHIVED: 'Arkiverade',
     MYRESERVATIONS_RESERVED: 'Reserverade',
     MYRESERVATIONS_COLLECTED: 'Uthämtat',
+    MYADVERTS_PICKED: 'Plockade',
     ADVERT_IS_COLLECTED_BY_YOU: 'Du har hämtat {count} {unit}',
     ADVERT_IS_BORROWED_BY_YOU: 'Du har lånat {count} {unit} till och med {at}',
     ADVERT_CLAIM_IS_COLLECTED: '{by} hämtade {quantity} {unit} {at}',
