@@ -7,6 +7,7 @@ export const getCategoriesQuery = /* GraphQL */ `
             co2kg
             valueByUnit
             advertCount
+            unarchivedAdvertCount
         }
     }
 `

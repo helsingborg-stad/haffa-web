@@ -5,6 +5,7 @@ export interface Category {
     valueByUnit: number
     categories: Category[]
     advertCount?: number
+    unarchivedAdvertCount?: number
 }
 
 export interface CategoryFlat {
@@ -14,6 +15,7 @@ export interface CategoryFlat {
     co2kg: number
     valueByUnit: number
     advertCount?: number
+    unarchivedAdvertCount?: number
 }
 
 export interface CategoriesRepository {

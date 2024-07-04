@@ -5,14 +5,25 @@ const trim = (s: any) => (typeof s === 'string' ? s.trim() : '')
 
 export const decodeCategoryTree = (categories: CategoryFlat[]): Category[] => {
     const byParentId = categories
-        .map(({ id, parentId, label, co2kg, valueByUnit, advertCount }) => ({
-            id: trim(id),
-            parentId: trim(parentId),
-            label: trim(label),
-            co2kg: Math.max(0, co2kg || 0),
-            valueByUnit: Math.max(0, valueByUnit || 0),
-            advertCount,
-        }))
+        .map(
+            ({
+                id,
+                parentId,
+                label,
+                co2kg,
+                valueByUnit,
+                advertCount,
+                unarchivedAdvertCount,
+            }) => ({
+                id: trim(id),
+                parentId: trim(parentId),
+                label: trim(label),
+                co2kg: Math.max(0, co2kg || 0),
+                valueByUnit: Math.max(0, valueByUnit || 0),
+                advertCount,
+                unarchivedAdvertCount,
+            })
+        )
         .filter(({ id }) => id)
         .reduce((memo, c) => {
             const l = memo[c.parentId]
@@ -35,6 +46,7 @@ export const decodeCategoryTree = (categories: CategoryFlat[]): Category[] => {
                 valueByUnit: c.valueByUnit,
                 categories: rec(c.id),
                 advertCount: c.advertCount,
+                unarchivedAdvertCount: c.unarchivedAdvertCount,
             }))
             .filter((v) => v)
 

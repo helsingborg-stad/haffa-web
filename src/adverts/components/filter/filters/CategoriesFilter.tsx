@@ -23,7 +23,7 @@ const categoryToTreeNode = (
     checkedKeys: string[]
 ): DataNode | null => {
     const n = {
-        title: category.label,
+        title: `${category.label} (${category.unarchivedAdvertCount})`,
         key: category.id,
         disabled,
         children: category.categories
@@ -37,7 +37,7 @@ const categoryToTreeNode = (
             .filter((n) => n)
             .map((n) => n!),
     }
-    if (n.children.length || (category.advertCount || 0) > 0) {
+    if (n.children.length || (category.unarchivedAdvertCount || 0) > 0) {
         return n
     }
     return null
@@ -125,10 +125,7 @@ export const CategoriesFilter: FC<CategoriesFilterProps> = ({
 
     return categoriesInspect({
         pending: () => null,
-        rejected: (e) => {
-            console.error(e)
-            return <Box>Hoppsan! Något gick fel</Box>
-        },
+        rejected: () => <Box>Hoppsan! Något gick fel</Box>,
         resolved: (categories) => {
             cacheCategories(categories)
             return (
