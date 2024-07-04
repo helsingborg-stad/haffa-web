@@ -34,6 +34,7 @@ export const AdvertListItem: FC<{
     const {
         title,
         unit,
+        reference,
         meta: {
             reservableQuantity,
             canBook,
@@ -122,9 +123,14 @@ export const AdvertListItem: FC<{
                         >
                             {join(
                                 ' - ',
-                                join(' ', reservableQuantity, unit),
+                                reservableQuantity > 1
+                                    ? join(' ', reservableQuantity, unit)
+                                    : '',
                                 isValidString(advert.size)
                                     ? join(' ', 'stl', advert.size)
+                                    : '',
+                                isValidString(reference)
+                                    ? join(' ', 'ref', reference)
                                     : ''
                             )}
                         </Typography>
