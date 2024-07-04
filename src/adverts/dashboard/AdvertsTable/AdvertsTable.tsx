@@ -1,8 +1,13 @@
 import {
     Button,
     ButtonGroup,
+    FormControl,
+    FormControlLabel,
+    FormLabel,
     Grid,
     InputAdornment,
+    Radio,
+    RadioGroup,
     Stack,
     TextField,
     useMediaQuery,
@@ -114,79 +119,82 @@ const RestrictionsPanel: FC<
     const horizontalGroup = useMediaQuery(theme.breakpoints.up('md'))
     const { phrase } = useContext(PhraseContext)
     return (
-        <ButtonGroup
-            orientation={horizontalGroup ? 'horizontal' : 'vertical'}
-            fullWidth
-        >
-            <RestrictionButton
-                label={phrase('MYADVERTS_ACTIVE', 'Aktiva')}
-                value={filter.restrictions?.canBeReserved}
-                setValue={(c) =>
-                    setFilter({
-                        ...filter,
-                        restrictions: {
-                            ...filter.restrictions,
-                            canBeReserved: c,
-                        },
-                    })
-                }
-            />
+        <>
+            <FormControl>
+                <FormLabel id="archive-status-label">Hantera</FormLabel>
+                <RadioGroup
+                    row
+                    aria-labelledby="archive-status-label"
+                    name="archive-status-group"
+                    value={String(filter.restrictions?.isArchived ?? false)}
+                    onChange={(e) =>
+                        setFilter({
+                            ...filter,
+                            restrictions: {
+                                ...filter.restrictions,
+                                isArchived: e.target.value === 'true',
+                            },
+                        })
+                    }
+                >
+                    <FormControlLabel
+                        value="false"
+                        control={<Radio />}
+                        label={phrase('MYADVERTS_ACTIVE', 'Aktiva')}
+                    />
+                    <FormControlLabel
+                        value="true"
+                        control={<Radio />}
+                        label={phrase('MYADVERTS_ARCHIVED', 'Arkiverade')}
+                    />
+                </RadioGroup>
+            </FormControl>
+            <ButtonGroup
+                orientation={horizontalGroup ? 'horizontal' : 'vertical'}
+                fullWidth
+            >
+                <RestrictionButton
+                    label={phrase('MYADVERTS_RESERVED', 'Reserverade')}
+                    value={filter.restrictions?.hasReservations}
+                    setValue={(c) =>
+                        setFilter({
+                            ...filter,
+                            restrictions: {
+                                ...filter.restrictions,
+                                hasReservations: c,
+                            },
+                        })
+                    }
+                />
 
-            <RestrictionButton
-                label={phrase('MYADVERTS_RESERVED', 'Reserverade')}
-                value={filter.restrictions?.hasReservations}
-                setValue={(c) =>
-                    setFilter({
-                        ...filter,
-                        restrictions: {
-                            ...filter.restrictions,
-                            hasReservations: c,
-                        },
-                    })
-                }
-            />
-
-            <RestrictionButton
-                label={phrase('MYADVERTS_COLLECTED', 'Uthämtade')}
-                value={filter.restrictions?.hasCollects}
-                setValue={(c) =>
-                    setFilter({
-                        ...filter,
-                        restrictions: {
-                            ...filter.restrictions,
-                            hasCollects: c,
-                        },
-                    })
-                }
-            />
-            <RestrictionButton
-                label={phrase('MYADVERTS_PICKED', 'Plockade')}
-                value={filter.restrictions?.isPicked}
-                setValue={(c) =>
-                    setFilter({
-                        ...filter,
-                        restrictions: {
-                            ...filter.restrictions,
-                            isPicked: c,
-                        },
-                    })
-                }
-            />
-
-            <RestrictionButton
-                label={phrase('MYADVERTS_ARCHIVED', 'Arkiverade')}
-                value={filter.restrictions?.isArchived}
-                setValue={(c) =>
-                    setFilter({
-                        ...filter,
-                        restrictions: {
-                            ...filter.restrictions,
-                            isArchived: c,
-                        },
-                    })
-                }
-            />
-        </ButtonGroup>
+                <RestrictionButton
+                    label={phrase('MYADVERTS_COLLECTED', 'Uthämtade')}
+                    value={filter.restrictions?.hasCollects}
+                    setValue={(c) =>
+                        setFilter({
+                            ...filter,
+                            restrictions: {
+                                ...filter.restrictions,
+                                hasCollects: c,
+                            },
+                        })
+                    }
+                />
+                <RestrictionButton
+                    label={phrase('MYADVERTS_PICKED', 'Plockade')}
+                    value={filter.restrictions?.isPicked}
+                    setValue={(c) =>
+                        setFilter({
+                            ...filter,
+                            restrictions: {
+                                ...filter.restrictions,
+                                isPicked: c,
+                            },
+                        })
+                    }
+                />
+            </ButtonGroup>
+        </>
     )
 }
 

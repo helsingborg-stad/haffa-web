@@ -6,7 +6,6 @@ export const AdvertsDashboardView: FC = () => (
         prefix=""
         restrictions={{
             editableByMe: true,
-            canBeReserved: true,
             isArchived: false,
         }}
     />
