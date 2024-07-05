@@ -8,7 +8,7 @@ export const AdvertsView: FC = () => (
         prefix=""
         defaultSearchParams={{
             restrictions: { canBeReserved: true },
-            sorting: { field: 'createdAt', ascending: false },
+            sorting: { field: 'title', ascending: true },
         }}
     />
 )
