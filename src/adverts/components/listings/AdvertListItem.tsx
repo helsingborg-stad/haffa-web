@@ -135,12 +135,13 @@ export const AdvertListItem: FC<{
                             )}
                         </Typography>
                         {!canBook &&
-                            returnInfo.map((info) => (
+                            returnInfo.map((info, index) => (
                                 <Typography
                                     color="text.secondary"
                                     component="div"
                                     noWrap
                                     sx={{ fontWeight: 'bolder' }}
+                                    key={index}
                                 >
                                     {phrase(
                                         'ADVERT_WILL_BE_RETURNED',
