@@ -3,30 +3,50 @@ import { FC } from 'react'
 
 import FilterListOutlinedIcon from '@mui/icons-material/FilterListOutlined'
 import { AdvertFilterInput } from 'adverts'
+import ChecklistIcon from '@mui/icons-material/Checklist'
+
+const countScalarValuesRec = (o: any): number =>
+    // eslint-disable-next-line no-nested-ternary
+    typeof o === 'string'
+        ? 1
+        : typeof o === 'number'
+        ? 1
+        : Object.values(o || []).reduce<number>(
+              (s, e) => s + countScalarValuesRec(e),
+              0
+          )
 
 const countSelectedItems = (searchParams: AdvertFilterInput) =>
-    Object.values(searchParams.fields ?? {})
-        .filter((f) => f?.in)
-        .reduce((p, { in: c }) => p + (c?.length ?? 0), 0)
+    countScalarValuesRec(searchParams.fields)
 
 export const FiltersIconButton: FC<{
     searchParams: AdvertFilterInput
     onClick: (anchor: HTMLElement) => void
-}> = ({ searchParams, onClick }) => (
-    <Badge badgeContent={countSelectedItems(searchParams)} color="secondary">
-        <Button color="inherit" onClick={(e) => onClick(e.currentTarget)}>
-            <Stack
-                direction="column"
-                sx={{
-                    alignItems: 'center',
-                    fontSize: { xs: 'x-small', sm: '' },
-                    fontWeight: 'initial',
-                    textTransform: 'none',
-                }}
+}> = ({ searchParams, onClick }) => {
+    const hasFilter = countSelectedItems(searchParams) > 0
+    return (
+        <Badge
+            badgeContent={hasFilter ? <ChecklistIcon /> : null}
+            color="secondary"
+        >
+            <Button
+                variant={hasFilter ? 'contained' : 'text'}
+                color={hasFilter ? 'primary' : 'inherit'}
+                onClick={(e) => onClick(e.currentTarget)}
             >
-                <FilterListOutlinedIcon />
-                <Box>Filter</Box>
-            </Stack>
-        </Button>
-    </Badge>
-)
+                <Stack
+                    direction="column"
+                    sx={{
+                        alignItems: 'center',
+                        fontSize: { xs: 'x-small', sm: '' },
+                        fontWeight: 'initial',
+                        textTransform: 'none',
+                    }}
+                >
+                    <FilterListOutlinedIcon />
+                    <Box>Filter</Box>
+                </Stack>
+            </Button>
+        </Badge>
+    )
+}
