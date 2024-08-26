@@ -23,6 +23,7 @@ import { PhraseContext } from 'phrases'
 import * as xlsx from 'xlsx'
 import * as fileSaver from 'file-saver'
 import { AdminEditorialPanel } from 'components/AdminEditorialPanel'
+import { Typography } from 'antd'
 
 interface EventsSearchParams {
     from: string
@@ -36,48 +37,64 @@ type ServerSideLogEventLabels = Required<{
 export const EventsTable: FC<{
     events: ServerSideLogEvent[]
     labels: ServerSideLogEventLabels
-}> = ({ events, labels }) => (
-    <TableContainer>
-        <Table>
-            <TableHead>
-                <TableRow>
-                    <TableCell>{labels.event}</TableCell>
-                    <TableCell>{labels.at}</TableCell>
-                    <TableCell>{labels.category}</TableCell>
-                    <TableCell>{labels.organization}</TableCell>
-                    <TableCell>{labels.byOrganization}</TableCell>
-                    <TableCell>{labels.co2kg}</TableCell>
-                    <TableCell>{labels.valueByUnit}</TableCell>
-                </TableRow>
-            </TableHead>
-            <TableBody>
-                {events.map(
-                    ({
-                        event,
-                        at,
-                        category,
-                        organization,
-                        byOrganization,
-                        co2kg,
-                        valueByUnit,
-                    }) => (
-                        <TableRow key={`${event}@${at}`}>
-                            <TableCell>{event}</TableCell>
-                            <TableCell>
-                                {dayjs(at).format('YYYY-MM-DD')}
-                            </TableCell>
-                            <TableCell>{category}</TableCell>
-                            <TableCell>{organization}</TableCell>
-                            <TableCell>{byOrganization}</TableCell>
-                            <TableCell>{co2kg}</TableCell>
-                            <TableCell>{valueByUnit}</TableCell>
-                        </TableRow>
-                    )
-                )}
-            </TableBody>
-        </Table>
-    </TableContainer>
-)
+}> = ({ events, labels }) => {
+    const { phrase } = useContext(PhraseContext)
+    return (
+        <TableContainer>
+            <Table>
+                <TableHead>
+                    <TableRow>
+                        <TableCell>{labels.event}</TableCell>
+                        <TableCell>{labels.at}</TableCell>
+                        <TableCell>{labels.category}</TableCell>
+                        <TableCell>{labels.organization}</TableCell>
+                        <TableCell>{labels.byOrganization}</TableCell>
+                        <TableCell>{labels.co2kg}</TableCell>
+                        <TableCell>{labels.valueByUnit}</TableCell>
+                        <TableCell>{labels.advertId}</TableCell>
+                    </TableRow>
+                </TableHead>
+                <TableBody>
+                    {events.map(
+                        ({
+                            event,
+                            advertId,
+                            at,
+                            category,
+                            organization,
+                            byOrganization,
+                            co2kg,
+                            valueByUnit,
+                        }) => (
+                            <TableRow key={`${event}@${at}`}>
+                                <TableCell>
+                                    <Typography
+                                        style={{ whiteSpace: 'nowrap' }}
+                                    >
+                                        {phrase(event, event)}
+                                    </Typography>
+                                </TableCell>
+                                <TableCell>
+                                    <Typography
+                                        style={{ whiteSpace: 'nowrap' }}
+                                    >
+                                        {dayjs(at).format('YYYY-MM-DD')}
+                                    </Typography>
+                                </TableCell>
+                                <TableCell>{category}</TableCell>
+                                <TableCell>{organization}</TableCell>
+                                <TableCell>{byOrganization}</TableCell>
+                                <TableCell>{co2kg}</TableCell>
+                                <TableCell>{valueByUnit}</TableCell>
+                                <TableCell>{advertId}</TableCell>
+                            </TableRow>
+                        )
+                    )}
+                </TableBody>
+            </Table>
+        </TableContainer>
+    )
+}
 
 export const SearchHeader: FC<{
     searchParams: EventsSearchParams
@@ -210,6 +227,7 @@ export const EventLogView: FC = () => {
     const eventLabels: ServerSideLogEventLabels = useMemo(
         () => ({
             event: phrase('EVENTLOG_FIELD_EVENT', 'Händelse'),
+            advertId: phrase('EVENTLOG_FIELD_ADVERTID', 'Annons'),
             at: phrase('EVENTLOG_FIELD_DAY', 'Dag'),
             by: phrase('EVENTLOG_FIELD_USER', 'Användare'),
             category: phrase('ADVERT_FIELD_CATEGORY', 'Kategori'),
@@ -229,6 +247,7 @@ export const EventLogView: FC = () => {
         (name: string, events: ServerSideLogEvent[]) => {
             const headers = [
                 eventLabels.event,
+                eventLabels.advertId,
                 eventLabels.at,
                 eventLabels.quantity,
                 eventLabels.organization,
@@ -240,6 +259,7 @@ export const EventLogView: FC = () => {
             const data = events.map(
                 ({
                     event,
+                    advertId,
                     at,
                     quantity,
                     organization,
@@ -248,7 +268,8 @@ export const EventLogView: FC = () => {
                     co2kg,
                     valueByUnit,
                 }) => [
-                    event,
+                    phrase(event, event),
+                    advertId,
                     at,
                     quantity,
                     organization,

@@ -3,10 +3,14 @@ export interface StaticsticsProvider {
         from: Date | null,
         to: Date | null
     ) => Promise<ServerSideLogEvent[]>
+    getServerSideAdvertEventLog: (
+        advertId: string
+    ) => Promise<ServerSideLogEvent[]>
 }
 
 export interface ServerSideLogEvent {
     event: string
+    advertId?: string
     at: string
     by: string
     byOrganization?: string

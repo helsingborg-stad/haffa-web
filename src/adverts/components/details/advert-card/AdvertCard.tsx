@@ -18,6 +18,7 @@ import { ReturnPanel } from './ReturnPanel'
 import { TagDescriptionsPanel } from './TagDescriptionsPanel'
 import { PickPanel } from './PickPanel'
 import { QRCodePanel } from './QRCodePanel'
+import { HistoryPanel } from './HistoryPanel'
 
 export const AdvertCard: FC<{
     advert: Advert
@@ -140,6 +141,8 @@ export const AdvertCard: FC<{
             <ReturnPanel advert={advert} onUpdate={onUpdate} />
 
             <ClaimsPanel advert={advert} onUpdate={onUpdate} />
+
+            <HistoryPanel advert={advert} />
 
             {showRightsDisclaimer && (
                 <Editorial

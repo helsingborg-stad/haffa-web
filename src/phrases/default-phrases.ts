@@ -5,6 +5,7 @@ import terms from './defaults/terms'
 import auth from './defaults/auth'
 import sms from './defaults/sms'
 import bulkActions from './defaults/bulk-actions'
+import events from './defaults/events'
 
 export const defaultPhrases: Omit<
     PhraseContextType,
@@ -16,6 +17,7 @@ export const defaultPhrases: Omit<
     ...sms,
     ...terms,
     ...bulkActions,
+    ...events,
 
     APP_TITLE: 'Haffa!',
     INFO_SLOW_CONNECTION: '... väntar på innehåll från servern ...',
@@ -285,6 +287,7 @@ Regler utan email tas automatiskt bort.`,
     ADMIN_ACTION_RESTORE: 'Återställ',
 
     EVENTLOG_FIELD_EVENT: 'Händelse',
+    EVENTLOG_FIELD_ADVERTID: 'Annons',
     EVENTLOG_FIELD_DAY: 'Dag',
     EVENTLOG_FIELD_USER: 'Användare',
     EVENTLOG_FIELD_BYORGANIZATION: 'Användarens organisation',

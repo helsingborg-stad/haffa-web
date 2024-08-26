@@ -7,6 +7,9 @@ const notProvided = (method: string) => () => {
 
 export const StatisticsContext = createContext<StaticsticsProvider>({
     getServerSideEventLog: notProvided('getServerSideEventLog'),
+    getServerSideAdvertEventLog: notProvided(
+        'getAdvertServerSideAdvertEventLog'
+    ),
 })
 
 export const StatisticsProvider: FC<
