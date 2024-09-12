@@ -142,8 +142,6 @@ export const AdvertCard: FC<{
 
             <ClaimsPanel advert={advert} onUpdate={onUpdate} />
 
-            <HistoryPanel advert={advert} />
-
             {showRightsDisclaimer && (
                 <Editorial
                     phraseKey="ADVERT_IMPERSONATION_EDITORIAL"
@@ -155,6 +153,7 @@ export const AdvertCard: FC<{
             )}
             {meta.canEdit && <QRCodePanel advert={advert} />}
             <EditorButtonsPanel advert={advert} onUpdate={onUpdate} />
+            <HistoryPanel advert={advert} />
         </Stack>
     )
 }
