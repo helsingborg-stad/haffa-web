@@ -65,6 +65,7 @@ const advertProps = /* GraphQL */ `
 	category
 	reference
 	notes
+	stockItem
 	tags
 
 	location {

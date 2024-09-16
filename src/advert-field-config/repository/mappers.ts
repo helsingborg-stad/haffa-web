@@ -86,6 +86,9 @@ export const setAdvertDefaults = (
                     break
                 case 'picked':
                     break
+                case 'stockItem':
+                    base[field.name] = field.initial === 'true'
+                    break
                 default:
                     base[field.name] = field.initial
                     break

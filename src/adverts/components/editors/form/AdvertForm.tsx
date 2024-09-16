@@ -152,7 +152,7 @@ export const AdvertForm: FC<{
         model,
         patchModel,
         factory,
-        simplifiedFactory: { select, textField },
+        simplifiedFactory: { select, textField, checkbox },
     } = useFormControls<AdvertInput>(advert)
     const { phrase, ADVERT_EDIT_SAVE } = useContext(PhraseContext)
 
@@ -356,6 +356,13 @@ export const AdvertForm: FC<{
                                             fullWidth: true,
                                         }
                                     )
+                            ),
+                        ].filter((v) => v),
+                        [
+                            createSimplifiedField('stockItem', (field, label) =>
+                                checkbox(field, label, {
+                                    disabled,
+                                })
                             ),
                         ].filter((v) => v),
                     ].filter((v) => v.length > 0),

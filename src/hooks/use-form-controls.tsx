@@ -2,8 +2,12 @@ import React, { useCallback, useMemo, useState } from 'react'
 import {
     Button,
     ButtonProps,
+    Checkbox,
+    CheckboxProps,
     FormControl,
+    FormControlLabel,
     FormControlProps,
+    FormGroup,
     InputLabel,
     MenuItem,
     Select,
@@ -55,6 +59,7 @@ export interface FormControlsFactory<TModel> {
         SelectOption[],
         SelectProps
     >
+    checkbox: ControlFactory<TModel, boolean, CheckboxProps>
     imagePicker: ControlFactoryWithoutInitial<TModel, string, ButtonProps>
 }
 
@@ -69,6 +74,11 @@ export interface SimplifiedFormControlsFactory<TModel> {
         label: string,
         options: SelectOption[],
         props?: Partial<SelectProps>
+    ) => React.JSX.Element
+    checkbox: (
+        property: keyof TModel,
+        label: string,
+        props?: Partial<CheckboxProps>
     ) => React.JSX.Element
 }
 
@@ -133,6 +143,29 @@ export const useFormControls = <TModel,>(
         </FormControl>
     )
 
+    const checkbox: FormControlsFactory<TModel>['checkbox'] = (
+        getter,
+        setter,
+        props
+    ) => (
+        <FormControl variant="outlined" sx={{ minWidth: 120 }}>
+            <FormGroup>
+                <FormControlLabel
+                    label={props?.name}
+                    control={
+                        <Checkbox
+                            id={props?.id || ''}
+                            checked={getter(model)}
+                            onChange={(e) =>
+                                patchModel(setter(e.target.checked))
+                            }
+                        />
+                    }
+                />
+            </FormGroup>
+        </FormControl>
+    )
+
     const imagePicker: FormControlsFactory<TModel>['imagePicker'] = (
         setter
     ) => (
@@ -158,6 +191,7 @@ export const useFormControls = <TModel,>(
         () => ({
             textField,
             select,
+            checkbox,
             imagePicker,
         }),
         [model, setModel]
@@ -175,6 +209,7 @@ export const useFormControls = <TModel,>(
                         ...props,
                     }
                 ),
+
             select: (property, label, options, props) =>
                 select(
                     (model) => model[property] as string,
@@ -184,6 +219,16 @@ export const useFormControls = <TModel,>(
                         label,
                         placeholder: label,
                         id: label,
+                        ...props,
+                    }
+                ),
+
+            checkbox: (property, label, props) =>
+                checkbox(
+                    (model) => model[property] as boolean,
+                    (value) => ({ [property]: value } as Partial<TModel>),
+                    {
+                        name: label,
                         ...props,
                     }
                 ),

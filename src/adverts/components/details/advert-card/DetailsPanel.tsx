@@ -22,6 +22,7 @@ export const DetailsPanel = (
         usage,
         reference,
         createdAt,
+        stockItem,
     } = props.advert
 
     type FieldData = {
@@ -38,6 +39,10 @@ export const DetailsPanel = (
         { field: getField(props.fields, 'condition'), value: condition },
         { field: getField(props.fields, 'usage'), value: usage },
         { field: getField(props.fields, 'reference'), value: reference },
+        {
+            field: getField(props.fields, 'stockItem'),
+            value: stockItem === true ? 'Ja' : 'Nej',
+        },
     ].filter((a) => isValidString(a.value) && a.field.visible)
 
     const format = (field: FieldData) =>
