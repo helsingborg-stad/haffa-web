@@ -359,10 +359,12 @@ export const AdvertForm: FC<{
                             ),
                         ].filter((v) => v),
                         [
-                            createSimplifiedField('stockItem', (field, label) =>
-                                checkbox(field, label, {
-                                    disabled,
-                                })
+                            createSimplifiedField(
+                                'isStockItem',
+                                (field, label) =>
+                                    checkbox(field, label, {
+                                        disabled,
+                                    })
                             ),
                         ].filter((v) => v),
                     ].filter((v) => v.length > 0),

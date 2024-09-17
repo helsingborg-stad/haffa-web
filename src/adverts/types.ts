@@ -18,7 +18,7 @@ export interface AdvertUserFields {
     category: string
     reference: string
     notes: string
-    stockItem: boolean
+    isStockItem: boolean
     tags: string[]
     location: AdvertLocation
     contact: AdvertContact
@@ -109,7 +109,7 @@ export interface AdvertInput {
     category: string
     reference: string
     notes: string
-    stockItem: boolean
+    isStockItem: boolean
     tags: string[]
     location: AdvertLocation
     contact: AdvertContact
