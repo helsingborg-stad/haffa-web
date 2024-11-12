@@ -117,22 +117,28 @@ export const createAdvertsRepository = (
             .variables({ id, quantity })
             .map<AdvertMutationResult>('collectAdvert')
             .then(expectAdvert),
-    cancelAdvertClaim: async (id, claim) =>
+    cancelAdvertClaim: async (id, claim, impersonate) =>
         gql(token, f)
             .query(cancelAdvertClaimMutation)
-            .variables({ id, by: claim.by, type: claim.type })
+            .variables({ id, by: claim.by, type: claim.type, impersonate })
             .map<AdvertMutationResult>('cancelAdvertClaim')
             .then(expectAdvert),
-    convertAdvertClaim: async (id, claim, newType) =>
+    convertAdvertClaim: async (id, claim, newType, impersonate) =>
         gql(token, f)
             .query(convertAdvertClaimMutation)
-            .variables({ id, by: claim.by, type: claim.type, newType })
+            .variables({
+                id,
+                by: claim.by,
+                type: claim.type,
+                newType,
+                impersonate,
+            })
             .map<AdvertMutationResult>('convertAdvertClaim')
             .then(expectAdvert),
-    renewAdvertClaim: async (id, claim) =>
+    renewAdvertClaim: async (id, claim, impersonate) =>
         gql(token, f)
             .query(renewAdvertClaimMutation)
-            .variables({ id, by: claim.by, type: claim.type })
+            .variables({ id, by: claim.by, type: claim.type, impersonate })
             .map<AdvertMutationResult>('renewAdvertClaim')
             .then(expectAdvert),
     returnAdvert: async (id) =>

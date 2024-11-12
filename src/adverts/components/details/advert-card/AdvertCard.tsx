@@ -4,6 +4,7 @@ import { Editorial } from 'editorials'
 import { TreeAdapter } from 'lib/types'
 import { Category } from 'categories/types'
 import { AdvertFieldConfig } from 'advert-field-config/types'
+import { Terms } from 'terms/types'
 import { Advert, AdvertMutationResult } from '../../../types'
 import { InfoPanel } from './InfoPanel'
 import { ActionsPanel } from './ActionsPanel'
@@ -22,11 +23,12 @@ import { HistoryPanel } from './HistoryPanel'
 
 export const AdvertCard: FC<{
     advert: Advert
+    terms: Terms
     categories: TreeAdapter<Category>
     fields: AdvertFieldConfig
     error?: string
     onUpdate: (p: Promise<AdvertMutationResult>) => void
-}> = ({ advert, categories, fields, error, onUpdate }) => {
+}> = ({ advert, terms, categories, fields, error, onUpdate }) => {
     const { meta } = advert
 
     // show a disclaimer if we are administering someone eleses advert
@@ -140,7 +142,7 @@ export const AdvertCard: FC<{
 
             <ReturnPanel advert={advert} onUpdate={onUpdate} />
 
-            <ClaimsPanel advert={advert} onUpdate={onUpdate} />
+            <ClaimsPanel advert={advert} terms={terms} onUpdate={onUpdate} />
 
             {showRightsDisclaimer && (
                 <Editorial

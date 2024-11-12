@@ -1,4 +1,5 @@
 import { Category, CategoryFlat } from 'categories/types'
+import { ProfileInput } from 'profile'
 
 export interface AdvertUserFields {
     title: string
@@ -262,16 +263,19 @@ export interface AdvertsRepository {
     ) => Promise<AdvertMutationResult>
     cancelAdvertClaim: (
         id: string,
-        claim: AdvertClaim
+        claim: AdvertClaim,
+        impersonate: Partial<ProfileInput> | null
     ) => Promise<AdvertMutationResult>
     convertAdvertClaim: (
         id: string,
         claim: AdvertClaim,
-        newType: AdvertClaimType
+        newType: AdvertClaimType,
+        impersonate: Partial<ProfileInput> | null
     ) => Promise<AdvertMutationResult>
     renewAdvertClaim: (
         id: string,
-        claim: AdvertClaim
+        claim: AdvertClaim,
+        impersonate: Partial<ProfileInput> | null
     ) => Promise<AdvertMutationResult>
     returnAdvert: (id: string) => Promise<AdvertMutationResult>
     joinAdvertWaitlist: (id: string) => Promise<AdvertMutationResult>
