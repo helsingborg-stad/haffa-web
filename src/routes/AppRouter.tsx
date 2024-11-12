@@ -210,20 +210,23 @@ const createRouter = (
         loader: ({ params: { advertId } }) =>
             Promise.all([
                 getAdvert(advertId as string),
+                getTerms(),
                 getCategories(),
                 getFieldConfig(),
-            ]).then(([advert, categories, fields]) => ({
+            ]).then(([advert, terms, categories, fields]) => ({
                 advert,
+                terms,
                 categories,
                 fields,
             })),
         element: (
             <UnpackLoaderData
                 key="view-advert"
-                render={({ advert, categories, fields }) => (
+                render={({ advert, terms, categories, fields }) => (
                     <Layout>
                         <AdvertDetailsView
                             advert={advert}
+                            terms={terms}
                             categories={categories}
                             fields={fields}
                         />

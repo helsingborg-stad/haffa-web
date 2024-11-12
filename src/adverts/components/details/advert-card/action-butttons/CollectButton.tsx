@@ -53,6 +53,7 @@ export const CollectButton: FC<
             </ScanQrCodeDialog>
             <SelectCountDialog
                 key="select-count"
+                title={ADVERT_COLLECT}
                 open={!!countDialog}
                 count={reservedyMe || 1}
                 minCount={1}

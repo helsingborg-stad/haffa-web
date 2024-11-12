@@ -217,9 +217,10 @@ export const cancelAdvertClaimMutation = /* GraphQL */ `
 mutation Mutation(
 	$id: ID!,
 	$by: String!,
-	$type: AdvertClaimType!
+	$type: AdvertClaimType!,
+	$impersonate: ProfileInput
 ) {
-	cancelAdvertClaim(id: $id, by: $by, type: $type) {
+	cancelAdvertClaim(id: $id, by: $by, type: $type, impersonate: $impersonate) {
 		${mutationProps}
 	}
 }
@@ -230,9 +231,10 @@ mutation Mutation(
 	$id: ID!,
 	$by: String!,
 	$type: AdvertClaimType!
-	$newType: AdvertClaimType!
+	$newType: AdvertClaimType!,
+	$impersonate: ProfileInput
 ) {
-	convertAdvertClaim(id: $id, by: $by, type: $type, newType: $newType) {
+	convertAdvertClaim(id: $id, by: $by, type: $type, newType: $newType, impersonate: $impersonate) {
 		${mutationProps}
 	}
 }
@@ -242,9 +244,10 @@ export const renewAdvertClaimMutation = /* GraphQL */ `
 mutation Mutation(
 	$id: ID!,
 	$by: String!,
-	$type: AdvertClaimType!
+	$type: AdvertClaimType!,
+	$impersonate: ProfileInput
 ) {
-	renewAdvertClaim(id: $id, by: $by, type: $type) {
+	renewAdvertClaim(id: $id, by: $by, type: $type, impersonate: $impersonate) {
 		${mutationProps}
 	}
 }
