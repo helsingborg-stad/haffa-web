@@ -5,6 +5,7 @@ import {
     DialogActions,
     DialogContent,
     DialogProps,
+    DialogTitle,
     Slider,
 } from '@mui/material'
 import { range } from 'lib/range'
@@ -20,6 +21,7 @@ const TICK_COUNT: number = 5
 
 export const SelectCountDialog: FC<
     DialogProps & {
+        title: string
         open: boolean
         count?: number
         minCount: number
@@ -30,6 +32,7 @@ export const SelectCountDialog: FC<
     }
 > = (props) => {
     const {
+        title,
         open,
         count,
         minCount,
@@ -78,6 +81,7 @@ export const SelectCountDialog: FC<
             maxWidth="xs"
             {...dialogProps}
         >
+            <DialogTitle>{title}</DialogTitle>
             <DialogContent>
                 <Slider
                     sx={{ my: 6 }}

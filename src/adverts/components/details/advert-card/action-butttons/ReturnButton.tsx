@@ -50,6 +50,7 @@ export const ReturnButton: FC<
             </ScanQrCodeDialog>
             <SelectCountDialog
                 key="select-count"
+                title=""
                 open={!!countDialog}
                 count={1}
                 minCount={1}

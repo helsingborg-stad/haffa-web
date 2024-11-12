@@ -35,6 +35,7 @@ export const ReserveButton: FC<{
             </Button>
             <SelectCountDialog
                 minCount={1}
+                title={phrase('ADVERT_RESERVE', 'Reservera')}
                 maxCount={reservableQuantity}
                 open={reservationDialog}
                 onSelectCount={(n) => onReserve(n)}
