@@ -12,13 +12,12 @@ const createUrlParamsContext = (
     ...adapter,
     patchAdvertFilterInputFromUrl: (prefix, filter, { sortableFields }) => {
         const params = adapter.parseUrlParams(prefix)
-        const parseRestriction = (name: string): boolean | undefined =>
+        const parseRestriction = (
+            name: string,
+            d: boolean | undefined
+        ): boolean | undefined =>
             // eslint-disable-next-line no-nested-ternary
-            params[name] === '1'
-                ? true
-                : params[name] === '0'
-                ? false
-                : undefined
+            params[name] === '1' ? true : params[name] === '0' ? false : d
         const search = params.s || ''
         const categories = (params.c || '')
             .split(',')
@@ -51,11 +50,26 @@ const createUrlParamsContext = (
                 filter.sorting,
             restrictions: {
                 ...filter.restrictions,
-                isArchived: parseRestriction('archived'),
-                isPicked: parseRestriction('picked'),
-                hasCollects: parseRestriction('collects'),
-                hasReservations: parseRestriction('reservations'),
-                canBeReserved: parseRestriction('reserveable'),
+                isArchived: parseRestriction(
+                    'archived',
+                    filter.restrictions?.isArchived
+                ),
+                isPicked: parseRestriction(
+                    'picked',
+                    filter.restrictions?.isPicked
+                ),
+                hasCollects: parseRestriction(
+                    'collects',
+                    filter.restrictions?.hasCollects
+                ),
+                hasReservations: parseRestriction(
+                    'reservations',
+                    filter.restrictions?.hasReservations
+                ),
+                canBeReserved: parseRestriction(
+                    'reserveable',
+                    filter.restrictions?.canBeReserved
+                ),
             },
             paging: { pageSize: 25, ...filter.paging, pageIndex: page },
         }
