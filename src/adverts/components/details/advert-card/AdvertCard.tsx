@@ -20,6 +20,7 @@ import { TagDescriptionsPanel } from './TagDescriptionsPanel'
 import { PickPanel } from './PickPanel'
 import { QRCodePanel } from './QRCodePanel'
 import { HistoryPanel } from './HistoryPanel'
+import { TagCard } from './TagCard'
 
 export const AdvertCard: FC<{
     advert: Advert
@@ -79,6 +80,9 @@ export const AdvertCard: FC<{
                             <Grid item>
                                 <ContactCard advert={advert} />
                             </Grid>
+                            <Grid item>
+                                <TagCard advert={advert} />
+                            </Grid>
                         </Grid>
                     </CardContent>
                 </CardContent>
@@ -129,6 +133,9 @@ export const AdvertCard: FC<{
                                 </Grid>
                                 <Grid item>
                                     <ContactCard advert={advert} />
+                                </Grid>
+                                <Grid item>
+                                    <TagCard advert={advert} />
                                 </Grid>
                             </Grid>
                         </Grid>
