@@ -42,11 +42,16 @@ export const ContactCard = (props: PaperProps & { advert: Advert }) => {
                         <Typography>
                             <Link href={`mailto:${email}`}>{email}</Link>
                         </Typography>
-                        {phone && (
-                            <Typography>
-                                <Link href={`tel:${phone}`}>{phone}</Link>
-                            </Typography>
-                        )}
+                        {phone &&
+                            phone
+                                .split(',')
+                                .map((v) => v.trim())
+                                .filter((v) => v.length > 0)
+                                .map((v) => (
+                                    <Typography>
+                                        <Link href={`tel:${v}`}>{v}</Link>
+                                    </Typography>
+                                ))}
                         {organization && (
                             <Typography>{organization}</Typography>
                         )}
