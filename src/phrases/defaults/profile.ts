@@ -1,4 +1,12 @@
 export default {
+    PROFILE_FIELD_NAME: 'Namn',
+    PROFILE_FIELD_PHONE: 'Telefon',
+    PROFILE_FIELD_ADRESS: 'Adress',
+    PROFILE_FIELD_ZIPCODE: 'Postnummer',
+    PROFILE_FIELD_CITY: 'Stad',
+    PROFILE_FIELD_COUNTRY: 'Land',
+    PROFILE_FIELD_ORGANIZATION: 'Organization',
+
     PROFILE_EDIT: 'Redigera din profil',
     PROFILE_SAVE: 'Spara din profil',
     PROFILE_REMOVE: 'Ta bort min profil',

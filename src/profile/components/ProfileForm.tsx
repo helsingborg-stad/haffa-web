@@ -27,57 +27,73 @@ export const ProfileForm: FC<{
         model,
         simplifiedFactory: { textField, select },
     } = useFormControls<ProfileInput>(profile)
-    const { PROFILE_SAVE: SAVE_PROFILE } = useContext(PhraseContext)
+    const { phrase, PROFILE_SAVE: SAVE_PROFILE } = useContext(PhraseContext)
 
     const layout = useMemo(
         () => [
             [
                 () =>
-                    textField('name', 'Namn', {
+                    textField('name', phrase('PROFILE_FIELD_NAME', 'Namn'), {
                         disabled,
                         fullWidth: true,
                     }),
             ],
             [
                 () =>
-                    textField('phone', 'Telefon', {
+                    textField(
+                        'phone',
+                        phrase('PROFILE_FIELD_PHONE', 'Telefon'),
+                        {
+                            disabled,
+                            fullWidth: true,
+                        }
+                    ),
+            ],
+            [
+                () =>
+                    textField(
+                        'adress',
+                        phrase('PROFILE_FIELD_ADRESS', 'Adress'),
+                        {
+                            disabled,
+                            fullWidth: true,
+                        }
+                    ),
+            ],
+            [
+                () =>
+                    textField(
+                        'zipCode',
+                        phrase('PROFILE_FIELD_ZIPCODE', 'Postnummer'),
+                        {
+                            disabled,
+                            fullWidth: true,
+                        }
+                    ),
+            ],
+            [
+                () =>
+                    textField('city', phrase('PROFILE_FIELD_CITY', 'Stad'), {
                         disabled,
                         fullWidth: true,
                     }),
             ],
             [
                 () =>
-                    textField('adress', 'Adress', {
-                        disabled,
-                        fullWidth: true,
-                    }),
-            ],
-            [
-                () =>
-                    textField('zipCode', 'Postnummer', {
-                        disabled,
-                        fullWidth: true,
-                    }),
-            ],
-            [
-                () =>
-                    textField('city', 'Stad', {
-                        disabled,
-                        fullWidth: true,
-                    }),
-            ],
-            [
-                () =>
-                    textField('country', 'Land', {
-                        disabled: false,
-                        fullWidth: true,
-                    }),
+                    textField(
+                        'country',
+                        phrase('PROFILE_FIELD_COUNTRY', 'Land'),
+                        {
+                            disabled: false,
+                            fullWidth: true,
+                        }
+                    ),
             ],
             [
                 () =>
                     select(
                         'organization',
-                        'Organization',
+                        phrase('PROFILE_FIELD_ORGANIZATION', 'Organization'),
                         terms.organization.map((o) => ({ label: o, value: o })),
                         {
                             disabled: false,
