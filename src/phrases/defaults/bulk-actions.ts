@@ -5,4 +5,5 @@ export default {
     BULKADVERTACTION_EDIT_CATEGORIES: 'Sätt kategorier',
     BULKADVERTACTION_MARK_AS_PICKED: 'Markera som plockad',
     BULKADVERTACTION_MARK_AS_UNPICKED: 'Markera som oplockad',
+    BULKADVERTACTION_CHANGE_CONTACT: 'Ändra kontaktinformation',
 }

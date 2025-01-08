@@ -171,14 +171,15 @@ export const AdvertsTableView: FC<{
                 getter: Func1<Advert, T>,
                 def: T
             ): { value: T; conflict: boolean } => {
-                const values = new Set<T>(
-                    data.adverts
-                        .filter(({ id }) => selected.includes(id))
-                        .map(getter)
+                const values = data.adverts
+                    .filter(({ id }) => selected.includes(id))
+                    .map(getter)
+                const uniqueValues = new Set<string>(
+                    values.map((v) => JSON.stringify(v))
                 )
-                return values.size === 1
+                return uniqueValues.size === 1
                     ? {
-                          value: [...values][0],
+                          value: [...values, def][0],
                           conflict: false,
                       }
                     : { value: def, conflict: true }

@@ -1,5 +1,6 @@
 export default {
     PROFILE_FIELD_NAME: 'Namn',
+    PROFILE_FIELD_EMAIL: 'Email',
     PROFILE_FIELD_PHONE: 'Telefon',
     PROFILE_FIELD_ADRESS: 'Adress',
     PROFILE_FIELD_ZIPCODE: 'Postnummer',

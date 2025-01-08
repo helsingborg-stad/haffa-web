@@ -10,6 +10,7 @@ import DateRangeIcon from '@mui/icons-material/DateRange'
 import StorefrontIcon from '@mui/icons-material/Storefront'
 import WarehouseIcon from '@mui/icons-material/Warehouse'
 import LabelIcon from '@mui/icons-material/Label'
+import ContactPageIcon from '@mui/icons-material/ContactPage'
 import { BulkAction } from './bulk-actions/types'
 import { AdvertsTableContextType } from './AdvertsTable/types'
 import {
@@ -18,6 +19,7 @@ import {
     PatchTextFieldDialog,
 } from './bulk-actions'
 import { PatchTagsDialog } from './bulk-actions/PatchTagsDialog'
+import { PatchContactDialog } from './bulk-actions/PatchContactDialog'
 
 const makeAction = (
     enabled: boolean | undefined,
@@ -142,6 +144,27 @@ export const createBulkActions = ({
             label: `Skapa etiketter`,
             enabled: () => selectionMatches(({ meta: { canEdit } }) => canEdit),
             action: createAdvertLabels,
+        }),
+        makeAction(roles.canEditOwnAdverts, {
+            key: 'update-contact',
+            icon: <ContactPageIcon />,
+            label: phrase(
+                'BULKADVERTACTION_CHANGE_CONTACT',
+                'Ändra kontaktinformation'
+            ),
+            enabled: () => selectionMatches(({ meta: { canEdit } }) => canEdit),
+            action: () => undefined,
+            dialogAction: (params) => (
+                <PatchContactDialog
+                    title={phrase(
+                        'BULKADVERTACTION_CHANGE_CONTACT',
+                        'Ändra kontaktinformation'
+                    )}
+                    {...params}
+                    getValue={(a) => a.contact}
+                    makePatch={(contact) => ({ contact })}
+                />
+            ),
         }),
     ]
         .filter(({ key }) => key)

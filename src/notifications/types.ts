@@ -1,5 +1,7 @@
+import { AlertColor } from '@mui/material'
+
 export interface Notification {
-    severity: string
+    severity: AlertColor
     message: string
 }
 

@@ -17,7 +17,7 @@ export const NotificationsSnackbar: FC = () => {
         >
             <Alert
                 onClose={closeNotification}
-                severity="success"
+                severity={notification?.severity || 'info'}
                 sx={{ width: '100%' }}
             >
                 {notification?.message}
