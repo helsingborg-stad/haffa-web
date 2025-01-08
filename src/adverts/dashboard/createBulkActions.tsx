@@ -11,6 +11,7 @@ import StorefrontIcon from '@mui/icons-material/Storefront'
 import WarehouseIcon from '@mui/icons-material/Warehouse'
 import LabelIcon from '@mui/icons-material/Label'
 import ContactPageIcon from '@mui/icons-material/ContactPage'
+import AddLocationIcon from '@mui/icons-material/AddLocation'
 import { BulkAction } from './bulk-actions/types'
 import { AdvertsTableContextType } from './AdvertsTable/types'
 import {
@@ -20,6 +21,7 @@ import {
 } from './bulk-actions'
 import { PatchTagsDialog } from './bulk-actions/PatchTagsDialog'
 import { PatchContactDialog } from './bulk-actions/PatchContactDialog'
+import { PatchLocationDialog } from './bulk-actions/PatchLocationDialog'
 
 const makeAction = (
     enabled: boolean | undefined,
@@ -163,6 +165,27 @@ export const createBulkActions = ({
                     {...params}
                     getValue={(a) => a.contact}
                     makePatch={(contact) => ({ contact })}
+                />
+            ),
+        }),
+        makeAction(roles.canEditOwnAdverts, {
+            key: 'update-location',
+            icon: <AddLocationIcon />,
+            label: phrase(
+                'BULKADVERTACTION_CHANGE_LOCATION',
+                'Ändra utlämningsplats'
+            ),
+            enabled: () => selectionMatches(({ meta: { canEdit } }) => canEdit),
+            action: () => undefined,
+            dialogAction: (params) => (
+                <PatchLocationDialog
+                    title={phrase(
+                        'BULKADVERTACTION_CHANGE_LOCATION',
+                        'Ändra utlämningsplats'
+                    )}
+                    {...params}
+                    getValue={(a) => a.location}
+                    makePatch={(location) => ({ location })}
                 />
             ),
         }),

@@ -67,18 +67,20 @@ const PatchContactDialogImpl: FC<
     return (
         <Dialog onClose={() => closeDialog()} open={open} fullWidth>
             <DialogTitle>{title}</DialogTitle>
-            <DialogContent>
-                {value.conflict && (
+
+            {value.conflict && (
+                <DialogContent>
                     <Alert severity="warning">
                         {phrase(
                             'BULKACTION_WARNING_VALUE_CONFLICT',
                             'Markeringen innehåller olika värden'
                         )}
                     </Alert>
-                )}
-            </DialogContent>
+                </DialogContent>
+            )}
+
             <DialogContent>
-                <Stack direction="column" spacing={1}>
+                <Stack direction="column" spacing={1} py={1}>
                     <FormControl fullWidth>
                         <TextField
                             disabled={disabled}

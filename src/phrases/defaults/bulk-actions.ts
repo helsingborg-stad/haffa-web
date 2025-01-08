@@ -6,4 +6,5 @@ export default {
     BULKADVERTACTION_MARK_AS_PICKED: 'Markera som plockad',
     BULKADVERTACTION_MARK_AS_UNPICKED: 'Markera som oplockad',
     BULKADVERTACTION_CHANGE_CONTACT: 'Ändra kontaktinformation',
+    BULKADVERTACTION_CHANGE_LOCATION: 'Ändra utlämningsplats',
 }
