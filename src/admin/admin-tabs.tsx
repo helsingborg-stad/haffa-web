@@ -1,6 +1,23 @@
 import { HaffaUserRoles } from 'auth'
 import { PhraseContextType } from 'phrases'
 import { ReactNode } from 'react'
+import NewspaperIcon from '@mui/icons-material/Newspaper'
+import DesignServicesIcon from '@mui/icons-material/DesignServices'
+import FactCheckIcon from '@mui/icons-material/FactCheck'
+import HtmlIcon from '@mui/icons-material/Html'
+import FileDownloadIcon from '@mui/icons-material/FileDownload'
+import TimelineIcon from '@mui/icons-material/Timeline'
+import KeyIcon from '@mui/icons-material/Key'
+import SmsIcon from '@mui/icons-material/Sms'
+import ViewTimelineIcon from '@mui/icons-material/ViewTimeline'
+import QueryStatsIcon from '@mui/icons-material/QueryStats'
+import QrCode2Icon from '@mui/icons-material/QrCode2'
+import LocationOnIcon from '@mui/icons-material/LocationOn'
+import LockIcon from '@mui/icons-material/Lock'
+import VisibilityIcon from '@mui/icons-material/Visibility'
+import CategoryIcon from '@mui/icons-material/Category'
+import CommentBankIcon from '@mui/icons-material/CommentBank'
+import TranslateIcon from '@mui/icons-material/Translate'
 import { EditPhrasesView } from './phrases/EditPhrasesView'
 import { EditThemeView } from './theme/EditThemeView'
 import { EditCategoriesView } from './categories'
@@ -21,16 +38,19 @@ import { ExportAdvertsView } from './export/ExportAdvertsView'
 
 const tab = (
     enabled: boolean | undefined,
+    key: string,
     label: string,
-    component: ReactNode
+    component: ReactNode,
+    icon?: ReactNode
 ) =>
     enabled
         ? {
+              key,
               label,
               component,
+              icon,
           }
         : null
-
 export const createAdminTabs = (
     roles: HaffaUserRoles,
     phrase: PhraseContextType['phrase']
@@ -38,85 +58,123 @@ export const createAdminTabs = (
     [
         tab(
             roles.canManageContent,
+            'content',
             phrase('ADMIN_CONTENT_TITLE', 'Redaktionellt'),
-            <EditContentView />
+            <EditContentView />,
+            <NewspaperIcon />
         ),
         tab(
             roles.canEditTerms,
+            'theme',
             phrase('ADMIN_THEME_TITLE', 'Tema'),
-            <EditThemeView />
+            <EditThemeView />,
+            <DesignServicesIcon />
         ),
         tab(
             roles.canEditTerms,
+            'terms',
             phrase('ADMIN_TERMS_TITLE', 'Definitioner'),
-            <EditTermsView />
+            <EditTermsView />,
+            <FactCheckIcon />
         ),
         tab(
             roles.canEditTerms,
+            'phrases',
             phrase('ADMIN_PHRASES_TITLE', 'Fraser'),
-            <EditPhrasesView />
+            <EditPhrasesView />,
+            <TranslateIcon />
         ),
         tab(
             roles.canEditTerms,
+            'html',
             phrase('ADMIN_HTML_TITLE', 'Html'),
-            <EditHtmlView />
+            <EditHtmlView />,
+            <HtmlIcon />
         ),
         tab(
             roles.canManageAllAdverts,
+            'adverts',
             phrase('ADMIN_ADVERTS_TITLE', 'Annonser'),
-            <ConfigureAdvertsView />
+            <ConfigureAdvertsView />,
+            <VisibilityIcon />
         ),
         tab(
             roles.canEditSystemCategories,
+            'categories',
             phrase('ADMIN_CATEGORIES_TITLE', 'Kategorier'),
-            <EditCategoriesView />
+            <EditCategoriesView />,
+            <CategoryIcon />
         ),
         tab(
             roles.canEditTerms,
+            'tags',
             phrase('ADMIN_TAG_DESCRIPTIONS_TITLE', 'Taggbeskrivningar'),
-            <EditTagDescriptionsView />
+            <EditTagDescriptionsView />,
+            <CommentBankIcon />
         ),
         tab(
             roles.canEditSystemLoginPolicies,
+            'logins',
             phrase('ADMIN_LOGINS_TITLE', 'Användare & behörigheter'),
-            <EditLoginSettingsView />
+            <EditLoginSettingsView />,
+            <LockIcon />
         ),
         tab(
             roles.canManageLocations,
+            'locations',
             phrase('ADMIN_LOCATIONS_TITLE', 'Adressregister'),
-            <EditLocationsView />
+            <EditLocationsView />,
+            <LocationOnIcon />
         ),
         tab(
             roles.canEditTerms,
+            'labels',
             phrase('ADMIN_LABELS_TITLE', 'Etiketter'),
-            <EditLabelsView />
+            <EditLabelsView />,
+            <QrCode2Icon />
         ),
         tab(
             roles.canSeeSystemStatistics,
+            'eventlog',
             phrase('ADMIN_EVENTLOG_TITLE', 'Statistikunderlag'),
-            <EventLogView />
+            <EventLogView />,
+            <ViewTimelineIcon />
         ),
         tab(
             roles.canEditTerms,
+            'analytics',
             phrase('ADMIN_ANALYTICS_TITLE', 'Webanalys'),
-            <EditAnalyticsView />
+            <EditAnalyticsView />,
+            <QueryStatsIcon />
         ),
         tab(
             roles.canManageNotifications,
+            'sms-templates',
             phrase('ADMIN_SMS_TEMPLATES_TITLE', 'SMS Mallar'),
-            <EditSmsTemplatesView />
+            <EditSmsTemplatesView />,
+            <SmsIcon />
         ),
         tab(
             roles.canEditApiKeys,
+            'api-keys',
             phrase('ADMIN_APIKEYS_TITLE', 'API nycklar'),
-            <EditApiKeysView />
+            <EditApiKeysView />,
+            <KeyIcon />
         ),
         tab(
             roles.canSeeSystemStatistics,
+            'systemlog',
             phrase('ADMIN_SYSLOG_TITLE', 'Systemlog'),
-            <SyslogView />
+            <SyslogView />,
+            <TimelineIcon />
         ),
-        tab(roles.canManageAllAdverts, 'Exportera', <ExportAdvertsView />),
+        tab(
+            roles.canManageAllAdverts,
+            'export-adverts',
+            'Exportera',
+            <ExportAdvertsView />,
+            <FileDownloadIcon />
+        ),
     ]
         .filter((t) => t)
         .map((t) => t!)

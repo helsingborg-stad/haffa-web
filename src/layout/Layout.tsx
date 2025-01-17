@@ -25,6 +25,7 @@ import {
     ListItemButton,
     ListItemIcon,
     ListItemText,
+    ListSubheader,
     Stack,
     Toolbar,
     useMediaQuery,
@@ -35,7 +36,7 @@ import { AuthContext, AuthenticatePanel } from 'auth'
 import { NavLink, NavLinkProps } from 'react-router-dom'
 import LoginIcon from '@mui/icons-material/Login'
 import { PhraseContext } from '../phrases/PhraseContext'
-import { HaffaLink, createNavLinks } from './nav-links'
+import { HaffaLink, createAdminNavLinks, createNavLinks } from './nav-links'
 import { SlowFetchWarning } from './SlowFetchWarning'
 import { NotificationsSnackbar } from './NotificationSnackbar'
 
@@ -182,11 +183,26 @@ export const Layout: FC<
                   }),
         [isDesktop, isGuest, roles, phrases, hideNavigation, signout]
     )
+    const adminLinks = useMemo(
+        () =>
+            hideNavigation
+                ? []
+                : createAdminNavLinks({
+                      mobile: !isDesktop,
+                      guest: isGuest,
+                      roles,
+                      phrases,
+                  }),
+        [isDesktop, isGuest, roles, phrases, hideNavigation]
+    )
 
     const insideToolbarLinks = links
         .map((link) => insideToolbarLinkFactory[link.type](link))
         .filter((c) => c)
     const insideDrawerLinks = links
+        .map((link) => insideDrawerLinkFactory[link.type](link))
+        .filter((c) => c)
+    const insideDrawerAdminLinks = adminLinks
         .map((link) => insideDrawerLinkFactory[link.type](link))
         .filter((c) => c)
 
@@ -221,7 +237,9 @@ export const Layout: FC<
                                 onClick={() => setAuthenticateDialog(true)}
                             />
                         )}
-                        {insideDrawerLinks.length > 0 && (
+                        {insideDrawerLinks.length +
+                            insideDrawerAdminLinks.length >
+                            0 && (
                             <NavIconButton
                                 label="Meny"
                                 icon={<MenuIcon />}
@@ -268,7 +286,20 @@ export const Layout: FC<
                     />
                 </Toolbar>
                 <Divider />
-                <List>{insideDrawerLinks}</List>
+                <List key="links">{insideDrawerLinks}</List>
+                {insideDrawerLinks.length > 0 &&
+                    insideDrawerAdminLinks.length > 0 && (
+                        <Divider key="divider" />
+                    )}
+
+                {insideDrawerAdminLinks.length > 0 && (
+                    <List key="admin-links">
+                        <ListSubheader>
+                            {phrase('NAV_ADMIN', 'Administration')}
+                        </ListSubheader>
+                        {insideDrawerAdminLinks}
+                    </List>
+                )}
             </Drawer>
 
             <Toolbar /* for pushing down content */ />

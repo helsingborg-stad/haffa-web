@@ -9,9 +9,10 @@ import BookmarkBorderIcon from '@mui/icons-material/BookmarkBorder'
 import PersonIcon from '@mui/icons-material/Person'
 import SettingsIcon from '@mui/icons-material/Settings'
 import LogoutIcon from '@mui/icons-material/Logout'
-import { HaffaUserRoles, hasSomeAdminRoles } from 'auth'
+import { HaffaUserRoles } from 'auth'
 import { PhraseContextType } from 'phrases'
 import { Func1 } from 'lib/types'
+import { createAdminTabs } from 'admin/admin-tabs'
 
 export interface HaffaLink {
     label: string
@@ -59,7 +60,6 @@ export const createNavLinks: Func1<
     guest,
     roles,
     phrases: {
-        phrase,
         NAV_CREATE,
         NAV_BROWSE,
         NAV_MY_ADVERTS,
@@ -100,15 +100,24 @@ export const createNavLinks: Func1<
                       <BookmarkBorderIcon />
                   ),
               menuitem(NAV_ABOUT_HAFFA, '/about', <InfoOutlinedIcon />),
-              hasSomeAdminRoles(roles) &&
-                  menuitem(
-                      phrase('NAV_ADMIN', 'Administration'),
-                      '/admin',
-                      <SettingsIcon />
-                  ),
               roles.canManageProfile &&
                   menuitem(NAV_PROFILE, '/profile', <PersonIcon />),
               menuitem(SIGNOUT, '/logout', <LogoutIcon />, signout),
           ]
               .filter((v) => v)
               .map((v) => v as HaffaLink)
+
+export const createAdminNavLinks: Func1<
+    {
+        mobile: boolean
+        guest: boolean
+        roles: HaffaUserRoles
+        phrases: PhraseContextType
+    },
+    HaffaLink[]
+> = ({ guest, roles, phrases: { phrase } }) =>
+    guest
+        ? []
+        : createAdminTabs(roles, phrase).map(({ key, label, icon }) =>
+              menuitem(label, `/admin/${key}`, icon || <SettingsIcon />)
+          )

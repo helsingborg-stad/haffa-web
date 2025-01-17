@@ -24,7 +24,7 @@ import {
     ProfileView,
     RemoveProfileView,
 } from 'profile'
-import { AuthContext, HaffaUserRoles } from 'auth'
+import { AuthContext, AuthContextType, HaffaUserRoles } from 'auth'
 import { UnauthorizedView } from 'auth/components/UnathorizedView'
 import { CategoriesRepository } from 'categories/types'
 import { CategoriesContext } from 'categories'
@@ -32,7 +32,6 @@ import { TermsRepository } from 'terms/types'
 import { TermsContext } from 'terms'
 import { MySubscriptionsView } from 'subscriptions'
 import { SubscriptionView } from 'subscriptions/components/SubscriptionView'
-import { AdminView } from 'admin'
 import { ScanQrCodeView } from 'qr-code-navigation/ScanQrCodeView'
 import { AboutView } from 'about'
 import { ContentContext } from 'content'
@@ -43,6 +42,8 @@ import { AdvertFieldsContext } from 'advert-field-config'
 import { LocationContext } from 'locations'
 import { LocationRepository } from 'locations/types'
 import { AdvertsDashboardView } from 'adverts/dashboard/AdvertsDashboardView'
+import { createAdminTabs } from 'admin/admin-tabs'
+import { PhraseContext, PhraseContextType } from 'phrases'
 import { ErrorRouteView } from './ErrorRouteView'
 
 const UnpackLoaderData: FC<{ render: (loaderData: any) => JSX.Element }> = ({
@@ -67,6 +68,8 @@ const RouteLayout: FC<
 }
 
 const createRouter = (
+    { roles }: Pick<AuthContextType, 'roles'>,
+    { phrase }: Pick<PhraseContextType, 'phrase'>,
     { getTerms }: TermsRepository,
     { getAdvert }: AdvertsRepository,
     { getProfile }: ProfileRepository,
@@ -333,6 +336,7 @@ const createRouter = (
     /**
      * path: /admin
      */
+    /*
     const viewAdminProps = (): AsyncRouteConfig => ({
         element: (
             <RouteLayout
@@ -353,6 +357,7 @@ const createRouter = (
             </RouteLayout>
         ),
     })
+        */
 
     /**
      * path: /about
@@ -364,6 +369,8 @@ const createRouter = (
             </Layout>
         ),
     })
+
+    const adminTabs = createAdminTabs(roles, phrase)
 
     return createBrowserRouter(
         createRoutesFromElements(
@@ -388,7 +395,13 @@ const createRouter = (
                 <Route path="subscription" {...viewSubscriptionProps()} />
                 <Route path="scan" {...viewScanQrCodeProps()} />
                 <Route path="about" {...viewAboutProps()} />
-                <Route path="admin" {...viewAdminProps()} />
+
+                {adminTabs.map(({ key, component }) => (
+                    <Route
+                        path={`admin/${key}`}
+                        element={<Layout>{component}</Layout>}
+                    />
+                ))}
             </Route>
         )
     )
@@ -402,8 +415,12 @@ export const AppRouter: FC = () => {
     const content = useContext(ContentContext)
     const fields = useContext(AdvertFieldsContext)
     const locations = useContext(LocationContext)
+    const auth = useContext(AuthContext)
+    const phrase = useContext(PhraseContext)
     const [router] = useState(
         createRouter(
+            auth,
+            phrase,
             terms,
             adverts,
             profiles,

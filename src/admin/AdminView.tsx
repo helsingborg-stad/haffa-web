@@ -1,3 +1,4 @@
+// TODO: Remove this unused view
 import { Tab, Tabs } from '@mui/material'
 import { FC, PropsWithChildren, useContext, useMemo } from 'react'
 import { PhraseContext } from 'phrases'
