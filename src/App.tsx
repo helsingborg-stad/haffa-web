@@ -63,6 +63,11 @@ import {
     createSmsTemplateRepository,
 } from 'sms-templates'
 import { SyslogProvider, createSyslogProvider } from 'syslog'
+import {
+    createNotifyingPickupLocationRepository,
+    createPickupLocationRepository,
+    PickupLocationProvider,
+} from 'pickup-locations'
 import { AdvertsProvider } from './adverts/AdvertsContext'
 import { createAdvertsRepository } from './adverts/repository/adverts-repository'
 import { AppRouter } from './routes/AppRouter'
@@ -182,7 +187,7 @@ const Main: FC = () => {
         [notifications, phrase, token, fetch]
     )
 
-    const locationConfig = useMemo(
+    const locations = useMemo(
         () =>
             createNotifyingLocationRepository(
                 notifications,
@@ -198,6 +203,16 @@ const Main: FC = () => {
                 notifications,
                 phrase,
                 createSmsTemplateRepository(token, fetch)
+            ),
+        [notifications, phrase, token, fetch]
+    )
+
+    const pickupLocations = useMemo(
+        () =>
+            createNotifyingPickupLocationRepository(
+                notifications,
+                phrase,
+                createPickupLocationRepository(token, fetch)
             ),
         [notifications, phrase, token, fetch]
     )
@@ -230,10 +245,16 @@ const Main: FC = () => {
                                                         >
                                                             <LocationProvider
                                                                 repository={
-                                                                    locationConfig
+                                                                    locations
                                                                 }
                                                             >
-                                                                <AppRouter />
+                                                                <PickupLocationProvider
+                                                                    repository={
+                                                                        pickupLocations
+                                                                    }
+                                                                >
+                                                                    <AppRouter />
+                                                                </PickupLocationProvider>
                                                             </LocationProvider>
                                                         </AdvertFieldProvider>
                                                     </ContentProvider>

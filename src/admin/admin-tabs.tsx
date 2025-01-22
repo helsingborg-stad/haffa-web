@@ -18,6 +18,7 @@ import VisibilityIcon from '@mui/icons-material/Visibility'
 import CategoryIcon from '@mui/icons-material/Category'
 import CommentBankIcon from '@mui/icons-material/CommentBank'
 import TranslateIcon from '@mui/icons-material/Translate'
+import LocalShippingIcon from '@mui/icons-material/LocalShipping'
 import { EditPhrasesView } from './phrases/EditPhrasesView'
 import { EditThemeView } from './theme/EditThemeView'
 import { EditCategoriesView } from './categories'
@@ -35,6 +36,7 @@ import { EditHtmlView } from './html-branding'
 import { EditTagDescriptionsView } from './tag-descriptions/EditTagDescriptionsView'
 import { EditLabelsView } from './labels'
 import { ExportAdvertsView } from './export/ExportAdvertsView'
+import { EditPickupLocationsView } from './pickup-locations/EditPickupLocationsView'
 
 const tab = (
     enabled: boolean | undefined,
@@ -125,6 +127,13 @@ export const createAdminTabs = (
             phrase('ADMIN_LOCATIONS_TITLE', 'Adressregister'),
             <EditLocationsView />,
             <LocationOnIcon />
+        ),
+        tab(
+            roles.canManageLocations,
+            'pickup-locations',
+            phrase('ADMIN_PICKUPLOCATIONS_TITLE', 'Utlämningsplatser'),
+            <EditPickupLocationsView />,
+            <LocalShippingIcon />
         ),
         tab(
             roles.canEditTerms,
