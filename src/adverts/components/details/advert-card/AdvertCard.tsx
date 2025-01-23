@@ -197,7 +197,7 @@ const ReduceLayout = (
             return flatten ? (
                 ReduceLayout(v.children ?? [], factory, flatten)
             ) : (
-                <Grid container direction={v.direction} p={1}>
+                <Grid container key={key} direction={v.direction} p={1}>
                     {ReduceLayout(v.children ?? [], factory, flatten)}
                 </Grid>
             )
@@ -214,7 +214,7 @@ export const AdvertCard: FC<{
     onUpdate: (p: Promise<AdvertMutationResult>) => void
 }> = ({ advert, terms, categories, fields, error, onUpdate }) => {
     const { meta } = advert
-    // show a disclaimer if we are administering someone eleses advert
+    // show a disclaimer if we are administering someone elses advert
     const showRightsDisclaimer =
         !meta.isMine && (meta.canEdit || meta.canRemove || meta.canManageClaims)
 

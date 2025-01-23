@@ -47,8 +47,8 @@ export const ContactCard = (props: PaperProps & { advert: Advert }) => {
                                 .split(',')
                                 .map((v) => v.trim())
                                 .filter((v) => v.length > 0)
-                                .map((v) => (
-                                    <Typography>
+                                .map((v, key) => (
+                                    <Typography key={key}>
                                         <Link href={`tel:${v}`}>{v}</Link>
                                     </Typography>
                                 ))}

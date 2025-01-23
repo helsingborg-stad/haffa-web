@@ -24,7 +24,6 @@ export const ReserveButton: FC<{
                 color="primary"
                 variant="outlined"
                 disabled={!canReserve}
-                sx={{ mb: 1 }}
                 onClick={() =>
                     reservableQuantity > 1
                         ? setReservationDialog(true)

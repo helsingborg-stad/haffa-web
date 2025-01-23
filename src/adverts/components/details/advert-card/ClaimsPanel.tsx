@@ -328,11 +328,6 @@ const ActionButtons: FC<{
             {buttons}
         </Stack>
     )
-    return (
-        <ButtonGroup orientation={horizontalGroup ? 'horizontal' : 'vertical'}>
-            {buttons}
-        </ButtonGroup>
-    )
 }
 
 export const ClaimCard: FC<{
