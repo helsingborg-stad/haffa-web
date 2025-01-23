@@ -46,7 +46,6 @@ export const ReserveButton: FC<{
                         key={`reserve-${n}`}
                         color="primary"
                         variant="contained"
-                        sx={{ mb: 1 }}
                         onClick={() => onReserve(n)}
                     >
                         {phrase('ADVERT_RESERVE', 'Reservera')}

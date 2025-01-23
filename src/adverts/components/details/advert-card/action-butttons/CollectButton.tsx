@@ -27,6 +27,9 @@ export const CollectButton: FC<
                 disabled={!canCollect}
                 endIcon={<QrCodeScannerIcon />}
                 onClick={() => setModel({ scanDialog: true })}
+                fullWidth
+                color="primary"
+                variant="contained"
                 {...buttonProps}
             >
                 {ADVERT_COLLECT}
