@@ -14,9 +14,9 @@ import { Category } from 'categories/types'
 import { TreeAdapter } from 'lib/types'
 import { PhraseContext } from 'phrases'
 import RecyclingIcon from '@mui/icons-material/Recycling'
-import SwapHorizIcon from '@mui/icons-material/SwapHoriz'
 import { isValidString } from 'lib/string-utils'
 import { AdvertImageSettingsContext } from 'branding'
+import ScheduleIcon from '@mui/icons-material/Schedule'
 import { Advert } from '../../types'
 
 const join = (sep: string, ...parts: (string | number | undefined)[]) =>
@@ -115,7 +115,7 @@ export const AdvertListItem: FC<{
                             </Typography>
                         </Box>
                     </Grid>
-                    <Grid item sx={{ mx: 2, mb: 2 }}>
+                    <Grid item sx={{ mx: 2, mb: 3 }}>
                         <Typography
                             variant="caption"
                             color="text.disabled"
@@ -137,41 +137,60 @@ export const AdvertListItem: FC<{
                         {!canBook &&
                             returnInfo.map((info, index) => (
                                 <Typography
-                                    color="text.secondary"
+                                    variant="caption"
+                                    color="text.disabled"
                                     component="div"
                                     noWrap
-                                    sx={{ fontWeight: 'bolder' }}
                                     key={index}
+                                    position="absolute"
+                                    bottom="4px"
                                 >
                                     {phrase(
                                         'ADVERT_WILL_BE_RETURNED',
                                         'Åter {at}',
                                         { at: prettyDate(info.at) }
                                     )}
-                                    <SwapHorizIcon
+                                    <ScheduleIcon
                                         sx={{
                                             pl: 0.5,
-                                            fontSize: 22,
-                                            verticalAlign: 'middle',
+                                            fontSize: 18,
+                                            verticalAlign: 'top',
                                         }}
                                     />
                                 </Typography>
                             ))}
-                        {returnInfo.length === 0 && (
+                        {returnInfo.length === 0 && isLendingAdvert && (
                             <Typography
                                 variant="caption"
                                 color="text.disabled"
                                 component="div"
+                                position="absolute"
+                                bottom="4px"
                             >
-                                {phrase(
-                                    `ADVERT_TYPE_${advert.type.toUpperCase()}`,
-                                    'Återbruk'
-                                )}
+                                {phrase('ADVERT_TYPE_LENDING', 'Utlåning')}
+                                <ScheduleIcon
+                                    sx={{
+                                        pl: 0.5,
+                                        fontSize: 18,
+                                        verticalAlign: 'top',
+                                    }}
+                                />
+                            </Typography>
+                        )}
+                        {!isLendingAdvert && (
+                            <Typography
+                                variant="caption"
+                                color="text.disabled"
+                                component="div"
+                                position="absolute"
+                                bottom="4px"
+                            >
+                                {phrase('ADVERT_TYPE_RECYCLE', 'Återbruk')}
                                 <RecyclingIcon
                                     sx={{
                                         pl: 0.5,
                                         fontSize: 18,
-                                        verticalAlign: 'middle',
+                                        verticalAlign: 'top',
                                     }}
                                 />
                             </Typography>
