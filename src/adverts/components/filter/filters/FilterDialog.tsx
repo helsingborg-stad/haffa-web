@@ -101,6 +101,10 @@ export const FilterDialog: FC<{
                                 onChange={setSizes}
                             />
                         )}
+                        <CategoriesFilter
+                            selected={categories}
+                            onCategoriesChanged={setCategories}
+                        />
                         {terms.tags.length > 0 && (
                             <StringArrayFilter
                                 label={phrase('TERMS_FIELD_TAGS', 'Taggar')}
@@ -109,10 +113,6 @@ export const FilterDialog: FC<{
                                 onChange={setTags}
                             />
                         )}
-                        <CategoriesFilter
-                            selected={categories}
-                            onCategoriesChanged={setCategories}
-                        />
                     </Stack>
                 </DialogContent>
                 <DialogActions>
