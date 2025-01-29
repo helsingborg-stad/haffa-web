@@ -6,6 +6,9 @@ export const isValidUrl = (urlString: string) => {
     }
 }
 
+export const isYoutubeUrl = (urlString: string): boolean =>
+    !!/https:\/\/www.youtube.com\//.exec(urlString)
+
 export const isValidString = (value: any): boolean =>
     typeof value === 'string' && value.trim().length > 0
 

@@ -9,7 +9,7 @@ import {
 import { AdvertsListGeneric } from 'adverts/components/listings/AdvertsListGeneric'
 import { Markdown } from 'components/Markdown'
 import { PropsWithChildren } from 'react'
-import { isValidColor, isValidString } from 'lib/string-utils'
+import { isValidColor, isValidString, isYoutubeUrl } from 'lib/string-utils'
 import { Variant } from '@mui/material/styles/createTypography'
 import { ContentModule } from '../types'
 
@@ -40,6 +40,7 @@ export const ContentCard = (
               backgroundColor: module.background,
           }
         : {}
+
     return (
         <Card
             sx={{
@@ -50,10 +51,26 @@ export const ContentCard = (
             }}
         >
             <Stack direction={getStackDirection(module.position)}>
-                {isValidString(module.image) && (
+                {isValidString(module.image) && !isYoutubeUrl(module.image) && (
                     <CardMedia
                         component="img"
                         image={module.image}
+                        sx={{
+                            width: {
+                                sm: module.width,
+                            },
+                            alignSelf: 'center',
+                        }}
+                    />
+                )}
+                {isYoutubeUrl(module.image) && (
+                    <CardMedia
+                        component="iframe"
+                        src={module.image}
+                        height="315"
+                        referrerPolicy="strict-origin-when-cross-origin"
+                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                        allowFullScreen
                         sx={{
                             width: {
                                 sm: module.width,
