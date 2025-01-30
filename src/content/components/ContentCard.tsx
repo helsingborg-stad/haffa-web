@@ -68,7 +68,10 @@ export const ContentCard = (
                     <Box
                         component="div"
                         sx={{
-                            width: module.width,
+                            width: {
+                                xs: '100%',
+                                sm: module.width,
+                            },
                             alignSelf: 'center',
                         }}
                     >
