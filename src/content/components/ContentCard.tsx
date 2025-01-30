@@ -1,4 +1,5 @@
 import {
+    Box,
     Card,
     CardActions,
     CardContent,
@@ -64,20 +65,40 @@ export const ContentCard = (
                     />
                 )}
                 {isYoutubeUrl(module.image) && (
-                    <CardMedia
-                        component="iframe"
-                        src={module.image}
-                        height="315"
-                        referrerPolicy="strict-origin-when-cross-origin"
-                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                        allowFullScreen
+                    <Box
+                        component="div"
                         sx={{
-                            width: {
-                                sm: module.width,
-                            },
+                            width: module.width,
                             alignSelf: 'center',
                         }}
-                    />
+                    >
+                        <CardMedia
+                            component="div"
+                            sx={{
+                                position: 'relative',
+                                overflow: 'hidden',
+                                paddingTop: '56.25%',
+                            }}
+                        >
+                            <Box
+                                component="iframe"
+                                src={module.image}
+                                referrerPolicy="strict-origin-when-cross-origin"
+                                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                                allowFullScreen
+                                sx={{
+                                    border: 'none',
+                                    position: 'absolute',
+                                    top: 0,
+                                    left: 0,
+                                    bottom: 0,
+                                    right: 0,
+                                    width: '100%',
+                                    height: '100%',
+                                }}
+                            />
+                        </CardMedia>
+                    </Box>
                 )}
                 <CardContent sx={{ width: '100%', textAlign: module.align }}>
                     {isValidString(module.title) && (
