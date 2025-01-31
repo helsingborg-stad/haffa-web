@@ -155,6 +155,7 @@ export const defaultPhrases: Omit<
     ADVERT_FIELD_ADDRESS_TITLE: 'Adress för avhämtning',
     ADVERT_FIELD_QUANTITY: 'Antal',
     ADVERT_TYPE_RECYCLE: 'Återbruk',
+    ADVERT_TYPE_LENDING: 'Utlåning',
     ADVERT_UPLOAD_IMAGE: 'Välj en fin bild',
     ADVERT_BUTTON_SYNCH_FROM_PROFILE: 'Hämta från min profil',
     ADVERT_BUTTON_SYNCH_TO_PROFILE: 'Uppdatera min profil',

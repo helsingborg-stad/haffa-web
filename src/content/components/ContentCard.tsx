@@ -1,4 +1,5 @@
 import {
+    Box,
     Card,
     CardActions,
     CardContent,
@@ -9,7 +10,7 @@ import {
 import { AdvertsListGeneric } from 'adverts/components/listings/AdvertsListGeneric'
 import { Markdown } from 'components/Markdown'
 import { PropsWithChildren } from 'react'
-import { isValidColor, isValidString } from 'lib/string-utils'
+import { isValidColor, isValidString, isYoutubeUrl } from 'lib/string-utils'
 import { Variant } from '@mui/material/styles/createTypography'
 import { ContentModule } from '../types'
 
@@ -40,6 +41,7 @@ export const ContentCard = (
               backgroundColor: module.background,
           }
         : {}
+
     return (
         <Card
             sx={{
@@ -50,7 +52,7 @@ export const ContentCard = (
             }}
         >
             <Stack direction={getStackDirection(module.position)}>
-                {isValidString(module.image) && (
+                {isValidString(module.image) && !isYoutubeUrl(module.image) && (
                     <CardMedia
                         component="img"
                         image={module.image}
@@ -61,6 +63,45 @@ export const ContentCard = (
                             alignSelf: 'center',
                         }}
                     />
+                )}
+                {isYoutubeUrl(module.image) && (
+                    <Box
+                        component="div"
+                        sx={{
+                            width: {
+                                xs: '100%',
+                                sm: module.width,
+                            },
+                            alignSelf: 'center',
+                        }}
+                    >
+                        <CardMedia
+                            component="div"
+                            sx={{
+                                position: 'relative',
+                                overflow: 'hidden',
+                                paddingTop: '56.25%',
+                            }}
+                        >
+                            <Box
+                                component="iframe"
+                                src={module.image}
+                                referrerPolicy="strict-origin-when-cross-origin"
+                                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                                allowFullScreen
+                                sx={{
+                                    border: 'none',
+                                    position: 'absolute',
+                                    top: 0,
+                                    left: 0,
+                                    bottom: 0,
+                                    right: 0,
+                                    width: '100%',
+                                    height: '100%',
+                                }}
+                            />
+                        </CardMedia>
+                    </Box>
                 )}
                 <CardContent sx={{ width: '100%', textAlign: module.align }}>
                     {isValidString(module.title) && (

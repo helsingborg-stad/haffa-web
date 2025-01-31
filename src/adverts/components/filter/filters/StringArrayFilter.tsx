@@ -1,16 +1,14 @@
 import {
+    Accordion,
+    AccordionDetails,
+    AccordionSummary,
     Checkbox,
-    FormControl,
-    InputLabel,
-    ListItemText,
-    MenuItem,
-    OutlinedInput,
-    Select,
+    FormControlLabel,
+    FormGroup,
 } from '@mui/material'
 import { FC } from 'react'
-
-const inputValueToStringArray = (value: any): string[] =>
-    (Array.isArray(value) ? value : [value?.toString()]).filter((v) => v)
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore'
+import { uniqueBy } from 'lib/unique-by'
 
 export const StringArrayFilter: FC<{
     label: string
@@ -18,24 +16,40 @@ export const StringArrayFilter: FC<{
     selected: string[]
     onChange: (values: string[]) => void
 }> = ({ label, values, selected, onChange }) => (
-    <FormControl fullWidth>
-        <InputLabel>{label}</InputLabel>
-        <Select
-            fullWidth
-            multiple
-            value={selected}
-            onChange={({ target: { value } }) =>
-                onChange(inputValueToStringArray(value))
-            }
-            input={<OutlinedInput label={label} />}
-            renderValue={(selected) => selected.join(', ')}
+    <Accordion>
+        <AccordionSummary
+            expandIcon={<ExpandMoreIcon />}
+            aria-controls={label}
+            id={label}
         >
-            {values.map((value) => (
-                <MenuItem key={value} value={value}>
-                    <Checkbox checked={selected.includes(value)} />
-                    <ListItemText primary={value} />
-                </MenuItem>
-            ))}
-        </Select>
-    </FormControl>
+            {`${label} ${selected.length > 0 ? ' - ' : ''} ${selected.join(
+                ', '
+            )}`}
+        </AccordionSummary>
+        <AccordionDetails>
+            <FormGroup>
+                {values.map((v, key) => (
+                    <FormControlLabel
+                        key={key}
+                        control={
+                            <Checkbox
+                                checked={selected.includes(v)}
+                                onChange={({ target: { checked } }) =>
+                                    onChange(
+                                        checked
+                                            ? [...selected, v].filter(
+                                                  uniqueBy((x) => x)
+                                              )
+                                            : selected.filter((x) => x !== v)
+                                    )
+                                }
+                                name={v}
+                            />
+                        }
+                        label={v}
+                    />
+                ))}
+            </FormGroup>
+        </AccordionDetails>
+    </Accordion>
 )
