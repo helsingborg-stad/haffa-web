@@ -52,5 +52,17 @@ export const createNotifications = (
                     throw error
                 }
             ),
+        notifyIfError: (inner) =>
+            inner().then(
+                (result) => result,
+                (error) => {
+                    defaultInvocationError &&
+                        setNotification({
+                            severity: 'error',
+                            ...defaultInvocationError,
+                        })
+                    throw error
+                }
+            ),
     }
 }

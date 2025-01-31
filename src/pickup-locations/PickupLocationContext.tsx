@@ -7,6 +7,9 @@ const notProvided = (method: string) => () => {
 
 export const PickupLocationContext = createContext<PickupLocationRepository>({
     getPickupLocations: notProvided('getPickupLocations'),
+    getPickupLocationsMatchingTags: notProvided(
+        'getPickupLocationsMatchingTags'
+    ),
     updatePickupLocations: notProvided('updatePickupLocations'),
 })
 

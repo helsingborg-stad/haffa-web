@@ -7,6 +7,7 @@ export const getPickupLocationsQuery = /* GraphQL */ `
             city
             country
             notifyEmail
+            trackingName
             tags
         }
     }
@@ -21,6 +22,7 @@ export const updatePickupLocationsMutation = /* GraphQL */ `
             city
             country
             notifyEmail
+            trackingName
             tags
         }
     }

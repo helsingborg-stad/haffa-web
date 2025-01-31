@@ -7,6 +7,7 @@ export const createEmptyPickupLocation = (): PickupLocation => ({
     city: '',
     country: '',
     notifyEmail: '',
+    trackingName: '',
     tags: [],
 })
 
@@ -20,6 +21,7 @@ export const normalizePickupLocations = (
         city: l.city?.trim() ?? '',
         country: l.country?.trim() ?? '',
         notifyEmail: l.notifyEmail?.trim() ?? '',
+        trackingName: l.trackingName?.trim() ?? '',
         tags: (Array.isArray(l.tags) ? l.tags : [])
             .filter((v) => v)
             .map((s) => s.toString().trim()),

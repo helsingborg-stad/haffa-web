@@ -5,4 +5,5 @@ export default {
     PICKUPLOCATION_FIELD_CITY: 'Stad',
     PICKUPLOCATION_FIELD_NOTIFYEMAIL: 'Email för notifikation',
     PICKUPLOCATION_FIELD_TAGS: 'Matcha annonstaggar',
+    PICKUPLOCATION_FIELD_TRACKINGNAME: 'Spårningsnamn',
 }

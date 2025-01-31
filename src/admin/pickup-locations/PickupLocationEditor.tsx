@@ -86,6 +86,22 @@ export const PickupLocationEditor: FC<{
                             autoComplete="address-level2"
                             required
                         />
+                    </Stack>
+                </DialogContent>
+                <DialogContent dividers>
+                    <Stack spacing={2}>
+                        <TextField
+                            key="trackingName"
+                            fullWidth
+                            label={phrase(
+                                'PICKUPLOCATION_FIELD_TRACKINGNAME',
+                                'Spårningsnamn'
+                            )}
+                            value={location.trackingName}
+                            onChange={(e) =>
+                                patch({ trackingName: e.target.value })
+                            }
+                        />
                         <TextField
                             key="notifyEmail"
                             fullWidth

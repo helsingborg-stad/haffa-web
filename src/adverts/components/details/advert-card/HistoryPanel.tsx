@@ -25,8 +25,8 @@ const EventsCard: FC<{ events: ServerSideLogEvent[] }> = ({ events }) => {
                     Historik
                 </Typography>
                 <Timeline>
-                    {events.map(({ event, at, by }) => (
-                        <TimelineItem>
+                    {events.map(({ event, at, by }, index) => (
+                        <TimelineItem key={index}>
                             <TimelineOppositeContent
                                 variant="body2"
                                 color="text.secondary"

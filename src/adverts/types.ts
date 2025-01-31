@@ -1,4 +1,5 @@
 import { Category, CategoryFlat } from 'categories/types'
+import { PickupLocation } from 'pickup-locations/types'
 import { ProfileInput } from 'profile'
 
 export interface AdvertUserFields {
@@ -254,7 +255,8 @@ export interface AdvertsRepository {
     unarchiveAdvert: (id: string) => Promise<AdvertMutationResult>
     reserveAdvert: (
         id: string,
-        quantity: number
+        quantity: number,
+        pickupLocation?: PickupLocation
     ) => Promise<AdvertMutationResult>
     cancelAdvertReservation: (id: string) => Promise<AdvertMutationResult>
     collectAdvert: (

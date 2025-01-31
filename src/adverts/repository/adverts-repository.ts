@@ -99,10 +99,10 @@ export const createAdvertsRepository = (
             .variables({ id })
             .map<AdvertMutationResult>('unarchiveAdvert')
             .then(expectAdvert),
-    reserveAdvert: async (id, quantity) =>
+    reserveAdvert: async (id, quantity, pickupLocation) =>
         gql(token, f)
             .query(reserveAdvertMutation)
-            .variables({ id, quantity })
+            .variables({ id, quantity, pickupLocation })
             .map<AdvertMutationResult>('reserveAdvert')
             .then(expectAdvert),
     cancelAdvertReservation: async (id) =>
