@@ -398,6 +398,7 @@ const createRouter = (
 
                 {adminTabs.map(({ key, component }) => (
                     <Route
+                        key={key}
                         path={`admin/${key}`}
                         element={<Layout>{component}</Layout>}
                     />
