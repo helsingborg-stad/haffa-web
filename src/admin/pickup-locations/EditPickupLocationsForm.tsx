@@ -8,6 +8,7 @@ import {
     ListItemAvatar,
     ListItemButton,
     ListItemText,
+    Typography,
 } from '@mui/material'
 import { AdminActionPanel } from 'components/AdminActionPanel'
 import { AdminEditorialPanel } from 'components/AdminEditorialPanel'
@@ -19,9 +20,15 @@ import {
     PickupLocation,
     PickupLocationRepository,
 } from 'pickup-locations/types'
-import { createEmptyPickupLocation } from 'pickup-locations/repository/mappers'
+import {
+    createEmptyPickupLocation,
+    normalizePickupLocations,
+} from 'pickup-locations/repository/mappers'
 import LocalShippingIcon from '@mui/icons-material/LocalShipping'
-import { PickupLocationEditor } from './PickupLocationEditor'
+import ArrowUpwardIcon from '@mui/icons-material/ArrowUpward'
+import ArrowDownwardIcon from '@mui/icons-material/ArrowDownward'
+import { swapArrayItems } from 'lib/array-utils'
+import { PickupLocationDialog } from './PickupLocationDialog'
 
 export interface PickupLocationWithIndex {
     position: number
@@ -33,62 +40,38 @@ export const EditPickupLocationsForm: FC<{
     tags: string[]
     onUpdate: PickupLocationRepository['updatePickupLocations']
 }> = ({ locations, tags, onUpdate }) => {
-    const [list, setList] = useState<PickupLocation[]>(locations)
-    const [cache, setCache] = useState<PickupLocationWithIndex | undefined>()
+    const [memo, setMemo] = useState<PickupLocation[]>(
+        normalizePickupLocations(locations)
+    )
+    const [editLocation, setEditLocation] = useState<PickupLocation | null>(
+        null
+    )
     const [disabled, setDisabled] = useState(false)
 
     const saveLocations = useCallback(() => {
         setDisabled(true)
-        onUpdate(list).then((result) => {
+        onUpdate(memo).then((result) => {
             setDisabled(false)
-            setList(result)
+            setMemo(result)
         })
-    }, [list])
-
-    const cacheUpdate = useCallback(
-        (module: PickupLocation) => {
-            cache
-                ? setCache({
-                      ...cache,
-                      location: module,
-                  })
-                : undefined
-        },
-        [cache, setCache]
-    )
-
-    const applyFromCache = useCallback(() => {
-        if (cache) {
-            if (cache.position === -1) {
-                setList([cache.location, ...list])
-            } else {
-                const copy = [...list]
-                copy[cache.position] = { ...cache.location }
-                setList(copy)
-            }
-            setCache(undefined)
-        }
-    }, [cache])
-
-    const deleteRow = (index: number) =>
-        setList([...list.slice(0, index), ...list.slice(index + 1)])
+    }, [memo, setMemo, setDisabled])
 
     return (
         <>
             <AdminEditorialPanel
+                key="editorial-panel"
                 headline="ADMIN_PICKUPLOCATIONS_HEADLINE"
                 body="ADMIN_PICKUPLOCATIONS_BODY"
             />
-            <AdminActionPanel onSave={saveLocations} disabled={disabled}>
+            <AdminActionPanel
+                key="action-panel"
+                onSave={saveLocations}
+                disabled={disabled}
+            >
                 <Button
                     startIcon={<AddIcon />}
                     disabled={disabled}
-                    onClick={() =>
-                        setCache({
-                            position: -1,
-                            location: createEmptyPickupLocation(),
-                        })
-                    }
+                    onClick={() => setEditLocation(createEmptyPickupLocation())}
                 >
                     Ny utlämningsplats
                 </Button>
@@ -99,41 +82,81 @@ export const EditPickupLocationsForm: FC<{
                     bgcolor: 'background.paper',
                 }}
             >
-                {cache && (
-                    <PickupLocationEditor
-                        onUpdate={(e) => cacheUpdate(e)}
-                        onClose={() => setCache(undefined)}
-                        onApply={applyFromCache}
-                        location={cache.location}
+                {editLocation && (
+                    <PickupLocationDialog
+                        key="edit-location-dialog"
+                        onUpdate={(u) => {
+                            setMemo(
+                                memo.includes(editLocation)
+                                    ? memo.map((l) =>
+                                          l === editLocation ? u : l
+                                      )
+                                    : [...memo, u]
+                            )
+                            setEditLocation(null)
+                        }}
+                        onClose={() => setEditLocation(null)}
+                        location={editLocation}
                         tags={tags}
                     />
                 )}
-                {list.length > 0 && (
-                    <List>
-                        {list.map((e, i) => (
+                {memo.length > 0 && (
+                    <List key="list">
+                        {memo.map((location, index) => (
                             <ListItem
-                                divider={i < list.length - 1}
-                                key={i}
+                                divider={index < memo.length - 1}
+                                key={index}
                                 disablePadding
                                 secondaryAction={
-                                    <IconButton
-                                        disabled={disabled}
-                                        edge="end"
-                                        aria-label="comment"
-                                        onClick={() => deleteRow(i)}
-                                    >
-                                        <Delete />
-                                    </IconButton>
+                                    <>
+                                        <IconButton
+                                            disabled={index === 0}
+                                            onClick={() =>
+                                                setMemo(
+                                                    swapArrayItems(
+                                                        memo,
+                                                        index,
+                                                        index - 1
+                                                    )
+                                                )
+                                            }
+                                        >
+                                            <ArrowUpwardIcon />
+                                        </IconButton>
+                                        <IconButton
+                                            disabled={index === memo.length - 1}
+                                            onClick={() =>
+                                                setMemo(
+                                                    swapArrayItems(
+                                                        memo,
+                                                        index,
+                                                        index + 1
+                                                    )
+                                                )
+                                            }
+                                        >
+                                            <ArrowDownwardIcon />
+                                        </IconButton>
+                                        <IconButton
+                                            disabled={disabled}
+                                            edge="end"
+                                            aria-label="comment"
+                                            onClick={() =>
+                                                setMemo(
+                                                    memo.filter(
+                                                        (l) => l !== location
+                                                    )
+                                                )
+                                            }
+                                        >
+                                            <Delete />
+                                        </IconButton>
+                                    </>
                                 }
                             >
                                 <ListItemButton
                                     disabled={disabled}
-                                    onClick={() =>
-                                        setCache({
-                                            position: i,
-                                            location: { ...e },
-                                        })
-                                    }
+                                    onClick={() => setEditLocation(location)}
                                 >
                                     <ListItemAvatar>
                                         <Avatar>
@@ -141,31 +164,35 @@ export const EditPickupLocationsForm: FC<{
                                         </Avatar>
                                     </ListItemAvatar>
                                     <ListItemText
-                                        primary={e.name}
+                                        primary={location.name}
                                         secondary={
-                                            <ul>
-                                                {[
-                                                    [
-                                                        e.adress,
-                                                        e.zipCode,
-                                                        e.city,
-                                                    ],
-                                                    [e.notifyEmail],
-                                                    e.tags,
-                                                ]
-                                                    .map((l) =>
-                                                        l
-                                                            .map((s) =>
-                                                                s?.trim()
-                                                            )
-                                                            .filter((s) => s)
-                                                            .join(', ')
-                                                    )
-                                                    .filter((s) => s)
-                                                    .map((s) => (
-                                                        <li>{s}</li>
-                                                    ))}
-                                            </ul>
+                                            <Typography component="div">
+                                                <ul>
+                                                    {[
+                                                        [
+                                                            location.adress,
+                                                            location.zipCode,
+                                                            location.city,
+                                                        ],
+                                                        [location.notifyEmail],
+                                                        location.tags,
+                                                    ]
+                                                        .map((l) =>
+                                                            l
+                                                                .map((s) =>
+                                                                    s?.trim()
+                                                                )
+                                                                .filter(
+                                                                    (s) => s
+                                                                )
+                                                                .join(', ')
+                                                        )
+                                                        .filter((s) => s)
+                                                        .map((s, i) => (
+                                                            <li key={i}>{s}</li>
+                                                        ))}
+                                                </ul>
+                                            </Typography>
                                         }
                                     />
                                 </ListItemButton>
@@ -173,7 +200,7 @@ export const EditPickupLocationsForm: FC<{
                         ))}
                     </List>
                 )}
-                {list.length === 0 && (
+                {memo.length === 0 && (
                     <Editorial phraseKey="ADMIN_PICKUPLOCATIONS_EMPTY" />
                 )}
             </Box>

@@ -7,12 +7,14 @@ import sms from './defaults/sms'
 import bulkActions from './defaults/bulk-actions'
 import events from './defaults/events'
 import pickupLocations from './defaults/pickup-locations'
+import common from './defaults/common'
 
 export const defaultPhrases: Omit<
     PhraseContextType,
     'phrase' | 'fromNow' | 'getConfig' | 'prettyDate'
 > &
     Record<string, string> = {
+    ...common,
     ...auth,
     ...profile,
     ...sms,

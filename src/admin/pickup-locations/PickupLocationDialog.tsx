@@ -12,32 +12,35 @@ import {
 
 import { isValidString } from 'lib/string-utils'
 import { PhraseContext } from 'phrases'
+import { normalizePickupLocation } from 'pickup-locations'
 import { PickupLocation } from 'pickup-locations/types'
-import { FC, useContext } from 'react'
+import { FC, useCallback, useContext, useMemo, useState } from 'react'
 
-export const PickupLocationEditor: FC<{
+export const PickupLocationDialog: FC<{
     location: PickupLocation
     tags: string[]
     onUpdate: (location: PickupLocation) => void
-    onApply: () => void
     onClose: () => void
-}> = ({ location, tags, onUpdate, onApply, onClose }) => {
+}> = ({ location, tags, onUpdate, onClose }) => {
     const { phrase } = useContext(PhraseContext)
-    const patch = (p: Partial<PickupLocation>) => {
-        onUpdate({
-            ...location,
-            ...p,
-        })
-    }
-
-    const isValid = () =>
-        [location.adress, location.city, location.zipCode].some(isValidString)
-
-    const validate = () => isValid() && onApply()
+    const [memo, setMemo] = useState(normalizePickupLocation(location))
+    const patch = useCallback(
+        (p: Partial<PickupLocation>) => setMemo({ ...memo, ...p }),
+        [memo, setMemo]
+    )
+    const valid = useMemo(
+        () => [memo.adress, memo.city, memo.zipCode].some(isValidString),
+        [memo]
+    )
 
     return (
         <Dialog open fullWidth onClose={onClose}>
-            <DialogTitle>Redigera adress</DialogTitle>
+            <DialogTitle>
+                {phrase(
+                    'PICKUPLOCATION_EDIT_LABEL',
+                    'Redigera utlämningsadress'
+                )}
+            </DialogTitle>
             <Box component="form">
                 <DialogContent dividers>
                     <Stack spacing={2}>
@@ -45,8 +48,8 @@ export const PickupLocationEditor: FC<{
                             key="name"
                             fullWidth
                             label={phrase('PICKUPLOCATION_FIELD_NAME', 'Namn')}
-                            error={!isValidString(location.name)}
-                            value={location.name}
+                            error={!isValidString(memo.name)}
+                            value={memo.name}
                             onChange={(e) => patch({ name: e.target.value })}
                             autoComplete="name"
                             required
@@ -59,8 +62,8 @@ export const PickupLocationEditor: FC<{
                                 'PICKUPLOCATION_FIELD_ADRESS',
                                 'Address'
                             )}
-                            error={!isValidString(location.adress)}
-                            value={location.adress}
+                            error={!isValidString(memo.adress)}
+                            value={memo.adress}
                             onChange={(e) => patch({ adress: e.target.value })}
                             autoComplete="street-address"
                             required
@@ -72,7 +75,7 @@ export const PickupLocationEditor: FC<{
                                 'PICKUPLOCATION_FIELD_ZIPCODE',
                                 'Postnummer'
                             )}
-                            value={location.zipCode}
+                            value={memo.zipCode}
                             onChange={(e) => patch({ zipCode: e.target.value })}
                             autoComplete="postal-code"
                         />
@@ -80,8 +83,8 @@ export const PickupLocationEditor: FC<{
                             key="city"
                             fullWidth
                             label={phrase('PICKUPLOCATION_FIELD_CITY', 'Stad')}
-                            error={!isValidString(location.city)}
-                            value={location.city}
+                            error={!isValidString(memo.city)}
+                            value={memo.city}
                             onChange={(e) => patch({ city: e.target.value })}
                             autoComplete="address-level2"
                             required
@@ -97,7 +100,7 @@ export const PickupLocationEditor: FC<{
                                 'PICKUPLOCATION_FIELD_TRACKINGNAME',
                                 'Spårningsnamn'
                             )}
-                            value={location.trackingName}
+                            value={memo.trackingName}
                             onChange={(e) =>
                                 patch({ trackingName: e.target.value })
                             }
@@ -109,7 +112,7 @@ export const PickupLocationEditor: FC<{
                                 'PICKUPLOCATION_FIELD_NOTIFYEMAIL',
                                 'Email för notifikation'
                             )}
-                            value={location.notifyEmail}
+                            value={memo.notifyEmail}
                             onChange={(e) =>
                                 patch({ notifyEmail: e.target.value })
                             }
@@ -117,7 +120,7 @@ export const PickupLocationEditor: FC<{
                         />
                         <Autocomplete
                             multiple
-                            value={location.tags}
+                            value={memo.tags}
                             options={tags}
                             renderInput={(params) => (
                                 <TextField
@@ -137,12 +140,14 @@ export const PickupLocationEditor: FC<{
                 <DialogActions>
                     <Button
                         type="submit"
-                        disabled={!isValid()}
-                        onClick={validate}
+                        disabled={!valid}
+                        onClick={() => onUpdate(memo)}
                     >
-                        Uppdatera
+                        {phrase('ACTION_UPDATE', 'Uppdatera')}
                     </Button>
-                    <Button onClick={onClose}>Stäng</Button>
+                    <Button onClick={onClose}>
+                        {phrase('ACTION_CLOSE', 'Stäng')}
+                    </Button>
                 </DialogActions>
             </Box>
         </Dialog>

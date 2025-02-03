@@ -1,4 +1,5 @@
 export default {
+    PICKUPLOCATION_EDIT_LABEL: 'Redigera utlämningsadress',
     PICKUPLOCATION_FIELD_NAME: 'Namn',
     PICKUPLOCATION_FIELD_ADRESS: 'Address',
     PICKUPLOCATION_FIELD_ZIPCODE: 'Postnummer',
