@@ -62,6 +62,7 @@ export const ContentCard = (
                             },
                             alignSelf: 'center',
                         }}
+                        alt={module.alt}
                     />
                 )}
                 {isYoutubeUrl(module.image) && (
