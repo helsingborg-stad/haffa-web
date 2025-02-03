@@ -52,8 +52,8 @@ const Notifications: FC<{ advert: Advert }> = ({ advert }) => {
     const { phrase, prettyDate } = useContext(PhraseContext)
     const myReturns = advert.meta.returnInfo
         .filter(({ isMine }) => isMine)
-        .map(({ at, quantity }) => (
-            <Alert severity="success">
+        .map(({ at, quantity }, key) => (
+            <Alert key={key} severity="success">
                 {phrase(
                     'ADVERT_IS_BORROWED_BY_YOU',
                     'Du har lånat {count} {unit} till och med {at}',
