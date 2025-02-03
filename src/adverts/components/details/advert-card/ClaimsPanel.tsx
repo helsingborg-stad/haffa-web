@@ -184,6 +184,7 @@ const ActionButtons: FC<{
         action,
     }: Omit<InferFCType<typeof OganizationsAwareActionButton>, 'terms'>) => (
         <OganizationsAwareActionButton
+            key={label}
             label={label}
             icon={icon}
             action={action}
@@ -327,11 +328,6 @@ const ActionButtons: FC<{
         >
             {buttons}
         </Stack>
-    )
-    return (
-        <ButtonGroup orientation={horizontalGroup ? 'horizontal' : 'vertical'}>
-            {buttons}
-        </ButtonGroup>
     )
 }
 
