@@ -74,12 +74,6 @@ export const ClaimDialog: FC<
             : undefined
     }, [pickupLocations, selectedPickupLocation, setSelectedPickupLocation])
 
-    // useEffect(() => {
-    //     if (!selectedPickupLocation && pickupLocations[0]) {
-    //         setSelectedPickupLocation(pickupLocations[0])
-    //     }
-    // }, [pickupLocations, selectedPickupLocation, setSelectedPickupLocation])
-
     const marks = useMemo(() => {
         const indices = range(minCount, maxCount)
         if (indices.length <= TICK_COUNT) {

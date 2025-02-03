@@ -1,18 +1,4 @@
-import {
-    Button,
-    ButtonGroup,
-    FormControl,
-    FormControlLabel,
-    FormLabel,
-    Grid,
-    InputAdornment,
-    Radio,
-    RadioGroup,
-    Stack,
-    TextField,
-    useMediaQuery,
-    useTheme,
-} from '@mui/material'
+import { Stack } from '@mui/material'
 import {
     DataGrid,
     GridColumnVisibilityModel,
@@ -21,182 +7,18 @@ import {
     GridToolbar,
 } from '@mui/x-data-grid'
 
-import { Advert, AdvertFilterInput } from 'adverts'
-import { FC, PropsWithChildren, useCallback, useContext, useState } from 'react'
-import SearchIcon from '@mui/icons-material/Search'
-import {
-    FilterDialog,
-    FiltersIconButton,
-} from 'adverts/components/filter/filters'
+import { Advert } from 'adverts'
+import { FC, useCallback, useContext } from 'react'
 
 import useLocalStorage from 'hooks/use-local-storage'
-import { PhraseContext } from 'phrases'
-import AddIcon from '@mui/icons-material/Add'
-import RemoveIcon from '@mui/icons-material/Remove'
 import { AdvertsTableContext } from './AdvertsTableContext'
 import { createRows } from '../createRows'
 import { AdvertTableColumn } from './types'
+import { FilterPanel } from './components/FilterPanel'
+import { RestrictionsPanel } from './components/RestrictionsPanel'
 
 export const PAGE_SIZE = 10
 const PAGE_SIZES = [10, 25, 50, 100]
-
-const FilterPanel: FC<
-    {
-        filter: AdvertFilterInput
-        setFilter: (p: AdvertFilterInput) => void
-    } & PropsWithChildren
-> = ({ filter, setFilter }) => {
-    const [showFilter, setShowFilter] = useState(false)
-    const [search, setSearch] = useState(filter.search || '')
-
-    return (
-        <Grid container>
-            <Grid item sx={{ flex: 1 }}>
-                <TextField
-                    fullWidth
-                    type="search"
-                    value={search}
-                    InputProps={{
-                        startAdornment: (
-                            <InputAdornment position="start">
-                                <SearchIcon />
-                            </InputAdornment>
-                        ),
-                    }}
-                    onChange={({ target: { value } }) => {
-                        setSearch(value)
-                        setFilter({
-                            ...filter,
-                            search: value,
-                        })
-                    }}
-                />
-            </Grid>
-            <Grid item>
-                <FiltersIconButton
-                    searchParams={filter}
-                    onClick={() => setShowFilter(true)}
-                />
-                <FilterDialog
-                    open={showFilter}
-                    onClose={() => setShowFilter(false)}
-                    searchParams={filter}
-                    setSearchParams={setFilter}
-                />
-            </Grid>
-        </Grid>
-    )
-}
-
-const RestrictionButton: FC<{
-    label: string
-    value: boolean | undefined
-    setValue: (checked: boolean | undefined) => void
-}> = ({ label, value, setValue }) => {
-    const mapValue = <T,>(truthy: T, falsy: T, undefinedly: T) =>
-        // eslint-disable-next-line no-nested-ternary
-        value === true ? truthy : value === false ? falsy : undefinedly
-
-    return (
-        <Button
-            startIcon={mapValue(<AddIcon />, <RemoveIcon />, <AddIcon />)}
-            variant={mapValue('contained', 'contained', 'outlined')}
-            color={mapValue('primary', 'primary', 'secondary')}
-            onClick={() => setValue(mapValue(false, undefined, true))}
-        >
-            {label}
-        </Button>
-    )
-}
-
-const RestrictionsPanel: FC<
-    {
-        filter: AdvertFilterInput
-        setFilter: (p: AdvertFilterInput) => void
-    } & PropsWithChildren
-> = ({ filter, setFilter }) => {
-    const theme = useTheme()
-    const horizontalGroup = useMediaQuery(theme.breakpoints.up('md'))
-    const { phrase } = useContext(PhraseContext)
-    return (
-        <>
-            <FormControl>
-                <FormLabel id="archive-status-label">Hantera</FormLabel>
-                <RadioGroup
-                    row
-                    aria-labelledby="archive-status-label"
-                    name="archive-status-group"
-                    value={String(filter.restrictions?.isArchived ?? false)}
-                    onChange={(e) =>
-                        setFilter({
-                            ...filter,
-                            restrictions: {
-                                ...filter.restrictions,
-                                isArchived: e.target.value === 'true',
-                            },
-                        })
-                    }
-                >
-                    <FormControlLabel
-                        value="false"
-                        control={<Radio />}
-                        label={phrase('MYADVERTS_ACTIVE', 'Aktiva')}
-                    />
-                    <FormControlLabel
-                        value="true"
-                        control={<Radio />}
-                        label={phrase('MYADVERTS_ARCHIVED', 'Arkiverade')}
-                    />
-                </RadioGroup>
-            </FormControl>
-            <ButtonGroup
-                orientation={horizontalGroup ? 'horizontal' : 'vertical'}
-                fullWidth
-            >
-                <RestrictionButton
-                    label={phrase('MYADVERTS_RESERVED', 'Reserverade')}
-                    value={filter.restrictions?.hasReservations}
-                    setValue={(c) =>
-                        setFilter({
-                            ...filter,
-                            restrictions: {
-                                ...filter.restrictions,
-                                hasReservations: c,
-                            },
-                        })
-                    }
-                />
-
-                <RestrictionButton
-                    label={phrase('MYADVERTS_COLLECTED', 'Uthämtade')}
-                    value={filter.restrictions?.hasCollects}
-                    setValue={(c) =>
-                        setFilter({
-                            ...filter,
-                            restrictions: {
-                                ...filter.restrictions,
-                                hasCollects: c,
-                            },
-                        })
-                    }
-                />
-                <RestrictionButton
-                    label={phrase('MYADVERTS_PICKED', 'Plockade')}
-                    value={filter.restrictions?.isPicked}
-                    setValue={(c) =>
-                        setFilter({
-                            ...filter,
-                            restrictions: {
-                                ...filter.restrictions,
-                                isPicked: c,
-                            },
-                        })
-                    }
-                />
-            </ButtonGroup>
-        </>
-    )
-}
 
 export const AdvertsTable: FC<{
     columns: AdvertTableColumn[]

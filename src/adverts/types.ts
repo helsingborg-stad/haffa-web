@@ -79,12 +79,17 @@ export interface AdvertFilterInputPaging {
     pageSize: number
 }
 
+export interface AdvertWorkflowInput {
+    pickupLocationTrackingNames?: string[]
+}
+
 export interface AdvertFilterInput {
     search?: string
     fields?: AdvertFieldsFilterInput
     restrictions?: AdvertRestrictionsFilterInput
     sorting?: AdvertSorting
     paging?: AdvertFilterInputPaging
+    workflow?: AdvertWorkflowInput
 }
 
 export interface AdvertImage {
