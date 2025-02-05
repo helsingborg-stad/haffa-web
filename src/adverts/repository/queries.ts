@@ -79,6 +79,7 @@ const advertProps = /* GraphQL */ `
 		phone
 		organization
 	}
+	place
 `
 
 const categoriesProp = /* GraphQL */ `

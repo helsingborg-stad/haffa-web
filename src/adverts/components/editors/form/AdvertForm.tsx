@@ -783,6 +783,22 @@ export const AdvertForm: FC<{
                     rows: [
                         [
                             createSimplifiedField(
+                                'place',
+                                (field, label, required) =>
+                                    select(
+                                        field,
+                                        label,
+                                        makeOptions(terms.places),
+                                        {
+                                            required,
+                                            disabled,
+                                            fullWidth: true,
+                                        }
+                                    )
+                            ),
+                        ],
+                        [
+                            createSimplifiedField(
                                 'notes',
                                 (field, label, required, adornment) =>
                                     textField(field, label, {

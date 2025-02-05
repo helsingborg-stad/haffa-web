@@ -11,6 +11,7 @@ export const EditTermsForm: FC<{
 }> = ({ terms, onUpdate }) => {
     const { phrase } = useContext(PhraseContext)
 
+    const [places, setPlaces] = useState(terms.places.join('\n'))
     const [organization, setOrganization] = useState(
         terms.organization.join('\n')
     )
@@ -54,14 +55,19 @@ export const EditTermsForm: FC<{
             setValue: setUsage,
         },
         {
+            label: phrase('TERMS_FIELD_SIZES', 'Storlekar'),
+            value: sizes,
+            setValue: setSizes,
+        },
+        {
             label: phrase('TERMS_FIELD_TAGS', 'Taggar'),
             value: tags,
             setValue: setTags,
         },
         {
-            label: phrase('TERMS_FIELD_SIZES', 'Storlekar'),
-            value: sizes,
-            setValue: setSizes,
+            label: phrase('TERMS_FIELD_PLACES', 'Platser'),
+            value: places,
+            setValue: setPlaces,
         },
     ]
 
@@ -74,6 +80,7 @@ export const EditTermsForm: FC<{
             <AdminActionPanel
                 onSave={() =>
                     onUpdate({
+                        places: places.split('\n'),
                         organization: organization.split('\n'),
                         unit: unit.split('\n'),
                         material: material.split('\n'),
@@ -110,6 +117,7 @@ export const EditTermsForm: FC<{
             <AdminActionPanel
                 onSave={() =>
                     onUpdate({
+                        places: places.split('\n'),
                         organization: organization.split('\n'),
                         unit: unit.split('\n'),
                         material: material.split('\n'),

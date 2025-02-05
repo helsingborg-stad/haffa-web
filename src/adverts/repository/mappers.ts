@@ -23,6 +23,7 @@ export const createEmptyAdvertInput = (): AdvertInput => ({
     tags: [],
     location: createEmptyAdvertLocation(),
     contact: createEmptyAdvertContact(),
+    place: '',
 })
 
 export const createEmptyAdvertLocation = (): AdvertLocation => ({
@@ -62,6 +63,7 @@ export const sanitizeAdvertInput = (
         tags,
         location,
         contact,
+        place,
     }: AdvertInput = createEmptyAdvertInput()
 ): AdvertInput => ({
     ...createEmptyAdvertInput(),
@@ -85,6 +87,7 @@ export const sanitizeAdvertInput = (
     tags,
     location: sanitizeAdvertLocation(location),
     contact: sanitizeAdvertContact(contact),
+    place,
 })
 
 export const sanitizeAdvertLocation = (

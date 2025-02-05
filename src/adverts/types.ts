@@ -23,6 +23,7 @@ export interface AdvertUserFields {
     tags: string[]
     location: AdvertLocation
     contact: AdvertContact
+    place: string
 }
 
 export interface IdFilterInput {
@@ -118,6 +119,7 @@ export interface AdvertInput {
     tags: string[]
     location: AdvertLocation
     contact: AdvertContact
+    place: string
 }
 
 export enum AdvertClaimType {
