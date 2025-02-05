@@ -1,10 +1,11 @@
-import { ButtonGroup, useMediaQuery, useTheme } from '@mui/material'
+import { ButtonGroup, Stack, useMediaQuery, useTheme } from '@mui/material'
 import { AdvertFilterInput } from 'adverts/types'
 import { PhraseContext } from 'phrases'
 import { FC, PropsWithChildren, useContext } from 'react'
 import { RestrictionButton } from './RestrictionButton'
 import { SelectPickupLocation } from './SelectPickupLocation'
 import { SelectArchived } from './SelectArchived'
+import { SelectPlace } from './SelectPlace'
 
 export const RestrictionsPanel: FC<
     {
@@ -18,7 +19,10 @@ export const RestrictionsPanel: FC<
     return (
         <>
             <SelectArchived filter={filter} setFilter={setFilter} />
-            <SelectPickupLocation filter={filter} setFilter={setFilter} />
+            <Stack direction="row" spacing={2}>
+                <SelectPickupLocation filter={filter} setFilter={setFilter} />
+                <SelectPlace filter={filter} setFilter={setFilter} />
+            </Stack>
             <ButtonGroup
                 orientation={horizontalGroup ? 'horizontal' : 'vertical'}
                 fullWidth

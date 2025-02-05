@@ -82,6 +82,7 @@ export interface AdvertFilterInputPaging {
 
 export interface AdvertWorkflowInput {
     pickupLocationTrackingNames?: string[]
+    places?: string[]
 }
 
 export interface AdvertFilterInput {
