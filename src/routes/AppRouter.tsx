@@ -334,32 +334,6 @@ const createRouter = (
     })
 
     /**
-     * path: /admin
-     */
-    /*
-    const viewAdminProps = (): AsyncRouteConfig => ({
-        element: (
-            <RouteLayout
-                ifRoles={(r) =>
-                    !!(
-                        r.canEditApiKeys ||
-                        r.canEditSystemCategories ||
-                        r.canEditSystemLoginPolicies ||
-                        r.canEditTerms ||
-                        r.canRunSystemJobs ||
-                        r.canManageContent ||
-                        r.canManageLocations ||
-                        r.canSeeSystemStatistics
-                    )
-                }
-            >
-                <AdminView />
-            </RouteLayout>
-        ),
-    })
-        */
-
-    /**
      * path: /about
      */
     const viewAboutProps = (): AsyncRouteConfig => ({
@@ -375,30 +349,60 @@ const createRouter = (
     return createBrowserRouter(
         createRoutesFromElements(
             <Route path="/" errorElement={<ErrorRouteView />}>
-                <Route path="" {...createHomeProps()} />
-                <Route path="browse" {...createBrowseProps()} />
+                <Route key="home" path="" {...createHomeProps()} />
+                <Route key="browse" path="browse" {...createBrowseProps()} />
                 <Route
+                    key="my-reservations"
                     path="my-reservations"
                     {...createMyReservationsProps()}
                 />
-                <Route path="my-adverts" {...createMyAdvertsProps()} />
-                <Route path="advert/create" {...createAdvertProps()} />
-                <Route path="advert/edit/:advertId" {...editAdvertProps()} />
-                <Route path="advert/:advertId" {...viewAdvertProps()} />
-                <Route path="profile/edit" {...editProfileProps()} />
-                <Route path="profile/remove" {...removeProfileProps()} />
-                <Route path="profile" {...viewProfileProps()} />
                 <Route
+                    key="my-adverts"
+                    path="my-adverts"
+                    {...createMyAdvertsProps()}
+                />
+                <Route
+                    key="advert-create"
+                    path="advert/create"
+                    {...createAdvertProps()}
+                />
+                <Route
+                    key="advert-edit"
+                    path="advert/edit/:advertId"
+                    {...editAdvertProps()}
+                />
+                <Route
+                    key="advert"
+                    path="advert/:advertId"
+                    {...viewAdvertProps()}
+                />
+                <Route
+                    key="profile-edit"
+                    path="profile/edit"
+                    {...editProfileProps()}
+                />
+                <Route
+                    key="profile-remove"
+                    path="profile/remove"
+                    {...removeProfileProps()}
+                />
+                <Route key="profile" path="profile" {...viewProfileProps()} />
+                <Route
+                    key="my-subscriptions"
                     path="my-subscriptions"
                     {...viewMySubscriptionsProps()}
                 />
-                <Route path="subscription" {...viewSubscriptionProps()} />
-                <Route path="scan" {...viewScanQrCodeProps()} />
-                <Route path="about" {...viewAboutProps()} />
+                <Route
+                    key="subscription"
+                    path="subscription"
+                    {...viewSubscriptionProps()}
+                />
+                <Route key="scan" path="scan" {...viewScanQrCodeProps()} />
+                <Route key="about" path="about" {...viewAboutProps()} />
 
                 {adminTabs.map(({ key, component }) => (
                     <Route
-                        key={key}
+                        key={`admin-${key}`}
                         path={`admin/${key}`}
                         element={<Layout>{component}</Layout>}
                     />

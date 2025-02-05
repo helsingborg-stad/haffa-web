@@ -1,4 +1,5 @@
 import { Category, CategoryFlat } from 'categories/types'
+import { PickupLocation } from 'pickup-locations/types'
 import { ProfileInput } from 'profile'
 
 export interface AdvertUserFields {
@@ -22,6 +23,7 @@ export interface AdvertUserFields {
     tags: string[]
     location: AdvertLocation
     contact: AdvertContact
+    place: string
 }
 
 export interface IdFilterInput {
@@ -78,12 +80,18 @@ export interface AdvertFilterInputPaging {
     pageSize: number
 }
 
+export interface AdvertWorkflowInput {
+    pickupLocationTrackingNames?: string[]
+    places?: string[]
+}
+
 export interface AdvertFilterInput {
     search?: string
     fields?: AdvertFieldsFilterInput
     restrictions?: AdvertRestrictionsFilterInput
     sorting?: AdvertSorting
     paging?: AdvertFilterInputPaging
+    workflow?: AdvertWorkflowInput
 }
 
 export interface AdvertImage {
@@ -112,6 +120,7 @@ export interface AdvertInput {
     tags: string[]
     location: AdvertLocation
     contact: AdvertContact
+    place: string
 }
 
 export enum AdvertClaimType {
@@ -254,7 +263,8 @@ export interface AdvertsRepository {
     unarchiveAdvert: (id: string) => Promise<AdvertMutationResult>
     reserveAdvert: (
         id: string,
-        quantity: number
+        quantity: number,
+        pickupLocation?: PickupLocation
     ) => Promise<AdvertMutationResult>
     cancelAdvertReservation: (id: string) => Promise<AdvertMutationResult>
     collectAdvert: (

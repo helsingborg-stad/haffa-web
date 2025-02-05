@@ -26,4 +26,6 @@ export interface Notifications {
         invocation: () => Promise<T>,
         info: SufficientlyDescribedNotification
     ) => Promise<T>
+
+    notifyIfError: <T>(inner: () => Promise<T>) => Promise<T | null>
 }

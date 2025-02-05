@@ -1,4 +1,5 @@
 export interface Terms {
+    places: string[]
     organization: string[]
     unit: string[]
     material: string[]

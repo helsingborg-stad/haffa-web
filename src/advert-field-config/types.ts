@@ -39,6 +39,7 @@ export const ConfigurableFields: Array<FieldName> = [
     'email',
     'phone',
     'country',
+    'place',
 ]
 
 export const FieldLabels: Record<FieldName, string> = {
@@ -68,6 +69,7 @@ export const FieldLabels: Record<FieldName, string> = {
     phone: 'Telefon',
     country: 'Land',
     picked: 'Plockad',
+    place: 'Plats',
 }
 
 export interface FieldConfig {

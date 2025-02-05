@@ -79,6 +79,7 @@ const advertProps = /* GraphQL */ `
 		phone
 		organization
 	}
+	place
 `
 
 const categoriesProp = /* GraphQL */ `
@@ -185,8 +186,9 @@ export const reserveAdvertMutation = /* GraphQL */ `
 mutation Mutation(
 	$id: ID!
 	$quantity: Int!
+	$pickupLocation: PickupLocationInput
 ) {
-	reserveAdvert(id: $id, quantity: $quantity) {
+	reserveAdvert(id: $id, quantity: $quantity, pickupLocation: $pickupLocation) {
 		${mutationProps}
 	}
 }

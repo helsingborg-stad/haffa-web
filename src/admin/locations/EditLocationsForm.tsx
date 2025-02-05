@@ -11,7 +11,7 @@ import {
 } from '@mui/material'
 import { AdminActionPanel } from 'components/AdminActionPanel'
 import { AdminEditorialPanel } from 'components/AdminEditorialPanel'
-import { createEmptyLocation } from 'locations/repository/mappers'
+import { createEmptyLocation } from 'locations'
 import { LocationRepository } from 'locations/types'
 import { useCallback, useState } from 'react'
 import { AdvertLocation } from 'adverts'

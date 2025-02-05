@@ -1,0 +1,10 @@
+export default {
+    PICKUPLOCATION_EDIT_LABEL: 'Redigera utlämningsadress',
+    PICKUPLOCATION_FIELD_NAME: 'Namn',
+    PICKUPLOCATION_FIELD_ADRESS: 'Address',
+    PICKUPLOCATION_FIELD_ZIPCODE: 'Postnummer',
+    PICKUPLOCATION_FIELD_CITY: 'Stad',
+    PICKUPLOCATION_FIELD_NOTIFYEMAIL: 'Email för notifikation',
+    PICKUPLOCATION_FIELD_TAGS: 'Matcha annonstaggar',
+    PICKUPLOCATION_FIELD_TRACKINGNAME: 'Spårningsnamn',
+}

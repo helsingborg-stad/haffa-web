@@ -6,18 +6,22 @@ import auth from './defaults/auth'
 import sms from './defaults/sms'
 import bulkActions from './defaults/bulk-actions'
 import events from './defaults/events'
+import pickupLocations from './defaults/pickup-locations'
+import common from './defaults/common'
 
 export const defaultPhrases: Omit<
     PhraseContextType,
     'phrase' | 'fromNow' | 'getConfig' | 'prettyDate'
 > &
     Record<string, string> = {
+    ...common,
     ...auth,
     ...profile,
     ...sms,
     ...terms,
     ...bulkActions,
     ...events,
+    ...pickupLocations,
 
     APP_TITLE: 'Haffa!',
     INFO_SLOW_CONNECTION: '... väntar på innehåll från servern ...',
@@ -248,7 +252,13 @@ Regler utan email tas automatiskt bort.`,
     ADMIN_LOCATIONS_BODY:
         'Här kan du ange utlämningsadresser som sedan blir valbara när du skapar annonser.',
     ADMIN_LOCATIONS_EMPTY:
-        'Du har inte lagt in några adresser i registret än! Klicka på knappen Ny Adress för att skapa en ny post',
+        'Du har inte lagt in några utlämningsplatser i registret än! Klicka på knappen Ny Adress för att skapa en ny post',
+    ADMIN_PICKUPLOCATIONS_TITLE: 'Utlämningsplatser',
+    ADMIN_PICKUPLOCATIONS_HEADLINE: 'Utlämningsplatser',
+    ADMIN_PICKUPLOCATIONS_BODY:
+        'Här kan du ange utlämningsadresser som sedan blir valbara när när en användare reserverar annonser.',
+    ADMIN_PICKUPLOCATIONS_EMPTY:
+        'Du har inte lagt in några adresser i registret än! Klicka på knappen Ny Utlämningsplats för att skapa en ny post',
 
     ADMIN_ADVERTS_TITLE: 'Annonser',
     ADMIN_ADVERTS_HEADLINE: 'Skräddarsy dina annonser',

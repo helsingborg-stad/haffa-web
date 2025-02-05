@@ -7,6 +7,7 @@ export { TermsContext, TermsProvider }
 export { createTermsRepository, createNotifyingTermsRepository }
 
 export const createEmptyTerms = (): Terms => ({
+    places: [],
     organization: [],
     unit: [],
     material: [],

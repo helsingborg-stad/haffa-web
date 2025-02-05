@@ -36,7 +36,7 @@ export const ActionsPanel: FC<{
             <ReserveButton
                 key="reserve"
                 advert={advert}
-                onReserve={(n) => onUpdate(reserveAdvert(advert.id, n))}
+                onReserve={(n, l) => onUpdate(reserveAdvert(advert.id, n, l))}
             />
 
             <Button

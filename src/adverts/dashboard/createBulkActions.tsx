@@ -12,6 +12,7 @@ import WarehouseIcon from '@mui/icons-material/Warehouse'
 import LabelIcon from '@mui/icons-material/Label'
 import ContactPageIcon from '@mui/icons-material/ContactPage'
 import AddLocationIcon from '@mui/icons-material/AddLocation'
+import WhereToVoteIcon from '@mui/icons-material/WhereToVote'
 import { BulkAction } from './bulk-actions/types'
 import { AdvertsTableContextType } from './AdvertsTable/types'
 import {
@@ -22,6 +23,7 @@ import {
 import { PatchTagsDialog } from './bulk-actions/PatchTagsDialog'
 import { PatchContactDialog } from './bulk-actions/PatchContactDialog'
 import { PatchLocationDialog } from './bulk-actions/PatchLocationDialog'
+import { PatchPlaceDialog } from './bulk-actions/PatchPlaceDialog'
 
 const makeAction = (
     enabled: boolean | undefined,
@@ -188,6 +190,14 @@ export const createBulkActions = ({
                     makePatch={(location) => ({ location })}
                 />
             ),
+        }),
+        makeAction(roles.canEditOwnAdverts && fields.category?.visible, {
+            key: 'place',
+            icon: <WhereToVoteIcon />,
+            label: phrase('BULKADVERTACTION_CHANGE_PLACE', 'Ändra plats'),
+            enabled: () => selectionMatches(({ meta: { canEdit } }) => canEdit),
+            action: () => undefined,
+            dialogAction: (params) => <PatchPlaceDialog {...params} />,
         }),
     ]
         .filter(({ key }) => key)
