@@ -12,6 +12,7 @@ export const getCompositionQuery = /* GraphQL */ `
                         background
                         categories
                         image
+                        alt
                         position
                         width
                         tags
@@ -36,6 +37,7 @@ export const updateCompositionMutation = /* GraphQL */ `
                         background
                         categories
                         image
+                        alt
                         position
                         width
                         tags

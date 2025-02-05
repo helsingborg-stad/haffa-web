@@ -13,8 +13,9 @@ export const TagCard = (props: PaperProps & { advert: Advert }) => {
     return (
         tags.length > 0 && (
             <>
-                {tags.map((v) => (
+                {tags.map((v, key) => (
                     <Chip
+                        key={key}
                         clickable
                         onClick={() => clicked(v)}
                         label={v}

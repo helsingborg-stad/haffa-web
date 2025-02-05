@@ -81,10 +81,9 @@ export const AdvertListItem: FC<{
                                 component="div"
                                 sx={{
                                     position: 'absolute',
-                                    width: '45%',
+                                    width: '100%',
                                     padding: '4px 0px 4px 12px',
                                     backgroundColor,
-                                    borderBottomRightRadius: '12px',
                                 }}
                             >
                                 {aggregatedStatusText}

@@ -40,6 +40,7 @@ const labelFrom = (key: keyof ContentModule): string =>
         border: 'Ram',
         background: 'Bakgrundsfärg',
         image: 'Bild',
+        alt: 'Alt-text',
         position: 'Bildposition',
         width: 'Bildbredd',
         categories: 'Kategorier',
@@ -221,6 +222,20 @@ export const PropertyEditor = (props: PropertyEditorProps) => {
                                         </CollectStringButton>
                                     </Fragment>
                                 )
+                            case 'alt':
+                                return (
+                                    <TextField
+                                        fullWidth
+                                        key={i}
+                                        label={labelFrom(v)}
+                                        value={content[v]}
+                                        error={!isValid(v, content[v])}
+                                        onChange={(c) =>
+                                            patch(v, c.target.value)
+                                        }
+                                    />
+                                )
+
                             case 'position':
                                 return (
                                     <TextField
