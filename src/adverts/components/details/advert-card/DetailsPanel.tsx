@@ -41,7 +41,7 @@ export const DetailsPanel = (
         { field: getField(props.fields, 'reference'), value: reference },
         {
             field: getField(props.fields, 'lendingPeriod'),
-            value: lendingPeriod > 0 ? String(lendingPeriod) : 'N/A',
+            value: lendingPeriod > 0 ? String(lendingPeriod) : '',
         },
     ].filter((a) => isValidString(a.value) && a.field.visible)
 
