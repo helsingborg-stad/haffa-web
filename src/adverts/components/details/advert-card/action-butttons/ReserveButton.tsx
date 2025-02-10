@@ -17,7 +17,7 @@ export const ReserveButton: FC<{
         pickupLocations: PickupLocation[]
     }>({ open: false, pickupLocations: [] })
     const { phrase } = useContext(PhraseContext)
-    const { getPickupLocationsMatchingTags } = useContext(PickupLocationContext)
+    const { getPickupLocationsByAdvert } = useContext(PickupLocationContext)
     const { notifyIfError } = useContext(NotificationsContext)
 
     const {
@@ -36,7 +36,7 @@ export const ReserveButton: FC<{
                 onClick={() =>
                     notifyIfError(async () => {
                         const pickupLocations =
-                            await getPickupLocationsMatchingTags(advert.tags)
+                            await getPickupLocationsByAdvert(advert)
                         canShowClaimDialog({
                             minCount: 1,
                             maxCount: reservableQuantity,

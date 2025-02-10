@@ -5,6 +5,7 @@ import {
 import { ifNullThenNotFoundError } from '../../errors'
 import { gqlClient } from '../../graphql'
 import {
+    getPickupLocationsByAdvertQuery,
     getPickupLocationsQuery,
     updatePickupLocationsMutation,
 } from './queries'
@@ -24,19 +25,12 @@ export const createPickupLocationRepository = (
             .query(getPickupLocationsQuery)
             .map<PickupLocation[]>('pickupLocations')
             .then(ifNullThenNotFoundError),
-    getPickupLocationsMatchingTags: async (tags) => {
-        const s = new Set(tags)
-        if (s.size === 0) {
-            return []
-        }
-        return gql(token, f)
-            .query(getPickupLocationsQuery)
-            .map<PickupLocation[]>('pickupLocations')
-            .then(ifNullThenNotFoundError)
-            .then((locations) =>
-                locations.filter(({ tags }) => tags.some((tag) => s.has(tag)))
-            )
-    },
+    getPickupLocationsByAdvert: async (advert) =>
+        gql(token, f)
+            .query(getPickupLocationsByAdvertQuery)
+            .variables({ id: advert.id })
+            .map<PickupLocation[]>('pickupLocationsByAdvert')
+            .then(ifNullThenNotFoundError),
     updatePickupLocations: async (locations) =>
         gql(token, f)
             .query(updatePickupLocationsMutation)

@@ -13,9 +13,7 @@ export const createNotifyingPickupLocationRepository = (
             fn(...args)
     return {
         getPickupLocations: wrap(inner.getPickupLocations),
-        getPickupLocationsMatchingTags: wrap(
-            inner.getPickupLocationsMatchingTags
-        ),
+        getPickupLocationsByAdvert: wrap(inner.getPickupLocationsByAdvert),
         updatePickupLocations: (...args) =>
             inner.updatePickupLocations(...args).then((result) => {
                 notifications.info({

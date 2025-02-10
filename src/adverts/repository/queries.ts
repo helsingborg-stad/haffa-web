@@ -49,6 +49,7 @@ const advertProps = /* GraphQL */ `
 			canConvert
 			isOverdue
 		}
+		hasPickupLocations
 	}
 	images {
 		url

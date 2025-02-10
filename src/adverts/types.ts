@@ -179,6 +179,7 @@ export interface AdvertMeta {
     waitlistCount: number
     returnInfo: AdvertReturnInfo[]
     claims: AdvertClaim[]
+    hasPickupLocations: boolean
 }
 
 export enum AdvertType {

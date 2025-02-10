@@ -7,9 +7,9 @@ export interface PickupLocation extends AdvertLocation {
 }
 export interface PickupLocationRepository {
     getPickupLocations: () => Promise<PickupLocation[]>
-    getPickupLocationsMatchingTags: (
-        tags: string[]
-    ) => Promise<PickupLocation[]>
+    getPickupLocationsByAdvert: (advert: {
+        id: string
+    }) => Promise<PickupLocation[]>
     updatePickupLocations: (
         locations: PickupLocation[]
     ) => Promise<PickupLocation[]>
