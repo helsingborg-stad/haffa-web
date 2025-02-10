@@ -74,9 +74,11 @@ export const AdvertCard: FC<{
                             <Grid item>
                                 <DetailsPanel fields={fields} advert={advert} />
                             </Grid>
-                            <Grid item>
-                                <AddressCard advert={advert} />
-                            </Grid>
+                            {!meta.hasPickupLocations && (
+                                <Grid item>
+                                    <AddressCard advert={advert} />
+                                </Grid>
+                            )}
                             <Grid item>
                                 <ContactCard advert={advert} />
                             </Grid>
@@ -128,9 +130,11 @@ export const AdvertCard: FC<{
                                         advert={advert}
                                     />
                                 </Grid>
-                                <Grid item>
-                                    <AddressCard advert={advert} />
-                                </Grid>
+                                {!meta.hasPickupLocations && (
+                                    <Grid item>
+                                        <AddressCard advert={advert} />
+                                    </Grid>
+                                )}
                                 <Grid item>
                                     <ContactCard advert={advert} />
                                 </Grid>
