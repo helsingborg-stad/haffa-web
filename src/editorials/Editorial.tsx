@@ -11,17 +11,15 @@ export const Editorial: FC<{
 }> = ({ phraseKey, children, templateVariables, severity }) => {
     const { phrase } = useContext(PhraseContext)
 
+    const content = phrase(phraseKey, children || '', templateVariables)
+
     return (
-        <Box sx={{ mb: 4, mt: 2 }}>
-            <Alert severity={severity || 'success'}>
-                <Markdown
-                    markdown={phrase(
-                        phraseKey,
-                        children || '',
-                        templateVariables
-                    )}
-                />
-            </Alert>
-        </Box>
+        !!content && (
+            <Box sx={{ mb: 4, mt: 2 }}>
+                <Alert severity={severity || 'success'}>
+                    <Markdown markdown={content} />
+                </Alert>
+            </Box>
+        )
     )
 }

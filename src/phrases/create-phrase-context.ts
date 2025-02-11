@@ -13,7 +13,9 @@ export const createProductionPhraseContext = (
 ): PhraseContextType => {
     const phrase: PhraseContextType['phrase'] = (key, template, values) => {
         const effectiveTemplate =
-            phrases[key] || defaultPhrases[key] || template
+            phrases[key] === '--'
+                ? ''
+                : phrases[key] || defaultPhrases[key] || template
         return values
             ? interpolate(effectiveTemplate, values)
             : effectiveTemplate
@@ -55,7 +57,10 @@ export const createDevelopmentPhraseContext = (
     const recordings: Record<string, string> = {}
     const phrase: PhraseContextType['phrase'] = (key, template, values) => {
         const effectiveTemplate =
-            phrases[key] || defaultPhrases[key] || template
+            phrases[key] === '--'
+                ? ''
+                : phrases[key] || defaultPhrases[key] || template
+
         const p = values
             ? interpolate(effectiveTemplate, values)
             : effectiveTemplate
