@@ -81,6 +81,10 @@ export const createColumns = ({
         headerName: fields.notes?.label || '',
     },
     {
+        field: 'place',
+        headerName: fields.place?.label || '',
+    },
+    {
         field: 'lendingPeriod',
         type: 'number',
         headerName: fields.lendingPeriod?.label || '',

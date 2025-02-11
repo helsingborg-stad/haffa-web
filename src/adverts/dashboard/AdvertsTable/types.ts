@@ -42,6 +42,7 @@ export interface AdvertTableRow {
     tags: string[]
     reference: string
     notes: string
+    place: string
     lendingPeriod: number
     expectedReturnDate: string
     isOverdue: boolean

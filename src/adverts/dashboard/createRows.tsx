@@ -10,6 +10,7 @@ export const createRows = (adverts: Advert[]): AdvertTableRow[] =>
         tags: advert.tags,
         reference: advert.reference,
         notes: advert.notes,
+        place: advert.place,
         lendingPeriod: advert.lendingPeriod,
         expectedReturnDate: (advert.meta.returnInfo[0]?.at || '').split('T')[0],
         isOverdue: advert.meta.claims.some(({ isOverdue }) => isOverdue),
