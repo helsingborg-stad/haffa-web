@@ -8,6 +8,7 @@ import bulkActions from './defaults/bulk-actions'
 import events from './defaults/events'
 import pickupLocations from './defaults/pickup-locations'
 import common from './defaults/common'
+import tags from './defaults/tags'
 
 export const defaultPhrases: Omit<
     PhraseContextType,
@@ -22,6 +23,7 @@ export const defaultPhrases: Omit<
     ...bulkActions,
     ...events,
     ...pickupLocations,
+    ...tags,
 
     APP_TITLE: 'Haffa!',
     INFO_SLOW_CONNECTION: '... väntar på innehåll från servern ...',

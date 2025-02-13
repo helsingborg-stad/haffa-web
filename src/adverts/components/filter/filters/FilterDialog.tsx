@@ -16,6 +16,8 @@ import { PhraseContext } from 'phrases'
 import CloseIcon from '@mui/icons-material/Close'
 import { TermsContext } from 'terms'
 import useAsync from 'hooks/use-async'
+import { TagsContext } from 'tags'
+import { AuthContext } from 'auth'
 import { CategoriesFilter } from './CategoriesFilter'
 import { StringArrayFilter } from './StringArrayFilter'
 
@@ -45,8 +47,24 @@ export const FilterDialog: FC<{
         searchParams.fields?.size?.in ?? []
     )
 
+    const { roles } = useContext(AuthContext)
     const { getTerms } = useContext(TermsContext)
-    const termsInspect = useAsync(getTerms)
+    const { getTagDescriptions } = useContext(TagsContext)
+
+    const inspect = useAsync(async () => {
+        const [terms, tagDescriptions] = await Promise.all([
+            getTerms(),
+            getTagDescriptions(),
+        ])
+
+        const canSeeAllTags = roles.canManageAllAdverts
+        return {
+            sizes: terms.sizes.map((size) => ({ label: size, value: size })),
+            tags: tagDescriptions
+                .filter(({ label }) => canSeeAllTags || label)
+                .map(({ label, tag }) => ({ label: label || tag, value: tag })),
+        }
+    })
 
     const onSave = () => {
         setSearchParams({
@@ -62,13 +80,13 @@ export const FilterDialog: FC<{
         onClose()
     }
 
-    return termsInspect({
+    return inspect({
         pending: () => null,
         rejected: (e) => {
             console.error(e)
             return <Box>Hoppsan! Något gick fel</Box>
         },
-        resolved: (terms) => (
+        resolved: (model) => (
             <Dialog
                 fullScreen={fullScreen}
                 open={open}
@@ -93,10 +111,10 @@ export const FilterDialog: FC<{
                 </IconButton>
                 <DialogContent dividers>
                     <Stack direction="column" spacing={1}>
-                        {terms.sizes.length > 0 && (
+                        {model.sizes.length > 0 && (
                             <StringArrayFilter
                                 label={phrase('TERMS_FIELD_SIZES', 'Storlekar')}
-                                values={terms.sizes}
+                                values={model.sizes}
                                 selected={sizes}
                                 onChange={setSizes}
                             />
@@ -105,10 +123,10 @@ export const FilterDialog: FC<{
                             selected={categories}
                             onCategoriesChanged={setCategories}
                         />
-                        {terms.tags.length > 0 && (
+                        {model.tags.length > 0 && (
                             <StringArrayFilter
                                 label={phrase('TERMS_FIELD_TAGS', 'Taggar')}
-                                values={terms.tags}
+                                values={model.tags}
                                 selected={tags}
                                 onChange={setTags}
                             />

@@ -6,6 +6,7 @@ import { Category } from 'categories/types'
 import { createTreeAdapter } from 'lib/tree-adapter'
 import { AdvertFieldConfig } from 'advert-field-config/types'
 import { Terms } from 'terms/types'
+import { TagDescription } from 'tags/types'
 import { Advert, AdvertMutationResult } from '../../types'
 import { AdvertCard } from './advert-card/AdvertCard'
 
@@ -14,7 +15,8 @@ export const AdvertDetailsView: FC<{
     terms: Terms
     categories: Category[]
     fields: AdvertFieldConfig
-}> = ({ advert, terms, categories, fields }) => {
+    tagDescriptions: TagDescription[]
+}> = ({ advert, terms, categories, fields, tagDescriptions }) => {
     const inspect = useAsync<AdvertMutationResult>(async () => ({
         advert,
         categories,
@@ -35,6 +37,7 @@ export const AdvertDetailsView: FC<{
                     (c) => c.categories
                 )}
                 fields={fields}
+                tagDescriptions={tagDescriptions}
                 error={status?.message}
                 onUpdate={update}
             />

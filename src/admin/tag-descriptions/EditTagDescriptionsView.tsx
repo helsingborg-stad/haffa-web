@@ -1,26 +1,22 @@
 import { ErrorView } from 'errors'
 import useAsync from 'hooks/use-async'
-import { OptionsContext } from 'options/OptionsContext'
 import { FC, useCallback, useContext } from 'react'
 import { TermsContext } from 'terms'
 import { AdminEditorialPanel } from 'components/AdminEditorialPanel'
-import type { Option } from '../../options/types'
+import { TagsContext } from 'tags'
 import { EditTagDescriptionsForm } from './EditTagDescriptionsForm'
-
-const sanitizeTagDescriptions = (tagDescriptions: Option[]): Option[] =>
-    tagDescriptions.filter((o) => o.key.trim()).filter((o) => o.value.trim())
 
 export const EditTagDescriptionsView: FC = () => {
     const { getTerms } = useContext(TermsContext)
-    const { getTagDescriptionOptions, updateTagDescriptionOptions } =
-        useContext(OptionsContext)
+    const { getTagDescriptions, updateTagDescriptions } =
+        useContext(TagsContext)
 
     const getModel = useCallback(
         () =>
-            Promise.all([getTagDescriptionOptions(), getTerms()]).then(
+            Promise.all([getTagDescriptions(), getTerms()]).then(
                 ([tagDescriptions, terms]) => ({ terms, tagDescriptions })
             ),
-        [getTerms, getTagDescriptionOptions]
+        [getTerms, getTagDescriptions]
     )
 
     const inspect = useAsync(getModel)
@@ -33,13 +29,13 @@ export const EditTagDescriptionsView: FC = () => {
                     body="ADMIN_TAG_DESCRIPTIONS_BODY"
                 />
                 <EditTagDescriptionsForm
-                    options={tagDescriptions}
+                    tagDescriptions={tagDescriptions}
                     tags={terms.tags}
                     onUpdate={(tagDescriptions) =>
                         update(
-                            updateTagDescriptionOptions(
-                                sanitizeTagDescriptions(tagDescriptions)
-                            ).then(() => getModel())
+                            updateTagDescriptions(tagDescriptions).then(() =>
+                                getModel()
+                            )
                         )
                     }
                 />

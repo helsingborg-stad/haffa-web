@@ -68,6 +68,9 @@ import {
     createPickupLocationRepository,
     PickupLocationProvider,
 } from 'pickup-locations'
+import { TagsProvider } from 'tags'
+import { createNotifyingTagsRepository } from 'tags/repository/notifying-tags-repository'
+import { createTagsRepository } from 'tags/repository/tags-repository'
 import { AdvertsProvider } from './adverts/AdvertsContext'
 import { createAdvertsRepository } from './adverts/repository/adverts-repository'
 import { AppRouter } from './routes/AppRouter'
@@ -97,6 +100,16 @@ const Main: FC = () => {
                 notifications,
                 phrase,
                 createTermsRepository(token, fetch)
+            ),
+        [notifications, phrase, token, fetch]
+    )
+
+    const tags = useMemo(
+        () =>
+            createNotifyingTagsRepository(
+                notifications,
+                phrase,
+                createTagsRepository(token, fetch)
             ),
         [notifications, phrase, token, fetch]
     )
@@ -224,45 +237,47 @@ const Main: FC = () => {
                     <LoginPoliciesProvider repository={loginPolicies}>
                         <CategoriesProvider repository={categories}>
                             <TermsProvider repository={terms}>
-                                <StatisticsProvider provider={statistics}>
-                                    <SyslogProvider provider={syslog}>
-                                        <SubscriptionsProvider
-                                            repository={subscriptions}
-                                        >
-                                            <AdvertsProvider
-                                                repository={adverts}
+                                <TagsProvider repository={tags}>
+                                    <StatisticsProvider provider={statistics}>
+                                        <SyslogProvider provider={syslog}>
+                                            <SubscriptionsProvider
+                                                repository={subscriptions}
                                             >
-                                                <ProfileProvider
-                                                    repository={profiles}
+                                                <AdvertsProvider
+                                                    repository={adverts}
                                                 >
-                                                    <ContentProvider
-                                                        repository={content}
+                                                    <ProfileProvider
+                                                        repository={profiles}
                                                     >
-                                                        <AdvertFieldProvider
-                                                            repository={
-                                                                fieldConfig
-                                                            }
+                                                        <ContentProvider
+                                                            repository={content}
                                                         >
-                                                            <LocationProvider
+                                                            <AdvertFieldProvider
                                                                 repository={
-                                                                    locations
+                                                                    fieldConfig
                                                                 }
                                                             >
-                                                                <PickupLocationProvider
+                                                                <LocationProvider
                                                                     repository={
-                                                                        pickupLocations
+                                                                        locations
                                                                     }
                                                                 >
-                                                                    <AppRouter />
-                                                                </PickupLocationProvider>
-                                                            </LocationProvider>
-                                                        </AdvertFieldProvider>
-                                                    </ContentProvider>
-                                                </ProfileProvider>
-                                            </AdvertsProvider>
-                                        </SubscriptionsProvider>
-                                    </SyslogProvider>
-                                </StatisticsProvider>
+                                                                    <PickupLocationProvider
+                                                                        repository={
+                                                                            pickupLocations
+                                                                        }
+                                                                    >
+                                                                        <AppRouter />
+                                                                    </PickupLocationProvider>
+                                                                </LocationProvider>
+                                                            </AdvertFieldProvider>
+                                                        </ContentProvider>
+                                                    </ProfileProvider>
+                                                </AdvertsProvider>
+                                            </SubscriptionsProvider>
+                                        </SyslogProvider>
+                                    </StatisticsProvider>
+                                </TagsProvider>
                             </TermsProvider>
                         </CategoriesProvider>
                     </LoginPoliciesProvider>
