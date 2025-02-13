@@ -5,6 +5,7 @@ import { TreeAdapter } from 'lib/types'
 import { Category } from 'categories/types'
 import { AdvertFieldConfig } from 'advert-field-config/types'
 import { Terms } from 'terms/types'
+import { TagDescription } from 'tags/types'
 import { Advert, AdvertMutationResult } from '../../../types'
 import { InfoPanel } from './InfoPanel'
 import { ActionsPanel } from './ActionsPanel'
@@ -27,9 +28,18 @@ export const AdvertCard: FC<{
     terms: Terms
     categories: TreeAdapter<Category>
     fields: AdvertFieldConfig
+    tagDescriptions: TagDescription[]
     error?: string
     onUpdate: (p: Promise<AdvertMutationResult>) => void
-}> = ({ advert, terms, categories, fields, error, onUpdate }) => {
+}> = ({
+    advert,
+    terms,
+    categories,
+    fields,
+    tagDescriptions,
+    error,
+    onUpdate,
+}) => {
     const { meta } = advert
 
     // show a disclaimer if we are administering someone eleses advert
@@ -83,7 +93,10 @@ export const AdvertCard: FC<{
                                 <ContactCard advert={advert} />
                             </Grid>
                             <Grid item>
-                                <TagCard advert={advert} />
+                                <TagCard
+                                    advert={advert}
+                                    tagDescriptions={tagDescriptions}
+                                />
                             </Grid>
                         </Grid>
                     </CardContent>
@@ -139,7 +152,10 @@ export const AdvertCard: FC<{
                                     <ContactCard advert={advert} />
                                 </Grid>
                                 <Grid item>
-                                    <TagCard advert={advert} />
+                                    <TagCard
+                                        advert={advert}
+                                        tagDescriptions={tagDescriptions}
+                                    />
                                 </Grid>
                             </Grid>
                         </Grid>

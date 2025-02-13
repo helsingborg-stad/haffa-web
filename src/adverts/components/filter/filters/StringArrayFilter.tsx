@@ -12,7 +12,7 @@ import { uniqueBy } from 'lib/unique-by'
 
 export const StringArrayFilter: FC<{
     label: string
-    values: string[]
+    values: { label: string; value: string }[]
     selected: string[]
     onChange: (values: string[]) => void
 }> = ({ label, values, selected, onChange }) => (
@@ -28,25 +28,27 @@ export const StringArrayFilter: FC<{
         </AccordionSummary>
         <AccordionDetails>
             <FormGroup>
-                {values.map((v, key) => (
+                {values.map(({ label, value }, index) => (
                     <FormControlLabel
-                        key={key}
+                        key={index}
                         control={
                             <Checkbox
-                                checked={selected.includes(v)}
+                                checked={selected.includes(value)}
                                 onChange={({ target: { checked } }) =>
                                     onChange(
                                         checked
-                                            ? [...selected, v].filter(
+                                            ? [...selected, value].filter(
                                                   uniqueBy((x) => x)
                                               )
-                                            : selected.filter((x) => x !== v)
+                                            : selected.filter(
+                                                  (x) => x !== value
+                                              )
                                     )
                                 }
-                                name={v}
+                                name={value}
                             />
                         }
-                        label={v}
+                        label={label}
                     />
                 ))}
             </FormGroup>
