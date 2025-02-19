@@ -26,7 +26,6 @@ export const SelectPlace: FC<{
                 <FormControl fullWidth key="resolved">
                     <InputLabel id={labelId}>{label}</InputLabel>
                     <Select
-                        multiple
                         labelId={labelId}
                         value={filter.workflow?.places || []}
                         label={label}
@@ -42,6 +41,9 @@ export const SelectPlace: FC<{
                             })
                         }
                     >
+                        <MenuItem value="">
+                            {phrase('VALUE_EMPTY', '(inget värde)')}
+                        </MenuItem>
                         {places.map((p) => (
                             <MenuItem value={p}>{p}</MenuItem>
                         ))}

@@ -18,32 +18,29 @@ const createUrlParamsContext = (
         ): boolean | undefined =>
             // eslint-disable-next-line no-nested-ternary
             params[name] === '1' ? true : params[name] === '0' ? false : d
+        const parseStringArray = (name: string): string[] | undefined =>
+            params[name]
+                ?.split(',')
+                .map((s) => s.trim())
+                .map((s) => decodeURIComponent(s))
+                .filter((v) => v)
+
         const search = params.s || ''
-        const categories = (params.c || '')
-            .split(',')
-            .map((s) => s.trim())
-            .map((s) => decodeURIComponent(s))
-            .filter((v) => v)
-        const tags = (params.tags || '')
-            .split(',')
-            .map((s) => s.trim())
-            .map((s) => decodeURIComponent(s))
-            .filter((v) => v)
-        const size = (params.size || '')
-            .split(',')
-            .map((s) => s.trim())
-            .map((s) => decodeURIComponent(s))
-            .filter((v) => v)
+        const categories = parseStringArray('c')
+        const tags = parseStringArray('tags')
+        const size = parseStringArray('size')
         const sorting = params.sf || ''
+        const places = parseStringArray('places')
+        const pickupLocationTrackingNames = parseStringArray('pltn')
         const page = parseInt(params.p, 10) || 0
         return {
             ...filter,
             search,
             fields: {
                 ...filter.fields,
-                category: categories.length ? { in: categories } : undefined,
-                tags: tags.length ? { in: tags } : undefined,
-                size: size.length ? { in: size } : undefined,
+                category: categories ? { in: categories } : undefined,
+                tags: tags ? { in: tags } : undefined,
+                size: size ? { in: size } : undefined,
             },
             sorting:
                 sortableFields.find((sf) => sf.key === sorting)?.sorting ||
@@ -72,6 +69,11 @@ const createUrlParamsContext = (
                 ),
             },
             paging: { pageSize: 25, ...filter.paging, pageIndex: page },
+            workflow: {
+                ...filter.workflow,
+                pickupLocationTrackingNames,
+                places,
+            },
         }
     },
     updateUrlFromAdvertFilterInput: (prefix, filter, { sortableFields }) => {
@@ -94,6 +96,10 @@ const createUrlParamsContext = (
             collects: mapRestriction(filter.restrictions?.hasCollects),
             reservations: mapRestriction(filter.restrictions?.hasReservations),
             reserveable: mapRestriction(filter.restrictions?.canBeReserved),
+            places: encode(filter.workflow?.places)?.join(','),
+            pltn: encode(filter.workflow?.pickupLocationTrackingNames)?.join(
+                ','
+            ),
         })
     },
     makeAdvertSubscriptionUrl: (basePath, filter) =>
