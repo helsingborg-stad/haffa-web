@@ -194,6 +194,7 @@ export const defaultPhrases: Omit<
         'Artikeln är utlånad till och med {returnDate} och har {waitlistCount}st bevakning(ar). Den kan efter mottagningskontroll återföras till lagret.',
     ADVERT_MARK_AS_PICKED_EDITORIAL: `Markera annonsen som plockad om du vill notifiera reservatörer om att varan kan hämtas.`,
     ADVERT_MARK_AS_UNPICKED_EDITORIAL: `Markera annonsen som oplockad om den återförs till lagret och inte kan hämtas ut direkt.`,
+    ADVERT_CHANGE_PLACE_EDITORIAL: 'Ange var prylen finns just nu.',
     LOGINS_EFECTIVE_PERMISSIONS: 'Effektiva behörigheter',
     LOGINS_EDITORIAL: `
 Här anges vilka användare som ges eller nekas tillträde till sajten.

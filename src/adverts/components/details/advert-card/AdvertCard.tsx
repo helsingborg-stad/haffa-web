@@ -22,6 +22,7 @@ import { PickPanel } from './PickPanel'
 import { QRCodePanel } from './QRCodePanel'
 import { HistoryPanel } from './HistoryPanel'
 import { TagCard } from './TagCard'
+import { PlacePanel } from './PlacePanel'
 
 export const AdvertCard: FC<{
     advert: Advert
@@ -166,6 +167,12 @@ export const AdvertCard: FC<{
             <ArchivedPanel advert={advert} onUpdate={onUpdate} />
 
             <PickPanel advert={advert} onUpdate={onUpdate} />
+            <PlacePanel
+                advert={advert}
+                fields={fields}
+                terms={terms}
+                onUpdate={onUpdate}
+            />
 
             <ReturnPanel advert={advert} onUpdate={onUpdate} />
 
