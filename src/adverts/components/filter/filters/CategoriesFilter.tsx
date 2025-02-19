@@ -23,7 +23,7 @@ const categoryToTreeNode = (
     checkedKeys: string[]
 ): DataNode | null => {
     const n = {
-        title: `${category.label} (${category.unarchivedAdvertCount})`,
+        title: `${category.label} (${category.accumulatedAdvertCount})`,
         key: category.id,
         disabled,
         children: category.categories
@@ -91,7 +91,6 @@ export const CategoriesFilter: FC<CategoriesFilterProps> = ({
         const categories = (
             Array.isArray(checked) ? checked : checked.checked
         ).map((k) => `${k}`)
-
         const categoriesWithChildren = [
             ...new Set(
                 categories.reduce<string[]>((acc, categoryId) => {
@@ -127,7 +126,34 @@ export const CategoriesFilter: FC<CategoriesFilterProps> = ({
         pending: () => null,
         rejected: () => <Box>Hoppsan! Något gick fel</Box>,
         resolved: (categories) => {
-            cacheCategories(categories)
+            // Calculate total adverts in category
+            const countAdverts = (category: Category): number =>
+                (category.categories?.reduce(
+                    (p, c) => p + countAdverts(c),
+                    0
+                ) ?? 0) + (category.unarchivedAdvertCount ?? 0)
+
+            // Calculate accumulated adverts
+            const updateCategories = (categories: Category[]): Category[] =>
+                categories.map((cat) => ({
+                    ...cat,
+                    categories: updateCategories(cat.categories),
+                    accumulatedAdvertCount: countAdverts(cat),
+                }))
+            // Remove empty categories
+            const filterCategories = (categories: Category[]): Category[] =>
+                categories
+                    .map((cat) => ({
+                        ...cat,
+                        categories: filterCategories(cat.categories),
+                    }))
+                    .filter((x) => (x.accumulatedAdvertCount ?? 0) > 0)
+
+            const cleanedCategories = filterCategories(
+                updateCategories(categories)
+            )
+
+            cacheCategories(cleanedCategories)
             return (
                 <>
                     <Typography variant="subtitle1" gutterBottom>
@@ -137,13 +163,11 @@ export const CategoriesFilter: FC<CategoriesFilterProps> = ({
                         <Tree
                             checkable
                             checkStrictly
-                            defaultExpandAll
-                            autoExpandParent
-                            defaultExpandParent
                             onCheck={onCheck}
                             checkedKeys={selected}
+                            defaultExpandedKeys={selected}
                             treeData={buildTreeFromCategories(
-                                categories,
+                                cleanedCategories,
                                 selected
                             )}
                         />

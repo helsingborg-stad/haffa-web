@@ -6,6 +6,7 @@ export interface Category {
     categories: Category[]
     advertCount?: number
     unarchivedAdvertCount?: number
+    accumulatedAdvertCount?: number
 }
 
 export interface CategoryFlat {
