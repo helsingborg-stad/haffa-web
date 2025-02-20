@@ -20,6 +20,7 @@ import { TagsContext } from 'tags'
 import { AuthContext } from 'auth'
 import { CategoriesFilter } from './CategoriesFilter'
 import { StringArrayFilter } from './StringArrayFilter'
+import { CategoriesFilter2 } from './experimental/CategoriesFilter2'
 
 export interface SelectedFilters {
     categories: string[]
@@ -119,10 +120,19 @@ export const FilterDialog: FC<{
                                 onChange={setSizes}
                             />
                         )}
-                        <CategoriesFilter
+                        <CategoriesFilter2
                             selected={categories}
                             onCategoriesChanged={setCategories}
                         />
+                        {
+                            // disable previous version of category filter
+                            false && (
+                                <CategoriesFilter
+                                    selected={categories}
+                                    onCategoriesChanged={setCategories}
+                                />
+                            )
+                        }
                         {model.tags.length > 0 && (
                             <StringArrayFilter
                                 label={phrase('TERMS_FIELD_TAGS', 'Taggar')}

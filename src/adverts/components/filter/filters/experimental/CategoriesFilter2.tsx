@@ -2,6 +2,7 @@ import { FC, Fragment, useContext, useState } from 'react'
 import { CategoriesContext } from 'categories'
 import useAsync from 'hooks/use-async'
 import { Category } from 'categories/types'
+import { Typography } from '@mui/material'
 import { TreeSelect } from './TreeSelect'
 
 // Take a list of categories and recursively trim list to only contain
@@ -66,11 +67,16 @@ export const CategoriesFilter2: FC<{
         pending: () => <Fragment key="pending" />,
         rejected: () => <Fragment key="rejected" />,
         resolved: (categories) => (
-            <CategoriesTree
-                categories={categories}
-                selected={selected}
-                onCategoriesChanged={onCategoriesChanged}
-            />
+            <>
+                <Typography variant="subtitle1" gutterBottom>
+                    Kategorier
+                </Typography>
+                <CategoriesTree
+                    categories={categories}
+                    selected={selected}
+                    onCategoriesChanged={onCategoriesChanged}
+                />
+            </>
         ),
     })
 }

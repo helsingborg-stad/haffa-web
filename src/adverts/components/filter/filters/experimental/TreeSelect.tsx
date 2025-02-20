@@ -31,6 +31,7 @@ export function TreeSelect<T>({
         value: T
         selected: boolean
         pselected: boolean
+        cselected: boolean
         expanded: boolean
         children: Node[]
         canExpand: boolean
@@ -40,21 +41,32 @@ export function TreeSelect<T>({
     const selectedSet = new Set(selected)
     const expandedSet = new Set(expanded)
 
-    const buildNode = (item: T, pselected: boolean): Node => ({
-        label: getLabel(item),
-        value: item,
-        selected: selectedSet.has(getKey(item)),
-        expanded: expandedSet.has(getKey(item)),
-        canExpand:
-            !expandedSet.has(getKey(item)) && getChildren(item).length > 0,
-        canCollapse:
-            expandedSet.has(getKey(item)) && getChildren(item).length > 0,
-        pselected,
-        children: getChildren(item).map((child) =>
-            buildNode(child, pselected || selectedSet.has(getKey(item)))
-        ),
-    })
+    // From input items, construct display nodes that can feed ourr recursive rendering
+    const buildNode = (item: T, pselected: boolean): Node =>
+        ((n: Node) => ({
+            ...n,
+            cselected: n.children.some((c) => c.selected || c.cselected),
+        }))({
+            label: getLabel(item),
+            value: item,
+            selected: selectedSet.has(getKey(item)),
+            pselected,
+            cselected: false,
+            expanded: expandedSet.has(getKey(item)),
+            canExpand:
+                !expandedSet.has(getKey(item)) && getChildren(item).length > 0,
+            canCollapse:
+                expandedSet.has(getKey(item)) && getChildren(item).length > 0,
+            children: getChildren(item).map((child) =>
+                buildNode(child, pselected || selectedSet.has(getKey(item)))
+            ),
+        })
 
+    const flexCells = 16
+    // Render a node using some neat flex trix
+    // - indentation is done by flex={level}
+    // - buttons and checkboxes have flex={1}
+    // - content fills out with flex={flexCells - level}
     const renderNode = (node: Node, level: number) => (
         <Fragment key={getKey(node.value)}>
             <Grid container spacing={0} key={getKey(node.value)}>
@@ -91,7 +103,9 @@ export function TreeSelect<T>({
                     <Checkbox
                         checked={node.selected}
                         indeterminate={
-                            node.pselected && !node.selected ? true : undefined
+                            (node.cselected || node.pselected) && !node.selected
+                                ? true
+                                : undefined
                         }
                         onChange={() =>
                             onSelected(
@@ -104,7 +118,7 @@ export function TreeSelect<T>({
                         }
                     />
                 </Grid>
-                <Grid item flex={16 - level} alignContent="center">
+                <Grid item flex={flexCells - level} alignContent="center">
                     <Box>{node.label}</Box>
                 </Grid>
             </Grid>
