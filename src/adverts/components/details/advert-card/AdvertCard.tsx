@@ -74,7 +74,10 @@ export const AdvertCard: FC<{
                                 />
                             </Grid>
                             <Grid item>
-                                <TagDescriptionsPanel advert={advert} />
+                                <TagDescriptionsPanel
+                                    advert={advert}
+                                    tagDescriptions={tagDescriptions}
+                                />
                             </Grid>
                             <Grid item>
                                 <ActionsPanel
@@ -130,7 +133,10 @@ export const AdvertCard: FC<{
                                     />
                                 </Grid>
                                 <Grid item>
-                                    <TagDescriptionsPanel advert={advert} />
+                                    <TagDescriptionsPanel
+                                        advert={advert}
+                                        tagDescriptions={tagDescriptions}
+                                    />
                                 </Grid>
                                 <Grid item>
                                     <ActionsPanel

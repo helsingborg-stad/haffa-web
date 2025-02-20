@@ -7,7 +7,6 @@ import { toMap } from 'lib/to-map'
 import type { Option } from '../options/types'
 import { createCustomTheme, createThemeModel } from './theme-factory'
 import { AdvertImageSettingsContext } from './AdvertImageSettingsContext'
-import { TagDescriptionsContext } from './TagDescriptionsContext'
 
 const parseAspectRatio = (ar: string): number | null => {
     const [w, h] = ar.split(':').map((v) => parseInt(v, 10))
@@ -16,13 +15,6 @@ const parseAspectRatio = (ar: string): number | null => {
     }
     return null
 }
-
-const createTagDescriptionsByTag = (options: Option[]) =>
-    toMap(
-        options.filter((o) => o.value.trim()),
-        (o) => o.key,
-        (o) => o.value
-    )
 
 const BrandedView: FC<
     PropsWithChildren & {
@@ -76,23 +68,15 @@ export const BrandingProvider: FC<PropsWithChildren> = ({ children }) => {
         Promise.all([
             fetchOptions('branding-theme'),
             fetchOptions('branding-phrases'),
-            fetchOptions('tag-descriptions'),
         ])
     )
 
     return inspect({
         pending: () => <div />,
-        resolved: ([theme, phrases, tagDescriptions]) => (
+        resolved: ([theme, phrases]) => (
             <BrandedView themeOptions={theme} phraseOptions={phrases}>
                 <CssBaseline />
-                <TagDescriptionsContext.Provider
-                    value={{
-                        tagDescriptionByTag:
-                            createTagDescriptionsByTag(tagDescriptions),
-                    }}
-                >
-                    {children}
-                </TagDescriptionsContext.Provider>
+                {children}
             </BrandedView>
         ),
         rejected: () => (

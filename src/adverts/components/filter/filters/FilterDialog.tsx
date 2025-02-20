@@ -16,7 +16,7 @@ import { PhraseContext } from 'phrases'
 import CloseIcon from '@mui/icons-material/Close'
 import { TermsContext } from 'terms'
 import useAsync from 'hooks/use-async'
-import { TagsContext } from 'tags'
+import { getEffectiveTagDescriptions, TagsContext } from 'tags'
 import { AuthContext } from 'auth'
 import { CategoriesFilter } from './CategoriesFilter'
 import { StringArrayFilter } from './StringArrayFilter'
@@ -58,11 +58,14 @@ export const FilterDialog: FC<{
             getTagDescriptions(),
         ])
 
-        const canSeeAllTags = roles.canManageAllAdverts
         return {
             sizes: terms.sizes.map((size) => ({ label: size, value: size })),
-            tags: tagDescriptions
-                .filter(({ label }) => canSeeAllTags || label)
+            tags: getEffectiveTagDescriptions(
+                tagDescriptions,
+                terms.tags,
+                roles
+            )
+                .filter(({ label }) => label)
                 .map(({ label, tag }) => ({ label: label || tag, value: tag })),
         }
     })
