@@ -11,6 +11,11 @@ export const createRows = (adverts: Advert[]): AdvertTableRow[] =>
         reference: advert.reference,
         notes: advert.notes,
         place: advert.place,
+        trackingName: advert.meta.claims
+            .map(({ pickupLocation }) => pickupLocation?.trackingName)
+            .filter((x) => x)
+            .join(','),
+
         lendingPeriod: advert.lendingPeriod,
         expectedReturnDate: (advert.meta.returnInfo[0]?.at || '').split('T')[0],
         isOverdue: advert.meta.claims.some(({ isOverdue }) => isOverdue),

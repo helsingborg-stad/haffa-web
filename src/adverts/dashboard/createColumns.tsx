@@ -85,6 +85,11 @@ export const createColumns = ({
         headerName: fields.place?.label || '',
     },
     {
+        field: 'trackingName',
+        headerName: 'Utlämningsställe',
+        sortable: false,
+    },
+    {
         field: 'lendingPeriod',
         type: 'number',
         headerName: fields.lendingPeriod?.label || '',

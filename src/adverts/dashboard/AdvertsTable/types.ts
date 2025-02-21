@@ -43,6 +43,7 @@ export interface AdvertTableRow {
     reference: string
     notes: string
     place: string
+    trackingName: string
     lendingPeriod: number
     expectedReturnDate: string
     isOverdue: boolean

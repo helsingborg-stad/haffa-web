@@ -45,6 +45,9 @@ const advertProps = /* GraphQL */ `
 				at
 				type
 			}
+			pickupLocation {
+			    trackingName
+			}
 			canCancel
 			canConvert
 			isOverdue

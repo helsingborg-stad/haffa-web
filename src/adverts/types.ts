@@ -142,6 +142,7 @@ export interface AdvertClaim {
     at: string
     type: AdvertClaimType
     events: AdvertClaimEvent[]
+    pickupLocation?: PickupLocation
     canCancel: boolean
     canConvert: boolean
     isOverdue: Boolean
