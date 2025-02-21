@@ -1,4 +1,4 @@
-import { Stack } from '@mui/material'
+import { Box, Stack } from '@mui/material'
 import {
     DataGrid,
     GridColumnVisibilityModel,
@@ -68,46 +68,50 @@ export const AdvertsTable: FC<{
         <Stack direction="column" spacing={2}>
             <FilterPanel filter={filter} setFilter={setFilter} />
             <RestrictionsPanel filter={filter} setFilter={setFilter} />
-            <DataGrid
-                autoHeight
-                getRowHeight={() => 'auto'}
-                slots={{ toolbar: GridToolbar }}
-                disableDensitySelector
-                disableColumnFilter
-                sortingMode="server"
-                onSortModelChange={onSortModelChange}
-                sortingOrder={['asc', 'desc']}
-                sortModel={[
-                    {
-                        sort: filter.sorting?.ascending ? 'asc' : 'desc',
-                        field: (filter.sorting?.field as keyof Advert) ?? '',
-                    },
-                ]}
-                paginationMode="server"
-                rowCount={paging.totalCount}
-                onPaginationModelChange={onPaginationModelChange}
-                paginationModel={{
-                    page: paging.pageIndex,
-                    pageSize: paging.pageSize,
-                }}
-                onRowSelectionModelChange={setSelected}
-                rowSelectionModel={selected}
-                columnVisibilityModel={visibilityModel}
-                onColumnVisibilityModelChange={onColumnVisibilityModelChange}
-                rows={createRows(adverts)}
-                columns={columns}
-                initialState={{
-                    pagination: {
-                        rowCount: paging.totalCount,
-                        paginationModel: {
-                            pageSize: PAGE_SIZE,
-                            page: 0,
+            <Box sx={{ height: 700, width: '100%' }}>
+                <DataGrid
+                    getRowHeight={() => 'auto'}
+                    slots={{ toolbar: GridToolbar }}
+                    disableDensitySelector
+                    disableColumnFilter
+                    sortingMode="server"
+                    onSortModelChange={onSortModelChange}
+                    sortingOrder={['asc', 'desc']}
+                    sortModel={[
+                        {
+                            sort: filter.sorting?.ascending ? 'asc' : 'desc',
+                            field:
+                                (filter.sorting?.field as keyof Advert) ?? '',
                         },
-                    },
-                }}
-                pageSizeOptions={PAGE_SIZES}
-                checkboxSelection
-            />
+                    ]}
+                    paginationMode="server"
+                    rowCount={paging.totalCount}
+                    onPaginationModelChange={onPaginationModelChange}
+                    paginationModel={{
+                        page: paging.pageIndex,
+                        pageSize: paging.pageSize,
+                    }}
+                    onRowSelectionModelChange={setSelected}
+                    rowSelectionModel={selected}
+                    columnVisibilityModel={visibilityModel}
+                    onColumnVisibilityModelChange={
+                        onColumnVisibilityModelChange
+                    }
+                    rows={createRows(adverts)}
+                    columns={columns}
+                    initialState={{
+                        pagination: {
+                            rowCount: paging.totalCount,
+                            paginationModel: {
+                                pageSize: PAGE_SIZE,
+                                page: 0,
+                            },
+                        },
+                    }}
+                    pageSizeOptions={PAGE_SIZES}
+                    checkboxSelection
+                />
+            </Box>
         </Stack>
     )
 }
