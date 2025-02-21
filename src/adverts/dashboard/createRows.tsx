@@ -1,4 +1,5 @@
 import { Advert } from 'adverts/types'
+import { uniqueBy } from 'lib/unique-by'
 import { AdvertTableRow } from './AdvertsTable/types'
 
 export const createRows = (adverts: Advert[]): AdvertTableRow[] =>
@@ -14,6 +15,7 @@ export const createRows = (adverts: Advert[]): AdvertTableRow[] =>
         trackingName: advert.meta.claims
             .map(({ pickupLocation }) => pickupLocation?.trackingName)
             .filter((x) => x)
+            .filter(uniqueBy((x) => x))
             .join(','),
 
         lendingPeriod: advert.lendingPeriod,
