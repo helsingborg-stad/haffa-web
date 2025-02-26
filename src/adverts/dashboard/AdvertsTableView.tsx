@@ -229,7 +229,7 @@ export const AdvertsTableView: FC<{
                             <>
                                 <AdvertsTable
                                     key="resolved"
-                                    columns={createColumns(c)}
+                                    columns={createColumns(c, phrase)}
                                 />
                                 <BulkActions bulkActions={bulkActions} />
                             </>
