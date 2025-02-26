@@ -2,10 +2,13 @@ import { Advert } from 'adverts/types'
 import { uniqueBy } from 'lib/unique-by'
 import { AdvertTableRow } from './AdvertsTable/types'
 
-export const createRows = (adverts: Advert[]): AdvertTableRow[] =>
+export const createRows = (
+    adverts: Advert[],
+    density: string
+): AdvertTableRow[] =>
     adverts.map((advert) => ({
         id: advert.id,
-        image: [advert.images[0]?.url, `/advert/${advert.id}`],
+        image: [advert.images[0]?.url, `/advert/${advert.id}`, density],
         title: advert.title,
         category: advert.category,
         tags: advert.tags,

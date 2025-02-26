@@ -2,6 +2,7 @@ import { Stack } from '@mui/material'
 import {
     DataGrid,
     GridColumnVisibilityModel,
+    GridDensity,
     GridPaginationModel,
     GridSortModel,
     GridToolbar,
@@ -34,6 +35,10 @@ export const AdvertsTable: FC<{
             columns.reduce((p, c) => ({ ...p, [c.field]: true }), {})
         )
 
+    const [density, onDensityChange] = useLocalStorage<GridDensity>(
+        'haffa-my-adverts-v2-density',
+        'standard'
+    )
     // Transform sort model to serverside model
     const onSortModelChange = useCallback(
         ([model]: GridSortModel) =>
@@ -71,8 +76,8 @@ export const AdvertsTable: FC<{
             <DataGrid
                 getRowHeight={() => 'auto'}
                 slots={{ toolbar: GridToolbar }}
-                disableDensitySelector
                 disableColumnFilter
+                onDensityChange={(density) => onDensityChange(density)}
                 sortingMode="server"
                 onSortModelChange={onSortModelChange}
                 sortingOrder={['asc', 'desc']}
@@ -93,7 +98,7 @@ export const AdvertsTable: FC<{
                 rowSelectionModel={selected}
                 columnVisibilityModel={visibilityModel}
                 onColumnVisibilityModelChange={onColumnVisibilityModelChange}
-                rows={createRows(adverts)}
+                rows={createRows(adverts, density)}
                 columns={columns}
                 initialState={{
                     pagination: {
