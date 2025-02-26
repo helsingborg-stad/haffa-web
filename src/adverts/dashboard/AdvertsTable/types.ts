@@ -36,7 +36,7 @@ export interface AdvertsTableContextType {
 }
 export interface AdvertTableRow {
     id: string
-    image: string
+    image: string[]
     title: string
     category: string
     tags: string[]

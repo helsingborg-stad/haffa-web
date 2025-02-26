@@ -18,17 +18,19 @@ export const createLink = (to: string | undefined, icon: ReactNode) => (
     </NavLink>
 )
 
-export const createAdvertImage = (image?: string) => (
-    <Box
-        component="img"
-        src={image ?? '/empty-advert.svg'}
-        sx={{
-            height: 48,
-            width: 48,
-            objectFit: 'cover',
-        }}
-    />
-)
+export const createAdvertImage = (imageUrl?: string, advertUrl?: string) =>
+    createLink(
+        advertUrl,
+        <Box
+            component="img"
+            src={imageUrl ?? '/empty-advert.svg'}
+            sx={{
+                height: 48,
+                width: 48,
+                objectFit: 'cover',
+            }}
+        />
+    )
 
 const createTagList = (tags?: string[]) => (
     <Stack direction="column">
@@ -49,7 +51,8 @@ export const createColumns = (
         headerAlign: 'center',
         sortable: false,
         headerName: phrase('DASHBOARD_HEADER_IMAGE', 'Bild'),
-        renderCell: ({ value }) => createAdvertImage(value),
+        renderCell: ({ value: [imageUrl, advertUrl] }) =>
+            createAdvertImage(imageUrl, advertUrl),
     },
     {
         field: 'title',

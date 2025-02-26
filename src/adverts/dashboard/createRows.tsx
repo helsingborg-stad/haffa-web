@@ -5,7 +5,7 @@ import { AdvertTableRow } from './AdvertsTable/types'
 export const createRows = (adverts: Advert[]): AdvertTableRow[] =>
     adverts.map((advert) => ({
         id: advert.id,
-        image: advert.images[0]?.url,
+        image: [advert.images[0]?.url, `/advert/${advert.id}`],
         title: advert.title,
         category: advert.category,
         tags: advert.tags,
