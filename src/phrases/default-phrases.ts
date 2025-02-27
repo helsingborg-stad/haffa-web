@@ -9,6 +9,7 @@ import events from './defaults/events'
 import pickupLocations from './defaults/pickup-locations'
 import common from './defaults/common'
 import tags from './defaults/tags'
+import dashboard from './defaults/dashboard'
 
 export const defaultPhrases: Omit<
     PhraseContextType,
@@ -24,6 +25,7 @@ export const defaultPhrases: Omit<
     ...events,
     ...pickupLocations,
     ...tags,
+    ...dashboard,
 
     APP_TITLE: 'Haffa!',
     INFO_SLOW_CONNECTION: '... väntar på innehåll från servern ...',

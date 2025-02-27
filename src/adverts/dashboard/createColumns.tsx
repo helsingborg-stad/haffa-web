@@ -2,10 +2,11 @@ import EventBusyIcon from '@mui/icons-material/EventBusy'
 import EditIcon from '@mui/icons-material/Edit'
 import OpenInBrowserIcon from '@mui/icons-material/OpenInBrowser'
 import CheckIcon from '@mui/icons-material/Check'
-import { NavLink } from 'react-router-dom'
-import { ReactNode } from 'react'
 import { Box, Stack, Typography } from '@mui/material'
 import { sortBy } from 'lib/sort-by'
+import { PhraseContextType } from 'phrases'
+import { NavLink } from 'react-router-dom'
+import { ReactNode } from 'react'
 import {
     AdvertTableColumn,
     AdvertsTableContextType,
@@ -17,17 +18,30 @@ export const createLink = (to: string | undefined, icon: ReactNode) => (
     </NavLink>
 )
 
-export const createAdvertImage = (image?: string) => (
-    <Box
-        component="img"
-        src={image ?? '/empty-advert.svg'}
-        sx={{
-            height: 48,
-            width: 48,
-            objectFit: 'cover',
-        }}
-    />
-)
+export const createAdvertImage = (
+    imageUrl?: string,
+    advertUrl?: string,
+    density?: string
+) => {
+    const size = {
+        compact: 32,
+        standard: 48,
+        comfortable: 96,
+    }[density ?? 'standard']
+
+    return createLink(
+        advertUrl,
+        <Box
+            component="img"
+            src={imageUrl ?? '/empty-advert.svg'}
+            sx={{
+                height: size,
+                width: size,
+                objectFit: 'cover',
+            }}
+        />
+    )
+}
 
 const createTagList = (tags?: string[]) => (
     <Stack direction="column">
@@ -39,25 +53,29 @@ const createTagList = (tags?: string[]) => (
     </Stack>
 )
 
-export const createColumns = ({
-    categoryTree,
-    fields,
-}: AdvertsTableContextType): AdvertTableColumn[] => [
+export const createColumns = (
+    { categoryTree, fields }: AdvertsTableContextType,
+    phrase: PhraseContextType['phrase']
+): AdvertTableColumn[] => [
     {
         field: 'image',
         headerAlign: 'center',
         sortable: false,
-        headerName: 'Bild',
-        renderCell: ({ value }) => createAdvertImage(value),
+        headerName: phrase('DASHBOARD_HEADER_IMAGE', 'Bild'),
+        renderCell: ({ value: [imageUrl, advertUrl, density] }) =>
+            createAdvertImage(imageUrl, advertUrl, density),
     },
     {
         field: 'title',
-        headerName: fields.title?.label || '',
+        headerName: phrase('DASHBOARD_HEADER_TITLE', fields.title?.label || ''),
     },
     {
         field: 'category',
         sortable: false,
-        headerName: fields.category?.label || '',
+        headerName: phrase(
+            'DASHBOARD_HEADER_CATEGORY',
+            fields.category?.label || ''
+        ),
         valueGetter: (value) =>
             categoryTree
                 .pathById(value)
@@ -67,60 +85,71 @@ export const createColumns = ({
     {
         field: 'tags',
         sortable: false,
-        headerName: fields.tags?.label || '',
+        headerName: phrase('DASHBOARD_HEADER_TAGS', fields.tags?.label || ''),
         renderCell: ({ value }) => createTagList(value),
     },
     {
         field: 'reference',
-        headerName: fields.reference?.label || '',
+        headerName: phrase(
+            'DASHBOARD_HEADER_REFERENCE',
+            fields.reference?.label || ''
+        ),
         headerAlign: 'right',
         align: 'right',
     },
     {
         field: 'notes',
-        headerName: fields.notes?.label || '',
+        headerName: phrase('DASHBOARD_HEADER_NOTES', fields.notes?.label || ''),
     },
     {
         field: 'place',
-        headerName: fields.place?.label || '',
+        headerName: phrase('DASHBOARD_HEADER_PLACE', fields.place?.label || ''),
+    },
+    {
+        field: 'trackingName',
+        headerName: phrase('DASHBOARD_HEADER_TRACKING', 'Utlämningsställe'),
+        sortable: false,
     },
     {
         field: 'lendingPeriod',
         type: 'number',
-        headerName: fields.lendingPeriod?.label || '',
+        headerName: phrase(
+            'DASHBOARD_HEADER_PERIOD',
+            fields.lendingPeriod?.label || ''
+        ),
     },
     {
         field: 'expectedReturnDate',
         type: 'string',
         sortable: false,
-        headerName: 'Återlämnas',
+        headerName: phrase('DASHBOARD_HEADER_RETURN', 'Återlämnas'),
     },
     {
         field: 'isOverdue',
         align: 'center',
         sortable: false,
-        headerName: 'Försenad?',
+        headerName: phrase('DASHBOARD_HEADER_OVERDUE', 'Försenad'),
         renderCell: ({ value }) => value && <EventBusyIcon />,
     },
     {
         field: 'isPicked',
         align: 'center',
         sortable: false,
-        headerName: 'Plockad?',
+        headerName: phrase('DASHBOARD_HEADER_PICKED', 'Plockad'),
         renderCell: ({ value }) => value && <CheckIcon />,
     },
     {
         field: 'visitLink',
         align: 'center',
         sortable: false,
-        headerName: 'Gå till',
+        headerName: phrase('DASHBOARD_HEADER_NAVIGATE', 'Gå till'),
         renderCell: ({ value }) => createLink(value, <OpenInBrowserIcon />),
     },
     {
         field: 'editLink',
         align: 'center',
         sortable: false,
-        headerName: 'Redigera',
+        headerName: phrase('DASHBOARD_HEADER_EDIT', 'Redigera'),
         renderCell: ({ value }) => createLink(value, <EditIcon />),
     },
 ]

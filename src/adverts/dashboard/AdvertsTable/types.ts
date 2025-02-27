@@ -36,13 +36,14 @@ export interface AdvertsTableContextType {
 }
 export interface AdvertTableRow {
     id: string
-    image: string
+    image: string[]
     title: string
     category: string
     tags: string[]
     reference: string
     notes: string
     place: string
+    trackingName: string
     lendingPeriod: number
     expectedReturnDate: string
     isOverdue: boolean
