@@ -1,4 +1,4 @@
-import { Avatar, Grid, Paper, PaperProps, Typography } from '@mui/material'
+import { Avatar, Paper, PaperProps, Stack, Typography } from '@mui/material'
 import HomeOutlinedIcon from '@mui/icons-material/HomeOutlined'
 import { Advert, AdvertLocation } from 'adverts'
 import { FC, useContext } from 'react'
@@ -12,39 +12,34 @@ export const AddressCard: FC<
     return (
         locations.length > 0 && (
             <Paper {...props}>
-                <Grid
-                    container
-                    p={2}
-                    spacing={2}
-                    height="100%"
-                    alignItems="center"
-                >
-                    <Grid item sx={{ display: { xs: 'none', sm: 'block' } }}>
-                        <Avatar
-                            sx={{
-                                width: 48,
-                                height: 48,
-                            }}
-                        >
-                            <HomeOutlinedIcon />
-                        </Avatar>
-                    </Grid>
-                    <Grid item>
-                        <Typography variant="subtitle1">
-                            {phrase(
-                                'ADVERT_FIELD_ADDRESS_TITLE',
-                                'Adress för avhämtning'
-                            )}
-                        </Typography>
-                    </Grid>
+                <Stack direction="column" spacing={2} height="100%" p={2}>
+                    <Typography variant="subtitle1">
+                        {phrase(
+                            'ADVERT_FIELD_ADDRESS_TITLE',
+                            'Adress för avhämtning'
+                        )}
+                    </Typography>
+
                     {locations.map(({ name, adress, zipCode, city }, index) => (
-                        <Grid item key={index}>
-                            <Typography>{name}</Typography>
-                            <Typography>{adress}</Typography>
-                            <Typography>{`${zipCode} ${city}`}</Typography>
-                        </Grid>
+                        <Stack direction="row" spacing={1}>
+                            <Avatar
+                                sx={{
+                                    display: { xs: 'none', sm: 'inherit' },
+                                    width: 48,
+                                    height: 48,
+                                }}
+                            >
+                                <HomeOutlinedIcon />
+                            </Avatar>
+
+                            <div key={index}>
+                                <Typography>{name}</Typography>
+                                <Typography>{adress}</Typography>
+                                <Typography>{`${zipCode} ${city}`}</Typography>
+                            </div>
+                        </Stack>
                     ))}
-                </Grid>
+                </Stack>
             </Paper>
         )
     )
