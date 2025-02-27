@@ -6,7 +6,8 @@ import { Category } from 'categories/types'
 import { AdvertFieldConfig } from 'advert-field-config/types'
 import { Terms } from 'terms/types'
 import { TagDescription } from 'tags/types'
-import { Advert, AdvertMutationResult } from '../../../types'
+import { PickupLocation } from 'pickup-locations/types'
+import { Advert, AdvertLocation, AdvertMutationResult } from '../../../types'
 import { InfoPanel } from './InfoPanel'
 import { ActionsPanel } from './ActionsPanel'
 import { ClaimsPanel } from './ClaimsPanel'
@@ -30,6 +31,7 @@ export const AdvertCard: FC<{
     categories: TreeAdapter<Category>
     fields: AdvertFieldConfig
     tagDescriptions: TagDescription[]
+    pickupLocations: PickupLocation[]
     error?: string
     onUpdate: (p: Promise<AdvertMutationResult>) => void
 }> = ({
@@ -38,14 +40,22 @@ export const AdvertCard: FC<{
     categories,
     fields,
     tagDescriptions,
+    pickupLocations,
     error,
     onUpdate,
 }) => {
     const { meta } = advert
-
     // show a disclaimer if we are administering someone eleses advert
     const showRightsDisclaimer =
         !meta.isMine && (meta.canEdit || meta.canRemove || meta.canManageClaims)
+
+    const effectiveLocations: AdvertLocation[] = (
+        pickupLocations.length > 0 ? pickupLocations : [advert.location]
+    )
+        .filter((l) => l)
+        .filter(({ name, adress, zipCode, city }) =>
+            [name, adress, zipCode, city].some((v) => v.trim())
+        )
 
     return (
         <Stack spacing={2}>
@@ -88,11 +98,12 @@ export const AdvertCard: FC<{
                             <Grid item>
                                 <DetailsPanel fields={fields} advert={advert} />
                             </Grid>
-                            {!meta.hasPickupLocations && (
-                                <Grid item>
-                                    <AddressCard advert={advert} />
-                                </Grid>
-                            )}
+                            <Grid item>
+                                <AddressCard
+                                    advert={advert}
+                                    locations={effectiveLocations}
+                                />
+                            </Grid>
                             <Grid item>
                                 <ContactCard advert={advert} />
                             </Grid>
@@ -109,12 +120,18 @@ export const AdvertCard: FC<{
                     key="desktop"
                     sx={{ display: { xs: 'none', sm: 'block' } }}
                 >
-                    <Grid container spacing={2} direction="row" p={4}>
+                    <Grid
+                        container
+                        spacing={2}
+                        direction="row"
+                        p={4}
+                        rowGap={1}
+                    >
                         <Grid item xs={7} pr={8}>
                             <ImagesPanel advert={advert} />
                         </Grid>
                         <Grid item xs={5}>
-                            <Grid container direction="column" rowGap={1}>
+                            <Grid container direction="column">
                                 <Grid item pt={4}>
                                     <InfoPanel
                                         advert={advert}
@@ -150,15 +167,18 @@ export const AdvertCard: FC<{
                                         advert={advert}
                                     />
                                 </Grid>
-                                {!meta.hasPickupLocations && (
-                                    <Grid item>
-                                        <AddressCard advert={advert} />
-                                    </Grid>
-                                )}
-                                <Grid item>
+                            </Grid>
+                            <Grid container spacing={1}>
+                                <Grid item xs={12}>
+                                    <AddressCard
+                                        advert={advert}
+                                        locations={effectiveLocations}
+                                    />
+                                </Grid>
+                                <Grid item xs={12}>
                                     <ContactCard advert={advert} />
                                 </Grid>
-                                <Grid item>
+                                <Grid item xs={12}>
                                     <TagCard
                                         advert={advert}
                                         tagDescriptions={tagDescriptions}

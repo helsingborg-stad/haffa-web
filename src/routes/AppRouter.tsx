@@ -46,6 +46,8 @@ import { createAdminTabs } from 'admin/admin-tabs'
 import { PhraseContext, PhraseContextType } from 'phrases'
 import { TagsRepository } from 'tags/types'
 import { TagsContext } from 'tags'
+import { PickupLocationRepository } from 'pickup-locations/types'
+import { PickupLocationContext } from 'pickup-locations'
 import { ErrorRouteView } from './ErrorRouteView'
 
 const UnpackLoaderData: FC<{ render: (loaderData: any) => JSX.Element }> = ({
@@ -79,7 +81,8 @@ const createRouter = (
     { getComposition }: ContentRepository,
     { getFieldConfig }: AdvertFieldRepository,
     { getLocations }: LocationRepository,
-    { getTagDescriptions }: TagsRepository
+    { getTagDescriptions }: TagsRepository,
+    { getPickupLocationsByAdvert }: PickupLocationRepository
 ) => {
     // So many of the routes relies on
     // - an async fetch of some data
@@ -220,13 +223,24 @@ const createRouter = (
                 getCategories(),
                 getFieldConfig(),
                 getTagDescriptions(),
-            ]).then(([advert, terms, categories, fields, tagDescriptions]) => ({
-                advert,
-                terms,
-                categories,
-                fields,
-                tagDescriptions,
-            })),
+                getPickupLocationsByAdvert({ id: advertId! }),
+            ]).then(
+                ([
+                    advert,
+                    terms,
+                    categories,
+                    fields,
+                    tagDescriptions,
+                    pickupLocations,
+                ]) => ({
+                    advert,
+                    terms,
+                    categories,
+                    fields,
+                    tagDescriptions,
+                    pickupLocations,
+                })
+            ),
         element: (
             <UnpackLoaderData
                 key="view-advert"
@@ -236,6 +250,7 @@ const createRouter = (
                     categories,
                     fields,
                     tagDescriptions,
+                    pickupLocations,
                 }) => (
                     <Layout>
                         <AdvertDetailsView
@@ -244,6 +259,7 @@ const createRouter = (
                             categories={categories}
                             fields={fields}
                             tagDescriptions={tagDescriptions}
+                            pickupLocations={pickupLocations}
                         />
                     </Layout>
                 )}
@@ -435,6 +451,7 @@ export const AppRouter: FC = () => {
     const auth = useContext(AuthContext)
     const phrase = useContext(PhraseContext)
     const tags = useContext(TagsContext)
+    const pickuplocations = useContext(PickupLocationContext)
     const [router] = useState(
         createRouter(
             auth,
@@ -446,7 +463,8 @@ export const AppRouter: FC = () => {
             content,
             fields,
             locations,
-            tags
+            tags,
+            pickuplocations
         )
     )
     return <RouterProvider router={router} />

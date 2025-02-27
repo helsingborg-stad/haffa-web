@@ -51,7 +51,9 @@ export const PlacePanel: FC<{
                                 {phrase('VALUE_CLEAR', '(rensa värde)')}
                             </MenuItem>
                             {places.map((p) => (
-                                <MenuItem value={p}>{p}</MenuItem>
+                                <MenuItem value={p} key={p}>
+                                    {p}
+                                </MenuItem>
                             ))}
                         </Select>
                     </FormControl>

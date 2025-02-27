@@ -9,6 +9,7 @@ import { Terms } from 'terms/types'
 import { TagDescription } from 'tags/types'
 import { AuthContext } from 'auth'
 import { getEffectiveTagDescriptions } from 'tags'
+import { PickupLocation } from 'pickup-locations/types'
 import { Advert, AdvertMutationResult } from '../../types'
 import { AdvertCard } from './advert-card/AdvertCard'
 
@@ -18,7 +19,15 @@ export const AdvertDetailsView: FC<{
     categories: Category[]
     fields: AdvertFieldConfig
     tagDescriptions: TagDescription[]
-}> = ({ advert, terms, categories, fields, tagDescriptions }) => {
+    pickupLocations: PickupLocation[]
+}> = ({
+    advert,
+    terms,
+    categories,
+    fields,
+    tagDescriptions,
+    pickupLocations,
+}) => {
     const { roles } = useContext(AuthContext)
     const inspect = useAsync<AdvertMutationResult>(async () => ({
         advert,
@@ -45,6 +54,7 @@ export const AdvertDetailsView: FC<{
                     terms.tags,
                     roles
                 )}
+                pickupLocations={pickupLocations}
                 error={status?.message}
                 onUpdate={update}
             />
