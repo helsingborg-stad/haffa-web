@@ -213,9 +213,9 @@ export const AdvertCard: FC<{
                     att den tillhör någon annan.
                 </Editorial>
             )}
-            {meta.canEdit && <QRCodePanel advert={advert} />}
             <EditorButtonsPanel advert={advert} onUpdate={onUpdate} />
             <HistoryPanel advert={advert} />
+            {meta.canEdit && <QRCodePanel advert={advert} />}
         </Stack>
     )
 }
