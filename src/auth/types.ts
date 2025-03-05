@@ -20,6 +20,7 @@ export interface HaffaUserRoles {
     canManageReturns?: boolean
     canManagePicked?: boolean
     canManageProfile?: boolean
+    canUseQRCode?: boolean
 }
 
 export interface Authentication {

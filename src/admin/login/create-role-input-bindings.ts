@@ -134,9 +134,13 @@ export const createDefaultRoleInputBindings = (
             )
             .define(
                 'canManageProfile',
-                phrase('ROLES_CAN_MANAGE_PROFILE', 'Hantera egen profil'),
-                false
+                phrase('ROLES_CAN_MANAGE_PROFILE', 'Hantera egen profil')
             )
+            .define(
+                'canUseQRCode',
+                phrase('ROLES_CAN_USE_QRCODE', 'Kan använda QR-kod')
+            )
+
             .define(
                 'canManageAllAdverts',
                 phrase(

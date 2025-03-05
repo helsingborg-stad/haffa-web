@@ -54,4 +54,5 @@ export const normalizeRoles = (
     canManageReturns: !!roles?.canManageReturns,
     canManagePicked: !!roles?.canManagePicked,
     canManageProfile: !!roles?.canManageProfile,
+    canUseQRCode: !!roles?.canUseQRCode,
 })

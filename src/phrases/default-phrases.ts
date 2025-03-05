@@ -117,6 +117,7 @@ export const defaultPhrases: Omit<
     ROLES_CAN_COLLECT_ADVERTS: 'Hämta ut annonser',
     ROLES_CAN_MANAGE_OWN_ADVERTS_HISTORY: 'Hantera egna annonsers historik',
     ROLES_CAN_MANAGE_PROFILE: 'Hantera egen profil',
+    ROLES_CAN_USE_QRCODE: 'Kan använda QR-kod',
     ROLES_CAN_JOIN_WAITLIST: 'Vänta på annons',
     ROLES_CAN_MANAGE_ALL_ADVERTS: 'Hantera egna och andras annonser (admin)',
     ROLES_CAN_EDIT_TERMS: 'Hantera definitioner (admin)',
