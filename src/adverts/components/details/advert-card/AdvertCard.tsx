@@ -59,6 +59,16 @@ export const AdvertCard: FC<{
 
     return (
         <Stack spacing={2}>
+            {showRightsDisclaimer && (
+                <Editorial
+                    phraseKey="ADVERT_IMPERSONATION_EDITORIAL"
+                    severity="warning"
+                >
+                    Du har givits rättigheter att adminstrera denna annons trots
+                    att den tillhör någon annan.
+                </Editorial>
+            )}
+
             <Card>
                 <CardContent key="mobile" sx={{ display: { sm: 'none' } }}>
                     <CardContent>
@@ -203,16 +213,6 @@ export const AdvertCard: FC<{
             <ReturnPanel advert={advert} onUpdate={onUpdate} />
 
             <ClaimsPanel advert={advert} terms={terms} onUpdate={onUpdate} />
-
-            {showRightsDisclaimer && (
-                <Editorial
-                    phraseKey="ADVERT_IMPERSONATION_EDITORIAL"
-                    severity="warning"
-                >
-                    Du har givits rättigheter att adminstrera denna annons trots
-                    att den tillhör någon annan.
-                </Editorial>
-            )}
             <EditorButtonsPanel advert={advert} onUpdate={onUpdate} />
             <HistoryPanel advert={advert} />
             {meta.canEdit && <QRCodePanel advert={advert} />}
