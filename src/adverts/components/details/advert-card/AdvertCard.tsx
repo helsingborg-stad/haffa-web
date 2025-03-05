@@ -1,4 +1,4 @@
-import { FC } from 'react'
+import { FC, useContext } from 'react'
 import { Card, CardContent, Grid, Stack } from '@mui/material'
 import { Editorial } from 'editorials'
 import { TreeAdapter } from 'lib/types'
@@ -7,6 +7,7 @@ import { AdvertFieldConfig } from 'advert-field-config/types'
 import { Terms } from 'terms/types'
 import { TagDescription } from 'tags/types'
 import { PickupLocation } from 'pickup-locations/types'
+import { AuthContext } from 'auth'
 import { Advert, AdvertLocation, AdvertMutationResult } from '../../../types'
 import { InfoPanel } from './InfoPanel'
 import { ActionsPanel } from './ActionsPanel'
@@ -56,6 +57,7 @@ export const AdvertCard: FC<{
         .filter(({ name, adress, zipCode, city }) =>
             [name, adress, zipCode, city].some((v) => v.trim())
         )
+    const { roles } = useContext(AuthContext)
 
     return (
         <Stack spacing={2}>
@@ -215,7 +217,9 @@ export const AdvertCard: FC<{
             <ClaimsPanel advert={advert} terms={terms} onUpdate={onUpdate} />
             <EditorButtonsPanel advert={advert} onUpdate={onUpdate} />
             <HistoryPanel advert={advert} />
-            {meta.canEdit && <QRCodePanel advert={advert} />}
+            {meta.canEdit && roles.canUseQRCode && (
+                <QRCodePanel advert={advert} />
+            )}
         </Stack>
     )
 }

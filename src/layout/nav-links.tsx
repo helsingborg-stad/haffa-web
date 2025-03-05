@@ -71,14 +71,16 @@ export const createNavLinks: Func1<
     },
     signout,
 }) =>
-    guest
+    (guest
         ? [
               link(NAV_BROWSE, '/browse', <SearchIcon />),
-              link(SCAN_QR_CODE, '/scan', <QrCodeScannerIcon />),
+              roles.canUseQRCode &&
+                  link(SCAN_QR_CODE, '/scan', <QrCodeScannerIcon />),
           ]
         : [
               link(NAV_BROWSE, '/browse', <SearchIcon />),
-              link(SCAN_QR_CODE, '/scan', <QrCodeScannerIcon />),
+              roles.canUseQRCode &&
+                  link(SCAN_QR_CODE, '/scan', <QrCodeScannerIcon />),
               roles.canEditOwnAdverts &&
                   menuitem(NAV_CREATE, '/advert/create', <AddIcon />),
               roles.canSubscribe &&
@@ -104,8 +106,9 @@ export const createNavLinks: Func1<
                   menuitem(NAV_PROFILE, '/profile', <PersonIcon />),
               menuitem(SIGNOUT, '/logout', <LogoutIcon />, signout),
           ]
-              .filter((v) => v)
-              .map((v) => v as HaffaLink)
+    )
+        .filter((v) => v)
+        .map((v) => v as HaffaLink)
 
 export const createAdminNavLinks: Func1<
     {
