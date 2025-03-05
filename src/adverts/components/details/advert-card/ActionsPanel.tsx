@@ -4,6 +4,7 @@ import { PhraseContext } from 'phrases/PhraseContext'
 import { FC, useContext } from 'react'
 import NotificationAddIcon from '@mui/icons-material/NotificationAdd'
 import NotificationsOffIcon from '@mui/icons-material/NotificationsOff'
+import { AuthContext } from 'auth'
 import { ReserveButton } from './action-butttons/ReserveButton'
 import { CollectButton } from './action-butttons/CollectButton'
 
@@ -20,9 +21,11 @@ export const ActionsPanel: FC<{
         leaveAdvertWaitlist,
     } = useContext(AdvertsContext)
     const { phrase } = useContext(PhraseContext)
+    const { roles } = useContext(AuthContext)
+
     return (
         <>
-            {meta.canCollect && (
+            {meta.canCollect && roles.canUseQRCode && (
                 <CollectButton
                     advert={advert}
                     fullWidth
