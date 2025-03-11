@@ -2,6 +2,9 @@ const advertProps = /* GraphQL */ `
 	id
 	type
 	createdAt
+	reservedAt
+	collectedAt
+	returnedAt
 	title
 	description
 	quantity

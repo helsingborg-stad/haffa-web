@@ -6,6 +6,9 @@ export const SORTABLE_FIELDS: (keyof Advert)[] = [
     'reference',
     'notes',
     'lendingPeriod',
+    'reservedAt',
+    'collectedAt',
+    'returnedAt',
 ]
 
 export const createSortableFields =

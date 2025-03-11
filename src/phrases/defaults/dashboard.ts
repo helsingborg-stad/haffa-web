@@ -18,4 +18,7 @@ export default {
     DASHBOARD_HEADER_PICKED: 'Plockad',
     DASHBOARD_HEADER_NAVIGATE: 'Gå till',
     DASHBOARD_HEADER_EDIT: 'Redigera',
+    DASHBOARD_HEADER_RESERVEDAT: 'Reserverad',
+    DASHBOARD_HEADER_COLLECTEDAT: 'Hämtad',
+    DASHBOARD_HEADER_RETURNEDAT: 'Återlämnad',
 }

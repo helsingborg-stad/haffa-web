@@ -70,6 +70,18 @@ export const createColumns = (
         headerName: phrase('DASHBOARD_HEADER_TITLE', fields.title?.label || ''),
     },
     {
+        field: 'reservedAt',
+        headerName: phrase('DASHBOARD_HEADER_RESERVEDAT', 'Reserverad'),
+    },
+    {
+        field: 'collectedAt',
+        headerName: phrase('DASHBOARD_HEADER_COLLECTEDAT', 'Hämtad'),
+    },
+    {
+        field: 'returnedAt',
+        headerName: phrase('DASHBOARD_HEADER_RETURNEDAT', 'Återlämnad'),
+    },
+    {
         field: 'category',
         sortable: false,
         headerName: phrase(

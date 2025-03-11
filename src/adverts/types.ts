@@ -207,6 +207,9 @@ export interface Advert extends AdvertUserFields {
     id: string
     type: AdvertType
     createdAt: string
+    reservedAt: string
+    collectedAt: string
+    returnedAt: string
 }
 
 export interface AdvertMutationStatus {

@@ -14,6 +14,9 @@ export const createRows = (
         tags: advert.tags,
         reference: advert.reference,
         notes: advert.notes,
+        reservedAt: advert.reservedAt.split('T')[0],
+        collectedAt: advert.collectedAt.split('T')[0],
+        returnedAt: advert.returnedAt.split('T')[0],
         place: advert.place,
         trackingName: advert.meta.claims
             .map(({ pickupLocation }) => pickupLocation?.trackingName)

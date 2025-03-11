@@ -46,6 +46,9 @@ export interface AdvertTableRow {
     trackingName: string
     lendingPeriod: number
     expectedReturnDate: string
+    reservedAt: string
+    collectedAt: string
+    returnedAt: string
     isOverdue: boolean
     isPicked: boolean
     visitLink: string
