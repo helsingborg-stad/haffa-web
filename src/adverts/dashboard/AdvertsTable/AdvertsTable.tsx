@@ -76,6 +76,13 @@ export const AdvertsTable: FC<{
             <DataGrid
                 getRowHeight={() => 'auto'}
                 slots={{ toolbar: GridToolbar }}
+                slotProps={{
+                    toolbar: {
+                        csvOptions: {
+                            fileName: new Date().toISOString(),
+                        },
+                    },
+                }}
                 disableColumnFilter
                 density={density}
                 onDensityChange={(density) => onDensityChange(density)}
