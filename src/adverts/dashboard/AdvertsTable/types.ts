@@ -58,7 +58,9 @@ export interface AdvertTableColumn {
     field: keyof AdvertTableRow
     align?: 'left' | 'right' | 'center'
     headerAlign?: 'left' | 'right' | 'center'
+    display?: 'flex' | 'text' | undefined
     type?: 'number' | 'string' | 'boolean'
+    disableExport?: boolean
     sortable?: boolean
     headerName?: string
     renderCell?: (value: any) => ReactElement

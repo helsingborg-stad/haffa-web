@@ -61,6 +61,7 @@ export const createColumns = (
         field: 'image',
         headerAlign: 'center',
         sortable: false,
+        disableExport: true,
         headerName: phrase('DASHBOARD_HEADER_IMAGE', 'Bild'),
         renderCell: ({ value: [imageUrl, advertUrl, density] }) =>
             createAdvertImage(imageUrl, advertUrl, density),
@@ -154,6 +155,7 @@ export const createColumns = (
         field: 'visitLink',
         align: 'center',
         sortable: false,
+        disableExport: true,
         headerName: phrase('DASHBOARD_HEADER_NAVIGATE', 'Gå till'),
         renderCell: ({ value }) => createLink(value, <OpenInBrowserIcon />),
     },
@@ -161,6 +163,7 @@ export const createColumns = (
         field: 'editLink',
         align: 'center',
         sortable: false,
+        disableExport: true,
         headerName: phrase('DASHBOARD_HEADER_EDIT', 'Redigera'),
         renderCell: ({ value }) => createLink(value, <EditIcon />),
     },
