@@ -23,7 +23,9 @@ const PAGE_SIZES = [10, 25, 50, 100]
 
 export const AdvertsTable: FC<{
     columns: AdvertTableColumn[]
-}> = ({ columns }) => {
+    density: GridDensity
+    onDensityChange: (density: GridDensity) => void
+}> = ({ columns, density, onDensityChange }) => {
     const context = useContext(AdvertsTableContext)
     const { selected, setSelected, filter, setFilter, adverts, paging } =
         context
@@ -34,11 +36,6 @@ export const AdvertsTable: FC<{
             'haffa-my-adverts-v2-visibility-model',
             columns.reduce((p, c) => ({ ...p, [c.field]: true }), {})
         )
-
-    const [density, onDensityChange] = useLocalStorage<GridDensity>(
-        'haffa-my-adverts-v2-density',
-        'standard'
-    )
     // Transform sort model to serverside model
     const onSortModelChange = useCallback(
         ([model]: GridSortModel) =>

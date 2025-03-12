@@ -2,10 +2,10 @@ import EventBusyIcon from '@mui/icons-material/EventBusy'
 import EditIcon from '@mui/icons-material/Edit'
 import OpenInBrowserIcon from '@mui/icons-material/OpenInBrowser'
 import CheckIcon from '@mui/icons-material/Check'
-import { Box, Stack, Typography } from '@mui/material'
+import { Box, IconButton, Stack, Typography } from '@mui/material'
 import { sortBy } from 'lib/sort-by'
 import { PhraseContextType } from 'phrases'
-import { NavLink } from 'react-router-dom'
+import { NavLink, useNavigate } from 'react-router-dom'
 import { ReactNode } from 'react'
 import {
     AdvertTableColumn,
@@ -18,28 +18,44 @@ export const createLink = (to: string | undefined, icon: ReactNode) => (
     </NavLink>
 )
 
-export const createAdvertImage = (
+export const densityFromString = (density?: string): number | undefined =>
+    ({
+        compact: 32,
+        standard: 48,
+        comfortable: 96,
+    }[density ?? 'standard'])
+
+export const CreateAdvertImage = (
     imageUrl?: string,
     advertUrl?: string,
     density?: string
 ) => {
-    const size = {
-        compact: 32,
-        standard: 48,
-        comfortable: 96,
-    }[density ?? 'standard']
+    const size = densityFromString(density)
 
-    return createLink(
-        advertUrl,
-        <Box
-            component="img"
-            src={imageUrl ?? '/empty-advert.svg'}
-            sx={{
-                height: size,
-                width: size,
-                objectFit: 'cover',
+    const nav = useNavigate()
+    return (
+        <IconButton
+            style={{
+                color: 'inherit',
             }}
-        />
+            onClick={() => nav(advertUrl ?? '')}
+            sx={{
+                borderRadius: 0,
+            }}
+        >
+            {createLink(
+                advertUrl,
+                <Box
+                    component="img"
+                    src={imageUrl ?? '/empty-advert.svg'}
+                    sx={{
+                        height: size,
+                        width: size,
+                        objectFit: 'cover',
+                    }}
+                />
+            )}
+        </IconButton>
     )
 }
 
@@ -55,16 +71,18 @@ const createTagList = (tags?: string[]) => (
 
 export const createColumns = (
     { categoryTree, fields }: AdvertsTableContextType,
-    phrase: PhraseContextType['phrase']
+    phrase: PhraseContextType['phrase'],
+    density: string
 ): AdvertTableColumn[] => [
     {
         field: 'image',
         headerAlign: 'center',
         sortable: false,
         disableExport: true,
+        width: (densityFromString(density) ?? 0) + 36,
         headerName: phrase('DASHBOARD_HEADER_IMAGE', 'Bild'),
         renderCell: ({ value: [imageUrl, advertUrl, density] }) =>
-            createAdvertImage(imageUrl, advertUrl, density),
+            CreateAdvertImage(imageUrl, advertUrl, density),
     },
     {
         field: 'title',

@@ -20,6 +20,8 @@ import { toMap } from 'lib/to-map'
 import { UrlParamsContext } from 'url-params'
 import { Terms } from 'terms/types'
 import { TermsContext, createEmptyTerms } from 'terms'
+import useLocalStorage from 'hooks/use-local-storage'
+import { GridDensity } from '@mui/x-data-grid'
 import { AdvertsTable, AdvertsTableContext, PAGE_SIZE } from './AdvertsTable'
 import { createColumns } from './createColumns'
 import { createSortableFields } from './createSortableFields'
@@ -217,6 +219,10 @@ export const AdvertsTableView: FC<{
         () => createBulkActions({ ...context, roles, phrase }),
         [context, roles, phrase]
     )
+    const [density, onDensityChange] = useLocalStorage<GridDensity>(
+        'haffa-my-adverts-v2-density',
+        'standard'
+    )
 
     return (
         <AdvertsTableContext.Provider value={context}>
@@ -229,7 +235,9 @@ export const AdvertsTableView: FC<{
                             <>
                                 <AdvertsTable
                                     key="resolved"
-                                    columns={createColumns(c, phrase)}
+                                    columns={createColumns(c, phrase, density)}
+                                    density={density}
+                                    onDensityChange={onDensityChange}
                                 />
                                 <BulkActions bulkActions={bulkActions} />
                             </>
