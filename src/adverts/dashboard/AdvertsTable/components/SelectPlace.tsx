@@ -44,8 +44,10 @@ export const SelectPlace: FC<{
                         <MenuItem value="">
                             {phrase('VALUE_EMPTY', '(inget värde)')}
                         </MenuItem>
-                        {places.map((p) => (
-                            <MenuItem value={p}>{p}</MenuItem>
+                        {places.map((p, key) => (
+                            <MenuItem key={key} value={p}>
+                                {p}
+                            </MenuItem>
                         ))}
                     </Select>
                 </FormControl>
