@@ -43,18 +43,15 @@ export const CreateAdvertImage = (
                 borderRadius: 0,
             }}
         >
-            {createLink(
-                advertUrl,
-                <Box
-                    component="img"
-                    src={imageUrl ?? '/empty-advert.svg'}
-                    sx={{
-                        height: size,
-                        width: size,
-                        objectFit: 'cover',
-                    }}
-                />
-            )}
+            <Box
+                component="img"
+                src={imageUrl ?? '/empty-advert.svg'}
+                sx={{
+                    height: size,
+                    width: size,
+                    objectFit: 'cover',
+                }}
+            />
         </IconButton>
     )
 }
