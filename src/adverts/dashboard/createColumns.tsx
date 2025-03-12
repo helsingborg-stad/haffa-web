@@ -38,7 +38,10 @@ export const CreateAdvertImage = (
             style={{
                 color: 'inherit',
             }}
-            onClick={() => nav(advertUrl ?? '')}
+            onClick={(ev) => {
+                ev.stopPropagation()
+                nav(advertUrl ?? '')
+            }}
             sx={{
                 borderRadius: 0,
             }}
