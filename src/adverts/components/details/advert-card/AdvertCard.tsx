@@ -216,7 +216,9 @@ export const AdvertCard: FC<{
 
             <ClaimsPanel advert={advert} terms={terms} onUpdate={onUpdate} />
             <EditorButtonsPanel advert={advert} onUpdate={onUpdate} />
-            <HistoryPanel advert={advert} />
+
+            {meta.canManageClaims && <HistoryPanel advert={advert} />}
+
             {meta.canEdit && roles.canUseQRCode && (
                 <QRCodePanel advert={advert} />
             )}
