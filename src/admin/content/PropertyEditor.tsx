@@ -15,6 +15,7 @@ import { Category } from 'categories/types'
 import { Fragment, useState } from 'react'
 import { isValidUrl } from 'lib/string-utils'
 import { createEmptyModule } from 'content/mappers'
+import { ColorSelect } from 'admin/theme/components/ColorSelect'
 import { Option } from '../../options/types'
 import { MultiOptionSelect } from './components/MultiOptionSelect'
 import { ImageBrowseButton } from './components/ImageBrowseButton'
@@ -185,15 +186,15 @@ export const PropertyEditor = (props: PropertyEditorProps) => {
                                 )
                             case 'background':
                                 return (
-                                    <TextField
+                                    <ColorSelect
+                                        allowEmpty
                                         fullWidth
+                                        disableAlpha
                                         key={i}
                                         label={labelFrom(v)}
                                         value={content[v]}
                                         error={!isValid(v, content[v])}
-                                        onChange={(c) =>
-                                            patch(v, c.target.value)
-                                        }
+                                        onColorChange={(c) => patch(v, c)}
                                     />
                                 )
                             case 'image':

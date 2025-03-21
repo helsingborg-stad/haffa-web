@@ -28,8 +28,17 @@ export const ColorSelect = ({
     onColorChange,
     ...props
 }: TextFieldProps &
-    SketchPickerProps & { onColorChange: (color: string) => void }) => {
-    const { key = nanoid(), label, value, disableAlpha } = props
+    SketchPickerProps & {
+        onColorChange: (color: string) => void
+        allowEmpty?: boolean
+    }) => {
+    const {
+        key = nanoid(),
+        label,
+        value,
+        disableAlpha,
+        allowEmpty = false,
+    } = props
     const [state, setState] = useState<{
         color: string
         isOpen: boolean
@@ -62,6 +71,13 @@ export const ColorSelect = ({
                                 sx={{ color: props.value as string }}
                                 onClick={onClose}
                             />
+                        </InputAdornment>
+                    ),
+                    endAdornment: allowEmpty && (
+                        <InputAdornment position="end">
+                            <Button onClick={() => onColorChange('')}>
+                                Ta bort
+                            </Button>
                         </InputAdornment>
                     ),
                 }}
