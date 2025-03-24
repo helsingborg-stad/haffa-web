@@ -1,10 +1,10 @@
-import { Card, CardContent, Typography } from '@mui/material'
+import { Button, Card, CardContent, Typography } from '@mui/material'
 import { Advert } from 'adverts/types'
 import { AuthContext } from 'auth'
 import { ErrorView } from 'errors'
 import { useLiveSearch } from 'hooks/use-live-search'
 import { PhraseContext } from 'phrases'
-import { FC, useContext } from 'react'
+import { FC, useContext, useState } from 'react'
 import { StatisticsContext } from 'statistics'
 import { ServerSideLogEvent } from 'statistics/types'
 import HistoryIcon from '@mui/icons-material/History'
@@ -16,8 +16,12 @@ import TimelineConnector from '@mui/lab/TimelineConnector'
 import TimelineContent from '@mui/lab/TimelineContent'
 import { sortBy } from 'lib/sort-by'
 
+const PAGE_SIZE = 5
+
 const EventsCard: FC<{ events: ServerSideLogEvent[] }> = ({ events }) => {
     const { prettyDate, phrase } = useContext(PhraseContext)
+    const [index, setIndex] = useState(PAGE_SIZE)
+
     return (
         <Card>
             <CardContent>
@@ -25,7 +29,7 @@ const EventsCard: FC<{ events: ServerSideLogEvent[] }> = ({ events }) => {
                     Historik
                 </Typography>
                 <Timeline>
-                    {events.map(({ event, at, by }, index) => (
+                    {events.slice(0, index).map(({ event, at, by }, index) => (
                         <TimelineItem key={index}>
                             <TimelineOppositeContent
                                 variant="body2"
@@ -49,6 +53,13 @@ const EventsCard: FC<{ events: ServerSideLogEvent[] }> = ({ events }) => {
                         </TimelineItem>
                     ))}
                 </Timeline>
+                <Button
+                    fullWidth
+                    disabled={index >= events.length}
+                    onClick={() => setIndex(index + PAGE_SIZE)}
+                >
+                    Visa mer...
+                </Button>
             </CardContent>
         </Card>
     )
