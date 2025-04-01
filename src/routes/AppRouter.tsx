@@ -48,6 +48,8 @@ import { TagsRepository } from 'tags/types'
 import { TagsContext } from 'tags'
 import { PickupLocationRepository } from 'pickup-locations/types'
 import { PickupLocationContext } from 'pickup-locations'
+import { StaticsticsProvider } from 'statistics/types'
+import { StatisticsContext } from 'statistics'
 import { ErrorRouteView } from './ErrorRouteView'
 
 const UnpackLoaderData: FC<{ render: (loaderData: any) => JSX.Element }> = ({
@@ -82,7 +84,8 @@ const createRouter = (
     { getFieldConfig }: AdvertFieldRepository,
     { getLocations }: LocationRepository,
     { getTagDescriptions }: TagsRepository,
-    { getPickupLocationsByAdvert }: PickupLocationRepository
+    { getPickupLocationsByAdvert }: PickupLocationRepository,
+    { getSummaries }: StaticsticsProvider
 ) => {
     // So many of the routes relies on
     // - an async fetch of some data
@@ -97,13 +100,19 @@ const createRouter = (
      * path: /
      */
     const createHomeProps = (): AsyncRouteConfig => ({
-        loader: () => getComposition(),
+        loader: () =>
+            Promise.all([getComposition(), getSummaries()]).then(
+                ([composition, summaries]) => ({ composition, summaries })
+            ),
         element: (
             <UnpackLoaderData
                 key="home"
-                render={(composition) => (
+                render={({ composition, summaries }) => (
                     <Layout key="home">
-                        <HomeView composition={composition} />
+                        <HomeView
+                            composition={composition}
+                            summaries={summaries}
+                        />
                     </Layout>
                 )}
             />
@@ -452,6 +461,7 @@ export const AppRouter: FC = () => {
     const phrase = useContext(PhraseContext)
     const tags = useContext(TagsContext)
     const pickuplocations = useContext(PickupLocationContext)
+    const summaries = useContext(StatisticsContext)
     const [router] = useState(
         createRouter(
             auth,
@@ -464,7 +474,8 @@ export const AppRouter: FC = () => {
             fields,
             locations,
             tags,
-            pickuplocations
+            pickuplocations,
+            summaries
         )
     )
     return <RouterProvider router={router} />

@@ -17,7 +17,7 @@ const gqlFetch = (options: FluentGqlOptions) =>
 
 const gqlFetchMap = <T>(
     options: FluentGqlOptions,
-    property: string
+    property?: string
 ): Promise<T> =>
     gqlFetch(options).then(({ data, errors }) => {
         const [error] = [...(errors || [])].map((error) =>
@@ -26,7 +26,7 @@ const gqlFetchMap = <T>(
         if (error) {
             throw error
         }
-        return data[property] as T
+        return (property ? data[property] : data) as T
     })
 
 export const gqlClient = (
@@ -44,7 +44,7 @@ export const gqlClient = (
     headers: (headers) => gqlClient({ ...options, headers }),
     query: (query) => gqlClient({ ...options, query }),
     variables: (variables) => gqlClient({ ...options, variables }),
-    map: <T>(property: string, fixup?: (value: T) => T) =>
+    map: <T>(property?: string, fixup?: (value: T) => T) =>
         gqlFetchMap<T>(options, property).then((value) =>
             fixup ? fixup(value) : value
         ),

@@ -12,6 +12,8 @@ import { Markdown } from 'components/Markdown'
 import { PropsWithChildren } from 'react'
 import { isValidColor, isValidString, isYoutubeUrl } from 'lib/string-utils'
 import { Variant } from '@mui/material/styles/createTypography'
+import { compile } from 'handlebars'
+import { Summaries } from 'statistics/types'
 import { ContentModule } from '../types'
 
 const getStackDirection = (position: ContentModule['position']): any =>
@@ -26,9 +28,18 @@ const getStackDirection = (position: ContentModule['position']): any =>
     }[position] ?? 'column')
 
 export const ContentCard = (
-    props: PropsWithChildren & { module: ContentModule }
+    props: PropsWithChildren & { module: ContentModule; summaries: Summaries }
 ) => {
-    const { module } = props
+    const summaries = {
+        ...props.summaries.advertSummaries,
+        ...props.summaries.eventSummaries,
+    }
+
+    const module = {
+        ...props.module,
+        title: compile(props.module.title)(summaries),
+        body: compile(props.module.body)(summaries),
+    }
 
     const borderLess =
         module.border === 'false'

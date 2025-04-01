@@ -1,6 +1,10 @@
 import { gqlClient } from 'graphql'
-import { ServerSideLogEvent, StaticsticsProvider } from './types'
-import { getAdvertEventsQuery, getEventsQuery } from './queries'
+import { Summaries, ServerSideLogEvent, StaticsticsProvider } from './types'
+import {
+    getAdvertEventsQuery,
+    getSummariesQuery,
+    getEventsQuery,
+} from './queries'
 
 const gql = (token: string, f?: typeof fetch, init?: RequestInit) =>
     gqlClient()
@@ -22,4 +26,5 @@ export const createStatisticsProvider = (
             .query(getAdvertEventsQuery)
             .variables({ advertId })
             .map<ServerSideLogEvent[]>('advertEvents'),
+    getSummaries: () => gql(token, f).query(getSummariesQuery).map<Summaries>(),
 })

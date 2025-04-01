@@ -30,3 +30,21 @@ export const getAdvertEventsQuery = /* GraphQL */ `
         }
     }
 `
+
+export const getSummariesQuery = /* GraphQL */ `
+    query Query {
+        eventSummaries {
+            totalCo2
+            totalCollects
+            totalValue
+        }
+        advertSummaries {
+            availableLendingAdverts
+            collectedAdverts
+            recycleAdverts
+            reservedAdverts
+            totalAdverts
+            totalLendingAdverts
+        }
+    }
+`
