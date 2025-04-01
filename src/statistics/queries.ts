@@ -39,12 +39,13 @@ export const getSummariesQuery = /* GraphQL */ `
             totalValue
         }
         advertSummaries {
-            availableLendingAdverts
-            collectedAdverts
-            recycleAdverts
-            reservedAdverts
-            totalAdverts
             totalLendingAdverts
+            totalRecycleAdverts
+            availableLendingAdverts
+            availableRecycleAdverts
+            totalAdverts
+            reservedAdverts
+            collectedAdverts
         }
     }
 `

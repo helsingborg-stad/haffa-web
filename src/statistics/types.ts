@@ -30,8 +30,9 @@ export interface Summaries {
     }
     advertSummaries: {
         totalLendingAdverts: number
+        totalRecycleAdverts: number
         availableLendingAdverts: number
-        recycleAdverts: number
+        availableRecycleAdverts: number
         totalAdverts: number
         reservedAdverts: number
         collectedAdverts: number

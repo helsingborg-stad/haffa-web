@@ -11,8 +11,9 @@ export const normalizeSummaries = (
     },
     advertSummaries: {
         totalLendingAdverts: 0,
+        totalRecycleAdverts: 0,
         availableLendingAdverts: 0,
-        recycleAdverts: 0,
+        availableRecycleAdverts: 0,
         totalAdverts: 0,
         reservedAdverts: 0,
         collectedAdverts: 0,
