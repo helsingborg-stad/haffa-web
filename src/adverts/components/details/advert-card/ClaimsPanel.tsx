@@ -368,28 +368,33 @@ export const ClaimCard: FC<{
                             }
                         )}
                 </Typography>
-                <List dense>
-                    {claim.events
-                        .filter((c) => c.type === AdvertClaimEventType.reminder)
-                        .map((event, i) => (
-                            <ListItem key={i}>
-                                <ListItemIcon>
-                                    <NotificationsActiveOutlinedIcon />
-                                </ListItemIcon>
-                                <ListItemText
-                                    primary={phrase(
-                                        claim.type === AdvertClaimType.reserved
-                                            ? 'ADVERT_CLAIM_RESERVE_REMINDER'
-                                            : 'ADVERT_CLAIM_COLLECT_REMINDER',
-                                        'Påminnelse skickad'
-                                    )}
-                                    secondary={new Date(
-                                        event.at
-                                    ).toLocaleDateString()}
-                                />
-                            </ListItem>
-                        ))}
-                </List>
+                {claim.events && (
+                    <List dense>
+                        {claim.events
+                            .filter(
+                                (c) => c.type === AdvertClaimEventType.reminder
+                            )
+                            .map((event, i) => (
+                                <ListItem key={i}>
+                                    <ListItemIcon>
+                                        <NotificationsActiveOutlinedIcon />
+                                    </ListItemIcon>
+                                    <ListItemText
+                                        primary={phrase(
+                                            claim.type ===
+                                                AdvertClaimType.reserved
+                                                ? 'ADVERT_CLAIM_RESERVE_REMINDER'
+                                                : 'ADVERT_CLAIM_COLLECT_REMINDER',
+                                            'Påminnelse skickad'
+                                        )}
+                                        secondary={new Date(
+                                            event.at
+                                        ).toLocaleDateString()}
+                                    />
+                                </ListItem>
+                            ))}
+                    </List>
+                )}
             </CardContent>
             <CardActions>
                 <ActionButtons
