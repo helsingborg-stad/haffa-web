@@ -10,6 +10,7 @@ export const getCompositionQuery = /* GraphQL */ `
                         align
                         border
                         background
+                        color
                         categories
                         image
                         alt
@@ -35,6 +36,7 @@ export const updateCompositionMutation = /* GraphQL */ `
                         align
                         border
                         background
+                        color
                         categories
                         image
                         alt

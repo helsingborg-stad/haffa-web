@@ -53,12 +53,19 @@ export const ContentCard = (
           }
         : {}
 
+    const color = isValidColor(module.color)
+        ? {
+              color: module.color,
+          }
+        : {}
+
     return (
         <Card
             sx={{
                 height: '100%',
                 position: 'relative',
                 ...background,
+                ...color,
                 ...borderLess,
             }}
         >

@@ -40,6 +40,7 @@ const labelFrom = (key: keyof ContentModule): string =>
         align: 'Textjustering',
         border: 'Ram',
         background: 'Bakgrundsfärg',
+        color: 'Färg',
         image: 'Bild',
         alt: 'Alt-text',
         position: 'Bildposition',
@@ -142,6 +143,19 @@ export const PropertyEditor = (props: PropertyEditorProps) => {
                                         onChange={(c) =>
                                             patch(v, c.target.value)
                                         }
+                                    />
+                                )
+                            case 'color':
+                                return (
+                                    <ColorSelect
+                                        allowEmpty
+                                        fullWidth
+                                        disableAlpha
+                                        key={i}
+                                        label={labelFrom(v)}
+                                        value={content[v]}
+                                        error={!isValid(v, content[v])}
+                                        onColorChange={(c) => patch(v, c)}
                                     />
                                 )
                             case 'align':
