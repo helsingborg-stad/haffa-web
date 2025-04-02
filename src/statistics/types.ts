@@ -6,6 +6,7 @@ export interface StaticsticsProvider {
     getServerSideAdvertEventLog: (
         advertId: string
     ) => Promise<ServerSideLogEvent[]>
+    getSummaries: () => Promise<Summaries>
 }
 
 export interface ServerSideLogEvent {
@@ -19,4 +20,21 @@ export interface ServerSideLogEvent {
     category?: string
     co2kg?: number
     valueByUnit?: number
+}
+
+export interface Summaries {
+    eventSummaries: {
+        totalCo2: number
+        totalValue: number
+        totalCollects: number
+    }
+    advertSummaries: {
+        totalLendingAdverts: number
+        totalRecycleAdverts: number
+        availableLendingAdverts: number
+        availableRecycleAdverts: number
+        totalAdverts: number
+        reservedAdverts: number
+        collectedAdverts: number
+    }
 }

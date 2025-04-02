@@ -10,6 +10,7 @@ export const StatisticsContext = createContext<StaticsticsProvider>({
     getServerSideAdvertEventLog: notProvided(
         'getAdvertServerSideAdvertEventLog'
     ),
+    getSummaries: notProvided('getSummaries'),
 })
 
 export const StatisticsProvider: FC<

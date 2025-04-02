@@ -20,6 +20,7 @@ import { AdminActionPanel } from 'components/AdminActionPanel'
 import { AdminEditorialPanel } from 'components/AdminEditorialPanel'
 import { Editorial } from 'editorials'
 import { createEmptyModule } from 'content/mappers'
+import { Summaries } from 'statistics/types'
 import { PropertyEditor } from './PropertyEditor'
 
 type Cell = {
@@ -53,9 +54,10 @@ export const EditContentForm = (props: {
     terms: Terms
     categories: Category[]
     page: ViewComposition
+    summaries: Summaries
     update: ContentRepository['updateComposition']
 }) => {
-    const { update, page, categories, terms } = props
+    const { update, page, categories, terms, summaries } = props
 
     const [selectedModule, setSelectedModule] = useState<Cell | undefined>()
     const [rows, setRows] = useState(page.rows)
@@ -211,7 +213,10 @@ export const EditContentForm = (props: {
                             xs={12}
                             md={12 / row.columns.length}
                         >
-                            <ContentCard module={column.module}>
+                            <ContentCard
+                                module={column.module}
+                                summaries={summaries}
+                            >
                                 {renderCardActions(
                                     { row: rowIndex, col: colIndex },
                                     {
