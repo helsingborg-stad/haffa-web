@@ -23,7 +23,12 @@ export interface ServerSideLogEvent {
 }
 
 export interface Summaries {
-    eventSummaries: {
+    eventsFromStart: {
+        totalCo2: number
+        totalValue: number
+        totalCollects: number
+    }
+    eventsThisYear: {
         totalCo2: number
         totalValue: number
         totalCollects: number

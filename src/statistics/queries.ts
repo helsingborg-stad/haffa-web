@@ -32,8 +32,13 @@ export const getAdvertEventsQuery = /* GraphQL */ `
 `
 
 export const getSummariesQuery = /* GraphQL */ `
-    query Query {
-        eventSummaries {
+    query Query($yearStart: String) {
+        eventsFromStart: eventSummaries {
+            totalCo2
+            totalCollects
+            totalValue
+        }
+        eventsThisYear: eventSummaries(from: $yearStart) {
             totalCo2
             totalCollects
             totalValue

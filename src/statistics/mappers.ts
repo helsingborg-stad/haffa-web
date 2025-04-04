@@ -3,11 +3,17 @@ import { Summaries } from './types'
 export const normalizeSummaries = (
     summaries?: Partial<Summaries>
 ): Summaries => ({
-    eventSummaries: {
+    eventsFromStart: {
         totalCo2: 0,
         totalValue: 0,
         totalCollects: 0,
-        ...summaries?.eventSummaries,
+        ...summaries?.eventsFromStart,
+    },
+    eventsThisYear: {
+        totalCo2: 0,
+        totalValue: 0,
+        totalCollects: 0,
+        ...summaries?.eventsThisYear,
     },
     advertSummaries: {
         totalLendingAdverts: 0,

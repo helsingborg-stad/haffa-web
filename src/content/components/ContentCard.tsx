@@ -30,15 +30,10 @@ const getStackDirection = (position: ContentModule['position']): any =>
 export const ContentCard = (
     props: PropsWithChildren & { module: ContentModule; summaries: Summaries }
 ) => {
-    const summaries = {
-        ...props.summaries.advertSummaries,
-        ...props.summaries.eventSummaries,
-    }
-
     const module = {
         ...props.module,
-        title: compile(props.module.title)(summaries),
-        body: compile(props.module.body)(summaries),
+        title: compile(props.module.title)(props.summaries),
+        body: compile(props.module.body)(props.summaries),
     }
 
     const borderLess =

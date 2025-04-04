@@ -30,6 +30,9 @@ export const createStatisticsProvider = (
     getSummaries: () =>
         gql(token, f)
             .query(getSummariesQuery)
+            .variables({
+                yearStart: new Date(new Date().getFullYear(), 0).toISOString(),
+            })
             .map<Summaries>()
             .then((summaries) => normalizeSummaries(summaries)),
 })
