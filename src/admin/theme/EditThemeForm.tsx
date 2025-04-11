@@ -5,6 +5,7 @@ import {
     Avatar,
     AvatarProps,
     Box,
+    Button,
     ButtonProps,
     Card,
     CardContent,
@@ -13,10 +14,12 @@ import {
     FormControlLabel,
     FormLabel,
     Grid,
+    InputAdornment,
     MenuItem,
     PaperProps,
     Radio,
     RadioGroup,
+    TextField,
     TextFieldProps,
     ThemeProvider,
     Typography,
@@ -38,6 +41,7 @@ import { CreateMenuItems, RegularSelect } from './components/RegularSelect'
 import { PreviewButton } from './preview/Button'
 import { PreviewAlert } from './preview/Alert'
 import { PreviewTextField } from './preview/TextField'
+import { FontSelect } from './components/FontSelect'
 
 const MAX_FILE_SIZE = 1024 * 1024
 
@@ -82,11 +86,14 @@ export const EditThemeForm: FC<{
 }> = ({ options, onUpdate }) => {
     const [model, setModel] = useState<ThemeModel>(createThemeModel(options))
 
-    const apply = (name: keyof ThemeModel, value: string) =>
+    const apply = (values: Partial<ThemeModel>) =>
         setModel({
             ...model,
-            [name]: value,
+            ...values,
         })
+
+    const [fontDialogVisible, setFontDialogVisible] = useState<boolean>(false)
+
     return (
         <>
             <AdminEditorialPanel
@@ -112,7 +119,7 @@ export const EditThemeForm: FC<{
                                     value={model['palette.primary']}
                                     disableAlpha
                                     onColorChange={(color) =>
-                                        apply('palette.primary', color)
+                                        apply({ 'palette.primary': color })
                                     }
                                 />
                             </Grid>
@@ -122,7 +129,7 @@ export const EditThemeForm: FC<{
                                     value={model['palette.secondary']}
                                     disableAlpha
                                     onColorChange={(color) =>
-                                        apply('palette.secondary', color)
+                                        apply({ 'palette.secondary': color })
                                     }
                                 />
                             </Grid>
@@ -132,7 +139,7 @@ export const EditThemeForm: FC<{
                                     value={model['palette.info']}
                                     disableAlpha
                                     onColorChange={(color) =>
-                                        apply('palette.info', color)
+                                        apply({ 'palette.info': color })
                                     }
                                 />
                             </Grid>
@@ -142,7 +149,7 @@ export const EditThemeForm: FC<{
                                     value={model['palette.warning']}
                                     disableAlpha
                                     onColorChange={(color) =>
-                                        apply('palette.warning', color)
+                                        apply({ 'palette.warning': color })
                                     }
                                 />
                             </Grid>
@@ -152,7 +159,7 @@ export const EditThemeForm: FC<{
                                     value={model['palette.error']}
                                     disableAlpha
                                     onColorChange={(color) =>
-                                        apply('palette.error', color)
+                                        apply({ 'palette.error': color })
                                     }
                                 />
                             </Grid>
@@ -162,7 +169,7 @@ export const EditThemeForm: FC<{
                                     value={model['palette.success']}
                                     disableAlpha
                                     onColorChange={(color) =>
-                                        apply('palette.success', color)
+                                        apply({ 'palette.success': color })
                                     }
                                 />
                             </Grid>
@@ -172,7 +179,7 @@ export const EditThemeForm: FC<{
                                     value={model['palette.background']}
                                     disableAlpha
                                     onColorChange={(color) =>
-                                        apply('palette.background', color)
+                                        apply({ 'palette.background': color })
                                     }
                                 />
                             </Grid>
@@ -182,7 +189,7 @@ export const EditThemeForm: FC<{
                                     value={model['palette.paper']}
                                     disableAlpha
                                     onColorChange={(color) =>
-                                        apply('palette.paper', color)
+                                        apply({ 'palette.paper': color })
                                     }
                                 />
                             </Grid>
@@ -245,7 +252,7 @@ export const EditThemeForm: FC<{
                                     label="Primär textfärg"
                                     value={model['palette.text.primary']}
                                     onColorChange={(color) =>
-                                        apply('palette.text.primary', color)
+                                        apply({ 'palette.text.primary': color })
                                     }
                                 />
                             </Grid>
@@ -254,7 +261,9 @@ export const EditThemeForm: FC<{
                                     label="Sekundär textfärg"
                                     value={model['palette.text.secondary']}
                                     onColorChange={(color) =>
-                                        apply('palette.text.secondary', color)
+                                        apply({
+                                            'palette.text.secondary': color,
+                                        })
                                     }
                                 />
                             </Grid>
@@ -263,7 +272,9 @@ export const EditThemeForm: FC<{
                                     label="Inaktiverad textfärg"
                                     value={model['palette.text.disabled']}
                                     onColorChange={(color) =>
-                                        apply('palette.text.disabled', color)
+                                        apply({
+                                            'palette.text.disabled': color,
+                                        })
                                     }
                                 />
                             </Grid>
@@ -272,10 +283,9 @@ export const EditThemeForm: FC<{
                                     label="Storlek brödtext"
                                     value={model['typography.body1.fontsize']}
                                     onChange={({ target: { value } }) =>
-                                        apply(
-                                            'typography.body1.fontsize',
-                                            value
-                                        )
+                                        apply({
+                                            'typography.body1.fontsize': value,
+                                        })
                                     }
                                 >
                                     {CreateMenuItems([
@@ -289,7 +299,10 @@ export const EditThemeForm: FC<{
                                     label="Skuggning kort"
                                     value={model['component.paper.variant']}
                                     onChange={({ target: { value } }) =>
-                                        apply('component.paper.variant', value)
+                                        apply({
+                                            'component.paper.variant':
+                                                value as PaperProps['variant'],
+                                        })
                                     }
                                 >
                                     {CreateMenuItems<PaperProps['variant']>([
@@ -303,7 +316,7 @@ export const EditThemeForm: FC<{
                                     label="Radie på komponenter"
                                     value={model['shape.radius']}
                                     onChange={({ target: { value } }) =>
-                                        apply('shape.radius', value)
+                                        apply({ 'shape.radius': value })
                                     }
                                 >
                                     {arrayWithNumbers(25).map((i) => (
@@ -328,7 +341,10 @@ export const EditThemeForm: FC<{
                                     label="Skuggning"
                                     value={model['component.appbar.variant']}
                                     onChange={({ target: { value } }) =>
-                                        apply('component.appbar.variant', value)
+                                        apply({
+                                            'component.appbar.variant':
+                                                value as AppBarProps['variant'],
+                                        })
                                     }
                                 >
                                     {CreateMenuItems<AppBarProps['variant']>([
@@ -342,7 +358,9 @@ export const EditThemeForm: FC<{
                                     label="Ram"
                                     value={model['component.appbar.border']}
                                     onChange={({ target: { value } }) =>
-                                        apply('component.appbar.border', value)
+                                        apply({
+                                            'component.appbar.border': value,
+                                        })
                                     }
                                 >
                                     {CreateMenuItems([
@@ -356,7 +374,10 @@ export const EditThemeForm: FC<{
                                     label="Färg"
                                     value={model['component.appbar.color']}
                                     onChange={({ target: { value } }) =>
-                                        apply('component.appbar.color', value)
+                                        apply({
+                                            'component.appbar.color':
+                                                value as AppBarProps['color'],
+                                        })
                                     }
                                 >
                                     {CreateMenuItems<AppBarProps['color']>([
@@ -383,7 +404,10 @@ export const EditThemeForm: FC<{
                                     label="Variant"
                                     value={model['component.avatar.variant']}
                                     onChange={({ target: { value } }) =>
-                                        apply('component.avatar.variant', value)
+                                        apply({
+                                            'component.avatar.variant':
+                                                value as AvatarProps['variant'],
+                                        })
                                     }
                                 >
                                     {CreateMenuItems<AvatarProps['variant']>([
@@ -399,7 +423,9 @@ export const EditThemeForm: FC<{
                                     value={model['component.avatar.color']}
                                     disableAlpha
                                     onColorChange={(color) =>
-                                        apply('component.avatar.color', color)
+                                        apply({
+                                            'component.avatar.color': color,
+                                        })
                                     }
                                 />
                             </Grid>
@@ -409,7 +435,9 @@ export const EditThemeForm: FC<{
                                     value={model['component.avatar.bgcolor']}
                                     disableAlpha
                                     onColorChange={(color) =>
-                                        apply('component.avatar.bgcolor', color)
+                                        apply({
+                                            'component.avatar.bgcolor': color,
+                                        })
                                     }
                                 />
                             </Grid>
@@ -423,7 +451,9 @@ export const EditThemeForm: FC<{
                                     label="Bildförhållande"
                                     value={model['advert.image.aspectRatio']}
                                     onChange={({ target: { value } }) =>
-                                        apply('advert.image.aspectRatio', value)
+                                        apply({
+                                            'advert.image.aspectRatio': value,
+                                        })
                                     }
                                 >
                                     {CreateMenuItems([
@@ -457,7 +487,9 @@ export const EditThemeForm: FC<{
                                     <ImageBrowseButton
                                         maxSize={MAX_FILE_SIZE}
                                         onUpdate={(e) =>
-                                            apply('custom.image.logotype', e)
+                                            apply({
+                                                'custom.image.logotype': e,
+                                            })
                                         }
                                     />
                                 </Box>
@@ -472,10 +504,9 @@ export const EditThemeForm: FC<{
                                     label="Skuggning"
                                     value={model['component.button.elevation']}
                                     onChange={({ target: { value } }) =>
-                                        apply(
-                                            'component.button.elevation',
-                                            value
-                                        )
+                                        apply({
+                                            'component.button.elevation': value,
+                                        })
                                     }
                                 >
                                     {CreateMenuItems([
@@ -489,7 +520,9 @@ export const EditThemeForm: FC<{
                                     label="Radie"
                                     value={model['component.button.radius']}
                                     onChange={({ target: { value } }) =>
-                                        apply('component.button.radius', value)
+                                        apply({
+                                            'component.button.radius': value,
+                                        })
                                     }
                                 >
                                     {arrayWithNumbers(25).map((i) => (
@@ -543,7 +576,10 @@ export const EditThemeForm: FC<{
                                 name="radio-buttons-group"
                                 value={model['component.alert.variant']}
                                 onChange={({ target: { value } }) =>
-                                    apply('component.alert.variant', value)
+                                    apply({
+                                        'component.alert.variant':
+                                            value as AlertProps['variant'],
+                                    })
                                 }
                             >
                                 <FormControlLabel
@@ -583,7 +619,10 @@ export const EditThemeForm: FC<{
                                 name="radio-buttons-group"
                                 value={model['component.textfield.variant']}
                                 onChange={({ target: { value } }) =>
-                                    apply('component.textfield.variant', value)
+                                    apply({
+                                        'component.textfield.variant':
+                                            value as TextFieldProps['variant'],
+                                    })
                                 }
                             >
                                 <FormControlLabel
@@ -613,6 +652,54 @@ export const EditThemeForm: FC<{
                                 variant: model['component.textfield.variant'],
                             })
                         )}
+                        <Typography variant="h6" py={2}>
+                            Typsnitt
+                        </Typography>
+                        <Grid item xs={12} sm={2} pr={1}>
+                            <TextField
+                                key="font"
+                                label="Familj"
+                                value={
+                                    model[
+                                        'cssbaseline.styleoverrides.fontface'
+                                    ] || model['typography.font.family']
+                                }
+                                disabled
+                                fullWidth
+                                variant="outlined"
+                                InputProps={{
+                                    endAdornment: (
+                                        <InputAdornment position="end">
+                                            <Button
+                                                onClick={() =>
+                                                    setFontDialogVisible(true)
+                                                }
+                                            >
+                                                Ändra
+                                            </Button>
+                                        </InputAdornment>
+                                    ),
+                                }}
+                            />
+                            <FontSelect
+                                open={fontDialogVisible}
+                                initialValue={{
+                                    fontFamily: model['typography.font.family'],
+                                    src: model[
+                                        'cssbaseline.styleoverrides.fontface'
+                                    ],
+                                }}
+                                onClose={() => setFontDialogVisible(false)}
+                                onUpdate={({ fontFamily, src }) => {
+                                    setFontDialogVisible(false)
+                                    apply({
+                                        'typography.font.family': fontFamily,
+                                        'cssbaseline.styleoverrides.fontface':
+                                            src,
+                                    })
+                                }}
+                            />
+                        </Grid>
                     </ThemeProvider>
                 </CardContent>
             </Card>

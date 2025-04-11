@@ -45,4 +45,6 @@ export interface ThemeModel {
     'typography.body1.fontsize': string
     'custom.image.logotype': string
     'shape.radius': string
+    'typography.font.family': string
+    'cssbaseline.styleoverrides.fontface': string
 }
