@@ -38,6 +38,7 @@ export interface Summaries {
         totalRecycleAdverts: number
         availableLendingAdverts: number
         availableRecycleAdverts: number
+        availableAdverts: number
         totalAdverts: number
         reservedAdverts: number
         collectedAdverts: number

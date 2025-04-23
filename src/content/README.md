@@ -16,6 +16,7 @@ enterad using handlebar notation. eg {{ eventsFromStart.totalCollects }}
 | totalRecycleAdverts     | The total number of lending adverts currently in repository, archived excluded    |
 | availableLendingAdverts | The number of adverts currently available for lending                             |
 | availableRecycleAdverts | The number of adverts currently available for recycling                           |
+| availableAdverts        | The number of adverts currently available for recycling and ledning               |
 | totalAdverts            | The total number of adverts currently in repository, archived excluded            |
 | collectedAdverts        | The number of adverts that are currently collected                                |
 | reservedAdverts         | The number of adverts that are currently reserved                                 |

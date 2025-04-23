@@ -48,6 +48,7 @@ export const getSummariesQuery = /* GraphQL */ `
             totalRecycleAdverts
             availableLendingAdverts
             availableRecycleAdverts
+            availableAdverts
             totalAdverts
             reservedAdverts
             collectedAdverts
