@@ -1,5 +1,5 @@
-import { createContext, FC, PropsWithChildren } from 'react'
-import { TagsRepository } from './types'
+import { createContext, type FC, type PropsWithChildren } from 'react'
+import type { TagsRepository } from './types'
 
 const notProvided = (method: string) => () => {
     throw new Error(`TagsContext::${method} is not provided`)

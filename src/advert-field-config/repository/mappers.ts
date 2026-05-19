@@ -1,11 +1,11 @@
 import {
-    AdvertFieldConfig,
+    type AdvertFieldConfig,
     ConfigurableFields,
-    FieldConfig,
+    type FieldConfig,
     FieldLabels,
-    FieldName,
+    type FieldName,
 } from 'advert-field-config/types'
-import { AdvertContact, AdvertInput, AdvertLocation } from 'adverts'
+import type { AdvertContact, AdvertInput, AdvertLocation } from 'adverts'
 import { isValidString } from 'lib/string-utils'
 
 export const getFieldConfig = (name: FieldName) => ({

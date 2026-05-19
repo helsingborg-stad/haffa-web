@@ -1,7 +1,7 @@
 import { ErrorView } from 'errors'
 import useAsync from 'hooks/use-async'
 import { LoginPoliciesContext } from 'login-policies'
-import { FC, useContext } from 'react'
+import { type FC, useContext } from 'react'
 import { UserMappingConfigurationForm } from './UserMappingConfigurationForm'
 
 export const EditPublicAccessView: FC = () => {

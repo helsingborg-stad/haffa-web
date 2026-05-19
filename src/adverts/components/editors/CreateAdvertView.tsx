@@ -1,18 +1,18 @@
-import { FC, useCallback, useContext } from 'react'
-import { Profile } from 'profile'
-import { Terms } from 'terms/types'
-import { AdvertFieldConfig } from 'advert-field-config/types'
 import { setAdvertDefaults } from 'advert-field-config/repository/mappers'
-import { AdvertInput, AdvertLocation } from '../../types'
-import { AdvertsContext } from '../../AdvertsContext'
+import type { AdvertFieldConfig } from 'advert-field-config/types'
+import type { Profile } from 'profile'
+import { type FC, useCallback, useContext } from 'react'
+import type { Terms } from 'terms/types'
+import type { Category } from '../../../categories/types'
 import { PhraseContext } from '../../../phrases/PhraseContext'
+import { AdvertsContext } from '../../AdvertsContext'
 import {
     createEmptyAdvertInput,
     sanitizeAdvertContact,
     sanitizeAdvertLocation,
 } from '../../repository/mappers'
+import type { AdvertInput, AdvertLocation } from '../../types'
 import { AdvertEditor } from './AdvertEditor'
-import { Category } from '../../../categories/types'
 
 export const CreateAdvertView: FC<{
     terms: Terms

@@ -1,26 +1,29 @@
+import { Pagination, Stack, type SxProps, type Theme } from '@mui/material'
+import type { AdvertFilterInput, AdvertList } from 'adverts'
+import { Editorial } from 'editorials'
+import { getAdvertFieldSortOptions } from 'hard-coded-config'
+import useAbortController from 'hooks/use-abort-controller'
+import { createTreeAdapter } from 'lib/tree-adapter'
+import { PhraseContext } from 'phrases'
 import {
-    FC,
-    PropsWithChildren,
+    type FC,
+    type PropsWithChildren,
     useCallback,
     useContext,
     useEffect,
     useMemo,
     useState,
 } from 'react'
-import { Pagination, Stack, SxProps, Theme } from '@mui/material'
-import { AdvertFilterInput, AdvertList } from 'adverts'
-import useAbortController from 'hooks/use-abort-controller'
-import { createTreeAdapter } from 'lib/tree-adapter'
 import { AdvertSubscriptionControls } from 'subscriptions'
 import { UrlParamsContext } from 'url-params'
-import { getAdvertFieldSortOptions } from 'hard-coded-config'
-import { PhraseContext } from 'phrases'
-import { Editorial } from 'editorials'
-import { AdvertsContext } from '../../AdvertsContext'
-import { AdvertsList } from './AdvertsList'
 import { ErrorView } from '../../../errors'
+import {
+    type AsyncEnqueue,
+    useLiveSearch,
+} from '../../../hooks/use-live-search'
+import { AdvertsContext } from '../../AdvertsContext'
 import { SearchableAdvertsList } from '../filter'
-import { AsyncEnqueue, useLiveSearch } from '../../../hooks/use-live-search'
+import { AdvertsList } from './AdvertsList'
 
 const PAGE_SIZE = 24
 
@@ -138,7 +141,7 @@ export const AdvertsListWithSearch: FC<
         // ensure new results are shown
         // in particular, last page might have fewer ads, so a scroll reset is needed
         scrollTopOnFilterChange && window.scrollTo(0, 0)
-    }, [scrollTopOnFilterChange, searchParamsRaw])
+    }, [scrollTopOnFilterChange])
 
     const setSearchParams = useCallback(
         (p: AdvertFilterInput) => {
@@ -147,7 +150,7 @@ export const AdvertsListWithSearch: FC<
                 sortableFields,
             })
         },
-        [setSearchParamsRaw]
+        [sortableFields, updateUrlFromAdvertFilterInput, prefix]
     )
 
     const searchParams = searchParamsRaw
@@ -223,7 +226,7 @@ export const AdvertsListWithSearch: FC<
                 />
             </SearchableAdvertsList>
         ),
-        [searchParams, setSearchParams, changed]
+        [searchParams, changed, showSubscriptionOptions, hideFilter]
     )
 
     return view({

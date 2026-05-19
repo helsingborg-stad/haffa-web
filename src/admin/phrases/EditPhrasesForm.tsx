@@ -1,4 +1,3 @@
-import { FC, useCallback, useContext, useState } from 'react'
 import {
     Card,
     CardContent,
@@ -10,11 +9,12 @@ import {
     TableRow,
     TextField,
 } from '@mui/material'
-import { PhraseContext } from 'phrases'
-import { toMap } from 'lib/to-map'
-import { PhraseDefinition } from 'phrases/types'
 import { AdminActionPanel } from 'components/AdminActionPanel'
 import { AdminEditorialPanel } from 'components/AdminEditorialPanel'
+import { toMap } from 'lib/to-map'
+import { PhraseContext } from 'phrases'
+import type { PhraseDefinition } from 'phrases/types'
+import { type FC, useCallback, useContext, useState } from 'react'
 import type { Option } from '../../options/types'
 
 export const EditPhrasesForm: FC<{
@@ -61,7 +61,7 @@ export const EditPhrasesForm: FC<{
                 ],
             })
         },
-        [model, setModel]
+        [model]
     )
 
     const updateSearch = useCallback(
@@ -79,7 +79,7 @@ export const EditPhrasesForm: FC<{
                 })),
             })
         },
-        [model, setModel]
+        [model]
     )
     const update = () =>
         onUpdate(
@@ -165,8 +165,7 @@ export const EditPhrasesForm: FC<{
                                                         }
                                                         {...(m.multiline
                                                             ? {
-                                                                  multiline:
-                                                                      true,
+                                                                  multiline: true,
                                                                   rows: 4,
                                                               }
                                                             : {})}

@@ -1,7 +1,7 @@
 import { gqlClient } from 'graphql'
-import type { ContentRepository, ViewComposition } from './types'
-import { getCompositionQuery, updateCompositionMutation } from './queries'
 import { normalizeComposition } from './mappers'
+import { getCompositionQuery, updateCompositionMutation } from './queries'
+import type { ContentRepository, ViewComposition } from './types'
 
 const gql = (token: string, f?: typeof fetch, init?: RequestInit) =>
     gqlClient()

@@ -1,4 +1,4 @@
-import { AlertColor } from '@mui/material'
+import type { AlertColor } from '@mui/material'
 
 export interface Notification {
     severity: AlertColor
@@ -8,13 +8,9 @@ export interface Notification {
 export type SufficientlyDescribedNotification = Partial<Notification> &
     Pick<Notification, 'message'>
 
-export interface NotificationsObserver {
-    (notification: Notification | null): void
-}
+export type NotificationsObserver = (notification: Notification | null) => void
 
-export interface CancelObserver {
-    (): void
-}
+export type CancelObserver = () => void
 
 export interface Notifications {
     observe: (observer: NotificationsObserver) => CancelObserver

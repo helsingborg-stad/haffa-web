@@ -1,4 +1,3 @@
-import { FC, useCallback, useContext, useState } from 'react'
 import {
     Alert,
     Box,
@@ -17,10 +16,11 @@ import {
 } from '@mui/material'
 import { Markdown } from 'components/Markdown'
 import { Editorial } from 'editorials'
-import { AuthContext } from '../AuthContext'
-import { PhraseContext } from '../../phrases/PhraseContext'
-import { Phrase } from '../../phrases/Phrase'
+import { type FC, useCallback, useContext, useState } from 'react'
 import { delay } from '../../lib/delay'
+import { Phrase } from '../../phrases/Phrase'
+import { PhraseContext } from '../../phrases/PhraseContext'
+import { AuthContext } from '../AuthContext'
 
 const MIN_WAIT_FOR_LOGIN_MS = 1000
 
@@ -140,14 +140,14 @@ export const AuthenticateForm: FC<{
                     errorMessage: ERROR_UNAUTHORIZED,
                 })
             }
-        } catch (error) {
+        } catch (_error) {
             setState({
                 ...state,
                 loading: false,
                 errorMessage: ERROR_UNKNOWN,
             })
         }
-    }, [authProvider, state, identity])
+    }, [authProvider, state, identity, ERROR_UNAUTHORIZED, ERROR_UNKNOWN])
     const gotPincode = useCallback(async () => {
         setState({
             ...state,
@@ -159,7 +159,7 @@ export const AuthenticateForm: FC<{
                 identity,
                 pincode
             )
-            if (authentication && authentication.token) {
+            if (authentication?.token) {
                 setAuthentication(authentication)
                 onAuthenticated()
             } else {
@@ -172,14 +172,23 @@ export const AuthenticateForm: FC<{
                     ),
                 })
             }
-        } catch (error) {
+        } catch (_error) {
             setState({
                 ...state,
                 loading: false,
                 errorMessage: ERROR_UNKNOWN,
             })
         }
-    }, [authProvider, state, identity, pincode])
+    }, [
+        authProvider,
+        state,
+        identity,
+        pincode,
+        onAuthenticated,
+        setAuthentication,
+        phrase,
+        ERROR_UNKNOWN,
+    ])
 
     return (
         <Box>

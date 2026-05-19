@@ -1,5 +1,5 @@
-import { Advert } from 'adverts/types'
-import { AdvertFilterSortableFieldDescriptor } from 'hard-coded-config/types'
+import type { Advert } from 'adverts/types'
+import type { AdvertFilterSortableFieldDescriptor } from 'hard-coded-config/types'
 
 export const SORTABLE_FIELDS: (keyof Advert)[] = [
     'title',

@@ -1,6 +1,6 @@
 import { Alert, Snackbar } from '@mui/material'
 import { useNotifications } from 'notifications'
-import { FC } from 'react'
+import type { FC } from 'react'
 
 export const NotificationsSnackbar: FC = () => {
     const [notification, closeNotification] = useNotifications()

@@ -1,4 +1,4 @@
-import { Func1 } from './types'
+import type { Func1 } from './types'
 
 export const byMatchingTags = <T extends { tag: string }>(
     tags: string[]

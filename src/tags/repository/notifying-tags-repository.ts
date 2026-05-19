@@ -1,6 +1,6 @@
-import { Notifications } from 'notifications/types'
-import { PhraseContextType } from 'phrases'
-import { TagsRepository } from 'tags/types'
+import type { Notifications } from 'notifications/types'
+import type { PhraseContextType } from 'phrases'
+import type { TagsRepository } from 'tags/types'
 
 export const createNotifyingTagsRepository = (
     notifications: Notifications,

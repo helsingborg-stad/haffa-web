@@ -1,10 +1,10 @@
-import { Button, ButtonProps } from '@mui/material'
-import { Advert } from 'adverts'
-import { PhraseContext } from 'phrases/PhraseContext'
-import { FC, useContext, useState } from 'react'
 import QrCodeScannerIcon from '@mui/icons-material/QrCodeScanner'
-import { ScanQrCodeDialog } from 'qr-code-navigation/ScanQrCodeDialog'
+import { Button, type ButtonProps } from '@mui/material'
+import type { Advert } from 'adverts'
 import { Editorial } from 'editorials'
+import { PhraseContext } from 'phrases/PhraseContext'
+import { ScanQrCodeDialog } from 'qr-code-navigation/ScanQrCodeDialog'
+import { type FC, useContext, useState } from 'react'
 import { SelectCountDialog } from '../SelectCountDialog'
 
 export const ReturnButton: FC<

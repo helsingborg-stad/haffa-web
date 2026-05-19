@@ -1,4 +1,4 @@
-import { FC, useContext } from 'react'
+import { type FC, useContext } from 'react'
 import { PhraseContext } from './PhraseContext'
 
 export const Phrase: FC<{

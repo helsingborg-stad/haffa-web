@@ -1,10 +1,10 @@
-import { ContentContext } from 'content'
-import { useContext } from 'react'
-import useAsync from 'hooks/use-async'
-import { ErrorView } from 'errors'
-import { TermsContext } from 'terms'
 import { CategoriesContext } from 'categories'
+import { ContentContext } from 'content'
+import { ErrorView } from 'errors'
+import useAsync from 'hooks/use-async'
+import { useContext } from 'react'
 import { StatisticsContext } from 'statistics'
+import { TermsContext } from 'terms'
 import { EditContentForm } from './EditContentForm'
 
 export const EditContentView = () => {

@@ -1,5 +1,5 @@
 import { AdvertsListWithSearch } from 'adverts/components/listings/AdvertsListWithSearch'
-import { FC } from 'react'
+import type { FC } from 'react'
 
 export const SubscriptionView: FC = () => (
     <AdvertsListWithSearch

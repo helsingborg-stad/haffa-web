@@ -1,9 +1,9 @@
 import { Card, CardContent, Stack } from '@mui/material'
-import { Advert } from 'adverts/types'
+import type { Advert } from 'adverts/types'
 import { Markdown } from 'components/Markdown'
 import { toMap } from 'lib/to-map'
-import { FC, useMemo } from 'react'
-import { TagDescription } from 'tags/types'
+import { type FC, useMemo } from 'react'
+import type { TagDescription } from 'tags/types'
 
 export const TagDescriptionsPanel: FC<{
     advert: Advert

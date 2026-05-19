@@ -27,7 +27,7 @@ export const useFetchQueue = <T>(
 
     const enqueueRaw = useCallback(
         (fetch: FetchQueueFetch<T>) => setNext(() => fetch),
-        [setNext]
+        []
     )
 
     const enqueue = useMemo(
@@ -52,7 +52,7 @@ export const useFetchQueue = <T>(
             setNext(null)
             setPending(p)
         }
-    }, [pending, setPending, next, setNext, setValue])
+    }, [pending, next])
 
     return [value, error, enqueue]
 }

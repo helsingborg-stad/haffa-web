@@ -1,6 +1,6 @@
 import { lazy } from './lazy'
 import { treeLookup, treeVisit } from './tree-lookup'
-import { Func1, TreeAdapter } from './types'
+import type { Func1, TreeAdapter } from './types'
 
 export const createNullTreeAdapter = <T>(): TreeAdapter<T> => ({
     rootNodes: [],

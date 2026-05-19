@@ -1,7 +1,7 @@
 export const isValidUrl = (urlString: string) => {
     try {
         return /^(http|https):$/.test(new URL(urlString).protocol)
-    } catch (e) {
+    } catch (_e) {
         return false
     }
 }

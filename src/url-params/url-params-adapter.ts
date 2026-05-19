@@ -1,5 +1,5 @@
 import { toMap } from 'lib/to-map'
-import { UrlParamsAdapter, UrlParamsMapper } from './types'
+import type { UrlParamsAdapter, UrlParamsMapper } from './types'
 
 export const createUrlParamsAdapter = (
     mapper: UrlParamsMapper

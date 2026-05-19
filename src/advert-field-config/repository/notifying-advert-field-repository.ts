@@ -1,6 +1,6 @@
-import { AdvertFieldRepository } from 'advert-field-config/types'
-import { Notifications } from 'notifications/types'
-import { PhraseContextType } from 'phrases'
+import type { AdvertFieldRepository } from 'advert-field-config/types'
+import type { Notifications } from 'notifications/types'
+import type { PhraseContextType } from 'phrases'
 
 export const createNotifyingAdvertFieldRepository = (
     notifications: Notifications,

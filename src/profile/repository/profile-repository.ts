@@ -1,12 +1,12 @@
-import { Profile, ProfileRepository } from 'profile/types'
+import type { Profile, ProfileRepository } from 'profile/types'
 import { ifNullThenNotFoundError } from '../../errors'
-import { OperationResult, gqlClient } from '../../graphql'
+import { gqlClient, type OperationResult } from '../../graphql'
+import { sanitizeProfileInput } from './mappers'
 import {
     getProfileQuery,
     removeProfileMutation,
     updateProfileMutation,
 } from './queries'
-import { sanitizeProfileInput } from './mappers'
 
 const gql = (token: string, f?: typeof fetch, init?: RequestInit) =>
     gqlClient()

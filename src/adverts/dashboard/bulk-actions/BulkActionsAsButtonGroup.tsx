@@ -1,6 +1,6 @@
 import { Button, ButtonGroup } from '@mui/material'
-import { FC, useMemo, useState } from 'react'
-import { BulkAction } from './types'
+import { type FC, useMemo, useState } from 'react'
+import type { BulkAction } from './types'
 
 export const BulkActionsAsButtonGroup: FC<{ bulkActions: BulkAction[] }> = ({
     bulkActions,

@@ -1,5 +1,5 @@
 import { treeFind } from './tree-lookup'
-import { Func1 } from './types'
+import type { Func1 } from './types'
 
 type TreeNodeActions = Partial<{
     moveNodePrev: () => any
@@ -39,7 +39,7 @@ export const getTreeNodeActions = <T>(
     const promoteNode: TreeNodeActions['promoteNode'] = parent
         ? () => {
               const foundparent = treeFind(nodes, children, (n) => n === parent)
-              if (foundparent && foundparent.parent) {
+              if (foundparent?.parent) {
                   const parentsiblings = children(foundparent.parent) || []
                   siblings.splice(index, 1)
                   parentsiblings.splice(parentsiblings.length, 0, node)

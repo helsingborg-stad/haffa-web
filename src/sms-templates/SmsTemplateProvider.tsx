@@ -1,6 +1,6 @@
-import { FC, PropsWithChildren } from 'react'
-import { SmsTemplateRepository } from './types'
+import type { FC, PropsWithChildren } from 'react'
 import { SmsTemplateContext } from './SmsTemplateContext'
+import type { SmsTemplateRepository } from './types'
 
 export const SmsTemplateProvider: FC<
     { repository: SmsTemplateRepository } & PropsWithChildren

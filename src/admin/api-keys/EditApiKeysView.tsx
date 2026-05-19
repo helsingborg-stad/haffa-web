@@ -1,7 +1,7 @@
 import { ApiKeysContext } from 'api-keys'
-import useAsync from 'hooks/use-async'
-import { FC, useContext } from 'react'
 import { ErrorView } from 'errors'
+import useAsync from 'hooks/use-async'
+import { type FC, useContext } from 'react'
 import { ApiKeysForm } from './ApiKeysForm'
 
 export const EditApiKeysView: FC<{ title?: string }> = ({ title }) => {

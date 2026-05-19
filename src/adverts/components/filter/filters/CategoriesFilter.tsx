@@ -1,11 +1,12 @@
-import { Tree } from 'antd'
-import { DataNode } from 'antd/es/tree'
-import React, { FC, useCallback, useContext, useState } from 'react'
 import { Box, Typography } from '@mui/material'
-import { Category } from '../../../../categories/types'
-import useAsync from '../../../../hooks/use-async'
-import { encodeCategoryTree } from '../../../../categories/mappers'
+import { Tree } from 'antd'
+import type { DataNode } from 'antd/es/tree'
+import type React from 'react'
+import { type FC, useCallback, useContext, useState } from 'react'
 import { CategoriesContext } from '../../../../categories'
+import { encodeCategoryTree } from '../../../../categories/mappers'
+import type { Category } from '../../../../categories/types'
+import useAsync from '../../../../hooks/use-async'
 
 export interface CategoriesFilterProps {
     selected: string[]
@@ -64,8 +65,7 @@ const findCategory = (
 
     const matchingChildren = allCategories
         .map((c) => c.categories ?? [])
-        .map((c) => findCategory(c, categoryId))
-        .flat()
+        .flatMap((c) => findCategory(c, categoryId))
         .filter((c) => c !== undefined)
 
     return matchingChildren[0]
@@ -75,7 +75,7 @@ const getCategoryChildren = (category: Category | undefined): Category[] => {
     if (!category) return []
     return [
         ...category.categories,
-        ...category.categories.map(getCategoryChildren).flat(),
+        ...category.categories.flatMap(getCategoryChildren),
     ]
 }
 
@@ -119,7 +119,7 @@ export const CategoriesFilter: FC<CategoriesFilterProps> = ({
             }
             setCategoriesCache([...categories])
         },
-        [setCategoriesCache, categoriesCache]
+        [categoriesCache]
     )
 
     return categoriesInspect({

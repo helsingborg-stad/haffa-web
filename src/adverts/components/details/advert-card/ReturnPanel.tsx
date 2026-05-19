@@ -1,9 +1,9 @@
-import { FC, useContext } from 'react'
 import { Card, CardContent } from '@mui/material'
 import { AdvertsContext } from 'adverts'
 import { Editorial } from 'editorials'
 import { PhraseContext } from 'phrases'
-import { Advert, AdvertMutationResult } from '../../../types'
+import { type FC, useContext } from 'react'
+import type { Advert, AdvertMutationResult } from '../../../types'
 import { ReturnButton } from './action-butttons/ReturnButton'
 
 export const ReturnPanel: FC<{

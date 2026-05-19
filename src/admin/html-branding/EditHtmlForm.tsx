@@ -8,17 +8,13 @@ import {
     TextField,
     Typography,
 } from '@mui/material'
-import { FC, useCallback, useState } from 'react'
+import { ImageBrowseButton } from 'admin/content/components/ImageBrowseButton'
+import { ImageThumbnail } from 'admin/content/components/ImageThumbnail'
 import { AdminActionPanel } from 'components/AdminActionPanel'
 import { AdminEditorialPanel } from 'components/AdminEditorialPanel'
 import { objectToOptions, optionsToObject } from 'options/mappers'
-import { ImageThumbnail } from 'admin/content/components/ImageThumbnail'
-import { ImageBrowseButton } from 'admin/content/components/ImageBrowseButton'
-import {
-    HtmlOptions,
-    type HtmlOptionKeys,
-    type Option,
-} from '../../options/types'
+import { type FC, useCallback, useState } from 'react'
+import type { HtmlOptionKeys, HtmlOptions, Option } from '../../options/types'
 import { getDefaultHtmlOptions } from './mappers'
 
 export const EditHtmlForm: FC<{
@@ -114,84 +110,74 @@ export const EditHtmlForm: FC<{
                             patch({ url })
                         }
                     />
-                    <>
-                        <Typography sx={{ my: 2 }}>
-                            Liten bild som visas när du delar länken till appen
-                            med någon annan. Bilden skall vara i formatet .png
-                            och ha dimensionen 192x192 för bästa resultat. Den
-                            maximala filstorleken är 192kb
-                        </Typography>
-                        {state.imageLogo192 !== '' && (
-                            <ImageThumbnail
-                                height={192}
-                                url={state.imageLogo192}
-                                onDelete={() =>
-                                    patch({
-                                        imageLogo192:
-                                            getDefaultHtmlOptions()
-                                                .imageLogo192,
-                                    })
-                                }
-                            />
-                        )}
-                        <ImageBrowseButton
-                            maxSize={192 * 1024}
-                            onUpdate={(imageLogo192) => patch({ imageLogo192 })}
-                            filter="png"
+                    <Typography sx={{ my: 2 }}>
+                        Liten bild som visas när du delar länken till appen med
+                        någon annan. Bilden skall vara i formatet .png och ha
+                        dimensionen 192x192 för bästa resultat. Den maximala
+                        filstorleken är 192kb
+                    </Typography>
+                    {state.imageLogo192 !== '' && (
+                        <ImageThumbnail
+                            height={192}
+                            url={state.imageLogo192}
+                            onDelete={() =>
+                                patch({
+                                    imageLogo192:
+                                        getDefaultHtmlOptions().imageLogo192,
+                                })
+                            }
                         />
-                    </>
-                    <>
-                        <Typography sx={{ my: 2 }}>
-                            Stor bild som visas när du delar länken till appen
-                            med någon annan. Bilden skall vara i formatet .png
-                            och ha dimensionen 512x512 för bästa resultat. Den
-                            maximala filstorleken är 512kb
-                        </Typography>
-                        {state.imageLogo512 !== '' && (
-                            <ImageThumbnail
-                                height={512}
-                                url={state.imageLogo512}
-                                onDelete={() =>
-                                    patch({
-                                        imageLogo512:
-                                            getDefaultHtmlOptions()
-                                                .imageLogo512,
-                                    })
-                                }
-                            />
-                        )}
-                        <ImageBrowseButton
-                            maxSize={512 * 1024}
-                            onUpdate={(imageLogo512) => patch({ imageLogo512 })}
-                            filter="png"
+                    )}
+                    <ImageBrowseButton
+                        maxSize={192 * 1024}
+                        onUpdate={(imageLogo192) => patch({ imageLogo192 })}
+                        filter="png"
+                    />
+                    <Typography sx={{ my: 2 }}>
+                        Stor bild som visas när du delar länken till appen med
+                        någon annan. Bilden skall vara i formatet .png och ha
+                        dimensionen 512x512 för bästa resultat. Den maximala
+                        filstorleken är 512kb
+                    </Typography>
+                    {state.imageLogo512 !== '' && (
+                        <ImageThumbnail
+                            height={512}
+                            url={state.imageLogo512}
+                            onDelete={() =>
+                                patch({
+                                    imageLogo512:
+                                        getDefaultHtmlOptions().imageLogo512,
+                                })
+                            }
                         />
-                    </>
-                    <>
-                        <Typography sx={{ my: 2 }}>
-                            Bild som visas i webbläsarens flikrad. Bilden skall
-                            vara i formatet .png och ha dimensionerna 16x16
-                            eller 32x32 för bästa resultat. Den maximala
-                            filstorleken är 32kb
-                        </Typography>
-                        {state.imageFavicon !== '' && (
-                            <ImageThumbnail
-                                height={32}
-                                url={state.imageFavicon}
-                                onDelete={() =>
-                                    patch({
-                                        imageFavicon:
-                                            getDefaultHtmlOptions()
-                                                .imageFavicon,
-                                    })
-                                }
-                            />
-                        )}
-                        <ImageBrowseButton
-                            maxSize={32 * 1024}
-                            onUpdate={(imageFavicon) => patch({ imageFavicon })}
-                            filter="png"
+                    )}
+                    <ImageBrowseButton
+                        maxSize={512 * 1024}
+                        onUpdate={(imageLogo512) => patch({ imageLogo512 })}
+                        filter="png"
+                    />
+                    <Typography sx={{ my: 2 }}>
+                        Bild som visas i webbläsarens flikrad. Bilden skall vara
+                        i formatet .png och ha dimensionerna 16x16 eller 32x32
+                        för bästa resultat. Den maximala filstorleken är 32kb
+                    </Typography>
+                    {state.imageFavicon !== '' && (
+                        <ImageThumbnail
+                            height={32}
+                            url={state.imageFavicon}
+                            onDelete={() =>
+                                patch({
+                                    imageFavicon:
+                                        getDefaultHtmlOptions().imageFavicon,
+                                })
+                            }
                         />
-                    </>
+                    )}
+                    <ImageBrowseButton
+                        maxSize={32 * 1024}
+                        onUpdate={(imageFavicon) => patch({ imageFavicon })}
+                        filter="png"
+                    />
                 </CardContent>
             </Card>
         </>

@@ -1,5 +1,5 @@
-import { Func1 } from 'lib/types'
-import { ReactNode } from 'react'
+import type { Func1 } from 'lib/types'
+import type { ReactNode } from 'react'
 
 export interface BulkActionDialogParams {
     action: BulkAction

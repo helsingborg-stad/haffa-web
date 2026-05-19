@@ -1,5 +1,5 @@
-import { LocationRepository } from 'locations/types'
-import { AdvertLocation } from 'adverts'
+import type { AdvertLocation } from 'adverts'
+import type { LocationRepository } from 'locations/types'
 import { ifNullThenNotFoundError } from '../../errors'
 import { gqlClient } from '../../graphql'
 import { getLocationsQuery, updateLocationsMutation } from './queries'

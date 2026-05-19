@@ -1,4 +1,4 @@
-import { Advert } from 'adverts'
+import type { Advert } from 'adverts'
 
 export interface LinkActions<T = any> {
     none: () => T

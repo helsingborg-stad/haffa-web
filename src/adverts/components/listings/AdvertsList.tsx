@@ -1,8 +1,8 @@
-import { FC } from 'react'
-import { TreeAdapter } from 'lib/types'
-import { Category } from 'categories/types'
 import { Grid } from '@mui/material'
-import { Advert } from '../../types'
+import type { Category } from 'categories/types'
+import type { TreeAdapter } from 'lib/types'
+import type { FC } from 'react'
+import type { Advert } from '../../types'
 import { AdvertListItem } from './AdvertListItem'
 
 export const AdvertsList: FC<{

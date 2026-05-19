@@ -1,20 +1,19 @@
-import { Badge, Box, Button, Stack } from '@mui/material'
-import { FC } from 'react'
-
-import FilterListOutlinedIcon from '@mui/icons-material/FilterListOutlined'
-import { AdvertFilterInput } from 'adverts'
 import ChecklistIcon from '@mui/icons-material/Checklist'
+import FilterListOutlinedIcon from '@mui/icons-material/FilterListOutlined'
+import { Badge, Box, Button, Stack } from '@mui/material'
+import type { AdvertFilterInput } from 'adverts'
+import type { FC } from 'react'
 
 const countScalarValuesRec = (o: any): number =>
     // eslint-disable-next-line no-nested-ternary
     typeof o === 'string'
         ? 1
         : typeof o === 'number'
-        ? 1
-        : Object.values(o || []).reduce<number>(
-              (s, e) => s + countScalarValuesRec(e),
-              0
-          )
+          ? 1
+          : Object.values(o || []).reduce<number>(
+                (s, e) => s + countScalarValuesRec(e),
+                0
+            )
 
 const countSelectedItems = (searchParams: AdvertFilterInput) =>
     countScalarValuesRec(searchParams.fields)

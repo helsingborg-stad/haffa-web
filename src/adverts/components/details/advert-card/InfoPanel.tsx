@@ -1,11 +1,11 @@
 import { Alert, Box, Typography, useTheme } from '@mui/material'
-import { Advert } from 'adverts'
-import { Category } from 'categories/types'
-import { Markdown } from 'components/Markdown'
-import { TreeAdapter } from 'lib/types'
-import { PhraseContext } from 'phrases/PhraseContext'
-import { FC, useContext } from 'react'
 import { lightGreen } from '@mui/material/colors'
+import type { Advert } from 'adverts'
+import type { Category } from 'categories/types'
+import { Markdown } from 'components/Markdown'
+import type { TreeAdapter } from 'lib/types'
+import { PhraseContext } from 'phrases/PhraseContext'
+import { type FC, useContext } from 'react'
 
 const Descriptions: FC<{ advert: Advert; category: Category | null }> = ({
     advert,

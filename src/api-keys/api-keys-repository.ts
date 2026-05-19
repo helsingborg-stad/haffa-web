@@ -1,6 +1,6 @@
 import { gqlClient } from 'graphql'
-import { ApiKey, ApiKeysRepository } from './types'
 import { getApiKeysQuery, updateApiKeysMutation } from './queries'
+import type { ApiKey, ApiKeysRepository } from './types'
 
 const gql = (token: string, f?: typeof fetch, init?: RequestInit) =>
     gqlClient()

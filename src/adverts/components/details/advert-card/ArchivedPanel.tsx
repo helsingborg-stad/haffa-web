@@ -1,8 +1,8 @@
 import { Button, Card, CardContent } from '@mui/material'
-import { Advert, AdvertMutationResult, AdvertsContext } from 'adverts'
+import { type Advert, type AdvertMutationResult, AdvertsContext } from 'adverts'
 import { Editorial } from 'editorials'
 import { PhraseContext } from 'phrases/PhraseContext'
-import { FC, useContext } from 'react'
+import { type FC, useContext } from 'react'
 
 export const ArchivedPanel: FC<{
     advert: Advert

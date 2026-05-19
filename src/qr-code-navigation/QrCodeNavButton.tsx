@@ -1,6 +1,6 @@
-import { PhraseContext } from 'phrases'
-import { FC, useContext, useState } from 'react'
 import { Alert } from '@mui/material'
+import { PhraseContext } from 'phrases'
+import { type FC, useContext, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { QrCodeButton } from './QrCodeButton'
 

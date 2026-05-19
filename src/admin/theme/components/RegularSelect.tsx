@@ -3,12 +3,12 @@ import {
     InputLabel,
     MenuItem,
     Select,
-    SelectProps,
+    type SelectProps,
 } from '@mui/material'
 import { nanoid } from 'nanoid'
-import { PropsWithChildren } from 'react'
+import type { PropsWithChildren } from 'react'
 
-export const CreateMenuItems = <T = string,>(items: Array<[string, T?]>) =>
+export const CreateMenuItems = <T = string>(items: Array<[string, T?]>) =>
     items.map(([label, value], key) => (
         <MenuItem key={key} value={(value ?? label) as string}>
             {label}

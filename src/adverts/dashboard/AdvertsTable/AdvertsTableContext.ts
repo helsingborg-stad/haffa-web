@@ -1,7 +1,7 @@
 import { createNullTreeAdapter } from 'lib/tree-adapter'
 import { createContext } from 'react'
 import { createEmptyTerms } from 'terms'
-import { AdvertsTableContextType } from './types'
+import type { AdvertsTableContextType } from './types'
 
 const missing = (key: string) => (): never => {
     throw new Error(`AdvertstableContext:${key} is not implemented`)

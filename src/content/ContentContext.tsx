@@ -1,5 +1,5 @@
-import { PropsWithChildren, createContext } from 'react'
-import { ContentRepository } from './types'
+import { createContext, type PropsWithChildren } from 'react'
+import type { ContentRepository } from './types'
 
 const notProvided = (method: string) => () => {
     throw new Error(`ContentContext::${method} is not provided`)

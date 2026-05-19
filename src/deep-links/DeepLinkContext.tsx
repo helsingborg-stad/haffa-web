@@ -1,5 +1,5 @@
 import { createContext } from 'react'
-import { DeepLinkService } from './types'
+import type { DeepLinkService } from './types'
 
 const getAdvertLink: DeepLinkService['getAdvertLink'] = ({ id }) => {
     const url = new URL(`/advert/${id}`, window.location.href)

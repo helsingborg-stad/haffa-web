@@ -1,14 +1,14 @@
-import { Button, ButtonGroup, Link, useMediaQuery } from '@mui/material'
-import { Advert, AdvertMutationResult, AdvertsContext } from 'adverts'
-import { PhraseContext } from 'phrases/PhraseContext'
-import { FC, useContext } from 'react'
-import { NavLink, useNavigate } from 'react-router-dom'
-import EditIcon from '@mui/icons-material/Edit'
-import RemoveIcon from '@mui/icons-material/Delete'
-import QrCodeIcon from '@mui/icons-material/QrCode2'
 import ArchiveIcon from '@mui/icons-material/Archive'
+import RemoveIcon from '@mui/icons-material/Delete'
+import EditIcon from '@mui/icons-material/Edit'
+import QrCodeIcon from '@mui/icons-material/QrCode2'
+import { Button, ButtonGroup, Link, useMediaQuery } from '@mui/material'
 import { useTheme } from '@mui/material/styles'
+import { type Advert, type AdvertMutationResult, AdvertsContext } from 'adverts'
 import { ConfirmButton } from 'components/ConfirmButton'
+import { PhraseContext } from 'phrases/PhraseContext'
+import { type FC, useContext } from 'react'
+import { NavLink, useNavigate } from 'react-router-dom'
 
 export const EditorButtonsPanel: FC<{
     advert: Advert

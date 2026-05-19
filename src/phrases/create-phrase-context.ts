@@ -1,7 +1,7 @@
-import { interpolate } from 'lib/interpolate'
 import dayjs from 'dayjs'
-import { PhraseContextType } from './types'
+import { interpolate } from 'lib/interpolate'
 import { defaultPhrases } from './default-phrases'
+import type { PhraseContextType } from './types'
 
 const prettyDate = (date: string): string => {
     const d = new Date(date)

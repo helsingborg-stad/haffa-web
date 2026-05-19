@@ -1,9 +1,9 @@
+import { AdminEditorialPanel } from 'components/AdminEditorialPanel'
 import { ErrorView } from 'errors'
 import useAsync from 'hooks/use-async'
-import { FC, useCallback, useContext } from 'react'
-import { TermsContext } from 'terms'
-import { AdminEditorialPanel } from 'components/AdminEditorialPanel'
+import { type FC, useCallback, useContext } from 'react'
 import { TagsContext } from 'tags'
+import { TermsContext } from 'terms'
 import { EditTagDescriptionsForm } from './EditTagDescriptionsForm'
 
 export const EditTagDescriptionsView: FC = () => {

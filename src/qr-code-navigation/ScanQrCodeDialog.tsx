@@ -1,18 +1,18 @@
-import { FC, useContext, useState } from 'react'
 import CloseIcon from '@mui/icons-material/Close'
 import QrCodeScannerIcon from '@mui/icons-material/QrCodeScanner'
 import {
     Alert,
     Dialog,
     DialogContent,
-    DialogProps,
+    type DialogProps,
     DialogTitle,
     IconButton,
 } from '@mui/material'
 import { Scanner } from '@yudiel/react-qr-scanner'
+import type { Advert } from 'adverts'
 import { DeepLinkContext } from 'deep-links/DeepLinkContext'
-import { Advert } from 'adverts'
 import { PhraseContext } from 'phrases'
+import { type FC, useContext, useState } from 'react'
 
 export const ScanQrCodeDialog: FC<
     DialogProps & {

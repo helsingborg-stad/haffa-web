@@ -1,5 +1,5 @@
 import { createContext } from 'react'
-import { AuthContextType, AuthProvider } from './types'
+import type { AuthContextType, AuthProvider } from './types'
 
 const notProvided = (method: string) => () => {
     throw new Error(`AuthContext::${method} is not provided`)
@@ -7,19 +7,24 @@ const notProvided = (method: string) => () => {
 
 export const AuthContext = createContext<AuthContextType>({
     get isAuthenticated() {
-        return notProvided('isAuthenticated'), false
+        notProvided('isAuthenticated')()
+        return false
     },
     get isGuest() {
-        return notProvided('isGuest'), false
+        notProvided('isGuest')()
+        return false
     },
     get token() {
-        return notProvided('token'), ''
+        notProvided('token')()
+        return ''
     },
     get roles() {
-        return notProvided('roles'), {}
+        notProvided('roles')()
+        return {}
     },
     get authProvider() {
-        return notProvided('authProvider'), null as any as AuthProvider
+        notProvided('authProvider')()
+        return null as any as AuthProvider
     },
     setAuthentication: notProvided('setAuthentication'),
     signout: notProvided('signout'),

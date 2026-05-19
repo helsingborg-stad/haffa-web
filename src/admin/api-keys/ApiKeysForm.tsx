@@ -1,3 +1,4 @@
+import AddIcon from '@mui/icons-material/Add'
 import {
     Button,
     Card,
@@ -13,14 +14,13 @@ import {
     TableRow,
     TextField,
 } from '@mui/material'
-import { PhraseContext } from 'phrases/PhraseContext'
-import { FC, useCallback, useContext, useState } from 'react'
-import AddIcon from '@mui/icons-material/Add'
-import { nanoid } from 'nanoid'
-import { ApiKey } from 'api-keys/types'
-import { Editorial } from 'editorials'
+import type { ApiKey } from 'api-keys/types'
 import { AdminActionPanel } from 'components/AdminActionPanel'
 import { AdminEditorialPanel } from 'components/AdminEditorialPanel'
+import { Editorial } from 'editorials'
+import { nanoid } from 'nanoid'
+import { PhraseContext } from 'phrases/PhraseContext'
+import { type FC, useCallback, useContext, useState } from 'react'
 
 export const ApiKeysForm: FC<{
     title?: string
@@ -44,7 +44,7 @@ export const ApiKeysForm: FC<{
                 fn(model[index]),
                 ...model.slice(index + 1),
             ]),
-        [model, setModel]
+        [model]
     )
     const mutateRowField = useCallback(
         (index: number, field: keyof ApiKey, value: any) => {

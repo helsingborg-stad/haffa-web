@@ -1,4 +1,4 @@
-import { UrlParamsMapper } from './types'
+import type { UrlParamsMapper } from './types'
 
 export const createDefaultUrlParamsMapper = (): UrlParamsMapper => ({
     getUrlParams: () => (window.location.hash || '').substring(1),

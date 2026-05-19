@@ -1,3 +1,5 @@
+import CancelIcon from '@mui/icons-material/Cancel'
+import SaveAltIcon from '@mui/icons-material/SaveAlt'
 import {
     Alert,
     Button,
@@ -9,19 +11,17 @@ import {
     Stack,
     TextField,
 } from '@mui/material'
-import { FC, useCallback, useContext, useMemo, useState } from 'react'
-import { PhraseContext } from 'phrases'
-import CancelIcon from '@mui/icons-material/Cancel'
-import SaveAltIcon from '@mui/icons-material/SaveAlt'
-import { Func1 } from 'lib/types'
-import { Advert, AdvertInput, AdvertLocation } from 'adverts'
-import useAsync from 'hooks/use-async'
-import { NotificationsContext } from 'notifications'
-import { LocationContext } from 'locations'
 import { AdvertFieldsContext } from 'advert-field-config'
-import { AdvertFieldConfig, FieldName } from 'advert-field-config/types'
-import { BulkActionDialogParams } from './types'
+import type { AdvertFieldConfig, FieldName } from 'advert-field-config/types'
+import type { Advert, AdvertInput, AdvertLocation } from 'adverts'
+import useAsync from 'hooks/use-async'
+import type { Func1 } from 'lib/types'
+import { LocationContext } from 'locations'
+import { NotificationsContext } from 'notifications'
+import { PhraseContext } from 'phrases'
+import { type FC, useCallback, useContext, useMemo, useState } from 'react'
 import { AdvertsTableContext } from '../AdvertsTable'
+import type { BulkActionDialogParams } from './types'
 
 const PatchLocationDialogImpl: FC<
     BulkActionDialogParams & {
@@ -111,7 +111,7 @@ const PatchLocationDialogImpl: FC<
                 <Stack direction="column" spacing={1} py={1}>
                     {locations.map(
                         ({ name, adress, zipCode, city, country }) => (
-                            <FormControl fullWidth>
+                            <FormControl key={name} fullWidth>
                                 <Button
                                     variant="outlined"
                                     onClick={() =>
@@ -130,14 +130,14 @@ const PatchLocationDialogImpl: FC<
                                     {[name, adress, zipCode, city]
                                         .filter((v) => v)
                                         .map((s) => (
-                                            <>{s}&nbsp;</>
+                                            <span key={s}>{s}&nbsp;</span>
                                         ))}
                                 </Button>
                             </FormControl>
                         )
                     )}
                     {fields.map(({ label, getValue, makePatch }) => (
-                        <FormControl fullWidth>
+                        <FormControl key={label} fullWidth>
                             <TextField
                                 disabled={disabled}
                                 type="text"

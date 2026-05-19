@@ -1,14 +1,15 @@
+import { normalizePickupLocation } from './mappers'
 import {
     PickupLocationContext,
     PickupLocationProvider,
 } from './PickupLocationContext'
-import { createPickupLocationRepository } from './repository/pickup-location-repository'
 import { createNotifyingPickupLocationRepository } from './repository/notifying-pickup-location-repository'
-import { normalizePickupLocation } from './mappers'
+import { createPickupLocationRepository } from './repository/pickup-location-repository'
 
-export { PickupLocationContext, PickupLocationProvider }
 export {
-    createPickupLocationRepository,
     createNotifyingPickupLocationRepository,
+    createPickupLocationRepository,
+    normalizePickupLocation,
+    PickupLocationContext,
+    PickupLocationProvider,
 }
-export { normalizePickupLocation }

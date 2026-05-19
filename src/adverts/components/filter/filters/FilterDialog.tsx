@@ -1,26 +1,26 @@
-import {
-    Dialog,
-    DialogTitle,
-    DialogContent,
-    DialogActions,
-    useMediaQuery,
-    Button,
-    useTheme,
-    IconButton,
-    Box,
-    Stack,
-} from '@mui/material'
-import { FC, useContext, useState } from 'react'
-import { AdvertFilterInput } from 'adverts'
-import { PhraseContext } from 'phrases'
 import CloseIcon from '@mui/icons-material/Close'
-import { TermsContext } from 'terms'
-import useAsync from 'hooks/use-async'
-import { getEffectiveTagDescriptions, TagsContext } from 'tags'
+import {
+    Box,
+    Button,
+    Dialog,
+    DialogActions,
+    DialogContent,
+    DialogTitle,
+    IconButton,
+    Stack,
+    useMediaQuery,
+    useTheme,
+} from '@mui/material'
+import type { AdvertFilterInput } from 'adverts'
 import { AuthContext } from 'auth'
+import useAsync from 'hooks/use-async'
+import { PhraseContext } from 'phrases'
+import { type FC, useContext, useState } from 'react'
+import { getEffectiveTagDescriptions, TagsContext } from 'tags'
+import { TermsContext } from 'terms'
 import { CategoriesFilter } from './CategoriesFilter'
-import { StringArrayFilter } from './StringArrayFilter'
 import { CategoriesFilter2 } from './experimental/CategoriesFilter2'
+import { StringArrayFilter } from './StringArrayFilter'
 
 export interface SelectedFilters {
     categories: string[]

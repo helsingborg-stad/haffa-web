@@ -1,3 +1,8 @@
+import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown'
+import CancelIcon from '@mui/icons-material/Cancel'
+import ConvertIcon from '@mui/icons-material/ChangeCircle'
+import EventRepeatIcon from '@mui/icons-material/EventRepeat'
+import NotificationsActiveOutlinedIcon from '@mui/icons-material/NotificationsActiveOutlined'
 import {
     Button,
     ButtonGroup,
@@ -19,22 +24,24 @@ import {
     useMediaQuery,
     useTheme,
 } from '@mui/material'
-import NotificationsActiveOutlinedIcon from '@mui/icons-material/NotificationsActiveOutlined'
-import { PhraseContext } from 'phrases/PhraseContext'
-import { FC, ReactNode, useCallback, useContext, useRef, useState } from 'react'
 import { AdvertsContext } from 'adverts'
-import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown'
-import CancelIcon from '@mui/icons-material/Cancel'
-import ConvertIcon from '@mui/icons-material/ChangeCircle'
-import EventRepeatIcon from '@mui/icons-material/EventRepeat'
-import { Terms } from 'terms/types'
 import { ConfirmButton } from 'components/ConfirmButton'
+import { PhraseContext } from 'phrases/PhraseContext'
 import {
-    Advert,
-    AdvertClaim,
+    type FC,
+    type ReactNode,
+    useCallback,
+    useContext,
+    useRef,
+    useState,
+} from 'react'
+import type { Terms } from 'terms/types'
+import {
+    type Advert,
+    type AdvertClaim,
     AdvertClaimEventType,
     AdvertClaimType,
-    AdvertMutationResult,
+    type AdvertMutationResult,
 } from '../../../types'
 
 type InferFCType<T> = T extends FC<infer P> ? P : never
@@ -69,10 +76,7 @@ const SplitActionButton: FC<{
     )
 
     const handleClose = (event: Event) => {
-        if (
-            anchorRef.current &&
-            anchorRef.current.contains(event.target as HTMLElement)
-        ) {
+        if (anchorRef.current?.contains(event.target as HTMLElement)) {
             return
         }
 
@@ -105,7 +109,6 @@ const SplitActionButton: FC<{
                 sx={{ zIndex: 1 }}
                 open={open}
                 anchorEl={anchorRef.current}
-                role={undefined}
                 transition
                 disablePortal
             >
@@ -316,6 +319,8 @@ const ActionButtons: FC<{
             cancelAdvertClaim,
             convertAdvertClaim,
             renewAdvertClaim,
+            phrase,
+            makeButton,
         ]
     )
     const buttons = createButtons()
@@ -430,18 +435,15 @@ export const ClaimsPanel: FC<{
     )
 
     return (
-        canManageClaims && (
-            <>
-                {claimsModel.map(({ key, claim }) => (
-                    <ClaimCard
-                        key={key}
-                        advert={advert}
-                        terms={terms}
-                        claim={claim}
-                        onUpdate={onUpdate}
-                    />
-                ))}
-            </>
-        )
+        canManageClaims &&
+        claimsModel.map(({ key, claim }) => (
+            <ClaimCard
+                key={key}
+                advert={advert}
+                terms={terms}
+                claim={claim}
+                onUpdate={onUpdate}
+            />
+        ))
     )
 }

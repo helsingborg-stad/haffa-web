@@ -1,8 +1,8 @@
 import { Menu, MenuItem } from '@mui/material'
-import { AdvertFilterInput } from 'adverts'
+import type { AdvertFilterInput } from 'adverts'
 import { getAdvertFieldSortOptions } from 'hard-coded-config'
 import { PhraseContext } from 'phrases'
-import { FC, useContext, useMemo } from 'react'
+import { type FC, useContext, useMemo } from 'react'
 
 export const SortMenu: FC<{
     searchParams: AdvertFilterInput

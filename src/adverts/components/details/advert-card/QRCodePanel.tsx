@@ -1,8 +1,8 @@
-import { FC, useContext } from 'react'
 import { Box, Card, CardContent, Typography } from '@mui/material'
-import QRCode from 'react-qr-code'
 import { DeepLinkContext } from 'deep-links/DeepLinkContext'
-import { Advert } from '../../../types'
+import { type FC, useContext } from 'react'
+import QRCode from 'react-qr-code'
+import type { Advert } from '../../../types'
 
 export const QRCodePanel: FC<{
     advert: Advert

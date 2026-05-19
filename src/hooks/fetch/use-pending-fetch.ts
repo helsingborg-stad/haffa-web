@@ -8,6 +8,6 @@ export default function usePendingFetch(): boolean {
     useEffect(() => {
         const unregister = addPendingListener(setPending)
         return unregister
-    }, [addPendingListener, pending])
+    }, [addPendingListener])
     return pending
 }

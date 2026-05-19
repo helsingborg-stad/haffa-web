@@ -3,11 +3,11 @@ import {
     InputLabel,
     MenuItem,
     Select,
-    SelectProps,
-    TextFieldProps,
+    type SelectProps,
+    type TextFieldProps,
 } from '@mui/material'
 import { useState } from 'react'
-import { Option } from '../../../options/types'
+import type { Option } from '../../../options/types'
 
 export const MultiOptionSelect = (
     props: (SelectProps<string | string[]> & TextFieldProps) & {

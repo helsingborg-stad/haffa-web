@@ -1,4 +1,3 @@
-import { FC, useState } from 'react'
 import {
     Checkbox,
     Paper,
@@ -10,11 +9,12 @@ import {
     TableRow,
     TextField,
 } from '@mui/material'
-
-import { AdvertFieldConfig } from 'advert-field-config/types'
-import { AdminEditorialPanel } from 'components/AdminEditorialPanel'
-import { AdminActionPanel } from 'components/AdminActionPanel'
 import { createEmptyConfiguration } from 'advert-field-config/repository/mappers'
+
+import type { AdvertFieldConfig } from 'advert-field-config/types'
+import { AdminActionPanel } from 'components/AdminActionPanel'
+import { AdminEditorialPanel } from 'components/AdminEditorialPanel'
+import { type FC, useState } from 'react'
 
 export const ConfigureAdvertsForm: FC<{
     config: AdvertFieldConfig

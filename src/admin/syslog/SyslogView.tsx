@@ -1,5 +1,6 @@
-import { FC, useContext } from 'react'
-import { ErrorView } from 'errors'
+import CheckCircleIcon from '@mui/icons-material/CheckCircle'
+import ErrorIcon from '@mui/icons-material/Error'
+import WarningIcon from '@mui/icons-material/Warning'
 import {
     Card,
     CardContent,
@@ -12,13 +13,12 @@ import {
     TableHead,
     TableRow,
 } from '@mui/material'
-import { SyslogContext } from 'syslog'
-import useAsync from 'hooks/use-async'
-import { Severity } from 'syslog/types'
 import { AdminEditorialPanel } from 'components/AdminEditorialPanel'
-import CheckCircleIcon from '@mui/icons-material/CheckCircle'
-import WarningIcon from '@mui/icons-material/Warning'
-import ErrorIcon from '@mui/icons-material/Error'
+import { ErrorView } from 'errors'
+import useAsync from 'hooks/use-async'
+import { type FC, useContext } from 'react'
+import { SyslogContext } from 'syslog'
+import { Severity } from 'syslog/types'
 
 const toDateTimeString = (date: Date) =>
     `${date.toLocaleDateString()} ${date.toLocaleTimeString()}`

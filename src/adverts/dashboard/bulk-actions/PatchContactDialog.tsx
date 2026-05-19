@@ -1,3 +1,5 @@
+import CancelIcon from '@mui/icons-material/Cancel'
+import SaveAltIcon from '@mui/icons-material/SaveAlt'
 import {
     Alert,
     Button,
@@ -12,17 +14,15 @@ import {
     Stack,
     TextField,
 } from '@mui/material'
-import { FC, useContext, useId, useMemo, useState } from 'react'
-import { PhraseContext } from 'phrases'
-import CancelIcon from '@mui/icons-material/Cancel'
-import SaveAltIcon from '@mui/icons-material/SaveAlt'
-import { Func1 } from 'lib/types'
-import { Advert, AdvertContact, AdvertInput } from 'adverts'
+import type { Advert, AdvertContact, AdvertInput } from 'adverts'
 import useAsync from 'hooks/use-async'
-import { TermsContext } from 'terms'
+import type { Func1 } from 'lib/types'
 import { NotificationsContext } from 'notifications'
-import { BulkActionDialogParams } from './types'
+import { PhraseContext } from 'phrases'
+import { type FC, useContext, useId, useMemo, useState } from 'react'
+import { TermsContext } from 'terms'
 import { AdvertsTableContext } from '../AdvertsTable'
+import type { BulkActionDialogParams } from './types'
 
 const PatchContactDialogImpl: FC<
     BulkActionDialogParams & {
@@ -143,7 +143,9 @@ const PatchContactDialogImpl: FC<
                                 <em>Inget val</em>
                             </MenuItem>
                             {organizations.map((o) => (
-                                <MenuItem value={o}>{o}</MenuItem>
+                                <MenuItem key={o} value={o}>
+                                    {o}
+                                </MenuItem>
                             ))}
                         </Select>
                     </FormControl>

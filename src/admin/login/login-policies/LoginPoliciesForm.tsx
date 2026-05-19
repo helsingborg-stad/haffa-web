@@ -1,3 +1,4 @@
+import AddIcon from '@mui/icons-material/Add'
 import {
     Button,
     Card,
@@ -14,17 +15,16 @@ import {
     TableRow,
     TextField,
 } from '@mui/material'
-import { PhraseContext } from 'phrases/PhraseContext'
-import { FC, useCallback, useContext, useState } from 'react'
-import AddIcon from '@mui/icons-material/Add'
-import { nanoid } from 'nanoid'
-import { Editorial } from 'editorials'
-import { LoginPolicy } from 'login-policies/types'
+import type { HaffaUserRoles } from 'auth'
 import { rolesArrayToRoles, rolesToRolesArray } from 'auth/mappers'
-import { HaffaUserRoles } from 'auth'
 import { AdminActionPanel } from 'components/AdminActionPanel'
-import { SelectUserRoles } from './SelectUserRoles'
+import { Editorial } from 'editorials'
+import type { LoginPolicy } from 'login-policies/types'
+import { nanoid } from 'nanoid'
+import { PhraseContext } from 'phrases/PhraseContext'
+import { type FC, useCallback, useContext, useState } from 'react'
 import { EffectivePermissionsPanel } from './EffectivePermissionsPanel'
+import { SelectUserRoles } from './SelectUserRoles'
 
 export const LoginPoliciesForm: FC<{
     title?: string
@@ -56,7 +56,7 @@ export const LoginPoliciesForm: FC<{
                 fn(policies[index]),
                 ...policies.slice(index + 1),
             ]),
-        [policies, setPolicies]
+        [policies]
     )
     const mutateRowField = useCallback(
         (index: number, field: keyof EditablePolicy, value: any) => {

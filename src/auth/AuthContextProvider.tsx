@@ -1,7 +1,7 @@
-import { FC, PropsWithChildren, useCallback, useEffect } from 'react'
-import { AuthContext } from './AuthContext'
-import { AuthProvider, Authentication } from './types'
+import { type FC, type PropsWithChildren, useCallback, useEffect } from 'react'
 import useLocalStorage from '../hooks/use-local-storage'
+import { AuthContext } from './AuthContext'
+import type { Authentication, AuthProvider } from './types'
 
 export const AuthContextProvider: FC<
     { authProvider: AuthProvider } & PropsWithChildren
@@ -31,7 +31,13 @@ export const AuthContextProvider: FC<
             }
         })
         return () => void 0
-    }, [token])
+    }, [
+        token,
+        setAuthentication,
+        authentication, // token &&
+        authProvider.verifyToken,
+        areEquivalent,
+    ])
     return (
         <AuthContext.Provider
             value={{

@@ -1,3 +1,9 @@
+import DeleteForeverIcon from '@mui/icons-material/DeleteForever'
+import EditIcon from '@mui/icons-material/Edit'
+import EmailIcon from '@mui/icons-material/Email'
+import AdressIcon from '@mui/icons-material/LocationCity'
+import LogoutIcon from '@mui/icons-material/Logout'
+import PhoneIcon from '@mui/icons-material/Phone'
 import {
     Button,
     Card,
@@ -6,19 +12,13 @@ import {
     Grid,
     Typography,
 } from '@mui/material'
-import LogoutIcon from '@mui/icons-material/Logout'
-import EditIcon from '@mui/icons-material/Edit'
-import DeleteForeverIcon from '@mui/icons-material/DeleteForever'
-import EmailIcon from '@mui/icons-material/Email'
-import PhoneIcon from '@mui/icons-material/Phone'
-import AdressIcon from '@mui/icons-material/LocationCity'
-import { Profile } from 'profile/types'
-import { FC, PropsWithChildren, useContext } from 'react'
-import { NavLink, useNavigate } from 'react-router-dom'
-import { PhraseContext } from 'phrases/PhraseContext'
 import { AuthContext } from 'auth'
-import { Editorial } from 'editorials'
 import { ResponsiveButtonGroup } from 'components/ResponsiveButtonGroup'
+import { Editorial } from 'editorials'
+import { PhraseContext } from 'phrases/PhraseContext'
+import type { Profile } from 'profile/types'
+import { type FC, type PropsWithChildren, useContext } from 'react'
+import { NavLink, useNavigate } from 'react-router-dom'
 
 const PropBox: FC<PropsWithChildren & { icon: React.JSX.Element }> = ({
     children,
@@ -62,7 +62,7 @@ export const ProfileView: FC<{ profile: Profile }> = ({ profile }) => {
                         // profile.country,
                         profile.organization,
                     ]
-                        .map((v) => v && v.trim())
+                        .map((v) => v?.trim())
                         .filter((v) => v)
                         .map((v, index) => (
                             <Typography

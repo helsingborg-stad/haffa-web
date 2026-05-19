@@ -1,5 +1,5 @@
-import { AdvertFilterInput } from 'adverts'
-import { AdvertSubscriptionFilter } from './types'
+import type { AdvertFilterInput } from 'adverts'
+import type { AdvertSubscriptionFilter } from './types'
 
 export const convertAdvertFilterToSubscriptionFilter = (
     filter: AdvertFilterInput

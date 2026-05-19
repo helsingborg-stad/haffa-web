@@ -1,5 +1,5 @@
 import { toMap } from 'lib/to-map'
-import { HaffaUserRoles } from './types'
+import type { HaffaUserRoles } from './types'
 
 export const hasSomeAdminRoles = (r: HaffaUserRoles): boolean =>
     !!(

@@ -1,9 +1,9 @@
 import {
-    isValidColorOr,
-    isValidStringOr,
-    isValidString,
-    isValidUrl,
     isValidColor,
+    isValidColorOr,
+    isValidString,
+    isValidStringOr,
+    isValidUrl,
 } from './string-utils'
 
 describe('isValidUrl', () => {
@@ -91,6 +91,8 @@ describe('isValidColorOr', () => {
 
     it('should return fallback for invalid color values', () => {
         const list = [undefined, null, '', '#aA99BG', 'aabbcc', '#4565']
-        list.forEach((u) => expect(isValidColorOr(u, '#000000')).toBe('#000000'))
+        list.forEach((u) =>
+            expect(isValidColorOr(u, '#000000')).toBe('#000000')
+        )
     })
 })

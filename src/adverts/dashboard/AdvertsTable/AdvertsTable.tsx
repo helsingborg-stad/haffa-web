@@ -1,22 +1,21 @@
 import { Stack } from '@mui/material'
 import {
     DataGrid,
-    GridColumnVisibilityModel,
-    GridDensity,
-    GridPaginationModel,
-    GridSortModel,
+    type GridColumnVisibilityModel,
+    type GridDensity,
+    type GridPaginationModel,
+    type GridSortModel,
     GridToolbar,
 } from '@mui/x-data-grid'
 
-import { Advert } from 'adverts'
-import { FC, useCallback, useContext } from 'react'
-
+import type { Advert } from 'adverts'
 import useLocalStorage from 'hooks/use-local-storage'
-import { AdvertsTableContext } from './AdvertsTableContext'
+import { type FC, useCallback, useContext } from 'react'
 import { createRows } from '../createRows'
-import { AdvertTableColumn } from './types'
+import { AdvertsTableContext } from './AdvertsTableContext'
 import { FilterPanel } from './components/FilterPanel'
 import { RestrictionsPanel } from './components/RestrictionsPanel'
+import type { AdvertTableColumn } from './types'
 
 export const PAGE_SIZE = 10
 const PAGE_SIZES = [10, 25, 50, 100]
@@ -51,7 +50,7 @@ export const AdvertsTable: FC<{
                     pageIndex: 0,
                 },
             }),
-        [setFilter]
+        [setFilter, filter]
     )
     // Transform pagination model to serverside model
     const onPaginationModelChange = useCallback(
@@ -64,7 +63,7 @@ export const AdvertsTable: FC<{
                 },
             })
         },
-        [setFilter]
+        [setFilter, filter]
     )
     return (
         <Stack direction="column" spacing={2}>

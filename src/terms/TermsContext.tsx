@@ -1,5 +1,5 @@
-import { FC, PropsWithChildren, createContext } from 'react'
-import { TermsRepository } from './types'
+import { createContext, type FC, type PropsWithChildren } from 'react'
+import type { TermsRepository } from './types'
 
 const notProvided = (method: string) => () => {
     throw new Error(`TermsContext::${method} is not provided`)

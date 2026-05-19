@@ -1,18 +1,10 @@
-import {
-    FC,
-    PropsWithChildren,
-    ReactNode,
-    Ref,
-    forwardRef,
-    useContext,
-    useMemo,
-    useState,
-} from 'react'
+import LoginIcon from '@mui/icons-material/Login'
+import MenuIcon from '@mui/icons-material/Menu'
 import {
     AppBar,
     Box,
     Button,
-    ButtonProps,
+    type ButtonProps,
     Container,
     Dialog,
     DialogContent,
@@ -31,14 +23,26 @@ import {
     useMediaQuery,
     useTheme,
 } from '@mui/material'
-import MenuIcon from '@mui/icons-material/Menu'
 import { AuthContext, AuthenticatePanel } from 'auth'
-import { NavLink, NavLinkProps } from 'react-router-dom'
-import LoginIcon from '@mui/icons-material/Login'
+import {
+    type FC,
+    forwardRef,
+    type PropsWithChildren,
+    type ReactNode,
+    type Ref,
+    useContext,
+    useMemo,
+    useState,
+} from 'react'
+import { NavLink, type NavLinkProps } from 'react-router-dom'
 import { PhraseContext } from '../phrases/PhraseContext'
-import { HaffaLink, createAdminNavLinks, createNavLinks } from './nav-links'
-import { SlowFetchWarning } from './SlowFetchWarning'
 import { NotificationsSnackbar } from './NotificationSnackbar'
+import {
+    createAdminNavLinks,
+    createNavLinks,
+    type HaffaLink,
+} from './nav-links'
+import { SlowFetchWarning } from './SlowFetchWarning'
 
 const NavIconButton: FC<
     ButtonProps & {

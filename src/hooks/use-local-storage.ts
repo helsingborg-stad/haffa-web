@@ -22,7 +22,8 @@ const trySetLsItem = <T>(key: string, value: T): void => {
 const registerKeyUsage = (key: string): void => {
     const usedKeys = tryGetLsItem<string[]>(USED_KEYS_KEY, [])
     if (!Array.isArray(usedKeys)) {
-        return trySetLsItem(USED_KEYS_KEY, [key])
+        trySetLsItem(USED_KEYS_KEY, [key])
+        return
     }
     if (!usedKeys.includes(key)) {
         trySetLsItem(USED_KEYS_KEY, [...usedKeys, key])

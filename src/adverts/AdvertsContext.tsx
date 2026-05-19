@@ -1,5 +1,5 @@
-import { FC, PropsWithChildren, createContext } from 'react'
-import { AdvertsRepository } from './types'
+import { createContext, type FC, type PropsWithChildren } from 'react'
+import type { AdvertsRepository } from './types'
 
 const notProvided = (method: string) => () => {
     throw new Error(`AdvertsContext::${method} is not provided`)

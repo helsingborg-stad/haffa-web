@@ -9,7 +9,7 @@ import {
     TextField,
 } from '@mui/material'
 
-import { AdvertLocation } from 'adverts'
+import type { AdvertLocation } from 'adverts'
 import { isValidString } from 'lib/string-utils'
 
 interface LocationEditorProps {

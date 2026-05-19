@@ -1,9 +1,9 @@
-import { TreeProps } from 'antd'
-import { DataNode } from 'antd/es/tree'
+import type { TreeProps } from 'antd'
+import type { DataNode } from 'antd/es/tree'
 import { createTreeAdapter } from 'lib/tree-adapter'
 import { treeDetach, treeFind, treeFindReplace } from 'lib/tree-lookup'
 import { getTreeNodeActions } from 'lib/tree-node-actions'
-import { Action1, Action2, Action3, Func1 } from 'lib/types'
+import type { Action1, Action2, Action3, Func1 } from 'lib/types'
 import { uniqueBy } from 'lib/unique-by'
 import { useCallback, useEffect, useReducer } from 'react'
 
@@ -261,7 +261,14 @@ export const useTree = <T>(
                 dispatch,
             }))
         }
-    }, [model, dispatch])
+    }, [
+        model,
+        viewState.expandedKeys,
+        viewState,
+        keyFn,
+        initialNodes,
+        childrenFn,
+    ])
 
     const replaceNode = useCallback(
         (node: T, mutator: Func1<T, Partial<T>>) => {
@@ -275,7 +282,7 @@ export const useTree = <T>(
                 })
             )
         },
-        [model]
+        [model, childrenFn]
     )
 
     return {

@@ -1,5 +1,5 @@
-import { Action, Action1 } from 'lib/types'
-import { FC, PropsWithChildren, createContext } from 'react'
+import type { Action, Action1 } from 'lib/types'
+import { createContext, type FC, type PropsWithChildren } from 'react'
 
 const SLOW_TIME_MS = 500
 

@@ -1,5 +1,5 @@
-import { HaffaUserRoles } from 'auth'
-import { PhraseContextType } from 'phrases'
+import type { HaffaUserRoles } from 'auth'
+import type { PhraseContextType } from 'phrases'
 
 interface RoleMappingBuilder<TRoles> {
     define: (
@@ -11,17 +11,15 @@ interface RoleMappingBuilder<TRoles> {
 
 type RoleInputTuple<TRoles> = [keyof TRoles, string, boolean]
 
-interface MapInputValueToRoles<TRoles> {
-    (values: string | string[]): Partial<TRoles>
-}
+type MapInputValueToRoles<TRoles> = (
+    values: string | string[]
+) => Partial<TRoles>
 
-interface MapRolesToInputValue<TRoles> {
-    (roles: Partial<TRoles>): string[]
-}
+type MapRolesToInputValue<TRoles> = (roles: Partial<TRoles>) => string[]
 
-interface MapInputValueToTuples<TRoles> {
-    (values: string | string[]): RoleInputTuple<TRoles>[]
-}
+type MapInputValueToTuples<TRoles> = (
+    values: string | string[]
+) => RoleInputTuple<TRoles>[]
 
 const makeTuple = <TRoles>(
     prop: keyof TRoles,
@@ -35,7 +33,7 @@ export const createRoleInputBindings = <TRoles>(
     RoleInputTuple<TRoles>[],
     MapInputValueToTuples<TRoles>,
     MapRolesToInputValue<TRoles>,
-    MapInputValueToRoles<TRoles>
+    MapInputValueToRoles<TRoles>,
 ] => {
     const tuples: RoleInputTuple<TRoles>[] = []
     const builder: RoleMappingBuilder<TRoles> = {

@@ -1,6 +1,6 @@
-import { FC } from 'react'
 import { Tab, Tabs } from '@mui/material'
-import { AdvertRestrictionsFilterInput } from 'adverts'
+import type { AdvertRestrictionsFilterInput } from 'adverts'
+import type { FC } from 'react'
 import { useUrlParams } from 'url-params'
 import { AdvertsListWithSearch } from './AdvertsListWithSearch'
 

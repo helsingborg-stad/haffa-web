@@ -1,5 +1,5 @@
-import { FC, PropsWithChildren, createContext } from 'react'
-import {
+import { createContext, type FC, type PropsWithChildren } from 'react'
+import type {
     AnalyticsOptionKeys,
     HtmlOptionKeys,
     LabelOptionsKeys,

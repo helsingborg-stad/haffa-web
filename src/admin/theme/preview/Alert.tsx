@@ -1,4 +1,9 @@
-import { Alert, AlertColor, AlertProps, AlertTitle } from '@mui/material'
+import {
+    Alert,
+    type AlertColor,
+    type AlertProps,
+    AlertTitle,
+} from '@mui/material'
 
 const phrases: Record<AlertColor, [string, string]> = {
     info: ['Information', 'Detta är en notis för ett informationsmeddelande'],

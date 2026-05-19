@@ -5,8 +5,8 @@ import { AdvertsView, MyAdvertsView, MyReservationsView } from './listings'
 export {
     AdvertDetailsView,
     AdvertsView,
-    MyAdvertsView,
-    MyReservationsView,
     CreateAdvertView,
     EditAdvertView,
+    MyAdvertsView,
+    MyReservationsView,
 }

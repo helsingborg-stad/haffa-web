@@ -1,11 +1,11 @@
-import {
+import type {
     AdvertFieldConfig,
     AdvertFieldRepository,
 } from 'advert-field-config/types'
 import { ifNullThenNotFoundError } from '../../errors'
 import { gqlClient } from '../../graphql'
-import { getFieldsQuery, updateFieldsMutation } from './queries'
 import { normalizeFieldConfig } from './mappers'
+import { getFieldsQuery, updateFieldsMutation } from './queries'
 
 const gql = (token: string, f?: typeof fetch, init?: RequestInit) =>
     gqlClient()

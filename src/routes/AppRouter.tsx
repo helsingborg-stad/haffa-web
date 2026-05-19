@@ -1,55 +1,55 @@
-import { FC, PropsWithChildren, useContext, useState } from 'react'
+import { AboutView } from 'about'
+import { createAdminTabs } from 'admin/admin-tabs'
+import { AdvertFieldsContext } from 'advert-field-config'
+import type { AdvertFieldRepository } from 'advert-field-config/types'
 import {
-    Route,
-    RouteProps,
-    RouterProvider,
-    createBrowserRouter,
-    createRoutesFromElements,
-    useLoaderData,
-} from 'react-router-dom'
-import { Layout } from 'layout'
-import {
-    AdvertsRepository,
+    AdvertDetailsView,
     AdvertsContext,
+    type AdvertsRepository,
+    AdvertsView,
     CreateAdvertView,
     EditAdvertView,
-    AdvertsView,
-    AdvertDetailsView,
     MyReservationsView,
 } from 'adverts'
+import { AdvertsDashboardView } from 'adverts/dashboard/AdvertsDashboardView'
+import { AuthContext, type AuthContextType, type HaffaUserRoles } from 'auth'
+import { UnauthorizedView } from 'auth/components/UnathorizedView'
+import { CategoriesContext } from 'categories'
+import type { CategoriesRepository } from 'categories/types'
+import { ContentContext } from 'content'
+import type { ContentRepository } from 'content/types'
+import { HomeView } from 'home'
+import { Layout } from 'layout'
+import { LocationContext } from 'locations'
+import type { LocationRepository } from 'locations/types'
+import { PhraseContext, type PhraseContextType } from 'phrases'
+import { PickupLocationContext } from 'pickup-locations'
+import type { PickupLocationRepository } from 'pickup-locations/types'
 import {
     EditProfileView,
     ProfileContext,
-    ProfileRepository,
+    type ProfileRepository,
     ProfileView,
     RemoveProfileView,
 } from 'profile'
-import { AuthContext, AuthContextType, HaffaUserRoles } from 'auth'
-import { UnauthorizedView } from 'auth/components/UnathorizedView'
-import { CategoriesRepository } from 'categories/types'
-import { CategoriesContext } from 'categories'
-import { TermsRepository } from 'terms/types'
-import { TermsContext } from 'terms'
+import { ScanQrCodeView } from 'qr-code-navigation/ScanQrCodeView'
+import { type FC, type PropsWithChildren, useContext, useState } from 'react'
+import {
+    createBrowserRouter,
+    createRoutesFromElements,
+    Route,
+    type RouteProps,
+    RouterProvider,
+    useLoaderData,
+} from 'react-router-dom'
+import { StatisticsContext } from 'statistics'
+import type { StaticsticsProvider } from 'statistics/types'
 import { MySubscriptionsView } from 'subscriptions'
 import { SubscriptionView } from 'subscriptions/components/SubscriptionView'
-import { ScanQrCodeView } from 'qr-code-navigation/ScanQrCodeView'
-import { AboutView } from 'about'
-import { ContentContext } from 'content'
-import { ContentRepository } from 'content/types'
-import { HomeView } from 'home'
-import { AdvertFieldRepository } from 'advert-field-config/types'
-import { AdvertFieldsContext } from 'advert-field-config'
-import { LocationContext } from 'locations'
-import { LocationRepository } from 'locations/types'
-import { AdvertsDashboardView } from 'adverts/dashboard/AdvertsDashboardView'
-import { createAdminTabs } from 'admin/admin-tabs'
-import { PhraseContext, PhraseContextType } from 'phrases'
-import { TagsRepository } from 'tags/types'
 import { TagsContext } from 'tags'
-import { PickupLocationRepository } from 'pickup-locations/types'
-import { PickupLocationContext } from 'pickup-locations'
-import { StaticsticsProvider } from 'statistics/types'
-import { StatisticsContext } from 'statistics'
+import type { TagsRepository } from 'tags/types'
+import { TermsContext } from 'terms'
+import type { TermsRepository } from 'terms/types'
 import { ErrorRouteView } from './ErrorRouteView'
 
 const UnpackLoaderData: FC<{ render: (loaderData: any) => JSX.Element }> = ({

@@ -13,8 +13,8 @@ import {
 import { isValidString } from 'lib/string-utils'
 import { PhraseContext } from 'phrases'
 import { normalizePickupLocation } from 'pickup-locations'
-import { PickupLocation } from 'pickup-locations/types'
-import { FC, useCallback, useContext, useMemo, useState } from 'react'
+import type { PickupLocation } from 'pickup-locations/types'
+import { type FC, useCallback, useContext, useMemo, useState } from 'react'
 
 export const PickupLocationDialog: FC<{
     location: PickupLocation
@@ -26,7 +26,7 @@ export const PickupLocationDialog: FC<{
     const [memo, setMemo] = useState(normalizePickupLocation(location))
     const patch = useCallback(
         (p: Partial<PickupLocation>) => setMemo({ ...memo, ...p }),
-        [memo, setMemo]
+        [memo]
     )
     const valid = useMemo(
         () => [memo.adress, memo.city, memo.zipCode].some(isValidString),

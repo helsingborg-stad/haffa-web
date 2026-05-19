@@ -1,10 +1,11 @@
+import StoreIcon from '@mui/icons-material/Store'
 import {
     Button,
     Checkbox,
     Dialog,
     DialogActions,
     DialogContent,
-    DialogProps,
+    type DialogProps,
     DialogTitle,
     List,
     ListItem,
@@ -14,10 +15,9 @@ import {
     Stack,
 } from '@mui/material'
 import { range } from 'lib/range'
-import { Func1 } from 'lib/types'
-import { PickupLocation } from 'pickup-locations/types'
-import { FC, useEffect, useMemo, useState } from 'react'
-import StoreIcon from '@mui/icons-material/Store'
+import type { Func1 } from 'lib/types'
+import type { PickupLocation } from 'pickup-locations/types'
+import { type FC, useEffect, useMemo, useState } from 'react'
 
 const TICK_COUNT: number = 5
 
@@ -72,7 +72,7 @@ export const ClaimDialog: FC<
         !pickupLocations.includes(selectedPickupLocation)
             ? setSelectedPickupLocation(pickupLocations[0])
             : undefined
-    }, [pickupLocations, selectedPickupLocation, setSelectedPickupLocation])
+    }, [pickupLocations, selectedPickupLocation])
 
     const marks = useMemo(() => {
         const indices = range(minCount, maxCount)

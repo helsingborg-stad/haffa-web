@@ -1,15 +1,15 @@
 import {
     Button,
-    ButtonProps,
+    type ButtonProps,
     Dialog,
     DialogActions,
     DialogContent,
-    DialogProps,
+    type DialogProps,
     DialogTitle,
     Slider,
 } from '@mui/material'
 import { range } from 'lib/range'
-import { FC, useMemo, useState } from 'react'
+import { type FC, useMemo, useState } from 'react'
 
 export type SelectCountButtonProps = ButtonProps & {
     minCount: number

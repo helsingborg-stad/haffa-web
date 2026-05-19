@@ -1,3 +1,7 @@
+import CancelIcon from '@mui/icons-material/Cancel'
+import CloudUploadIcon from '@mui/icons-material/CloudUpload'
+import RefreshIcon from '@mui/icons-material/Refresh'
+import SaveIcon from '@mui/icons-material/Save'
 import {
     Autocomplete,
     Button,
@@ -8,30 +12,32 @@ import {
     CardHeader,
     Container,
     Grid,
-    GridProps,
+    type GridProps,
     InputAdornment,
     TextField,
 } from '@mui/material'
-import { FC, PropsWithChildren, useCallback, useContext, useMemo } from 'react'
-import SaveIcon from '@mui/icons-material/Save'
-import CancelIcon from '@mui/icons-material/Cancel'
-import RefreshIcon from '@mui/icons-material/Refresh'
-import CloudUploadIcon from '@mui/icons-material/CloudUpload'
-import { useNavigate } from 'react-router-dom'
-import { Terms } from 'terms/types'
-import { Profile, ProfileContext } from 'profile'
-import useAbortController from 'hooks/use-abort-controller'
-import { Editorial } from 'editorials'
-import { AdvertFieldConfig, FieldName } from 'advert-field-config/types'
 import { getField } from 'advert-field-config/repository/mappers'
+import type { AdvertFieldConfig, FieldName } from 'advert-field-config/types'
+import { Editorial } from 'editorials'
+import useAbortController from 'hooks/use-abort-controller'
 import { isValidString } from 'lib/string-utils'
-import { AdvertInput, AdvertLocation } from '../../../types'
+import { type Profile, ProfileContext } from 'profile'
 import {
-    SelectOption,
+    type FC,
+    type PropsWithChildren,
+    useCallback,
+    useContext,
+    useMemo,
+} from 'react'
+import { useNavigate } from 'react-router-dom'
+import type { Terms } from 'terms/types'
+import type { Category } from '../../../../categories/types'
+import {
+    type SelectOption,
     useFormControls,
 } from '../../../../hooks/use-form-controls'
 import { PhraseContext } from '../../../../phrases/PhraseContext'
-import { Category } from '../../../../categories/types'
+import type { AdvertInput, AdvertLocation } from '../../../types'
 import { ImageContainer, ImageInput } from './Image'
 import { TagEditor } from './TagEditor'
 
@@ -201,9 +207,8 @@ export const AdvertForm: FC<{
         const label = prefix ? `${prefix} - ${category.label}` : category.label
 
         const childOutput =
-            category.categories
-                .map((c) => categoryToOptions(c, label))
-                .flat() ?? []
+            category.categories.flatMap((c) => categoryToOptions(c, label)) ??
+            []
 
         return [...output, { label, value: category.id }, ...childOutput]
     }
@@ -347,9 +352,9 @@ export const AdvertForm: FC<{
                                     select(
                                         field,
                                         label,
-                                        categories
-                                            .map((c) => categoryToOptions(c))
-                                            .flat(),
+                                        categories.flatMap((c) =>
+                                            categoryToOptions(c)
+                                        ),
                                         {
                                             required,
                                             disabled,
@@ -824,7 +829,35 @@ export const AdvertForm: FC<{
                         .filter((l) => l.length > 0),
                 }))
                 .filter((v) => v.rows.length > 0),
-        [model]
+        [
+            model,
+            patchModel,
+            phrase,
+            removeImage,
+            select,
+            terms.condition,
+            terms.material,
+            terms.organization,
+            terms.places,
+            terms.sizes,
+            terms.tags,
+            terms.unit,
+            terms.usage,
+            moveImageUp,
+            textField,
+            moveImageDown,
+            makeOptions,
+            disabled,
+            factory.imagePicker,
+            factory.select,
+            factory.textField,
+            locations,
+            createComplexField,
+            createSimplifiedField,
+            categoryToOptions,
+            createAdornment,
+            categories.flatMap,
+        ]
     )
     const nextLayoutKey = nextKey('l')
 

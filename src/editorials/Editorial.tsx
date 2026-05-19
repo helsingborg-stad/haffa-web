@@ -1,7 +1,7 @@
-import { Alert, AlertColor, Box } from '@mui/material'
+import { Alert, type AlertColor, Box } from '@mui/material'
 import { Markdown } from 'components/Markdown'
 import { PhraseContext } from 'phrases'
-import { FC, useContext } from 'react'
+import { type FC, useContext } from 'react'
 
 export const Editorial: FC<{
     phraseKey: string

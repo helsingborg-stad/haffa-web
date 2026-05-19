@@ -1,4 +1,4 @@
-import { FC } from 'react'
+import type { FC } from 'react'
 import { Layout } from '../../layout'
 import { AuthenticatePanel } from './AuthenticatePanel'
 

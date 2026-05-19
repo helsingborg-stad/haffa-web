@@ -1,18 +1,18 @@
-import { FC, PropsWithChildren, useContext, useState } from 'react'
 import CloseIcon from '@mui/icons-material/Close'
 import QrCodeScannerIcon from '@mui/icons-material/QrCodeScanner'
 import {
     Button,
-    ButtonProps,
+    type ButtonProps,
     Dialog,
     DialogContent,
     DialogTitle,
     IconButton,
-    SxProps,
-    Theme,
+    type SxProps,
+    type Theme,
 } from '@mui/material'
 import { Scanner } from '@yudiel/react-qr-scanner'
 import { DeepLinkContext } from 'deep-links/DeepLinkContext'
+import { type FC, type PropsWithChildren, useContext, useState } from 'react'
 
 interface QrCodeScanEvents {
     onSameDomain: (url: URL, close: () => void) => any

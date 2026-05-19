@@ -1,4 +1,4 @@
-import { TextField, TextFieldProps } from '@mui/material'
+import { TextField, type TextFieldProps } from '@mui/material'
 
 const phrases: Record<string, [string, string]> = {
     primary: ['Primär', 'Detta är en ett textfält med primär färg'],

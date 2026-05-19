@@ -1,9 +1,9 @@
 import { FormControl, InputLabel, MenuItem, Select } from '@mui/material'
-import { AdvertFilterInput } from 'adverts/types'
+import type { AdvertFilterInput } from 'adverts/types'
 import useAsync from 'hooks/use-async'
 import { PhraseContext } from 'phrases'
 import { PickupLocationContext } from 'pickup-locations'
-import { FC, Fragment, useContext, useId } from 'react'
+import { type FC, Fragment, useContext, useId } from 'react'
 
 export const SelectPickupLocation: FC<{
     filter: AdvertFilterInput
@@ -49,7 +49,10 @@ export const SelectPickupLocation: FC<{
                             {phrase('VALUE_EMPTY', '(inget värde)')}
                         </MenuItem>
                         {locations.map((l) => (
-                            <MenuItem value={l.trackingName}>
+                            <MenuItem
+                                key={l.trackingName}
+                                value={l.trackingName}
+                            >
                                 {l.trackingName}
                             </MenuItem>
                         ))}

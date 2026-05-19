@@ -1,3 +1,6 @@
+import AddIcon from '@mui/icons-material/Add'
+import Delete from '@mui/icons-material/Delete'
+import PlaceIcon from '@mui/icons-material/Place'
 import {
     Avatar,
     Box,
@@ -9,16 +12,13 @@ import {
     ListItemButton,
     ListItemText,
 } from '@mui/material'
+import type { AdvertLocation } from 'adverts'
 import { AdminActionPanel } from 'components/AdminActionPanel'
 import { AdminEditorialPanel } from 'components/AdminEditorialPanel'
-import { createEmptyLocation } from 'locations'
-import { LocationRepository } from 'locations/types'
-import { useCallback, useState } from 'react'
-import { AdvertLocation } from 'adverts'
-import PlaceIcon from '@mui/icons-material/Place'
-import Delete from '@mui/icons-material/Delete'
-import AddIcon from '@mui/icons-material/Add'
 import { Editorial } from 'editorials'
+import { createEmptyLocation } from 'locations'
+import type { LocationRepository } from 'locations/types'
+import { useCallback, useState } from 'react'
 import { LocationEditor } from './LocationEditor'
 
 export interface LocationWithIndex {
@@ -41,7 +41,7 @@ export const EditLocationsForm = (props: {
             setDisabled(false)
             setList(result)
         })
-    }, [list])
+    }, [list, onUpdate])
 
     const cacheUpdate = useCallback(
         (module: AdvertLocation) => {
@@ -52,7 +52,7 @@ export const EditLocationsForm = (props: {
                   })
                 : undefined
         },
-        [cache, setCache]
+        [cache]
     )
 
     const applyFromCache = useCallback(() => {
@@ -66,7 +66,7 @@ export const EditLocationsForm = (props: {
             }
             setCache(undefined)
         }
-    }, [cache])
+    }, [cache, list])
 
     const deleteRow = (index: number) =>
         setList([...list.slice(0, index), ...list.slice(index + 1)])

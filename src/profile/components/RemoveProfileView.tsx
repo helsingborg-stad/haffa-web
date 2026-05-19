@@ -1,3 +1,6 @@
+import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutline'
+import LogoutIcon from '@mui/icons-material/Logout'
+import WarningIcon from '@mui/icons-material/Warning'
 import {
     Avatar,
     Button,
@@ -12,18 +15,15 @@ import {
     ListItemText,
 } from '@mui/material'
 import { AdvertsContext } from 'adverts'
+import { AuthContext } from 'auth'
+import { ConfirmButton } from 'components/ConfirmButton'
+import { Editorial } from 'editorials'
 import { ErrorView } from 'errors'
 import useAsync from 'hooks/use-async'
-import { Profile, ProfileContext } from 'profile'
-import { FC, PropsWithChildren, useContext } from 'react'
-import { NavLink, useNavigate } from 'react-router-dom'
-import WarningIcon from '@mui/icons-material/Warning'
-import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutline'
-import LogoutIcon from '@mui/icons-material/Logout'
-import { ConfirmButton } from 'components/ConfirmButton'
 import { PhraseContext } from 'phrases'
-import { AuthContext } from 'auth'
-import { Editorial } from 'editorials'
+import { type Profile, ProfileContext } from 'profile'
+import { type FC, type PropsWithChildren, useContext } from 'react'
+import { NavLink, useNavigate } from 'react-router-dom'
 
 interface Engagement {
     hasAdverts: boolean
