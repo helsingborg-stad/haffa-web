@@ -1,18 +1,18 @@
-FROM node:18 as compiler
+FROM node:22 as compiler
 ARG GITHUB_ACCESS_TOKEN
 WORKDIR /work
 COPY . ./
 COPY deploy.npmrc .npmrc
 RUN yarn install && yarn build
 
-FROM node:18-alpine	as optimizer
+FROM node:22-alpine	as optimizer
 ARG GITHUB_ACCESS_TOKEN
 WORKDIR /work
 COPY . ./
 COPY deploy.npmrc .npmrc
 RUN yarn install --production --ignore-optional --platform=linux --arch=x64
 
-FROM node:18-alpine
+FROM node:22-alpine
 EXPOSE 4000
 ENV NODE_ENV=production
 ENV PORT=4000
