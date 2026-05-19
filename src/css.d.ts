@@ -1,0 +1,5 @@
+declare module '*.css'
+declare module 'swiper/css'
+declare module 'swiper/css/*'
+declare module '@fontsource/*'
+declare module '@fontsource/*/*'
