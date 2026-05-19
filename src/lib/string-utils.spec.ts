@@ -1,4 +1,5 @@
 import {
+    isValidColorOr,
     isValidStringOr,
     isValidString,
     isValidUrl,
@@ -79,5 +80,17 @@ describe('isValidColor', () => {
             '#4565',
         ]
         list.forEach((u) => expect(isValidColor(u)).toBe(false))
+    })
+})
+
+describe('isValidColorOr', () => {
+    it('should return the original color for valid hex values', () => {
+        const list = ['#aA18ef', '#999', '#abc']
+        list.forEach((u) => expect(isValidColorOr(u, '#000000')).toBe(u))
+    })
+
+    it('should return fallback for invalid color values', () => {
+        const list = [undefined, null, '', '#aA99BG', 'aabbcc', '#4565']
+        list.forEach((u) => expect(isValidColorOr(u, '#000000')).toBe('#000000'))
     })
 })
