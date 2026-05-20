@@ -12,7 +12,7 @@ export const HomeView = (props: {
         {props.composition.rows.map((row, index) => (
             <Fragment key={index}>
                 {row.columns.map((column, index) => (
-                    <Grid key={index} item xs={12} md={12 / row.columns.length}>
+                    <Grid key={index} size={{ xs: 12, md: 12 / row.columns.length }}>
                         <ContentCard
                             module={column.module}
                             summaries={props.summaries}

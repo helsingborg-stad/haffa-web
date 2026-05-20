@@ -230,7 +230,7 @@ export const Layout: FC<
                                 alt={APP_TITLE}
                             />
                         </Link>
-                        <Box flex={1} />
+                        <Box sx={{ flex: 1 }} />
                         {insideToolbarLinks}
                         {isGuest && false && (
                             <NavIconButton
@@ -263,7 +263,7 @@ export const Layout: FC<
                     <Container>
                         <Toolbar>
                             {phrase('AUTH_NAVBAR_INSPIRATION', '')}
-                            <Box flex={1} />
+                            <Box sx={{ flex: 1 }} />
                             <NavIconButton
                                 label="Logga in"
                                 icon={<LoginIcon />}
@@ -282,7 +282,7 @@ export const Layout: FC<
                 onClose={() => setDrawer(false)}
             >
                 <Toolbar>
-                    <Box flex={1} />
+                    <Box sx={{ flex: 1 }} />
                     <NavIconButton
                         label="Meny"
                         icon={<MenuIcon />}
@@ -307,7 +307,7 @@ export const Layout: FC<
             </Drawer>
 
             <Toolbar /* for pushing down content */ />
-            <Grid key="c" item xs={12} md={8} sx={{}}>
+            <Grid key="c" size={{ xs: 12, md: 8 }} sx={{}}>
                 <Container key="c" sx={{ position: 'relative', mt: 4, mb: 16 }}>
                     <SlowFetchWarning key="sf" sx={{ mb: 2 }} />
                     {children}

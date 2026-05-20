@@ -54,10 +54,8 @@ export const AdvertSubscriptionControls: FC<{
         : []
     return buttons.length > 0 ? (
         <Stack
-            useFlexGap
-            justifyContent="end"
             direction={{ xs: 'column', sm: 'row' }}
-            sx={{ gap: 1, ...sx }}
+            sx={{ justifyContent: 'end', gap: 1, ...sx }}
         >
             {buttons}
         </Stack>

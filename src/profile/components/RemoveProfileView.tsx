@@ -1,4 +1,4 @@
-import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutline'
+import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutlined'
 import LogoutIcon from '@mui/icons-material/Logout'
 import WarningIcon from '@mui/icons-material/Warning'
 import {

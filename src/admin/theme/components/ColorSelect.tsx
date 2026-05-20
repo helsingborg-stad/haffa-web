@@ -64,7 +64,7 @@ export const ColorSelect = ({
                 disabled
                 fullWidth
                 variant="outlined"
-                InputProps={{
+                slotProps={{ input: {
                     startAdornment: (
                         <InputAdornment position="start">
                             <ColorButton
@@ -80,7 +80,7 @@ export const ColorSelect = ({
                             </Button>
                         </InputAdornment>
                     ),
-                }}
+                } }}
             />
             <Dialog open={state.isOpen} onClose={onClose}>
                 <DialogTitle>Välj färg</DialogTitle>

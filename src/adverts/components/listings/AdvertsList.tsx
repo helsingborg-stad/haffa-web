@@ -11,12 +11,11 @@ export const AdvertsList: FC<{
 }> = ({ adverts, categories }) => (
     <Grid
         container
-        alignItems="stretch"
-        sx={{ display: 'flex', my: 2 }}
+        sx={{ display: 'flex', alignItems: 'stretch', my: 2 }}
         spacing={2}
     >
         {adverts.map((advert) => (
-            <Grid item xs={6} sm={3} key={advert.id}>
+            <Grid size={{ xs: 6, sm: 3 }} key={advert.id}>
                 <AdvertListItem
                     sx={{ height: '100%' }}
                     advert={advert}

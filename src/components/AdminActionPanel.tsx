@@ -16,7 +16,7 @@ export const AdminActionPanel = (
     return (
         <CardActions sx={{ py: 2 }}>
             {children}
-            <Box flex={1} />
+            <Box sx={{ flex: 1 }} />
             <Button
                 type="submit"
                 disabled={disabled}

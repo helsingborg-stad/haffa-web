@@ -81,8 +81,8 @@ export const AdvertCard: FC<{
                         <ImagesPanel advert={advert} />
                     </CardContent>
                     <CardContent>
-                        <Grid container direction="column" rowGap={1}>
-                            <Grid item>
+                        <Grid container sx={{ flexDirection: 'column', rowGap: 1 }}>
+                            <Grid>
                                 <InfoPanel
                                     advert={advert}
                                     categories={categories}
@@ -91,7 +91,7 @@ export const AdvertCard: FC<{
                                     hideNotifications
                                 />
                             </Grid>
-                            <Grid item>
+                            <Grid>
                                 <InfoPanel
                                     advert={advert}
                                     categories={categories}
@@ -99,31 +99,31 @@ export const AdvertCard: FC<{
                                     hideTitle
                                 />
                             </Grid>
-                            <Grid item>
+                            <Grid>
                                 <TagDescriptionsPanel
                                     advert={advert}
                                     tagDescriptions={tagDescriptions}
                                 />
                             </Grid>
-                            <Grid item>
+                            <Grid>
                                 <ActionsPanel
                                     advert={advert}
                                     onUpdate={onUpdate}
                                 />
                             </Grid>
-                            <Grid item>
+                            <Grid>
                                 <DetailsPanel fields={fields} advert={advert} />
                             </Grid>
-                            <Grid item>
+                            <Grid>
                                 <AddressCard
                                     advert={advert}
                                     locations={effectiveLocations}
                                 />
                             </Grid>
-                            <Grid item>
+                            <Grid>
                                 <ContactCard advert={advert} />
                             </Grid>
-                            <Grid item>
+                            <Grid>
                                 <TagCard
                                     advert={advert}
                                     tagDescriptions={tagDescriptions}
@@ -139,16 +139,14 @@ export const AdvertCard: FC<{
                     <Grid
                         container
                         spacing={2}
-                        direction="row"
-                        p={4}
-                        rowGap={1}
+                        sx={{ p: 4, rowGap: 1 }}
                     >
-                        <Grid item xs={7} pr={8}>
+                        <Grid size={7} sx={{ pr: 8 }}>
                             <ImagesPanel advert={advert} />
                         </Grid>
-                        <Grid item xs={5}>
-                            <Grid container direction="column">
-                                <Grid item pt={4}>
+                        <Grid size={5}>
+                            <Grid container sx={{ flexDirection: 'column' }}>
+                                <Grid sx={{ pt: 4 }}>
                                     <InfoPanel
                                         advert={advert}
                                         categories={categories}
@@ -157,7 +155,7 @@ export const AdvertCard: FC<{
                                         hideNotifications
                                     />
                                 </Grid>
-                                <Grid item>
+                                <Grid>
                                     <InfoPanel
                                         advert={advert}
                                         categories={categories}
@@ -165,19 +163,19 @@ export const AdvertCard: FC<{
                                         hideTitle
                                     />
                                 </Grid>
-                                <Grid item>
+                                <Grid>
                                     <TagDescriptionsPanel
                                         advert={advert}
                                         tagDescriptions={tagDescriptions}
                                     />
                                 </Grid>
-                                <Grid item>
+                                <Grid>
                                     <ActionsPanel
                                         advert={advert}
                                         onUpdate={onUpdate}
                                     />
                                 </Grid>
-                                <Grid item>
+                                <Grid>
                                     <DetailsPanel
                                         fields={fields}
                                         advert={advert}
@@ -185,16 +183,16 @@ export const AdvertCard: FC<{
                                 </Grid>
                             </Grid>
                             <Grid container spacing={1}>
-                                <Grid item xs={12}>
+                                <Grid size={12}>
                                     <AddressCard
                                         advert={advert}
                                         locations={effectiveLocations}
                                     />
                                 </Grid>
-                                <Grid item xs={12}>
+                                <Grid size={12}>
                                     <ContactCard advert={advert} />
                                 </Grid>
-                                <Grid item xs={12}>
+                                <Grid size={12}>
                                     <TagCard
                                         advert={advert}
                                         tagDescriptions={tagDescriptions}

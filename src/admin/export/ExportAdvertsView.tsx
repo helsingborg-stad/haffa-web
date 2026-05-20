@@ -54,7 +54,7 @@ const SelectFields: FC<{
     selected: string[]
     setSelected: (s: string[]) => void
 }> = ({ fields, selected, setSelected }) => (
-    <Stack direction="row" spacing={2} useFlexGap flexWrap="wrap">
+    <Stack direction="row" spacing={2} sx={{ flexWrap: 'wrap' }}>
         {fields.map(({ label }) => (
             <FormControlLabel
                 key={label}
@@ -230,7 +230,7 @@ export const ExportAdvertsView: FC = () => {
                     />
                 </CardContent>
                 <CardActions>
-                    <Stack direction="row" spacing={1} width="100%">
+                    <Stack direction="row" spacing={1} sx={{ width: '100%' }}>
                         <Box sx={{ flex: 1 }} />
                         <Button
                             variant="contained"

@@ -13,7 +13,7 @@ export const QRCodePanel: FC<{
     return (
         <Card>
             <CardContent>
-                <Typography variant="h6" align="center" pb={2}>
+                <Typography variant="h6" align="center" sx={{ pb: 2 }}>
                     QR-Kod
                 </Typography>
 

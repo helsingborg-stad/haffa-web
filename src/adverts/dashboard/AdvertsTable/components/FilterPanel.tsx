@@ -18,18 +18,18 @@ export const FilterPanel: FC<
 
     return (
         <Grid container>
-            <Grid item sx={{ flex: 1 }}>
+            <Grid sx={{ flex: 1 }}>
                 <TextField
                     fullWidth
                     type="search"
                     value={search}
-                    InputProps={{
+                    slotProps={{ input: {
                         startAdornment: (
                             <InputAdornment position="start">
                                 <SearchIcon />
                             </InputAdornment>
                         ),
-                    }}
+                    } }}
                     onChange={({ target: { value } }) => {
                         setSearch(value)
                         setFilter({
@@ -39,7 +39,7 @@ export const FilterPanel: FC<
                     }}
                 />
             </Grid>
-            <Grid item>
+            <Grid>
                 <FiltersIconButton
                     searchParams={filter}
                     onClick={() => setShowFilter(true)}

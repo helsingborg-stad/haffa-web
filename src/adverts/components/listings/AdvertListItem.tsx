@@ -66,9 +66,8 @@ export const AdvertListItem: FC<{
             }}
         >
             <CardActionArea component={Link} to={`/advert/${advert.id}`}>
-                <Grid container direction="column" sx={{ height: '100%' }}>
+                <Grid container sx={{ flexDirection: 'column', height: '100%' }}>
                     <Grid
-                        item
                         sx={{
                             width: '100%',
                             aspectRatio: advertImageAspectRatio,
@@ -100,7 +99,7 @@ export const AdvertListItem: FC<{
                             }}
                         />
                     </Grid>
-                    <Grid item sx={{ flex: 1, m: 2 }}>
+                    <Grid sx={{ flex: 1, m: 2 }}>
                         <Typography
                             variant="subtitle2"
                             color="text.secondary"
@@ -114,7 +113,7 @@ export const AdvertListItem: FC<{
                             </Typography>
                         </Box>
                     </Grid>
-                    <Grid item sx={{ mx: 2, mb: 3 }}>
+                    <Grid sx={{ mx: 2, mb: 3 }}>
                         <Typography
                             variant="caption"
                             color="text.disabled"
@@ -141,8 +140,7 @@ export const AdvertListItem: FC<{
                                     component="div"
                                     noWrap
                                     key={index}
-                                    position="absolute"
-                                    bottom="4px"
+                                    sx={{ position: 'absolute', bottom: '4px' }}
                                 >
                                     {phrase(
                                         'ADVERT_WILL_BE_RETURNED',
@@ -163,8 +161,7 @@ export const AdvertListItem: FC<{
                                 variant="caption"
                                 color="text.disabled"
                                 component="div"
-                                position="absolute"
-                                bottom="4px"
+                                sx={{ position: 'absolute', bottom: '4px' }}
                             >
                                 {phrase('ADVERT_TYPE_LENDING', 'Utlåning')}
                                 <ScheduleIcon
@@ -181,8 +178,7 @@ export const AdvertListItem: FC<{
                                 variant="caption"
                                 color="text.disabled"
                                 component="div"
-                                position="absolute"
-                                bottom="4px"
+                                sx={{ position: 'absolute', bottom: '4px' }}
                             >
                                 {phrase('ADVERT_TYPE_RECYCLE', 'Återbruk')}
                                 <RecyclingIcon

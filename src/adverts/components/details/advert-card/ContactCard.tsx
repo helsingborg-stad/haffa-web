@@ -20,12 +20,10 @@ export const ContactCard = (props: PaperProps & { advert: Advert }) => {
             <Paper {...props}>
                 <Grid
                     container
-                    p={2}
                     spacing={2}
-                    height="100%"
-                    alignItems="center"
+                    sx={{ p: 2, height: '100%', alignItems: 'center' }}
                 >
-                    <Grid item sx={{ display: { xs: 'none', sm: 'block' } }}>
+                    <Grid sx={{ display: { xs: 'none', sm: 'block' } }}>
                         <Avatar
                             sx={{
                                 width: 48,
@@ -35,7 +33,7 @@ export const ContactCard = (props: PaperProps & { advert: Advert }) => {
                             <ContactMailOutlinedIcon />
                         </Avatar>
                     </Grid>
-                    <Grid item>
+                    <Grid>
                         <Typography variant="subtitle1">
                             {phrase('ADVERT_FIELD_CONTACT_TITLE', 'Kontakt')}
                         </Typography>

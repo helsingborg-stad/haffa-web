@@ -4,6 +4,7 @@ import {
     type GridColumnVisibilityModel,
     type GridDensity,
     type GridPaginationModel,
+    type GridRowSelectionModel,
     type GridSortModel,
     GridToolbar,
 } from '@mui/x-data-grid'
@@ -98,8 +99,10 @@ export const AdvertsTable: FC<{
                     page: paging.pageIndex,
                     pageSize: paging.pageSize,
                 }}
-                onRowSelectionModelChange={setSelected}
-                rowSelectionModel={selected}
+                onRowSelectionModelChange={(model: GridRowSelectionModel) =>
+                    setSelected(Array.from(model.ids) as (string | number)[])
+                }
+                rowSelectionModel={{ type: 'include', ids: new Set(selected) }}
                 columnVisibilityModel={visibilityModel}
                 onColumnVisibilityModelChange={onColumnVisibilityModelChange}
                 rows={createRows(adverts, density)}

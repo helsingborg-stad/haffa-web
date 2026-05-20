@@ -52,22 +52,22 @@ export const DetailsPanel = (
             <Typography gutterBottom variant="h6">
                 {phrase('ADVERT_FIELD_HEADING', 'Produktinformation')}
             </Typography>
-            <Grid container columns={2} pb={2}>
+            <Grid container columns={2} sx={{ pb: 2 }}>
                 {mapper.map((v, key) => (
                     <Fragment key={key}>
-                        <Grid item xs={1}>
+                        <Grid size={1}>
                             {v.field.label}
                         </Grid>
-                        <Grid item xs={1} textAlign="right">
+                        <Grid size={1} sx={{ textAlign: 'right' }}>
                             {format(v)}
                         </Grid>
                     </Fragment>
                 ))}
                 <Fragment key="ADVERT_FIELD_CREATED">
-                    <Grid item xs={1}>
+                    <Grid size={1}>
                         {phrase('ADVERT_FIELD_CREATED', 'Publicerades')}
                     </Grid>
-                    <Grid item xs={1} textAlign="right">
+                    <Grid size={1} sx={{ textAlign: 'right' }}>
                         {fromNow(createdAt)}
                     </Grid>
                 </Fragment>

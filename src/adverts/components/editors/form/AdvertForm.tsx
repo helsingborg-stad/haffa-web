@@ -55,7 +55,7 @@ const Row: FC<PropsWithChildren & GridProps> = (props) => (
     </Grid>
 )
 const Cell: FC<PropsWithChildren & GridProps> = (props) => (
-    <Grid item sx={{ flexGrow: 1 }} {...props}>
+    <Grid sx={{ flexGrow: 1 }} {...props}>
         {props.children}
     </Grid>
 )
@@ -273,10 +273,10 @@ export const AdvertForm: FC<{
                                         required,
                                         disabled,
                                         fullWidth: true,
-                                        InputProps: {
+                                        slotProps: { input: {
                                             endAdornment:
                                                 createAdornment(adornment),
-                                        },
+                                        } },
                                     })
                             ),
                         ].filter((v) => v),
@@ -290,10 +290,10 @@ export const AdvertForm: FC<{
                                         multiline: true,
                                         minRows: 4,
                                         fullWidth: true,
-                                        InputProps: {
+                                        slotProps: { input: {
                                             endAdornment:
                                                 createAdornment(adornment),
-                                        },
+                                        } },
                                     })
                             ),
                         ].filter((v) => v),
@@ -305,14 +305,13 @@ export const AdvertForm: FC<{
                                         required,
                                         disabled,
                                         fullWidth: true,
-                                        InputProps: {
+                                        slotProps: { input: {
                                             endAdornment:
                                                 createAdornment(adornment),
-                                        },
-                                        inputProps: {
+                                        }, htmlInput: {
                                             inputMode: 'numeric',
                                             pattern: '[1-9][0-9]*',
-                                        },
+                                        } },
                                     })
                             ),
                             createSimplifiedField(
@@ -336,14 +335,13 @@ export const AdvertForm: FC<{
                                         required,
                                         disabled,
                                         fullWidth: true,
-                                        InputProps: {
+                                        slotProps: { input: {
                                             endAdornment:
                                                 createAdornment(adornment),
-                                        },
-                                        inputProps: {
+                                        }, htmlInput: {
                                             inputMode: 'numeric',
                                             pattern: '[0-9]*',
-                                        },
+                                        } },
                                     })
                             ),
                             createSimplifiedField(
@@ -428,10 +426,10 @@ export const AdvertForm: FC<{
                                         required,
                                         disabled,
                                         fullWidth: true,
-                                        InputProps: {
+                                        slotProps: { input: {
                                             endAdornment:
                                                 createAdornment(adornment),
-                                        },
+                                        } },
                                     })
                             ),
                             createSimplifiedField(
@@ -441,10 +439,10 @@ export const AdvertForm: FC<{
                                         required,
                                         disabled,
                                         fullWidth: true,
-                                        InputProps: {
+                                        slotProps: { input: {
                                             endAdornment:
                                                 createAdornment(adornment),
-                                        },
+                                        } },
                                     })
                             ),
                             createSimplifiedField(
@@ -454,10 +452,10 @@ export const AdvertForm: FC<{
                                         required,
                                         disabled,
                                         fullWidth: true,
-                                        InputProps: {
+                                        slotProps: { input: {
                                             endAdornment:
                                                 createAdornment(adornment),
-                                        },
+                                        } },
                                     })
                             ),
                             createSimplifiedField(
@@ -467,10 +465,10 @@ export const AdvertForm: FC<{
                                         required,
                                         disabled,
                                         fullWidth: true,
-                                        InputProps: {
+                                        slotProps: { input: {
                                             endAdornment:
                                                 createAdornment(adornment),
-                                        },
+                                        } },
                                     })
                             ),
                         ].filter((v) => v),
@@ -524,10 +522,10 @@ export const AdvertForm: FC<{
                                         required,
                                         disabled,
                                         fullWidth: true,
-                                        InputProps: {
+                                        slotProps: { input: {
                                             endAdornment:
                                                 createAdornment(adornment),
-                                        },
+                                        } },
                                     })
                             ),
                         ].filter((v) => v),
@@ -617,10 +615,10 @@ export const AdvertForm: FC<{
                                             fullWidth: true,
                                             label,
                                             placeholder: label,
-                                            InputProps: {
+                                            slotProps: { input: {
                                                 endAdornment:
                                                     createAdornment(adornment),
-                                            },
+                                            } },
                                         }
                                     )
                             ),
@@ -641,10 +639,10 @@ export const AdvertForm: FC<{
                                             fullWidth: true,
                                             label,
                                             placeholder: label,
-                                            InputProps: {
+                                            slotProps: { input: {
                                                 endAdornment:
                                                     createAdornment(adornment),
-                                            },
+                                            } },
                                         }
                                     )
                             ),
@@ -665,10 +663,10 @@ export const AdvertForm: FC<{
                                             fullWidth: true,
                                             label,
                                             placeholder: label,
-                                            InputProps: {
+                                            slotProps: { input: {
                                                 endAdornment:
                                                     createAdornment(adornment),
-                                            },
+                                            } },
                                         }
                                     )
                             ),
@@ -712,10 +710,10 @@ export const AdvertForm: FC<{
                                             label,
                                             placeholder: label,
                                             type: 'email',
-                                            InputProps: {
+                                            slotProps: { input: {
                                                 endAdornment:
                                                     createAdornment(adornment),
-                                            },
+                                            } },
                                         }
                                     )
                             ),
@@ -737,10 +735,10 @@ export const AdvertForm: FC<{
                                             label,
                                             placeholder: label,
                                             type: 'phone',
-                                            InputProps: {
+                                            slotProps: { input: {
                                                 endAdornment:
                                                     createAdornment(adornment),
-                                            },
+                                            } },
                                         }
                                     )
                             ),
@@ -812,10 +810,10 @@ export const AdvertForm: FC<{
                                         multiline: true,
                                         minRows: 4,
                                         fullWidth: true,
-                                        InputProps: {
+                                        slotProps: { input: {
                                             endAdornment:
                                                 createAdornment(adornment),
-                                        },
+                                        } },
                                     })
                             ),
                         ].filter((v) => v),
@@ -890,7 +888,7 @@ export const AdvertForm: FC<{
                         {rows.map((row, rowIndex) => (
                             <Row key={rowIndex}>
                                 {row.map((cell, cellIndex) => (
-                                    <Cell xs key={cellIndex}>
+                                    <Cell key={cellIndex}>
                                         {cell?.()}
                                     </Cell>
                                 ))}

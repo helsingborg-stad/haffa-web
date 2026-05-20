@@ -12,7 +12,7 @@ const Row: FC<PropsWithChildren & GridProps> = (props) => (
     </Grid>
 )
 const Cell: FC<PropsWithChildren & GridProps> = (props) => (
-    <Grid item sx={{ flexGrow: 1 }} {...props}>
+    <Grid sx={{ flexGrow: 1 }} {...props}>
         {props.children}
     </Grid>
 )
@@ -120,7 +120,7 @@ export const ProfileForm: FC<{
                     ))}
                 </Row>
             ))}
-            <Row justifyContent="flex-end">
+            <Row sx={{ justifyContent: 'flex-end' }}>
                 <Cell>
                     <Button
                         type="submit"

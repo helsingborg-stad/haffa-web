@@ -108,7 +108,7 @@ const PatchLocationDialogImpl: FC<
             )}
 
             <DialogContent>
-                <Stack direction="column" spacing={1} py={1}>
+                <Stack direction="column" spacing={1} sx={{ py: 1 }}>
                     {locations.map(
                         ({ name, adress, zipCode, city, country }) => (
                             <FormControl key={name} fullWidth>

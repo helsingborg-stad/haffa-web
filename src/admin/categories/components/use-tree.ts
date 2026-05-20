@@ -263,7 +263,7 @@ export const useTree = <T>(
         }
     }, [
         model,
-        viewState.expandedKeys,
+        viewState?.expandedKeys,
         viewState,
         keyFn,
         initialNodes,

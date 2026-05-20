@@ -280,17 +280,16 @@ export const AuthenticateForm: FC<{
                         >
                             <TextField
                                 type="text"
-                                InputProps={{
+                                slotProps={{ input: {
                                     startAdornment: (
                                         <InputAdornment position="start">
                                             H-
                                         </InputAdornment>
                                     ),
-                                }}
-                                inputProps={{
+                                }, htmlInput: {
                                     inputMode: 'numeric',
                                     pattern: '\\d{6,6}',
-                                }}
+                                } }}
                                 margin="normal"
                                 required
                                 fullWidth

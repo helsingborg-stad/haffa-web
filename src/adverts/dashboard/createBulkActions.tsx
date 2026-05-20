@@ -135,7 +135,7 @@ export const createBulkActions = ({
             dialogAction: (params) => (
                 <PatchNumberFieldDialog
                     {...params}
-                    inputProps={{ inputProps: { min: 0 } }}
+                    htmlInputProps={{ min: 0 }}
                     label={fields.lendingPeriod?.label || ''}
                     getValue={(a) => a.lendingPeriod}
                     makePatch={(lendingPeriod) => ({ lendingPeriod })}

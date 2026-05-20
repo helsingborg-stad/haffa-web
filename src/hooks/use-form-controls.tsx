@@ -112,7 +112,6 @@ export const useFormControls = <TModel,>(
                 labelId={props?.id || ''}
                 value={getter(model) || ''}
                 label={props?.label}
-                placeholder={props?.placeholder}
                 onChange={(e) => patchModel(setter(e.target.value as string))}
             >
                 <MenuItem key="clear" value="">

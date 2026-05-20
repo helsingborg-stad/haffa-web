@@ -18,7 +18,7 @@ export const AddressCard: FC<
     return (
         locations.length > 0 && (
             <Paper {...props}>
-                <Stack direction="column" spacing={2} height="100%" p={2}>
+                <Stack direction="column" spacing={2} sx={{ height: '100%', p: 2 }}>
                     <Typography variant="subtitle1">
                         {phrase(
                             'ADVERT_FIELD_ADDRESS_TITLE',

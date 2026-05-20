@@ -70,8 +70,8 @@ export function TreeSelect<T>({
     const renderNode = (node: Node, level: number) => (
         <Fragment key={getKey(node.value)}>
             <Grid container spacing={0} key={getKey(node.value)}>
-                <Grid item flex={level} />
-                <Grid item flex={1} alignContent="center">
+                <Grid sx={{ flex: level }} />
+                <Grid sx={{ flex: 1, alignContent: 'center' }}>
                     {node.canExpand && (
                         <IconButton
                             key="expand"
@@ -99,7 +99,7 @@ export function TreeSelect<T>({
                         </IconButton>
                     )}
                 </Grid>
-                <Grid item flex={1} alignContent="center">
+                <Grid sx={{ flex: 1, alignContent: 'center' }}>
                     <Checkbox
                         checked={node.selected}
                         indeterminate={
@@ -118,7 +118,7 @@ export function TreeSelect<T>({
                         }
                     />
                 </Grid>
-                <Grid item flex={flexCells - level} alignContent="center">
+                <Grid sx={{ flex: flexCells - level, alignContent: 'center' }}>
                     <Box>{node.label}</Box>
                 </Grid>
             </Grid>

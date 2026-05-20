@@ -20,7 +20,8 @@
         "noUnusedParameters": true,
         "noFallthroughCasesInSwitch": true,
         "baseUrl": "src",
-        "ignoreDeprecations": "6.0"
+        "ignoreDeprecations": "6.0",
+        "types": ["vitest/globals"]
     },
     "include": ["src"]
 }

@@ -329,7 +329,7 @@ const ActionButtons: FC<{
         <Stack
             direction={horizontalGroup ? 'row' : 'column'}
             spacing={1}
-            width="100%"
+            sx={{ width: '100%' }}
         >
             {buttons}
         </Stack>

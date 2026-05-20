@@ -109,11 +109,11 @@ export const EditThemeForm: FC<{
                 <CardContent>
                     <ThemeProvider theme={createCustomTheme(model)}>
                         <CssBaseline />
-                        <Typography variant="h6" py={2}>
+                        <Typography variant="h6" sx={{ py: 2 }}>
                             Palett
                         </Typography>
                         <Grid container rowSpacing={2}>
-                            <Grid item xs={12} sm={3} pr={1}>
+                            <Grid size={{ xs: 12, sm: 3 }} sx={{ pr: 1 }}>
                                 <ColorSelect
                                     label="Primär färg"
                                     value={model['palette.primary']}
@@ -123,7 +123,7 @@ export const EditThemeForm: FC<{
                                     }
                                 />
                             </Grid>
-                            <Grid item xs={12} sm={3} pr={1}>
+                            <Grid size={{ xs: 12, sm: 3 }} sx={{ pr: 1 }}>
                                 <ColorSelect
                                     label="Sekundär färg"
                                     value={model['palette.secondary']}
@@ -133,7 +133,7 @@ export const EditThemeForm: FC<{
                                     }
                                 />
                             </Grid>
-                            <Grid item xs={12} sm={3} pr={1}>
+                            <Grid size={{ xs: 12, sm: 3 }} sx={{ pr: 1 }}>
                                 <ColorSelect
                                     label="Information"
                                     value={model['palette.info']}
@@ -143,7 +143,7 @@ export const EditThemeForm: FC<{
                                     }
                                 />
                             </Grid>
-                            <Grid item xs={12} sm={3} pr={1}>
+                            <Grid size={{ xs: 12, sm: 3 }} sx={{ pr: 1 }}>
                                 <ColorSelect
                                     label="Varning"
                                     value={model['palette.warning']}
@@ -153,7 +153,7 @@ export const EditThemeForm: FC<{
                                     }
                                 />
                             </Grid>
-                            <Grid item xs={12} sm={3} pr={1}>
+                            <Grid size={{ xs: 12, sm: 3 }} sx={{ pr: 1 }}>
                                 <ColorSelect
                                     label="Fel"
                                     value={model['palette.error']}
@@ -163,7 +163,7 @@ export const EditThemeForm: FC<{
                                     }
                                 />
                             </Grid>
-                            <Grid item xs={12} sm={3} pr={1}>
+                            <Grid size={{ xs: 12, sm: 3 }} sx={{ pr: 1 }}>
                                 <ColorSelect
                                     label="Genomfört"
                                     value={model['palette.success']}
@@ -173,7 +173,7 @@ export const EditThemeForm: FC<{
                                     }
                                 />
                             </Grid>
-                            <Grid item xs={12} sm={3} pr={1}>
+                            <Grid size={{ xs: 12, sm: 3 }} sx={{ pr: 1 }}>
                                 <ColorSelect
                                     label="Bakgrund"
                                     value={model['palette.background']}
@@ -183,7 +183,7 @@ export const EditThemeForm: FC<{
                                     }
                                 />
                             </Grid>
-                            <Grid item xs={12} sm={3} pr={1}>
+                            <Grid size={{ xs: 12, sm: 3 }} sx={{ pr: 1 }}>
                                 <ColorSelect
                                     label="Förgrund"
                                     value={model['palette.paper']}
@@ -194,13 +194,13 @@ export const EditThemeForm: FC<{
                                 />
                             </Grid>
                         </Grid>
-                        <Typography variant="h6" py={2}>
+                        <Typography variant="h6" sx={{ py: 2 }}>
                             Text och kort
                         </Typography>
                         <Grid container rowSpacing={4}>
-                            <Grid item xs={12} sm={12}>
+                            <Grid size={{ xs: 12, sm: 12 }}>
                                 <Card sx={{ p: 2 }}>
-                                    <Typography fontWeight="bold">
+                                    <Typography sx={{ fontWeight: "bold" }}>
                                         Primär färg:
                                     </Typography>
                                     <Typography gutterBottom>
@@ -212,7 +212,7 @@ export const EditThemeForm: FC<{
                                         nisi ut aliquip ex ea commodo consequat.
                                     </Typography>
                                     <Typography
-                                        fontWeight="bold"
+                                        sx={{ fontWeight: 'bold' }}
                                         color="text.secondary"
                                     >
                                         Sekundär färg
@@ -229,7 +229,7 @@ export const EditThemeForm: FC<{
                                         nisi ut aliquip ex ea commodo consequat.
                                     </Typography>
                                     <Typography
-                                        fontWeight="bold"
+                                        sx={{ fontWeight: 'bold' }}
                                         color="text.disabled"
                                     >
                                         Inaktiverad färg
@@ -247,7 +247,7 @@ export const EditThemeForm: FC<{
                                     </Typography>
                                 </Card>
                             </Grid>
-                            <Grid item xs={12} sm={3} pr={1}>
+                            <Grid size={{ xs: 12, sm: 3 }} sx={{ pr: 1 }}>
                                 <ColorSelect
                                     label="Primär textfärg"
                                     value={model['palette.text.primary']}
@@ -256,7 +256,7 @@ export const EditThemeForm: FC<{
                                     }
                                 />
                             </Grid>
-                            <Grid item xs={12} sm={3} pr={1}>
+                            <Grid size={{ xs: 12, sm: 3 }} sx={{ pr: 1 }}>
                                 <ColorSelect
                                     label="Sekundär textfärg"
                                     value={model['palette.text.secondary']}
@@ -267,7 +267,7 @@ export const EditThemeForm: FC<{
                                     }
                                 />
                             </Grid>
-                            <Grid item xs={12} sm={3} pr={1}>
+                            <Grid size={{ xs: 12, sm: 3 }} sx={{ pr: 1 }}>
                                 <ColorSelect
                                     label="Inaktiverad textfärg"
                                     value={model['palette.text.disabled']}
@@ -278,7 +278,7 @@ export const EditThemeForm: FC<{
                                     }
                                 />
                             </Grid>
-                            <Grid item xs={12} sm={2} pr={1}>
+                            <Grid size={{ xs: 12, sm: 2 }} sx={{ pr: 1 }}>
                                 <RegularSelect
                                     label="Storlek brödtext"
                                     value={model['typography.body1.fontsize']}
@@ -294,7 +294,7 @@ export const EditThemeForm: FC<{
                                     ])}
                                 </RegularSelect>
                             </Grid>
-                            <Grid item xs={12} sm={2} pr={1}>
+                            <Grid size={{ xs: 12, sm: 2 }} sx={{ pr: 1 }}>
                                 <RegularSelect
                                     label="Skuggning kort"
                                     value={model['component.paper.variant']}
@@ -311,7 +311,7 @@ export const EditThemeForm: FC<{
                                     ])}
                                 </RegularSelect>
                             </Grid>
-                            <Grid item xs={12} sm={2} pr={1}>
+                            <Grid size={{ xs: 12, sm: 2 }} sx={{ pr: 1 }}>
                                 <RegularSelect
                                     label="Radie på komponenter"
                                     value={model['shape.radius']}
@@ -327,16 +327,16 @@ export const EditThemeForm: FC<{
                                 </RegularSelect>
                             </Grid>
                         </Grid>
-                        <Typography variant="h6" py={2}>
+                        <Typography variant="h6" sx={{ py: 2 }}>
                             Menybar
                         </Typography>
                         <Grid container rowSpacing={4}>
-                            <Grid item xs={12} sm={12}>
+                            <Grid size={{ xs: 12, sm: 12 }}>
                                 <AppBar position="static" sx={{ p: 3 }}>
                                     <Typography variant="h6">HAFFA</Typography>
                                 </AppBar>
                             </Grid>
-                            <Grid item xs={12} sm={2} pr={1}>
+                            <Grid size={{ xs: 12, sm: 2 }} sx={{ pr: 1 }}>
                                 <RegularSelect
                                     label="Skuggning"
                                     value={model['component.appbar.variant']}
@@ -353,7 +353,7 @@ export const EditThemeForm: FC<{
                                     ])}
                                 </RegularSelect>
                             </Grid>
-                            <Grid item xs={12} sm={2} pr={1}>
+                            <Grid size={{ xs: 12, sm: 2 }} sx={{ pr: 1 }}>
                                 <RegularSelect
                                     label="Ram"
                                     value={model['component.appbar.border']}
@@ -369,7 +369,7 @@ export const EditThemeForm: FC<{
                                     ])}
                                 </RegularSelect>
                             </Grid>
-                            <Grid item xs={12} sm={2} pr={1}>
+                            <Grid size={{ xs: 12, sm: 2 }} sx={{ pr: 1 }}>
                                 <RegularSelect
                                     label="Färg"
                                     value={model['component.appbar.color']}
@@ -390,16 +390,16 @@ export const EditThemeForm: FC<{
                                 </RegularSelect>
                             </Grid>
                         </Grid>
-                        <Typography variant="h6" py={2}>
+                        <Typography variant="h6" sx={{ py: 2 }}>
                             Avatar
                         </Typography>
                         <Grid container rowSpacing={4}>
-                            <Grid item xs={12} sm={12}>
+                            <Grid size={{ xs: 12, sm: 12 }}>
                                 <Avatar sx={{ p: 3 }}>
                                     <Typography variant="h6">H</Typography>
                                 </Avatar>
                             </Grid>
-                            <Grid item xs={12} sm={2} pr={1}>
+                            <Grid size={{ xs: 12, sm: 2 }} sx={{ pr: 1 }}>
                                 <RegularSelect
                                     label="Variant"
                                     value={model['component.avatar.variant']}
@@ -417,7 +417,7 @@ export const EditThemeForm: FC<{
                                     ])}
                                 </RegularSelect>
                             </Grid>
-                            <Grid item xs={12} sm={2} pr={1}>
+                            <Grid size={{ xs: 12, sm: 2 }} sx={{ pr: 1 }}>
                                 <ColorSelect
                                     label="Förgrundsfärg"
                                     value={model['component.avatar.color']}
@@ -429,7 +429,7 @@ export const EditThemeForm: FC<{
                                     }
                                 />
                             </Grid>
-                            <Grid item xs={12} sm={2} pr={1}>
+                            <Grid size={{ xs: 12, sm: 2 }} sx={{ pr: 1 }}>
                                 <ColorSelect
                                     label="Bakgrundsfärg"
                                     value={model['component.avatar.bgcolor']}
@@ -442,11 +442,11 @@ export const EditThemeForm: FC<{
                                 />
                             </Grid>
                         </Grid>
-                        <Typography variant="h6" py={2}>
+                        <Typography variant="h6" sx={{ py: 2 }}>
                             Bilder och media
                         </Typography>
                         <Grid container rowSpacing={4}>
-                            <Grid item xs={12} sm={2} pr={1}>
+                            <Grid size={{ xs: 12, sm: 2 }} sx={{ pr: 1 }}>
                                 <RegularSelect
                                     label="Bildförhållande"
                                     value={model['advert.image.aspectRatio']}
@@ -471,18 +471,17 @@ export const EditThemeForm: FC<{
                                 </RegularSelect>
                             </Grid>
                         </Grid>
-                        <Typography variant="h6" py={2}>
+                        <Typography variant="h6" sx={{ py: 2 }}>
                             Logotype
                         </Typography>
                         <Grid container rowSpacing={4}>
-                            <Grid item xs={12} sm={2} pr={1}>
+                            <Grid size={{ xs: 12, sm: 2 }} sx={{ pr: 1 }}>
                                 <Box>
                                     <Box
                                         component="img"
                                         height={96}
-                                        border="1px dotted black"
                                         src={model['custom.image.logotype']}
-                                        sx={{ p: 2 }}
+                                        sx={{ p: 2, border: '1px dotted black' }}
                                     />
                                     <ImageBrowseButton
                                         maxSize={MAX_FILE_SIZE}
@@ -495,11 +494,11 @@ export const EditThemeForm: FC<{
                                 </Box>
                             </Grid>
                         </Grid>
-                        <Typography variant="h6" py={2}>
+                        <Typography variant="h6" sx={{ py: 2 }}>
                             Knappar
                         </Typography>
                         <Grid container rowSpacing={4}>
-                            <Grid item xs={12} sm={6} pr={1}>
+                            <Grid size={{ xs: 12, sm: 6 }} sx={{ pr: 1 }}>
                                 <RegularSelect
                                     label="Skuggning"
                                     value={model['component.button.elevation']}
@@ -515,7 +514,7 @@ export const EditThemeForm: FC<{
                                     ])}
                                 </RegularSelect>
                             </Grid>
-                            <Grid item xs={12} sm={6} pr={1}>
+                            <Grid size={{ xs: 12, sm: 6 }} sx={{ pr: 1 }}>
                                 <RegularSelect
                                     label="Radie"
                                     value={model['component.button.radius']}
@@ -532,7 +531,7 @@ export const EditThemeForm: FC<{
                                     ))}
                                 </RegularSelect>
                             </Grid>
-                            <Grid item xs={12} sm={4} pr={1}>
+                            <Grid size={{ xs: 12, sm: 4 }} sx={{ pr: 1 }}>
                                 <Typography>Kontur</Typography>
                                 {ButtonColumn.map((props, key) =>
                                     PreviewButton({
@@ -542,7 +541,7 @@ export const EditThemeForm: FC<{
                                     })
                                 )}
                             </Grid>
-                            <Grid item xs={12} sm={4} pr={1}>
+                            <Grid size={{ xs: 12, sm: 4 }} sx={{ pr: 1 }}>
                                 <Typography>Fylld</Typography>
                                 {ButtonColumn.map((props, key) =>
                                     PreviewButton({
@@ -552,7 +551,7 @@ export const EditThemeForm: FC<{
                                     })
                                 )}
                             </Grid>
-                            <Grid item xs={12} sm={4} pr={1}>
+                            <Grid size={{ xs: 12, sm: 4 }} sx={{ pr: 1 }}>
                                 <Typography>Text</Typography>
                                 {ButtonColumn.map((props, key) =>
                                     PreviewButton({
@@ -563,7 +562,7 @@ export const EditThemeForm: FC<{
                                 )}
                             </Grid>
                         </Grid>
-                        <Typography variant="h6" py={2}>
+                        <Typography variant="h6" sx={{ py: 2 }}>
                             Notiser
                         </Typography>
                         <FormControl>
@@ -606,7 +605,7 @@ export const EditThemeForm: FC<{
                                 variant: model['component.alert.variant'],
                             })
                         )}
-                        <Typography variant="h6" py={2}>
+                        <Typography variant="h6" sx={{ py: 2 }}>
                             Textfält
                         </Typography>
                         <FormControl>
@@ -652,10 +651,10 @@ export const EditThemeForm: FC<{
                                 variant: model['component.textfield.variant'],
                             })
                         )}
-                        <Typography variant="h6" py={2}>
+                        <Typography variant="h6" sx={{ py: 2 }}>
                             Typsnitt
                         </Typography>
-                        <Grid item xs={12} sm={2} pr={1}>
+                        <Grid size={{ xs: 12, sm: 2 }} sx={{ pr: 1 }}>
                             <TextField
                                 key="font"
                                 label="Familj"
@@ -667,7 +666,7 @@ export const EditThemeForm: FC<{
                                 disabled
                                 fullWidth
                                 variant="outlined"
-                                InputProps={{
+                                slotProps={{ input: {
                                     endAdornment: (
                                         <InputAdornment position="end">
                                             <Button
@@ -679,7 +678,7 @@ export const EditThemeForm: FC<{
                                             </Button>
                                         </InputAdornment>
                                     ),
-                                }}
+                                } }}
                             />
                             <FontSelect
                                 open={fontDialogVisible}

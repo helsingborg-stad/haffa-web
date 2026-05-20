@@ -7,7 +7,8 @@ import {
     Stack,
     Typography,
 } from '@mui/material'
-import type { Variant } from '@mui/material/styles/createTypography'
+import type { TypographyProps } from '@mui/material'
+type Variant = TypographyProps['variant']
 import { AdvertsListGeneric } from 'adverts/components/listings/AdvertsListGeneric'
 import { Markdown } from 'components/Markdown'
 import { compile } from 'handlebars'
