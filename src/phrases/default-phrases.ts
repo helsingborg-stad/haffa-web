@@ -1,15 +1,14 @@
-import { PhraseContextType } from 'phrases'
-
-import profile from './defaults/profile'
-import terms from './defaults/terms'
+import type { PhraseContextType } from 'phrases'
 import auth from './defaults/auth'
-import sms from './defaults/sms'
 import bulkActions from './defaults/bulk-actions'
+import common from './defaults/common'
+import dashboard from './defaults/dashboard'
 import events from './defaults/events'
 import pickupLocations from './defaults/pickup-locations'
-import common from './defaults/common'
+import profile from './defaults/profile'
+import sms from './defaults/sms'
 import tags from './defaults/tags'
-import dashboard from './defaults/dashboard'
+import terms from './defaults/terms'
 
 export const defaultPhrases: Omit<
     PhraseContextType,

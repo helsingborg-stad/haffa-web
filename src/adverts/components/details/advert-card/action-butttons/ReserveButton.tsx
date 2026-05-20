@@ -1,12 +1,12 @@
-import { Button } from '@mui/material'
-import { Advert } from 'adverts'
-import { PhraseContext } from 'phrases/PhraseContext'
-import { FC, useContext, useState } from 'react'
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder'
-import { PickupLocationContext } from 'pickup-locations'
+import { Button } from '@mui/material'
+import type { Advert } from 'adverts'
 import { NotificationsContext } from 'notifications'
-import { PickupLocation } from 'pickup-locations/types'
-import { canShowClaimDialog, ClaimDialog } from './ClaimDialog'
+import { PhraseContext } from 'phrases/PhraseContext'
+import { PickupLocationContext } from 'pickup-locations'
+import type { PickupLocation } from 'pickup-locations/types'
+import { type FC, useContext, useState } from 'react'
+import { ClaimDialog, canShowClaimDialog } from './ClaimDialog'
 
 export const ReserveButton: FC<{
     advert: Advert

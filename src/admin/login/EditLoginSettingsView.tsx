@@ -1,11 +1,11 @@
-import { FC, useContext, useMemo } from 'react'
-import { useUrlParams } from 'url-params'
-import { SimpleTabs, makeSimpleTab } from 'components/SimpleTabs'
 import { AdminEditorialPanel } from 'components/AdminEditorialPanel'
+import { makeSimpleTab, SimpleTabs } from 'components/SimpleTabs'
 import { PhraseContext } from 'phrases'
+import { type FC, useContext, useMemo } from 'react'
+import { useUrlParams } from 'url-params'
 import { EditLoginPoliciesView } from './login-policies'
-import { EditPublicAccessView } from './public-access'
 import { EditPhoneAccessView } from './phone'
+import { EditPublicAccessView } from './public-access'
 
 export const EditLoginSettingsView: FC = () => {
     const { phrase } = useContext(PhraseContext)

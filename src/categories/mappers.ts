@@ -1,5 +1,5 @@
 import { treeVisit } from 'lib/tree-lookup'
-import { Category, CategoryFlat } from './types'
+import type { Category, CategoryFlat } from './types'
 
 const trim = (s: any) => (typeof s === 'string' ? s.trim() : '')
 
@@ -25,16 +25,19 @@ export const decodeCategoryTree = (categories: CategoryFlat[]): Category[] => {
             })
         )
         .filter(({ id }) => id)
-        .reduce((memo, c) => {
-            const l = memo[c.parentId]
-            if (!l) {
-                // eslint-disable-next-line no-param-reassign
-                memo[c.parentId] = [c]
-            } else {
-                l.push(c)
-            }
-            return memo
-        }, {} as Record<string, CategoryFlat[]>)
+        .reduce(
+            (memo, c) => {
+                const l = memo[c.parentId]
+                if (!l) {
+                    // eslint-disable-next-line no-param-reassign
+                    memo[c.parentId] = [c]
+                } else {
+                    l.push(c)
+                }
+                return memo
+            },
+            {} as Record<string, CategoryFlat[]>
+        )
 
     const rec = (pid: string): Category[] =>
         (byParentId[pid] || [])

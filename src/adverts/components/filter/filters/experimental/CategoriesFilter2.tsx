@@ -1,8 +1,8 @@
-import { FC, Fragment, useContext, useState } from 'react'
-import { CategoriesContext } from 'categories'
-import useAsync from 'hooks/use-async'
-import { Category } from 'categories/types'
 import { Typography } from '@mui/material'
+import { CategoriesContext } from 'categories'
+import type { Category } from 'categories/types'
+import useAsync from 'hooks/use-async'
+import { type FC, Fragment, useContext, useState } from 'react'
 import { TreeSelect } from './TreeSelect'
 
 // Take a list of categories and recursively trim list to only contain

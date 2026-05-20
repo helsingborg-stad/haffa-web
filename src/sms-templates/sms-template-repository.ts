@@ -1,10 +1,14 @@
 import { gqlClient } from 'graphql'
-import { SmsTemplate, SmsTemplatePreview, SmsTemplateRepository } from './types'
 import {
     getSmsTemplatesQuery,
     previewSmsTemplatesMutation,
     updateSmsTemplatesMutation,
 } from './queries'
+import type {
+    SmsTemplate,
+    SmsTemplatePreview,
+    SmsTemplateRepository,
+} from './types'
 
 const gql = (token: string, f?: typeof fetch, init?: RequestInit) =>
     gqlClient()

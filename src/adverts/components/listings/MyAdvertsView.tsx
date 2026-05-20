@@ -1,6 +1,6 @@
-import { FC, useContext, useMemo } from 'react'
 import { PhraseContext } from 'phrases/PhraseContext'
-import { AdvertsTab, TabbedAdvertsView } from './TabbedAdvertsView'
+import { type FC, useContext, useMemo } from 'react'
+import { type AdvertsTab, TabbedAdvertsView } from './TabbedAdvertsView'
 
 export const MyAdvertsView: FC = () => {
     const { phrase } = useContext(PhraseContext)

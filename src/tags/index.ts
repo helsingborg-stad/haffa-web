@@ -1,7 +1,7 @@
-import { HaffaUserRoles } from 'auth'
+import type { HaffaUserRoles } from 'auth'
 import { uniqueBy } from 'lib/unique-by'
 import { TagsContext, TagsProvider } from './TagsContext'
-import { TagDescription } from './types'
+import type { TagDescription } from './types'
 
 export { TagsContext, TagsProvider }
 

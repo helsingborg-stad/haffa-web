@@ -1,9 +1,9 @@
 import { Card, CardContent, Grid, TextField } from '@mui/material'
-import { PhraseContext } from 'phrases'
-import { FC, useContext, useState } from 'react'
-import { Terms } from 'terms/types'
 import { AdminActionPanel } from 'components/AdminActionPanel'
 import { AdminEditorialPanel } from 'components/AdminEditorialPanel'
+import { PhraseContext } from 'phrases'
+import { type FC, useContext, useState } from 'react'
+import type { Terms } from 'terms/types'
 
 export const EditTermsForm: FC<{
     terms: Terms

@@ -7,9 +7,9 @@ import {
 } from '@mui/material'
 import { AdminActionPanel } from 'components/AdminActionPanel'
 import { Editorial } from 'editorials'
-import { UserMappingConfiguration } from 'login-policies/types'
+import type { UserMappingConfiguration } from 'login-policies/types'
 import { PhraseContext } from 'phrases'
-import { FC, useContext, useState } from 'react'
+import { type FC, useContext, useState } from 'react'
 
 export const UserMappingConfigurationForm: FC<{
     userMappingConfiguration: UserMappingConfiguration

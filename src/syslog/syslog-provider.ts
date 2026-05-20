@@ -1,6 +1,6 @@
 import { gqlClient } from 'graphql'
-import { SyslogEntry, ISyslogProvider } from './types'
 import { getSyslogQuery } from './queries'
+import type { ISyslogProvider, SyslogEntry } from './types'
 
 const gql = (token: string, f?: typeof fetch, init?: RequestInit) =>
     gqlClient()

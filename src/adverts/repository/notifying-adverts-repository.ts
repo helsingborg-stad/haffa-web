@@ -1,6 +1,6 @@
-import { AdvertMutationResult, AdvertsRepository } from 'adverts'
-import { Notifications } from 'notifications/types'
-import { PhraseContextType } from 'phrases'
+import type { AdvertMutationResult, AdvertsRepository } from 'adverts'
+import type { Notifications } from 'notifications/types'
+import type { PhraseContextType } from 'phrases'
 
 export const createNotifyingAdvertsRepository = (
     notifications: Notifications,

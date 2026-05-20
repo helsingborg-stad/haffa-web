@@ -1,8 +1,8 @@
 import { Grid } from '@mui/material'
-import { ViewComposition } from 'content/types'
 import { ContentCard } from 'content/components/ContentCard'
+import type { ViewComposition } from 'content/types'
 import { Fragment } from 'react'
-import { Summaries } from 'statistics/types'
+import type { Summaries } from 'statistics/types'
 
 export const HomeView = (props: {
     composition: ViewComposition

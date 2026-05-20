@@ -1,8 +1,8 @@
 // TODO: Remove this unused view
 import { Tab, Tabs } from '@mui/material'
-import { FC, PropsWithChildren, useContext, useMemo } from 'react'
-import { PhraseContext } from 'phrases'
 import { AuthContext } from 'auth'
+import { PhraseContext } from 'phrases'
+import { type FC, type PropsWithChildren, useContext, useMemo } from 'react'
 import { useUrlParams } from 'url-params'
 import { createAdminTabs } from './admin-tabs'
 

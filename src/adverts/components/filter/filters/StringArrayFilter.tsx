@@ -1,3 +1,4 @@
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore'
 import {
     Accordion,
     AccordionDetails,
@@ -6,9 +7,8 @@ import {
     FormControlLabel,
     FormGroup,
 } from '@mui/material'
-import { FC } from 'react'
-import ExpandMoreIcon from '@mui/icons-material/ExpandMore'
 import { uniqueBy } from 'lib/unique-by'
+import type { FC } from 'react'
 
 export const StringArrayFilter: FC<{
     label: string

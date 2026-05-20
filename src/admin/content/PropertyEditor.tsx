@@ -8,19 +8,18 @@ import {
     Stack,
     TextField,
 } from '@mui/material'
-
-import { ContentModule } from 'content/types'
-import { Terms } from 'terms/types'
-import { Category } from 'categories/types'
-import { Fragment, useState } from 'react'
-import { isValidUrl } from 'lib/string-utils'
-import { createEmptyModule } from 'content/mappers'
 import { ColorSelect } from 'admin/theme/components/ColorSelect'
-import { Option } from '../../options/types'
-import { MultiOptionSelect } from './components/MultiOptionSelect'
+import type { Category } from 'categories/types'
+import { createEmptyModule } from 'content/mappers'
+import type { ContentModule } from 'content/types'
+import { isValidUrl } from 'lib/string-utils'
+import { Fragment, useState } from 'react'
+import type { Terms } from 'terms/types'
+import type { Option } from '../../options/types'
+import { CollectStringButton } from './components/CollectStringButton'
 import { ImageBrowseButton } from './components/ImageBrowseButton'
 import { ImageThumbnail } from './components/ImageThumbnail'
-import { CollectStringButton } from './components/CollectStringButton'
+import { MultiOptionSelect } from './components/MultiOptionSelect'
 
 const MAX_FILE_SIZE = 2 * 1024 * 1024
 
@@ -47,7 +46,7 @@ const labelFrom = (key: keyof ContentModule): string =>
         width: 'Bildbredd',
         categories: 'Kategorier',
         tags: 'Taggar',
-    }[key] ?? key)
+    })[key] ?? key
 
 const categoryToOptions = (
     category: Category,
@@ -57,7 +56,7 @@ const categoryToOptions = (
     const value = prefix ? `${prefix} - ${category.label}` : category.label
 
     const childOutput =
-        category.categories.map((c) => categoryToOptions(c, value)).flat() ?? []
+        category.categories.flatMap((c) => categoryToOptions(c, value)) ?? []
 
     return [...output, { value, key: category.id }, ...childOutput]
 }
@@ -307,9 +306,9 @@ export const PropertyEditor = (props: PropertyEditorProps) => {
                                         label={labelFrom(v)}
                                         onUpdate={(c) => patch(v, c)}
                                         selected={content[v].split(',')}
-                                        options={categories
-                                            .map((c) => categoryToOptions(c))
-                                            .flat()}
+                                        options={categories.flatMap((c) =>
+                                            categoryToOptions(c)
+                                        )}
                                     />
                                 )
                             case 'tags':

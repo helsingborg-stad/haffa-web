@@ -1,4 +1,4 @@
-import { Action1, Func1 } from 'lib/types'
+import type { Action1, Func1 } from 'lib/types'
 
 export interface NodeMatch<T> {
     node: T
@@ -11,12 +11,10 @@ const treeVisitImpl = <T>(
     children: Func1<T, T[] | null | undefined>,
     visitor: Action1<{ node: T; index: number; parent: T | null }>
 ): void =>
-    nodes.forEach(
-        (node, index) => (
-            visitor({ node, index, parent }),
-            treeVisitImpl(node, children(node) || [], children, visitor)
-        )
-    )
+    nodes.forEach((node, index) => {
+        visitor({ node, index, parent })
+        treeVisitImpl(node, children(node) || [], children, visitor)
+    })
 
 export const treeVisit = <T>(
     nodes: T[],

@@ -1,3 +1,5 @@
+import CancelIcon from '@mui/icons-material/Cancel'
+import SaveAltIcon from '@mui/icons-material/SaveAlt'
 import {
     Alert,
     Button,
@@ -10,13 +12,11 @@ import {
     MenuItem,
     Select,
 } from '@mui/material'
-import { FC, useContext, useState } from 'react'
-import { PhraseContext } from 'phrases'
-import CancelIcon from '@mui/icons-material/Cancel'
-import SaveAltIcon from '@mui/icons-material/SaveAlt'
 import { sortBy } from 'lib/sort-by'
+import { PhraseContext } from 'phrases'
+import { type FC, useContext, useState } from 'react'
 import { AdvertsTableContext } from '../AdvertsTable'
-import { BulkActionDialogParams } from './types'
+import type { BulkActionDialogParams } from './types'
 
 export const PatchCategoryDialog: FC<BulkActionDialogParams> = ({
     open,

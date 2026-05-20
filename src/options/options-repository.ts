@@ -1,5 +1,5 @@
-import { OptionsRepository } from 'options/types'
 import { gqlClient } from 'graphql'
+import type { OptionsRepository } from 'options/types'
 import { getOptionsQuery, updateOptionsMutation } from './queries'
 import type { Option } from './types'
 

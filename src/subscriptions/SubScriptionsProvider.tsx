@@ -1,11 +1,11 @@
-import { FC, PropsWithChildren, useContext, useMemo } from 'react'
 import { AuthContext } from 'auth'
-import {
+import { type FC, type PropsWithChildren, useContext, useMemo } from 'react'
+import { SubscriptionsContext } from './SubscriptionsContext'
+import type {
     AdvertSubscriptionFilter,
     SubscriptionsContextType,
     SubscriptionsRepository,
 } from './types'
-import { SubscriptionsContext } from './SubscriptionsContext'
 
 const isSubscribeableFilter = (filter: AdvertSubscriptionFilter): boolean =>
     [
@@ -35,7 +35,13 @@ export const SubscriptionsProvider: FC<
             removeAdvertSubscription: (...args) =>
                 repository.removeAdvertSubscription(...args),
         }),
-        [roles]
+        [
+            roles,
+            repository.removeAdvertSubscription,
+            repository.getAdvertSubscriptions,
+            repository.addAdvertSubscription,
+            repository,
+        ]
     )
 
     return (

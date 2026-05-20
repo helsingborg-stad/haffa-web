@@ -1,9 +1,9 @@
 /* eslint-disable no-param-reassign */
 /* eslint-disable func-names */
 export const GoogleAdapter = (config: string) => {
-    ;(function (w, d, s, l, i) {
+    ;((w, d, s, l, i) => {
         w[l] = w[l] || []
-        w[l].push({ 'gtm.start': new Date().getTime(), event: 'gtm.js' })
+        w[l].push({ 'gtm.start': Date.now(), event: 'gtm.js' })
         const f = d.getElementsByTagName(s)[0]
         const j = d.createElement(s) as HTMLScriptElement
         const dl = l !== 'dataLayer' ? `&l=${l}` : ''

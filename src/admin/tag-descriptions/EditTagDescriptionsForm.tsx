@@ -1,6 +1,3 @@
-import { FC, useCallback, useContext, useMemo, useState } from 'react'
-import { sortBy } from 'lib/sort-by'
-import { uniqueBy } from 'lib/unique-by'
 import {
     Chip,
     Stack,
@@ -13,8 +10,11 @@ import {
     TextField,
 } from '@mui/material'
 import { AdminActionPanel } from 'components/AdminActionPanel'
-import { TagDescription } from 'tags/types'
+import { sortBy } from 'lib/sort-by'
+import { uniqueBy } from 'lib/unique-by'
 import { PhraseContext } from 'phrases'
+import { type FC, useCallback, useContext, useMemo, useState } from 'react'
+import type { TagDescription } from 'tags/types'
 
 export const EditTagDescriptionsForm: FC<{
     tags: string[]
@@ -74,7 +74,7 @@ export const EditTagDescriptionsForm: FC<{
             setModel(
                 model.map((o) => (o.tag === tag ? { ...o, ...patch } : o))
             ),
-        [model, setModel]
+        [model]
     )
 
     const labels = useMemo(

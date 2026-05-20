@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="sv">
+    <head>
+        <meta charset="utf-8" />
+        <link rel="icon" href="/image-favicon.png" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <meta name="theme-color" content="#000000" />
+        <!-- Hide navigation and stuff in iOS browser -->
+        <meta name="apple-mobile-web-app-capable" content="yes" />
+        <meta
+            name="apple-mobile-web-app-status-bar-style"
+            content="black-translucent"
+        />
+        <meta name="description" content="{{description}}" />
+        {{#if preview}}
+        <meta property="og:image" content="{{preview.imageUrl}}" />
+        <meta property="og:description" content="{{preview.description}}" />
+        <meta property="og:title" content="{{preview.title}}" />
+        <meta property="og:url" content="{{url}}" />
+        {{/if}}
+        <link rel="apple-touch-icon" href="/image-logo192.png" />
+        <link rel="manifest" href="/manifest.json" />
+        <title>{{title}}</title>
+    </head>
+    <body>
+        <noscript>You need to enable JavaScript to run this app.</noscript>
+        <div id="root"></div>
+        <script type="module" src="/src/index.tsx"></script>
+    </body>
+</html>

@@ -1,12 +1,12 @@
-import { ButtonProps, Card, CardContent } from '@mui/material'
+import StorefrontIcon from '@mui/icons-material/Storefront'
+import WarehouseIcon from '@mui/icons-material/Warehouse'
+import { type ButtonProps, Card, CardContent } from '@mui/material'
 import { AdvertsContext } from 'adverts/AdvertsContext'
-import { Advert, AdvertMutationResult } from 'adverts/types'
+import type { Advert, AdvertMutationResult } from 'adverts/types'
 import { ConfirmButton } from 'components/ConfirmButton'
 import { Editorial } from 'editorials'
 import { PhraseContext } from 'phrases'
-import { FC, useContext } from 'react'
-import StorefrontIcon from '@mui/icons-material/Storefront'
-import WarehouseIcon from '@mui/icons-material/Warehouse'
+import { type FC, useContext } from 'react'
 
 const PickButton: FC<
     ButtonProps & {

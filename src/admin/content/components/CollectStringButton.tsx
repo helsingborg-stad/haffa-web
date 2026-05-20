@@ -6,7 +6,7 @@ import {
     DialogTitle,
     TextField,
 } from '@mui/material'
-import { PropsWithChildren, useState } from 'react'
+import { type PropsWithChildren, useState } from 'react'
 
 export const CollectStringButton = (
     props: PropsWithChildren & {

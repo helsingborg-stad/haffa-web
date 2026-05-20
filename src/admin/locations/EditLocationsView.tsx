@@ -1,7 +1,7 @@
 import { ErrorView } from 'errors'
 import useAsync from 'hooks/use-async'
 import { LocationContext } from 'locations'
-import { FC, useContext } from 'react'
+import { type FC, useContext } from 'react'
 import { EditLocationsForm } from './EditLocationsForm'
 
 export const EditLocationsView: FC = () => {

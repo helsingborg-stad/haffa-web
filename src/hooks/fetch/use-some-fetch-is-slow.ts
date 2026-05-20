@@ -8,6 +8,6 @@ export default function useSomeFetchIsSlow(): boolean {
     useEffect(() => {
         const unregister = addSlowListener(setSlow)
         return unregister
-    }, [addSlowListener, slow])
+    }, [addSlowListener])
     return slow
 }

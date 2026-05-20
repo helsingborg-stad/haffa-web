@@ -1,14 +1,13 @@
+import { createNotifyingSmsTemplateRepository } from './notifying-sms-template-repository'
 import { SmsTemplateContext } from './SmsTemplateContext'
 import { SmsTemplateProvider } from './SmsTemplateProvider'
-import { createNotifyingSmsTemplateRepository } from './notifying-sms-template-repository'
 import { createSmsTemplateRepository } from './sms-template-repository'
-import { SmsTemplate } from './types'
+import type { SmsTemplate } from './types'
 
 export {
-    createSmsTemplateRepository,
     createNotifyingSmsTemplateRepository,
+    createSmsTemplateRepository,
+    type SmsTemplate,
     SmsTemplateContext,
     SmsTemplateProvider,
 }
-
-export { type SmsTemplate }

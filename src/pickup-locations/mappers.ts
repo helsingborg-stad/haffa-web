@@ -1,5 +1,5 @@
 import { normalizeLocation } from 'locations'
-import { PickupLocation } from './types'
+import type { PickupLocation } from './types'
 
 export const normalizePickupLocation = (
     location: Partial<PickupLocation>

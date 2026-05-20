@@ -10,19 +10,23 @@ import {
     LinearProgress,
     Stack,
 } from '@mui/material'
-import { Advert, AdvertRestrictionsFilterInput, AdvertsContext } from 'adverts'
+import {
+    type Advert,
+    type AdvertRestrictionsFilterInput,
+    AdvertsContext,
+} from 'adverts'
 import { createEmptyAdvertInput } from 'adverts/repository/mappers'
+import { CategoriesContext } from 'categories'
+import type { Category } from 'categories/types'
 import { DeepLinkContext } from 'deep-links/DeepLinkContext'
 import { ErrorView } from 'errors'
-import { useLiveSearch } from 'hooks/use-live-search'
-import { FC, useCallback, useContext, useMemo, useState } from 'react'
-import * as xlsx from 'xlsx'
 import * as fileSaver from 'file-saver'
 import useAbortController from 'hooks/use-abort-controller'
-import { CategoriesContext } from 'categories'
+import { useLiveSearch } from 'hooks/use-live-search'
 import { createTreeAdapter } from 'lib/tree-adapter'
-import { TreeAdapter } from 'lib/types'
-import { Category } from 'categories/types'
+import type { TreeAdapter } from 'lib/types'
+import { type FC, useCallback, useContext, useMemo, useState } from 'react'
+import * as xlsx from 'xlsx'
 
 /**
  * Repeatedly invoke next action from factory until factory returns null
@@ -93,7 +97,7 @@ export const ExportAdvertsView: FC = () => {
                 getter: getAdvertLinkForQrCode,
             },
         ],
-        [getAdvertLinkForQrCode]
+        [getAdvertLinkForQrCode, getAdvertLink]
     )
 
     const simpleFields = useMemo<Field[]>(
@@ -193,7 +197,14 @@ export const ExportAdvertsView: FC = () => {
             })
             fileSaver.saveAs(buffer, name)
         },
-        [systemFields, simpleFields, selected, listAdverts]
+        [
+            systemFields,
+            simpleFields,
+            selected,
+            listAdverts,
+            signal,
+            getCategories,
+        ]
     )
 
     const view = useLiveSearch<unknown>(async () => ({}))

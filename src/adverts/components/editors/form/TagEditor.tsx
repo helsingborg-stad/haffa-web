@@ -1,4 +1,4 @@
-import { Autocomplete, SxProps, TextField } from '@mui/material'
+import { Autocomplete, type SxProps, TextField } from '@mui/material'
 import { PhraseContext } from 'phrases'
 import { useContext } from 'react'
 

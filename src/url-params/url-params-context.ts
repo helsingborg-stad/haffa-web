@@ -1,7 +1,7 @@
 import { createContext } from 'react'
+import type { UrlParamsAdapter, UrlParamsContextType } from './types'
 import { createUrlParamsAdapter } from './url-params-adapter'
 import { createDefaultUrlParamsMapper } from './url-params-mapper'
-import { UrlParamsAdapter, UrlParamsContextType } from './types'
 
 const encode = (arr?: string[]): string[] | undefined =>
     arr?.map((v) => encodeURIComponent(v))

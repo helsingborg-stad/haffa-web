@@ -1,6 +1,6 @@
-import { Advert } from 'adverts/types'
+import type { Advert } from 'adverts/types'
 import { uniqueBy } from 'lib/unique-by'
-import { AdvertTableRow } from './AdvertsTable/types'
+import type { AdvertTableRow } from './AdvertsTable/types'
 
 export const createRows = (
     adverts: Advert[],

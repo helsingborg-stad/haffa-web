@@ -1,4 +1,4 @@
-import { FC } from 'react'
+import type { FC } from 'react'
 import { AdvertsListWithSearch } from './AdvertsListWithSearch'
 
 export const AdvertsView: FC = () => (

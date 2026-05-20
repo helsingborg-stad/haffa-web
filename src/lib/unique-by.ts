@@ -1,4 +1,4 @@
-import { Func1 } from './types'
+import type { Func1 } from './types'
 
 export const uniqueBy = <T, K>(key: Func1<T, K>): Func1<T, boolean> => {
     const found = new Set<K>()

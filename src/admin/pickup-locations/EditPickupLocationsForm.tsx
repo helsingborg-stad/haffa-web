@@ -1,3 +1,8 @@
+import AddIcon from '@mui/icons-material/Add'
+import ArrowDownwardIcon from '@mui/icons-material/ArrowDownward'
+import ArrowUpwardIcon from '@mui/icons-material/ArrowUpward'
+import Delete from '@mui/icons-material/Delete'
+import LocalShippingIcon from '@mui/icons-material/LocalShipping'
 import {
     Avatar,
     Box,
@@ -12,22 +17,17 @@ import {
 } from '@mui/material'
 import { AdminActionPanel } from 'components/AdminActionPanel'
 import { AdminEditorialPanel } from 'components/AdminEditorialPanel'
-import { FC, useCallback, useState } from 'react'
-import Delete from '@mui/icons-material/Delete'
-import AddIcon from '@mui/icons-material/Add'
 import { Editorial } from 'editorials'
-import {
-    PickupLocation,
-    PickupLocationRepository,
-} from 'pickup-locations/types'
+import { swapArrayItems } from 'lib/array-utils'
 import {
     createEmptyPickupLocation,
     normalizePickupLocations,
 } from 'pickup-locations/repository/mappers'
-import LocalShippingIcon from '@mui/icons-material/LocalShipping'
-import ArrowUpwardIcon from '@mui/icons-material/ArrowUpward'
-import ArrowDownwardIcon from '@mui/icons-material/ArrowDownward'
-import { swapArrayItems } from 'lib/array-utils'
+import type {
+    PickupLocation,
+    PickupLocationRepository,
+} from 'pickup-locations/types'
+import { type FC, useCallback, useState } from 'react'
 import { PickupLocationDialog } from './PickupLocationDialog'
 
 export interface PickupLocationWithIndex {
@@ -54,7 +54,7 @@ export const EditPickupLocationsForm: FC<{
             setDisabled(false)
             setMemo(result)
         })
-    }, [memo, setMemo, setDisabled])
+    }, [memo, onUpdate])
 
     return (
         <>

@@ -1,5 +1,5 @@
-import { FC, PropsWithChildren, createContext } from 'react'
-import { CategoriesRepository } from './types'
+import { createContext, type FC, type PropsWithChildren } from 'react'
+import type { CategoriesRepository } from './types'
 
 const notImplemented = (name: string) => (): never => {
     throw new Error(`CategoriesContext::${name} is not implemented`)

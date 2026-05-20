@@ -1,6 +1,6 @@
 import {
     Button,
-    ButtonProps,
+    type ButtonProps,
     Dialog,
     DialogActions,
     DialogContent,
@@ -8,13 +8,13 @@ import {
     IconButton,
     InputAdornment,
     SvgIcon,
-    SvgIconProps,
+    type SvgIconProps,
     TextField,
-    TextFieldProps,
+    type TextFieldProps,
 } from '@mui/material'
 import { nanoid } from 'nanoid'
 import { useState } from 'react'
-import { SketchPicker, SketchPickerProps } from 'react-color'
+import { SketchPicker, type SketchPickerProps } from 'react-color'
 
 const ColorButton = (props: SvgIconProps & ButtonProps) => (
     <IconButton onClick={props.onClick}>

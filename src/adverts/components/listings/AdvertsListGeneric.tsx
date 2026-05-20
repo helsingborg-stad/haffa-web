@@ -1,7 +1,13 @@
-import { FC, PropsWithChildren, useContext, useEffect, useState } from 'react'
-import { AdvertFilterInput, AdvertList } from 'adverts'
-import { createTreeAdapter } from 'lib/tree-adapter'
 import { Box } from '@mui/material'
+import type { AdvertFilterInput, AdvertList } from 'adverts'
+import { createTreeAdapter } from 'lib/tree-adapter'
+import {
+    type FC,
+    type PropsWithChildren,
+    useContext,
+    useEffect,
+    useState,
+} from 'react'
 import { AdvertsContext } from '../../AdvertsContext'
 import { AdvertsList } from './AdvertsList'
 import { AdvertsListPagination } from './AdvertsListWithSearch'
@@ -39,7 +45,7 @@ export const AdvertsListGeneric: FC<
                 filter: effectiveInitialSearchParams,
             })
         )
-    }, [defaultSearchParams])
+    }, [listAdverts, effectiveInitialSearchParams])
 
     const getAdverts = (filter: AdvertFilterInput) => {
         listAdverts(filter).then((result) =>

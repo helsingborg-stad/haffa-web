@@ -1,4 +1,4 @@
-import { AdvertSorting } from 'adverts'
+import type { AdvertSorting } from 'adverts'
 
 export interface AdvertFilterSortableFieldDescriptor {
     label: string

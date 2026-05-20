@@ -1,4 +1,4 @@
-import { OperationResult } from 'graphql'
+import type { OperationResult } from 'graphql'
 
 export interface ProfileUserFields {
     name: string

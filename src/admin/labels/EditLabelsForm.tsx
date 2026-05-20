@@ -7,14 +7,14 @@ import {
     Switch,
     TextField,
 } from '@mui/material'
-import { FC, useCallback, useState } from 'react'
 import { AdminActionPanel } from 'components/AdminActionPanel'
 import { AdminEditorialPanel } from 'components/AdminEditorialPanel'
 import { objectToOptions, optionsToObject } from 'options/mappers'
-import {
+import { type FC, useCallback, useState } from 'react'
+import type {
     LabelOptions,
-    type LabelOptionsKeys,
-    type Option,
+    LabelOptionsKeys,
+    Option,
 } from '../../options/types'
 import { getDefaultLabelOptions } from './mappers'
 
@@ -34,7 +34,7 @@ export const EditLabelsForm: FC<{
                 ...state,
                 ...patch,
             }),
-        [state, setState]
+        [state]
     )
 
     return (

@@ -1,12 +1,12 @@
 import {
-    AlertProps,
+    type AlertProps,
     AppBar,
-    AppBarProps,
+    type AppBarProps,
     Avatar,
-    AvatarProps,
+    type AvatarProps,
     Box,
     Button,
-    ButtonProps,
+    type ButtonProps,
     Card,
     CardContent,
     CssBaseline,
@@ -16,32 +16,32 @@ import {
     Grid,
     InputAdornment,
     MenuItem,
-    PaperProps,
+    type PaperProps,
     Radio,
     RadioGroup,
     TextField,
-    TextFieldProps,
+    type TextFieldProps,
     ThemeProvider,
     Typography,
 } from '@mui/material'
+import { ImageBrowseButton } from 'admin/content/components/ImageBrowseButton'
 import {
     createCustomTheme,
     createThemeModel,
     createThemeOptions,
     defaultThemeModel,
 } from 'branding/theme-factory'
-import { FC, useState } from 'react'
-import { ThemeModel } from 'branding/types'
-import { ImageBrowseButton } from 'admin/content/components/ImageBrowseButton'
+import type { ThemeModel } from 'branding/types'
 import { AdminActionPanel } from 'components/AdminActionPanel'
 import { AdminEditorialPanel } from 'components/AdminEditorialPanel'
+import { type FC, useState } from 'react'
 import type { Option } from '../../options/types'
 import { ColorSelect } from './components/ColorSelect'
-import { CreateMenuItems, RegularSelect } from './components/RegularSelect'
-import { PreviewButton } from './preview/Button'
-import { PreviewAlert } from './preview/Alert'
-import { PreviewTextField } from './preview/TextField'
 import { FontSelect } from './components/FontSelect'
+import { CreateMenuItems, RegularSelect } from './components/RegularSelect'
+import { PreviewAlert } from './preview/Alert'
+import { PreviewButton } from './preview/Button'
+import { PreviewTextField } from './preview/TextField'
 
 const MAX_FILE_SIZE = 1024 * 1024
 

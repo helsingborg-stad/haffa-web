@@ -1,7 +1,7 @@
 import { gqlClient } from 'graphql'
 import { decodeCategoryTree, encodeCategoryTree } from './mappers'
-import { CategoriesRepository, CategoryFlat } from './types'
 import { getCategoriesQuery, setCategoriesMutation } from './queries'
+import type { CategoriesRepository, CategoryFlat } from './types'
 
 const gql = (token: string, f?: typeof fetch, init?: RequestInit) =>
     gqlClient()

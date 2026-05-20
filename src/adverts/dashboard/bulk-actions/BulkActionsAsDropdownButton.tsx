@@ -1,3 +1,4 @@
+import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown'
 import {
     Button,
     ButtonGroup,
@@ -10,9 +11,8 @@ import {
     Paper,
     Popper,
 } from '@mui/material'
-import { FC, useMemo, useRef, useState } from 'react'
-import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown'
-import { BulkAction } from './types'
+import { type FC, useMemo, useRef, useState } from 'react'
+import type { BulkAction } from './types'
 
 export const BulkActionsAsDropdownButton: FC<{ bulkActions: BulkAction[] }> = ({
     bulkActions,
@@ -42,7 +42,7 @@ export const BulkActionsAsDropdownButton: FC<{ bulkActions: BulkAction[] }> = ({
                 return action
             }),
 
-        [setOpen, bulkActions]
+        [bulkActions]
     )
 
     const selectedAction = useMemo(
@@ -87,7 +87,6 @@ export const BulkActionsAsDropdownButton: FC<{ bulkActions: BulkAction[] }> = ({
                 }}
                 open={open}
                 anchorEl={anchorRef.current}
-                role={undefined}
                 transition
                 disablePortal
             >

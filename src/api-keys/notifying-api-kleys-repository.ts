@@ -1,6 +1,6 @@
-import { Notifications } from 'notifications/types'
-import { PhraseContextType } from 'phrases'
-import { ApiKeysRepository } from './types'
+import type { Notifications } from 'notifications/types'
+import type { PhraseContextType } from 'phrases'
+import type { ApiKeysRepository } from './types'
 
 export const createNotifyingApiKeysRepository = (
     notifications: Notifications,

@@ -1,15 +1,21 @@
 import { Backdrop, Box, Button, Toolbar, useTheme } from '@mui/material'
-import { Advert, AdvertImage } from 'adverts/types'
-import { CSSProperties, FC, useContext, useMemo, useState } from 'react'
-import { Swiper, SwiperSlide } from 'swiper/react'
+import type { Advert, AdvertImage } from 'adverts/types'
+import {
+    type CSSProperties,
+    type FC,
+    useContext,
+    useMemo,
+    useState,
+} from 'react'
 import { Navigation, Pagination } from 'swiper/modules'
+import { Swiper, SwiperSlide } from 'swiper/react'
 import 'swiper/css'
 import 'swiper/css/pagination'
 import 'swiper/css/navigation'
 import 'swiper/css/thumbs'
 
-import { PhraseContext } from 'phrases'
 import { AdvertImageSettingsContext } from 'branding'
+import { PhraseContext } from 'phrases'
 
 const SwiperCarousel: FC<{ images: AdvertImage[] }> = ({ images }) => {
     const { advertImageAspectRatio } = useContext(AdvertImageSettingsContext)
@@ -26,7 +32,7 @@ const SwiperCarousel: FC<{ images: AdvertImage[] }> = ({ images }) => {
                       ...images.slice(0, backdropImageIndex),
                   ]
                 : images,
-        [backdropImageIndex]
+        [backdropImageIndex, images.slice, images]
     )
 
     const swiperStyle = useMemo(
@@ -34,7 +40,7 @@ const SwiperCarousel: FC<{ images: AdvertImage[] }> = ({ images }) => {
             ({
                 '--swiper-navigation-color': theme.palette.primary.main, // '#fff',
                 '--swiper-pagination-color': theme.palette.primary.main, // '#fff',
-            } as CSSProperties),
+            }) as CSSProperties,
         [theme]
     )
 

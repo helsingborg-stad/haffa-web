@@ -1,7 +1,7 @@
 import { ErrorView } from 'errors'
 import useAsync from 'hooks/use-async'
-import { FC, useContext } from 'react'
 import { LoginPoliciesContext } from 'login-policies'
+import { type FC, useContext } from 'react'
 import { LoginPoliciesForm } from './LoginPoliciesForm'
 
 export const EditLoginPoliciesView: FC<{ title?: string }> = ({ title }) => {

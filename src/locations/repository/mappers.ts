@@ -1,4 +1,4 @@
-import { AdvertLocation } from 'adverts'
+import type { AdvertLocation } from 'adverts'
 
 export const createEmptyLocation = (): AdvertLocation => ({
     name: '',

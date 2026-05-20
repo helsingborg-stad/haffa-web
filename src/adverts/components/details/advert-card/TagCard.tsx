@@ -1,9 +1,9 @@
-import { Chip, PaperProps } from '@mui/material'
-import { Advert } from 'adverts'
+import { Chip, type PaperProps } from '@mui/material'
+import type { Advert } from 'adverts'
 import { byMatchingTags } from 'lib/by-matching-tags'
 import { useMemo } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { TagDescription } from 'tags/types'
+import type { TagDescription } from 'tags/types'
 
 export const TagCard = (
     props: PaperProps & { advert: Advert; tagDescriptions: TagDescription[] }
@@ -24,21 +24,18 @@ export const TagCard = (
             tagDescriptions
                 .filter(byMatchingTags(tags))
                 .filter(({ label }) => label),
-        [tagDescriptions]
+        [tagDescriptions, tags]
     )
     return (
-        visibleTags.length > 0 && (
-            <>
-                {visibleTags.map(({ tag, label }) => (
-                    <Chip
-                        key={tag}
-                        clickable
-                        onClick={() => clicked(tag)}
-                        label={label}
-                        sx={{ mr: 1 }}
-                    />
-                ))}
-            </>
-        )
+        visibleTags.length > 0 &&
+        visibleTags.map(({ tag, label }) => (
+            <Chip
+                key={tag}
+                clickable
+                onClick={() => clicked(tag)}
+                label={label}
+                sx={{ mr: 1 }}
+            />
+        ))
     )
 }

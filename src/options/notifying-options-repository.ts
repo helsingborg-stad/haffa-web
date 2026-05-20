@@ -1,6 +1,6 @@
-import { Notifications } from 'notifications/types'
-import { PhraseContextType } from 'phrases'
-import { OptionsRepository } from './types'
+import type { Notifications } from 'notifications/types'
+import type { PhraseContextType } from 'phrases'
+import type { OptionsRepository } from './types'
 
 export const createNotifyingOptionsRepository = (
     notifications: Notifications,

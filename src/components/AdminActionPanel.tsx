@@ -1,7 +1,7 @@
+import SaveIcon from '@mui/icons-material/Save'
 import { Box, Button, CardActions } from '@mui/material'
 import { PhraseContext } from 'phrases'
-import { PropsWithChildren, useContext } from 'react'
-import SaveIcon from '@mui/icons-material/Save'
+import { type PropsWithChildren, useContext } from 'react'
 
 export const AdminActionPanel = (
     props: PropsWithChildren & {

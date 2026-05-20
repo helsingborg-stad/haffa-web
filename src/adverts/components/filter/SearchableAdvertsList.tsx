@@ -1,10 +1,10 @@
-import { FC, PropsWithChildren, useState } from 'react'
 import { Box, Grid } from '@mui/material'
-import { AdvertFilterInput } from 'adverts'
+import type { AdvertFilterInput } from 'adverts'
+import { type FC, type PropsWithChildren, useState } from 'react'
+import { FilterDialog, FiltersIconButton } from './filters'
 import { SearchInput } from './search'
-import { SortIconButton } from './sorting/SortIconButton'
 import { SortMenu } from './sorting'
-import { FiltersIconButton, FilterDialog } from './filters'
+import { SortIconButton } from './sorting/SortIconButton'
 
 const FilterPanel: FC<
     {

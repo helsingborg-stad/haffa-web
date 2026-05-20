@@ -1,5 +1,5 @@
 import EventEmitter from 'eventemitter3'
-import {
+import type {
     Notification,
     Notifications,
     SufficientlyDescribedNotification,

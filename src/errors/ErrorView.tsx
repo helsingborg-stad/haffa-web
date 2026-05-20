@@ -1,9 +1,9 @@
-import { FC, useContext } from 'react'
 import { UnauthorizedView } from 'auth/components/UnathorizedView'
 import { Editorial } from 'editorials'
-import { renderError } from '.'
+import { type FC, useContext } from 'react'
 import { Layout } from '../layout'
 import { PhraseContext } from '../phrases/PhraseContext'
+import { renderError } from '.'
 
 export const ErrorView: FC<{ error: any }> = ({ error }) => {
     const { ERROR_NOT_FOUND, ERROR_UNKNOWN } = useContext(PhraseContext)

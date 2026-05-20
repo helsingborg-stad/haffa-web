@@ -1,82 +1,81 @@
-import { FC, useContext, useEffect, useMemo, useState } from 'react'
+import { type FC, useContext, useEffect, useMemo, useState } from 'react'
 import './App.css'
-import { FetchContext, FetchContextProvider } from 'hooks/fetch/FetchContext'
-import {
-    CategoriesProvider,
-    createCategoriesRepository,
-    createNotifyingCategoriesRepository,
-} from 'categories'
-import {
-    LoginPoliciesProvider,
-    createLoginPoliciesRepository,
-    createNotifyingLoginPoliciesRepository,
-} from 'login-policies'
-
-import { PhraseContext } from 'phrases/PhraseContext'
-import { NotificationsContext, NotificationsProvider } from 'notifications'
-import { createNotifyingAdvertsRepository } from 'adverts'
-import {
-    ProfileProvider,
-    createNotifyingProfileRepository,
-    createProfileRepository,
-} from 'profile'
-import {
-    ApiKeysProvider,
-    createApiKeysRepository,
-    createNotifyingApiKeysRepository,
-} from 'api-keys'
-import { OptionsProvider } from 'options/OptionsContext'
-import {
-    TermsProvider,
-    createNotifyingTermsRepository,
-    createTermsRepository,
-} from 'terms'
-import {
-    createNotifyingOptionsRepository,
-    createOptionsRepository,
-} from 'options'
-import { BrandingProvider } from 'branding/BrandingProvider'
-import { AnalyticsProvider } from 'analytics'
-import { StatisticsProvider, createStatisticsProvider } from 'statistics'
-import {
-    SubscriptionsProvider,
-    createNotifyingSubscriptionsRepository,
-    createSubscriptionsRepository,
-} from 'subscriptions'
-import { createNotifyingContentRepository } from 'content/notifying-content-repository'
-import { createContentRepository } from 'content/content-repository'
-import { ContentProvider } from 'content/ContentContext'
 import {
     AdvertFieldProvider,
     createAdvertFieldRepository,
     createNotifyingAdvertFieldRepository,
 } from 'advert-field-config'
+import { createNotifyingAdvertsRepository } from 'adverts'
+import { AnalyticsProvider } from 'analytics'
 import {
-    LocationProvider,
+    ApiKeysProvider,
+    createApiKeysRepository,
+    createNotifyingApiKeysRepository,
+} from 'api-keys'
+import { BrandingProvider } from 'branding/BrandingProvider'
+import {
+    CategoriesProvider,
+    createCategoriesRepository,
+    createNotifyingCategoriesRepository,
+} from 'categories'
+import { ContentProvider } from 'content/ContentContext'
+import { createContentRepository } from 'content/content-repository'
+import { createNotifyingContentRepository } from 'content/notifying-content-repository'
+import { FetchContext, FetchContextProvider } from 'hooks/fetch/FetchContext'
+import {
     createLocationRepository,
     createNotifyingLocationRepository,
+    LocationProvider,
 } from 'locations'
-import { SystemSettingsProvider } from 'system-settings'
 import {
-    SmsTemplateProvider,
-    createNotifyingSmsTemplateRepository,
-    createSmsTemplateRepository,
-} from 'sms-templates'
-import { SyslogProvider, createSyslogProvider } from 'syslog'
+    createLoginPoliciesRepository,
+    createNotifyingLoginPoliciesRepository,
+    LoginPoliciesProvider,
+} from 'login-policies'
+import { NotificationsContext, NotificationsProvider } from 'notifications'
+import {
+    createNotifyingOptionsRepository,
+    createOptionsRepository,
+} from 'options'
+import { OptionsProvider } from 'options/OptionsContext'
+import { PhraseContext } from 'phrases/PhraseContext'
 import {
     createNotifyingPickupLocationRepository,
     createPickupLocationRepository,
     PickupLocationProvider,
 } from 'pickup-locations'
+import {
+    createNotifyingProfileRepository,
+    createProfileRepository,
+    ProfileProvider,
+} from 'profile'
+import {
+    createNotifyingSmsTemplateRepository,
+    createSmsTemplateRepository,
+    SmsTemplateProvider,
+} from 'sms-templates'
+import { createStatisticsProvider, StatisticsProvider } from 'statistics'
+import {
+    createNotifyingSubscriptionsRepository,
+    createSubscriptionsRepository,
+    SubscriptionsProvider,
+} from 'subscriptions'
+import { createSyslogProvider, SyslogProvider } from 'syslog'
+import { SystemSettingsProvider } from 'system-settings'
 import { TagsProvider } from 'tags'
 import { createNotifyingTagsRepository } from 'tags/repository/notifying-tags-repository'
 import { createTagsRepository } from 'tags/repository/tags-repository'
+import {
+    createNotifyingTermsRepository,
+    createTermsRepository,
+    TermsProvider,
+} from 'terms'
 import { AdvertsProvider } from './adverts/AdvertsContext'
 import { createAdvertsRepository } from './adverts/repository/adverts-repository'
-import { AppRouter } from './routes/AppRouter'
 import { AuthContext, AuthContextProvider } from './auth'
-import { AuthenticateView } from './auth/components/AuthenticateView'
 import { createAuthProvider } from './auth/auth-provider'
+import { AuthenticateView } from './auth/components/AuthenticateView'
+import { AppRouter } from './routes/AppRouter'
 
 const Main: FC = () => {
     const { isAuthenticated, token } = useContext(AuthContext)
@@ -91,7 +90,7 @@ const Main: FC = () => {
                 phrase,
                 createOptionsRepository(token, fetch)
             ),
-        [notifications, phrase]
+        [notifications, phrase, token, fetch]
     )
 
     const terms = useMemo(

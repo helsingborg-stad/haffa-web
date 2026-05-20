@@ -1,6 +1,6 @@
-import { Category, CategoryFlat } from 'categories/types'
-import { PickupLocation } from 'pickup-locations/types'
-import { ProfileInput } from 'profile'
+import type { Category, CategoryFlat } from 'categories/types'
+import type { PickupLocation } from 'pickup-locations/types'
+import type { ProfileInput } from 'profile'
 
 export interface AdvertUserFields {
     title: string
@@ -145,7 +145,7 @@ export interface AdvertClaim {
     pickupLocation?: PickupLocation
     canCancel: boolean
     canConvert: boolean
-    isOverdue: Boolean
+    isOverdue: boolean
 }
 export interface AdvertReturnInfo {
     at: string

@@ -1,4 +1,4 @@
-import {
+import type {
     PickupLocation,
     PickupLocationRepository,
 } from 'pickup-locations/types'

@@ -1,11 +1,11 @@
-import { FC, useCallback, useContext } from 'react'
-import { Terms } from 'terms/types'
-import { AdvertFieldConfig } from 'advert-field-config/types'
-import { Advert, AdvertInput, AdvertLocation } from '../../types'
-import { AdvertsContext } from '../../AdvertsContext'
+import type { AdvertFieldConfig } from 'advert-field-config/types'
+import { type FC, useCallback, useContext } from 'react'
+import type { Terms } from 'terms/types'
+import type { Category } from '../../../categories/types'
 import { PhraseContext } from '../../../phrases/PhraseContext'
+import { AdvertsContext } from '../../AdvertsContext'
+import type { Advert, AdvertInput, AdvertLocation } from '../../types'
 import { AdvertEditor } from './AdvertEditor'
-import { Category } from '../../../categories/types'
 
 export const EditAdvertView: FC<{
     advert: Advert

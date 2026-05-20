@@ -1,4 +1,4 @@
-import { AdvertContact, AdvertInput, AdvertLocation } from '../types'
+import type { AdvertContact, AdvertInput, AdvertLocation } from '../types'
 
 const toInt = (v: any): number => parseInt(v, 10)
 

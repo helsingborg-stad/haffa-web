@@ -1,7 +1,7 @@
-import { AdvertFilterInput } from 'adverts'
-import { FC } from 'react'
 import SearchIcon from '@mui/icons-material/Search'
 import { InputAdornment, TextField } from '@mui/material'
+import type { AdvertFilterInput } from 'adverts'
+import type { FC } from 'react'
 
 export const SearchInput: FC<{
     searchParams: AdvertFilterInput

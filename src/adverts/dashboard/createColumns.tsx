@@ -1,15 +1,15 @@
-import EventBusyIcon from '@mui/icons-material/EventBusy'
-import EditIcon from '@mui/icons-material/Edit'
-import OpenInBrowserIcon from '@mui/icons-material/OpenInBrowser'
 import CheckIcon from '@mui/icons-material/Check'
+import EditIcon from '@mui/icons-material/Edit'
+import EventBusyIcon from '@mui/icons-material/EventBusy'
+import OpenInBrowserIcon from '@mui/icons-material/OpenInBrowser'
 import { Box, IconButton, Stack, Typography } from '@mui/material'
 import { sortBy } from 'lib/sort-by'
-import { PhraseContextType } from 'phrases'
+import type { PhraseContextType } from 'phrases'
+import type { ReactNode } from 'react'
 import { NavLink, useNavigate } from 'react-router-dom'
-import { ReactNode } from 'react'
-import {
-    AdvertTableColumn,
+import type {
     AdvertsTableContextType,
+    AdvertTableColumn,
 } from './AdvertsTable/types'
 
 export const createLink = (to: string | undefined, icon: ReactNode) => (
@@ -23,7 +23,7 @@ export const densityFromString = (density?: string): number | undefined =>
         compact: 32,
         standard: 48,
         comfortable: 96,
-    }[density ?? 'standard'])
+    })[density ?? 'standard']
 
 export const CreateAdvertImage = (
     imageUrl?: string,

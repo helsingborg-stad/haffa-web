@@ -1,6 +1,6 @@
 import { NotificationsContext } from 'notifications'
 import { PhraseContext } from 'phrases'
-import { FC, PropsWithChildren, useContext } from 'react'
+import { type FC, type PropsWithChildren, useContext } from 'react'
 import { createNotifications } from './notifications'
 
 export const NotificationsProvider: FC<PropsWithChildren & {}> = ({

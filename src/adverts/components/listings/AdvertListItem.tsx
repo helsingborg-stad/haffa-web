@@ -1,23 +1,23 @@
-import { FC, useContext } from 'react'
+import RecyclingIcon from '@mui/icons-material/Recycling'
+import ScheduleIcon from '@mui/icons-material/Schedule'
 import {
     Box,
     Card,
     CardActionArea,
     CardMedia,
     Grid,
-    SxProps,
-    Theme,
+    type SxProps,
+    type Theme,
     Typography,
 } from '@mui/material'
-import { Link } from 'react-router-dom'
-import { Category } from 'categories/types'
-import { TreeAdapter } from 'lib/types'
-import { PhraseContext } from 'phrases'
-import RecyclingIcon from '@mui/icons-material/Recycling'
-import { isValidString } from 'lib/string-utils'
 import { AdvertImageSettingsContext } from 'branding'
-import ScheduleIcon from '@mui/icons-material/Schedule'
-import { Advert } from '../../types'
+import type { Category } from 'categories/types'
+import { isValidString } from 'lib/string-utils'
+import type { TreeAdapter } from 'lib/types'
+import { PhraseContext } from 'phrases'
+import { type FC, useContext } from 'react'
+import { Link } from 'react-router-dom'
+import type { Advert } from '../../types'
 
 const join = (sep: string, ...parts: (string | number | undefined)[]) =>
     parts.filter((p) => p !== undefined && p !== '').join(sep)

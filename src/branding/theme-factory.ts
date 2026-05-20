@@ -1,9 +1,9 @@
-import { Theme, createTheme } from '@mui/material/styles'
-import { toMap } from 'lib/to-map'
 import { svSE } from '@mui/material/locale'
+import { createTheme, type Theme } from '@mui/material/styles'
 import { svSE as svSE_DataGrid } from '@mui/x-data-grid/locales'
-import { ThemeModel } from './types'
+import { toMap } from 'lib/to-map'
 import type { Option } from '../options/types'
+import type { ThemeModel } from './types'
 
 export const defaultThemeModel: ThemeModel = {
     'advert.image.aspectRatio': '4:3',

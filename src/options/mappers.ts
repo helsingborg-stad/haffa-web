@@ -8,7 +8,7 @@ export const getOption = <T = string>(
 export const objectToOptions = <T extends string>(
     obj: Record<T, string>
 ): Option<T>[] =>
-    Object.entries(obj).map(([key, value]) => ({ key, value } as Option<T>))
+    Object.entries(obj).map(([key, value]) => ({ key, value }) as Option<T>)
 
 export const optionsToObject = <T extends string>(
     options: Option<T>[]

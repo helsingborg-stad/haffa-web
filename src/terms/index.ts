@@ -1,10 +1,14 @@
-import { TermsContext, TermsProvider } from './TermsContext'
 import { createNotifyingTermsRepository } from './repository/notifying-terms-repository'
 import { createTermsRepository } from './repository/terms-repository'
-import { Terms } from './types'
+import { TermsContext, TermsProvider } from './TermsContext'
+import type { Terms } from './types'
 
-export { TermsContext, TermsProvider }
-export { createTermsRepository, createNotifyingTermsRepository }
+export {
+    createNotifyingTermsRepository,
+    createTermsRepository,
+    TermsContext,
+    TermsProvider,
+}
 
 export const createEmptyTerms = (): Terms => ({
     places: [],

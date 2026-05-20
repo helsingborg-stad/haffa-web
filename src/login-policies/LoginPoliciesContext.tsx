@@ -1,5 +1,5 @@
-import { FC, PropsWithChildren, createContext } from 'react'
-import { LoginPoliciesRepository } from './types'
+import { createContext, type FC, type PropsWithChildren } from 'react'
+import type { LoginPoliciesRepository } from './types'
 
 const notImplemented = (name: string) => (): never => {
     throw new Error(`LoginPoliciesContext::${name} is not implemented`)

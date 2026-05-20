@@ -6,9 +6,8 @@ import {
     DialogTitle,
     TextField,
 } from '@mui/material'
-
-import { FC, useState } from 'react'
 import { isValidUrl } from 'lib/string-utils'
+import { type FC, useState } from 'react'
 import { CreateMenuItems, RegularSelect } from './RegularSelect'
 
 export interface FontProperties {

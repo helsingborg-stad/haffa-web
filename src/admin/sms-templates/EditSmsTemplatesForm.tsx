@@ -1,5 +1,6 @@
 import {
     Chip,
+    debounce,
     FormControlLabel,
     FormGroup,
     Paper,
@@ -13,15 +14,14 @@ import {
     TableRow,
     TextField,
     Typography,
-    debounce,
 } from '@mui/material'
-import { Advert } from 'adverts'
+import type { Advert } from 'adverts'
 import { AdminActionPanel } from 'components/AdminActionPanel'
 import { toMap } from 'lib/to-map'
 import { PhraseContext } from 'phrases'
-import { FC, useCallback, useContext, useMemo, useState } from 'react'
-import { SmsTemplate, SmsTemplateContext } from 'sms-templates'
-import { SmsTemplatePreview } from 'sms-templates/types'
+import { type FC, useCallback, useContext, useMemo, useState } from 'react'
+import { type SmsTemplate, SmsTemplateContext } from 'sms-templates'
+import type { SmsTemplatePreview } from 'sms-templates/types'
 import { SelectSampleAdvert } from './SelectSampleAdvert'
 
 export const EditSmsTemplatesForm: FC<{
@@ -58,7 +58,7 @@ export const EditSmsTemplatesForm: FC<{
                     ),
                 300
             ),
-        [previewSmsTemplates, setPreview]
+        [previewSmsTemplates]
     )
 
     const [previewAdvert, setPreviewAdvert] = useState<Advert | null>(null)
@@ -68,7 +68,7 @@ export const EditSmsTemplatesForm: FC<{
             setPreviewAdvert(advert)
             fetchPreview(memo, advert)
         },
-        [setPreviewAdvert, fetchPreview]
+        [fetchPreview, memo]
     )
     const mutateTemplate = useCallback(
         (t: SmsTemplate, patch: Partial<SmsTemplate>) => {
@@ -78,7 +78,7 @@ export const EditSmsTemplatesForm: FC<{
             setMemo(newMemo)
             fetchPreview(newMemo, previewAdvert)
         },
-        [memo, setMemo, fetchPreview]
+        [memo, fetchPreview, previewAdvert]
     )
 
     const saveTemplates = useCallback(() => onUpdate(memo), [onUpdate, memo])

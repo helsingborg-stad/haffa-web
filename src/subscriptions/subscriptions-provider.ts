@@ -1,10 +1,10 @@
 import { gqlClient } from 'graphql'
-import { AdvertSubscription, SubscriptionsRepository } from './types'
 import {
     addAdvertSubscriptionMutation,
     getAdvertSubscriptionsQuery,
     removeAdvertSubscriptionMutation,
 } from './queries'
+import type { AdvertSubscription, SubscriptionsRepository } from './types'
 
 const gql = (token: string, f?: typeof fetch, init?: RequestInit) =>
     gqlClient()
