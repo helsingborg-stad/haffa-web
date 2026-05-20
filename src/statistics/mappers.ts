@@ -1,4 +1,4 @@
-import { Summaries } from './types'
+import type { Summaries } from './types'
 
 export const normalizeSummaries = (
     summaries?: Partial<Summaries>

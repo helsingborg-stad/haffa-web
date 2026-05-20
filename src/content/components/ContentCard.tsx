@@ -7,14 +7,14 @@ import {
     Stack,
     Typography,
 } from '@mui/material'
+import type { Variant } from '@mui/material/styles/createTypography'
 import { AdvertsListGeneric } from 'adverts/components/listings/AdvertsListGeneric'
 import { Markdown } from 'components/Markdown'
-import { PropsWithChildren } from 'react'
-import { isValidColor, isValidString, isYoutubeUrl } from 'lib/string-utils'
-import { Variant } from '@mui/material/styles/createTypography'
 import { compile } from 'handlebars'
-import { Summaries } from 'statistics/types'
-import { ContentModule } from '../types'
+import { isValidColor, isValidString, isYoutubeUrl } from 'lib/string-utils'
+import type { PropsWithChildren } from 'react'
+import type { Summaries } from 'statistics/types'
+import type { ContentModule } from '../types'
 
 const getStackDirection = (position: ContentModule['position']): any =>
     ({
@@ -25,7 +25,7 @@ const getStackDirection = (position: ContentModule['position']): any =>
             sm: 'row-reverse',
         },
         top: 'column',
-    }[position] ?? 'column')
+    })[position] ?? 'column'
 
 export const ContentCard = (
     props: PropsWithChildren & { module: ContentModule; summaries: Summaries }

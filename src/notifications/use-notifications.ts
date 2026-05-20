@@ -1,6 +1,6 @@
 import { useContext, useEffect, useState } from 'react'
 import { NotificationsContext } from './NotificationsContext'
-import { Notification } from './types'
+import type { Notification } from './types'
 
 export const useNotifications = (): [Notification | null, () => void] => {
     const { observe, cancel } = useContext(NotificationsContext)

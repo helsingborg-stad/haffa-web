@@ -1,6 +1,10 @@
+import {
+    ButtonGroup,
+    type ButtonGroupProps,
+    useMediaQuery,
+} from '@mui/material'
 import { useTheme } from '@mui/material/styles'
-import { ButtonGroup, ButtonGroupProps, useMediaQuery } from '@mui/material'
-import { FC } from 'react'
+import type { FC } from 'react'
 
 export const ResponsiveButtonGroup: FC<ButtonGroupProps> = ({
     children,

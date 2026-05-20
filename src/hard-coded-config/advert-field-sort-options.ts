@@ -1,5 +1,5 @@
-import { PhraseContextType } from 'phrases'
-import { AdvertFilterSortableFieldDescriptor } from './types'
+import type { PhraseContextType } from 'phrases'
+import type { AdvertFilterSortableFieldDescriptor } from './types'
 
 export const getAdvertFieldSortOptions = (
     phrase: PhraseContextType['phrase']

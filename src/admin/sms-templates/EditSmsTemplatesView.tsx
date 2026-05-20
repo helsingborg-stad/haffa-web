@@ -1,6 +1,6 @@
 import { ErrorView } from 'errors'
 import useAsync from 'hooks/use-async'
-import { FC, useContext } from 'react'
+import { type FC, useContext } from 'react'
 import { SmsTemplateContext } from 'sms-templates'
 import { EditSmsTemplatesForm } from './EditSmsTemplatesForm'
 

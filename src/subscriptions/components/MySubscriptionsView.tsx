@@ -1,3 +1,5 @@
+import RemoveCircleOutlineIcon from '@mui/icons-material/RemoveCircleOutline'
+import SubscriptionsIcon from '@mui/icons-material/Subscriptions'
 import {
     Avatar,
     Box,
@@ -11,17 +13,15 @@ import {
     Typography,
 } from '@mui/material'
 import { CategoriesContext } from 'categories'
-import { Category } from 'categories/types'
+import type { Category } from 'categories/types'
+import { Editorial } from 'editorials'
 import { ErrorView } from 'errors'
 import useAsync from 'hooks/use-async'
 import { PhraseContext } from 'phrases'
-import { FC, useCallback, useContext } from 'react'
+import { type FC, useCallback, useContext } from 'react'
 import { SubscriptionsContext } from 'subscriptions'
-import { AdvertSubscription } from 'subscriptions/types'
+import type { AdvertSubscription } from 'subscriptions/types'
 import { UrlParamsContext } from 'url-params'
-import SubscriptionsIcon from '@mui/icons-material/Subscriptions'
-import RemoveCircleOutlineIcon from '@mui/icons-material/RemoveCircleOutline'
-import { Editorial } from 'editorials'
 
 interface SubscriptionModel extends AdvertSubscription {
     categories: SubscriptionCategoryModel[]

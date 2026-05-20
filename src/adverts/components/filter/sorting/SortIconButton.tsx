@@ -1,7 +1,6 @@
-import { Box, Button, Stack } from '@mui/material'
-import { FC } from 'react'
-
 import SortOutlinedIcon from '@mui/icons-material/SortOutlined'
+import { Box, Button, Stack } from '@mui/material'
+import type { FC } from 'react'
 
 export const SortIconButton: FC<{
     onClick: (anchor: HTMLElement) => void

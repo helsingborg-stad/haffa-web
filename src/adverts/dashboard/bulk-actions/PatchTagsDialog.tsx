@@ -1,3 +1,5 @@
+import CancelIcon from '@mui/icons-material/Cancel'
+import SaveAltIcon from '@mui/icons-material/SaveAlt'
 import {
     Box,
     Button,
@@ -12,16 +14,14 @@ import {
     OutlinedInput,
     Select,
 } from '@mui/material'
-import { PhraseContext } from 'phrases'
-import { FC, useContext, useState } from 'react'
-import CancelIcon from '@mui/icons-material/Cancel'
-import SaveAltIcon from '@mui/icons-material/SaveAlt'
-import { uniqueBy } from 'lib/unique-by'
-import { sortBy } from 'lib/sort-by'
-import { flatten } from 'lib/flatten'
 import { AdvertsContext } from 'adverts/AdvertsContext'
-import { BulkActionDialogParams } from './types'
+import { flatten } from 'lib/flatten'
+import { sortBy } from 'lib/sort-by'
+import { uniqueBy } from 'lib/unique-by'
+import { PhraseContext } from 'phrases'
+import { type FC, useContext, useState } from 'react'
 import { AdvertsTableContext } from '../AdvertsTable'
+import type { BulkActionDialogParams } from './types'
 
 const trimTags = (tags: string[]) =>
     tags.filter(uniqueBy((tag) => tag)).sort(sortBy((tag) => tag.toLowerCase()))

@@ -1,13 +1,13 @@
-import { Button, Stack, SxProps, Theme } from '@mui/material'
-import { AdvertFilterInput } from 'adverts'
-import { PhraseContext } from 'phrases'
-import { FC, useContext } from 'react'
-import {
-    SubscriptionsContext,
-    convertAdvertFilterToSubscriptionFilter,
-} from 'subscriptions'
 import NotificationAddIcon from '@mui/icons-material/NotificationAdd'
 import SubscriptionsIcon from '@mui/icons-material/Subscriptions'
+import { Button, Stack, type SxProps, type Theme } from '@mui/material'
+import type { AdvertFilterInput } from 'adverts'
+import { PhraseContext } from 'phrases'
+import { type FC, useContext } from 'react'
+import {
+    convertAdvertFilterToSubscriptionFilter,
+    SubscriptionsContext,
+} from 'subscriptions'
 
 export const AdvertSubscriptionControls: FC<{
     searchParams: AdvertFilterInput

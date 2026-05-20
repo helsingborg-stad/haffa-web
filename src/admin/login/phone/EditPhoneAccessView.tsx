@@ -12,9 +12,9 @@ import { AdminActionPanel } from 'components/AdminActionPanel'
 import { ErrorView } from 'errors'
 import useAsync from 'hooks/use-async'
 import { LoginPoliciesContext } from 'login-policies'
-import { UserMappingConfiguration } from 'login-policies/types'
-import { FC, useContext, useRef, useState } from 'react'
+import type { UserMappingConfiguration } from 'login-policies/types'
 import { PhraseContext } from 'phrases'
+import { type FC, useContext, useRef, useState } from 'react'
 import { SelectUserRoles } from '../login-policies/SelectUserRoles'
 
 const EditPhoneAccessForm: FC<{

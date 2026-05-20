@@ -8,13 +8,13 @@ import {
     Select,
     Stack,
 } from '@mui/material'
+import type { AdvertFieldConfig } from 'advert-field-config/types'
 import { AdvertsContext } from 'adverts/AdvertsContext'
-import { Advert, AdvertMutationResult } from 'adverts/types'
-import { FC, useContext, useId, useState } from 'react'
-import { Terms } from 'terms/types'
-import { AdvertFieldConfig } from 'advert-field-config/types'
-import { PhraseContext } from 'phrases'
+import type { Advert, AdvertMutationResult } from 'adverts/types'
 import { Editorial } from 'editorials'
+import { PhraseContext } from 'phrases'
+import { type FC, useContext, useId, useState } from 'react'
+import type { Terms } from 'terms/types'
 
 export const PlacePanel: FC<{
     advert: Advert

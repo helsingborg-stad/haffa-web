@@ -1,5 +1,5 @@
 import { createContext } from 'react'
-import { SystemSettingsRepository } from './types'
+import type { SystemSettingsRepository } from './types'
 
 export const SystemSettingsContext = createContext<SystemSettingsRepository>({
     getSystemSettings: async () => ({

@@ -1,6 +1,6 @@
-import { AdvertFilterInput } from 'adverts'
-import { AdvertFilterSortableFieldDescriptor } from 'hard-coded-config/types'
-import { AdvertSubscriptionFilter } from 'subscriptions/types'
+import type { AdvertFilterInput } from 'adverts'
+import type { AdvertFilterSortableFieldDescriptor } from 'hard-coded-config/types'
+import type { AdvertSubscriptionFilter } from 'subscriptions/types'
 
 export interface UrlParamsAdapter {
     parseUrlParams: (prefix: string) => Record<string, string>

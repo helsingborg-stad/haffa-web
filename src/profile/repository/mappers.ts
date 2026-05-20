@@ -1,4 +1,4 @@
-import { ProfileInput } from 'profile/types'
+import type { ProfileInput } from 'profile/types'
 
 export const sanitizeProfileInput = ({
     name,

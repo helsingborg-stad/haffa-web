@@ -1,4 +1,4 @@
-import { TagDescription, TagsRepository } from 'tags/types'
+import type { TagDescription, TagsRepository } from 'tags/types'
 import { ifNullThenNotFoundError } from '../../errors'
 import { gqlClient } from '../../graphql'
 import {

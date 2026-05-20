@@ -5,9 +5,9 @@ import {
     Radio,
     RadioGroup,
 } from '@mui/material'
-import { AdvertFilterInput } from 'adverts/types'
+import type { AdvertFilterInput } from 'adverts/types'
 import { PhraseContext } from 'phrases'
-import { FC, useContext } from 'react'
+import { type FC, useContext } from 'react'
 
 export const SelectArchived: FC<{
     filter: AdvertFilterInput

@@ -1,8 +1,14 @@
-import { Avatar, Paper, PaperProps, Stack, Typography } from '@mui/material'
 import HomeOutlinedIcon from '@mui/icons-material/HomeOutlined'
-import { Advert, AdvertLocation } from 'adverts'
-import { FC, useContext } from 'react'
+import {
+    Avatar,
+    Paper,
+    type PaperProps,
+    Stack,
+    Typography,
+} from '@mui/material'
+import type { Advert, AdvertLocation } from 'adverts'
 import { PhraseContext } from 'phrases'
+import { type FC, useContext } from 'react'
 
 export const AddressCard: FC<
     PaperProps & { advert: Advert; locations: AdvertLocation[] }
@@ -21,7 +27,7 @@ export const AddressCard: FC<
                     </Typography>
 
                     {locations.map(({ name, adress, zipCode, city }, index) => (
-                        <Stack direction="row" spacing={1}>
+                        <Stack key={index} direction="row" spacing={1}>
                             <Avatar
                                 sx={{
                                     display: { xs: 'none', sm: 'inherit' },

@@ -1,8 +1,8 @@
 import { FormControl, InputLabel, MenuItem, Select } from '@mui/material'
-import { AdvertFilterInput } from 'adverts/types'
+import type { AdvertFilterInput } from 'adverts/types'
 import useAsync from 'hooks/use-async'
 import { PhraseContext } from 'phrases'
-import { FC, Fragment, useContext, useId } from 'react'
+import { type FC, Fragment, useContext, useId } from 'react'
 import { TermsContext } from 'terms'
 
 export const SelectPlace: FC<{

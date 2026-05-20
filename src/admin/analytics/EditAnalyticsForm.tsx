@@ -1,9 +1,9 @@
 import { Card, CardContent, MenuItem, TextField } from '@mui/material'
-import { FC, useState } from 'react'
 import { AdminActionPanel } from 'components/AdminActionPanel'
-import { isValidUrl } from 'lib/string-utils'
 import { AdminEditorialPanel } from 'components/AdminEditorialPanel'
+import { isValidUrl } from 'lib/string-utils'
 import { getOption } from 'options/mappers'
+import { type FC, useState } from 'react'
 import type { AnalyticsOptionKeys, Option } from '../../options/types'
 
 export const EditAnalyticsForm: FC<{

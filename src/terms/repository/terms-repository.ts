@@ -1,4 +1,4 @@
-import { Terms, TermsRepository } from 'terms/types'
+import type { Terms, TermsRepository } from 'terms/types'
 import { ifNullThenNotFoundError } from '../../errors'
 import { gqlClient } from '../../graphql'
 import { getTermsQuery, updateTermsMutation } from './queries'

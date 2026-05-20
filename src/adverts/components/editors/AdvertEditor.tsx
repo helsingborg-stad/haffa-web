@@ -1,11 +1,15 @@
-import { FC, useCallback, useState } from 'react'
+import type { AdvertFieldConfig } from 'advert-field-config/types'
+import { type FC, useCallback, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { Terms } from 'terms/types'
-import { AdvertFieldConfig } from 'advert-field-config/types'
-import { AdvertInput, AdvertLocation, AdvertMutationResult } from '../../types'
+import type { Terms } from 'terms/types'
+import type { Category } from '../../../categories/types'
 import { sanitizeAdvertInput } from '../../repository/mappers'
+import type {
+    AdvertInput,
+    AdvertLocation,
+    AdvertMutationResult,
+} from '../../types'
 import { AdvertForm } from './form'
-import { Category } from '../../../categories/types'
 
 export const AdvertEditor: FC<{
     title: string
@@ -50,7 +54,7 @@ export const AdvertEditor: FC<{
                 setSaving(false)
             }
         },
-        [advert]
+        [advert, onUpdate, navigate]
     )
     return (
         <AdvertForm

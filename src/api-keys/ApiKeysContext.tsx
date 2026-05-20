@@ -1,5 +1,5 @@
-import { FC, PropsWithChildren, createContext } from 'react'
-import { ApiKeysRepository } from './types'
+import { createContext, type FC, type PropsWithChildren } from 'react'
+import type { ApiKeysRepository } from './types'
 
 const notImplemented = (name: string) => (): never => {
     throw new Error(`ApiKeysContext::${name} is not implemented`)

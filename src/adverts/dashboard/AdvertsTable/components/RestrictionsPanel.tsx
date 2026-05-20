@@ -1,10 +1,10 @@
 import { ButtonGroup, Stack, useMediaQuery, useTheme } from '@mui/material'
-import { AdvertFilterInput } from 'adverts/types'
+import type { AdvertFilterInput } from 'adverts/types'
 import { PhraseContext } from 'phrases'
-import { FC, PropsWithChildren, useContext } from 'react'
+import { type FC, type PropsWithChildren, useContext } from 'react'
 import { RestrictionButton } from './RestrictionButton'
-import { SelectPickupLocation } from './SelectPickupLocation'
 import { SelectArchived } from './SelectArchived'
+import { SelectPickupLocation } from './SelectPickupLocation'
 import { SelectPlace } from './SelectPlace'
 
 export const RestrictionsPanel: FC<

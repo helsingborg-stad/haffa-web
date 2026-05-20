@@ -1,6 +1,10 @@
-import { SimpleTab, SimpleTabs, makeSimpleTab } from 'components/SimpleTabs'
+import {
+    makeSimpleTab,
+    type SimpleTab,
+    SimpleTabs,
+} from 'components/SimpleTabs'
 import { PhraseContext } from 'phrases'
-import { FC, useContext, useMemo } from 'react'
+import { type FC, useContext, useMemo } from 'react'
 import { useUrlParams } from 'url-params'
 import { AdvertsTableView } from './AdvertsTableView'
 

@@ -1,11 +1,11 @@
-import { FC, useCallback, useContext, useState } from 'react'
 import { Alert, Typography } from '@mui/material'
-import { useNavigate } from 'react-router-dom'
 import { ProfileContext } from 'profile/ProfileContext'
 import { sanitizeProfileInput } from 'profile/repository/mappers'
-import { Terms } from 'terms/types'
-import { Profile, ProfileInput } from '../types'
+import { type FC, useCallback, useContext, useState } from 'react'
+import { useNavigate } from 'react-router-dom'
+import type { Terms } from 'terms/types'
 import { PhraseContext } from '../../phrases/PhraseContext'
+import type { Profile, ProfileInput } from '../types'
 import { ProfileForm } from './ProfileForm'
 
 export const EditProfileView: FC<{ profile: Profile; terms: Terms }> = ({
@@ -37,7 +37,7 @@ export const EditProfileView: FC<{ profile: Profile; terms: Terms }> = ({
                 setSaving(false)
             }
         },
-        [profile]
+        [updateProfile, navigate]
     )
     return (
         <>

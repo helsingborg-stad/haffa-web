@@ -1,5 +1,3 @@
-import { FC, useContext, useState } from 'react'
-import { Tree } from 'antd'
 import {
     Alert,
     Badge,
@@ -14,13 +12,15 @@ import {
     Stack,
     TextField,
 } from '@mui/material'
-import { Category } from 'categories/types'
+import { Tree } from 'antd'
+import type { Category } from 'categories/types'
+import { AdminEditorialPanel } from 'components/AdminEditorialPanel'
+import { treeFind } from 'lib/tree-lookup'
+import type { Action2 } from 'lib/types'
 import { nanoid } from 'nanoid'
 import { PhraseContext } from 'phrases/PhraseContext'
-import { Action2 } from 'lib/types'
-import { treeFind } from 'lib/tree-lookup'
-import { AdminEditorialPanel } from 'components/AdminEditorialPanel'
-import { TreeHookViewState, useTree } from './use-tree'
+import { type FC, useContext, useState } from 'react'
+import { type TreeHookViewState, useTree } from './use-tree'
 
 const ROOT_CATEGORY_ID = 'root'
 

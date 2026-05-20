@@ -5,5 +5,9 @@ import {
 import { createLoginPoliciesRepository } from './login-policies-repository'
 import { createNotifyingLoginPoliciesRepository } from './notifying-login-policies-repository'
 
-export { LoginPoliciesContext, LoginPoliciesProvider }
-export { createLoginPoliciesRepository, createNotifyingLoginPoliciesRepository }
+export {
+    createLoginPoliciesRepository,
+    createNotifyingLoginPoliciesRepository,
+    LoginPoliciesContext,
+    LoginPoliciesProvider,
+}

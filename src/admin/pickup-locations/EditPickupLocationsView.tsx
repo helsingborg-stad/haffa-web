@@ -1,7 +1,7 @@
 import { ErrorView } from 'errors'
 import useAsync from 'hooks/use-async'
-import { FC, useContext } from 'react'
 import { PickupLocationContext } from 'pickup-locations'
+import { type FC, useContext } from 'react'
 import { TermsContext } from 'terms'
 import { EditPickupLocationsForm } from './EditPickupLocationsForm'
 

@@ -1,6 +1,6 @@
 import { Link, Typography } from '@mui/material'
-import { FC } from 'react'
-import ReactMarkdown, { Components } from 'react-markdown'
+import type { FC } from 'react'
+import ReactMarkdown, { type Components } from 'react-markdown'
 
 const components: Components = {
     h1: ({ children }) => <Typography variant="h1">{children}</Typography>,

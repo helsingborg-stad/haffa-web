@@ -1,7 +1,7 @@
-import { FC, useContext } from 'react'
-import { useNavigate } from 'react-router-dom'
-import { PhraseContext } from 'phrases'
 import { NotificationsContext } from 'notifications'
+import { PhraseContext } from 'phrases'
+import { type FC, useContext } from 'react'
+import { useNavigate } from 'react-router-dom'
 import { QrCodeReader } from './QrCodeReader'
 
 export const ScanQrCodeView: FC = () => {

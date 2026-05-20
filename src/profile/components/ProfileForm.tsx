@@ -1,10 +1,10 @@
-import { FC, PropsWithChildren, useContext, useMemo } from 'react'
-import { Box, Button, Grid, GridProps } from '@mui/material'
-import { ProfileInput } from 'profile/types'
+import SaveIcon from '@mui/icons-material/Save'
+import { Box, Button, Grid, type GridProps } from '@mui/material'
 import { useFormControls } from 'hooks/use-form-controls'
 import { PhraseContext } from 'phrases/PhraseContext'
-import SaveIcon from '@mui/icons-material/Save'
-import { Terms } from 'terms/types'
+import type { ProfileInput } from 'profile/types'
+import { type FC, type PropsWithChildren, useContext, useMemo } from 'react'
+import type { Terms } from 'terms/types'
 
 const Row: FC<PropsWithChildren & GridProps> = (props) => (
     <Grid container spacing={2} sx={{ pt: 2 }} {...props}>
@@ -102,7 +102,7 @@ export const ProfileForm: FC<{
                     ),
             ],
         ],
-        [model]
+        [textField, phrase, terms.organization.map, select, disabled]
     )
     return (
         <Box

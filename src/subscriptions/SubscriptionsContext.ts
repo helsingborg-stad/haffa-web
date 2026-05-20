@@ -1,5 +1,5 @@
 import { createContext } from 'react'
-import { SubscriptionsContextType } from './types'
+import type { SubscriptionsContextType } from './types'
 
 const notProvided = (method: string) => () => {
     throw new Error(`SubscriptionsContext::${method} is not provided`)

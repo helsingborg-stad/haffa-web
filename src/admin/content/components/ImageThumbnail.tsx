@@ -1,6 +1,6 @@
-import { Box, IconButton } from '@mui/material'
 import DeleteIcon from '@mui/icons-material/Delete'
 import YouTubeIcon from '@mui/icons-material/YouTube'
+import { Box, IconButton } from '@mui/material'
 import { isYoutubeUrl } from 'lib/string-utils'
 
 export const ImageThumbnail = (props: {

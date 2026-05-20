@@ -1,6 +1,6 @@
-import { Notifications } from 'notifications/types'
-import { PhraseContextType } from 'phrases'
-import { SmsTemplateRepository } from './types'
+import type { Notifications } from 'notifications/types'
+import type { PhraseContextType } from 'phrases'
+import type { SmsTemplateRepository } from './types'
 
 export const createNotifyingSmsTemplateRepository = (
     { notifyInvocation }: Notifications,

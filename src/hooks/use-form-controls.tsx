@@ -1,15 +1,16 @@
-import React, { useCallback, useMemo, useState } from 'react'
 import {
     Button,
-    ButtonProps,
+    type ButtonProps,
     FormControl,
-    FormControlProps,
+    type FormControlProps,
     InputLabel,
     MenuItem,
     Select,
     TextField,
-    TextFieldProps,
+    type TextFieldProps,
 } from '@mui/material'
+import type React from 'react'
+import { useCallback, useMemo, useState } from 'react'
 import { Phrase } from '../phrases/Phrase'
 
 export interface SelectOption {
@@ -19,33 +20,26 @@ export interface SelectOption {
 
 type SelectProps = FormControlProps & TextFieldProps & { label?: string }
 
-interface Getter<TModel, TValue> {
-    (model: TModel): TValue
-}
-interface Setter<TModel, TValue> {
-    (value: TValue): Partial<TModel>
-}
+type Getter<TModel, TValue> = (model: TModel) => TValue
+type Setter<TModel, TValue> = (value: TValue) => Partial<TModel>
 
-interface ControlFactoryWithoutInitial<TModel, TValue, TProps> {
-    (setter: Setter<TModel, TValue>, props?: Partial<TProps>): React.JSX.Element
-}
+type ControlFactoryWithoutInitial<TModel, TValue, TProps> = (
+    setter: Setter<TModel, TValue>,
+    props?: Partial<TProps>
+) => React.JSX.Element
 
-interface ControlFactory<TModel, TValue, TProps> {
-    (
-        getter: Getter<TModel, TValue>,
-        setter: Setter<TModel, TValue>,
-        props?: Partial<TProps>
-    ): React.JSX.Element
-}
+type ControlFactory<TModel, TValue, TProps> = (
+    getter: Getter<TModel, TValue>,
+    setter: Setter<TModel, TValue>,
+    props?: Partial<TProps>
+) => React.JSX.Element
 
-interface ControlFactoryWithOptions<TModel, TValue, TOptions, TProps> {
-    (
-        getter: Getter<TModel, TValue>,
-        setter: Setter<TModel, TValue>,
-        options: TOptions,
-        props?: Partial<TProps>
-    ): React.JSX.Element
-}
+type ControlFactoryWithOptions<TModel, TValue, TOptions, TProps> = (
+    getter: Getter<TModel, TValue>,
+    setter: Setter<TModel, TValue>,
+    options: TOptions,
+    props?: Partial<TProps>
+) => React.JSX.Element
 
 export interface FormControlsFactory<TModel> {
     textField: ControlFactory<TModel, string, TextFieldProps>
@@ -90,7 +84,7 @@ export const useFormControls = <TModel,>(
                 ...model,
                 ...patch,
             }),
-        [model, setModel]
+        [model]
     )
 
     const textField: FormControlsFactory<TModel>['textField'] = (
@@ -160,7 +154,7 @@ export const useFormControls = <TModel,>(
             select,
             imagePicker,
         }),
-        [model, setModel]
+        [select, imagePicker, textField]
     )
 
     const simplifiedFactory = useMemo<SimplifiedFormControlsFactory<TModel>>(
@@ -168,7 +162,7 @@ export const useFormControls = <TModel,>(
             textField: (property, label, props) =>
                 textField(
                     (model) => model[property] as string,
-                    (value) => ({ [property]: value } as Partial<TModel>),
+                    (value) => ({ [property]: value }) as Partial<TModel>,
                     {
                         label,
                         placeholder: label,
@@ -178,7 +172,7 @@ export const useFormControls = <TModel,>(
             select: (property, label, options, props) =>
                 select(
                     (model) => model[property] as string,
-                    (value) => ({ [property]: value } as Partial<TModel>),
+                    (value) => ({ [property]: value }) as Partial<TModel>,
                     options,
                     {
                         label,
@@ -188,7 +182,7 @@ export const useFormControls = <TModel,>(
                     }
                 ),
         }),
-        [model, setModel]
+        [textField, select]
     )
     return { model, factory, simplifiedFactory, patchModel }
 }

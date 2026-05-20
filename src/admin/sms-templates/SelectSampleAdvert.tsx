@@ -1,12 +1,12 @@
 import {
     Autocomplete,
-    TextField,
-    TextFieldProps,
-    Typography,
     debounce,
+    TextField,
+    type TextFieldProps,
+    Typography,
 } from '@mui/material'
-import { Advert, AdvertsContext } from 'adverts'
-import { FC, useContext, useMemo, useState } from 'react'
+import { type Advert, AdvertsContext } from 'adverts'
+import { type FC, useContext, useMemo, useState } from 'react'
 
 export const SelectSampleAdvert: FC<
     TextFieldProps & {
@@ -24,7 +24,7 @@ export const SelectSampleAdvert: FC<
                     ),
                 100
             ),
-        [listAdverts, setAdverts]
+        [listAdverts]
     )
     return (
         <Autocomplete

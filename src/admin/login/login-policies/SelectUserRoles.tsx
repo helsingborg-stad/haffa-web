@@ -1,4 +1,4 @@
-import { FC, useContext, useMemo } from 'react'
+import AdminIcon from '@mui/icons-material/Lock'
 import {
     Box,
     Chip,
@@ -8,9 +8,9 @@ import {
     MenuItem,
     Select,
 } from '@mui/material'
+import type { HaffaUserRoles } from 'auth'
 import { PhraseContext } from 'phrases/PhraseContext'
-import AdminIcon from '@mui/icons-material/Lock'
-import { HaffaUserRoles } from 'auth'
+import { type FC, useContext, useMemo } from 'react'
 import { createDefaultRoleInputBindings } from '../create-role-input-bindings'
 
 export const SelectUserRoles: FC<{
@@ -42,8 +42,7 @@ export const SelectUserRoles: FC<{
                                 <Chip
                                     key={prop as string}
                                     label={label}
-                                    // eslint-disable-next-line react/jsx-no-useless-fragment
-                                    icon={isAdmin ? <AdminIcon /> : <></>}
+                                    icon={isAdmin ? <AdminIcon /> : undefined}
                                 />
                             )
                         )}

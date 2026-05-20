@@ -1,4 +1,4 @@
-import { FluentGql, FluentGqlOptions } from './types'
+import type { FluentGql, FluentGqlOptions } from './types'
 
 const gqlFetch = (options: FluentGqlOptions) =>
     (options.fetch || fetch)(options.url, {

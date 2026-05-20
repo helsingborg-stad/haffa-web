@@ -6,9 +6,9 @@ import {
     setLoginPoliciesMutation,
     setUserMappingConfigurationMutation,
 } from './queries'
-import {
-    LoginPolicy,
+import type {
     LoginPoliciesRepository,
+    LoginPolicy,
     UserMappingConfiguration,
 } from './types'
 

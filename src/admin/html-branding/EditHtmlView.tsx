@@ -1,7 +1,7 @@
-import useAsync from 'hooks/use-async'
-import { FC, useContext } from 'react'
 import { ErrorView } from 'errors'
+import useAsync from 'hooks/use-async'
 import { OptionsContext } from 'options/OptionsContext'
+import { type FC, useContext } from 'react'
 import { EditHtmlForm } from './EditHtmlForm'
 
 export const EditHtmlView: FC = () => {

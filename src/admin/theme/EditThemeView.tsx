@@ -1,7 +1,7 @@
-import { FC, useContext } from 'react'
-import { OptionsContext } from 'options/OptionsContext'
-import useAsync from 'hooks/use-async'
 import { ErrorView } from 'errors'
+import useAsync from 'hooks/use-async'
+import { OptionsContext } from 'options/OptionsContext'
+import { type FC, useContext } from 'react'
 import { EditThemeForm } from './EditThemeForm'
 
 export const EditThemeView: FC = () => {

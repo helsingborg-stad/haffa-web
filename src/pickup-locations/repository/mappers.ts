@@ -1,4 +1,4 @@
-import { PickupLocation } from 'pickup-locations/types'
+import type { PickupLocation } from 'pickup-locations/types'
 
 export const createEmptyPickupLocation = (): PickupLocation => ({
     name: '',

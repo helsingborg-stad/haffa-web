@@ -1,7 +1,7 @@
-import { Alert, SxProps, Theme } from '@mui/material'
+import { Alert, type SxProps, type Theme } from '@mui/material'
 import useSomeFetchIsSlow from 'hooks/fetch/use-some-fetch-is-slow'
 import { PhraseContext } from 'phrases'
-import { FC, useContext } from 'react'
+import { type FC, useContext } from 'react'
 
 export const SlowFetchWarning: FC<{ sx?: SxProps<Theme> }> = ({ sx }) => {
     const hasSlowFetch = useSomeFetchIsSlow()

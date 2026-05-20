@@ -1,12 +1,12 @@
 import { CssBaseline, ThemeProvider } from '@mui/material'
 import useAsync from 'hooks/use-async'
-import { FC, PropsWithChildren, useMemo } from 'react'
+import { toMap } from 'lib/to-map'
 import { PhraseContext } from 'phrases'
 import { createPhraseContext } from 'phrases/create-phrase-context'
-import { toMap } from 'lib/to-map'
+import { type FC, type PropsWithChildren, useMemo } from 'react'
 import type { Option } from '../options/types'
-import { createCustomTheme, createThemeModel } from './theme-factory'
 import { AdvertImageSettingsContext } from './AdvertImageSettingsContext'
+import { createCustomTheme, createThemeModel } from './theme-factory'
 
 const parseAspectRatio = (ar: string): number | null => {
     const [w, h] = ar.split(':').map((v) => parseInt(v, 10))

@@ -1,4 +1,4 @@
-import { FC } from 'react'
+import type { FC } from 'react'
 import { AdvertsTableView } from './AdvertsTableView'
 
 export const AdvertsDashboardView: FC = () => (

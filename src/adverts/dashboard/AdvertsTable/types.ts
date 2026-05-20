@@ -1,13 +1,13 @@
-import {
+import type {
     Advert,
     AdvertFilterInput,
     AdvertInput,
     AdvertListPaging,
 } from 'adverts'
-import { Category } from 'categories/types'
-import { Func1, TreeAdapter } from 'lib/types'
-import { ReactElement } from 'react'
-import { Terms } from 'terms/types'
+import type { Category } from 'categories/types'
+import type { Func1, TreeAdapter } from 'lib/types'
+import type { ReactElement } from 'react'
+import type { Terms } from 'terms/types'
 
 export interface AdvertsTableContextType {
     adverts: Advert[]

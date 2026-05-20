@@ -1,5 +1,5 @@
 import { rolesArrayToRoles } from './mappers'
-import { AuthProvider, Authentication } from './types'
+import type { Authentication, AuthProvider } from './types'
 
 const normalizeString = (s: any) => (typeof s === 'string' ? s.trim() : '')
 

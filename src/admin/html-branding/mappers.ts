@@ -1,4 +1,4 @@
-import { HtmlOptions } from 'options/types'
+import type { HtmlOptions } from 'options/types'
 
 export const getDefaultHtmlOptions = (): HtmlOptions => ({
     allowSocialMediaPreview: '',

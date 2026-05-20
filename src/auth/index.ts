@@ -8,14 +8,13 @@ import {
     rolesToRolesArray,
 } from './mappers'
 
+export type * from './types'
 export {
     AuthContext,
     AuthContextProvider,
-    hasSomeAdminRoles,
-    rolesToRolesArray,
-    rolesArrayToRoles,
-    AuthenticateView,
     AuthenticatePanel,
+    AuthenticateView,
+    hasSomeAdminRoles,
+    rolesArrayToRoles,
+    rolesToRolesArray,
 }
-
-export type * from './types'

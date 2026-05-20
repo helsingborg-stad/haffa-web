@@ -1,10 +1,10 @@
 import { FormControl, TextField } from '@mui/material'
-import { AuthContext, EffectivePermissions } from 'auth'
-import { ErrorView } from 'errors'
-import { AsyncEnqueue, useLiveSearch } from 'hooks/use-live-search'
-import { FC, useContext, useState } from 'react'
-import { PhraseContext } from 'phrases'
+import { AuthContext, type EffectivePermissions } from 'auth'
 import { rolesArrayToRoles } from 'auth/mappers'
+import { ErrorView } from 'errors'
+import { type AsyncEnqueue, useLiveSearch } from 'hooks/use-live-search'
+import { PhraseContext } from 'phrases'
+import { type FC, useContext, useState } from 'react'
 import { SelectUserRoles } from './SelectUserRoles'
 
 export const EffectivePermissionsPanel: FC = () => {
@@ -21,7 +21,7 @@ export const EffectivePermissionsPanel: FC = () => {
             <FormControl fullWidth sx={{ mb: 2 }}>
                 <TextField
                     fullWidth
-                    error={data && data.email ? !data.canLogin : false}
+                    error={data?.email ? !data.canLogin : false}
                     value={email}
                     label={phrase('LOGINS_EFFECTIVE_EMAIL', 'Email')}
                     placeholder={phrase('LOGINS_EFFECTIVE_EMAIL', 'Email')}
@@ -33,7 +33,7 @@ export const EffectivePermissionsPanel: FC = () => {
                     }}
                 />
             </FormControl>
-            {data && data.roles && data.canLogin && (
+            {data?.roles && data.canLogin && (
                 <SelectUserRoles
                     userRoles={rolesArrayToRoles(data.roles)}
                     onChange={() => {}}

@@ -1,6 +1,6 @@
-import { DeepLinkContext } from 'deep-links/DeepLinkContext'
-import { FC, useContext } from 'react'
 import { Scanner } from '@yudiel/react-qr-scanner'
+import { DeepLinkContext } from 'deep-links/DeepLinkContext'
+import { type FC, useContext } from 'react'
 
 export const QrCodeReader: FC<{
     onSameDomain: (url: URL) => any

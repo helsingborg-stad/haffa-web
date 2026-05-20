@@ -1,15 +1,15 @@
+import ContactMailOutlinedIcon from '@mui/icons-material/ContactMailOutlined'
 import {
     Avatar,
     Grid,
     Link,
     Paper,
-    PaperProps,
+    type PaperProps,
     Typography,
 } from '@mui/material'
-import ContactMailOutlinedIcon from '@mui/icons-material/ContactMailOutlined'
-import { Advert } from 'adverts'
-import { useContext } from 'react'
+import type { Advert } from 'adverts'
 import { PhraseContext } from 'phrases'
+import { useContext } from 'react'
 
 export const ContactCard = (props: PaperProps & { advert: Advert }) => {
     const { phrase } = useContext(PhraseContext)
@@ -42,16 +42,15 @@ export const ContactCard = (props: PaperProps & { advert: Advert }) => {
                         <Typography>
                             <Link href={`mailto:${email}`}>{email}</Link>
                         </Typography>
-                        {phone &&
-                            phone
-                                .split(',')
-                                .map((v) => v.trim())
-                                .filter((v) => v.length > 0)
-                                .map((v, key) => (
-                                    <Typography key={key}>
-                                        <Link href={`tel:${v}`}>{v}</Link>
-                                    </Typography>
-                                ))}
+                        {phone
+                            ?.split(',')
+                            .map((v) => v.trim())
+                            .filter((v) => v.length > 0)
+                            .map((v, key) => (
+                                <Typography key={key}>
+                                    <Link href={`tel:${v}`}>{v}</Link>
+                                </Typography>
+                            ))}
                         {organization && (
                             <Typography>{organization}</Typography>
                         )}

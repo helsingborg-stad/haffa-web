@@ -1,8 +1,8 @@
-import { FC } from 'react'
 import { Box, Stack, useMediaQuery, useTheme } from '@mui/material'
-import { BulkAction } from './types'
-import { BulkActionsAsDropdownButton } from './BulkActionsAsDropdownButton'
+import type { FC } from 'react'
 import { BulkActionsAsButtonGroup } from './BulkActionsAsButtonGroup'
+import { BulkActionsAsDropdownButton } from './BulkActionsAsDropdownButton'
+import type { BulkAction } from './types'
 
 export const BulkActions: FC<{ bulkActions: BulkAction[] }> = ({
     bulkActions,

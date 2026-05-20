@@ -1,8 +1,8 @@
-import { FC, useContext } from 'react'
 import { Button, Grid } from '@mui/material'
 import { AdvertsContext } from 'adverts/AdvertsContext'
-import { Advert, AdvertMutationResult } from '../../../types'
+import { type FC, useContext } from 'react'
 import { PhraseContext } from '../../../../phrases/PhraseContext'
+import type { Advert, AdvertMutationResult } from '../../../types'
 
 export const CollectPanel: FC<{
     advert: Advert

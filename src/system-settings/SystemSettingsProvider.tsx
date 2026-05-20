@@ -1,7 +1,7 @@
-import { FC, PropsWithChildren } from 'react'
 import { toMap } from 'lib/to-map'
+import type { FC, PropsWithChildren } from 'react'
 import { SystemSettingsContext } from './SystemSettingsContext'
-import { SystemSettings, SystemSettingsRepository } from './types'
+import type { SystemSettings, SystemSettingsRepository } from './types'
 
 const mapOptionsToSystemSettings = (
     options: { key: string; value: string }[]

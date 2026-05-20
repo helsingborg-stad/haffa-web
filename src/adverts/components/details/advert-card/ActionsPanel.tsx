@@ -1,12 +1,12 @@
-import { Button } from '@mui/material'
-import { Advert, AdvertMutationResult, AdvertsContext } from 'adverts'
-import { PhraseContext } from 'phrases/PhraseContext'
-import { FC, useContext } from 'react'
 import NotificationAddIcon from '@mui/icons-material/NotificationAdd'
 import NotificationsOffIcon from '@mui/icons-material/NotificationsOff'
+import { Button } from '@mui/material'
+import { type Advert, type AdvertMutationResult, AdvertsContext } from 'adverts'
 import { AuthContext } from 'auth'
-import { ReserveButton } from './action-butttons/ReserveButton'
+import { PhraseContext } from 'phrases/PhraseContext'
+import { type FC, useContext } from 'react'
 import { CollectButton } from './action-butttons/CollectButton'
+import { ReserveButton } from './action-butttons/ReserveButton'
 
 export const ActionsPanel: FC<{
     advert: Advert

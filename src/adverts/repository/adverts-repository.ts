@@ -4,6 +4,12 @@ import {
     valueAndValidOrThrowNotFound,
 } from '../../errors'
 import { gqlClient } from '../../graphql'
+import type {
+    Advert,
+    AdvertListFlat,
+    AdvertMutationResult,
+    AdvertsRepository,
+} from '../types'
 import { sanitizeAdvertInput } from './mappers'
 import {
     archiveAdvertMutation,
@@ -26,12 +32,6 @@ import {
     unarchiveAdvertMutation,
     updateAdvertMutation,
 } from './queries'
-import {
-    Advert,
-    AdvertListFlat,
-    AdvertMutationResult,
-    AdvertsRepository,
-} from '../types'
 
 const gql = (token: string, f?: typeof fetch, init?: RequestInit) =>
     gqlClient()
@@ -40,7 +40,7 @@ const gql = (token: string, f?: typeof fetch, init?: RequestInit) =>
         .headers({ Authorization: `Bearer ${token}` })
 
 const expectAdvert = (r: AdvertMutationResult): AdvertMutationResult =>
-    valueAndValidOrThrowNotFound(r, r && r.advert)
+    valueAndValidOrThrowNotFound(r, r?.advert)
 
 export const createAdvertsRepository = (
     token: string,

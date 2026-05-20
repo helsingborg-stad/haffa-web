@@ -1,11 +1,11 @@
-import { FC, Fragment, useContext, useState } from 'react'
-import { Accordion, AccordionDetails, AccordionSummary } from '@mui/material'
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore'
-import useAsync from 'hooks/use-async'
+import { Accordion, AccordionDetails, AccordionSummary } from '@mui/material'
 import { ErrorView } from 'errors'
-import { SystemSettingsContext } from 'system-settings'
-import { SystemSettings } from 'system-settings/types'
+import useAsync from 'hooks/use-async'
 import { PhraseContext } from 'phrases'
+import { type FC, Fragment, useContext, useState } from 'react'
+import { SystemSettingsContext } from 'system-settings'
+import type { SystemSettings } from 'system-settings/types'
 import { AuthenticateForm } from './AuthenticateForm'
 
 interface Provider {

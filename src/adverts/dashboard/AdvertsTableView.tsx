@@ -1,33 +1,32 @@
 import { LinearProgress } from '@mui/material'
+import type { GridDensity } from '@mui/x-data-grid'
+import { AdvertFieldsContext } from 'advert-field-config'
 import {
-    Advert,
-    AdvertFilterInput,
-    AdvertList,
-    AdvertRestrictionsFilterInput,
+    type Advert,
+    type AdvertFilterInput,
+    type AdvertList,
+    type AdvertRestrictionsFilterInput,
     AdvertsContext,
 } from 'adverts'
+import { AuthContext } from 'auth'
 import { ErrorView } from 'errors'
-import { FC, useCallback, useContext, useMemo, useState } from 'react'
 import useAbortController from 'hooks/use-abort-controller'
 import { useFetchQueue } from 'hooks/use-fetch-queue'
-import { createTreeAdapter } from 'lib/tree-adapter'
-
-import { AuthContext } from 'auth'
-import { PhraseContext } from 'phrases'
-import { Func1 } from 'lib/types'
-import { AdvertFieldsContext } from 'advert-field-config'
-import { toMap } from 'lib/to-map'
-import { UrlParamsContext } from 'url-params'
-import { Terms } from 'terms/types'
-import { TermsContext, createEmptyTerms } from 'terms'
 import useLocalStorage from 'hooks/use-local-storage'
-import { GridDensity } from '@mui/x-data-grid'
+import { toMap } from 'lib/to-map'
+import { createTreeAdapter } from 'lib/tree-adapter'
+import type { Func1 } from 'lib/types'
+import { PhraseContext } from 'phrases'
+import { type FC, useCallback, useContext, useMemo, useState } from 'react'
+import { createEmptyTerms, TermsContext } from 'terms'
+import type { Terms } from 'terms/types'
+import { UrlParamsContext } from 'url-params'
 import { AdvertsTable, AdvertsTableContext, PAGE_SIZE } from './AdvertsTable'
+import type { AdvertsTableContextType } from './AdvertsTable/types'
+import { BulkActions } from './bulk-actions'
+import { createBulkActions } from './createBulkActions'
 import { createColumns } from './createColumns'
 import { createSortableFields } from './createSortableFields'
-import { AdvertsTableContextType } from './AdvertsTable/types'
-import { createBulkActions } from './createBulkActions'
-import { BulkActions } from './bulk-actions'
 
 export const AdvertsTableView: FC<{
     prefix: string
@@ -93,7 +92,15 @@ export const AdvertsTableView: FC<{
                 terms,
             }))
         },
-        [listAdverts, fieldsPromise]
+        [
+            listAdverts,
+            fieldsPromise,
+            sortableFields,
+            updateUrlFromAdvertFilterInput,
+            termsPromise,
+            signal,
+            prefix,
+        ]
     )
 
     // ids of checkbox selected adverts
@@ -144,7 +151,7 @@ export const AdvertsTableView: FC<{
                     list(data.filter)
                 )
             ),
-        [enqueue, data, selected]
+        [enqueue, data, selected, list]
     )
 
     const context = useMemo<AdvertsTableContextType>(
@@ -213,6 +220,8 @@ export const AdvertsTableView: FC<{
             unarchiveAdvert,
             list,
             bulkUpdateAdverts,
+            markAdvertAsUnpicked,
+            markAdvertAsPicked,
         ]
     )
     const bulkActions = useMemo(

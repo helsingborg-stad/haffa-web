@@ -1,5 +1,5 @@
-import { FC, PropsWithChildren, createContext } from 'react'
-import { ProfileRepository } from './types'
+import { createContext, type FC, type PropsWithChildren } from 'react'
+import type { ProfileRepository } from './types'
 
 const notProvided = (method: string) => () => {
     throw new Error(`ProfileContext::${method} is not provided`)

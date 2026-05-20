@@ -1,6 +1,6 @@
-import { Notifications } from 'notifications/types'
-import { PhraseContextType } from 'phrases'
-import { PickupLocationRepository } from 'pickup-locations/types'
+import type { Notifications } from 'notifications/types'
+import type { PhraseContextType } from 'phrases'
+import type { PickupLocationRepository } from 'pickup-locations/types'
 
 export const createNotifyingPickupLocationRepository = (
     notifications: Notifications,

@@ -1,11 +1,11 @@
-import { Grid, InputAdornment, TextField } from '@mui/material'
-import { AdvertFilterInput } from 'adverts/types'
-import { FC, PropsWithChildren, useState } from 'react'
 import SearchIcon from '@mui/icons-material/Search'
+import { Grid, InputAdornment, TextField } from '@mui/material'
 import {
     FilterDialog,
     FiltersIconButton,
 } from 'adverts/components/filter/filters'
+import type { AdvertFilterInput } from 'adverts/types'
+import { type FC, type PropsWithChildren, useState } from 'react'
 
 export const FilterPanel: FC<
     {

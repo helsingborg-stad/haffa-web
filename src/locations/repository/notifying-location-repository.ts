@@ -1,6 +1,6 @@
-import { LocationRepository } from 'locations/types'
-import { Notifications } from 'notifications/types'
-import { PhraseContextType } from 'phrases'
+import type { LocationRepository } from 'locations/types'
+import type { Notifications } from 'notifications/types'
+import type { PhraseContextType } from 'phrases'
 
 export const createNotifyingLocationRepository = (
     notifications: Notifications,

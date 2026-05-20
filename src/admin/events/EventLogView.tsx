@@ -1,8 +1,3 @@
-import { useLiveSearch } from 'hooks/use-live-search'
-import { FC, useCallback, useContext, useMemo, useState } from 'react'
-import { StatisticsContext } from 'statistics'
-import dayjs from 'dayjs'
-import { ErrorView } from 'errors'
 import {
     Button,
     Card,
@@ -18,12 +13,17 @@ import {
     TableRow,
     TextField,
 } from '@mui/material'
-import { ServerSideLogEvent } from 'statistics/types'
-import { PhraseContext } from 'phrases'
-import * as xlsx from 'xlsx'
-import * as fileSaver from 'file-saver'
-import { AdminEditorialPanel } from 'components/AdminEditorialPanel'
 import { Typography } from 'antd'
+import { AdminEditorialPanel } from 'components/AdminEditorialPanel'
+import dayjs from 'dayjs'
+import { ErrorView } from 'errors'
+import * as fileSaver from 'file-saver'
+import { useLiveSearch } from 'hooks/use-live-search'
+import { PhraseContext } from 'phrases'
+import { type FC, useCallback, useContext, useMemo, useState } from 'react'
+import { StatisticsContext } from 'statistics'
+import type { ServerSideLogEvent } from 'statistics/types'
+import * as xlsx from 'xlsx'
 
 interface EventsSearchParams {
     from: string
@@ -290,7 +290,7 @@ export const EventLogView: FC = () => {
             })
             fileSaver.saveAs(buffer, `${name}.xlsx`)
         },
-        [eventLabels]
+        [eventLabels, phrase]
     )
 
     return view({

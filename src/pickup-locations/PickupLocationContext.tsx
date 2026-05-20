@@ -1,5 +1,5 @@
-import { FC, PropsWithChildren, createContext } from 'react'
-import { PickupLocationRepository } from './types'
+import { createContext, type FC, type PropsWithChildren } from 'react'
+import type { PickupLocationRepository } from './types'
 
 const notProvided = (method: string) => () => {
     throw new Error(`PickupLocationContext::${method} is not provided`)

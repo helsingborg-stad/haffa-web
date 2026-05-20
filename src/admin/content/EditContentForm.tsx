@@ -1,26 +1,26 @@
+import AddIcon from '@mui/icons-material/Add'
+import ChevronLeftIcon from '@mui/icons-material/ChevronLeft'
+import ChevronRightIcon from '@mui/icons-material/ChevronRight'
+import DeleteIcon from '@mui/icons-material/Delete'
+import EditIcon from '@mui/icons-material/Edit'
+import MoveDownIcon from '@mui/icons-material/MoveDown'
+import MoveUpIcon from '@mui/icons-material/MoveUp'
 import { Box, Button, ButtonGroup, Grid } from '@mui/material'
-import { useCallback, useState } from 'react'
-import {
+import type { Category } from 'categories/types'
+import { AdminActionPanel } from 'components/AdminActionPanel'
+import { AdminEditorialPanel } from 'components/AdminEditorialPanel'
+import { ContentCard } from 'content/components/ContentCard'
+import { createEmptyModule } from 'content/mappers'
+import type {
     ContentModule,
     ContentRepository,
     ViewComposition,
     ViewRow,
 } from 'content/types'
-import { Terms } from 'terms/types'
-import { Category } from 'categories/types'
-import { ContentCard } from 'content/components/ContentCard'
-import DeleteIcon from '@mui/icons-material/Delete'
-import AddIcon from '@mui/icons-material/Add'
-import EditIcon from '@mui/icons-material/Edit'
-import ChevronLeftIcon from '@mui/icons-material/ChevronLeft'
-import ChevronRightIcon from '@mui/icons-material/ChevronRight'
-import MoveUpIcon from '@mui/icons-material/MoveUp'
-import MoveDownIcon from '@mui/icons-material/MoveDown'
-import { AdminActionPanel } from 'components/AdminActionPanel'
-import { AdminEditorialPanel } from 'components/AdminEditorialPanel'
 import { Editorial } from 'editorials'
-import { createEmptyModule } from 'content/mappers'
-import { Summaries } from 'statistics/types'
+import { useCallback, useState } from 'react'
+import type { Summaries } from 'statistics/types'
+import type { Terms } from 'terms/types'
 import { PropertyEditor } from './PropertyEditor'
 
 type Cell = {
@@ -71,7 +71,7 @@ export const EditContentForm = (props: {
             setRows(page.rows)
             setCanSave(true)
         })
-    }, [rows])
+    }, [rows, update])
 
     // Column actions
     const insertCell = useCallback(
@@ -123,7 +123,7 @@ export const EditContentForm = (props: {
                 setRows(copy)
             }
         },
-        [selectedModule]
+        [selectedModule, rows]
     )
 
     const renderCardActions = ({ row, col }: Cell, max: Cell) => (

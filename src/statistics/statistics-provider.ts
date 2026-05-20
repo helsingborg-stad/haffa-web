@@ -1,11 +1,15 @@
 import { gqlClient } from 'graphql'
-import { Summaries, ServerSideLogEvent, StaticsticsProvider } from './types'
+import { normalizeSummaries } from './mappers'
 import {
     getAdvertEventsQuery,
-    getSummariesQuery,
     getEventsQuery,
+    getSummariesQuery,
 } from './queries'
-import { normalizeSummaries } from './mappers'
+import type {
+    ServerSideLogEvent,
+    StaticsticsProvider,
+    Summaries,
+} from './types'
 
 const gql = (token: string, f?: typeof fetch, init?: RequestInit) =>
     gqlClient()

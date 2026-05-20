@@ -1,6 +1,8 @@
+import CancelIcon from '@mui/icons-material/Cancel'
+import SaveAltIcon from '@mui/icons-material/SaveAlt'
 import {
     Alert,
-    BaseTextFieldProps,
+    type BaseTextFieldProps,
     Button,
     Dialog,
     DialogActions,
@@ -8,14 +10,12 @@ import {
     DialogTitle,
     TextField,
 } from '@mui/material'
-import { FC, useContext, useState } from 'react'
+import type { Advert, AdvertInput } from 'adverts'
+import type { Func1 } from 'lib/types'
 import { PhraseContext } from 'phrases'
-import CancelIcon from '@mui/icons-material/Cancel'
-import SaveAltIcon from '@mui/icons-material/SaveAlt'
-import { Func1 } from 'lib/types'
-import { Advert, AdvertInput } from 'adverts'
+import { type FC, useContext, useState } from 'react'
 import { AdvertsTableContext } from '../AdvertsTable'
-import { BulkActionDialogParams } from './types'
+import type { BulkActionDialogParams } from './types'
 
 export const PatchNumberFieldDialog: FC<
     BulkActionDialogParams & {

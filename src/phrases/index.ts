@@ -1,5 +1,5 @@
 import { PhraseContext } from './PhraseContext'
-import { PhraseContextType } from './types'
+import type { PhraseContextType } from './types'
 
 export type { PhraseContextType }
 export { PhraseContext }

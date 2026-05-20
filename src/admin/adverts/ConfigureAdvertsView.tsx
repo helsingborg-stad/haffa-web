@@ -1,7 +1,7 @@
-import { FC, useContext } from 'react'
 import { AdvertFieldsContext } from 'advert-field-config'
-import useAsync from 'hooks/use-async'
 import { ErrorView } from 'errors'
+import useAsync from 'hooks/use-async'
+import { type FC, useContext } from 'react'
 import { ConfigureAdvertsForm } from './ConfigureAdvertsForm'
 
 export const ConfigureAdvertsView: FC = () => {

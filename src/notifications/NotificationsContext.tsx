@@ -1,6 +1,6 @@
 import { createContext } from 'react'
-import { Notifications } from './types'
 import { createNotifications } from './notifications'
+import type { Notifications } from './types'
 
 export const NotificationsContext = createContext<Notifications>(
     createNotifications()

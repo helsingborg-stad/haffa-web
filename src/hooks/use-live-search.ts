@@ -1,4 +1,4 @@
-import { Action1 } from 'lib/types'
+import type { Action1 } from 'lib/types'
 import { useCallback, useState } from 'react'
 
 const createQueue = <TModel>() => {
@@ -55,13 +55,9 @@ const createQueue = <TModel>() => {
     }
 }
 
-interface AsyncFunc<TModel> {
-    (): Promise<TModel>
-}
+type AsyncFunc<TModel> = () => Promise<TModel>
 
-export interface AsyncEnqueue<T> {
-    (f: AsyncFunc<T>): void
-}
+export type AsyncEnqueue<T> = (f: AsyncFunc<T>) => void
 
 export interface AsyncView<TData, TView> {
     pending: (data: TData | null, enqueue: AsyncEnqueue<TData>) => TView

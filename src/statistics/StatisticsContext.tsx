@@ -1,5 +1,5 @@
-import { FC, PropsWithChildren, createContext } from 'react'
-import { StaticsticsProvider } from './types'
+import { createContext, type FC, type PropsWithChildren } from 'react'
+import type { StaticsticsProvider } from './types'
 
 const notProvided = (method: string) => () => {
     throw new Error(`StatisticsContext::${method} is not provided`)

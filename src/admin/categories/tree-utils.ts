@@ -1,5 +1,5 @@
-import { DataNode, TreeProps } from 'antd/es/tree'
-import { Dispatch } from 'react'
+import type { DataNode, TreeProps } from 'antd/es/tree'
+import type { Dispatch } from 'react'
 
 interface TreeStrategy {
     treeData: DataNode[]
@@ -10,9 +10,7 @@ interface TreeStrategy {
     setExpandedKeys: Dispatch<DataNode['key'][]>
 }
 
-interface Func1<T, R> {
-    (item: T): R
-}
+type Func1<T, R> = (item: T) => R
 export const treeQuery = <T, K>(
     nodes: T[],
     getKey: Func1<T, K>,

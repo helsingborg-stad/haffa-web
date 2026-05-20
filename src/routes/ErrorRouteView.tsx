@@ -1,4 +1,4 @@
-import { FC } from 'react'
+import type { FC } from 'react'
 import { useRouteError } from 'react-router-dom'
 import { ErrorView } from '../errors'
 import { Layout } from '../layout'

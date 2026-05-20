@@ -1,7 +1,7 @@
+import SettingsIcon from '@mui/icons-material/Settings'
 import { Button } from '@mui/material'
 import { AuthContext } from 'auth'
-import { FC, useContext } from 'react'
-import SettingsIcon from '@mui/icons-material/Settings'
+import { type FC, useContext } from 'react'
 
 export const AdminButton: FC = () => {
     const { roles } = useContext(AuthContext)

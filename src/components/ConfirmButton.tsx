@@ -1,13 +1,13 @@
 import {
     Button,
-    ButtonProps,
+    type ButtonProps,
     Dialog,
     DialogActions,
     DialogTitle,
     Stack,
 } from '@mui/material'
 import { PhraseContext } from 'phrases'
-import { FC, useContext, useState } from 'react'
+import { type FC, useContext, useState } from 'react'
 
 export const ConfirmButton: FC<ButtonProps> = ({
     children,
