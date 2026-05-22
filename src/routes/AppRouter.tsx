@@ -385,7 +385,7 @@ const createRouter = (
 
     return createBrowserRouter(
         createRoutesFromElements(
-            <Route path="/" errorElement={<ErrorRouteView />}>
+            <Route path="/" errorElement={<ErrorRouteView />} HydrateFallback={() => null}>
                 <Route key="home" path="" {...createHomeProps()} />
                 <Route key="browse" path="browse" {...createBrowseProps()} />
                 <Route
