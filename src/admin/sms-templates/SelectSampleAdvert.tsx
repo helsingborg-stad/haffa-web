@@ -29,8 +29,8 @@ export const SelectSampleAdvert: FC<
     return (
         <Autocomplete
             options={adverts}
-            renderOption={(props, advert) => (
-                <li {...props}>
+            renderOption={({ key, ...optionProps }, advert) => (
+                <li key={key} {...optionProps}>
                     <Typography>
                         {advert.title}
                     </Typography>
@@ -44,10 +44,13 @@ export const SelectSampleAdvert: FC<
                 <TextField
                     {...props}
                     {...params}
-                    slotProps={{ input: {
-                        ...(params.slotProps?.input as object),
-                        type: 'search',
-                    } }}
+                    slotProps={{
+                        ...params.slotProps,
+                        input: {
+                            ...(params.slotProps?.input as object),
+                            type: 'search',
+                        },
+                    }}
                 />
             )}
         />
