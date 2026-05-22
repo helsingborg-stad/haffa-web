@@ -150,8 +150,10 @@ export const createCustomTheme = (model: ThemeModel): Theme => {
                 },
                 MuiCardHeader: {
                     defaultProps: {
-                        titleTypographyProps: {
-                            variant: options['component.cardheader.variant'],
+                        slotProps: {
+                            title: {
+                                variant: options['component.cardheader.variant'],
+                            },
                         },
                     },
                     styleOverrides: {

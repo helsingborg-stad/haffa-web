@@ -10,7 +10,7 @@ export const ImageBrowseButton = (props: {
 
     return (
         <>
-            <Button fullWidth variant="outlined" component="label">
+            <Button fullWidth variant="outlined" nativeButton={false} component="label">
                 <input
                     style={{ display: 'none' }}
                     type="file"

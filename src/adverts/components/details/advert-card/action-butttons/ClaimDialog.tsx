@@ -42,7 +42,7 @@ export const ClaimDialog: FC<
         renderConfirmButton: (
             n: number,
             pickupLocation?: PickupLocation
-        ) => JSX.Element
+        ) => React.JSX.Element
         onClose: () => void
     }
 > = (props) => {

@@ -44,7 +44,7 @@ const SuccessItem: FC<PropsWithChildren> = ({ children }) => (
 const ProblemItem: FC<PropsWithChildren> = ({ children }) => (
     <ListItem
         secondaryAction={
-            <Button component={NavLink} to="/my-adverts">
+            <Button nativeButton={false} component={NavLink} to="/my-adverts">
                 Visa översikt
             </Button>
         }

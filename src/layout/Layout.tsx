@@ -114,7 +114,7 @@ const NavIconLink: FC<{
 
 const insideToolbarLinkFactory: Record<
     HaffaLink['type'],
-    (link: HaffaLink) => JSX.Element | null
+    (link: HaffaLink) => React.JSX.Element | null
 > = {
     button: ({ label, href, icon, onClick }) => (
         <Button

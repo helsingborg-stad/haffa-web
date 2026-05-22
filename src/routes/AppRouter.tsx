@@ -52,7 +52,7 @@ import { TermsContext } from 'terms'
 import type { TermsRepository } from 'terms/types'
 import { ErrorRouteView } from './ErrorRouteView'
 
-const UnpackLoaderData: FC<{ render: (loaderData: any) => JSX.Element }> = ({
+const UnpackLoaderData: FC<{ render: (loaderData: any) => React.JSX.Element }> = ({
     render,
 }) => {
     const loaderData = useLoaderData()

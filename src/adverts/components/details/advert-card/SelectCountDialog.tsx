@@ -26,7 +26,7 @@ export const SelectCountDialog: FC<
         count?: number
         minCount: number
         maxCount: number
-        renderConfirmButton: (n: number) => JSX.Element
+        renderConfirmButton: (n: number) => React.JSX.Element
         onSelectCount: (n: number) => void
         onClose: () => void
     }

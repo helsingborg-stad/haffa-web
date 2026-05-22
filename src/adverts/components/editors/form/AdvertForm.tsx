@@ -220,7 +220,7 @@ export const AdvertForm: FC<{
             label: string,
             required: boolean,
             adornment: string
-        ) => JSX.Element
+        ) => React.JSX.Element
     ) => {
         const { label, visible, mandatory, adornment } = getField(fields, field)
         return visible
@@ -240,7 +240,7 @@ export const AdvertForm: FC<{
             label: string,
             required: boolean,
             adornment: string
-        ) => JSX.Element
+        ) => React.JSX.Element
     ) => {
         const { label, visible, mandatory, adornment } = getField(fields, field)
         return visible ? () => factory(label, mandatory, adornment) : null
@@ -252,7 +252,7 @@ export const AdvertForm: FC<{
         ) : undefined
     interface ControlGroup {
         label: string
-        rows: ((() => JSX.Element) | null)[][]
+        rows: ((() => React.JSX.Element) | null)[][]
     }
 
     const layout = useMemo<ControlGroup[]>(
