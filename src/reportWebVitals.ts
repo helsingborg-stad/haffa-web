@@ -3,16 +3,17 @@ import { onFCP } from 'web-vitals/onFCP.js'
 import { onINP } from 'web-vitals/onINP.js'
 import { onLCP } from 'web-vitals/onLCP.js'
 import { onTTFB } from 'web-vitals/onTTFB.js'
+import type { MetricType } from 'web-vitals'
 
-type ReportCallback = Parameters<typeof onCLS>[0]
+type ReportCallback = (metric: MetricType) => void
 
 const reportWebVitals = (onPerfEntry?: ReportCallback) => {
     if (onPerfEntry) {
         onCLS(onPerfEntry)
-        onINP(onPerfEntry as unknown as Parameters<typeof onINP>[0])
-        onFCP(onPerfEntry as unknown as Parameters<typeof onFCP>[0])
-        onLCP(onPerfEntry as unknown as Parameters<typeof onLCP>[0])
-        onTTFB(onPerfEntry as unknown as Parameters<typeof onTTFB>[0])
+        onINP(onPerfEntry)
+        onFCP(onPerfEntry)
+        onLCP(onPerfEntry)
+        onTTFB(onPerfEntry)
     }
 }
 
