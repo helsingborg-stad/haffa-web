@@ -8,6 +8,7 @@ import {
     DialogContent,
     DialogTitle,
     TextField,
+    type TextFieldProps,
 } from '@mui/material'
 import type { Advert, AdvertInput } from 'adverts'
 import type { Func1 } from 'lib/types'
@@ -21,7 +22,7 @@ export const PatchNumberFieldDialog: FC<
         label: string
         getValue: Func1<Advert, number>
         makePatch: Func1<number, Partial<AdvertInput>>
-        htmlInputProps?: Record<string, unknown>
+        htmlInputProps?: NonNullable<TextFieldProps['slotProps']>['htmlInput']
     }
 > = ({ open, closeDialog, label, getValue, makePatch, htmlInputProps }) => {
     const { patchAdverts, selectionCommonValue } =
