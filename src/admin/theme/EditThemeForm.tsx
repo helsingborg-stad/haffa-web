@@ -200,7 +200,7 @@ export const EditThemeForm: FC<{
                         <Grid container rowSpacing={4}>
                             <Grid size={{ xs: 12, sm: 12 }}>
                                 <Card sx={{ p: 2 }}>
-                                    <Typography sx={{ fontWeight: "bold" }}>
+                                    <Typography sx={{ fontWeight: 'bold' }}>
                                         Primär färg:
                                     </Typography>
                                     <Typography gutterBottom>
