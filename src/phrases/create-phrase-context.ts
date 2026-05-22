@@ -121,6 +121,6 @@ export const createDevelopmentPhraseContext = (
 }
 
 export const createPhraseContext = (phrases: Record<string, string>) =>
-    (import.meta as any).env?.MODE === 'production'
+    import.meta.env.PROD
         ? createProductionPhraseContext(phrases)
         : createDevelopmentPhraseContext(phrases)
