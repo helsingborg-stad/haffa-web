@@ -30,9 +30,11 @@ export const SelectSampleAdvert: FC<
         <Autocomplete
             options={adverts}
             renderOption={(props, advert) => (
-                <Typography {...props}>
-                    {advert.title}
-                </Typography>
+                <li {...props}>
+                    <Typography>
+                        {advert.title}
+                    </Typography>
+                </li>
             )}
             onInputChange={(_, search) => searchAdverts(search)}
             onChange={(_, value) => onAdvertSelected(value)}
