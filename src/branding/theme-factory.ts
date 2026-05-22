@@ -149,9 +149,13 @@ export const createCustomTheme = (model: ThemeModel): Theme => {
                     },
                 },
                 MuiCardHeader: {
+                    defaultProps: {
+                        titleTypographyProps: {
+                            variant: options['component.cardheader.variant'],
+                        },
+                    },
                     styleOverrides: {
                         title: {
-                            variant: options['component.cardheader.variant'],
                             fontWeight: 'bold',
                         },
                     },
