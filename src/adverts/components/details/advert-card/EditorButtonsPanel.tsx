@@ -39,7 +39,6 @@ export const EditorButtonsPanel: FC<{
                 <Button
                     {...{ props }}
                     color="primary"
-                    nativeButton={false}
                     component={NavLink}
                     to={`/advert/edit/${advert?.id}`}
                     startIcon={<EditIcon />}
@@ -51,7 +50,6 @@ export const EditorButtonsPanel: FC<{
                 <Button
                     {...{ props }}
                     color="primary"
-                    nativeButton={false}
                     component={NavLink}
                     to={`/api/v1/labels/${advert.id}`}
                     target="blank"
@@ -62,7 +60,6 @@ export const EditorButtonsPanel: FC<{
             )}
             {meta.canArchive && (
                 <Button
-                    nativeButton={false}
                     component={Link}
                     {...{ props }}
                     color="primary"
@@ -74,7 +71,6 @@ export const EditorButtonsPanel: FC<{
             )}
             {meta.canRemove && (
                 <ConfirmButton
-                    nativeButton={false}
                     {...{ props }}
                     component={Link}
                     color="warning"

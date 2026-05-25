@@ -6,9 +6,20 @@ import type { ProfileInput } from 'profile/types'
 import { type FC, type PropsWithChildren, useContext, useMemo } from 'react'
 import type { Terms } from 'terms/types'
 
-const Row: FC<PropsWithChildren & GridProps> = (props) => (
-    <Grid container spacing={2} sx={{ pt: 2 }} {...props}>
-        {props.children}
+const Row: FC<PropsWithChildren & GridProps> = ({ children, sx, ...props }) => (
+    <Grid
+        container
+        spacing={2}
+        sx={
+            Array.isArray(sx)
+                ? [{ pt: 2 }, ...sx]
+                : sx
+                  ? [{ pt: 2 }, sx]
+                  : { pt: 2 }
+        }
+        {...props}
+    >
+        {children}
     </Grid>
 )
 const Cell: FC<PropsWithChildren & GridProps> = (props) => (

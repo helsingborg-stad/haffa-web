@@ -25,6 +25,11 @@ export const AdvertSubscriptionControls: FC<{
     const canSubscribe = canSubscribeToFilter(filter)
     const showControls =
         canManageSubscriptions() && hideIfEmptySearch ? canSubscribe : true
+    const stackSx: SxProps<Theme> = Array.isArray(sx)
+        ? [{ justifyContent: 'end', gap: 1 }, ...sx]
+        : sx
+          ? [{ justifyContent: 'end', gap: 1 }, sx]
+          : { justifyContent: 'end', gap: 1 }
     const buttons = showControls
         ? [
               <Button
@@ -53,10 +58,7 @@ export const AdvertSubscriptionControls: FC<{
           ]
         : []
     return buttons.length > 0 ? (
-        <Stack
-            direction={{ xs: 'column', sm: 'row' }}
-            sx={{ justifyContent: 'end', gap: 1, ...sx }}
-        >
+        <Stack direction={{ xs: 'column', sm: 'row' }} sx={stackSx}>
             {buttons}
         </Stack>
     ) : null
