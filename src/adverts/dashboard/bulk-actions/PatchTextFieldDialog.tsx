@@ -2,7 +2,6 @@ import CancelIcon from '@mui/icons-material/Cancel'
 import SaveAltIcon from '@mui/icons-material/SaveAlt'
 import {
     Alert,
-    type BaseTextFieldProps,
     Button,
     Dialog,
     DialogActions,
@@ -22,9 +21,10 @@ export const PatchTextFieldDialog: FC<
         label: string
         getValue: Func1<Advert, string>
         makePatch: Func1<string, Partial<AdvertInput>>
-        inputProps?: BaseTextFieldProps
+        multiline?: boolean
+        rows?: number
     }
-> = ({ open, closeDialog, label, getValue, makePatch, inputProps }) => {
+> = ({ open, closeDialog, label, getValue, makePatch, multiline, rows }) => {
     const { patchAdverts, selectionCommonValue } =
         useContext(AdvertsTableContext)
     const { phrase } = useContext(PhraseContext)
@@ -47,7 +47,8 @@ export const PatchTextFieldDialog: FC<
                 <TextField
                     type="text"
                     fullWidth
-                    {...inputProps}
+                    multiline={multiline}
+                    rows={rows}
                     value={value.value}
                     onChange={(e) =>
                         setValue({

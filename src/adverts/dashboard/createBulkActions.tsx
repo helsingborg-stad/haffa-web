@@ -108,7 +108,8 @@ export const createBulkActions = ({
             dialogAction: (params) => (
                 <PatchTextFieldDialog
                     {...params}
-                    inputProps={{ multiline: true, rows: 3 }}
+                    multiline
+                    rows={3}
                     label={fields.notes?.label || 'notiser'}
                     getValue={({ notes }) => notes}
                     makePatch={(notes) => ({ notes })}
