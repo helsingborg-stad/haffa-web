@@ -19,7 +19,7 @@ jobs:
           node-version: 22
 
       - name: npm install
-        run: npm install --include=optional
+        run: rm -f package-lock.json && npm install
 
       - name: run tests
         run: npm test -- --coverage
