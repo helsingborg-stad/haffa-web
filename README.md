@@ -20,15 +20,13 @@ Make sure you have the file `.env` in your project root. For its contents, refer
 
 ```sh
 # install dependencies
-yarn
+npm install
 
 # run tests
-yarn test
+npm test
 
 # start development web server serving the react app on http://localhost:3000
-yarn start
-
-
+npm start
 ```
 
 ## Run with Docker:
@@ -43,8 +41,7 @@ docker-compose up
 
 ### Prerequisites
 
--   [nodejs](https://nodejs.org/en/)
--   [Yarn](https://classic.yarnpkg.com/lang/en/docs/install)
+-   [nodejs](https://nodejs.org/en/) (includes npm)
 
 ## Contributing
 
