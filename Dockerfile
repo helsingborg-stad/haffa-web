@@ -3,14 +3,14 @@ ARG GITHUB_ACCESS_TOKEN
 WORKDIR /work
 COPY . ./
 COPY deploy.npmrc .npmrc
-RUN yarn install && yarn build
+RUN rm -f package-lock.json && npm install && npm run build
 
 FROM node:22-alpine	as optimizer
 ARG GITHUB_ACCESS_TOKEN
 WORKDIR /work
 COPY . ./
 COPY deploy.npmrc .npmrc
-RUN yarn install --production --ignore-optional --platform=linux --arch=x64
+RUN npm install --omit=dev --omit=optional
 
 FROM node:22-alpine
 EXPOSE 4000
