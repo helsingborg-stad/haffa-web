@@ -78,6 +78,7 @@ export const ProfileView: FC<{ profile: Profile }> = ({ profile }) => {
             <CardActions>
                 <ResponsiveButtonGroup>
                     <Button
+                        nativeButton={false}
                         color="primary"
                         component={NavLink}
                         to="/profile/edit"
@@ -86,6 +87,7 @@ export const ProfileView: FC<{ profile: Profile }> = ({ profile }) => {
                         {PROFILE_EDIT}
                     </Button>
                     <Button
+                        nativeButton={false}
                         color="primary"
                         component={NavLink}
                         to="/profile/remove"
@@ -94,6 +96,7 @@ export const ProfileView: FC<{ profile: Profile }> = ({ profile }) => {
                         {phrase('PROFILE_REMOVE', 'Ta bort min profil')}
                     </Button>
                     <Button
+                        nativeButton={false}
                         color="primary"
                         variant="contained"
                         sx={{ marginLeft: 'auto' }}

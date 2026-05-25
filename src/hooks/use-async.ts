@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 
 export type AsyncFunc<T> = () => Promise<T>
 
@@ -32,30 +32,27 @@ export default function useAsync<TData, TState = any>(
     }>({ asyncState: 'dormant', userState: undefined, data: null, error: null })
 
     const setPending = (p: Promise<TData>, userState: TState | undefined) => {
-        setState({
-            ...state,
-            asyncState: 'pending',
-            userState,
-        })
+        setState((prev) => ({ ...prev, asyncState: 'pending', userState }))
         p.then((d) => {
-            setState({
-                ...state,
+            setState((prev) => ({
+                ...prev,
                 asyncState: 'resolved',
                 data: d,
                 userState,
-            })
+            }))
         }).catch((e) => {
-            setState({
-                ...state,
+            setState((prev) => ({
+                ...prev,
                 asyncState: 'rejected',
                 error: e,
                 userState,
-            })
+            }))
         })
     }
-    if (state.asyncState === 'dormant') {
+
+    useEffect(() => {
         setPending(getData(), initialState)
-    }
+    }, [])
 
     return <TView>(view: AsyncView<TData, TState, TView>) => {
         switch (state.asyncState) {

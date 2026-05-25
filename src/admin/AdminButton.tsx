@@ -17,6 +17,6 @@ export const AdminButton: FC = () => {
         roles.canSeeSystemStatistics
 
     return showAdmin ? (
-        <Button startIcon={<SettingsIcon />} href="/admin" color="inherit" />
+        <Button nativeButton={false} startIcon={<SettingsIcon />} href="/admin" color="inherit" />
     ) : null
 }
