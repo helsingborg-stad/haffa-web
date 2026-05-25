@@ -33,6 +33,11 @@ const createEmptyResult = (): AdvertList => ({
     paging: { pageIndex: 0, pageSize: PAGE_SIZE, pageCount: 0, totalCount: 0 },
 })
 
+const createCenteredStackSx = (sx?: SxProps<Theme>): SxProps<Theme> => [
+    { alignItems: 'center' },
+    ...(Array.isArray(sx) ? sx : sx ? [sx] : []),
+]
+
 export const AdvertsListPagination: FC<{
     sx?: SxProps<Theme>
     adverts: AdvertList
@@ -48,15 +53,7 @@ export const AdvertsListPagination: FC<{
     setSearchParams,
     pageSize,
 }) => (
-    <Stack
-        sx={
-            Array.isArray(sx)
-                ? [{ alignItems: 'center' }, ...sx]
-                : sx
-                  ? [{ alignItems: 'center' }, sx]
-                  : { alignItems: 'center' }
-        }
-    >
+    <Stack sx={createCenteredStackSx(sx)}>
         {pageCount > 1 && (
             <Pagination
                 color="primary"
@@ -89,15 +86,7 @@ const AdvertsListEmptyResult: FC<{
         paging: { totalCount },
     },
 }) => (
-    <Stack
-        sx={
-            Array.isArray(sx)
-                ? [{ alignItems: 'center' }, ...sx]
-                : sx
-                  ? [{ alignItems: 'center' }, sx]
-                  : { alignItems: 'center' }
-        }
-    >
+    <Stack sx={createCenteredStackSx(sx)}>
         {totalCount === 0 && (
             <Editorial phraseKey="SEARCH_EMPTY_RESULT">
                 Hoppsan, det blev inga träffar på den
