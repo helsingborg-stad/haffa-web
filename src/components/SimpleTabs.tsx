@@ -22,9 +22,15 @@ const CustomTabPanel: FC<
     {
         index: number
         value: number
+        label: string
     } & PropsWithChildren
-> = ({ index, value, children }) => (
-    <div key={`tab-panel-${index}`} role="tabpanel" hidden={value !== index}>
+> = ({ index, value, label, children }) => (
+    <div
+        role="tabpanel"
+        hidden={value !== index}
+        id={`tabpanel-${label}`}
+        aria-labelledby={`tab-${label}`}
+    >
         {value === index && children}
     </div>
 )
@@ -44,11 +50,22 @@ export const SimpleTabs: FC<{
             sx={{ pb: 2 }}
         >
             {tabs.map(({ label }, index) => (
-                <Tab key={index} label={label} />
+                <Tab
+                    key={label}
+                    label={label}
+                    id={`tab-${label}`}
+                    aria-controls={`tabpanel-${label}`}
+                    aria-selected={value === index}
+                />
             ))}
         </Tabs>
-        {tabs.map(({ component }, index) => (
-            <CustomTabPanel key={index} index={index} value={value}>
+        {tabs.map(({ component, label }, index) => (
+            <CustomTabPanel
+                key={label}
+                index={index}
+                value={value}
+                label={label}
+            >
                 {component()}
             </CustomTabPanel>
         ))}

@@ -342,8 +342,7 @@ export const ClaimCard: FC<{
     claim: AdvertClaim
     onUpdate: (p: Promise<AdvertMutationResult>) => void
 }> = ({ terms, advert, claim, onUpdate }) => {
-    const { phrase } = useContext(PhraseContext)
-    const { fromNow } = useContext(PhraseContext)
+    const { phrase, fromNow } = useContext(PhraseContext)
     const { quantity, type } = claim
     const { unit } = advert
     return (

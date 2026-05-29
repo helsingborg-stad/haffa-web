@@ -121,6 +121,6 @@ export const createDevelopmentPhraseContext = (
 }
 
 export const createPhraseContext = (phrases: Record<string, string>) =>
-    process.env.NODE_ENV === 'production'
+    import.meta.env.PROD
         ? createProductionPhraseContext(phrases)
         : createDevelopmentPhraseContext(phrases)

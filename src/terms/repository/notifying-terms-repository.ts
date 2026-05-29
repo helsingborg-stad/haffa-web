@@ -7,12 +7,8 @@ export const createNotifyingTermsRepository = (
     phrase: PhraseContextType['phrase'],
     inner: TermsRepository
 ): TermsRepository => {
-    const wrap =
-        <T extends Array<any>, U>(fn: (...args: T) => U) =>
-        (...args: T): U =>
-            fn(...args)
     return {
-        getTerms: wrap(inner.getTerms),
+        getTerms: (...args) => inner.getTerms(...args),
         updateTerms: (...args) =>
             inner.updateTerms(...args).then((result) => {
                 notifications.info({

@@ -79,8 +79,8 @@ const createTreeHandlerProps = <T>({
             // Drop on the content
             move(dropKey, dragObj, 0)
         } else if (
-            ((info.node as any).props.children || []).length > 0 && // Has children
-            (info.node as any).props.expanded && // Is expanded
+            (info.node.children || []).length > 0 && // Has children
+            info.node.expanded && // Is expanded
             dropPosition === 1 // On the bottom gap
         ) {
             move(dropKey, dragObj, 0)
@@ -263,7 +263,7 @@ export const useTree = <T>(
         }
     }, [
         model,
-        viewState.expandedKeys,
+        viewState?.expandedKeys,
         viewState,
         keyFn,
         initialNodes,

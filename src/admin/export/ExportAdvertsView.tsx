@@ -110,7 +110,7 @@ export const ExportAdvertsView: FC = () => {
                 .map(([key]) => ({
                     label: key,
                     getter: (a: Advert, _: TreeAdapter<Category>) =>
-                        (a as any)[key],
+                        (a as unknown as Record<string, string | number>)[key],
                 }))
                 .map((f) =>
                     f.label === 'category'

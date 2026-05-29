@@ -24,7 +24,7 @@ export const AuthContext = createContext<AuthContextType>({
     },
     get authProvider() {
         notProvided('authProvider')()
-        return null as any as AuthProvider
+        return null as unknown as AuthProvider
     },
     setAuthentication: notProvided('setAuthentication'),
     signout: notProvided('signout'),
