@@ -24,9 +24,6 @@ export const AuthContextProvider: FC<
     const areEquivalent = (a: Authentication, b: Authentication) =>
         getAuthenticationSignature(a) === getAuthenticationSignature(b)
     useEffect(() => {
-        if (!token) {
-            return
-        }
         authProvider.verifyToken(token).then((a) => {
             if (!areEquivalent(a, authentication)) {
                 setAuthentication(a)
