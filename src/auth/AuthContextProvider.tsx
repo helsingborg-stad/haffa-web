@@ -24,20 +24,15 @@ export const AuthContextProvider: FC<
     const areEquivalent = (a: Authentication, b: Authentication) =>
         getAuthenticationSignature(a) === getAuthenticationSignature(b)
     useEffect(() => {
-        // token &&
+        if (!token) {
+            return
+        }
         authProvider.verifyToken(token).then((a) => {
-            if (!token || !areEquivalent(a, authentication)) {
+            if (!areEquivalent(a, authentication)) {
                 setAuthentication(a)
             }
         })
-        return () => void 0
-    }, [
-        token,
-        setAuthentication,
-        authentication, // token &&
-        authProvider.verifyToken,
-        areEquivalent,
-    ])
+    }, [token, setAuthentication, authentication, authProvider])
     return (
         <AuthContext.Provider
             value={{
