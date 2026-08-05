@@ -1,5 +1,5 @@
 import type { Action, Action1 } from 'lib/types'
-import { createContext, type FC, type PropsWithChildren } from 'react'
+import { createContext, type FC, type PropsWithChildren, useMemo } from 'react'
 
 const SLOW_TIME_MS = 500
 
@@ -19,11 +19,12 @@ export const FetchContext = createContext<FetchContextType>({
     addPendingListener: notProvided('addPendingListener'),
 })
 
-export const FetchContextProvider: FC<PropsWithChildren> = ({ children }) => (
-    <FetchContext.Provider value={createFetch()}>
-        {children}
-    </FetchContext.Provider>
-)
+export const FetchContextProvider: FC<PropsWithChildren> = ({ children }) => {
+    const value = useMemo(() => createFetch(), [])
+    return (
+        <FetchContext.Provider value={value}>{children}</FetchContext.Provider>
+    )
+}
 
 function createFetch(): FetchContextType {
     interface Pending {

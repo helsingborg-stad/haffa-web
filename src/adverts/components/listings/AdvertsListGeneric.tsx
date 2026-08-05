@@ -6,6 +6,7 @@ import {
     type PropsWithChildren,
     useContext,
     useEffect,
+    useMemo,
     useState,
 } from 'react'
 import { AdvertsContext } from '../../AdvertsContext'
@@ -18,15 +19,18 @@ export const AdvertsListGeneric: FC<
         pageSize?: number
     } & PropsWithChildren
 > = ({ defaultSearchParams, pageSize = 4 }) => {
-    const effectiveInitialSearchParams: AdvertFilterInput = {
-        search: '',
-        sorting: {
-            field: 'title',
-            ascending: true,
-        },
-        paging: { pageIndex: 0, pageSize },
-        ...defaultSearchParams,
-    }
+    const effectiveInitialSearchParams: AdvertFilterInput = useMemo(
+        () => ({
+            search: '',
+            sorting: {
+                field: 'title',
+                ascending: true,
+            },
+            paging: { pageIndex: 0, pageSize },
+            ...defaultSearchParams,
+        }),
+        [pageSize, JSON.stringify(defaultSearchParams)]
+    )
     interface ListState {
         adverts?: AdvertList
         filter: AdvertFilterInput
