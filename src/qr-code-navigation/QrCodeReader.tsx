@@ -17,12 +17,6 @@ export const QrCodeReader: FC<{
                 facingMode: 'environment',
             }}
             formats={['qr_code']}
-            styles={{
-                finderBorder: 75,
-            }}
-            components={{
-                audio: false,
-            }}
             onScan={(result) =>
                 actOnLink<any>(result?.[0].rawValue, {
                     sameDomain: onSameDomain,

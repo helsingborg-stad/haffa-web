@@ -12,14 +12,15 @@
         "isolatedModules": true,
         "noEmit": true,
         "jsx": "react-jsx",
-        "allowSyntheticDefaultImports": true,
+        "allowArbitraryExtensions": true,
         "composite": true,
         /* Linting */
         "strict": true,
         "noUnusedLocals": true,
         "noUnusedParameters": true,
         "noFallthroughCasesInSwitch": true,
-        "baseUrl": "src"
+        "baseUrl": "src",
+        "ignoreDeprecations": "6.0"
     },
     "include": ["src"]
 }
