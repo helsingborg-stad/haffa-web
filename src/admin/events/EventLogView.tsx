@@ -2,7 +2,6 @@ import {
     Button,
     Card,
     CardContent,
-    Grid,
     InputAdornment,
     LinearProgress,
     Table,
@@ -15,6 +14,7 @@ import {
 } from '@mui/material'
 import { Typography } from 'antd'
 import { AdminEditorialPanel } from 'components/AdminEditorialPanel'
+import { Grid } from 'components/LegacyGrid'
 import dayjs from 'dayjs'
 import { ErrorView } from 'errors'
 import * as fileSaver from 'file-saver'
@@ -38,7 +38,6 @@ export const EventsTable: FC<{
     events: ServerSideLogEvent[]
     labels: ServerSideLogEventLabels
 }> = ({ events, labels }) => {
-    const { phrase } = useContext(PhraseContext)
     return (
         <TableContainer>
             <Table>
@@ -71,7 +70,7 @@ export const EventsTable: FC<{
                                     <Typography
                                         style={{ whiteSpace: 'nowrap' }}
                                     >
-                                        {phrase(event, event)}
+                                        {event}
                                     </Typography>
                                 </TableCell>
                                 <TableCell>
@@ -122,8 +121,12 @@ export const SearchHeader: FC<{
     ]
 
     return (
-        <Grid container alignContent="center" alignItems="center" spacing={1}>
-            <Grid item>
+        <Grid
+            container
+            spacing={1}
+            sx={{ alignContent: 'center', alignItems: 'center' }}
+        >
+            <Grid item xs="auto">
                 <TextField
                     value={searchParams.from}
                     type="date"
@@ -135,7 +138,7 @@ export const SearchHeader: FC<{
                     }
                 />
             </Grid>
-            <Grid item>
+            <Grid item xs="auto">
                 <TextField
                     value={searchParams.to}
                     type="date"
@@ -148,7 +151,7 @@ export const SearchHeader: FC<{
                 />
             </Grid>
             {quickFilters.map((f) => (
-                <Grid item key={f.label}>
+                <Grid item xs="auto" key={f.label}>
                     <Button
                         variant="outlined"
                         onClick={() =>
@@ -179,22 +182,24 @@ export const DownloadHeader: FC<{
             onChange={(e) => setName(e.target.value)}
             label={phrase('EVENTLOG_EXPORT_FILENAME', 'Filnamn')}
             placeholder={phrase('EVENTLOG_EXPORT_FILENAME', 'Filnamn')}
-            InputProps={{
-                endAdornment: (
-                    <InputAdornment position="end" sx={{ gap: 1 }}>
-                        .xlsx
-                        <Button
-                            variant="contained"
-                            color="primary"
-                            onClick={() => onExport(name)}
-                        >
-                            {phrase(
-                                'EVENTLOG_EXPOR_FILENAME',
-                                'Exportera till excel'
-                            )}
-                        </Button>
-                    </InputAdornment>
-                ),
+            slotProps={{
+                input: {
+                    endAdornment: (
+                        <InputAdornment position="end" sx={{ gap: 1 }}>
+                            .xlsx
+                            <Button
+                                variant="contained"
+                                color="primary"
+                                onClick={() => onExport(name)}
+                            >
+                                {phrase(
+                                    'EVENTLOG_EXPOR_FILENAME',
+                                    'Exportera till excel'
+                                )}
+                            </Button>
+                        </InputAdornment>
+                    ),
+                },
             }}
         />
     )

@@ -1,6 +1,7 @@
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown'
 import KeyboardArrowRightIcon from '@mui/icons-material/KeyboardArrowRight'
-import { Box, Checkbox, Grid, IconButton } from '@mui/material'
+import { Box, Checkbox, IconButton } from '@mui/material'
+import { Grid } from 'components/LegacyGrid'
 import type { Func1 } from 'lib/types'
 import type { ReactNode } from 'react'
 import { Fragment } from 'react/jsx-runtime'

@@ -1,20 +1,20 @@
 import SaveIcon from '@mui/icons-material/Save'
-import { Box, Button, Grid, type GridProps } from '@mui/material'
+import { Box, Button, Stack, type StackProps } from '@mui/material'
 import { useFormControls } from 'hooks/use-form-controls'
 import { PhraseContext } from 'phrases/PhraseContext'
 import type { ProfileInput } from 'profile/types'
 import { type FC, type PropsWithChildren, useContext, useMemo } from 'react'
 import type { Terms } from 'terms/types'
 
-const Row: FC<PropsWithChildren & GridProps> = (props) => (
-    <Grid container spacing={2} sx={{ pt: 2 }} {...props}>
+const Row: FC<PropsWithChildren & StackProps> = (props) => (
+    <Stack direction="row" spacing={2} sx={{ pt: 2 }} {...props}>
         {props.children}
-    </Grid>
+    </Stack>
 )
-const Cell: FC<PropsWithChildren & GridProps> = (props) => (
-    <Grid item sx={{ flexGrow: 1 }} {...props}>
+const Cell: FC<PropsWithChildren & { sx?: object }> = (props) => (
+    <Box sx={{ flexGrow: 1, ...(props.sx || {}) }}>
         {props.children}
-    </Grid>
+    </Box>
 )
 
 export const ProfileForm: FC<{
@@ -120,7 +120,7 @@ export const ProfileForm: FC<{
                     ))}
                 </Row>
             ))}
-            <Row justifyContent="flex-end">
+            <Row sx={{ justifyContent: 'flex-end' }}>
                 <Cell>
                     <Button
                         type="submit"

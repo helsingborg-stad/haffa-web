@@ -4,6 +4,7 @@ import RefreshIcon from '@mui/icons-material/Refresh'
 import SaveIcon from '@mui/icons-material/Save'
 import {
     Autocomplete,
+    Box,
     Button,
     ButtonGroup,
     Card,
@@ -11,9 +12,9 @@ import {
     CardContent,
     CardHeader,
     Container,
-    Grid,
-    type GridProps,
     InputAdornment,
+    Stack,
+    type StackProps,
     TextField,
 } from '@mui/material'
 import { getField } from 'advert-field-config/repository/mappers'
@@ -49,15 +50,21 @@ const swapArrayItems = <T,>(list: T[], index1: number, index2: number): T[] => {
     return l
 }
 
-const Row: FC<PropsWithChildren & GridProps> = (props) => (
-    <Grid container spacing={1} sx={{ pb: 2 }} {...props}>
+const Row: FC<PropsWithChildren & StackProps> = (props) => (
+    <Stack direction="row" spacing={1} sx={{ pb: 2 }} {...props}>
         {props.children}
-    </Grid>
+    </Stack>
 )
-const Cell: FC<PropsWithChildren & GridProps> = (props) => (
-    <Grid item sx={{ flexGrow: 1 }} {...props}>
+const Cell: FC<PropsWithChildren & { sx?: object }> = (props) => (
+    <Box
+        sx={{
+            flex: 1,
+            minWidth: 0,
+            ...(props.sx || {}),
+        }}
+    >
         {props.children}
-    </Grid>
+    </Box>
 )
 
 const SyncFromProfileInput: FC<{
@@ -890,7 +897,7 @@ export const AdvertForm: FC<{
                         {rows.map((row, rowIndex) => (
                             <Row key={rowIndex}>
                                 {row.map((cell, cellIndex) => (
-                                    <Cell xs key={cellIndex}>
+                                    <Cell key={cellIndex}>
                                         {cell?.()}
                                     </Cell>
                                 ))}

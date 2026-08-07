@@ -18,7 +18,11 @@ export interface SelectOption {
     value: string
 }
 
-type SelectProps = FormControlProps & TextFieldProps & { label?: string }
+type SelectProps = FormControlProps & {
+    label?: string
+    placeholder?: string
+    id?: string
+}
 
 type Getter<TModel, TValue> = (model: TModel) => TValue
 type Setter<TModel, TValue> = (value: TValue) => Partial<TModel>
@@ -91,20 +95,50 @@ export const useFormControls = <TModel,>(
         getter,
         setter,
         props
-    ) => (
-        <TextField
-            {...props}
-            value={getter(model)}
-            onChange={(e) => patchModel(setter(e.target.value))}
-        />
-    )
+    ) => {
+        const {
+            slotProps,
+            InputProps: legacyInputProps,
+            inputProps: legacyHtmlInputProps,
+            ...restProps
+        } = (props || {}) as TextFieldProps & {
+            InputProps?: Record<string, unknown>
+            inputProps?: Record<string, unknown>
+        }
+
+        return (
+            <TextField
+                {...restProps}
+                slotProps={{
+                    ...slotProps,
+                    input: {
+                        ...(slotProps?.input || {}),
+                        ...(legacyInputProps || {}),
+                    },
+                    htmlInput: {
+                        ...(slotProps?.htmlInput || {}),
+                        ...(legacyHtmlInputProps || {}),
+                    },
+                }}
+                value={getter(model)}
+                onChange={(e) => patchModel(setter(e.target.value))}
+            />
+        )
+    }
     const select: FormControlsFactory<TModel>['select'] = (
         getter,
         setter,
         options,
         props
     ) => (
-        <FormControl variant="outlined" sx={{ minWidth: 120 }} {...props}>
+        <FormControl
+            variant="outlined"
+            sx={{ minWidth: 120, ...(props?.sx || {}) }}
+            fullWidth={props?.fullWidth}
+            required={props?.required}
+            disabled={props?.disabled}
+            error={props?.error}
+        >
             <InputLabel id={props?.id || ''}>{props?.label}</InputLabel>
             <Select
                 required={props?.required}

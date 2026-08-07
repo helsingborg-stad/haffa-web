@@ -13,7 +13,6 @@ import {
     FormControl,
     FormControlLabel,
     FormLabel,
-    Grid,
     InputAdornment,
     MenuItem,
     type PaperProps,
@@ -34,6 +33,7 @@ import {
 import type { ThemeModel } from 'branding/types'
 import { AdminActionPanel } from 'components/AdminActionPanel'
 import { AdminEditorialPanel } from 'components/AdminEditorialPanel'
+import { Grid } from 'components/LegacyGrid'
 import { type FC, useState } from 'react'
 import type { Option } from '../../options/types'
 import { ColorSelect } from './components/ColorSelect'
@@ -667,18 +667,22 @@ export const EditThemeForm: FC<{
                                 disabled
                                 fullWidth
                                 variant="outlined"
-                                InputProps={{
-                                    endAdornment: (
-                                        <InputAdornment position="end">
-                                            <Button
-                                                onClick={() =>
-                                                    setFontDialogVisible(true)
-                                                }
-                                            >
-                                                Ändra
-                                            </Button>
-                                        </InputAdornment>
-                                    ),
+                                slotProps={{
+                                    input: {
+                                        endAdornment: (
+                                            <InputAdornment position="end">
+                                                <Button
+                                                    onClick={() =>
+                                                        setFontDialogVisible(
+                                                            true
+                                                        )
+                                                    }
+                                                >
+                                                    Ändra
+                                                </Button>
+                                            </InputAdornment>
+                                        ),
+                                    },
                                 }}
                             />
                             <FontSelect

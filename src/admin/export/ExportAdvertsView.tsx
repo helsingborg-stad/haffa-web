@@ -54,7 +54,7 @@ const SelectFields: FC<{
     selected: string[]
     setSelected: (s: string[]) => void
 }> = ({ fields, selected, setSelected }) => (
-    <Stack direction="row" spacing={2} useFlexGap flexWrap="wrap">
+    <Stack direction="row" spacing={2} useFlexGap sx={{ flexWrap: 'wrap' }}>
         {fields.map(({ label }) => (
             <FormControlLabel
                 key={label}

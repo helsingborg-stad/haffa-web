@@ -5,11 +5,11 @@ import AdressIcon from '@mui/icons-material/LocationCity'
 import LogoutIcon from '@mui/icons-material/Logout'
 import PhoneIcon from '@mui/icons-material/Phone'
 import {
+    Box,
     Button,
     Card,
     CardActions,
     CardContent,
-    Grid,
     Typography,
 } from '@mui/material'
 import { AuthContext } from 'auth'
@@ -24,14 +24,14 @@ const PropBox: FC<PropsWithChildren & { icon: React.JSX.Element }> = ({
     children,
     icon,
 }) => (
-    <Grid container sx={{ alignItems: 'center' }}>
-        <Grid item sx={{ m: 1 }}>
+    <Box sx={{ display: 'flex', alignItems: 'center' }}>
+        <Box sx={{ m: 1 }}>
             {icon}
-        </Grid>
-        <Grid item sx={{ flex: 1 }}>
+        </Box>
+        <Box sx={{ flex: 1 }}>
             {children}
-        </Grid>
-    </Grid>
+        </Box>
+    </Box>
 )
 
 export const ProfileView: FC<{ profile: Profile }> = ({ profile }) => {

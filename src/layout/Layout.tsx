@@ -307,12 +307,12 @@ export const Layout: FC<
             </Drawer>
 
             <Toolbar /* for pushing down content */ />
-            <Grid key="c" item xs={12} md={8} sx={{}}>
+            <Box key="c" sx={{}}>
                 <Container key="c" sx={{ position: 'relative', mt: 4, mb: 16 }}>
                     <SlowFetchWarning key="sf" sx={{ mb: 2 }} />
                     {children}
                 </Container>
-            </Grid>
+            </Box>
             <NotificationsSnackbar />
 
             <Dialog

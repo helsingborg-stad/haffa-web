@@ -3,6 +3,7 @@ import {
     DataGrid,
     type GridColumnVisibilityModel,
     type GridDensity,
+    type GridRowSelectionModel,
     type GridPaginationModel,
     type GridSortModel,
     GridToolbar,
@@ -28,6 +29,11 @@ export const AdvertsTable: FC<{
     const context = useContext(AdvertsTableContext)
     const { selected, setSelected, filter, setFilter, adverts, paging } =
         context
+
+    const rowSelectionModel: GridRowSelectionModel = {
+        type: 'include',
+        ids: new Set(selected),
+    }
 
     // Save/Load visibility model to localstorage
     const [visibilityModel, onColumnVisibilityModelChange] =
@@ -98,8 +104,10 @@ export const AdvertsTable: FC<{
                     page: paging.pageIndex,
                     pageSize: paging.pageSize,
                 }}
-                onRowSelectionModelChange={setSelected}
-                rowSelectionModel={selected}
+                onRowSelectionModelChange={(model) => {
+                    setSelected(Array.from(model.ids) as Array<string | number>)
+                }}
+                rowSelectionModel={rowSelectionModel}
                 columnVisibilityModel={visibilityModel}
                 onColumnVisibilityModelChange={onColumnVisibilityModelChange}
                 rows={createRows(adverts, density)}

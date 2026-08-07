@@ -1,4 +1,4 @@
-import RemoveCircleOutlineIcon from '@mui/icons-material/RemoveCircleOutline'
+import RemoveCircleOutlineIcon from '@mui/icons-material/RemoveCircleOutlineOutlined'
 import SubscriptionsIcon from '@mui/icons-material/Subscriptions'
 import {
     Avatar,
@@ -8,7 +8,6 @@ import {
     CardActions,
     CardContent,
     CardHeader,
-    Grid,
     IconButton,
     Typography,
 } from '@mui/material'
@@ -62,12 +61,22 @@ export const SubscriptionsListing: FC<{
             <Typography variant="h5" gutterBottom>
                 {phrase('SUBSCRIPTIONS_HEADING', '')}
             </Typography>
-            <Typography paragraph>
+            <Typography sx={{ mb: 2 }}>
                 {phrase('SUNSCRIPTIONS_EDITORIAL', '')}
             </Typography>
-            <Grid container spacing={2} key="p">
+            <Box
+                key="p"
+                sx={{
+                    display: 'grid',
+                    gap: 2,
+                    gridTemplateColumns: {
+                        xs: '1fr',
+                        sm: 'repeat(3, minmax(0, 1fr))',
+                    },
+                }}
+            >
                 {subscriptions.map((subscription) => (
-                    <Grid item key={subscription.subscriptionId} xs={12} sm={4}>
+                    <Box key={subscription.subscriptionId}>
                         <Card
                             sx={{
                                 height: '100%',
@@ -154,9 +163,9 @@ export const SubscriptionsListing: FC<{
                                 </Button>
                             </CardActions>
                         </Card>
-                    </Grid>
+                    </Box>
                 ))}
-            </Grid>
+            </Box>
             {subscriptions.length === 0 && (
                 <Box sx={{ pt: 2 }}>
                     <Editorial phraseKey="SUBSCRIPTIONS_NO_CONTENT" />

@@ -11,13 +11,15 @@ export const SearchInput: FC<{
         value={searchParams.search}
         type="search"
         fullWidth
-        InputProps={{
-            // style: { fontSize: '150%' },
-            startAdornment: (
-                <InputAdornment position="start">
-                    <SearchIcon />
-                </InputAdornment>
-            ),
+        slotProps={{
+            input: {
+                // style: { fontSize: '150%' },
+                startAdornment: (
+                    <InputAdornment position="start">
+                        <SearchIcon />
+                    </InputAdornment>
+                ),
+            },
         }}
         onChange={(e) =>
             setSearchParams({

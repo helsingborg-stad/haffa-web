@@ -7,12 +7,12 @@ import {
     CardActions,
     CardContent,
     FormControl,
-    Grid,
     InputAdornment,
     Stack,
     TextField,
 } from '@mui/material'
 import { Tree } from 'antd'
+import { Grid } from 'components/LegacyGrid'
 import type { Category } from 'categories/types'
 import { AdminEditorialPanel } from 'components/AdminEditorialPanel'
 import { treeFind } from 'lib/tree-lookup'
@@ -150,12 +150,14 @@ export const CategoriesForm: FC<{
                             )}
                             type="number"
                             value={selectedNode.co2kg}
-                            InputProps={{
-                                endAdornment: (
-                                    <InputAdornment position="end">
-                                        kg
-                                    </InputAdornment>
-                                ),
+                            slotProps={{
+                                input: {
+                                    endAdornment: (
+                                        <InputAdornment position="end">
+                                            kg
+                                        </InputAdornment>
+                                    ),
+                                },
                             }}
                             onChange={(e) =>
                                 updateNode(selectedNode, () => ({
@@ -180,12 +182,14 @@ export const CategoriesForm: FC<{
                             )}
                             type="number"
                             value={selectedNode.valueByUnit}
-                            InputProps={{
-                                endAdornment: (
-                                    <InputAdornment position="end">
-                                        kr
-                                    </InputAdornment>
-                                ),
+                            slotProps={{
+                                input: {
+                                    endAdornment: (
+                                        <InputAdornment position="end">
+                                            kr
+                                        </InputAdornment>
+                                    ),
+                                },
                             }}
                             onChange={(e) =>
                                 updateNode(selectedNode, () => ({

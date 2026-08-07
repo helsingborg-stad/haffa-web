@@ -1,4 +1,4 @@
-import { Grid } from '@mui/material'
+import { Box } from '@mui/material'
 import type { Category } from 'categories/types'
 import type { TreeAdapter } from 'lib/types'
 import type { FC } from 'react'
@@ -9,20 +9,26 @@ export const AdvertsList: FC<{
     adverts: Advert[]
     categories: TreeAdapter<Category>
 }> = ({ adverts, categories }) => (
-    <Grid
-        container
-        alignItems="stretch"
-        sx={{ display: 'flex', my: 2 }}
-        spacing={2}
+    <Box
+        sx={{
+            display: 'grid',
+            my: 2,
+            gap: 2,
+            gridTemplateColumns: {
+                xs: 'repeat(2, minmax(0, 1fr))',
+                sm: 'repeat(4, minmax(0, 1fr))',
+            },
+            alignItems: 'stretch',
+        }}
     >
         {adverts.map((advert) => (
-            <Grid item xs={6} sm={3} key={advert.id}>
+            <Box key={advert.id}>
                 <AdvertListItem
                     sx={{ height: '100%' }}
                     advert={advert}
                     categories={categories}
                 />
-            </Grid>
+            </Box>
         ))}
-    </Grid>
+    </Box>
 )

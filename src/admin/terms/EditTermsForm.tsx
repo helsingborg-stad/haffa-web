@@ -1,6 +1,7 @@
-import { Card, CardContent, Grid, TextField } from '@mui/material'
+import { Card, CardContent, TextField } from '@mui/material'
 import { AdminActionPanel } from 'components/AdminActionPanel'
 import { AdminEditorialPanel } from 'components/AdminEditorialPanel'
+import { Grid } from 'components/LegacyGrid'
 import { PhraseContext } from 'phrases'
 import { type FC, useContext, useState } from 'react'
 import type { Terms } from 'terms/types'

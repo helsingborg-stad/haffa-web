@@ -5,7 +5,6 @@ import {
     Card,
     CardActionArea,
     CardMedia,
-    Grid,
     type SxProps,
     type Theme,
     Typography,
@@ -62,13 +61,11 @@ export const AdvertListItem: FC<{
             sx={{
                 ...sx,
                 display: 'flex',
-                justifyContent: 'stretch',
             }}
         >
             <CardActionArea component={Link} to={`/advert/${advert.id}`}>
-                <Grid container direction="column" sx={{ height: '100%' }}>
-                    <Grid
-                        item
+                <Box sx={{ height: '100%', display: 'flex', flexDirection: 'column' }}>
+                    <Box
                         sx={{
                             width: '100%',
                             aspectRatio: advertImageAspectRatio,
@@ -99,8 +96,8 @@ export const AdvertListItem: FC<{
                                 objectPosition: 'center',
                             }}
                         />
-                    </Grid>
-                    <Grid item sx={{ flex: 1, m: 2 }}>
+                    </Box>
+                    <Box sx={{ flex: 1, m: 2 }}>
                         <Typography
                             variant="subtitle2"
                             color="text.secondary"
@@ -113,8 +110,8 @@ export const AdvertListItem: FC<{
                                 {title}
                             </Typography>
                         </Box>
-                    </Grid>
-                    <Grid item sx={{ mx: 2, mb: 3 }}>
+                    </Box>
+                    <Box sx={{ mx: 2, mb: 3, position: 'relative', minHeight: 20 }}>
                         <Typography
                             variant="caption"
                             color="text.disabled"
@@ -194,8 +191,8 @@ export const AdvertListItem: FC<{
                                 />
                             </Typography>
                         )}
-                    </Grid>
-                </Grid>
+                    </Box>
+                </Box>
             </CardActionArea>
         </Card>
     )

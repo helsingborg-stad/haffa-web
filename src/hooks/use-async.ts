@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 
 export type AsyncFunc<T> = () => Promise<T>
 
@@ -24,6 +24,9 @@ export default function useAsync<TData, TState = any>(
     getData: AsyncFunc<TData>,
     initialState?: TState
 ): AsyncInspect<TData, TState> {
+    const mountedRef = useRef(false)
+    const requestIdRef = useRef(0)
+
     const [state, setState] = useState<{
         asyncState: 'dormant' | 'pending' | 'resolved' | 'rejected'
         userState: TState | undefined
@@ -32,30 +35,52 @@ export default function useAsync<TData, TState = any>(
     }>({ asyncState: 'dormant', userState: undefined, data: null, error: null })
 
     const setPending = (p: Promise<TData>, userState: TState | undefined) => {
-        setState({
-            ...state,
+        const requestId = requestIdRef.current + 1
+        requestIdRef.current = requestId
+
+        setState((currentState) => ({
+            ...currentState,
             asyncState: 'pending',
             userState,
-        })
+            error: null,
+        }))
+
         p.then((d) => {
-            setState({
-                ...state,
+            if (!mountedRef.current || requestId !== requestIdRef.current) {
+                return
+            }
+
+            setState((currentState) => ({
+                ...currentState,
                 asyncState: 'resolved',
                 data: d,
                 userState,
-            })
+                error: null,
+            }))
         }).catch((e) => {
-            setState({
-                ...state,
+            if (!mountedRef.current || requestId !== requestIdRef.current) {
+                return
+            }
+
+            setState((currentState) => ({
+                ...currentState,
                 asyncState: 'rejected',
                 error: e,
                 userState,
-            })
+            }))
         })
     }
-    if (state.asyncState === 'dormant') {
+
+    useEffect(() => {
+        mountedRef.current = true
         setPending(getData(), initialState)
-    }
+
+        return () => {
+            mountedRef.current = false
+            requestIdRef.current += 1
+        }
+        // Intentionally only load once on mount.
+    }, [])
 
     return <TView>(view: AsyncView<TData, TState, TView>) => {
         switch (state.asyncState) {

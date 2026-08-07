@@ -1,5 +1,5 @@
 import SearchIcon from '@mui/icons-material/Search'
-import { Grid, InputAdornment, TextField } from '@mui/material'
+import { Box, InputAdornment, Stack, TextField } from '@mui/material'
 import {
     FilterDialog,
     FiltersIconButton,
@@ -17,18 +17,20 @@ export const FilterPanel: FC<
     const [search, setSearch] = useState(filter.search || '')
 
     return (
-        <Grid container>
-            <Grid item sx={{ flex: 1 }}>
+        <Stack direction="row" spacing={1}>
+            <Box sx={{ flex: 1 }}>
                 <TextField
                     fullWidth
                     type="search"
                     value={search}
-                    InputProps={{
-                        startAdornment: (
-                            <InputAdornment position="start">
-                                <SearchIcon />
-                            </InputAdornment>
-                        ),
+                    slotProps={{
+                        input: {
+                            startAdornment: (
+                                <InputAdornment position="start">
+                                    <SearchIcon />
+                                </InputAdornment>
+                            ),
+                        },
                     }}
                     onChange={({ target: { value } }) => {
                         setSearch(value)
@@ -38,8 +40,8 @@ export const FilterPanel: FC<
                         })
                     }}
                 />
-            </Grid>
-            <Grid item>
+            </Box>
+            <Box>
                 <FiltersIconButton
                     searchParams={filter}
                     onClick={() => setShowFilter(true)}
@@ -50,7 +52,7 @@ export const FilterPanel: FC<
                     searchParams={filter}
                     setSearchParams={setFilter}
                 />
-            </Grid>
-        </Grid>
+            </Box>
+        </Stack>
     )
 }

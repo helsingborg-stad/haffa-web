@@ -15,10 +15,10 @@ export const AdminEditorialPanel = (props: {
             <Typography variant="h5" align="center" gutterBottom>
                 {phrase(headline, headline)}
             </Typography>
-            <Typography paragraph align="center">
+            <Typography align="center" sx={{ mb: 2 }}>
                 {phrase(body, body)}
             </Typography>
-            {useDivider && <Divider light />}
+            {useDivider && <Divider />}
         </Box>
     )
 }

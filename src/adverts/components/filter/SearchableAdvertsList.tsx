@@ -1,4 +1,4 @@
-import { Box, Grid } from '@mui/material'
+import { Box, Stack } from '@mui/material'
 import type { AdvertFilterInput } from 'adverts'
 import { type FC, type PropsWithChildren, useState } from 'react'
 import { FilterDialog, FiltersIconButton } from './filters'
@@ -18,14 +18,14 @@ const FilterPanel: FC<
     )
 
     return (
-        <Grid container>
-            <Grid item sx={{ flex: 1 }}>
+        <Stack direction="row" spacing={1}>
+            <Box sx={{ flex: 1 }}>
                 <SearchInput
                     searchParams={searchParams}
                     setSearchParams={setSearchParams}
                 />
-            </Grid>
-            <Grid item>
+            </Box>
+            <Box>
                 <FiltersIconButton
                     searchParams={searchParams}
                     onClick={() => setShowFilter(true)}
@@ -36,8 +36,8 @@ const FilterPanel: FC<
                     searchParams={searchParams}
                     setSearchParams={setSearchParams}
                 />
-            </Grid>
-            <Grid item>
+            </Box>
+            <Box>
                 <SortIconButton onClick={setSortMenuAnchor} />
                 <SortMenu
                     anchor={sortMenuAnchor}
@@ -45,8 +45,8 @@ const FilterPanel: FC<
                     searchParams={searchParams}
                     setSearchParams={setSearchParams}
                 />
-            </Grid>
-        </Grid>
+            </Box>
+        </Stack>
     )
 }
 

@@ -1,4 +1,4 @@
-import { Grid, type GridProps, Typography } from '@mui/material'
+import { Box, Stack, type StackProps, Typography } from '@mui/material'
 import { getField } from 'advert-field-config/repository/mappers'
 import type { AdvertFieldConfig, FieldConfig } from 'advert-field-config/types'
 import type { Advert } from 'adverts'
@@ -7,7 +7,7 @@ import { PhraseContext } from 'phrases'
 import { Fragment, useContext } from 'react'
 
 export const DetailsPanel = (
-    props: GridProps & { advert: Advert; fields: AdvertFieldConfig }
+    props: StackProps & { advert: Advert; fields: AdvertFieldConfig }
 ) => {
     const { phrase, fromNow } = useContext(PhraseContext)
 
@@ -52,26 +52,22 @@ export const DetailsPanel = (
             <Typography gutterBottom variant="h6">
                 {phrase('ADVERT_FIELD_HEADING', 'Produktinformation')}
             </Typography>
-            <Grid container columns={2} pb={2}>
+            <Stack spacing={0.5} sx={{ pb: 2 }}>
                 {mapper.map((v, key) => (
                     <Fragment key={key}>
-                        <Grid item xs={1}>
-                            {v.field.label}
-                        </Grid>
-                        <Grid item xs={1} textAlign="right">
-                            {format(v)}
-                        </Grid>
+                        <Box sx={{ display: 'flex', justifyContent: 'space-between', gap: 2 }}>
+                            <Box>{v.field.label}</Box>
+                            <Box sx={{ textAlign: 'right' }}>{format(v)}</Box>
+                        </Box>
                     </Fragment>
                 ))}
                 <Fragment key="ADVERT_FIELD_CREATED">
-                    <Grid item xs={1}>
-                        {phrase('ADVERT_FIELD_CREATED', 'Publicerades')}
-                    </Grid>
-                    <Grid item xs={1} textAlign="right">
-                        {fromNow(createdAt)}
-                    </Grid>
+                    <Box sx={{ display: 'flex', justifyContent: 'space-between', gap: 2 }}>
+                        <Box>{phrase('ADVERT_FIELD_CREATED', 'Publicerades')}</Box>
+                        <Box sx={{ textAlign: 'right' }}>{fromNow(createdAt)}</Box>
+                    </Box>
                 </Fragment>
-            </Grid>
+            </Stack>
         </>
     )
 }

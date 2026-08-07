@@ -1,25 +1,40 @@
-import { Grid } from '@mui/material'
+import { Box } from '@mui/material'
 import { ContentCard } from 'content/components/ContentCard'
 import type { ViewComposition } from 'content/types'
-import { Fragment } from 'react'
 import type { Summaries } from 'statistics/types'
 
 export const HomeView = (props: {
     composition: ViewComposition
     summaries: Summaries
 }) => (
-    <Grid container rowSpacing={3} columnSpacing={3}>
+    <Box
+        sx={{
+            display: 'grid',
+            rowGap: 3,
+            columnGap: 3,
+        }}
+    >
         {props.composition.rows.map((row, index) => (
-            <Fragment key={index}>
+            <Box
+                key={index}
+                sx={{
+                    display: 'grid',
+                    gap: 3,
+                    gridTemplateColumns: {
+                        xs: '1fr',
+                        md: `repeat(${row.columns.length}, minmax(0, 1fr))`,
+                    },
+                }}
+            >
                 {row.columns.map((column, index) => (
-                    <Grid key={index} item xs={12} md={12 / row.columns.length}>
+                    <Box key={index}>
                         <ContentCard
                             module={column.module}
                             summaries={props.summaries}
                         />
-                    </Grid>
+                    </Box>
                 ))}
-            </Fragment>
+            </Box>
         ))}
-    </Grid>
+    </Box>
 )

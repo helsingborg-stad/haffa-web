@@ -1,10 +1,11 @@
 import ContactMailOutlinedIcon from '@mui/icons-material/ContactMailOutlined'
 import {
     Avatar,
-    Grid,
+    Box,
     Link,
     Paper,
     type PaperProps,
+    Stack,
     Typography,
 } from '@mui/material'
 import type { Advert } from 'adverts'
@@ -18,14 +19,12 @@ export const ContactCard = (props: PaperProps & { advert: Advert }) => {
     return (
         email && (
             <Paper {...props}>
-                <Grid
-                    container
-                    p={2}
+                <Stack
+                    direction="row"
                     spacing={2}
-                    height="100%"
-                    alignItems="center"
+                    sx={{ p: 2, height: '100%', alignItems: 'center' }}
                 >
-                    <Grid item sx={{ display: { xs: 'none', sm: 'block' } }}>
+                    <Box sx={{ display: { xs: 'none', sm: 'block' } }}>
                         <Avatar
                             sx={{
                                 width: 48,
@@ -34,8 +33,8 @@ export const ContactCard = (props: PaperProps & { advert: Advert }) => {
                         >
                             <ContactMailOutlinedIcon />
                         </Avatar>
-                    </Grid>
-                    <Grid item>
+                    </Box>
+                    <Box>
                         <Typography variant="subtitle1">
                             {phrase('ADVERT_FIELD_CONTACT_TITLE', 'Kontakt')}
                         </Typography>
@@ -54,8 +53,8 @@ export const ContactCard = (props: PaperProps & { advert: Advert }) => {
                         {organization && (
                             <Typography>{organization}</Typography>
                         )}
-                    </Grid>
-                </Grid>
+                    </Box>
+                </Stack>
             </Paper>
         )
     )

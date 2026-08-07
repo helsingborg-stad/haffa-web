@@ -1,4 +1,4 @@
-import { Card, CardContent, Grid, Stack } from '@mui/material'
+import { Box, Card, CardContent, Stack } from '@mui/material'
 import type { AdvertFieldConfig } from 'advert-field-config/types'
 import { AuthContext } from 'auth'
 import type { Category } from 'categories/types'
@@ -81,74 +81,49 @@ export const AdvertCard: FC<{
                         <ImagesPanel advert={advert} />
                     </CardContent>
                     <CardContent>
-                        <Grid container direction="column" rowGap={1}>
-                            <Grid item>
-                                <InfoPanel
-                                    advert={advert}
-                                    categories={categories}
-                                    error={error}
-                                    hideDescription
-                                    hideNotifications
-                                />
-                            </Grid>
-                            <Grid item>
-                                <InfoPanel
-                                    advert={advert}
-                                    categories={categories}
-                                    error={error}
-                                    hideTitle
-                                />
-                            </Grid>
-                            <Grid item>
-                                <TagDescriptionsPanel
-                                    advert={advert}
-                                    tagDescriptions={tagDescriptions}
-                                />
-                            </Grid>
-                            <Grid item>
-                                <ActionsPanel
-                                    advert={advert}
-                                    onUpdate={onUpdate}
-                                />
-                            </Grid>
-                            <Grid item>
-                                <DetailsPanel fields={fields} advert={advert} />
-                            </Grid>
-                            <Grid item>
-                                <AddressCard
-                                    advert={advert}
-                                    locations={effectiveLocations}
-                                />
-                            </Grid>
-                            <Grid item>
-                                <ContactCard advert={advert} />
-                            </Grid>
-                            <Grid item>
-                                <TagCard
-                                    advert={advert}
-                                    tagDescriptions={tagDescriptions}
-                                />
-                            </Grid>
-                        </Grid>
+                        <Stack spacing={1}>
+                            <InfoPanel
+                                advert={advert}
+                                categories={categories}
+                                error={error}
+                                hideDescription
+                                hideNotifications
+                            />
+                            <InfoPanel
+                                advert={advert}
+                                categories={categories}
+                                error={error}
+                                hideTitle
+                            />
+                            <TagDescriptionsPanel
+                                advert={advert}
+                                tagDescriptions={tagDescriptions}
+                            />
+                            <ActionsPanel advert={advert} onUpdate={onUpdate} />
+                            <DetailsPanel fields={fields} advert={advert} />
+                            <AddressCard
+                                advert={advert}
+                                locations={effectiveLocations}
+                            />
+                            <ContactCard advert={advert} />
+                            <TagCard
+                                advert={advert}
+                                tagDescriptions={tagDescriptions}
+                            />
+                        </Stack>
                     </CardContent>
                 </CardContent>
                 <CardContent
                     key="desktop"
                     sx={{ display: { xs: 'none', sm: 'block' } }}
                 >
-                    <Grid
-                        container
-                        spacing={2}
-                        direction="row"
-                        p={4}
-                        rowGap={1}
-                    >
-                        <Grid item xs={7} pr={8}>
+                    <Stack direction="row" spacing={2} sx={{ p: 4 }}>
+                        <Box sx={{ flex: 7, pr: 8 }}>
                             <ImagesPanel advert={advert} />
-                        </Grid>
-                        <Grid item xs={5}>
-                            <Grid container direction="column">
-                                <Grid item pt={4}>
+                        </Box>
+                        <Box sx={{ flex: 5 }}>
+                            <Stack spacing={1}>
+                                <Box sx={{ pt: 4 }}>
                                     <InfoPanel
                                         advert={advert}
                                         categories={categories}
@@ -156,53 +131,47 @@ export const AdvertCard: FC<{
                                         hideDescription
                                         hideNotifications
                                     />
-                                </Grid>
-                                <Grid item>
+                                </Box>
+                                <Box>
                                     <InfoPanel
                                         advert={advert}
                                         categories={categories}
                                         error={error}
                                         hideTitle
                                     />
-                                </Grid>
-                                <Grid item>
+                                </Box>
+                                <Box>
                                     <TagDescriptionsPanel
                                         advert={advert}
                                         tagDescriptions={tagDescriptions}
                                     />
-                                </Grid>
-                                <Grid item>
+                                </Box>
+                                <Box>
                                     <ActionsPanel
                                         advert={advert}
                                         onUpdate={onUpdate}
                                     />
-                                </Grid>
-                                <Grid item>
+                                </Box>
+                                <Box>
                                     <DetailsPanel
                                         fields={fields}
                                         advert={advert}
                                     />
-                                </Grid>
-                            </Grid>
-                            <Grid container spacing={1}>
-                                <Grid item xs={12}>
-                                    <AddressCard
-                                        advert={advert}
-                                        locations={effectiveLocations}
-                                    />
-                                </Grid>
-                                <Grid item xs={12}>
-                                    <ContactCard advert={advert} />
-                                </Grid>
-                                <Grid item xs={12}>
-                                    <TagCard
-                                        advert={advert}
-                                        tagDescriptions={tagDescriptions}
-                                    />
-                                </Grid>
-                            </Grid>
-                        </Grid>
-                    </Grid>
+                                </Box>
+                            </Stack>
+                            <Stack spacing={1} sx={{ mt: 1 }}>
+                                <AddressCard
+                                    advert={advert}
+                                    locations={effectiveLocations}
+                                />
+                                <ContactCard advert={advert} />
+                                <TagCard
+                                    advert={advert}
+                                    tagDescriptions={tagDescriptions}
+                                />
+                            </Stack>
+                        </Box>
+                    </Stack>
                 </CardContent>
             </Card>
 

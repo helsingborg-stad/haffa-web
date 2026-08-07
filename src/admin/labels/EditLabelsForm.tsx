@@ -87,8 +87,11 @@ export const EditLabelsForm: FC<{
                                                 : 'false',
                                         })
                                     }
-                                    inputProps={{
-                                        'aria-label': 'Visa referensnummer',
+                                    slotProps={{
+                                        input: {
+                                            'aria-label':
+                                                'Visa referensnummer',
+                                        },
                                     }}
                                 />
                             }
@@ -106,8 +109,10 @@ export const EditLabelsForm: FC<{
                                                 : 'false',
                                         })
                                     }
-                                    inputProps={{
-                                        'aria-label': 'Visa annonstitel',
+                                    slotProps={{
+                                        input: {
+                                            'aria-label': 'Visa annonstitel',
+                                        },
                                     }}
                                 />
                             }

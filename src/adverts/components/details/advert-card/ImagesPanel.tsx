@@ -52,7 +52,7 @@ const SwiperCarousel: FC<{ images: AdvertImage[] }> = ({ images }) => {
                     ...swiperStyle,
                 }}
                 slidesPerView={1}
-                loop
+                loop={images.length > 1}
                 navigation
                 pagination={{ clickable: true }}
                 modules={[Pagination, Navigation]}
@@ -118,7 +118,7 @@ const SwiperCarousel: FC<{ images: AdvertImage[] }> = ({ images }) => {
                             position: 'relative',
                         }}
                         slidesPerView={1}
-                        loop
+                        loop={backdropImages.length > 1}
                         navigation
                         pagination={{ clickable: true }}
                         modules={[Pagination, Navigation]}

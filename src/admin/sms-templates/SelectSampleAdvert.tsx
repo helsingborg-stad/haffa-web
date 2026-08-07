@@ -39,14 +39,7 @@ export const SelectSampleAdvert: FC<
             getOptionLabel={(advert) => advert.title}
             isOptionEqualToValue={(a, b) => a.id === b.id}
             renderInput={(params) => (
-                <TextField
-                    {...props}
-                    {...params}
-                    InputProps={{
-                        ...params.InputProps,
-                        type: 'search',
-                    }}
-                />
+                <TextField {...props} {...params} type="search" />
             )}
         />
     )

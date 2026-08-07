@@ -478,5 +478,12 @@ export const AppRouter: FC = () => {
             summaries
         )
     )
-    return <RouterProvider router={router} />
+    return (
+        <RouterProvider
+            router={router}
+            future={{
+                v7_startTransition: true,
+            }}
+        />
+    )
 }

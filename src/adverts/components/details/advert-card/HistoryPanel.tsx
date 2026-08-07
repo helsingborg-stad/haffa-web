@@ -19,7 +19,7 @@ import type { ServerSideLogEvent } from 'statistics/types'
 const PAGE_SIZE = 5
 
 const EventsCard: FC<{ events: ServerSideLogEvent[] }> = ({ events }) => {
-    const { prettyDate, phrase } = useContext(PhraseContext)
+    const { prettyDate } = useContext(PhraseContext)
     const [index, setIndex] = useState(PAGE_SIZE)
 
     return (
@@ -46,7 +46,7 @@ const EventsCard: FC<{ events: ServerSideLogEvent[] }> = ({ events }) => {
                                     variant="subtitle2"
                                     component="span"
                                 >
-                                    {phrase(event, event)}
+                                    {event}
                                 </Typography>
                                 <Typography>{by}</Typography>
                             </TimelineContent>

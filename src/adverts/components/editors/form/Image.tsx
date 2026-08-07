@@ -1,7 +1,8 @@
 import DeleteIcon from '@mui/icons-material/Delete'
 import MoveDownIcon from '@mui/icons-material/MoveDown'
 import MoveUpIcon from '@mui/icons-material/MoveUp'
-import { Box, ButtonGroup, Grid, IconButton } from '@mui/material'
+import { Box, ButtonGroup, IconButton } from '@mui/material'
+import { Grid } from 'components/LegacyGrid'
 import type { FC, PropsWithChildren } from 'react'
 
 export const ImageContainer: FC<PropsWithChildren> = ({ children }) => (
