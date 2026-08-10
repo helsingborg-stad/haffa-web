@@ -208,27 +208,28 @@ export const AdvertsTableView: FC<{
             markAdvertsAsUnpicked: () =>
                 bulkUpdateAdverts((id) => markAdvertAsUnpicked(String(id))),
             collectClaimsManually: () =>
-                bulkUpdateAdverts((id) =>
-                    Promise.all(
-                        (
-                            data.adverts.find((a) => a.id === id)?.meta
-                                .claims ?? []
-                        )
-                            .filter(
-                                (claim) =>
-                                    claim.canConvert &&
-                                    claim.type !== AdvertClaimType.collected
-                            )
-                            .map((claim) =>
-                                convertAdvertClaim(
-                                    String(id),
-                                    claim,
-                                    AdvertClaimType.collected,
-                                    null
-                                )
-                            )
+                bulkUpdateAdverts((id) => {
+                    const eligibleClaims = (
+                        data.adverts.find((a) => a.id === id)?.meta.claims ?? []
+                    ).filter(
+                        (claim) =>
+                            claim.canConvert &&
+                            claim.type !== AdvertClaimType.collected
                     )
-                ),
+                    if (eligibleClaims.length !== 1) {
+                        return Promise.reject(
+                            new Error(
+                                `Expected exactly one eligible claim for advert ${id}, found ${eligibleClaims.length}`
+                            )
+                        )
+                    }
+                    return convertAdvertClaim(
+                        String(id),
+                        eligibleClaims[0],
+                        AdvertClaimType.collected,
+                        null
+                    )
+                }),
             createAdvertLabels: () =>
                 window.open(
                     `/api/v1/labels/${selected.toString()}`,
