@@ -8,6 +8,7 @@ import {
     type AdvertRestrictionsFilterInput,
     AdvertsContext,
 } from 'adverts'
+import { getManuallyCollectableClaims } from 'adverts/claims'
 import { AdvertClaimType } from 'adverts/types'
 import { AuthContext } from 'auth'
 import { ErrorView } from 'errors'
@@ -209,12 +210,8 @@ export const AdvertsTableView: FC<{
                 bulkUpdateAdverts((id) => markAdvertAsUnpicked(String(id))),
             collectClaimsManually: () =>
                 bulkUpdateAdverts((id) => {
-                    const eligibleClaims = (
+                    const eligibleClaims = getManuallyCollectableClaims(
                         data.adverts.find((a) => a.id === id)?.meta.claims ?? []
-                    ).filter(
-                        (claim) =>
-                            claim.canConvert &&
-                            claim.type !== AdvertClaimType.collected
                     )
                     if (eligibleClaims.length !== 1) {
                         return Promise.reject(

@@ -11,7 +11,7 @@ import TextSnippetIcon from '@mui/icons-material/TextSnippet'
 import UnarchiveIcon from '@mui/icons-material/Unarchive'
 import WarehouseIcon from '@mui/icons-material/Warehouse'
 import WhereToVoteIcon from '@mui/icons-material/WhereToVote'
-import { AdvertClaimType } from 'adverts/types'
+import { getManuallyCollectableClaims } from 'adverts/claims'
 import type { HaffaUserRoles } from 'auth'
 import { uniqueBy } from 'lib/unique-by'
 import type { PhraseContextType } from 'phrases'
@@ -86,11 +86,7 @@ export const createBulkActions = ({
             enabled: () =>
                 selectionMatches(
                     ({ meta: { claims } }) =>
-                        claims.filter(
-                            (claim) =>
-                                claim.canConvert &&
-                                claim.type !== AdvertClaimType.collected
-                        ).length === 1
+                        getManuallyCollectableClaims(claims).length === 1
                 ),
             action: collectClaimsManually,
         }),

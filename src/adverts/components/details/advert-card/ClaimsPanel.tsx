@@ -36,6 +36,7 @@ import {
     useState,
 } from 'react'
 import type { Terms } from 'terms/types'
+import { isManuallyCollectableClaim } from '../../../claims'
 import {
     type Advert,
     type AdvertClaim,
@@ -291,7 +292,7 @@ const ActionButtons: FC<{
                       })
                     : null,
 
-                claim.canConvert && claim.type !== AdvertClaimType.collected
+                isManuallyCollectableClaim(claim)
                     ? makeButton({
                           label: phrase(
                               'ADVERT_CLAIMS_COLLECT_MANUALLY',
