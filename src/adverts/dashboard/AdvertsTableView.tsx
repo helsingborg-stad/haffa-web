@@ -8,6 +8,7 @@ import {
     type AdvertRestrictionsFilterInput,
     AdvertsContext,
 } from 'adverts'
+import { AdvertClaimType } from 'adverts/types'
 import { AuthContext } from 'auth'
 import { ErrorView } from 'errors'
 import useAbortController from 'hooks/use-abort-controller'
@@ -48,6 +49,7 @@ export const AdvertsTableView: FC<{
         unarchiveAdvert,
         markAdvertAsPicked,
         markAdvertAsUnpicked,
+        convertAdvertClaim,
     } = useContext(AdvertsContext)
 
     const { phrase } = useContext(PhraseContext)
@@ -205,6 +207,28 @@ export const AdvertsTableView: FC<{
                 bulkUpdateAdverts((id) => markAdvertAsPicked(String(id))),
             markAdvertsAsUnpicked: () =>
                 bulkUpdateAdverts((id) => markAdvertAsUnpicked(String(id))),
+            collectClaimsManually: () =>
+                bulkUpdateAdverts((id) =>
+                    Promise.all(
+                        (
+                            data.adverts.find((a) => a.id === id)?.meta
+                                .claims ?? []
+                        )
+                            .filter(
+                                (claim) =>
+                                    claim.canConvert &&
+                                    claim.type !== AdvertClaimType.collected
+                            )
+                            .map((claim) =>
+                                convertAdvertClaim(
+                                    String(id),
+                                    claim,
+                                    AdvertClaimType.collected,
+                                    null
+                                )
+                            )
+                    )
+                ),
             createAdvertLabels: () =>
                 window.open(
                     `/api/v1/labels/${selected.toString()}`,
@@ -222,6 +246,7 @@ export const AdvertsTableView: FC<{
             bulkUpdateAdverts,
             markAdvertAsUnpicked,
             markAdvertAsPicked,
+            convertAdvertClaim,
         ]
     )
     const bulkActions = useMemo(
