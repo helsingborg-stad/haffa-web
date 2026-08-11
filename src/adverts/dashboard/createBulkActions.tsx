@@ -1,6 +1,7 @@
 import AddLocationIcon from '@mui/icons-material/AddLocation'
 import ArchiveIcon from '@mui/icons-material/Archive'
 import CategoryIcon from '@mui/icons-material/Category'
+import ChangeCircleIcon from '@mui/icons-material/ChangeCircle'
 import ContactPageIcon from '@mui/icons-material/ContactPage'
 import DateRangeIcon from '@mui/icons-material/DateRange'
 import LabelIcon from '@mui/icons-material/Label'
@@ -10,6 +11,7 @@ import TextSnippetIcon from '@mui/icons-material/TextSnippet'
 import UnarchiveIcon from '@mui/icons-material/Unarchive'
 import WarehouseIcon from '@mui/icons-material/Warehouse'
 import WhereToVoteIcon from '@mui/icons-material/WhereToVote'
+import { getManuallyCollectableClaims } from 'adverts/claims'
 import type { HaffaUserRoles } from 'auth'
 import { uniqueBy } from 'lib/unique-by'
 import type { PhraseContextType } from 'phrases'
@@ -47,6 +49,7 @@ export const createBulkActions = ({
     markAdvertsAsPicked,
     markAdvertsAsUnpicked,
     createAdvertLabels,
+    collectClaimsManually,
 }: AdvertsTableContextType & { roles: HaffaUserRoles } & Pick<
         PhraseContextType,
         'phrase'
@@ -72,6 +75,20 @@ export const createBulkActions = ({
             enabled: () =>
                 selectionMatches(({ meta: { canUnpick } }) => canUnpick),
             action: markAdvertsAsUnpicked,
+        }),
+        makeAction(roles.canEditOwnAdverts, {
+            key: 'collect-claims-manually',
+            label: phrase(
+                'ADVERT_CLAIMS_COLLECT_MANUALLY',
+                'Lämna ut manuellt'
+            ),
+            icon: <ChangeCircleIcon />,
+            enabled: () =>
+                selectionMatches(
+                    ({ meta: { claims } }) =>
+                        getManuallyCollectableClaims(claims).length === 1
+                ),
+            action: collectClaimsManually,
         }),
         makeAction(roles.canEditOwnAdverts, {
             key: 'tags',

@@ -33,6 +33,7 @@ export interface AdvertsTableContextType {
     markAdvertsAsPicked: () => any
     markAdvertsAsUnpicked: () => any
     createAdvertLabels: () => any
+    collectClaimsManually: () => any
 }
 export interface AdvertTableRow {
     id: string

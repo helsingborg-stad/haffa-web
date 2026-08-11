@@ -8,6 +8,8 @@ import {
     type AdvertRestrictionsFilterInput,
     AdvertsContext,
 } from 'adverts'
+import { getManuallyCollectableClaims } from 'adverts/claims'
+import { AdvertClaimType } from 'adverts/types'
 import { AuthContext } from 'auth'
 import { ErrorView } from 'errors'
 import useAbortController from 'hooks/use-abort-controller'
@@ -48,6 +50,7 @@ export const AdvertsTableView: FC<{
         unarchiveAdvert,
         markAdvertAsPicked,
         markAdvertAsUnpicked,
+        convertAdvertClaim,
     } = useContext(AdvertsContext)
 
     const { phrase } = useContext(PhraseContext)
@@ -205,6 +208,25 @@ export const AdvertsTableView: FC<{
                 bulkUpdateAdverts((id) => markAdvertAsPicked(String(id))),
             markAdvertsAsUnpicked: () =>
                 bulkUpdateAdverts((id) => markAdvertAsUnpicked(String(id))),
+            collectClaimsManually: () =>
+                bulkUpdateAdverts((id) => {
+                    const eligibleClaims = getManuallyCollectableClaims(
+                        data.adverts.find((a) => a.id === String(id))?.meta.claims ?? []
+                    )
+                    if (eligibleClaims.length !== 1) {
+                        return Promise.reject(
+                            new Error(
+                                `Expected exactly one eligible claim for advert ${id}, found ${eligibleClaims.length}`
+                            )
+                        )
+                    }
+                    return convertAdvertClaim(
+                        String(id),
+                        eligibleClaims[0],
+                        AdvertClaimType.collected,
+                        null
+                    )
+                }),
             createAdvertLabels: () =>
                 window.open(
                     `/api/v1/labels/${selected.toString()}`,
@@ -222,6 +244,7 @@ export const AdvertsTableView: FC<{
             bulkUpdateAdverts,
             markAdvertAsUnpicked,
             markAdvertAsPicked,
+            convertAdvertClaim,
         ]
     )
     const bulkActions = useMemo(
