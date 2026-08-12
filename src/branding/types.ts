@@ -19,26 +19,12 @@ declare module '@mui/material/styles' {
 
 export interface ThemeModel {
     'advert.image.aspectRatio': string
-    'palette.primary': string
-    'palette.secondary': string
-    'palette.error': string
-    'palette.warning': string
-    'palette.info': string
-    'palette.success': string
-    'palette.background': string
-    'palette.paper': string
-    'palette.text.primary': string
-    'palette.text.secondary': string
-    'palette.text.disabled': string
     'component.button.radius': string
     'component.button.elevation': string
     'component.appbar.variant': AppBarProps['variant']
     'component.appbar.border': string
-    'component.appbar.color': AppBarProps['color']
     'component.paper.variant': PaperProps['variant']
     'component.cardheader.variant': TypographyOwnProps['variant']
-    'component.avatar.bgcolor': string
-    'component.avatar.color': string
     'component.avatar.variant': AvatarProps['variant']
     'component.textfield.variant': TextFieldProps['variant']
     'component.alert.variant': AlertProps['variant']
@@ -47,4 +33,34 @@ export interface ThemeModel {
     'shape.radius': string
     'typography.font.family': string
     'cssbaseline.styleoverrides.fontface': string
+    // Light theme palette
+    'light.palette.primary': string
+    'light.palette.secondary': string
+    'light.palette.error': string
+    'light.palette.warning': string
+    'light.palette.info': string
+    'light.palette.success': string
+    'light.palette.background': string
+    'light.palette.paper': string
+    'light.palette.text.primary': string
+    'light.palette.text.secondary': string
+    'light.palette.text.disabled': string
+    'light.component.appbar.color': AppBarProps['color']
+    'light.component.avatar.bgcolor': string
+    'light.component.avatar.color': string
+    // dark theme palette
+    'dark.palette.primary': string
+    'dark.palette.secondary': string
+    'dark.palette.error': string
+    'dark.palette.warning': string
+    'dark.palette.info': string
+    'dark.palette.success': string
+    'dark.palette.background': string
+    'dark.palette.paper': string
+    'dark.palette.text.primary': string
+    'dark.palette.text.secondary': string
+    'dark.palette.text.disabled': string
+    'dark.component.appbar.color': AppBarProps['color']
+    'dark.component.avatar.bgcolor': string
+    'dark.component.avatar.color': string
 }

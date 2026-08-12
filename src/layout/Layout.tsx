@@ -1,3 +1,4 @@
+import DarkModeIcon from '@mui/icons-material/DarkMode'
 import LoginIcon from '@mui/icons-material/Login'
 import MenuIcon from '@mui/icons-material/Menu'
 import {
@@ -19,11 +20,13 @@ import {
     ListItemText,
     ListSubheader,
     Stack,
+    Switch,
     Toolbar,
     useMediaQuery,
     useTheme,
 } from '@mui/material'
 import { AuthContext, AuthenticatePanel } from 'auth'
+import { useDarkMode } from 'branding/DarkModeContext'
 import {
     type FC,
     forwardRef,
@@ -173,6 +176,7 @@ export const Layout: FC<
     const { APP_TITLE, phrase } = phrases
     const [drawer, setDrawer] = useState(false)
     const [authenticateDialog, setAuthenticateDialog] = useState(false)
+    const { darkMode, setDarkMode } = useDarkMode()
     const links = useMemo(
         () =>
             hideNavigation
@@ -304,6 +308,26 @@ export const Layout: FC<
                         {insideDrawerAdminLinks}
                     </List>
                 )}
+
+                <Divider key="darkmode-divider" />
+                <List key="darkmode">
+                    <ListItem
+                        secondaryAction={
+                            <Switch
+                                edge="end"
+                                checked={darkMode}
+                                onChange={(e) => setDarkMode(e.target.checked)}
+                            />
+                        }
+                    >
+                        <ListItemIcon>
+                            <DarkModeIcon />
+                        </ListItemIcon>
+                        <ListItemText
+                            primary={phrase('NAV_DARK_MODE', 'Mörkt läge')}
+                        />
+                    </ListItem>
+                </List>
             </Drawer>
 
             <Toolbar /* for pushing down content */ />
