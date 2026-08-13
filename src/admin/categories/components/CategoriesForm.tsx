@@ -93,31 +93,30 @@ export const CategoriesForm: FC<{
             expandedKeys: [ROOT_CATEGORY_ID],
         }
     )
-    const categoryTree = () => {
-        const muiTheme = useTheme()
-        const isDarkMode = muiTheme.palette.mode === 'dark'
-        const muiBg = muiTheme.palette.background.paper
-        const muiText = muiTheme.palette.text.primary
+    const muiTheme = useTheme()
+    const isDarkMode = muiTheme.palette.mode === 'dark'
+    const muiBg = muiTheme.palette.background.paper
+    const muiText = muiTheme.palette.text.primary
 
-        return (
-            <ConfigProvider
-                theme={{
-                    algorithm: isDarkMode
-                        ? theme.darkAlgorithm
-                        : theme.defaultAlgorithm,
-                    token: isDarkMode
-                        ? {
-                              colorBgContainer: muiBg,
-                              colorBgElevated: muiBg,
-                              colorText: muiText,
-                              colorBgTextHover: 'rgba(255, 255, 255, 0.08)',
-                          }
-                        : {},
-                }}
-            >
-                <Tree style={{ fontSize: 'x-large' }} {...treeProps} />
-            </ConfigProvider>
-        )
+    const categoryTree = () => (
+        <ConfigProvider
+            theme={{
+                algorithm: isDarkMode
+                    ? theme.darkAlgorithm
+                    : theme.defaultAlgorithm,
+                token: isDarkMode
+                    ? {
+                          colorBgContainer: muiBg,
+                          colorBgElevated: muiBg,
+                          colorText: muiText,
+                          colorBgTextHover: 'rgba(255, 255, 255, 0.08)',
+                      }
+                    : {},
+            }}
+        >
+            <Tree style={{ fontSize: 'x-large' }} {...treeProps} />
+        </ConfigProvider>
+    )
     }
     const categoryEditor = () => {
         const advertCount = selectedNode ? countAdverts(selectedNode) : 0
