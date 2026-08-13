@@ -27,7 +27,11 @@ export const ButtonSection = ({ model, patch: apply }: ThemeSectionProps) => (
                 <Grid item xs={12} sm={4} pr={1} key={key}>
                     <Typography>{label}</Typography>
                     {BUTTON_PREVIEWS.map((props, innerkey) => (
-                        <PreviewButton key={innerkey} {...props} variant={variant} />
+                        <PreviewButton
+                            key={innerkey}
+                            {...props}
+                            variant={variant}
+                        />
                     ))}
                 </Grid>
             ))}

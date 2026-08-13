@@ -76,8 +76,7 @@ export const createNavLinks: Func1<
               link(NAV_BROWSE, '/browse', <SearchIcon />),
               roles.canUseQRCode &&
                   link(SCAN_QR_CODE, '/scan', <QrCodeScannerIcon />),
-            menuitem(NAV_ABOUT_HAFFA, '/about', <InfoOutlinedIcon />),
-
+              menuitem(NAV_ABOUT_HAFFA, '/about', <InfoOutlinedIcon />),
           ]
         : [
               link(NAV_BROWSE, '/browse', <SearchIcon />),

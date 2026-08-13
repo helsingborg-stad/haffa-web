@@ -11,8 +11,9 @@ import {
     InputAdornment,
     Stack,
     TextField,
+    useTheme,
 } from '@mui/material'
-import { Tree } from 'antd'
+import { Tree, ConfigProvider, theme } from 'antd'
 import type { Category } from 'categories/types'
 import { AdminEditorialPanel } from 'components/AdminEditorialPanel'
 import { treeFind } from 'lib/tree-lookup'
@@ -92,9 +93,32 @@ export const CategoriesForm: FC<{
             expandedKeys: [ROOT_CATEGORY_ID],
         }
     )
-    const categoryTree = () => (
-        <Tree style={{ fontSize: 'x-large' }} {...treeProps} />
-    )
+    const categoryTree = () => {
+        const muiTheme = useTheme()
+        const isDarkMode = muiTheme.palette.mode === 'dark'
+        const muiBg = muiTheme.palette.background.paper
+        const muiText = muiTheme.palette.text.primary
+
+        return (
+            <ConfigProvider
+                theme={{
+                    algorithm: isDarkMode
+                        ? theme.darkAlgorithm
+                        : theme.defaultAlgorithm,
+                    token: isDarkMode
+                        ? {
+                              colorBgContainer: muiBg,
+                              colorBgElevated: muiBg,
+                              colorText: muiText,
+                              colorBgTextHover: 'rgba(255, 255, 255, 0.08)',
+                          }
+                        : {},
+                }}
+            >
+                <Tree style={{ fontSize: 'x-large' }} {...treeProps} />
+            </ConfigProvider>
+        )
+    }
     const categoryEditor = () => {
         const advertCount = selectedNode ? countAdverts(selectedNode) : 0
         const {

@@ -211,7 +211,8 @@ export const AdvertsTableView: FC<{
             collectClaimsManually: () =>
                 bulkUpdateAdverts((id) => {
                     const eligibleClaims = getManuallyCollectableClaims(
-                        data.adverts.find((a) => a.id === String(id))?.meta.claims ?? []
+                        data.adverts.find((a) => a.id === String(id))?.meta
+                            .claims ?? []
                     )
                     if (eligibleClaims.length !== 1) {
                         return Promise.reject(

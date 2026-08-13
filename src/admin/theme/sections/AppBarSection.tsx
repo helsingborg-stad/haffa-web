@@ -2,7 +2,11 @@ import { AppBar, type AppBarProps, Grid, Typography } from '@mui/material'
 import { CreateMenuItems, RegularSelect } from '../components/RegularSelect'
 import type { ThemeModeSectionProps } from './types'
 
-export const AppBarSection = ({ mode, model, patch }: ThemeModeSectionProps) => (
+export const AppBarSection = ({
+    mode,
+    model,
+    patch,
+}: ThemeModeSectionProps) => (
     <>
         <Typography variant="h6" py={2}>
             Menybar
