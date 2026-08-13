@@ -1,4 +1,10 @@
-import { Card, CardContent, CssBaseline, ThemeProvider, Typography } from '@mui/material'
+import {
+    Card,
+    CardContent,
+    CssBaseline,
+    ThemeProvider,
+    Typography,
+} from '@mui/material'
 import {
     createCustomTheme,
     createThemeModel,
@@ -13,6 +19,7 @@ import type { Option } from '../../options/types'
 import { AppBarSection } from './sections/AppBarSection'
 import { AvatarSection } from './sections/AvatarSection'
 import { ButtonSection } from './sections/ButtonSection'
+import { DarkModeSection } from './sections/DarkModeSection'
 import { FontSection } from './sections/FontSection'
 import { LogotypeSection } from './sections/LogotypeSection'
 import { MediaSection } from './sections/MediaSection'
@@ -28,10 +35,12 @@ const ModeThemeCard: FC<{
     patch: (values: Partial<ThemeModel>) => void
 }> = ({ mode, model, patch }) => (
     <ThemeProvider theme={createCustomTheme(model, mode)}>
-        <Card sx={{ mb: 2}}>
+        <Card sx={{ mb: 2 }}>
             <CssBaseline />
             <CardContent>
-                <Typography variant="h5">{mode === 'dark' ? 'Mörkt' : 'Standard'} läge</Typography>
+                <Typography variant="h5">
+                    {mode === 'dark' ? 'Mörkt' : 'Standard'} läge
+                </Typography>
                 <PaletteSection mode={mode} model={model} patch={patch} />
                 <TextSection mode={mode} model={model} patch={patch} />
                 <ButtonSection model={model} patch={patch} />
@@ -82,6 +91,7 @@ export const EditThemeForm: FC<{
                         <MediaSection model={model} patch={patch} />
                         <LogotypeSection model={model} patch={patch} />
                         <FontSection model={model} patch={patch} />
+                        <DarkModeSection model={model} patch={patch} />
                     </CardContent>
                 </Card>
             </ThemeProvider>

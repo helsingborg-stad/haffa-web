@@ -19,6 +19,7 @@ declare module '@mui/material/styles' {
 
 export interface ThemeModel {
     'advert.image.aspectRatio': string
+    'darkmode.enabled': string
     'component.button.radius': string
     'component.button.elevation': string
     'component.appbar.variant': AppBarProps['variant']

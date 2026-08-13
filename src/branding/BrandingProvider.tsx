@@ -24,7 +24,7 @@ const BrandedView: FC<
         phraseOptions: Option[]
     }
 > = ({ children, themeOptions, phraseOptions }) => {
-    const [darkMode, setDarkMode] = useLocalStorage<boolean>(
+    const [storedDarkMode, setStoredDarkMode] = useLocalStorage<boolean>(
         'haffa_dark_mode',
         false
     )
@@ -32,6 +32,8 @@ const BrandedView: FC<
         () => createThemeModel(themeOptions),
         [themeOptions]
     )
+    const darkModeAllowed = themeModel['darkmode.enabled'] !== 'false'
+    const darkMode = darkModeAllowed && storedDarkMode
     const theme = useMemo(
         () => createCustomTheme(themeModel, darkMode ? 'dark' : 'light'),
         [themeModel, darkMode]
@@ -42,7 +44,13 @@ const BrandedView: FC<
 
     return (
         <ThemeProvider theme={theme}>
-            <DarkModeContext.Provider value={{ darkMode, setDarkMode }}>
+            <DarkModeContext.Provider
+                value={{
+                    darkMode,
+                    setDarkMode: setStoredDarkMode,
+                    darkModeAllowed,
+                }}
+            >
                 <PhraseContext.Provider
                     value={createPhraseContext(
                         toMap(

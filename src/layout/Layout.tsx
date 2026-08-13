@@ -176,7 +176,7 @@ export const Layout: FC<
     const { APP_TITLE, phrase } = phrases
     const [drawer, setDrawer] = useState(false)
     const [authenticateDialog, setAuthenticateDialog] = useState(false)
-    const { darkMode, setDarkMode } = useDarkMode()
+    const { darkMode, setDarkMode, darkModeAllowed } = useDarkMode()
     const links = useMemo(
         () =>
             hideNavigation
@@ -284,6 +284,12 @@ export const Layout: FC<
                 anchor="right"
                 open={drawer}
                 onClose={() => setDrawer(false)}
+                sx={{
+                    '& .MuiDrawer-paper': {
+                        width: 280,
+                        maxWidth: '90vw',
+                    },
+                }}
             >
                 <Toolbar>
                     <Box flex={1} />
@@ -309,25 +315,34 @@ export const Layout: FC<
                     </List>
                 )}
 
-                <Divider key="darkmode-divider" />
-                <List key="darkmode">
-                    <ListItem
-                        secondaryAction={
-                            <Switch
-                                edge="end"
-                                checked={darkMode}
-                                onChange={(e) => setDarkMode(e.target.checked)}
-                            />
-                        }
-                    >
-                        <ListItemIcon>
-                            <DarkModeIcon />
-                        </ListItemIcon>
-                        <ListItemText
-                            primary={phrase('NAV_DARK_MODE', 'Mörkt läge')}
-                        />
-                    </ListItem>
-                </List>
+                {darkModeAllowed && (
+                    <>
+                        <Divider key="darkmode-divider" />
+                        <List key="darkmode">
+                            <ListItem
+                                secondaryAction={
+                                    <Switch
+                                        edge="end"
+                                        checked={darkMode}
+                                        onChange={(e) =>
+                                            setDarkMode(e.target.checked)
+                                        }
+                                    />
+                                }
+                            >
+                                <ListItemIcon>
+                                    <DarkModeIcon />
+                                </ListItemIcon>
+                                <ListItemText
+                                    primary={phrase(
+                                        'NAV_DARK_MODE',
+                                        'Mörkt läge'
+                                    )}
+                                />
+                            </ListItem>
+                        </List>
+                    </>
+                )}
             </Drawer>
 
             <Toolbar /* for pushing down content */ />

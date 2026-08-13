@@ -14,6 +14,7 @@ export const getDefaultThemeModel = (): ThemeModel => {
 
     return {
         'advert.image.aspectRatio': '4:3',
+        'darkmode.enabled': 'true',
         'component.button.radius': '12',
         'component.button.elevation': 'true',
         'component.appbar.variant': 'outlined',
@@ -64,6 +65,7 @@ export const getDefaultThemeModel = (): ThemeModel => {
 
 const ThemModelKeys = new Set<keyof ThemeModel>([
     'advert.image.aspectRatio',
+    'darkmode.enabled',
     'component.button.radius',
     'component.button.elevation',
     'component.appbar.variant',
