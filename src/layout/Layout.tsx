@@ -327,6 +327,12 @@ export const Layout: FC<
                                         onChange={(e) =>
                                             setDarkMode(e.target.checked)
                                         }
+                                        inputProps={{
+                                            'aria-label': phrase(
+                                                'NAV_DARK_MODE',
+                                                'Mörkt läge'
+                                            ),
+                                        }}
                                     />
                                 }
                             >
