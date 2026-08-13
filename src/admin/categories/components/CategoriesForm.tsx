@@ -13,7 +13,7 @@ import {
     TextField,
     useTheme,
 } from '@mui/material'
-import { Tree, ConfigProvider, theme } from 'antd'
+import { ConfigProvider, Tree, theme } from 'antd'
 import type { Category } from 'categories/types'
 import { AdminEditorialPanel } from 'components/AdminEditorialPanel'
 import { treeFind } from 'lib/tree-lookup'
@@ -117,7 +117,6 @@ export const CategoriesForm: FC<{
             <Tree style={{ fontSize: 'x-large' }} {...treeProps} />
         </ConfigProvider>
     )
-    }
     const categoryEditor = () => {
         const advertCount = selectedNode ? countAdverts(selectedNode) : 0
         const {
