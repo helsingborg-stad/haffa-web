@@ -1,11 +1,13 @@
 import { CssBaseline, ThemeProvider } from '@mui/material'
 import useAsync from 'hooks/use-async'
+import useLocalStorage from 'hooks/use-local-storage'
 import { toMap } from 'lib/to-map'
 import { PhraseContext } from 'phrases'
 import { createPhraseContext } from 'phrases/create-phrase-context'
 import { type FC, type PropsWithChildren, useMemo } from 'react'
 import type { Option } from '../options/types'
 import { AdvertImageSettingsContext } from './AdvertImageSettingsContext'
+import { DarkModeContext } from './DarkModeContext'
 import { createCustomTheme, createThemeModel } from './theme-factory'
 
 const parseAspectRatio = (ar: string): number | null => {
@@ -22,32 +24,49 @@ const BrandedView: FC<
         phraseOptions: Option[]
     }
 > = ({ children, themeOptions, phraseOptions }) => {
+    const [storedDarkMode, setStoredDarkMode] = useLocalStorage<boolean>(
+        'haffa_dark_mode',
+        false
+    )
     const themeModel = useMemo(
         () => createThemeModel(themeOptions),
         [themeOptions]
     )
-    const theme = useMemo(() => createCustomTheme(themeModel), [themeModel])
+    const darkModeAllowed = themeModel['darkmode.enabled'] !== 'false'
+    const darkMode = darkModeAllowed && storedDarkMode
+    const theme = useMemo(
+        () => createCustomTheme(themeModel, darkMode ? 'dark' : 'light'),
+        [themeModel, darkMode]
+    )
 
     const advertImageAspectRatio =
         parseAspectRatio(themeModel['advert.image.aspectRatio']) || 4 / 3
 
     return (
         <ThemeProvider theme={theme}>
-            <PhraseContext.Provider
-                value={createPhraseContext(
-                    toMap(
-                        phraseOptions,
-                        ({ key }) => key,
-                        ({ value }) => value
-                    )
-                )}
+            <DarkModeContext.Provider
+                value={{
+                    darkMode,
+                    setDarkMode: setStoredDarkMode,
+                    darkModeAllowed,
+                }}
             >
-                <AdvertImageSettingsContext.Provider
-                    value={{ advertImageAspectRatio }}
+                <PhraseContext.Provider
+                    value={createPhraseContext(
+                        toMap(
+                            phraseOptions,
+                            ({ key }) => key,
+                            ({ value }) => value
+                        )
+                    )}
                 >
-                    {children}
-                </AdvertImageSettingsContext.Provider>
-            </PhraseContext.Provider>
+                    <AdvertImageSettingsContext.Provider
+                        value={{ advertImageAspectRatio }}
+                    >
+                        {children}
+                    </AdvertImageSettingsContext.Provider>
+                </PhraseContext.Provider>
+            </DarkModeContext.Provider>
         </ThemeProvider>
     )
 }
