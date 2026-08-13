@@ -22,7 +22,7 @@ jobs:
                   gdi-gitops-token: ${{ secrets.GDI_GITOPS_TOKEN }}
                   gdi-gitops-app: ${{ secrets.GDI_GITOPS_APP }}
                   gdi-gitops-env: production
-                  git-checkout-branch: dark-mode
+                  git-checkout-branch: ${{ github.event.release.target_commitish }}
 
                   docker-username: ${{ github.repository_owner }}
                   docker-password: ${{ secrets.GITHUB_TOKEN }}
