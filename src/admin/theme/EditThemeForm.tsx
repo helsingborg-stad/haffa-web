@@ -14,7 +14,7 @@ import {
 import type { ThemeModel } from 'branding/types'
 import { AdminActionPanel } from 'components/AdminActionPanel'
 import { AdminEditorialPanel } from 'components/AdminEditorialPanel'
-import { type FC, useState } from 'react'
+import { type FC, useMemo, useState } from 'react'
 import type { Option } from '../../options/types'
 import { AppBarSection } from './sections/AppBarSection'
 import { AvatarSection } from './sections/AvatarSection'
@@ -33,25 +33,29 @@ const ModeThemeCard: FC<{
     mode: 'light' | 'dark'
     model: ThemeModel
     patch: (values: Partial<ThemeModel>) => void
-}> = ({ mode, model, patch }) => (
-    <ThemeProvider theme={createCustomTheme(model, mode)}>
-        <Card sx={{ mb: 2 }}>
-            <CssBaseline />
-            <CardContent>
-                <Typography variant="h5">
-                    {mode === 'dark' ? 'Mörkt' : 'Standard'} läge
-                </Typography>
-                <PaletteSection mode={mode} model={model} patch={patch} />
-                <TextSection mode={mode} model={model} patch={patch} />
-                <ButtonSection model={model} patch={patch} />
-                <NoticesSection model={model} patch={patch} />
-                <TextFieldSection model={model} patch={patch} />
-                <AppBarSection mode={mode} model={model} patch={patch} />
-                <AvatarSection mode={mode} model={model} patch={patch} />
-            </CardContent>
-        </Card>
-    </ThemeProvider>
-)
+}> = ({ mode, model, patch }) => {
+    const theme = useMemo(() => createCustomTheme(model, mode), [model, mode])
+
+    return (
+        <ThemeProvider theme={theme}>
+            <Card sx={{ mb: 2 }}>
+                <CssBaseline />
+                <CardContent>
+                    <Typography variant="h5">
+                        {mode === 'dark' ? 'Mörkt' : 'Standard'} läge
+                    </Typography>
+                    <PaletteSection mode={mode} model={model} patch={patch} />
+                    <TextSection mode={mode} model={model} patch={patch} />
+                    <ButtonSection model={model} patch={patch} />
+                    <NoticesSection model={model} patch={patch} />
+                    <TextFieldSection model={model} patch={patch} />
+                    <AppBarSection mode={mode} model={model} patch={patch} />
+                    <AvatarSection mode={mode} model={model} patch={patch} />
+                </CardContent>
+            </Card>
+        </ThemeProvider>
+    )
+}
 
 export const EditThemeForm: FC<{
     options: Option[]
@@ -68,6 +72,8 @@ export const EditThemeForm: FC<{
     const save = () => onUpdate(createThemeOptions(model))
     const restore = () => setModel(getDefaultThemeModel())
 
+    const lightTheme = useMemo(() => createCustomTheme(model, 'light'), [model])
+
     return (
         <>
             <AdminEditorialPanel
@@ -83,7 +89,7 @@ export const EditThemeForm: FC<{
             <ModeThemeCard mode="light" model={model} patch={patch} />
             <ModeThemeCard mode="dark" model={model} patch={patch} />
 
-            <ThemeProvider theme={createCustomTheme(model, 'light')}>
+            <ThemeProvider theme={lightTheme}>
                 <Card>
                     <CssBaseline />
                     <CardContent>
