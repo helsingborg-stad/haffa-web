@@ -1,5 +1,5 @@
 import { Alert, Box, Typography, useTheme } from '@mui/material'
-import { lightGreen } from '@mui/material/colors'
+import { alpha } from '@mui/material/styles'
 import type { Advert } from 'adverts'
 import type { Category } from 'categories/types'
 import { Markdown } from 'components/Markdown'
@@ -21,7 +21,7 @@ const Descriptions: FC<{ advert: Advert; category: Category | null }> = ({
                         mb: 2,
                         p: 1,
                         borderRadius: '20px',
-                        background: `linear-gradient(90deg, ${lightGreen[50]} 20%, ${palette.background.paper} 80%)`,
+                        background: `linear-gradient(90deg, ${alpha(palette.success.main, 0.15)} 20%, ${palette.background.paper} 80%)`,
                     }}
                 >
                     <Typography>
