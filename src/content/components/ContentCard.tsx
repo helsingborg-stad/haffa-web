@@ -6,7 +6,9 @@ import {
     CardMedia,
     Stack,
     Typography,
+    useTheme,
 } from '@mui/material'
+import { darken, getLuminance, lighten } from '@mui/material/styles'
 import type { Variant } from '@mui/material/styles/createTypography'
 import { AdvertsListGeneric } from 'adverts/components/listings/AdvertsListGeneric'
 import { Markdown } from 'components/Markdown'
@@ -27,9 +29,18 @@ const getStackDirection = (position: ContentModule['position']): any =>
         top: 'column',
     })[position] ?? 'column'
 
+// Admin-picked module colors are authored for a light background. In dark
+// mode, nudge them for contrast rather than rendering them verbatim.
+const adaptBackgroundToMode = (color: string, mode: 'light' | 'dark') =>
+    mode === 'dark' && getLuminance(color) > 0.5 ? darken(color, 0.7) : color
+
+const adaptTextToMode = (color: string, mode: 'light' | 'dark') =>
+    mode === 'dark' && getLuminance(color) < 0.5 ? lighten(color, 0.7) : color
+
 export const ContentCard = (
     props: PropsWithChildren & { module: ContentModule; summaries: Summaries }
 ) => {
+    const { palette } = useTheme()
     const module = {
         ...props.module,
         title: compile(props.module.title)(props.summaries),
@@ -42,17 +53,22 @@ export const ContentCard = (
                   border: 0,
               }
             : {}
-    const background = isValidColor(module.background)
-        ? {
-              backgroundColor: module.background,
-          }
-        : {}
 
-    const color = isValidColor(module.color)
-        ? {
-              color: module.color,
-          }
-        : {}
+    const backgroundColor =
+        palette.mode === 'dark' && isValidColor(module.darkBackground)
+            ? module.darkBackground
+            : isValidColor(module.background)
+              ? adaptBackgroundToMode(module.background, palette.mode)
+              : undefined
+    const background = backgroundColor ? { backgroundColor } : {}
+
+    const textColor =
+        palette.mode === 'dark' && isValidColor(module.darkColor)
+            ? module.darkColor
+            : isValidColor(module.color)
+              ? adaptTextToMode(module.color, palette.mode)
+              : undefined
+    const color = textColor ? { color: textColor } : {}
 
     return (
         <Card

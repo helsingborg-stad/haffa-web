@@ -39,7 +39,9 @@ const labelFrom = (key: keyof ContentModule): string =>
         align: 'Textjustering',
         border: 'Ram',
         background: 'Bakgrundsfärg',
+        darkBackground: 'Bakgrundsfärg (mörkt läge)',
         color: 'Färg',
+        darkColor: 'Färg (mörkt läge)',
         image: 'Bild',
         alt: 'Alt-text',
         position: 'Bildposition',
@@ -145,6 +147,7 @@ export const PropertyEditor = (props: PropertyEditorProps) => {
                                     />
                                 )
                             case 'color':
+                            case 'darkColor':
                                 return (
                                     <ColorSelect
                                         allowEmpty
@@ -198,6 +201,7 @@ export const PropertyEditor = (props: PropertyEditorProps) => {
                                     </TextField>
                                 )
                             case 'background':
+                            case 'darkBackground':
                                 return (
                                     <ColorSelect
                                         allowEmpty
