@@ -6,3 +6,10 @@ export const isManuallyCollectableClaim = (claim: AdvertClaim): boolean =>
 export const getManuallyCollectableClaims = (
     claims: AdvertClaim[]
 ): AdvertClaim[] => claims.filter(isManuallyCollectableClaim)
+
+export const isCancelableCollectedClaim = (claim: AdvertClaim): boolean =>
+    claim.canCancel && claim.type === AdvertClaimType.collected
+
+export const getCancelableCollectedClaims = (
+    claims: AdvertClaim[]
+): AdvertClaim[] => claims.filter(isCancelableCollectedClaim)

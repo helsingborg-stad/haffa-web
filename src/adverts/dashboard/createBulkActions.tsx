@@ -1,5 +1,6 @@
 import AddLocationIcon from '@mui/icons-material/AddLocation'
 import ArchiveIcon from '@mui/icons-material/Archive'
+import CancelIcon from '@mui/icons-material/Cancel'
 import CategoryIcon from '@mui/icons-material/Category'
 import ChangeCircleIcon from '@mui/icons-material/ChangeCircle'
 import ContactPageIcon from '@mui/icons-material/ContactPage'
@@ -11,7 +12,10 @@ import TextSnippetIcon from '@mui/icons-material/TextSnippet'
 import UnarchiveIcon from '@mui/icons-material/Unarchive'
 import WarehouseIcon from '@mui/icons-material/Warehouse'
 import WhereToVoteIcon from '@mui/icons-material/WhereToVote'
-import { getManuallyCollectableClaims } from 'adverts/claims'
+import {
+    getCancelableCollectedClaims,
+    getManuallyCollectableClaims,
+} from 'adverts/claims'
 import type { HaffaUserRoles } from 'auth'
 import { uniqueBy } from 'lib/unique-by'
 import type { PhraseContextType } from 'phrases'
@@ -50,6 +54,7 @@ export const createBulkActions = ({
     markAdvertsAsUnpicked,
     createAdvertLabels,
     collectClaimsManually,
+    cancelCollectedClaims,
 }: AdvertsTableContextType & { roles: HaffaUserRoles } & Pick<
         PhraseContextType,
         'phrase'
@@ -89,6 +94,17 @@ export const createBulkActions = ({
                         getManuallyCollectableClaims(claims).length === 1
                 ),
             action: collectClaimsManually,
+        }),
+        makeAction(roles.canEditOwnAdverts, {
+            key: 'cancel-collected-claims',
+            label: phrase('ADVERT_CLAIMS_CANCEL_COLLECT', 'Ångra hämtning'),
+            icon: <CancelIcon />,
+            enabled: () =>
+                selectionMatches(
+                    ({ meta: { claims } }) =>
+                        getCancelableCollectedClaims(claims).length === 1
+                ),
+            action: cancelCollectedClaims,
         }),
         makeAction(roles.canEditOwnAdverts, {
             key: 'tags',

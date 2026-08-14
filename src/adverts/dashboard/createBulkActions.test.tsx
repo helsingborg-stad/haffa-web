@@ -18,10 +18,12 @@ const makeContext = ({
     claims = [],
     canEditOwnAdverts = true,
     collectClaimsManually = vi.fn(),
+    cancelCollectedClaims = vi.fn(),
 }: {
     claims?: AdvertClaim[]
     canEditOwnAdverts?: boolean
     collectClaimsManually?: () => any
+    cancelCollectedClaims?: () => any
 } = {}) =>
     ({
         phrase: (_key: string, defaultTemplate: string) => defaultTemplate,
@@ -35,6 +37,7 @@ const makeContext = ({
         markAdvertsAsUnpicked: vi.fn(),
         createAdvertLabels: vi.fn(),
         collectClaimsManually,
+        cancelCollectedClaims,
     }) as unknown as Parameters<typeof createBulkActions>[0]
 
 const getAction = (context: ReturnType<typeof makeContext>) =>
@@ -106,5 +109,96 @@ describe('createBulkActions - collect-claims-manually', () => {
         action?.action()
 
         expect(collectClaimsManually).toHaveBeenCalledTimes(1)
+    })
+})
+
+const getCancelAction = (context: ReturnType<typeof makeContext>) =>
+    createBulkActions(context).find(
+        ({ key }) => key === 'cancel-collected-claims'
+    )
+
+describe('createBulkActions - cancel-collected-claims', () => {
+    it('is not included when the user lacks canEditOwnAdverts', () => {
+        const context = makeContext({
+            canEditOwnAdverts: false,
+            claims: [makeClaim({ type: AdvertClaimType.collected })],
+        })
+
+        expect(getCancelAction(context)).toBeUndefined()
+    })
+
+    it('has the expected label and icon', () => {
+        const action = getCancelAction(
+            makeContext({
+                claims: [makeClaim({ type: AdvertClaimType.collected })],
+            })
+        )
+
+        expect(action?.label).toBe('Ångra hämtning')
+        expect(action?.icon).toBeTruthy()
+    })
+
+    it('is enabled when exactly one cancelable collected claim exists', () => {
+        const action = getCancelAction(
+            makeContext({
+                claims: [makeClaim({ type: AdvertClaimType.collected })],
+            })
+        )
+
+        expect(action?.enabled()).toBe(true)
+    })
+
+    it('is disabled when there are no claims', () => {
+        const action = getCancelAction(makeContext({ claims: [] }))
+
+        expect(action?.enabled()).toBe(false)
+    })
+
+    it('is disabled when there is more than one cancelable collected claim', () => {
+        const action = getCancelAction(
+            makeContext({
+                claims: [
+                    makeClaim({ type: AdvertClaimType.collected }),
+                    makeClaim({ type: AdvertClaimType.collected }),
+                ],
+            })
+        )
+
+        expect(action?.enabled()).toBe(false)
+    })
+
+    it('is disabled when the claim cannot be canceled', () => {
+        const action = getCancelAction(
+            makeContext({
+                claims: [
+                    makeClaim({
+                        type: AdvertClaimType.collected,
+                        canCancel: false,
+                    }),
+                ],
+            })
+        )
+
+        expect(action?.enabled()).toBe(false)
+    })
+
+    it('is disabled when the claim is not collected', () => {
+        const action = getCancelAction(makeContext({ claims: [makeClaim()] }))
+
+        expect(action?.enabled()).toBe(false)
+    })
+
+    it('invokes cancelCollectedClaims when triggered', () => {
+        const cancelCollectedClaims = vi.fn()
+        const action = getCancelAction(
+            makeContext({
+                claims: [makeClaim({ type: AdvertClaimType.collected })],
+                cancelCollectedClaims,
+            })
+        )
+
+        action?.action()
+
+        expect(cancelCollectedClaims).toHaveBeenCalledTimes(1)
     })
 })
