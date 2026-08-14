@@ -8,7 +8,10 @@ import {
     type AdvertRestrictionsFilterInput,
     AdvertsContext,
 } from 'adverts'
-import { getManuallyCollectableClaims } from 'adverts/claims'
+import {
+    getCancelableCollectedClaims,
+    getManuallyCollectableClaims,
+} from 'adverts/claims'
 import { AdvertClaimType } from 'adverts/types'
 import { AuthContext } from 'auth'
 import { ErrorView } from 'errors'
@@ -51,6 +54,7 @@ export const AdvertsTableView: FC<{
         markAdvertAsPicked,
         markAdvertAsUnpicked,
         convertAdvertClaim,
+        cancelAdvertClaim,
     } = useContext(AdvertsContext)
 
     const { phrase } = useContext(PhraseContext)
@@ -228,6 +232,25 @@ export const AdvertsTableView: FC<{
                         null
                     )
                 }),
+            cancelCollectedClaims: () =>
+                bulkUpdateAdverts((id) => {
+                    const eligibleClaims = getCancelableCollectedClaims(
+                        data.adverts.find((a) => a.id === String(id))?.meta
+                            .claims ?? []
+                    )
+                    if (eligibleClaims.length !== 1) {
+                        return Promise.reject(
+                            new Error(
+                                `Expected exactly one eligible claim for advert ${id}, found ${eligibleClaims.length}`
+                            )
+                        )
+                    }
+                    return cancelAdvertClaim(
+                        String(id),
+                        eligibleClaims[0],
+                        null
+                    )
+                }),
             createAdvertLabels: () =>
                 window.open(
                     `/api/v1/labels/${selected.toString()}`,
@@ -246,6 +269,7 @@ export const AdvertsTableView: FC<{
             markAdvertAsUnpicked,
             markAdvertAsPicked,
             convertAdvertClaim,
+            cancelAdvertClaim,
         ]
     )
     const bulkActions = useMemo(

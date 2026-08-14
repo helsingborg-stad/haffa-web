@@ -1,5 +1,7 @@
 import {
+    getCancelableCollectedClaims,
     getManuallyCollectableClaims,
+    isCancelableCollectedClaim,
     isManuallyCollectableClaim,
 } from './claims'
 import { type AdvertClaim, AdvertClaimType } from './types'
@@ -56,6 +58,59 @@ describe('getManuallyCollectableClaims', () => {
             getManuallyCollectableClaims([
                 makeClaim({ canConvert: false }),
                 makeClaim({ type: AdvertClaimType.collected }),
+            ])
+        ).toEqual([])
+    })
+})
+
+describe('isCancelableCollectedClaim', () => {
+    it('is true for a cancelable, collected claim', () => {
+        expect(
+            isCancelableCollectedClaim(
+                makeClaim({ type: AdvertClaimType.collected })
+            )
+        ).toBe(true)
+    })
+
+    it('is false when the claim cannot be canceled', () => {
+        expect(
+            isCancelableCollectedClaim(
+                makeClaim({ type: AdvertClaimType.collected, canCancel: false })
+            )
+        ).toBe(false)
+    })
+
+    it('is false when the claim is not collected', () => {
+        expect(isCancelableCollectedClaim(makeClaim())).toBe(false)
+    })
+})
+
+describe('getCancelableCollectedClaims', () => {
+    it('keeps only cancelable collected claims', () => {
+        const eligible = makeClaim({ type: AdvertClaimType.collected })
+        const notCancelable = makeClaim({
+            type: AdvertClaimType.collected,
+            canCancel: false,
+        })
+        const notCollected = makeClaim()
+
+        expect(
+            getCancelableCollectedClaims([
+                eligible,
+                notCancelable,
+                notCollected,
+            ])
+        ).toEqual([eligible])
+    })
+
+    it('returns an empty array when nothing is eligible', () => {
+        expect(
+            getCancelableCollectedClaims([
+                makeClaim({
+                    type: AdvertClaimType.collected,
+                    canCancel: false,
+                }),
+                makeClaim(),
             ])
         ).toEqual([])
     })
