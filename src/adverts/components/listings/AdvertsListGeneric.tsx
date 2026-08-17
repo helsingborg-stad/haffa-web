@@ -17,8 +17,9 @@ export const AdvertsListGeneric: FC<
     {
         defaultSearchParams: Partial<AdvertFilterInput>
         pageSize?: number
+        itemWidth?: { xs: number; sm: number }
     } & PropsWithChildren
-> = ({ defaultSearchParams, pageSize = 4 }) => {
+> = ({ defaultSearchParams, pageSize = 4, itemWidth }) => {
     const effectiveInitialSearchParams: AdvertFilterInput = useMemo(
         () => ({
             search: '',
@@ -72,6 +73,7 @@ export const AdvertsListGeneric: FC<
                             (c) => c.id,
                             (c) => c.categories
                         )}
+                        itemWidth={itemWidth}
                     />
                     <AdvertsListPagination
                         key="pagination-bottom"

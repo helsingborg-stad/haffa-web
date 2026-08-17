@@ -16,6 +16,7 @@ export const HomeView = (props: {
                         <ContentCard
                             module={column.module}
                             summaries={props.summaries}
+                            columns={row.columns.length}
                         />
                     </Grid>
                 ))}
