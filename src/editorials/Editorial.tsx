@@ -17,7 +17,7 @@ export const Editorial: FC<{
         !!content && (
             <Box sx={{ mb: 4, mt: 2 }}>
                 <Alert severity={severity || 'success'}>
-                    <Markdown markdown={content} />
+                    <Markdown markdown={content} nomargin />
                 </Alert>
             </Box>
         )
