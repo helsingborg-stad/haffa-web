@@ -11,8 +11,21 @@ const components: Components = {
     h6: ({ children }) => <Typography variant="h6">{children}</Typography>,
     a: ({ children, href }) => <Link href={href}>{children}</Link>,
 }
-export const Markdown: FC<{ markdown: string }> = ({ markdown }) => (
-    <Typography component="div">
+export const Markdown: FC<{ markdown: string; nomargin?: boolean }> = ({
+    markdown,
+    nomargin = false,
+}) => (
+    <Typography
+        component="div"
+        sx={
+            nomargin
+                ? {
+                      '& > *:first-child': { marginTop: 0 },
+                      '& > *:last-child': { marginBottom: 0 },
+                  }
+                : undefined
+        }
+    >
         <ReactMarkdown components={components}>{markdown}</ReactMarkdown>
     </Typography>
 )
