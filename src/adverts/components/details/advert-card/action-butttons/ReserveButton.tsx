@@ -1,5 +1,12 @@
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder'
-import { Button } from '@mui/material'
+import {
+    Button,
+    Dialog,
+    DialogActions,
+    DialogContent,
+    DialogTitle,
+    Stack,
+} from '@mui/material'
 import type { Advert } from 'adverts'
 import { NotificationsContext } from 'notifications'
 import { PhraseContext } from 'phrases/PhraseContext'
@@ -16,13 +23,30 @@ export const ReserveButton: FC<{
         open: boolean
         pickupLocations: PickupLocation[]
     }>({ open: false, pickupLocations: [] })
+    const [ownAdvertWarningOpen, setOwnAdvertWarningOpen] = useState(false)
     const { phrase } = useContext(PhraseContext)
     const { getPickupLocationsByAdvert } = useContext(PickupLocationContext)
     const { notifyIfError } = useContext(NotificationsContext)
 
     const {
-        meta: { canReserve, reservableQuantity },
+        meta: { canReserve, reservableQuantity, isMine },
     } = advert
+
+    const proceedToReserve = () =>
+        notifyIfError(async () => {
+            const pickupLocations = await getPickupLocationsByAdvert(advert)
+            canShowClaimDialog({
+                minCount: 1,
+                maxCount: reservableQuantity,
+                pickupLocations,
+            })
+                ? setClaimDialog({
+                      open: true,
+                      pickupLocations,
+                  })
+                : onReserve(1)
+        })
+
     return (
         <>
             <Button
@@ -34,24 +58,53 @@ export const ReserveButton: FC<{
                 disabled={!canReserve}
                 sx={{ mb: 1 }}
                 onClick={() =>
-                    notifyIfError(async () => {
-                        const pickupLocations =
-                            await getPickupLocationsByAdvert(advert)
-                        canShowClaimDialog({
-                            minCount: 1,
-                            maxCount: reservableQuantity,
-                            pickupLocations,
-                        })
-                            ? setClaimDialog({
-                                  open: true,
-                                  pickupLocations,
-                              })
-                            : onReserve(1)
-                    })
+                    isMine ? setOwnAdvertWarningOpen(true) : proceedToReserve()
                 }
             >
                 {phrase('ADVERT_RESERVE', 'Reservera')}
             </Button>
+
+            <Dialog
+                open={ownAdvertWarningOpen}
+                onClose={() => setOwnAdvertWarningOpen(false)}
+                fullWidth
+                maxWidth="sm"
+            >
+                <DialogTitle>
+                    {phrase(
+                        'ADVERT_RESERVE_OWN_ADVERT_WARNING_TITLE',
+                        'Reservera din egen annons?'
+                    )}
+                </DialogTitle>
+                <DialogContent>
+                    {phrase(
+                        'ADVERT_RESERVE_OWN_ADVERT_WARNING_TEXT',
+                        'Du håller på att reservera en annons som du själv har skapat. Vill du fortsätta?'
+                    )}
+                </DialogContent>
+                <DialogActions>
+                    <Stack spacing={2} direction="row" sx={{ width: '100%' }}>
+                        <Button
+                            fullWidth
+                            variant="outlined"
+                            onClick={() => setOwnAdvertWarningOpen(false)}
+                        >
+                            {phrase('CONFIRM_DIALOG_CANCEL', 'Nej, avbryt')}
+                        </Button>
+                        <Button
+                            fullWidth
+                            color="primary"
+                            variant="contained"
+                            onClick={() => {
+                                setOwnAdvertWarningOpen(false)
+                                proceedToReserve()
+                            }}
+                        >
+                            {phrase('CONFIRM_DIALOG_PROCEED', 'Ja, fortsätt')}
+                        </Button>
+                    </Stack>
+                </DialogActions>
+            </Dialog>
 
             <ClaimDialog
                 minCount={1}

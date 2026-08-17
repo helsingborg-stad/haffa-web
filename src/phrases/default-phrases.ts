@@ -47,6 +47,9 @@ export const defaultPhrases: Omit<
     ADVERT_REMOVE: 'Ta bort annonsen',
     ADVERT_COLLECT: 'Hämta pryl',
     ADVERT_RESERVE: 'Reservera',
+    ADVERT_RESERVE_OWN_ADVERT_WARNING_TITLE: 'Reservera din egen annons?',
+    ADVERT_RESERVE_OWN_ADVERT_WARNING_TEXT:
+        'Du håller på att reservera en annons som du själv har skapat. Vill du fortsätta?',
     ADVERT_RETURN: 'Återlämna',
     ADVERT_CANCEL_RESERVATION: 'Ångra mina reservationer',
     ADVERT_PRINT_QRCODE: 'Skriv ut QR',
