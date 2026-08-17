@@ -6,6 +6,7 @@ import {
     CardMedia,
     Stack,
     Typography,
+    useMediaQuery,
     useTheme,
 } from '@mui/material'
 import { darken, getLuminance, lighten } from '@mui/material/styles'
@@ -38,14 +39,33 @@ const adaptTextToMode = (color: string, mode: 'light' | 'dark') =>
     mode === 'dark' && getLuminance(color) < 0.5 ? lighten(color, 0.7) : color
 
 export const ContentCard = (
-    props: PropsWithChildren & { module: ContentModule; summaries: Summaries }
+    props: PropsWithChildren & {
+        module: ContentModule
+        summaries: Summaries
+        columns?: number
+    }
 ) => {
-    const { palette } = useTheme()
+    const theme = useTheme()
+    const { palette } = theme
     const module = {
         ...props.module,
         title: compile(props.module.title)(props.summaries),
         body: compile(props.module.body)(props.summaries),
     }
+
+    // Below the 'md' breakpoint, HomeView always stacks content cards full
+    // width, so keep 4 adverts per row there. At 'md' and up, a card sharing
+    // its row with other cards gets narrow, so show fewer, wider adverts to
+    // avoid cramming them.
+    const isDesktopColumn = useMediaQuery(theme.breakpoints.up('md'))
+    const columns = props.columns ?? 1
+    const advertsPerRow = !isDesktopColumn
+        ? 4
+        : columns >= 4
+          ? 1
+          : columns > 1
+            ? 2
+            : 4
 
     const borderLess =
         module.border === 'false'
@@ -149,6 +169,11 @@ export const ContentCard = (
                     {(isValidString(module.categories) ||
                         isValidString(module.tags)) && (
                         <AdvertsListGeneric
+                            pageSize={advertsPerRow}
+                            itemWidth={{
+                                xs: 12 / advertsPerRow,
+                                sm: 12 / advertsPerRow,
+                            }}
                             defaultSearchParams={{
                                 restrictions: {
                                     canBeReserved: true,

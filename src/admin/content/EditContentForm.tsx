@@ -216,6 +216,7 @@ export const EditContentForm = (props: {
                             <ContentCard
                                 module={column.module}
                                 summaries={summaries}
+                                columns={row.columns.length}
                             >
                                 {renderCardActions(
                                     { row: rowIndex, col: colIndex },

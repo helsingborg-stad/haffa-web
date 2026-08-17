@@ -8,7 +8,8 @@ import { AdvertListItem } from './AdvertListItem'
 export const AdvertsList: FC<{
     adverts: Advert[]
     categories: TreeAdapter<Category>
-}> = ({ adverts, categories }) => (
+    itemWidth?: { xs: number; sm: number }
+}> = ({ adverts, categories, itemWidth = { xs: 6, sm: 3 } }) => (
     <Grid
         container
         alignItems="stretch"
@@ -16,7 +17,7 @@ export const AdvertsList: FC<{
         spacing={2}
     >
         {adverts.map((advert) => (
-            <Grid item xs={6} sm={3} key={advert.id}>
+            <Grid item xs={itemWidth.xs} sm={itemWidth.sm} key={advert.id}>
                 <AdvertListItem
                     sx={{ height: '100%' }}
                     advert={advert}
