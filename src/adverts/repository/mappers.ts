@@ -1,6 +1,9 @@
 import type { AdvertContact, AdvertInput, AdvertLocation } from '../types'
 
-const toInt = (v: any): number => parseInt(v, 10)
+const toInt = (v: any, fallback = 0): number => {
+    const parsed = parseInt(v, 10)
+    return Number.isFinite(parsed) ? parsed : fallback
+}
 
 export const createEmptyAdvertInput = (): AdvertInput => ({
     title: '',
@@ -73,10 +76,10 @@ export const sanitizeAdvertInput = (
     ...createEmptyAdvertInput(),
     title,
     description,
-    quantity: toInt(quantity),
-    lendingPeriod: toInt(lendingPeriod),
-    co2kg: toInt(co2kg),
-    valueByUnit: toInt(valueByUnit),
+    quantity: toInt(quantity, 1),
+    lendingPeriod: toInt(lendingPeriod, 0),
+    co2kg: toInt(co2kg, 0),
+    valueByUnit: toInt(valueByUnit, 0),
     images,
     unit,
     width,
