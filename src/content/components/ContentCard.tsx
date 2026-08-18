@@ -38,6 +38,23 @@ const adaptBackgroundToMode = (color: string, mode: 'light' | 'dark') =>
 const adaptTextToMode = (color: string, mode: 'light' | 'dark') =>
     mode === 'dark' && getLuminance(color) < 0.5 ? lighten(color, 0.7) : color
 
+// Handlebars templates interpolate these numbers directly into
+// user-facing text, so format them with thousands separators first.
+const formatSummaries = (summaries: Summaries): Summaries =>
+    Object.fromEntries(
+        Object.entries(summaries).map(([key, group]) => [
+            key,
+            Object.fromEntries(
+                Object.entries(group as Record<string, number>).map(
+                    ([groupKey, value]) => [
+                        groupKey,
+                        value.toLocaleString('sv-SE'),
+                    ]
+                )
+            ),
+        ])
+    ) as unknown as Summaries
+
 export const ContentCard = (
     props: PropsWithChildren & {
         module: ContentModule
@@ -47,10 +64,12 @@ export const ContentCard = (
 ) => {
     const theme = useTheme()
     const { palette } = theme
+
+    const summaries = formatSummaries(props.summaries)
     const module = {
         ...props.module,
-        title: compile(props.module.title)(props.summaries),
-        body: compile(props.module.body)(props.summaries),
+        title: compile(props.module.title)(summaries),
+        body: compile(props.module.body)(summaries),
     }
 
     // Below the 'md' breakpoint, HomeView always stacks content cards full
