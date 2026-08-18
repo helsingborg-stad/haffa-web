@@ -7,6 +7,8 @@ export interface AdvertUserFields {
     description: string
     quantity: number
     lendingPeriod: number
+    co2kg: number
+    valueByUnit: number
     images: AdvertImage[]
     unit: string
     width: string
@@ -103,6 +105,8 @@ export interface AdvertInput {
     description: string
     quantity: number
     lendingPeriod: number
+    co2kg: number
+    valueByUnit: number
     images: AdvertImage[]
     /* terms */
     unit: string

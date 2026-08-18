@@ -9,6 +9,8 @@ const advertProps = /* GraphQL */ `
 	description
 	quantity
 	lendingPeriod
+	co2kg
+	valueByUnit
 	meta {
 		reservableQuantity
 		collectableQuantity
@@ -95,6 +97,7 @@ const categoriesProp = /* GraphQL */ `
 			parentId
 			label
 			co2kg
+			valueByUnit
 			advertCount
 	}
 `

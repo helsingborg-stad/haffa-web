@@ -532,6 +532,42 @@ export const AdvertForm: FC<{
                             ),
                         ].filter((v) => v),
                         [
+                            createSimplifiedField(
+                                'co2kg',
+                                (field, label, required, adornment) =>
+                                    textField(field, label, {
+                                        required,
+                                        disabled,
+                                        fullWidth: true,
+                                        InputProps: {
+                                            endAdornment:
+                                                createAdornment(adornment),
+                                        },
+                                        inputProps: {
+                                            inputMode: 'numeric',
+                                            pattern: '[0-9]*',
+                                        },
+                                    })
+                            ),
+                            createSimplifiedField(
+                                'valueByUnit',
+                                (field, label, required, adornment) =>
+                                    textField(field, label, {
+                                        required,
+                                        disabled,
+                                        fullWidth: true,
+                                        InputProps: {
+                                            endAdornment:
+                                                createAdornment(adornment),
+                                        },
+                                        inputProps: {
+                                            inputMode: 'numeric',
+                                            pattern: '[0-9]*',
+                                        },
+                                    })
+                            ),
+                        ].filter((v) => v),
+                        [
                             createSimplifiedField('tags', () => (
                                 <TagEditor
                                     options={terms.tags}
