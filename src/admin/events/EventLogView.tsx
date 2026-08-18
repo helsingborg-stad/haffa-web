@@ -12,8 +12,8 @@ import {
     TableHead,
     TableRow,
     TextField,
+    Typography,
 } from '@mui/material'
-import { Typography } from 'antd'
 import { AdminEditorialPanel } from 'components/AdminEditorialPanel'
 import dayjs from 'dayjs'
 import { ErrorView } from 'errors'
