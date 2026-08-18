@@ -82,6 +82,8 @@ export const setAdvertDefaults = (
                     break
                 case 'quantity':
                 case 'lendingPeriod':
+                case 'co2kg':
+                case 'valueByUnit':
                     base[field.name] = Number(field.initial)
                     break
                 case 'picked':

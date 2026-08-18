@@ -12,10 +12,12 @@ const Descriptions: FC<{ advert: Advert; category: Category | null }> = ({
     category,
 }) => {
     const { palette } = useTheme()
+    const effectiveCo2kg =
+        advert.co2kg > 0 ? advert.co2kg : (category?.co2kg ?? 0)
     return (
         <>
             <Markdown markdown={advert.description} />
-            {category && category.co2kg > 0 && (
+            {effectiveCo2kg > 0 && (
                 <Box
                     sx={{
                         mb: 2,
@@ -25,7 +27,7 @@ const Descriptions: FC<{ advert: Advert; category: Category | null }> = ({
                     }}
                 >
                     <Typography>
-                        🌱 Denna vara sparar <b>{category.co2kg} kg</b> CO₂e
+                        🌱 Denna vara sparar <b>{effectiveCo2kg} kg</b> CO₂e
                     </Typography>
                 </Box>
             )}
