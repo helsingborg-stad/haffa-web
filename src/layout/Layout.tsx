@@ -22,6 +22,7 @@ import {
     Stack,
     Switch,
     Toolbar,
+    Typography,
     useMediaQuery,
     useTheme,
 } from '@mui/material'
@@ -266,7 +267,13 @@ export const Layout: FC<
                 >
                     <Container>
                         <Toolbar>
-                            {phrase('AUTH_NAVBAR_INSPIRATION', '')}
+                            <Typography
+                                variant="body2"
+                                color="textPrimary"
+                                m={0}
+                            >
+                                {phrase('AUTH_NAVBAR_INSPIRATION', '')}
+                            </Typography>
                             <Box flex={1} />
                             <NavIconButton
                                 label="Logga in"
