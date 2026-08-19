@@ -267,7 +267,11 @@ export const Layout: FC<
                 >
                     <Container>
                         <Toolbar>
-                            <Typography variant="body2" color="primary" m={0}>
+                            <Typography
+                                variant="body2"
+                                color="textPrimary"
+                                m={0}
+                            >
                                 {phrase('AUTH_NAVBAR_INSPIRATION', '')}
                             </Typography>
                             <Box flex={1} />
