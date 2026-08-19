@@ -12,7 +12,7 @@ import terms from './defaults/terms'
 
 export const defaultPhrases: Omit<
     PhraseContextType,
-    'phrase' | 'fromNow' | 'getConfig' | 'prettyDate'
+    'phrase' | 'fromNow' | 'getConfig' | 'prettyDate' | 'prettyTime'
 > &
     Record<string, string> = {
     ...common,

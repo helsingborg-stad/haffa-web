@@ -35,5 +35,6 @@ export interface PhraseContextType {
     ) => string
     fromNow: (date: string) => string
     prettyDate: (date: string) => string
+    prettyTime: (date: string) => string
     getConfig: () => PhraseDefinition[]
 }

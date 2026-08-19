@@ -19,7 +19,7 @@ import type { ServerSideLogEvent } from 'statistics/types'
 const PAGE_SIZE = 5
 
 const EventsCard: FC<{ events: ServerSideLogEvent[] }> = ({ events }) => {
-    const { prettyDate, phrase } = useContext(PhraseContext)
+    const { prettyDate, prettyTime, phrase } = useContext(PhraseContext)
     const [index, setIndex] = useState(PAGE_SIZE)
 
     return (
@@ -34,8 +34,15 @@ const EventsCard: FC<{ events: ServerSideLogEvent[] }> = ({ events }) => {
                             <TimelineOppositeContent
                                 variant="body2"
                                 color="text.secondary"
+                                sx={{ py: 0, px: 2 }}
                             >
-                                {prettyDate(at)}
+                                <Typography
+                                    variant="subtitle2"
+                                    component="span"
+                                >
+                                    {prettyDate(at)}
+                                </Typography>
+                                <Typography>{prettyTime(at)}</Typography>
                             </TimelineOppositeContent>
                             <TimelineSeparator>
                                 <HistoryIcon />
