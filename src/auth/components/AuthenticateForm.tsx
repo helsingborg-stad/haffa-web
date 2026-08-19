@@ -296,7 +296,7 @@ export const AuthenticateForm: FC<{
                                 fullWidth
                                 label={phrase('AUTH_LABEL_PINCODE', 'Pinkod')}
                                 placeholder="123456"
-                                autoComplete="off"
+                                autoComplete="one-time-code"
                                 autoFocus
                                 value={pincode}
                                 onChange={(e) => setPincode(e.target.value)}
