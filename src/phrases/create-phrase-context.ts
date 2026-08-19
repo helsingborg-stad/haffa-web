@@ -8,6 +8,11 @@ const prettyDate = (date: string): string => {
     return Number.isNaN(d.getDate()) ? date : d.toLocaleDateString()
 }
 
+const prettyTime = (date: string): string => {
+    const d = new Date(date)
+    return Number.isNaN(d.getDate()) ? date : d.toLocaleTimeString()
+}
+
 export const createProductionPhraseContext = (
     phrases: Record<string, string>
 ): PhraseContextType => {
@@ -41,6 +46,7 @@ export const createProductionPhraseContext = (
         phrase,
         fromNow: (date) => dayjs(date).fromNow(),
         prettyDate,
+        prettyTime,
         getConfig: () =>
             Object.entries(defaultPhrases).map(([key, template]) => ({
                 key,
@@ -110,6 +116,7 @@ export const createDevelopmentPhraseContext = (
         phrase,
         fromNow: (date) => dayjs(date).fromNow(),
         prettyDate,
+        prettyTime,
         getConfig: () =>
             Object.entries(defaultPhrases).map(([key, template]) => ({
                 key,

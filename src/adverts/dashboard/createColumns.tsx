@@ -160,7 +160,7 @@ export const createColumns = (
         align: 'center',
         sortable: false,
         headerName: phrase('DASHBOARD_HEADER_OVERDUE', 'Försenad'),
-        renderCell: ({ value }) => value && <EventBusyIcon />,
+        renderCell: ({ value }) => value && <EventBusyIcon color="warning" />,
     },
     {
         field: 'isPicked',
