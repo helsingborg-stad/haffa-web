@@ -27,10 +27,20 @@ export const TagDescriptionsPanel: FC<{
             }))
             .filter(({ description }) => description)
 
-        return taggedDescriptions.map(({ tag, description }) => ({
-            tag,
-            description: compile(description)({ advert }),
-        }))
+        return taggedDescriptions
+            .map(({ tag, description }) => {
+                try {
+                    return {
+                        tag,
+                        description: compile(description)({ advert }),
+                    }
+                } catch {
+                    return null
+                }
+            })
+            .filter(
+                (d): d is { tag: string; description: string } => d !== null
+            )
     }, [advert, tagDescriptions])
 
     return (

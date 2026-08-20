@@ -10,11 +10,24 @@ import {
     TextField,
 } from '@mui/material'
 import { AdminActionPanel } from 'components/AdminActionPanel'
+import { compile } from 'handlebars'
 import { sortBy } from 'lib/sort-by'
 import { uniqueBy } from 'lib/unique-by'
 import { PhraseContext } from 'phrases'
 import { type FC, useCallback, useContext, useMemo, useState } from 'react'
 import type { TagDescription } from 'tags/types'
+
+const isValidTemplate = (description: string) => {
+    if (!description) {
+        return true
+    }
+    try {
+        compile(description)({})
+        return true
+    } catch {
+        return false
+    }
+}
 
 export const EditTagDescriptionsForm: FC<{
     tags: string[]
@@ -69,6 +82,16 @@ export const EditTagDescriptionsForm: FC<{
         [model, matchingTags]
     )
 
+    const invalidTags = useMemo(
+        () =>
+            new Set(
+                model
+                    .filter(({ description }) => !isValidTemplate(description))
+                    .map(({ tag }) => tag)
+            ),
+        [model]
+    )
+
     const mutateModelRow = useCallback(
         (tag: string, patch: Partial<TagDescription>) =>
             setModel(
@@ -86,6 +109,10 @@ export const EditTagDescriptionsForm: FC<{
                 'TAG_DESCRIPTION_DESCRIPTION',
                 'Taggens extra annonstext'
             ),
+            invalidTemplate: phrase(
+                'TAG_DESCRIPTION_INVALID_TEMPLATE',
+                'Ogiltig mall'
+            ),
         }),
         [phrase]
     )
@@ -93,7 +120,10 @@ export const EditTagDescriptionsForm: FC<{
     return (
         <Stack direction="column" spacing={2}>
             {model.length > 0 && (
-                <AdminActionPanel onSave={() => onUpdate(model)}>
+                <AdminActionPanel
+                    onSave={() => onUpdate(model)}
+                    disabled={invalidTags.size > 0}
+                >
                     <TextField
                         label={labels.search}
                         placeholder={labels.search}
@@ -154,6 +184,12 @@ export const EditTagDescriptionsForm: FC<{
                                             value={description}
                                             multiline
                                             fullWidth
+                                            error={invalidTags.has(tag)}
+                                            helperText={
+                                                invalidTags.has(tag)
+                                                    ? labels.invalidTemplate
+                                                    : undefined
+                                            }
                                             onChange={(e) =>
                                                 mutateModelRow(tag, {
                                                     description: e.target.value,
@@ -168,7 +204,10 @@ export const EditTagDescriptionsForm: FC<{
                 </Table>
             </TableContainer>
             {model.length > 0 && (
-                <AdminActionPanel onSave={() => onUpdate(model)} />
+                <AdminActionPanel
+                    onSave={() => onUpdate(model)}
+                    disabled={invalidTags.size > 0}
+                />
             )}
         </Stack>
     )
