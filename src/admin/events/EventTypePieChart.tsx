@@ -163,13 +163,12 @@ export const EventTypePieChart: FC<{ events: ServerSideLogEvent[] }> = ({
                                         title={`${slice.label}: ${slice.value} (${slice.percentage.toFixed(1)}%)`}
                                     >
                                         {isFullCircle ? (
-                                            // biome-ignore lint/a11y/useSemanticElements: SVG chart segment can't be a real <button>
                                             <circle
                                                 cx={CENTER}
                                                 cy={CENTER}
                                                 r={radius}
                                                 fill={slice.color}
-                                                role="button"
+                                                role="img"
                                                 aria-label={slice.label}
                                                 tabIndex={0}
                                                 onMouseEnter={() =>
@@ -184,7 +183,6 @@ export const EventTypePieChart: FC<{ events: ServerSideLogEvent[] }> = ({
                                                 onBlur={() => setHovered(null)}
                                             />
                                         ) : (
-                                            // biome-ignore lint/a11y/useSemanticElements: SVG chart segment can't be a real <button>
                                             <path
                                                 d={arcPath(
                                                     slice.startAngle,
@@ -197,7 +195,7 @@ export const EventTypePieChart: FC<{ events: ServerSideLogEvent[] }> = ({
                                                         .paper
                                                 }
                                                 strokeWidth={2}
-                                                role="button"
+                                                role="img"
                                                 aria-label={slice.label}
                                                 tabIndex={0}
                                                 onMouseEnter={() =>

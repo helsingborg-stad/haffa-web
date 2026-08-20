@@ -318,9 +318,11 @@ export const EventLogView: FC = () => {
                     </CardContent>
                 </Card>
 
-                <Box sx={{ mt: 2 }}>
-                    <EventTypePieChart events={events} />
-                </Box>
+                {events.length > 0 && (
+                    <Box sx={{ mt: 2 }}>
+                        <EventTypePieChart events={events} />
+                    </Box>
+                )}
 
                 <Card sx={{ mt: 2 }}>
                     <CardContent>

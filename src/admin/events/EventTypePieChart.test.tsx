@@ -49,5 +49,6 @@ describe('EventTypePieChart', () => {
         )
         renderChart(events)
         expect(screen.getByText('Övrigt')).toBeInTheDocument()
+        expect(screen.getByText('2 (22.2%)')).toBeInTheDocument()
     })
 })
