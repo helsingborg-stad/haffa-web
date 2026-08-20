@@ -1,4 +1,5 @@
 import {
+    Box,
     Button,
     Card,
     CardContent,
@@ -24,6 +25,7 @@ import { type FC, useCallback, useContext, useMemo, useState } from 'react'
 import { StatisticsContext } from 'statistics'
 import type { ServerSideLogEvent } from 'statistics/types'
 import * as xlsx from 'xlsx'
+import { EventTypePieChart } from './EventTypePieChart'
 
 interface EventsSearchParams {
     from: string
@@ -314,6 +316,15 @@ export const EventLogView: FC = () => {
                             onExport={(name) => exportExcel(name, events)}
                         />
                     </CardContent>
+                </Card>
+
+                {events.length > 0 && (
+                    <Box sx={{ mt: 2 }}>
+                        <EventTypePieChart events={events} />
+                    </Box>
+                )}
+
+                <Card sx={{ mt: 2 }}>
                     <CardContent>
                         <EventsTable events={events} labels={eventLabels} />
                     </CardContent>
