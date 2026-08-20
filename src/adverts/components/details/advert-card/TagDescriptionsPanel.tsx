@@ -1,6 +1,7 @@
 import { Card, CardContent, Stack } from '@mui/material'
 import type { Advert } from 'adverts/types'
 import { Markdown } from 'components/Markdown'
+import { compile } from 'handlebars'
 import { toMap } from 'lib/to-map'
 import { type FC, useMemo } from 'react'
 import type { TagDescription } from 'tags/types'
@@ -22,7 +23,7 @@ export const TagDescriptionsPanel: FC<{
         return tags
             .map((tag) => ({
                 tag,
-                description: tagDescriptionByTag[tag],
+                description: compile(tagDescriptionByTag[tag])({ advert }),
             }))
             .filter(({ description }) => description)
     }, [advert, tagDescriptions])
