@@ -20,12 +20,17 @@ export const TagDescriptionsPanel: FC<{
             (d) => d.tag,
             (d) => d.description
         )
-        return tags
+        const taggedDescriptions = tags
             .map((tag) => ({
                 tag,
-                description: compile(tagDescriptionByTag[tag])({ advert }),
+                description: tagDescriptionByTag[tag],
             }))
             .filter(({ description }) => description)
+
+        return taggedDescriptions.map(({ tag, description }) => ({
+            tag,
+            description: compile(description)({ advert }),
+        }))
     }, [advert, tagDescriptions])
 
     return (
