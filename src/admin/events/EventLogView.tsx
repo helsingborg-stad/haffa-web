@@ -1,4 +1,5 @@
 import {
+    Autocomplete,
     Box,
     Button,
     Card,
@@ -32,6 +33,8 @@ interface EventsSearchParams {
     from: string
     to: string
 }
+
+const NO_ORGANIZATION_FILTER = '__NO_ORGANIZATION__'
 
 type ServerSideLogEventLabels = Required<{
     [Property in keyof ServerSideLogEvent]: string
@@ -105,7 +108,19 @@ export const EventsTable: FC<{
 export const SearchHeader: FC<{
     searchParams: EventsSearchParams
     setSearchParams: (p: EventsSearchParams) => void
-}> = ({ searchParams, setSearchParams }) => {
+    organizations: string[]
+    hasEventsWithoutOrganization: boolean
+    selectedOrganizations: string[]
+    setSelectedOrganizations: (organizations: string[]) => void
+}> = ({
+    searchParams,
+    setSearchParams,
+    organizations,
+    hasEventsWithoutOrganization,
+    selectedOrganizations,
+    setSelectedOrganizations,
+}) => {
+    const { phrase } = useContext(PhraseContext)
     const now = new Date()
     const thisYear = new Date(now.getFullYear(), 0, 1)
     const thisMonth = new Date(now.getFullYear(), now.getMonth(), 1)
@@ -169,6 +184,39 @@ export const SearchHeader: FC<{
                     </Button>
                 </Grid>
             ))}
+            {(organizations.length > 0 || hasEventsWithoutOrganization) && (
+                <Grid item sx={{ minWidth: 220 }}>
+                    <Autocomplete
+                        multiple
+                        size="small"
+                        options={[
+                            ...(hasEventsWithoutOrganization
+                                ? [NO_ORGANIZATION_FILTER]
+                                : []),
+                            ...organizations,
+                        ]}
+                        getOptionLabel={(option) =>
+                            option === NO_ORGANIZATION_FILTER
+                                ? phrase(
+                                      'EVENTLOG_FILTER_NO_ORGANIZATION',
+                                      'Utan organisation'
+                                  )
+                                : option
+                        }
+                        value={selectedOrganizations}
+                        onChange={(_, value) => setSelectedOrganizations(value)}
+                        renderInput={(params) => (
+                            <TextField
+                                {...params}
+                                label={phrase(
+                                    'ADVERT_FIELD_ORGANIZATION',
+                                    'Organisation'
+                                )}
+                            />
+                        )}
+                    />
+                </Grid>
+            )}
         </Grid>
     )
 }
@@ -209,6 +257,9 @@ export const DownloadHeader: FC<{
 export const EventLogView: FC = () => {
     const { getServerSideEventLog } = useContext(StatisticsContext)
     const { phrase } = useContext(PhraseContext)
+    const [selectedOrganizations, setSelectedOrganizations] = useState<
+        string[]
+    >([])
 
     const search = useCallback(
         (p: EventsSearchParams) =>
@@ -301,53 +352,91 @@ export const EventLogView: FC = () => {
 
     return view({
         pending: () => <LinearProgress />,
-        resolved: ({ p, events }, enqueue) => (
-            <>
-                <AdminEditorialPanel
-                    headline="ADMIN_EVENTLOG_HEADLINE"
-                    body="ADMIN_EVENTLOG_BODY"
-                />
+        resolved: ({ p, events }, enqueue) => {
+            const organizations = Array.from(
+                new Set(
+                    events
+                        .map(({ organization }) => organization)
+                        .filter((organization): organization is string =>
+                            Boolean(organization)
+                        )
+                )
+            ).sort()
+            const hasEventsWithoutOrganization = events.some(
+                ({ organization }) => !organization
+            )
+            const filteredEvents =
+                selectedOrganizations.length === 0
+                    ? events
+                    : events.filter(({ organization }) =>
+                          selectedOrganizations.includes(
+                              organization || NO_ORGANIZATION_FILTER
+                          )
+                      )
 
-                <Card>
-                    <CardContent>
-                        <SearchHeader
-                            searchParams={p}
-                            setSearchParams={(p) => enqueue(() => search(p))}
-                        />
-                    </CardContent>
-                    <CardContent>
-                        <DownloadHeader
-                            onExport={(name) => exportExcel(name, events)}
-                        />
-                    </CardContent>
-                </Card>
+            return (
+                <>
+                    <AdminEditorialPanel
+                        headline="ADMIN_EVENTLOG_HEADLINE"
+                        body="ADMIN_EVENTLOG_BODY"
+                    />
 
-                {events.length > 0 && (
-                    <Box
-                        sx={{
-                            mt: 2,
-                            display: 'flex',
-                            flexWrap: 'wrap',
-                            gap: 2,
-                            alignItems: 'flex-start',
-                        }}
-                    >
-                        <Box sx={{ flex: '1 1 480px' }}>
-                            <EventTypePieChart events={events} />
+                    <Card>
+                        <CardContent>
+                            <SearchHeader
+                                searchParams={p}
+                                setSearchParams={(p) =>
+                                    enqueue(() => search(p))
+                                }
+                                organizations={organizations}
+                                hasEventsWithoutOrganization={
+                                    hasEventsWithoutOrganization
+                                }
+                                selectedOrganizations={selectedOrganizations}
+                                setSelectedOrganizations={
+                                    setSelectedOrganizations
+                                }
+                            />
+                        </CardContent>
+                        <CardContent>
+                            <DownloadHeader
+                                onExport={(name) =>
+                                    exportExcel(name, filteredEvents)
+                                }
+                            />
+                        </CardContent>
+                    </Card>
+
+                    {filteredEvents.length > 0 && (
+                        <Box
+                            sx={{
+                                mt: 2,
+                                display: 'flex',
+                                flexWrap: 'wrap',
+                                gap: 2,
+                                alignItems: 'flex-start',
+                            }}
+                        >
+                            <Box sx={{ flex: '1 1 480px' }}>
+                                <EventTypePieChart events={filteredEvents} />
+                            </Box>
+                            <Box sx={{ flex: '1 1 320px' }}>
+                                <CollectedTotalsStats events={filteredEvents} />
+                            </Box>
                         </Box>
-                        <Box sx={{ flex: '1 1 320px' }}>
-                            <CollectedTotalsStats events={events} />
-                        </Box>
-                    </Box>
-                )}
+                    )}
 
-                <Card sx={{ mt: 2 }}>
-                    <CardContent>
-                        <EventsTable events={events} labels={eventLabels} />
-                    </CardContent>
-                </Card>
-            </>
-        ),
+                    <Card sx={{ mt: 2 }}>
+                        <CardContent>
+                            <EventsTable
+                                events={filteredEvents}
+                                labels={eventLabels}
+                            />
+                        </CardContent>
+                    </Card>
+                </>
+            )
+        },
         rejected: (e) => <ErrorView error={e} />,
     })
 }
