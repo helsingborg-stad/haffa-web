@@ -25,6 +25,7 @@ import { type FC, useCallback, useContext, useMemo, useState } from 'react'
 import { StatisticsContext } from 'statistics'
 import type { ServerSideLogEvent } from 'statistics/types'
 import * as xlsx from 'xlsx'
+import { CollectedTotalsStats } from './CollectedTotalsStats'
 import { EventTypePieChart } from './EventTypePieChart'
 
 interface EventsSearchParams {
@@ -58,17 +59,20 @@ export const EventsTable: FC<{
                 </TableHead>
                 <TableBody>
                     {events.map(
-                        ({
-                            event,
-                            advertId,
-                            at,
-                            category,
-                            organization,
-                            byOrganization,
-                            co2kg,
-                            valueByUnit,
-                        }) => (
-                            <TableRow key={`${event}@${at}`}>
+                        (
+                            {
+                                event,
+                                advertId,
+                                at,
+                                category,
+                                organization,
+                                byOrganization,
+                                co2kg,
+                                valueByUnit,
+                            },
+                            index
+                        ) => (
+                            <TableRow key={`${event}@${at}@${index}`}>
                                 <TableCell>
                                     <Typography
                                         style={{ whiteSpace: 'nowrap' }}
@@ -319,8 +323,21 @@ export const EventLogView: FC = () => {
                 </Card>
 
                 {events.length > 0 && (
-                    <Box sx={{ mt: 2 }}>
-                        <EventTypePieChart events={events} />
+                    <Box
+                        sx={{
+                            mt: 2,
+                            display: 'flex',
+                            flexWrap: 'wrap',
+                            gap: 2,
+                            alignItems: 'flex-start',
+                        }}
+                    >
+                        <Box sx={{ flex: '1 1 480px' }}>
+                            <EventTypePieChart events={events} />
+                        </Box>
+                        <Box sx={{ flex: '1 1 320px' }}>
+                            <CollectedTotalsStats events={events} />
+                        </Box>
                     </Box>
                 )}
 
