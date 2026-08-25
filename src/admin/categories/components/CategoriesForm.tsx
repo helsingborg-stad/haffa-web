@@ -11,9 +11,8 @@ import {
     InputAdornment,
     Stack,
     TextField,
-    useTheme,
 } from '@mui/material'
-import { ConfigProvider, Tree, theme } from 'antd'
+import { SimpleTreeView } from '@mui/x-tree-view/SimpleTreeView'
 import type { Category } from 'categories/types'
 import { AdminEditorialPanel } from 'components/AdminEditorialPanel'
 import { treeFind } from 'lib/tree-lookup'
@@ -76,7 +75,8 @@ export const CategoriesForm: FC<{
     }
     const {
         nodes,
-        treeProps,
+        treeViewProps,
+        renderTreeItems,
         viewState,
         selectedNode,
         addNode,
@@ -93,29 +93,11 @@ export const CategoriesForm: FC<{
             expandedKeys: [ROOT_CATEGORY_ID],
         }
     )
-    const muiTheme = useTheme()
-    const isDarkMode = muiTheme.palette.mode === 'dark'
-    const muiBg = muiTheme.palette.background.paper
-    const muiText = muiTheme.palette.text.primary
 
     const categoryTree = () => (
-        <ConfigProvider
-            theme={{
-                algorithm: isDarkMode
-                    ? theme.darkAlgorithm
-                    : theme.defaultAlgorithm,
-                token: isDarkMode
-                    ? {
-                          colorBgContainer: muiBg,
-                          colorBgElevated: muiBg,
-                          colorText: muiText,
-                          colorBgTextHover: 'rgba(255, 255, 255, 0.08)',
-                      }
-                    : {},
-            }}
-        >
-            <Tree style={{ fontSize: 'x-large' }} {...treeProps} />
-        </ConfigProvider>
+        <SimpleTreeView sx={{ fontSize: 'x-large' }} {...treeViewProps}>
+            {renderTreeItems(nodes)}
+        </SimpleTreeView>
     )
     const categoryEditor = () => {
         const advertCount = selectedNode ? countAdverts(selectedNode) : 0
