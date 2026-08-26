@@ -18,8 +18,7 @@ import { PhraseContext } from 'phrases'
 import { type FC, useContext, useState } from 'react'
 import { getEffectiveTagDescriptions, TagsContext } from 'tags'
 import { TermsContext } from 'terms'
-import { CategoriesFilter } from './CategoriesFilter'
-import { CategoriesFilter2 } from './experimental/CategoriesFilter2'
+import { CategoriesFilter2 } from './CategoriesFilter2'
 import { StringArrayFilter } from './StringArrayFilter'
 
 export interface SelectedFilters {
@@ -127,15 +126,6 @@ export const FilterDialog: FC<{
                             selected={categories}
                             onCategoriesChanged={setCategories}
                         />
-                        {
-                            // disable previous version of category filter
-                            false && (
-                                <CategoriesFilter
-                                    selected={categories}
-                                    onCategoriesChanged={setCategories}
-                                />
-                            )
-                        }
                         {model.tags.length > 0 && (
                             <StringArrayFilter
                                 label={phrase('TERMS_FIELD_TAGS', 'Taggar')}
