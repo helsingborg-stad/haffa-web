@@ -18,7 +18,7 @@ import { PhraseContext } from 'phrases'
 import { type FC, useContext, useState } from 'react'
 import { getEffectiveTagDescriptions, TagsContext } from 'tags'
 import { TermsContext } from 'terms'
-import { CategoriesFilter2 } from './experimental/CategoriesFilter2'
+import { CategoriesFilter2 } from './CategoriesFilter2'
 import { StringArrayFilter } from './StringArrayFilter'
 
 export interface SelectedFilters {
