@@ -59,7 +59,10 @@ export const AdvertListItem: FC<{
     const categoryLabel = categories.findById(advert.category)?.label
     return (
         <Card
-            sx={[...(Array.isArray(sx) ? sx : [sx]), { display: 'flex', justifyContent: 'stretch' }]}
+            sx={[
+                ...(Array.isArray(sx) ? sx : [sx]),
+                { display: 'flex', justifyContent: 'stretch' },
+            ]}
         >
             <CardActionArea component={Link} to={`/advert/${advert.id}`}>
                 <Stack sx={{ height: '100%' }}>
@@ -72,13 +75,13 @@ export const AdvertListItem: FC<{
                         {isLendingAdvert && !canBook && (
                             <Typography
                                 variant="subtitle2"
-                                color="white"
                                 component="div"
                                 sx={{
                                     position: 'absolute',
                                     width: '100%',
                                     padding: '4px 0px 4px 12px',
                                     backgroundColor,
+                                    color: 'white',
                                 }}
                             >
                                 {aggregatedStatusText}
