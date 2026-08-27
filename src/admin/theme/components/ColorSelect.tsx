@@ -64,22 +64,24 @@ export const ColorSelect = ({
                 disabled
                 fullWidth
                 variant="outlined"
-                InputProps={{
-                    startAdornment: (
-                        <InputAdornment position="start">
-                            <ColorButton
-                                sx={{ color: props.value as string }}
-                                onClick={onClose}
-                            />
-                        </InputAdornment>
-                    ),
-                    endAdornment: allowEmpty && (
-                        <InputAdornment position="end">
-                            <Button onClick={() => onColorChange('')}>
-                                Ta bort
-                            </Button>
-                        </InputAdornment>
-                    ),
+                slotProps={{
+                    input: {
+                        startAdornment: (
+                            <InputAdornment position="start">
+                                <ColorButton
+                                    sx={{ color: props.value as string }}
+                                    onClick={onClose}
+                                />
+                            </InputAdornment>
+                        ),
+                        endAdornment: allowEmpty && (
+                            <InputAdornment position="end">
+                                <Button onClick={() => onColorChange('')}>
+                                    Ta bort
+                                </Button>
+                            </InputAdornment>
+                        ),
+                    },
                 }}
             />
             <Dialog open={state.isOpen} onClose={onClose}>

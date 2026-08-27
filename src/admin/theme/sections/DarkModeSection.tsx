@@ -4,11 +4,24 @@ import type { ThemeSectionProps } from './types'
 
 export const DarkModeSection = ({ model, patch }: ThemeSectionProps) => (
     <>
-        <Typography variant="h6" py={2}>
+        <Typography
+            variant="h6"
+            sx={{
+                py: 2,
+            }}
+        >
             Mörkt läge
         </Typography>
         <Grid container rowSpacing={4}>
-            <Grid item xs={12} sm={4} pr={1}>
+            <Grid
+                size={{
+                    xs: 12,
+                    sm: 4,
+                }}
+                sx={{
+                    pr: 1,
+                }}
+            >
                 <RegularSelect
                     label="Tillåt besökare att välja mörkt läge"
                     value={model['darkmode.enabled']}

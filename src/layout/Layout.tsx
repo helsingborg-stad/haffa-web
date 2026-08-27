@@ -230,12 +230,18 @@ export const Layout: FC<
                         >
                             <Box
                                 component="img"
-                                height={32}
                                 src={theme.logotype}
                                 alt={APP_TITLE}
+                                sx={{
+                                    height: 32,
+                                }}
                             />
                         </Link>
-                        <Box flex={1} />
+                        <Box
+                            sx={{
+                                flex: 1,
+                            }}
+                        />
                         {insideToolbarLinks}
                         {isGuest && false && (
                             <NavIconButton
@@ -270,11 +276,17 @@ export const Layout: FC<
                             <Typography
                                 variant="body2"
                                 color="textPrimary"
-                                m={0}
+                                sx={{
+                                    m: 0,
+                                }}
                             >
                                 {phrase('AUTH_NAVBAR_INSPIRATION', '')}
                             </Typography>
-                            <Box flex={1} />
+                            <Box
+                                sx={{
+                                    flex: 1,
+                                }}
+                            />
                             <NavIconButton
                                 label="Logga in"
                                 icon={<LoginIcon />}
@@ -299,7 +311,11 @@ export const Layout: FC<
                 }}
             >
                 <Toolbar>
-                    <Box flex={1} />
+                    <Box
+                        sx={{
+                            flex: 1,
+                        }}
+                    />
                     <NavIconButton
                         label="Meny"
                         icon={<MenuIcon />}
@@ -334,11 +350,13 @@ export const Layout: FC<
                                         onChange={(e) =>
                                             setDarkMode(e.target.checked)
                                         }
-                                        inputProps={{
-                                            'aria-label': phrase(
-                                                'NAV_DARK_MODE',
-                                                'Mörkt läge'
-                                            ),
+                                        slotProps={{
+                                            input: {
+                                                'aria-label': phrase(
+                                                    'NAV_DARK_MODE',
+                                                    'Mörkt läge'
+                                                ),
+                                            },
                                         }}
                                     />
                                 }
@@ -359,7 +377,14 @@ export const Layout: FC<
             </Drawer>
 
             <Toolbar /* for pushing down content */ />
-            <Grid key="c" item xs={12} md={8} sx={{}}>
+            <Grid
+                key="c"
+                sx={{}}
+                size={{
+                    xs: 12,
+                    md: 8,
+                }}
+            >
                 <Container key="c" sx={{ position: 'relative', mt: 4, mb: 16 }}>
                     <SlowFetchWarning key="sf" sx={{ mb: 2 }} />
                     {children}

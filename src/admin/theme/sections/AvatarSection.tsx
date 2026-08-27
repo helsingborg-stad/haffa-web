@@ -9,16 +9,34 @@ export const AvatarSection = ({
     patch,
 }: ThemeModeSectionProps) => (
     <>
-        <Typography variant="h6" py={2}>
+        <Typography
+            variant="h6"
+            sx={{
+                py: 2,
+            }}
+        >
             Avatar
         </Typography>
         <Grid container rowSpacing={4}>
-            <Grid item xs={12} sm={12}>
+            <Grid
+                size={{
+                    xs: 12,
+                    sm: 12,
+                }}
+            >
                 <Avatar sx={{ p: 3 }}>
                     <Typography variant="h6">H</Typography>
                 </Avatar>
             </Grid>
-            <Grid item xs={12} sm={2} pr={1}>
+            <Grid
+                size={{
+                    xs: 12,
+                    sm: 2,
+                }}
+                sx={{
+                    pr: 1,
+                }}
+            >
                 <RegularSelect
                     label="Variant (Delad)"
                     value={model['component.avatar.variant']}
@@ -36,7 +54,15 @@ export const AvatarSection = ({
                     ])}
                 </RegularSelect>
             </Grid>
-            <Grid item xs={12} sm={2} pr={1}>
+            <Grid
+                size={{
+                    xs: 12,
+                    sm: 2,
+                }}
+                sx={{
+                    pr: 1,
+                }}
+            >
                 <ColorSelect
                     label="Förgrundsfärg"
                     value={model[`${mode}.component.avatar.color`]}
@@ -48,7 +74,15 @@ export const AvatarSection = ({
                     }
                 />
             </Grid>
-            <Grid item xs={12} sm={2} pr={1}>
+            <Grid
+                size={{
+                    xs: 12,
+                    sm: 2,
+                }}
+                sx={{
+                    pr: 1,
+                }}
+            >
                 <ColorSelect
                     label="Bakgrundsfärg"
                     value={model[`${mode}.component.avatar.bgcolor`]}

@@ -12,7 +12,12 @@ const TEXTFIELD_PREVIEWS: TextFieldProps[] = [
 
 export const TextFieldSection = ({ model, patch }: ThemeSectionProps) => (
     <>
-        <Typography variant="h6" py={2}>
+        <Typography
+            variant="h6"
+            sx={{
+                py: 2,
+            }}
+        >
             Textfält
         </Typography>
         <VariantRadioGroup

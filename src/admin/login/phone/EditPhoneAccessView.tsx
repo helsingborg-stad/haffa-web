@@ -73,7 +73,6 @@ const EditPhoneAccessForm: FC<{
                             fullWidth
                             value={sender}
                             onChange={(e) => setSender(e.target.value)}
-                            inputProps={{ minLength: 5, maxLength: 11 }}
                             label={phrase(
                                 'LOGINS_FIELD_PHONE_SENDER',
                                 'Sändarnamn'
@@ -82,6 +81,9 @@ const EditPhoneAccessForm: FC<{
                                 'LOGINS_FIELD_PHONE_SENDER',
                                 'Sändarnamn'
                             )}
+                            slotProps={{
+                                htmlInput: { minLength: 5, maxLength: 11 },
+                            }}
                         />
                         <TextField
                             fullWidth

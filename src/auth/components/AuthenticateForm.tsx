@@ -280,17 +280,6 @@ export const AuthenticateForm: FC<{
                         >
                             <TextField
                                 type="text"
-                                InputProps={{
-                                    startAdornment: (
-                                        <InputAdornment position="start">
-                                            H-
-                                        </InputAdornment>
-                                    ),
-                                }}
-                                inputProps={{
-                                    inputMode: 'numeric',
-                                    pattern: '\\d{6,6}',
-                                }}
                                 margin="normal"
                                 required
                                 fullWidth
@@ -301,6 +290,20 @@ export const AuthenticateForm: FC<{
                                 value={pincode}
                                 onChange={(e) => setPincode(e.target.value)}
                                 disabled={loading}
+                                slotProps={{
+                                    input: {
+                                        startAdornment: (
+                                            <InputAdornment position="start">
+                                                H-
+                                            </InputAdornment>
+                                        ),
+                                    },
+
+                                    htmlInput: {
+                                        inputMode: 'numeric',
+                                        pattern: '\\d{6,6}',
+                                    },
+                                }}
                             />
                             <Button
                                 type="submit"

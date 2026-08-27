@@ -287,14 +287,16 @@ export const AdvertsTableView: FC<{
                 {(c) => (
                     <>
                         {error && <ErrorView key="error" error={error} />}
-                        {data.loading && <LinearProgress key="pending" />}
-                        {!data.loading && (
+                        {Object.keys(data.fields).length === 0 &&
+                            data.loading && <LinearProgress key="pending" />}
+                        {Object.keys(data.fields).length > 0 && (
                             <>
                                 <AdvertsTable
                                     key="resolved"
                                     columns={createColumns(c, phrase, density)}
                                     density={density}
                                     onDensityChange={onDensityChange}
+                                    loading={data.loading}
                                 />
                                 <BulkActions bulkActions={bulkActions} />
                             </>

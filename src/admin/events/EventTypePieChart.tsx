@@ -130,7 +130,13 @@ export const EventTypePieChart: FC<{ events: ServerSideLogEvent[] }> = ({
     return (
         <Card>
             <CardContent>
-                <Typography variant="body1" fontWeight="bold" gutterBottom>
+                <Typography
+                    variant="body1"
+                    gutterBottom
+                    sx={{
+                        fontWeight: 'bold',
+                    }}
+                >
                     {phrase(
                         'EVENTLOG_CHART_TITLE',
                         'Fördelning per händelsetyp'
@@ -275,7 +281,9 @@ export const EventTypePieChart: FC<{ events: ServerSideLogEvent[] }> = ({
                                 </Typography>
                                 <Typography
                                     variant="body2"
-                                    color="text.secondary"
+                                    sx={{
+                                        color: 'text.secondary',
+                                    }}
                                 >
                                     {`${slice.value} (${slice.percentage.toFixed(1)}%)`}
                                 </Typography>

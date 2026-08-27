@@ -48,7 +48,14 @@ export const AdvertsListPagination: FC<{
     setSearchParams,
     pageSize,
 }) => (
-    <Stack alignItems="center" sx={sx}>
+    <Stack
+        sx={[
+            {
+                alignItems: 'center',
+            },
+            ...(Array.isArray(sx) ? sx : [sx]),
+        ]}
+    >
         {pageCount > 1 && (
             <Pagination
                 color="primary"
@@ -81,7 +88,14 @@ const AdvertsListEmptyResult: FC<{
         paging: { totalCount },
     },
 }) => (
-    <Stack alignItems="center" sx={sx}>
+    <Stack
+        sx={[
+            {
+                alignItems: 'center',
+            },
+            ...(Array.isArray(sx) ? sx : [sx]),
+        ]}
+    >
         {totalCount === 0 && (
             <Editorial phraseKey="SEARCH_EMPTY_RESULT">
                 Hoppsan, det blev inga träffar på den

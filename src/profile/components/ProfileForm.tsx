@@ -6,13 +6,13 @@ import type { ProfileInput } from 'profile/types'
 import { type FC, type PropsWithChildren, useContext, useMemo } from 'react'
 import type { Terms } from 'terms/types'
 
-const Row: FC<PropsWithChildren & GridProps> = (props) => (
-    <Grid container spacing={2} sx={{ pt: 2 }} {...props}>
+const Row: FC<PropsWithChildren & GridProps> = ({ sx, ...props }) => (
+    <Grid container spacing={2} sx={{ pt: 2, ...sx }} {...props}>
         {props.children}
     </Grid>
 )
 const Cell: FC<PropsWithChildren & GridProps> = (props) => (
-    <Grid item sx={{ flexGrow: 1 }} {...props}>
+    <Grid sx={{ flexGrow: 1 }} {...props}>
         {props.children}
     </Grid>
 )
@@ -120,7 +120,7 @@ export const ProfileForm: FC<{
                     ))}
                 </Row>
             ))}
-            <Row justifyContent="flex-end">
+            <Row sx={{ justifyContent: 'flex-end' }}>
                 <Cell>
                     <Button
                         type="submit"

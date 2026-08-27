@@ -5,7 +5,7 @@ import {
     Card,
     CardActionArea,
     CardMedia,
-    Grid,
+    Stack,
     type SxProps,
     type Theme,
     Typography,
@@ -66,9 +66,8 @@ export const AdvertListItem: FC<{
             }}
         >
             <CardActionArea component={Link} to={`/advert/${advert.id}`}>
-                <Grid container direction="column" sx={{ height: '100%' }}>
-                    <Grid
-                        item
+                <Stack sx={{ height: '100%' }}>
+                    <Box
                         sx={{
                             width: '100%',
                             aspectRatio: advertImageAspectRatio,
@@ -99,12 +98,14 @@ export const AdvertListItem: FC<{
                                 objectPosition: 'center',
                             }}
                         />
-                    </Grid>
-                    <Grid item sx={{ flex: 1, m: 2 }}>
+                    </Box>
+                    <Box sx={{ flex: 1, m: 2 }}>
                         <Typography
                             variant="subtitle2"
-                            color="text.secondary"
                             component="div"
+                            sx={{
+                                color: 'text.secondary',
+                            }}
                         >
                             {categoryLabel || 'Övrigt'}
                         </Typography>
@@ -113,12 +114,14 @@ export const AdvertListItem: FC<{
                                 {title}
                             </Typography>
                         </Box>
-                    </Grid>
-                    <Grid item sx={{ mx: 2, mb: 3 }}>
+                    </Box>
+                    <Box sx={{ mx: 2, mb: 3 }}>
                         <Typography
                             variant="caption"
-                            color="text.disabled"
                             component="div"
+                            sx={{
+                                color: 'text.disabled',
+                            }}
                         >
                             {join(
                                 ' - ',
@@ -137,12 +140,14 @@ export const AdvertListItem: FC<{
                             returnInfo.map((info, index) => (
                                 <Typography
                                     variant="caption"
-                                    color="text.disabled"
                                     component="div"
                                     noWrap
                                     key={index}
-                                    position="absolute"
-                                    bottom="4px"
+                                    sx={{
+                                        color: 'text.disabled',
+                                        position: 'absolute',
+                                        bottom: '4px',
+                                    }}
                                 >
                                     {phrase(
                                         'ADVERT_WILL_BE_RETURNED',
@@ -161,10 +166,12 @@ export const AdvertListItem: FC<{
                         {returnInfo.length === 0 && isLendingAdvert && (
                             <Typography
                                 variant="caption"
-                                color="text.disabled"
                                 component="div"
-                                position="absolute"
-                                bottom="4px"
+                                sx={{
+                                    color: 'text.disabled',
+                                    position: 'absolute',
+                                    bottom: '4px',
+                                }}
                             >
                                 {phrase('ADVERT_TYPE_LENDING', 'Utlåning')}
                                 <ScheduleIcon
@@ -179,10 +186,12 @@ export const AdvertListItem: FC<{
                         {!isLendingAdvert && (
                             <Typography
                                 variant="caption"
-                                color="text.disabled"
                                 component="div"
-                                position="absolute"
-                                bottom="4px"
+                                sx={{
+                                    color: 'text.disabled',
+                                    position: 'absolute',
+                                    bottom: '4px',
+                                }}
                             >
                                 {phrase('ADVERT_TYPE_RECYCLE', 'Återbruk')}
                                 <RecyclingIcon
@@ -194,8 +203,8 @@ export const AdvertListItem: FC<{
                                 />
                             </Typography>
                         )}
-                    </Grid>
-                </Grid>
+                    </Box>
+                </Stack>
             </CardActionArea>
         </Card>
     )

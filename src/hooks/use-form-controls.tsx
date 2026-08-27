@@ -112,7 +112,6 @@ export const useFormControls = <TModel,>(
                 labelId={props?.id || ''}
                 value={getter(model) || ''}
                 label={props?.label}
-                placeholder={props?.placeholder}
                 onChange={(e) => patchModel(setter(e.target.value as string))}
             >
                 <MenuItem key="clear" value="">
@@ -162,7 +161,10 @@ export const useFormControls = <TModel,>(
             textField: (property, label, props) =>
                 textField(
                     (model) => model[property] as string,
-                    (value) => ({ [property]: value }) as Partial<TModel>,
+                    (value) =>
+                        ({
+                            [property]: value,
+                        }) as Partial<TModel>,
                     {
                         label,
                         placeholder: label,
@@ -172,7 +174,10 @@ export const useFormControls = <TModel,>(
             select: (property, label, options, props) =>
                 select(
                     (model) => model[property] as string,
-                    (value) => ({ [property]: value }) as Partial<TModel>,
+                    (value) =>
+                        ({
+                            [property]: value,
+                        }) as Partial<TModel>,
                     options,
                     {
                         label,

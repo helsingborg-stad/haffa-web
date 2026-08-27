@@ -1,4 +1,4 @@
-import RemoveCircleOutlineIcon from '@mui/icons-material/RemoveCircleOutline'
+import RemoveCircleOutlineIcon from '@mui/icons-material/RemoveCircleOutlineOutlined'
 import SubscriptionsIcon from '@mui/icons-material/Subscriptions'
 import {
     Avatar,
@@ -62,12 +62,22 @@ export const SubscriptionsListing: FC<{
             <Typography variant="h5" gutterBottom>
                 {phrase('SUBSCRIPTIONS_HEADING', '')}
             </Typography>
-            <Typography paragraph>
+            <Typography
+                sx={{
+                    marginBottom: '16px',
+                }}
+            >
                 {phrase('SUNSCRIPTIONS_EDITORIAL', '')}
             </Typography>
             <Grid container spacing={2} key="p">
                 {subscriptions.map((subscription) => (
-                    <Grid item key={subscription.subscriptionId} xs={12} sm={4}>
+                    <Grid
+                        key={subscription.subscriptionId}
+                        size={{
+                            xs: 12,
+                            sm: 4,
+                        }}
+                    >
                         <Card
                             sx={{
                                 height: '100%',
@@ -92,7 +102,11 @@ export const SubscriptionsListing: FC<{
                             />
                             <CardContent key="c" sx={{ pt: 0, px: 4 }}>
                                 {subscription.filter.search && (
-                                    <Box py={1}>
+                                    <Box
+                                        sx={{
+                                            py: 1,
+                                        }}
+                                    >
                                         <Typography>Sökord </Typography>
                                         <Typography variant="subtitle2">
                                             {subscription.filter.search}
@@ -101,7 +115,11 @@ export const SubscriptionsListing: FC<{
                                 )}
 
                                 {subscription.categories.length > 0 && (
-                                    <Box py={1}>
+                                    <Box
+                                        sx={{
+                                            py: 1,
+                                        }}
+                                    >
                                         <Typography>Kategorier</Typography>
                                         <Typography variant="subtitle2">
                                             {flattenCategories(
@@ -112,7 +130,11 @@ export const SubscriptionsListing: FC<{
                                 )}
                                 {(subscription.filter.tags?.length ?? 0) >
                                     0 && (
-                                    <Box py={1}>
+                                    <Box
+                                        sx={{
+                                            py: 1,
+                                        }}
+                                    >
                                         <Typography>Taggar</Typography>
                                         <Typography variant="subtitle2">
                                             {subscription.filter.tags?.join(
@@ -123,7 +145,11 @@ export const SubscriptionsListing: FC<{
                                 )}
                                 {(subscription.filter.size?.length ?? 0) >
                                     0 && (
-                                    <Box py={1}>
+                                    <Box
+                                        sx={{
+                                            py: 1,
+                                        }}
+                                    >
                                         <Typography>Storlek</Typography>
                                         <Typography variant="subtitle2">
                                             {subscription.filter.size?.join(

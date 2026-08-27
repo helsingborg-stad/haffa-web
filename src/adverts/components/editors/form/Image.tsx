@@ -15,7 +15,13 @@ export const ImageInput: FC<{
     onMoveup?: () => void
     onMovedown?: () => void
 }> = ({ url, onRemove, onMoveup, onMovedown }) => (
-    <Grid item xs={6} sm={4} sx={{ position: 'relative' }}>
+    <Grid
+        sx={{ position: 'relative' }}
+        size={{
+            xs: 6,
+            sm: 4,
+        }}
+    >
         <Box
             component="img"
             src={url}

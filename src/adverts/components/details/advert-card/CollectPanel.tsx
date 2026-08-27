@@ -12,7 +12,13 @@ export const CollectPanel: FC<{
     const { collectAdvert } = useContext(AdvertsContext)
 
     return (
-        <Grid container spacing={2} color="primary">
+        <Grid
+            container
+            spacing={2}
+            sx={{
+                color: 'primary',
+            }}
+        >
             <Button
                 color="primary"
                 variant="contained"

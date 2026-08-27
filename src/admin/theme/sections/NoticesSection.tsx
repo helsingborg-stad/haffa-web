@@ -12,7 +12,12 @@ const ALERT_PREVIEWS: AlertProps[] = [
 
 export const NoticesSection = ({ model, patch }: ThemeSectionProps) => (
     <>
-        <Typography variant="h6" py={2}>
+        <Typography
+            variant="h6"
+            sx={{
+                py: 2,
+            }}
+        >
             Notiser
         </Typography>
         <VariantRadioGroup

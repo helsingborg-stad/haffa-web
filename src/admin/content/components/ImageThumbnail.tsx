@@ -17,7 +17,13 @@ export const ImageThumbnail = (props: {
             />
         )}
         {!isYoutubeUrl(props.url) && (
-            <Box component="img" src={props.url} height={props.height ?? 128} />
+            <Box
+                component="img"
+                src={props.url}
+                sx={{
+                    height: props.height ?? 128,
+                }}
+            />
         )}
         <IconButton
             color="warning"

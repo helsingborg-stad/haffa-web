@@ -154,13 +154,6 @@ export const CategoriesForm: FC<{
                             )}
                             type="number"
                             value={selectedNode.co2kg}
-                            InputProps={{
-                                endAdornment: (
-                                    <InputAdornment position="end">
-                                        kg
-                                    </InputAdornment>
-                                ),
-                            }}
                             onChange={(e) =>
                                 updateNode(selectedNode, () => ({
                                     co2kg: Math.max(
@@ -169,6 +162,15 @@ export const CategoriesForm: FC<{
                                     ),
                                 }))
                             }
+                            slotProps={{
+                                input: {
+                                    endAdornment: (
+                                        <InputAdornment position="end">
+                                            kg
+                                        </InputAdornment>
+                                    ),
+                                },
+                            }}
                         />
                     </FormControl>
                     <FormControl fullWidth>
@@ -184,13 +186,6 @@ export const CategoriesForm: FC<{
                             )}
                             type="number"
                             value={selectedNode.valueByUnit}
-                            InputProps={{
-                                endAdornment: (
-                                    <InputAdornment position="end">
-                                        kr
-                                    </InputAdornment>
-                                ),
-                            }}
                             onChange={(e) =>
                                 updateNode(selectedNode, () => ({
                                     valueByUnit: Math.max(
@@ -199,6 +194,15 @@ export const CategoriesForm: FC<{
                                     ),
                                 }))
                             }
+                            slotProps={{
+                                input: {
+                                    endAdornment: (
+                                        <InputAdornment position="end">
+                                            kr
+                                        </InputAdornment>
+                                    ),
+                                },
+                            }}
                         />
                     </FormControl>
                     <FormControl fullWidth>
@@ -289,10 +293,20 @@ export const CategoriesForm: FC<{
             <Card>
                 <CardContent>
                     <Grid container>
-                        <Grid item sm={12} md={6}>
+                        <Grid
+                            size={{
+                                sm: 12,
+                                md: 6,
+                            }}
+                        >
                             {categoryTree()}
                         </Grid>
-                        <Grid item sm={12} md={6}>
+                        <Grid
+                            size={{
+                                sm: 12,
+                                md: 6,
+                            }}
+                        >
                             {categoryEditor()}
                         </Grid>
                     </Grid>

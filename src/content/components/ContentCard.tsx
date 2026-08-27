@@ -9,8 +9,12 @@ import {
     useMediaQuery,
     useTheme,
 } from '@mui/material'
-import { darken, getLuminance, lighten } from '@mui/material/styles'
-import type { Variant } from '@mui/material/styles/createTypography'
+import {
+    darken,
+    getLuminance,
+    lighten,
+    type TypographyVariant,
+} from '@mui/material/styles'
 import { AdvertsListGeneric } from 'adverts/components/listings/AdvertsListGeneric'
 import { Markdown } from 'components/Markdown'
 import { compile } from 'handlebars'
@@ -175,7 +179,7 @@ export const ContentCard = (
                 <CardContent sx={{ width: '100%', textAlign: module.align }}>
                     {isValidString(module.title) && (
                         <Typography
-                            variant={module.size as Variant}
+                            variant={module.size as TypographyVariant}
                             gutterBottom
                         >
                             {module.title}

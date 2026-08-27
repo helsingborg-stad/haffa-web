@@ -38,8 +38,11 @@ const SwiperCarousel: FC<{ images: AdvertImage[] }> = ({ images }) => {
     const swiperStyle = useMemo(
         () =>
             ({
-                '--swiper-navigation-color': theme.palette.primary.main, // '#fff',
-                '--swiper-pagination-color': theme.palette.primary.main, // '#fff',
+                // '#fff',
+                '--swiper-navigation-color': theme.palette.primary.main,
+
+                // '#fff',
+                '--swiper-pagination-color': theme.palette.primary.main,
             }) as CSSProperties,
         [theme]
     )

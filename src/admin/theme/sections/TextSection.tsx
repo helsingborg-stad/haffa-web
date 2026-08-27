@@ -26,17 +26,32 @@ export const TextSection = ({ mode, model, patch }: ThemeModeSectionProps) => {
 
     return (
         <>
-            <Typography variant="h6" py={2}>
+            <Typography
+                variant="h6"
+                sx={{
+                    py: 2,
+                }}
+            >
                 Text och kort
             </Typography>
             <Grid container rowSpacing={2}>
-                <Grid item xs={12} sm={12} pr={1}>
+                <Grid
+                    size={{
+                        xs: 12,
+                        sm: 12,
+                    }}
+                    sx={{
+                        pr: 1,
+                    }}
+                >
                     <Card sx={{ p: 2 }}>
                         {items.map(([label, paletteColorPath]) => (
                             <Box key={paletteColorPath}>
                                 <Typography
-                                    fontWeight="bold"
                                     color={paletteColorPath}
+                                    sx={{
+                                        fontWeight: 'bold',
+                                    }}
                                 >
                                     {label}:
                                 </Typography>
@@ -49,7 +64,16 @@ export const TextSection = ({ mode, model, patch }: ThemeModeSectionProps) => {
                 </Grid>
 
                 {items.map(([label, , modelKey]) => (
-                    <Grid item xs={12} sm={4} pr={1} key={modelKey}>
+                    <Grid
+                        key={modelKey}
+                        size={{
+                            xs: 12,
+                            sm: 4,
+                        }}
+                        sx={{
+                            pr: 1,
+                        }}
+                    >
                         <ColorSelect
                             label={label}
                             value={model[modelKey]}

@@ -80,12 +80,14 @@ export const EditHtmlForm: FC<{
                         value={state.title}
                         label="Titel"
                         helperText="Detta är texten som visas i webbläsarens flikrad"
-                        inputProps={{
-                            maxLength: 32,
-                        }}
                         onChange={({ target: { value: title } }) =>
                             patch({ title })
                         }
+                        slotProps={{
+                            htmlInput: {
+                                maxLength: 32,
+                            },
+                        }}
                     />
                     <TextField
                         fullWidth
@@ -93,12 +95,14 @@ export const EditHtmlForm: FC<{
                         value={state.description}
                         label="Beskrivning"
                         helperText="Beskrivningstext som visas om du delar länken till appen med någon annan"
-                        inputProps={{
-                            maxLength: 128,
-                        }}
                         onChange={({ target: { value: description } }) =>
                             patch({ description })
                         }
+                        slotProps={{
+                            htmlInput: {
+                                maxLength: 128,
+                            },
+                        }}
                     />
                     <TextField
                         fullWidth
