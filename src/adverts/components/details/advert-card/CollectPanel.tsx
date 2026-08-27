@@ -15,9 +15,6 @@ export const CollectPanel: FC<{
         <Grid
             container
             spacing={2}
-            sx={{
-                color: 'primary',
-            }}
         >
             <Button
                 color="primary"

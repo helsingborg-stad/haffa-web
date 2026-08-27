@@ -7,7 +7,7 @@ import { type FC, type PropsWithChildren, useContext, useMemo } from 'react'
 import type { Terms } from 'terms/types'
 
 const Row: FC<PropsWithChildren & GridProps> = ({ sx, ...props }) => (
-    <Grid container spacing={2} sx={{ pt: 2, ...sx }} {...props}>
+    <Grid container spacing={2} sx={[{ pt: 2 }, ...(Array.isArray(sx) ? sx : [sx])]} {...props}>
         {props.children}
     </Grid>
 )

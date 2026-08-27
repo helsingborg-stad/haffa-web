@@ -59,11 +59,7 @@ export const AdvertListItem: FC<{
     const categoryLabel = categories.findById(advert.category)?.label
     return (
         <Card
-            sx={{
-                ...sx,
-                display: 'flex',
-                justifyContent: 'stretch',
-            }}
+            sx={[...(Array.isArray(sx) ? sx : [sx]), { display: 'flex', justifyContent: 'stretch' }]}
         >
             <CardActionArea component={Link} to={`/advert/${advert.id}`}>
                 <Stack sx={{ height: '100%' }}>

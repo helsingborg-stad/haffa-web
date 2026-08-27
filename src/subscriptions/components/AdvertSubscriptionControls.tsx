@@ -56,11 +56,7 @@ export const AdvertSubscriptionControls: FC<{
         <Stack
             useFlexGap
             direction={{ xs: 'column', sm: 'row' }}
-            sx={{
-                justifyContent: 'end',
-                gap: 1,
-                ...sx,
-            }}
+            sx={[{ justifyContent: 'end', gap: 1 }, ...(Array.isArray(sx) ? sx : [sx])]}
         >
             {buttons}
         </Stack>
