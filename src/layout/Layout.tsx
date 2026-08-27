@@ -59,7 +59,7 @@ const NavIconButton: FC<
             direction="column"
             sx={{
                 alignItems: 'center',
-                fontSize: { xs: 'x-small', sm: '' },
+                fontSize: { xs: 'x-small', sm: '0.875rem' },
                 fontWeight: 'initial',
                 textTransform: 'none',
             }}
@@ -104,7 +104,7 @@ const NavIconLink: FC<{
             direction="column"
             sx={{
                 alignItems: 'center',
-                fontSize: { xs: 'x-small', sm: '' },
+                fontSize: { xs: 'x-small', sm: '0.875rem' },
                 fontWeight: 'initial',
                 textTransform: 'none',
                 m: 1,
