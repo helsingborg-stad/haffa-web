@@ -12,10 +12,7 @@ export const CollectPanel: FC<{
     const { collectAdvert } = useContext(AdvertsContext)
 
     return (
-        <Grid
-            container
-            spacing={2}
-        >
+        <Grid container spacing={2}>
             <Button
                 color="primary"
                 variant="contained"

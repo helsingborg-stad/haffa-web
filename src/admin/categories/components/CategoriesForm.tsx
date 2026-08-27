@@ -95,7 +95,17 @@ export const CategoriesForm: FC<{
     )
 
     const categoryTree = () => (
-        <SimpleTreeView sx={{ fontSize: 'x-large' }} {...treeViewProps}>
+        <SimpleTreeView
+            sx={{
+                fontSize: 'x-large',
+                // MuiTreeItem-label clips overflow (for text-ellipsis), but
+                // the advert-count Badge's dot is positioned above its own
+                // box, so it gets cut off by that clipping. Badges are meant
+                // to overflow their container - let this one.
+                '& .MuiTreeItem-label': { overflow: 'visible' },
+            }}
+            {...treeViewProps}
+        >
             {renderTreeItems(nodes)}
         </SimpleTreeView>
     )

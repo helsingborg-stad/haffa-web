@@ -136,6 +136,7 @@ export function TreeSelect<T>({
                     sx={{
                         flex: flexCells - level,
                         alignContent: 'center',
+                        pl: 1,
                     }}
                 >
                     <Box>{node.label}</Box>
