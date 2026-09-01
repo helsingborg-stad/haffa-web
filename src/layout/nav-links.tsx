@@ -1,4 +1,4 @@
-import AddIcon from '@mui/icons-material/AddCircleOutline'
+import AddIcon from '@mui/icons-material/AddCircleOutlineOutlined'
 import BookmarkBorderIcon from '@mui/icons-material/BookmarkBorder'
 import CheckIcon from '@mui/icons-material/Check'
 import InfoOutlinedIcon from '@mui/icons-material/InfoOutlined'

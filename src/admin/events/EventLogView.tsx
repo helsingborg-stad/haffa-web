@@ -143,8 +143,15 @@ export const SearchHeader: FC<{
     ]
 
     return (
-        <Grid container alignContent="center" alignItems="center" spacing={1}>
-            <Grid item>
+        <Grid
+            container
+            spacing={1}
+            sx={{
+                alignContent: 'center',
+                alignItems: 'center',
+            }}
+        >
+            <Grid>
                 <TextField
                     value={searchParams.from}
                     type="date"
@@ -156,7 +163,7 @@ export const SearchHeader: FC<{
                     }
                 />
             </Grid>
-            <Grid item>
+            <Grid>
                 <TextField
                     value={searchParams.to}
                     type="date"
@@ -169,7 +176,7 @@ export const SearchHeader: FC<{
                 />
             </Grid>
             {quickFilters.map((f) => (
-                <Grid item key={f.label}>
+                <Grid key={f.label}>
                     <Button
                         variant="outlined"
                         onClick={() =>
@@ -185,7 +192,7 @@ export const SearchHeader: FC<{
                 </Grid>
             ))}
             {(organizations.length > 0 || hasEventsWithoutOrganization) && (
-                <Grid item sx={{ minWidth: 220 }}>
+                <Grid sx={{ minWidth: 220 }}>
                     <Autocomplete
                         multiple
                         size="small"
@@ -233,22 +240,24 @@ export const DownloadHeader: FC<{
             onChange={(e) => setName(e.target.value)}
             label={phrase('EVENTLOG_EXPORT_FILENAME', 'Filnamn')}
             placeholder={phrase('EVENTLOG_EXPORT_FILENAME', 'Filnamn')}
-            InputProps={{
-                endAdornment: (
-                    <InputAdornment position="end" sx={{ gap: 1 }}>
-                        .xlsx
-                        <Button
-                            variant="contained"
-                            color="primary"
-                            onClick={() => onExport(name)}
-                        >
-                            {phrase(
-                                'EVENTLOG_EXPOR_FILENAME',
-                                'Exportera till excel'
-                            )}
-                        </Button>
-                    </InputAdornment>
-                ),
+            slotProps={{
+                input: {
+                    endAdornment: (
+                        <InputAdornment position="end" sx={{ gap: 1 }}>
+                            .xlsx
+                            <Button
+                                variant="contained"
+                                color="primary"
+                                onClick={() => onExport(name)}
+                            >
+                                {phrase(
+                                    'EVENTLOG_EXPOR_FILENAME',
+                                    'Exportera till excel'
+                                )}
+                            </Button>
+                        </InputAdornment>
+                    ),
+                },
             }}
         />
     )

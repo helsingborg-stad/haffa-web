@@ -21,12 +21,26 @@ export const PaletteSection = ({
 
     return (
         <>
-            <Typography variant="h6" py={2}>
+            <Typography
+                variant="h6"
+                sx={{
+                    py: 2,
+                }}
+            >
                 Palett
             </Typography>
             <Grid container rowSpacing={2}>
                 {items.map(([label, name]) => (
-                    <Grid item xs={12} sm={3} pr={1} key={name}>
+                    <Grid
+                        key={name}
+                        size={{
+                            xs: 12,
+                            sm: 3,
+                        }}
+                        sx={{
+                            pr: 1,
+                        }}
+                    >
                         <ColorSelect
                             label={label}
                             value={model[name]}

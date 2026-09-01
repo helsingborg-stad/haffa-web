@@ -5,11 +5,24 @@ import type { ThemeSectionProps } from './types'
 
 export const TypographySection = ({ model, patch }: ThemeSectionProps) => (
     <>
-        <Typography variant="h6" py={2}>
+        <Typography
+            variant="h6"
+            sx={{
+                py: 2,
+            }}
+        >
             Text och kort
         </Typography>
         <Grid container rowSpacing={4}>
-            <Grid item xs={12} sm={2} pr={1}>
+            <Grid
+                size={{
+                    xs: 12,
+                    sm: 2,
+                }}
+                sx={{
+                    pr: 1,
+                }}
+            >
                 <RegularSelect
                     label="Storlek brödtext"
                     value={model['typography.body1.fontsize']}
@@ -25,7 +38,15 @@ export const TypographySection = ({ model, patch }: ThemeSectionProps) => (
                     ])}
                 </RegularSelect>
             </Grid>
-            <Grid item xs={12} sm={2} pr={1}>
+            <Grid
+                size={{
+                    xs: 12,
+                    sm: 2,
+                }}
+                sx={{
+                    pr: 1,
+                }}
+            >
                 <RegularSelect
                     label="Skuggning kort"
                     value={model['component.paper.variant']}
@@ -42,7 +63,15 @@ export const TypographySection = ({ model, patch }: ThemeSectionProps) => (
                     ])}
                 </RegularSelect>
             </Grid>
-            <Grid item xs={12} sm={2} pr={1}>
+            <Grid
+                size={{
+                    xs: 12,
+                    sm: 2,
+                }}
+                sx={{
+                    pr: 1,
+                }}
+            >
                 <RegularSelect
                     label="Radie på komponenter"
                     value={model['shape.radius']}

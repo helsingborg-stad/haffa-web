@@ -17,11 +17,24 @@ const ASPECT_RATIOS = [
 
 export const MediaSection = ({ model, patch }: ThemeSectionProps) => (
     <>
-        <Typography variant="h6" py={2}>
+        <Typography
+            variant="h6"
+            sx={{
+                py: 2,
+            }}
+        >
             Bilder och media
         </Typography>
         <Grid container rowSpacing={4}>
-            <Grid item xs={12} sm={2} pr={1}>
+            <Grid
+                size={{
+                    xs: 12,
+                    sm: 2,
+                }}
+                sx={{
+                    pr: 1,
+                }}
+            >
                 <RegularSelect
                     label="Bildförhållande"
                     value={model['advert.image.aspectRatio']}

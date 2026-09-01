@@ -14,10 +14,23 @@ export const FontSection = ({ model, patch }: ThemeSectionProps) => {
 
     return (
         <>
-            <Typography variant="h6" py={2}>
+            <Typography
+                variant="h6"
+                sx={{
+                    py: 2,
+                }}
+            >
                 Typsnitt
             </Typography>
-            <Grid item xs={12} sm={2} pr={1}>
+            <Grid
+                size={{
+                    xs: 12,
+                    sm: 2,
+                }}
+                sx={{
+                    pr: 1,
+                }}
+            >
                 <TextField
                     label="Familj"
                     value={
@@ -27,14 +40,16 @@ export const FontSection = ({ model, patch }: ThemeSectionProps) => {
                     disabled
                     fullWidth
                     variant="outlined"
-                    InputProps={{
-                        endAdornment: (
-                            <InputAdornment position="end">
-                                <Button onClick={() => setDialogOpen(true)}>
-                                    Ändra
-                                </Button>
-                            </InputAdornment>
-                        ),
+                    slotProps={{
+                        input: {
+                            endAdornment: (
+                                <InputAdornment position="end">
+                                    <Button onClick={() => setDialogOpen(true)}>
+                                        Ändra
+                                    </Button>
+                                </InputAdornment>
+                            ),
+                        },
                     }}
                 />
                 <FontSelect

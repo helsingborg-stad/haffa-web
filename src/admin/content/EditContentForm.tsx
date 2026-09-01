@@ -204,14 +204,17 @@ export const EditContentForm = (props: {
                     container
                     rowSpacing={5}
                     columnSpacing={5}
-                    pb={5}
+                    sx={{
+                        pb: 5,
+                    }}
                 >
                     {row.columns.map((column, colIndex) => (
                         <Grid
                             key={colIndex}
-                            item
-                            xs={12}
-                            md={12 / row.columns.length}
+                            size={{
+                                xs: 12,
+                                md: 12 / row.columns.length,
+                            }}
                         >
                             <ContentCard
                                 module={column.module}

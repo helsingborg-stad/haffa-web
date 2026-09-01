@@ -8,16 +8,34 @@ export const AppBarSection = ({
     patch,
 }: ThemeModeSectionProps) => (
     <>
-        <Typography variant="h6" py={2}>
+        <Typography
+            variant="h6"
+            sx={{
+                py: 2,
+            }}
+        >
             Menybar
         </Typography>
         <Grid container rowSpacing={4}>
-            <Grid item xs={12} sm={12}>
+            <Grid
+                size={{
+                    xs: 12,
+                    sm: 12,
+                }}
+            >
                 <AppBar position="static" sx={{ p: 3 }}>
                     <Typography variant="h6">HAFFA</Typography>
                 </AppBar>
             </Grid>
-            <Grid item xs={12} sm={2} pr={1}>
+            <Grid
+                size={{
+                    xs: 12,
+                    sm: 2,
+                }}
+                sx={{
+                    pr: 1,
+                }}
+            >
                 <RegularSelect
                     label="Skuggning (Delad)"
                     value={model['component.appbar.variant']}
@@ -34,7 +52,15 @@ export const AppBarSection = ({
                     ])}
                 </RegularSelect>
             </Grid>
-            <Grid item xs={12} sm={2} pr={1}>
+            <Grid
+                size={{
+                    xs: 12,
+                    sm: 2,
+                }}
+                sx={{
+                    pr: 1,
+                }}
+            >
                 <RegularSelect
                     label="Ram (Delad)"
                     value={model['component.appbar.border']}
@@ -50,7 +76,15 @@ export const AppBarSection = ({
                     ])}
                 </RegularSelect>
             </Grid>
-            <Grid item xs={12} sm={2} pr={1}>
+            <Grid
+                size={{
+                    xs: 12,
+                    sm: 2,
+                }}
+                sx={{
+                    pr: 1,
+                }}
+            >
                 <RegularSelect
                     label="Färg"
                     value={model[`${mode}.component.appbar.color`]}

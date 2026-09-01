@@ -18,13 +18,27 @@ const BUTTON_PREVIEWS: ButtonProps[] = [
 
 export const ButtonSection = ({ model, patch: apply }: ThemeSectionProps) => (
     <>
-        <Typography variant="h6" py={2}>
+        <Typography
+            variant="h6"
+            sx={{
+                py: 2,
+            }}
+        >
             Knappar
         </Typography>
 
         <Grid container rowSpacing={4}>
             {BUTTON_VARIANTS.map(([variant, label], key) => (
-                <Grid item xs={12} sm={4} pr={1} key={key}>
+                <Grid
+                    key={key}
+                    size={{
+                        xs: 12,
+                        sm: 4,
+                    }}
+                    sx={{
+                        pr: 1,
+                    }}
+                >
                     <Typography>{label}</Typography>
                     {BUTTON_PREVIEWS.map((props, innerkey) => (
                         <PreviewButton
@@ -36,7 +50,15 @@ export const ButtonSection = ({ model, patch: apply }: ThemeSectionProps) => (
                 </Grid>
             ))}
 
-            <Grid item xs={12} sm={6} pr={1}>
+            <Grid
+                size={{
+                    xs: 12,
+                    sm: 6,
+                }}
+                sx={{
+                    pr: 1,
+                }}
+            >
                 <RegularSelect
                     label="Skuggning (Delad)"
                     value={model['component.button.elevation']}
@@ -52,7 +74,15 @@ export const ButtonSection = ({ model, patch: apply }: ThemeSectionProps) => (
                     ])}
                 </RegularSelect>
             </Grid>
-            <Grid item xs={12} sm={6} pr={1}>
+            <Grid
+                size={{
+                    xs: 12,
+                    sm: 6,
+                }}
+                sx={{
+                    pr: 1,
+                }}
+            >
                 <RegularSelect
                     label="Radie (Delad)"
                     value={model['component.button.radius']}

@@ -34,11 +34,11 @@ export interface TreeViewProps {
     expandedItems: string[]
     selectedItems: string | null
     onExpandedItemsChange: (
-        event: React.SyntheticEvent,
+        event: React.SyntheticEvent | null,
         itemIds: string[]
     ) => void
     onSelectedItemsChange: (
-        event: React.SyntheticEvent,
+        event: React.SyntheticEvent | null,
         itemId: string | null
     ) => void
 }

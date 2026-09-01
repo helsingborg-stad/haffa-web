@@ -33,8 +33,11 @@ const EventsCard: FC<{ events: ServerSideLogEvent[] }> = ({ events }) => {
                         <TimelineItem key={index}>
                             <TimelineOppositeContent
                                 variant="body2"
-                                color="text.secondary"
-                                sx={{ py: 0, px: 2 }}
+                                sx={{
+                                    color: 'text.secondary',
+                                    py: 0,
+                                    px: 2,
+                                }}
                             >
                                 <Typography
                                     variant="subtitle2"

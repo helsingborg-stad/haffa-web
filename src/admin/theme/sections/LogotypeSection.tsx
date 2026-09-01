@@ -6,18 +6,33 @@ const MAX_LOGOTYPE_FILE_SIZE = 1024 * 1024
 
 export const LogotypeSection = ({ model, patch }: ThemeSectionProps) => (
     <>
-        <Typography variant="h6" py={2}>
+        <Typography
+            variant="h6"
+            sx={{
+                py: 2,
+            }}
+        >
             Logotype
         </Typography>
         <Grid container rowSpacing={4}>
-            <Grid item xs={12} sm={2} pr={1}>
+            <Grid
+                size={{
+                    xs: 12,
+                    sm: 2,
+                }}
+                sx={{
+                    pr: 1,
+                }}
+            >
                 <Box>
                     <Box
                         component="img"
-                        height={96}
-                        border="1px dotted black"
                         src={model['custom.image.logotype']}
-                        sx={{ p: 2 }}
+                        sx={{
+                            height: 96,
+                            border: '1px dotted black',
+                            p: 2,
+                        }}
                     />
                     <ImageBrowseButton
                         maxSize={MAX_LOGOTYPE_FILE_SIZE}

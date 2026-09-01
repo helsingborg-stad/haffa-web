@@ -19,13 +19,13 @@ const FilterPanel: FC<
 
     return (
         <Grid container>
-            <Grid item sx={{ flex: 1 }}>
+            <Grid sx={{ flex: 1 }}>
                 <SearchInput
                     searchParams={searchParams}
                     setSearchParams={setSearchParams}
                 />
             </Grid>
-            <Grid item>
+            <Grid>
                 <FiltersIconButton
                     searchParams={searchParams}
                     onClick={() => setShowFilter(true)}
@@ -37,7 +37,7 @@ const FilterPanel: FC<
                     setSearchParams={setSearchParams}
                 />
             </Grid>
-            <Grid item>
+            <Grid>
                 <SortIconButton onClick={setSortMenuAnchor} />
                 <SortMenu
                     anchor={sortMenuAnchor}

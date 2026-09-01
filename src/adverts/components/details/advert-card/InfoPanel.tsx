@@ -36,9 +36,12 @@ const Descriptions: FC<{ advert: Advert; category: Category | null }> = ({
                     <>
                         {category.label}
                         <Typography
-                            color="text.disabled"
                             component="span"
-                            sx={{ pl: 1, pr: 1 }}
+                            sx={{
+                                color: 'text.disabled',
+                                pl: 1,
+                                pr: 1,
+                            }}
                         >
                             |
                         </Typography>

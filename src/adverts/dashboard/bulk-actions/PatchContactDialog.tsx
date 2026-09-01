@@ -80,7 +80,13 @@ const PatchContactDialogImpl: FC<
             )}
 
             <DialogContent>
-                <Stack direction="column" spacing={1} py={1}>
+                <Stack
+                    direction="column"
+                    spacing={1}
+                    sx={{
+                        py: 1,
+                    }}
+                >
                     <FormControl fullWidth>
                         <TextField
                             disabled={disabled}

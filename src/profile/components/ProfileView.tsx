@@ -25,12 +25,8 @@ const PropBox: FC<PropsWithChildren & { icon: React.JSX.Element }> = ({
     icon,
 }) => (
     <Grid container sx={{ alignItems: 'center' }}>
-        <Grid item sx={{ m: 1 }}>
-            {icon}
-        </Grid>
-        <Grid item sx={{ flex: 1 }}>
-            {children}
-        </Grid>
+        <Grid sx={{ m: 1 }}>{icon}</Grid>
+        <Grid sx={{ flex: 1 }}>{children}</Grid>
     </Grid>
 )
 

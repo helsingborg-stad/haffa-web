@@ -95,7 +95,17 @@ export const CategoriesForm: FC<{
     )
 
     const categoryTree = () => (
-        <SimpleTreeView sx={{ fontSize: 'x-large' }} {...treeViewProps}>
+        <SimpleTreeView
+            sx={{
+                fontSize: 'x-large',
+                // MuiTreeItem-label clips overflow (for text-ellipsis), but
+                // the advert-count Badge's dot is positioned above its own
+                // box, so it gets cut off by that clipping. Badges are meant
+                // to overflow their container - let this one.
+                '& .MuiTreeItem-label': { overflow: 'visible' },
+            }}
+            {...treeViewProps}
+        >
             {renderTreeItems(nodes)}
         </SimpleTreeView>
     )
@@ -154,13 +164,6 @@ export const CategoriesForm: FC<{
                             )}
                             type="number"
                             value={selectedNode.co2kg}
-                            InputProps={{
-                                endAdornment: (
-                                    <InputAdornment position="end">
-                                        kg
-                                    </InputAdornment>
-                                ),
-                            }}
                             onChange={(e) =>
                                 updateNode(selectedNode, () => ({
                                     co2kg: Math.max(
@@ -169,6 +172,15 @@ export const CategoriesForm: FC<{
                                     ),
                                 }))
                             }
+                            slotProps={{
+                                input: {
+                                    endAdornment: (
+                                        <InputAdornment position="end">
+                                            kg
+                                        </InputAdornment>
+                                    ),
+                                },
+                            }}
                         />
                     </FormControl>
                     <FormControl fullWidth>
@@ -184,13 +196,6 @@ export const CategoriesForm: FC<{
                             )}
                             type="number"
                             value={selectedNode.valueByUnit}
-                            InputProps={{
-                                endAdornment: (
-                                    <InputAdornment position="end">
-                                        kr
-                                    </InputAdornment>
-                                ),
-                            }}
                             onChange={(e) =>
                                 updateNode(selectedNode, () => ({
                                     valueByUnit: Math.max(
@@ -199,6 +204,15 @@ export const CategoriesForm: FC<{
                                     ),
                                 }))
                             }
+                            slotProps={{
+                                input: {
+                                    endAdornment: (
+                                        <InputAdornment position="end">
+                                            kr
+                                        </InputAdornment>
+                                    ),
+                                },
+                            }}
                         />
                     </FormControl>
                     <FormControl fullWidth>
@@ -289,10 +303,20 @@ export const CategoriesForm: FC<{
             <Card>
                 <CardContent>
                     <Grid container>
-                        <Grid item sm={12} md={6}>
+                        <Grid
+                            size={{
+                                sm: 12,
+                                md: 6,
+                            }}
+                        >
                             {categoryTree()}
                         </Grid>
-                        <Grid item sm={12} md={6}>
+                        <Grid
+                            size={{
+                                sm: 12,
+                                md: 6,
+                            }}
+                        >
                             {categoryEditor()}
                         </Grid>
                     </Grid>

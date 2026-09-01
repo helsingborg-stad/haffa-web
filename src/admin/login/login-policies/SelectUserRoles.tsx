@@ -32,7 +32,6 @@ export const SelectUserRoles: FC<{
                 multiple
                 fullWidth
                 label={phrase('ROLES_SELECT_LABEL', 'Behörigheter')}
-                placeholder={phrase('ROLES_SELECT_LABEL', 'Behörigheter')}
                 value={toInputValue(userRoles)}
                 onChange={(e) => onChange(fromInputValue(e.target.value))}
                 renderValue={(selected) => (

@@ -10,10 +10,21 @@ const formatNumber = (value: number) =>
 
 const StatTile: FC<{ value: string; label: string }> = ({ value, label }) => (
     <Box sx={{ minWidth: 140 }}>
-        <Typography variant="h4" component="div" fontWeight="bold">
+        <Typography
+            variant="h4"
+            component="div"
+            sx={{
+                fontWeight: 'bold',
+            }}
+        >
             {value}
         </Typography>
-        <Typography variant="body2" color="text.secondary">
+        <Typography
+            variant="body2"
+            sx={{
+                color: 'text.secondary',
+            }}
+        >
             {label}
         </Typography>
     </Box>
@@ -48,7 +59,13 @@ export const CollectedTotalsStats: FC<{ events: ServerSideLogEvent[] }> = ({
     return (
         <Card>
             <CardContent>
-                <Typography variant="body1" fontWeight="bold" gutterBottom>
+                <Typography
+                    variant="body1"
+                    gutterBottom
+                    sx={{
+                        fontWeight: 'bold',
+                    }}
+                >
                     {phrase(
                         'EVENTLOG_STATS_TITLE',
                         'Totalt vid uthämtning (advert-was-collected)'

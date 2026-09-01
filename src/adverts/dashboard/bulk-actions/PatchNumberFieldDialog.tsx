@@ -2,13 +2,13 @@ import CancelIcon from '@mui/icons-material/Cancel'
 import SaveAltIcon from '@mui/icons-material/SaveAlt'
 import {
     Alert,
-    type BaseTextFieldProps,
     Button,
     Dialog,
     DialogActions,
     DialogContent,
     DialogTitle,
     TextField,
+    type TextFieldProps,
 } from '@mui/material'
 import type { Advert, AdvertInput } from 'adverts'
 import type { Func1 } from 'lib/types'
@@ -22,9 +22,9 @@ export const PatchNumberFieldDialog: FC<
         label: string
         getValue: Func1<Advert, number>
         makePatch: Func1<number, Partial<AdvertInput>>
-        inputProps?: BaseTextFieldProps
+        slotProps?: TextFieldProps['slotProps']
     }
-> = ({ open, closeDialog, label, getValue, makePatch, inputProps }) => {
+> = ({ open, closeDialog, label, getValue, makePatch, slotProps }) => {
     const { patchAdverts, selectionCommonValue } =
         useContext(AdvertsTableContext)
     const { phrase } = useContext(PhraseContext)
@@ -47,10 +47,13 @@ export const PatchNumberFieldDialog: FC<
                 <TextField
                     type="text"
                     fullWidth
-                    {...{
-                        inputMode: 'numeric',
-                        pattern: '[0-9]*',
-                        ...inputProps,
+                    slotProps={{
+                        ...slotProps,
+                        htmlInput: {
+                            inputMode: 'numeric',
+                            pattern: '[0-9]*',
+                            ...slotProps?.htmlInput,
+                        },
                     }}
                     value={value.value}
                     onChange={(e) =>
