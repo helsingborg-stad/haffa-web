@@ -302,6 +302,10 @@ Regler utan email tas automatiskt bort.`,
     ADMIN_LABELS_BODY:
         'Här kan du utforma hur dina utskrivningsbara etiketter skall se ut.',
 
+    ADMIN_APP_SETTINGS_TITLE: 'Allmänt',
+    ADMIN_APP_SETTINGS_HEADLINE: 'Allmäna inställningar',
+    ADMIN_APP_SETTINGS_BODY: 'Här kan du ändra de allmäna inställningarna',
+
     ADMIN_ACTION_SAVE: 'Spara',
     ADMIN_ACTION_RESTORE: 'Återställ',
 

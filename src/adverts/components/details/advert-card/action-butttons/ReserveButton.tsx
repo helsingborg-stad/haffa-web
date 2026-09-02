@@ -8,6 +8,7 @@ import {
     Stack,
 } from '@mui/material'
 import type { Advert } from 'adverts'
+import { useAppSettings } from 'app-settings'
 import { NotificationsContext } from 'notifications'
 import { PhraseContext } from 'phrases/PhraseContext'
 import { PickupLocationContext } from 'pickup-locations'
@@ -27,6 +28,7 @@ export const ReserveButton: FC<{
     const { phrase } = useContext(PhraseContext)
     const { getPickupLocationsByAdvert } = useContext(PickupLocationContext)
     const { notifyIfError } = useContext(NotificationsContext)
+    const { warnOnReservingOwnAdvert } = useAppSettings()
 
     const {
         meta: { canReserve, reservableQuantity, isMine },
@@ -58,7 +60,9 @@ export const ReserveButton: FC<{
                 disabled={!canReserve}
                 sx={{ mb: 1 }}
                 onClick={() =>
-                    isMine ? setOwnAdvertWarningOpen(true) : proceedToReserve()
+                    isMine && warnOnReservingOwnAdvert
+                        ? setOwnAdvertWarningOpen(true)
+                        : proceedToReserve()
                 }
             >
                 {phrase('ADVERT_RESERVE', 'Reservera')}
