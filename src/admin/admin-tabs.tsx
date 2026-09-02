@@ -11,6 +11,7 @@ import LockIcon from '@mui/icons-material/Lock'
 import NewspaperIcon from '@mui/icons-material/Newspaper'
 import QrCode2Icon from '@mui/icons-material/QrCode2'
 import QueryStatsIcon from '@mui/icons-material/QueryStats'
+import SettingsIcon from '@mui/icons-material/Settings'
 import SmsIcon from '@mui/icons-material/Sms'
 import TimelineIcon from '@mui/icons-material/Timeline'
 import TranslateIcon from '@mui/icons-material/Translate'
@@ -22,6 +23,7 @@ import type { ReactNode } from 'react'
 import { ConfigureAdvertsView } from './adverts/ConfigureAdvertsView'
 import { EditAnalyticsView } from './analytics'
 import { EditApiKeysView } from './api-keys'
+import { EditAppSettingsView } from './app-settings'
 import { EditCategoriesView } from './categories'
 import { EditContentView } from './content'
 import { EventLogView } from './events/EventLogView'
@@ -183,6 +185,13 @@ export const createAdminTabs = (
             'Exportera',
             <ExportAdvertsView />,
             <FileDownloadIcon />
+        ),
+        tab(
+            roles.canEditTerms,
+            'app-settings',
+            phrase('ADMIN_APP_SETTINGS_TITLE', 'Allmänt'),
+            <EditAppSettingsView />,
+            <SettingsIcon />
         ),
     ]
         .filter((t) => t)

@@ -30,3 +30,8 @@ export interface LabelOptions {
     errorCorrectionLevel: 'low' | 'medium' | 'quartile' | 'high' | string
 }
 export type LabelOptionsKeys = keyof LabelOptions
+
+export interface AppSettingsOptions {
+    warnOnReservingOwnAdvert: boolean
+}
+export type AppSettingsOptionKeys = keyof AppSettingsOptions

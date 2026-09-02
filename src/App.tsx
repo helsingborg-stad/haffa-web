@@ -12,6 +12,7 @@ import {
     createApiKeysRepository,
     createNotifyingApiKeysRepository,
 } from 'api-keys'
+import { AppSettingsProvider } from 'app-settings'
 import { BrandingProvider } from 'branding/BrandingProvider'
 import {
     CategoriesProvider,
@@ -297,15 +298,17 @@ const App: FC = () => {
 
     return (
         <SystemSettingsProvider>
-            <BrandingProvider>
-                <NotificationsProvider>
-                    <FetchContextProvider>
-                        <AuthContextProvider authProvider={authProvider}>
-                            <Main />
-                        </AuthContextProvider>
-                    </FetchContextProvider>
-                </NotificationsProvider>
-            </BrandingProvider>
+            <AppSettingsProvider>
+                <BrandingProvider>
+                    <NotificationsProvider>
+                        <FetchContextProvider>
+                            <AuthContextProvider authProvider={authProvider}>
+                                <Main />
+                            </AuthContextProvider>
+                        </FetchContextProvider>
+                    </NotificationsProvider>
+                </BrandingProvider>
+            </AppSettingsProvider>
         </SystemSettingsProvider>
     )
 }

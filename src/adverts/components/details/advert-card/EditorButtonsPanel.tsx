@@ -2,7 +2,7 @@ import ArchiveIcon from '@mui/icons-material/Archive'
 import RemoveIcon from '@mui/icons-material/Delete'
 import EditIcon from '@mui/icons-material/Edit'
 import QrCodeIcon from '@mui/icons-material/QrCode2'
-import { Button, ButtonGroup, Link, useMediaQuery } from '@mui/material'
+import { Button, ButtonGroup, useMediaQuery } from '@mui/material'
 import { useTheme } from '@mui/material/styles'
 import { type Advert, type AdvertMutationResult, AdvertsContext } from 'adverts'
 import { ConfirmButton } from 'components/ConfirmButton'
@@ -60,7 +60,6 @@ export const EditorButtonsPanel: FC<{
             )}
             {meta.canArchive && (
                 <Button
-                    component={Link}
                     {...{ props }}
                     color="primary"
                     onClick={async () => onUpdate(archiveAdvert(advert.id))}
@@ -72,7 +71,6 @@ export const EditorButtonsPanel: FC<{
             {meta.canRemove && (
                 <ConfirmButton
                     {...{ props }}
-                    component={Link}
                     color="warning"
                     onClick={async () =>
                         onUpdate(
