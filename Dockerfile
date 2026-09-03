@@ -3,7 +3,7 @@ ARG GITHUB_ACCESS_TOKEN
 WORKDIR /work
 COPY . ./
 COPY deploy.npmrc .npmrc
-RUN rm -f package-lock.json && npm install && npm run build
+RUN npm ci && npm run build
 
 FROM node:22-alpine	as optimizer
 ARG GITHUB_ACCESS_TOKEN
