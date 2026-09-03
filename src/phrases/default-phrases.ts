@@ -40,6 +40,7 @@ export const defaultPhrases: Omit<
     NAV_PROFILE: 'Min profil',
     NAV_ABOUT_HAFFA: 'Om Haffa',
     NAV_ADMIN: 'Administration',
+    NAV_DARK_MODE: 'Mörkt läge',
     ADVERT_CREATE: 'Ny annons',
     ADVERT_EDIT: 'Redigera annons',
     ADVERT_EDIT_SAVE: 'Spara annonsen',
