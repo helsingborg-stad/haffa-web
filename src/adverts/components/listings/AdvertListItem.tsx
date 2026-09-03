@@ -18,6 +18,7 @@ import { PhraseContext } from 'phrases'
 import { type FC, useContext } from 'react'
 import { Link } from 'react-router-dom'
 import type { Advert } from '../../types'
+import { useAppSettings } from 'app-settings'
 
 const join = (sep: string, ...parts: (string | number | undefined)[]) =>
     parts.filter((p) => p !== undefined && p !== '').join(sep)
@@ -30,6 +31,7 @@ export const AdvertListItem: FC<{
     const { advertImageAspectRatio } = useContext(AdvertImageSettingsContext)
     const { phrase, prettyDate } = useContext(PhraseContext)
     const imageUrl = advert.images[0]?.url || '/empty-advert.svg'
+    const { showCo2eInAdvertList } = useAppSettings()
 
     const {
         title,
@@ -116,7 +118,7 @@ export const AdvertListItem: FC<{
                             <Typography variant="h5" component="div" noWrap>
                                 {title}
                             </Typography>
-                            {effectiveCo2kg > 0 && (
+                            {effectiveCo2kg > 0 && showCo2eInAdvertList && (
                                 <Typography
                                     component="div"
                                     color="success"

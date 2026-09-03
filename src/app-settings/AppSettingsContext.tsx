@@ -3,6 +3,7 @@ import type { AppSettingsOptions } from '../options/types'
 
 export const defaultAppSettings: AppSettingsOptions = {
     warnOnReservingOwnAdvert: true,
+    showCo2eInAdvertList: true,
 }
 export const AppSettingsContext =
     createContext<AppSettingsOptions>(defaultAppSettings)
