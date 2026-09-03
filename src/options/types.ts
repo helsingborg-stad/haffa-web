@@ -33,5 +33,6 @@ export type LabelOptionsKeys = keyof LabelOptions
 
 export interface AppSettingsOptions {
     warnOnReservingOwnAdvert: boolean
+    showCo2eInAdvertList: boolean
 }
 export type AppSettingsOptionKeys = keyof AppSettingsOptions

@@ -1,9 +1,18 @@
-import { Card, CardContent, Checkbox, FormControlLabel } from '@mui/material'
+import {
+    Card,
+    CardContent,
+    Checkbox,
+    FormControlLabel,
+    FormGroup,
+} from '@mui/material'
 import { defaultAppSettings } from 'app-settings/AppSettingsContext'
-import { mapOptionsToAppSettings } from 'app-settings/mappers'
+import {
+    mapAppSettingsToOptions,
+    mapOptionsToAppSettings,
+} from 'app-settings/mappers'
 import { AdminActionPanel } from 'components/AdminActionPanel'
 import { AdminEditorialPanel } from 'components/AdminEditorialPanel'
-import { type FC, useContext, useState } from 'react'
+import { type FC, useState } from 'react'
 import type { AppSettingsOptionKeys, Option } from '../../options/types'
 
 export const EditAppSettingsForm: FC<{
@@ -21,34 +30,43 @@ export const EditAppSettingsForm: FC<{
                 body="ADMIN_APP_SETTINGS_BODY"
             />
             <AdminActionPanel
-                onSave={() =>
-                    onUpdate([
-                        {
-                            key: 'warnOnReservingOwnAdvert',
-                            value: String(model.warnOnReservingOwnAdvert),
-                        },
-                    ])
-                }
+                onSave={() => onUpdate(mapAppSettingsToOptions(model))}
                 onRestore={() => {
                     setModel(defaultAppSettings)
                 }}
             />
             <Card>
                 <CardContent>
-                    <FormControlLabel
-                        control={
-                            <Checkbox
-                                checked={model.warnOnReservingOwnAdvert}
-                                onChange={({ target: { checked } }) =>
-                                    setModel((prev) => ({
-                                        ...prev,
-                                        warnOnReservingOwnAdvert: checked,
-                                    }))
-                                }
-                            />
-                        }
-                        label="Varna vid reservation av egen annons"
-                    />
+                    <FormGroup>
+                        <FormControlLabel
+                            control={
+                                <Checkbox
+                                    checked={model.warnOnReservingOwnAdvert}
+                                    onChange={({ target: { checked } }) =>
+                                        setModel((prev) => ({
+                                            ...prev,
+                                            warnOnReservingOwnAdvert: checked,
+                                        }))
+                                    }
+                                />
+                            }
+                            label="Varna vid reservation av egen annons"
+                        />
+                        <FormControlLabel
+                            control={
+                                <Checkbox
+                                    checked={model.showCo2eInAdvertList}
+                                    onChange={({ target: { checked } }) =>
+                                        setModel((prev) => ({
+                                            ...prev,
+                                            showCo2eInAdvertList: checked,
+                                        }))
+                                    }
+                                />
+                            }
+                            label="Visa Co2e i annons listan"
+                        />
+                    </FormGroup>
                 </CardContent>
             </Card>
         </>
