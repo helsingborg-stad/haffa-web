@@ -56,7 +56,11 @@ export const AdvertListItem: FC<{
             'Reserverad'
         )
     }
-    const categoryLabel = categories.findById(advert.category)?.label
+    const category = categories.findById(advert.category)
+    const effectiveCo2kg =
+        advert.co2kg > 0 ? advert.co2kg : (category?.co2kg ?? 0)
+    const categoryLabel = category?.label
+
     return (
         <Card
             sx={[
@@ -112,6 +116,24 @@ export const AdvertListItem: FC<{
                             <Typography variant="h5" component="div" noWrap>
                                 {title}
                             </Typography>
+                            {effectiveCo2kg > 0 && (
+                                <Typography
+                                    component="div"
+                                    color="success"
+                                    variant="caption"
+                                    sx={{
+                                        fontSize: 18,
+                                    }}
+                                >
+                                    🌱 {effectiveCo2kg.toLocaleString('sv-SE')}{' '}
+                                    <Typography
+                                        component="span"
+                                        variant="caption"
+                                    >
+                                        CO₂e
+                                    </Typography>
+                                </Typography>
+                            )}
                         </Box>
                     </Box>
                     <Box sx={{ mx: 2, mb: 3 }}>
