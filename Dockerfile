@@ -1,18 +1,16 @@
-FROM node:22 as compiler
+FROM node:24 as compiler
 ARG GITHUB_ACCESS_TOKEN
 WORKDIR /work
 COPY . ./
-COPY deploy.npmrc .npmrc
 RUN npm ci && npm run build
 
-FROM node:22-alpine	as optimizer
+FROM node:24 as optimizer
 ARG GITHUB_ACCESS_TOKEN
 WORKDIR /work
 COPY . ./
-COPY deploy.npmrc .npmrc
-RUN npm install --omit=dev --omit=optional
+RUN npm ci --omit=dev --omit=optional --ignore-scripts
 
-FROM node:22-alpine
+FROM mcr.microsoft.com/devcontainers/javascript-node:5-24-bookworm
 EXPOSE 4000
 ENV NODE_ENV=production
 ENV PORT=4000
