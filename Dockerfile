@@ -1,16 +1,14 @@
 FROM node:24 as compiler
-ARG GITHUB_ACCESS_TOKEN
 WORKDIR /work
 COPY . ./
 RUN npm ci && npm run build
 
 FROM node:24 as optimizer
-ARG GITHUB_ACCESS_TOKEN
 WORKDIR /work
 COPY . ./
 RUN npm ci --omit=dev --omit=optional --ignore-scripts
 
-FROM mcr.microsoft.com/devcontainers/javascript-node:5-24-bookworm
+FROM node:24-bookworm-slim
 EXPOSE 4000
 ENV NODE_ENV=production
 ENV PORT=4000
@@ -21,5 +19,7 @@ COPY --from=optimizer /work/node_modules ./node_modules
 COPY --from=optimizer /work/package.json ./
 COPY --from=compiler /work/build ./build
 COPY --from=compiler /work/webserver/build ./webserver
+
+USER node
 
 CMD ["webserver/index.js"]
