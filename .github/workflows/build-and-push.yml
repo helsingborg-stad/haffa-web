@@ -4,13 +4,22 @@ on:
     release:
         types: [released]
 
+permissions:
+    contents: write
+    packages: write
+
 jobs:
     deploy:
         runs-on: ubuntu-latest
 
         steps:
-            - uses: actions/checkout@v3
+            - uses: actions/checkout@v7
 
+            - uses: actions/setup-node@v7
+              with:
+                  node-version: 24
+
+            # gdi-deploy/v1@main still embeds deprecated actions and passes GITHUB_TOKEN as a build arg; update it upstream.
             - uses: helsingborg-stad/gdi-deploy/v1@main
               with:
                   update-package-version: true
