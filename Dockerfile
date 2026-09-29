@@ -1,25 +1,47 @@
-FROM node:24 as compiler
-WORKDIR /work
-COPY . ./
-RUN npm ci && npm run build
+# syntax=docker/dockerfile:1
 
-FROM node:24 as optimizer
-WORKDIR /work
-COPY . ./
-RUN npm ci --omit=dev --omit=optional --ignore-scripts
+FROM node:24-bookworm AS builder
 
-FROM node:24-bookworm-slim
-EXPOSE 4000
-ENV NODE_ENV=production
-ENV PORT=4000
+WORKDIR /work
+
+# Copy dependency manifests first to improve Docker layer caching.
+COPY package.json package-lock.json .npmrc ./
+
+RUN npm ci
+
+# Copy application source after installing dependencies.
+COPY . ./
+
+RUN npm run build
+
+
+FROM node:24-bookworm AS production-dependencies
+
+WORKDIR /work
+
+# Install only dependencies required at runtime.
+COPY package.json package-lock.json .npmrc ./
+
+RUN npm ci --omit=dev --omit=optional --ignore-scripts \
+    && npm cache clean --force
+
+
+FROM node:24-bookworm-slim AS runtime
+
+ENV NODE_ENV=production \
+    PORT=4000
 
 WORKDIR /usr/src/app
-COPY --from=optimizer /work/public ./public
-COPY --from=optimizer /work/node_modules ./node_modules
-COPY --from=optimizer /work/package.json ./
-COPY --from=compiler /work/build ./build
-COPY --from=compiler /work/webserver/build ./webserver
+
+# Copy only the files required to run the application.
+COPY --from=production-dependencies --chown=node:node /work/node_modules ./node_modules
+COPY --from=production-dependencies --chown=node:node /work/package.json ./package.json
+COPY --from=builder --chown=node:node /work/public ./public
+COPY --from=builder --chown=node:node /work/build ./build
+COPY --from=builder --chown=node:node /work/webserver/build ./webserver
 
 USER node
 
-CMD ["webserver/index.js"]
+EXPOSE 4000
+
+CMD ["node", "webserver/index.js"]
