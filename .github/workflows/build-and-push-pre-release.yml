@@ -1,0 +1,16 @@
+name: Build and push docker image to github registry and deploy on release environment.
+
+on:
+    release:
+        types: [prereleased]
+
+permissions:
+    contents: write
+    packages: write
+
+jobs:
+    deploy:
+        uses: ./.github/workflows/docker-build.yml
+        with:
+            update-package-version: true
+            git-checkout-branch: dev
