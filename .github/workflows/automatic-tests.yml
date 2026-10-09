@@ -6,7 +6,7 @@ on:
 
 jobs:
   tests:
-    name: Run Jest Tests
+    name: Run Tests
     runs-on: ubuntu-latest
 
     permissions:
@@ -21,11 +21,11 @@ jobs:
         with:
           node-version: 24
 
-      - name: npm install
-        run: npm ci
+      - name: pnpm install
+        run: pnpm ci
 
       - name: run tests
-        run: npm test -- --coverage
+        run: pnpm test -- --coverage
 
       - name: Save output
         if: ${{ always() }}
