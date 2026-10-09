@@ -9,7 +9,7 @@ WORKDIR /work
 # Copy dependency manifests first to improve Docker layer caching.
 COPY package.json package-lock.json .npmrc ./
 
-RUN pnpm ci
+RUN pnpm ci --frozen-lockfile
 
 # Copy application source after installing dependencies.
 COPY . ./
@@ -25,9 +25,7 @@ WORKDIR /work
 # Install only dependencies required at runtime.
 COPY package.json package-lock.json .npmrc ./
 
-RUN pnpm ci --omit=dev --omit=optional --ignore-scripts \
-    && pnpm cache clean --force
-
+RUN pnpm ci --prod --no-optional --frozen-lockfile
 
 FROM node:24-bookworm-slim AS runtime
 
