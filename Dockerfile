@@ -1,6 +1,8 @@
 # syntax=docker/dockerfile:1
 
 FROM node:24-bookworm AS builder
+RUN corepack enable
+RUN corepack prepare pnpm@12 --activate
 
 WORKDIR /work
 
@@ -15,6 +17,8 @@ COPY . ./
 RUN pnpm run build
 
 FROM node:24-bookworm AS production-dependencies
+RUN corepack enable
+RUN corepack prepare pnpm@12 --activate
 
 WORKDIR /work
 
