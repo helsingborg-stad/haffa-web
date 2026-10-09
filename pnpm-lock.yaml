@@ -117,6 +117,9 @@ importers:
       '@types/file-saver':
         specifier: ^2.0.6
         version: 2.0.7
+      '@types/koa':
+        specifier: ^3.0.3
+        version: 3.0.3
       '@types/koa-compress':
         specifier: ^4.0.6
         version: 4.0.7
