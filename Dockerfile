@@ -7,7 +7,7 @@ RUN corepack prepare pnpm@12 --activate
 WORKDIR /work
 
 # Copy dependency manifests first to improve Docker layer caching.
-COPY package.json package-lock.json .npmrc ./
+COPY package.json pnpm-lock.yaml .npmrc ./
 
 RUN pnpm ci --frozen-lockfile
 
@@ -23,7 +23,7 @@ RUN corepack prepare pnpm@12 --activate
 WORKDIR /work
 
 # Install only dependencies required at runtime.
-COPY package.json package-lock.json .npmrc ./
+COPY package.json pnpm-lock.yaml .npmrc ./
 
 RUN pnpm ci --prod --no-optional --frozen-lockfile
 
