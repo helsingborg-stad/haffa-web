@@ -7,13 +7,12 @@ WORKDIR /work
 # Copy dependency manifests first to improve Docker layer caching.
 COPY package.json package-lock.json .npmrc ./
 
-RUN npm ci
+RUN pnpm ci
 
 # Copy application source after installing dependencies.
 COPY . ./
 
-RUN npm run build
-
+RUN pnpm run build
 
 FROM node:24-bookworm AS production-dependencies
 
@@ -22,8 +21,8 @@ WORKDIR /work
 # Install only dependencies required at runtime.
 COPY package.json package-lock.json .npmrc ./
 
-RUN npm ci --omit=dev --omit=optional --ignore-scripts \
-    && npm cache clean --force
+RUN pnpm ci --omit=dev --omit=optional --ignore-scripts \
+    && pnpm cache clean --force
 
 
 FROM node:24-bookworm-slim AS runtime
