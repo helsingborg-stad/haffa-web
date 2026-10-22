@@ -1,13 +1,23 @@
 {
-    "compilerOptions": {
-        "strict": true,
-        "module": "NodeNext",
-        "target": "ES2022",
-        "rootDir": "./src",
-        "outDir": "./build",
-        "moduleResolution": "NodeNext",
-        "esModuleInterop": true,
-        "resolveJsonModule": true
-    },
+  "compilerOptions": {
+    "lib": [
+      "es2024",
+      "ESNext.Array",
+      "ESNext.Collection",
+      "ESNext.Error",
+      "ESNext.Iterator",
+      "ESNext.Promise"
+    ],
+    "module": "nodenext",
+    "target": "es2024",
+    "types": ["node"],
+    "strict": true,
+    "esModuleInterop": true,
+    "skipLibCheck": true,
+    "moduleResolution": "node16",
+    "rootDir": "./src",
+    "outDir": "./build",
+    "resolveJsonModule": true
+  },
     "include": ["src/**/*"]
 }

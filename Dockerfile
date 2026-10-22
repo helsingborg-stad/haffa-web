@@ -1,30 +1,31 @@
 # syntax=docker/dockerfile:1
 
 FROM node:24-bookworm AS builder
+RUN corepack enable
+RUN corepack prepare pnpm@12 --activate
 
 WORKDIR /work
 
 # Copy dependency manifests first to improve Docker layer caching.
-COPY package.json package-lock.json .npmrc ./
+COPY package.json pnpm-lock.yaml .npmrc ./
 
-RUN npm ci
+RUN pnpm ci --frozen-lockfile
 
 # Copy application source after installing dependencies.
 COPY . ./
 
-RUN npm run build
-
+RUN pnpm run build
 
 FROM node:24-bookworm AS production-dependencies
+RUN corepack enable
+RUN corepack prepare pnpm@12 --activate
 
 WORKDIR /work
 
 # Install only dependencies required at runtime.
-COPY package.json package-lock.json .npmrc ./
+COPY package.json pnpm-lock.yaml .npmrc ./
 
-RUN npm ci --omit=dev --omit=optional --ignore-scripts \
-    && npm cache clean --force
-
+RUN pnpm ci --prod --no-optional --frozen-lockfile
 
 FROM node:24-bookworm-slim AS runtime
 
