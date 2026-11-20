@@ -10,7 +10,27 @@ export default defineConfig(() => {
         server: {
             proxy: {
                 '/api': {
-                    target: process.env.HAFFA_BACKEND_URL || 'http://localhost:4000',
+                    target:
+                        process.env.HAFFA_BACKEND_URL ||
+                        'http://localhost:4000',
+                    changeOrigin: true,
+                },
+                '/healthz': {
+                    target:
+                        process.env.HAFFA_BACKEND_URL ||
+                        'http://localhost:4000',
+                    changeOrigin: true,
+                },
+                '/readyz': {
+                    target:
+                        process.env.HAFFA_BACKEND_URL ||
+                        'http://localhost:4000',
+                    changeOrigin: true,
+                },
+                '/livez': {
+                    target:
+                        process.env.HAFFA_BACKEND_URL ||
+                        'http://localhost:4000',
                     changeOrigin: true,
                 },
             },

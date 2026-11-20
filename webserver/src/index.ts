@@ -11,10 +11,12 @@ import {
     staticFilesModule,
 } from './modules'
 import { socialPreviewModule } from './modules/index.html/social-preview-module'
+import { k8sProbesModule } from './modules/k8s-probes-module'
 
 createApplication()
     .use(compressModule)
     .use(backendProxyModule)
+    .use(k8sProbesModule)
     .use(serveApplicationImagesModule)
     .use(socialPreviewModule)
     .use(serveIndexHtmlModule)
